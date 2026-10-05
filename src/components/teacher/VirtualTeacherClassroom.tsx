@@ -62,7 +62,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const { language, student, selectedCurriculumLessonId, setSelectedCurriculumLessonId } = useApp();
   const isArabic = language === 'ar';
   const isFrench = language === 'fr';
-  const studentName = student?.name || (isArabic ? 'أمينة' : 'Amina');
+  const studentName = student?.name || (isArabic ? 'يا بطل' : isFrench ? 'Champion' : 'Student');
 
   // Currently Active Lesson from Ministry Curriculum
   const [currentLessonId, setCurrentLessonId] = useState<string>(

@@ -81,7 +81,7 @@ export const ProfileScreen: React.FC = () => {
                 <h2 className="text-base font-black">
                   {student?.name || (isAr ? 'الطالب' : 'Student')}
                 </h2>
-                <Badge variant="demo">Grade 5</Badge>
+                <Badge variant="demo">{student?.grade || (isAr ? 'الصف الخامس' : 'Grade 5')}</Badge>
               </div>
               <p className="text-xs text-indigo-200">
                 {student?.curriculum || (isAr ? 'المنهج المصري - الصف الخامس الابتدائي' : 'Egypt Curriculum - Grade 5')}

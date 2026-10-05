@@ -266,96 +266,82 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setSettings(settingsWithMic);
         updateDocumentDirection(storedSettings.language);
 
-        let storedStudent = await storageService.getStudent();
-        if (!storedStudent) {
-          const defaultAmina: Student = {
-            id: 'student_amina_grade5',
-            name: storedSettings.language === 'ar' ? 'أمينة' : 'Amina',
-            age: 10,
-            grade: 'الصف الخامس الابتدائي (Grade 5)',
-            country: 'مصر (Egypt)',
-            curriculum: 'Egyptian Ministry Grade 5',
-            academicYear: '2026 – 2027',
-            preferredLanguage: storedSettings.language || 'ar',
-            isOnboarded: true,
-            subjects: ['اللغة العربية', 'العلوم', 'الدراسات الاجتماعية', 'الرياضيات', 'التربية الدينية الإسلامية', 'الخط العربي'],
-            interviewAnswers: {
-              enjoyMost: 'العلوم',
-              hardest: 'الرياضيات',
-              learningStyle: 'games',
-              sessionDuration: '10min',
-              upcomingExams: 'اختبارات شهرية',
-            },
-            createdAt: new Date().toISOString(),
-            updatedAt: new Date().toISOString(),
-          };
-          await storageService.saveStudent(defaultAmina);
-          storedStudent = defaultAmina;
-        } else {
-          storedStudent = {
-            ...storedStudent,
-            name: storedSettings.language === 'ar' ? 'أمينة' : 'Amina',
-            isOnboarded: true,
-          };
-          await storageService.saveStudent(storedStudent);
-        }
+        const storedStudent = await storageService.getStudent();
         setStudent(storedStudent);
 
-        let storedTimetable = await storageService.getTimetable();
-        if (!storedTimetable) {
-          storedTimetable = createDefaultTimetable(storedStudent?.id || 'demo_student');
-          await storageService.saveTimetable(storedTimetable);
+        if (storedStudent) {
+          // Student exists: safely load or initialize their timetable
+          let storedTimetable = await storageService.getTimetable(storedStudent.id);
+          if (!storedTimetable) {
+            storedTimetable = await storageService.getTimetable();
+          }
+          if (!storedTimetable) {
+            storedTimetable = createDefaultTimetable(storedStudent.id);
+            await storageService.saveTimetable(storedTimetable);
+          }
+          setTimetable(storedTimetable);
+
+          // Load today's day record
+          const todayDate = new Date().toISOString().split('T')[0];
+          const record = await storageService.getDayRecord(todayDate);
+          setCurrentDayRecord(record);
+
+          // Load mastery records for student
+          const studentId = storedStudent.id;
+          const rawMastery = await storageService.getAllMasteryRecords(studentId);
+          const map: Record<string, MasteryRecord> = {};
+          const daysOffset = storedSettings.simulatedDaysOffset || 0;
+          for (const item of rawMastery) {
+            map[item.conceptId] = daysOffset > 0 ? applyDecay(item, new Date(), daysOffset) : item;
+          }
+          setMasteryRecords(map);
+
+          // Load today's missions or generate if empty
+          const storedMissions = await storageService.getMissions(studentId, todayDate);
+          if (storedMissions && storedMissions.length > 0) {
+            setMissionsForToday(storedMissions);
+          } else {
+            const planned = planDailyMissions({
+              student: storedStudent,
+              dayRecord: record,
+              timetable: storedTimetable,
+              masteryRecords: map,
+              availableMinutes: 45,
+              language: storedSettings.language,
+            });
+            setMissionsForToday(planned.missions);
+            setPlannerExplanation(planned.explanation);
+            await storageService.saveMissions(planned.missions);
+          }
+
+          // Load Phase 7 Collections, Saved items, Weekly Reviews, Parent, Gamification
+          const userCollections = await ensureDefaultCollections(studentId, storageService);
+          setCollections(userCollections);
+
+          const userSaved = await storageService.getSavedItems(studentId);
+          setSavedItems(userSaved);
+
+          const userReviews = await storageService.getWeeklyReviews(studentId);
+          setWeeklyReviews(userReviews);
+
+          const userParent = await storageService.getParentAccount(studentId);
+          setParentAccount(userParent);
+
+          const userGamification = await getOrInitGamification(studentId, storageService);
+          setGamification(userGamification);
+        } else {
+          // Genuinely empty installation: No student exists.
+          // Do NOT create Amina automatically. Onboarding will be displayed.
+          setTimetable(null);
+          setCurrentDayRecord(null);
+          setMasteryRecords({});
+          setMissionsForToday([]);
+          setCollections([]);
+          setSavedItems([]);
+          setWeeklyReviews([]);
+          setParentAccount(null);
+          setGamification(null);
         }
-        setTimetable(storedTimetable);
-
-        // Load today's day record
-        const todayDate = new Date().toISOString().split('T')[0];
-        const record = await storageService.getDayRecord(todayDate);
-        setCurrentDayRecord(record);
-
-        // Load mastery records for student
-        const studentId = storedStudent?.id || 'demo_student';
-        const rawMastery = await storageService.getAllMasteryRecords(studentId);
-        const map: Record<string, MasteryRecord> = {};
-        const daysOffset = storedSettings.simulatedDaysOffset || 0;
-        for (const item of rawMastery) {
-          map[item.conceptId] = daysOffset > 0 ? applyDecay(item, new Date(), daysOffset) : item;
-        }
-        setMasteryRecords(map);
-
-        // Load today's missions or generate if empty
-        const storedMissions = await storageService.getMissions(studentId, todayDate);
-        if (storedMissions && storedMissions.length > 0) {
-          setMissionsForToday(storedMissions);
-        } else if (storedStudent) {
-          const planned = planDailyMissions({
-            student: storedStudent,
-            dayRecord: record,
-            timetable: storedTimetable,
-            masteryRecords: map,
-            availableMinutes: 45,
-            language: storedSettings.language,
-          });
-          setMissionsForToday(planned.missions);
-          setPlannerExplanation(planned.explanation);
-          await storageService.saveMissions(planned.missions);
-        }
-
-        // Load Phase 7 Collections, Saved items, Weekly Reviews, Parent, Gamification
-        const userCollections = await ensureDefaultCollections(studentId, storageService);
-        setCollections(userCollections);
-
-        const userSaved = await storageService.getSavedItems(studentId);
-        setSavedItems(userSaved);
-
-        const userReviews = await storageService.getWeeklyReviews(studentId);
-        setWeeklyReviews(userReviews);
-
-        const userParent = await storageService.getParentAccount(studentId);
-        setParentAccount(userParent);
-
-        const userGamification = await getOrInitGamification(studentId, storageService);
-        setGamification(userGamification);
       } catch (err) {
         console.error('Failed to load initial data:', err);
       } finally {
@@ -367,8 +353,41 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, []);
 
   const handleSaveStudent = async (newStudent: Student) => {
+    // 1. Persist the newly created student profile
     await storageService.saveStudent(newStudent);
     setStudent(newStudent);
+
+    // 2. Safe Timetable Initialization (Rule: new student + no timetable -> create)
+    let studentTimetable = await storageService.getTimetable(newStudent.id);
+    if (!studentTimetable) {
+      studentTimetable = await storageService.getTimetable();
+    }
+    if (!studentTimetable) {
+      studentTimetable = createDefaultTimetable(newStudent.id);
+      await storageService.saveTimetable(studentTimetable);
+    }
+    setTimetable(studentTimetable);
+
+    // 3. Initialize required student-scoped baseline data
+    const studentId = newStudent.id;
+    const userCollections = await ensureDefaultCollections(studentId, storageService);
+    setCollections(userCollections);
+
+    const userGamification = await getOrInitGamification(studentId, storageService);
+    setGamification(userGamification);
+
+    const todayDate = new Date().toISOString().split('T')[0];
+    const planned = planDailyMissions({
+      student: newStudent,
+      dayRecord: null,
+      timetable: studentTimetable,
+      masteryRecords: {},
+      availableMinutes: 45,
+      language: settings.language,
+    });
+    setMissionsForToday(planned.missions);
+    setPlannerExplanation(planned.explanation);
+    await storageService.saveMissions(planned.missions);
   };
 
   const handleSaveTimetable = async (newTimetable: Timetable) => {

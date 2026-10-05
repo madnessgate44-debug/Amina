@@ -118,7 +118,7 @@ export const HomeScreen: React.FC = () => {
                 {t.app.title}
               </span>
               <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 shadow-xs">
-                {isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary'}
+                {student?.grade || (isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary')}
               </span>
             </div>
             <div className="flex items-center gap-1.5 text-xs bg-black/20 px-2.5 py-1 rounded-full text-indigo-100">

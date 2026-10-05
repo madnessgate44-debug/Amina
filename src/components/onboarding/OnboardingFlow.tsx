@@ -17,7 +17,7 @@ export const OnboardingFlow: React.FC = () => {
   const [step, setStep] = useState<1 | 2 | 3>(1);
 
   // Step 1: Registration State
-  const [name, setName] = useState(isArabic ? 'أمينة' : 'Amina');
+  const [name, setName] = useState('');
   const [age, setAge] = useState(10);
   const [grade, setGrade] = useState('الصف الخامس الابتدائي (Grade 5)');
   const [country, setCountry] = useState('مصر (Egypt)');
@@ -127,9 +127,12 @@ export const OnboardingFlow: React.FC = () => {
   };
 
   const handleFinishOnboarding = async () => {
+    const studentName = name.trim();
+    if (!studentName) return;
+
     const newStudent: Student = {
       id: 'student_' + Date.now(),
-      name: name.trim() || (isArabic ? 'يوسف' : 'Youssef'),
+      name: studentName,
       age: Number(age) || 10,
       grade,
       country,
@@ -259,20 +262,20 @@ export const OnboardingFlow: React.FC = () => {
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                   {t.onboarding.preferredLanguageLabel}
                 </label>
-                <div className="grid grid-cols-2 gap-2">
+                <div className="grid grid-cols-3 gap-2">
                   <button
                     type="button"
                     onClick={() => {
                       setPreferredLang('ar');
                       setLanguage('ar');
                     }}
-                    className={`py-2 px-3 rounded-xl border text-xs font-semibold flex items-center justify-center gap-2 transition-all ${
+                    className={`py-2 px-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       preferredLang === 'ar'
                         ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 shadow-sm'
                         : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400'
                     }`}
                   >
-                    <span>العربية (RTL)</span>
+                    <span>العربية 🇪🇬</span>
                     {preferredLang === 'ar' && <Check className="w-3.5 h-3.5" />}
                   </button>
                   <button
@@ -281,14 +284,29 @@ export const OnboardingFlow: React.FC = () => {
                       setPreferredLang('en');
                       setLanguage('en');
                     }}
-                    className={`py-2 px-3 rounded-xl border text-xs font-semibold flex items-center justify-center gap-2 transition-all ${
+                    className={`py-2 px-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
                       preferredLang === 'en'
                         ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 shadow-sm'
                         : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400'
                     }`}
                   >
-                    <span>English (LTR)</span>
+                    <span>English 🇬🇧</span>
                     {preferredLang === 'en' && <Check className="w-3.5 h-3.5" />}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setPreferredLang('fr');
+                      setLanguage('fr');
+                    }}
+                    className={`py-2 px-2.5 rounded-xl border text-xs font-semibold flex items-center justify-center gap-1.5 transition-all cursor-pointer ${
+                      preferredLang === 'fr'
+                        ? 'border-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 text-indigo-700 dark:text-indigo-300 shadow-sm'
+                        : 'border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400'
+                    }`}
+                  >
+                    <span>Français 🇫🇷</span>
+                    {preferredLang === 'fr' && <Check className="w-3.5 h-3.5" />}
                   </button>
                 </div>
               </div>
@@ -322,8 +340,9 @@ export const OnboardingFlow: React.FC = () => {
           <div className="pt-6">
             <button
               type="button"
+              disabled={!name.trim()}
               onClick={() => setStep(2)}
-              className="w-full py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99]"
+              className="w-full py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99]"
             >
               <span>{t.onboarding.nextStepButton}</span>
               {isArabic ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
