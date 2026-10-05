@@ -67,17 +67,32 @@ export interface CurriculumLessonConcept {
   visualPrompt?: string;
 }
 
+export interface SupplementaryResource {
+  id: string;
+  sourceType: 'al_adwaa' | 'selah_el_telmeez' | 'school_guide' | 'teacher_notes';
+  sourceNameAr: string; // e.g. "سلاح التلميذ" or "الأضواء"
+  sourceNameEn: string;
+  unit: string;
+  lesson: string;
+  page?: number | string;
+  notes?: string;
+  isAvailable: boolean;
+}
+
 export interface OfficialCurriculumLesson {
   id: string;
   subjectId: string;
   subjectNameAr: string;
   subjectNameEn: string;
+  subjectNameFr?: string;
   unitNumber: number;
   unitNameAr: string;
   unitNameEn: string;
+  unitNameFr?: string;
   lessonNumber: number;
   titleAr: string;
   titleEn: string;
+  titleFr?: string;
   sourceRef: SourceRef;
   objectives: string[];
   readingText: string | null;
@@ -87,6 +102,8 @@ export interface OfficialCurriculumLesson {
   originTag: 'official';
   language?: 'ar' | 'en' | 'fr';
   isAvailable: boolean;
+  contentStatus?: 'available' | 'pending_materials';
+  supplementaryResources?: SupplementaryResource[];
 }
 
 export type StructuredVisualType =

@@ -5,13 +5,16 @@
 
 import React, { useState, useMemo } from 'react';
 import { OfficialCurriculumLesson } from '../../types/teachingSession';
-import { curriculumService } from '../../services/curriculum/curriculumService';
+import { curriculumService, SubjectCurriculumSummary } from '../../services/curriculum/curriculumService';
 import { useApp } from '../../context/AppContext';
 import { formatMasteryView } from '../../services/mastery/masteryEngine';
 import { Badge } from '../common/Badge';
 import { StageModal } from '../stage/StageModal';
 import { LessonStudyModal } from './LessonStudyModal';
-import { SUBJECT_METADATA } from './CurriculumSubjectPickerModal';
+import { QuizRunner } from '../missions/QuizRunner';
+import { HomeworkRunner } from '../missions/HomeworkRunner';
+import { SaveLikeButton } from '../collections/SaveLikeButton';
+import { Mission } from '../../types';
 import {
   BookOpen,
   Search,
@@ -24,24 +27,38 @@ import {
   AlertCircle,
   Layers,
   Filter,
+  ArrowRight,
+  ArrowLeft,
+  Bookmark,
+  ExternalLink,
+  HelpCircle,
+  FileText,
+  Clock,
+  Check,
 } from 'lucide-react';
 
 export const CurriculumBrowser: React.FC = () => {
-  const { language, getMasteryForConcept, setSelectedCurriculumLessonId, setActiveTab } = useApp();
+  const { language, getMasteryForConcept, setSelectedCurriculumLessonId, setActiveTab, startMission } = useApp();
   const isAr = language === 'ar';
+  const isFr = language === 'fr';
 
+  const [activeViewMode, setActiveViewMode] = useState<'bookshelf' | 'units'>('bookshelf');
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>('all');
+  const [selectedBookForDetail, setSelectedBookForDetail] = useState<SubjectCurriculumSummary | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [expandedLessons, setExpandedLessons] = useState<Record<string, boolean>>({
     'off_ar_u1_l1_ana_astatee': true,
     'off_ar_u1_l2': true,
+    'off_fr_u1_l1_salutations': true,
     'off_math_u1_l1': true,
+    'off_mathfr_u1_l1_decimaux': true,
     'off_sci_u1_l1_plant_needs': true,
-    'off_ict_u1_l1_archaeology_explorer': true,
+    'off_scifr_u1_l1_plantes': true,
   });
 
-  const [activeTeachingLessonId, setActiveTeachingLessonId] = useState<string | null>(null);
+  const [activeStageLessonId, setActiveStageLessonId] = useState<string | null>(null);
   const [activeStudyLesson, setActiveStudyLesson] = useState<OfficialCurriculumLesson | null>(null);
+  const [activePracticeMission, setActivePracticeMission] = useState<Mission | null>(null);
 
   const officialLessons = useMemo(() => curriculumService.getAllLessons(), []);
   const officialSubjectsSummary = useMemo(() => curriculumService.getSubjectsSummary(), []);
@@ -62,6 +79,7 @@ export const CurriculumBrowser: React.FC = () => {
         (l) =>
           l.titleAr.toLowerCase().includes(q) ||
           l.titleEn.toLowerCase().includes(q) ||
+          (l.titleFr && l.titleFr.toLowerCase().includes(q)) ||
           l.subjectNameAr.toLowerCase().includes(q) ||
           l.sourceRef.bookAr.toLowerCase().includes(q) ||
           (l.readingText && l.readingText.toLowerCase().includes(q))
@@ -70,133 +88,111 @@ export const CurriculumBrowser: React.FC = () => {
     return list;
   }, [officialLessons, selectedSubjectId, searchQuery]);
 
-  // Group lessons by subject and units if a specific subject is selected
+  // Group lessons of current selected subject by unit
   const activeSubjectUnits = useMemo(() => {
     if (selectedSubjectId === 'all') return null;
     return curriculumService.getUnitsForSubject(selectedSubjectId);
   }, [selectedSubjectId]);
 
+  const handleLaunchPracticeQuiz = (lesson: OfficialCurriculumLesson) => {
+    const dummyMission: Mission = {
+      id: 'mission_quiz_' + lesson.id,
+      studentId: 'student_amina',
+      date: new Date().toISOString().split('T')[0],
+      subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
+      title: (isAr ? 'تمارين وتطبيق: ' : 'Practice Quiz: ') + (isAr ? lesson.titleAr : lesson.titleEn),
+      type: 'quiz',
+      estimatedMinutes: 10,
+      whyNow: isAr ? 'تطبيق وتدريب لتثبيت المفهوم' : 'Practice to solidify concept',
+      originTag: 'official_curriculum',
+      successCriterion: isAr ? 'حل التمارين بنجاح' : 'Complete practice quiz',
+      status: 'pending',
+      conceptId: lesson.concepts[0]?.id,
+      lessonId: lesson.id,
+    };
+    setActivePracticeMission(dummyMission);
+  };
+
+  const handleLaunchHomework = (lesson: OfficialCurriculumLesson) => {
+    const dummyMission: Mission = {
+      id: 'mission_hw_' + lesson.id,
+      studentId: 'student_amina',
+      date: new Date().toISOString().split('T')[0],
+      subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
+      title: (isAr ? 'واجب كتاب الوزارة: ' : 'Homework: ') + (isAr ? lesson.titleAr : lesson.titleEn),
+      type: 'homework',
+      estimatedMinutes: 15,
+      whyNow: isAr ? 'واجب مدرسي لتثبيت الدرس' : 'Textbook homework for the lesson',
+      originTag: 'official_curriculum',
+      successCriterion: isAr ? 'إنهاء وحل مسائل الواجب' : 'Complete homework exercises',
+      status: 'pending',
+      conceptId: lesson.concepts[0]?.id,
+      lessonId: lesson.id,
+    };
+    setActivePracticeMission(dummyMission);
+  };
+
   return (
     <div className="flex-1 flex flex-col p-3 sm:p-4 space-y-4 max-w-lg mx-auto w-full pb-24" dir={isAr ? 'rtl' : 'ltr'}>
-      {/* Header & Stats Banner */}
-      <div className="p-4 rounded-3xl bg-linear-to-br from-indigo-900 via-indigo-800 to-purple-950 text-white shadow-xl border border-indigo-700/60 space-y-3">
+      {/* 1. Header & Virtual Bookshelf Badge */}
+      <div className="p-4 rounded-3xl bg-linear-to-br from-indigo-950 via-indigo-900 to-purple-950 text-white shadow-xl border border-indigo-700/60 space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-11 h-11 rounded-2xl bg-white/10 backdrop-blur-md text-white flex items-center justify-center text-2xl shadow-sm border border-white/15">
+            <div className="w-12 h-12 rounded-2xl bg-white/10 backdrop-blur-md text-white flex items-center justify-center text-2xl shadow-sm border border-white/15">
               📚
             </div>
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-base font-black text-white">
-                  {isAr ? 'مناهج وكتب الصف الخامس الابتدائي' : 'Grade 5 Official Curriculum'}
+                  {isAr ? 'مدرستي — كتب ومناهج أمينة' : isFr ? 'Mon École — Manuels d’Amina' : 'My School — Amina\'s Books'}
                 </h2>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-400 text-slate-950 shadow-xs">
-                  {isAr ? 'المنهج المصري الرسمي 🇪🇬' : 'Egyptian Ministry'}
+                  {isAr ? 'المنهج المعتمد 🇪🇬' : 'Official Curriculum'}
                 </span>
               </div>
               <p className="text-xs text-indigo-200 mt-0.5">
                 {isAr
-                  ? 'جميع كتب ومناهج وزارة التربية والتعليم الرسمية لأمينة (الفصل الدراسي الأول)'
-                  : 'Official Egyptian Ministry of Education Textbooks & Lessons (Term 1)'}
+                  ? 'جميع كتب وزارة التربية والتعليم الرسمية والكتب الداعمة (الفصل الدراسي الأول)'
+                  : 'Official Ministry of Education Textbooks & Supplementary Guides (Term 1)'}
               </p>
             </div>
           </div>
         </div>
 
-        {/* Stats summary row */}
-        <div className="grid grid-cols-3 gap-2 pt-1 border-t border-white/15 text-center text-xs">
-          <div className="p-2 rounded-xl bg-white/10 backdrop-blur-xs">
-            <span className="text-[10px] text-indigo-200 block font-bold">{isAr ? 'المواد الدراسية' : 'Subjects'}</span>
-            <span className="text-sm font-black text-white">{officialSubjectsSummary.length} {isAr ? 'مواد' : 'subjects'}</span>
-          </div>
-          <div className="p-2 rounded-xl bg-white/10 backdrop-blur-xs">
-            <span className="text-[10px] text-indigo-200 block font-bold">{isAr ? 'الدروس الرسمية' : 'Official Lessons'}</span>
-            <span className="text-sm font-black text-amber-300">{officialLessons.length} {isAr ? 'درساً' : 'lessons'}</span>
-          </div>
-          <div className="p-2 rounded-xl bg-white/10 backdrop-blur-xs">
-            <span className="text-[10px] text-indigo-200 block font-bold">{isAr ? 'الفصل الدراسي' : 'Term'}</span>
-            <span className="text-sm font-black text-emerald-300">{isAr ? 'الترم الأول' : 'Term 1'}</span>
-          </div>
+        {/* View Mode Switcher: Virtual Bookshelf vs Units Outline */}
+        <div className="grid grid-cols-2 gap-2 pt-1 border-t border-white/15">
+          <button
+            type="button"
+            onClick={() => {
+              setActiveViewMode('bookshelf');
+              setSelectedBookForDetail(null);
+            }}
+            className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              activeViewMode === 'bookshelf'
+                ? 'bg-amber-400 text-slate-950 shadow-sm'
+                : 'bg-white/10 text-white hover:bg-white/15'
+            }`}
+          >
+            <span>📖</span>
+            <span>{isAr ? 'رف الكتب المدرسية' : 'School Bookshelf'}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setActiveViewMode('units')}
+            className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+              activeViewMode === 'units'
+                ? 'bg-amber-400 text-slate-950 shadow-sm'
+                : 'bg-white/10 text-white hover:bg-white/15'
+            }`}
+          >
+            <span>📑</span>
+            <span>{isAr ? 'فهرس الوحدات والدروس' : 'Units & Lessons'}</span>
+          </button>
         </div>
       </div>
 
-      {/* 8 OFFICIAL BOOKS CAROUSEL / GRID */}
-      <div className="space-y-2">
-        <div className="flex items-center justify-between text-xs font-bold px-1">
-          <span className="text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-black">
-            <span>📖 رف الكتب المدرسية لأمينة:</span>
-            <span className="text-slate-400 font-normal">({officialSubjectsSummary.length} كتب)</span>
-          </span>
-          {selectedSubjectId !== 'all' && (
-            <button
-              type="button"
-              onClick={() => setSelectedSubjectId('all')}
-              className="text-indigo-600 dark:text-indigo-400 text-[11px] hover:underline"
-            >
-              {isAr ? 'عرض جميع المواد' : 'Show All'}
-            </button>
-          )}
-        </div>
-
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {officialSubjectsSummary.map((s) => {
-            const meta = SUBJECT_METADATA[s.subjectId] || {
-              icon: '📚',
-              color: 'indigo',
-              bgGradient: 'from-indigo-600 to-indigo-800',
-              termLabel: 'الفصل الدراسي الأول',
-            };
-            const isSelected = selectedSubjectId === s.subjectId;
-
-            return (
-              <button
-                key={s.subjectId}
-                type="button"
-                onClick={() => setSelectedSubjectId(isSelected ? 'all' : s.subjectId)}
-                className={`p-3 rounded-2xl border text-right rtl:text-right ltr:text-left transition-all flex flex-col justify-between cursor-pointer ${
-                  isSelected
-                    ? 'bg-indigo-600 text-white border-indigo-700 shadow-md scale-[1.02]'
-                    : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-slate-200 dark:border-slate-700 hover:border-indigo-400'
-                }`}
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-1.5">
-                    <span className="text-2xl">{meta.icon}</span>
-                    <span
-                      className={`text-[9px] font-bold px-1.5 py-0.2 rounded-md ${
-                        isSelected
-                          ? 'bg-white/20 text-white'
-                          : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
-                      }`}
-                    >
-                      {s.availableLessons} {isAr ? 'دروس' : 'lessons'}
-                    </span>
-                  </div>
-                  <h3 className="text-xs font-black truncate">{isAr ? s.subjectNameAr : s.subjectNameEn}</h3>
-                  <p
-                    className={`text-[9px] truncate mt-0.5 ${
-                      isSelected ? 'text-indigo-100' : 'text-slate-400'
-                    }`}
-                  >
-                    {isAr ? s.bookTitleAr : s.bookTitleEn}
-                  </p>
-                </div>
-
-                <div
-                  className={`pt-2 mt-2 border-t text-[10px] font-bold flex items-center justify-between ${
-                    isSelected ? 'border-white/20 text-amber-200' : 'border-slate-100 dark:border-slate-700/60 text-indigo-600 dark:text-indigo-400'
-                  }`}
-                >
-                  <span>{isSelected ? (isAr ? 'محدد حالياً ✓' : 'Selected') : (isAr ? 'تصفح الدروس' : 'View')}</span>
-                  <span>←</span>
-                </div>
-              </button>
-            );
-          })}
-        </div>
-      </div>
-
-      {/* Search Input */}
+      {/* 2. Search Bar across All Books */}
       <div className="relative">
         <Search className="w-4 h-4 text-slate-400 absolute top-3 left-3 rtl:left-auto rtl:right-3" />
         <input
@@ -205,8 +201,8 @@ export const CurriculumBrowser: React.FC = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={
             isAr
-              ? 'ابحثي في جميع كتب ودروس الصف الخامس (مثال: كسور، نبات، النيل، المستكشف)...'
-              : 'Search all Grade 5 lessons, text, or book titles...'
+              ? 'ابحثي في جميع كتب أمينة (كسور، نبات، salutations، décimaux، النيل)...'
+              : 'Search in all Amina\'s books (fractions, plants, decimals)...'
           }
           className="w-full py-2.5 px-9 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-2xs"
         />
@@ -221,243 +217,382 @@ export const CurriculumBrowser: React.FC = () => {
         )}
       </div>
 
-      {/* Subject Filter Pills */}
-      {!searchQuery && (
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
-          <button
-            type="button"
-            onClick={() => setSelectedSubjectId('all')}
-            className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
-              selectedSubjectId === 'all'
-                ? 'bg-indigo-600 text-white shadow-xs'
-                : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100'
-            }`}
-          >
-            {isAr ? 'جميع المواد (٤٠ درساً)' : 'All Subjects (40 Lessons)'}
-          </button>
+      {/* 3. VIRTUAL BOOKSHELF VIEW (Conceptually: MY SCHOOL -> BOOKS -> UNITS -> LESSONS) */}
+      {activeViewMode === 'bookshelf' && !selectedBookForDetail && !searchQuery && (
+        <div className="space-y-3">
+          <div className="flex items-center justify-between text-xs font-bold px-1">
+            <span className="text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-black">
+              <span>📚 كتب أمينة الدراسية (الصف الخامس):</span>
+              <span className="text-indigo-600 dark:text-indigo-400 font-normal">
+                ({officialSubjectsSummary.length} كتب معتمدة)
+              </span>
+            </span>
+          </div>
 
-          {officialSubjectsSummary.map((s) => {
-            const meta = SUBJECT_METADATA[s.subjectId];
-            const isSelected = selectedSubjectId === s.subjectId;
-
-            return (
-              <button
-                key={s.subjectId}
-                type="button"
-                onClick={() => setSelectedSubjectId(s.subjectId)}
-                className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
-                  isSelected
-                    ? 'bg-indigo-600 text-white shadow-xs'
-                    : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100'
-                }`}
+          {/* Book Cards Grid */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            {officialSubjectsSummary.map((b) => (
+              <div
+                key={b.subjectId}
+                onClick={() => {
+                  setSelectedSubjectId(b.subjectId);
+                  setSelectedBookForDetail(b);
+                }}
+                className="group relative rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-400 dark:hover:border-indigo-500 shadow-sm hover:shadow-md transition-all cursor-pointer overflow-hidden flex flex-col justify-between"
               >
-                <span>{meta?.icon || '📚'}</span>
-                <span>{isAr ? s.subjectNameAr : s.subjectNameEn}</span>
-                <span className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
-                  isSelected ? 'bg-white/20 text-white' : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
-                }`}>
-                  {s.availableLessons}
-                </span>
-              </button>
-            );
-          })}
+                {/* Book Spine / Cover Header */}
+                <div className={`p-3 bg-linear-to-br ${b.bgGradient} text-white space-y-1 relative`}>
+                  <div className="flex items-center justify-between">
+                    <span className="text-2xl group-hover:scale-110 transition-transform">
+                      {b.icon}
+                    </span>
+                    <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-xs">
+                      {b.termLabel}
+                    </span>
+                  </div>
+                  <h3 className="text-xs font-black leading-tight pt-1">
+                    {isAr ? b.subjectNameAr : isFr && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
+                  </h3>
+                  <p className="text-[9px] text-white/80 line-clamp-1">
+                    {isAr ? b.bookTitleAr : b.bookTitleEn}
+                  </p>
+                </div>
+
+                {/* Book Meta & Action */}
+                <div className="p-2.5 text-xs space-y-2">
+                  <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                    <span>{b.totalLessons} {isAr ? 'دروس مسجلة' : 'Lessons'}</span>
+                    <span className="font-bold text-emerald-600 dark:text-emerald-400">
+                      {b.availableLessons} {isAr ? 'متاح للدراسة' : 'Available'}
+                    </span>
+                  </div>
+
+                  <div className="pt-2 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-[11px] font-bold text-indigo-600 dark:text-indigo-400">
+                    <span>{isAr ? 'افتحي الكتاب 📖' : 'Open Book 📖'}</span>
+                    <span>←</span>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       )}
 
-      {/* LESSONS LIST */}
-      <div className="space-y-3">
-        {filteredOfficialLessons.length === 0 ? (
-          <div className="p-8 text-center bg-white dark:bg-slate-800 rounded-3xl border border-slate-200 dark:border-slate-700 space-y-2">
-            <span className="text-3xl">🔍</span>
-            <p className="text-sm font-bold text-slate-800 dark:text-slate-200">
-              {isAr ? 'لم نعثر على دروس مطابقة لبحثك' : 'No lessons found'}
-            </p>
-            <p className="text-xs text-slate-500">
-              {isAr ? 'جربي البحث باسم المادة أو الدرس أو كتاب الوزارة' : 'Try searching for subject or lesson name'}
-            </p>
-          </div>
-        ) : (
-          filteredOfficialLessons.map((lesson) => {
-            const isLessonExpanded = expandedLessons[lesson.id] ?? false;
-            const firstConcept = lesson.concepts[0];
-            const masteryRec = firstConcept ? getMasteryForConcept(firstConcept.id) : null;
-            const masteryView = formatMasteryView(masteryRec, language);
-            const meta = SUBJECT_METADATA[lesson.subjectId] || { icon: '📚' };
+      {/* 4. OPENED VIRTUAL BOOK DETAIL VIEW (Inside a specific book) */}
+      {selectedBookForDetail && !searchQuery && (
+        <div className="space-y-4 animate-in fade-in duration-200">
+          {/* Book Top Banner */}
+          <div className={`p-4 rounded-3xl bg-linear-to-br ${selectedBookForDetail.bgGradient} text-white shadow-lg space-y-2 relative overflow-hidden`}>
+            <div className="flex items-center justify-between">
+              <button
+                type="button"
+                onClick={() => setSelectedBookForDetail(null)}
+                className="px-2.5 py-1 rounded-full bg-white/20 hover:bg-white/30 text-white text-xs font-bold flex items-center gap-1 transition-all"
+              >
+                {isAr ? <ArrowRight className="w-3.5 h-3.5" /> : <ArrowLeft className="w-3.5 h-3.5" />}
+                <span>{isAr ? 'العودة لرف الكتب' : 'Back to Shelf'}</span>
+              </button>
 
-            return (
+              <div className="flex items-center gap-1.5">
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-white/20 text-white">
+                  {selectedBookForDetail.termLabel}
+                </span>
+                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-400 text-slate-950">
+                  {isAr ? 'كتاب رسمي معتمد' : 'Official Ministry Book'}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-3 pt-1">
+              <span className="text-3xl">{selectedBookForDetail.icon}</span>
+              <div>
+                <h3 className="text-base font-black">
+                  {isAr ? selectedBookForDetail.subjectNameAr : isFr && selectedBookForDetail.subjectNameFr ? selectedBookForDetail.subjectNameFr : selectedBookForDetail.subjectNameEn}
+                </h3>
+                <p className="text-xs text-white/90">
+                  {isAr ? selectedBookForDetail.bookTitleAr : selectedBookForDetail.bookTitleEn}
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Units Navigation for this book */}
+          {activeSubjectUnits && (
+            <div className="space-y-3">
+              {activeSubjectUnits.map((u) => (
+                <div
+                  key={u.unitNumber}
+                  className="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs overflow-hidden"
+                >
+                  {/* Unit Title Header */}
+                  <div className="p-3 bg-slate-50 dark:bg-slate-750 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <span className="w-6 h-6 rounded-lg bg-indigo-600 text-white font-bold text-xs flex items-center justify-center">
+                        {u.unitNumber}
+                      </span>
+                      <h4 className="text-xs font-black text-slate-900 dark:text-slate-100">
+                        {isAr ? u.unitNameAr : isFr && u.unitNameFr ? u.unitNameFr : u.unitNameEn}
+                      </h4>
+                    </div>
+                    <span className="text-[10px] text-slate-400 font-bold">
+                      {u.lessons.length} {isAr ? 'دروس' : 'lessons'}
+                    </span>
+                  </div>
+
+                  {/* Lessons list inside unit */}
+                  <div className="p-2.5 space-y-2">
+                    {u.lessons.map((lesson) => {
+                      const isExpanded = Boolean(expandedLessons[lesson.id]);
+
+                      return (
+                        <div
+                          key={lesson.id}
+                          className="rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 p-3 space-y-2"
+                        >
+                          {/* Lesson Head */}
+                          <div className="flex items-start justify-between gap-2">
+                            <div className="flex-1 space-y-0.5">
+                              <div className="flex items-center gap-1.5 flex-wrap">
+                                <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                                  {isAr ? `الدرس ${lesson.lessonNumber}` : `Lesson ${lesson.lessonNumber}`}
+                                </span>
+                                {lesson.contentStatus === 'pending_materials' ? (
+                                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-50 text-amber-800 border border-amber-200">
+                                    ⏳ {isAr ? 'قيد رفع مواد الوزارة' : 'Materials Pending'}
+                                  </span>
+                                ) : (
+                                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                    ✓ {isAr ? 'كامل التمارين والأهداف' : 'Complete'}
+                                  </span>
+                                )}
+                              </div>
+
+                              <h5 className="text-xs font-black text-slate-900 dark:text-slate-100 pt-0.5">
+                                {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
+                              </h5>
+                              <p className="text-[10px] text-slate-400">
+                                {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
+                              </p>
+                            </div>
+
+                            {/* Save/Like & Toggle */}
+                            <div className="flex items-center gap-1">
+                              <SaveLikeButton
+                                sourceId={lesson.id}
+                                type="lesson"
+                                title={isAr ? lesson.titleAr : lesson.titleEn}
+                                subject={isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
+                                snippet={lesson.readingText?.slice(0, 100) || undefined}
+                              />
+                              <button
+                                type="button"
+                                onClick={() => toggleLesson(lesson.id)}
+                                className="p-1 rounded text-slate-400 hover:text-slate-600"
+                              >
+                                {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
+                              </button>
+                            </div>
+                          </div>
+
+                          {/* Expanded Lesson View */}
+                          {isExpanded && (
+                            <div className="pt-2 border-t border-slate-100 dark:border-slate-700/60 space-y-3">
+                              {/* Learning Objectives */}
+                              {lesson.objectives && lesson.objectives.length > 0 && (
+                                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-750 text-[11px] space-y-1">
+                                  <span className="font-bold text-slate-700 dark:text-slate-300 block text-[10px]">
+                                    🎯 {isAr ? 'أهداف التعلم الوزارية:' : 'Learning Objectives:'}
+                                  </span>
+                                  <ul className="list-disc list-inside space-y-0.5 text-slate-600 dark:text-slate-400 text-[10px]">
+                                    {lesson.objectives.map((obj, oIdx) => (
+                                      <li key={oIdx}>{obj}</li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+
+                              {/* Reading Text Preview if available */}
+                              {lesson.readingText && (
+                                <div className="p-2.5 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 text-[11px] space-y-1 text-right rtl:text-right">
+                                  <span className="font-bold text-indigo-950 dark:text-indigo-200 block text-[10px]">
+                                    📖 {isAr ? 'نص الدرس من كتاب الوزارة:' : 'Textbook Passage:'}
+                                  </span>
+                                  <p className="text-[10px] text-slate-700 dark:text-slate-300 leading-relaxed line-clamp-3">
+                                    {lesson.readingText}
+                                  </p>
+                                </div>
+                              )}
+
+                              {/* Supplementary Learning Resources (Clearly marked as supplementary, NOT official) */}
+                              {lesson.supplementaryResources && lesson.supplementaryResources.length > 0 && (
+                                <div className="p-2.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-900/40 space-y-1.5">
+                                  <span className="text-[10px] font-bold text-amber-900 dark:text-amber-200 flex items-center gap-1">
+                                    <span>📘</span>
+                                    <span>{isAr ? 'مصادر خارجية داعمة (تمارين وإثراء):' : 'Supplementary Learning Resources:'}</span>
+                                  </span>
+                                  <div className="space-y-1">
+                                    {lesson.supplementaryResources.map((supp) => (
+                                      <div
+                                        key={supp.id}
+                                        className="flex items-center justify-between text-[10px] text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 p-1.5 rounded-lg border border-amber-100 dark:border-amber-900"
+                                      >
+                                        <div className="flex items-center gap-1.5">
+                                          <Badge variant="demo">{supp.sourceType === 'al_adwaa' ? 'الأضواء' : 'سلاح التلميذ'}</Badge>
+                                          <span className="font-semibold">{isAr ? supp.sourceNameAr : supp.sourceNameEn}</span>
+                                        </div>
+                                        {supp.page && <span className="text-slate-400">صـ {supp.page}</span>}
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              )}
+
+                              {/* 4 Interactive Modalities for this Lesson */}
+                              <div className="grid grid-cols-3 gap-1.5 pt-1">
+                                <button
+                                  type="button"
+                                  onClick={() => setActiveStageLessonId(lesson.id)}
+                                  className="p-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-[10px] shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
+                                >
+                                  <span>👩‍🏫</span>
+                                  <span>{isAr ? 'اشرحي لي يا مس نور' : 'Learn with Nour'}</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleLaunchPracticeQuiz(lesson)}
+                                  className="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
+                                >
+                                  <span>🎯</span>
+                                  <span>{isAr ? 'تدريبات واختبار' : 'Practice Quiz'}</span>
+                                </button>
+
+                                <button
+                                  type="button"
+                                  onClick={() => handleLaunchHomework(lesson)}
+                                  className="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-800 dark:text-slate-200 font-black text-[10px] border border-slate-200 dark:border-slate-600 flex items-center justify-center gap-1 transition-all cursor-pointer"
+                                >
+                                  <span>✍️</span>
+                                  <span>{isAr ? 'حل الواجب' : 'Homework'}</span>
+                                </button>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
+
+      {/* 5. UNITS & LESSONS FLAT VIEW (When user clicks "Units & Lessons" tab or searches) */}
+      {(activeViewMode === 'units' || searchQuery) && (
+        <div className="space-y-3">
+          {/* Subject Filter Pills */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
+            <button
+              type="button"
+              onClick={() => setSelectedSubjectId('all')}
+              className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap cursor-pointer ${
+                selectedSubjectId === 'all'
+                  ? 'bg-indigo-600 text-white shadow-xs'
+                  : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100'
+              }`}
+            >
+              {isAr ? `جميع المواد (${officialLessons.length} درساً)` : `All Subjects (${officialLessons.length})`}
+            </button>
+
+            {officialSubjectsSummary.map((s) => {
+              const isSelected = selectedSubjectId === s.subjectId;
+
+              return (
+                <button
+                  key={s.subjectId}
+                  type="button"
+                  onClick={() => setSelectedSubjectId(s.subjectId)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 cursor-pointer ${
+                    isSelected
+                      ? 'bg-indigo-600 text-white shadow-xs'
+                      : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100'
+                  }`}
+                >
+                  <span>{s.icon}</span>
+                  <span>{isAr ? s.badgeAr : s.badgeEn}</span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Lessons List */}
+          <div className="space-y-2">
+            {filteredOfficialLessons.map((lesson) => (
               <div
                 key={lesson.id}
-                className="rounded-3xl bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 shadow-xs overflow-hidden transition-all hover:border-indigo-300 dark:hover:border-indigo-700"
+                className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs space-y-2"
               >
-                {/* Lesson Header */}
-                <div className="p-3.5 bg-slate-50 dark:bg-slate-800/60 border-b border-slate-200 dark:border-slate-700 flex items-start justify-between gap-3">
-                  <div className="space-y-1 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <span className="text-lg">{meta.icon}</span>
-                      <h3 className="text-sm font-black text-slate-900 dark:text-slate-100">
-                        {isAr ? lesson.titleAr : lesson.titleEn}
-                      </h3>
-                      <span className="text-[10px] font-bold text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 px-2 py-0.5 rounded-md">
-                        {isAr ? 'كتاب الوزارة الرسمي' : 'Official Ministry Book'}
-                      </span>
-                      <span className="text-[10px] font-bold text-slate-600 dark:text-slate-300 bg-slate-200 dark:bg-slate-700 px-2 py-0.5 rounded-md">
+                <div className="flex items-start justify-between gap-2">
+                  <div className="flex-1 space-y-0.5">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
                         {isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
                       </span>
+                      <span className="text-[10px] text-slate-400">
+                        {isAr ? `الوحدة ${lesson.unitNumber}` : `Unit ${lesson.unitNumber}`}
+                      </span>
                     </div>
 
-                    {/* Book Source Reference */}
-                    <div className="flex items-center gap-1.5 text-xs text-indigo-700 dark:text-indigo-300 font-semibold">
-                      <BookOpen className="w-3.5 h-3.5" />
-                      <span>{isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}</span>
-                    </div>
-
-                    <p className="text-[11px] text-slate-500 dark:text-slate-400">
-                      {isAr ? lesson.unitNameAr : lesson.unitNameEn}
+                    <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 pt-0.5">
+                      {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
+                    </h4>
+                    <p className="text-[10px] text-slate-400">
+                      {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
                     </p>
                   </div>
 
-                  {/* Mastery Badge */}
-                  <div className="flex flex-col items-end shrink-0">
-                    <span
-                      className={`px-2 py-0.5 rounded-md text-[10px] font-bold border ${
-                        masteryView.confidenceBand === 'high'
-                          ? 'border-emerald-300 bg-emerald-50 text-emerald-800 dark:bg-emerald-950/40 dark:text-emerald-300'
-                          : masteryView.confidenceBand === 'medium'
-                          ? 'border-amber-300 bg-amber-50 text-amber-800 dark:bg-amber-950/40 dark:text-amber-300'
-                          : 'border-slate-200 bg-slate-100 text-slate-700 dark:bg-slate-700 dark:text-slate-300'
-                      }`}
-                    >
-                      {masteryView.compositeLabel}
-                    </span>
-                    <span className="text-[9px] font-mono text-slate-400 mt-0.5">
-                      {masteryRec?.evidenceCount || 0} {isAr ? 'أدلة إتقان' : 'ev'}
-                    </span>
-                  </div>
+                  <SaveLikeButton
+                    sourceId={lesson.id}
+                    type="lesson"
+                    title={isAr ? lesson.titleAr : lesson.titleEn}
+                    subject={isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
+                  />
                 </div>
 
-                {/* Lesson Actions & Details */}
-                <div className="p-3.5 space-y-3">
-                  {/* Objectives */}
-                  {lesson.objectives.length > 0 && (
-                    <div className="space-y-1">
-                      <span className="text-[11px] font-bold text-slate-700 dark:text-slate-300 block">
-                        {isAr ? 'أهداف الدرس الرسمية:' : 'Official Objectives:'}
-                      </span>
-                      <ul className="list-disc list-inside text-[11px] text-slate-600 dark:text-slate-400 space-y-0.5">
-                        {lesson.objectives.slice(0, 2).map((obj, i) => (
-                          <li key={i}>{obj}</li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                <div className="flex items-center justify-between pt-2 border-t border-slate-100 dark:border-slate-700/60">
+                  <button
+                    type="button"
+                    onClick={() => setActiveStudyLesson(lesson)}
+                    className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+                  >
+                    <span>{isAr ? 'عرض تفاصيل الدرس' : 'View Lesson'}</span>
+                    <span>←</span>
+                  </button>
 
-                  {/* Vocabulary Preview */}
-                  {lesson.vocabulary.length > 0 && (
-                    <div className="flex items-center gap-1.5 flex-wrap pt-1">
-                      <span className="text-[10px] font-bold text-slate-400">
-                        {isAr ? 'المفردات:' : 'Vocab:'}
-                      </span>
-                      {lesson.vocabulary.slice(0, 3).map((v, i) => (
-                        <span
-                          key={i}
-                          className="px-2 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700/60 text-[10px] font-bold text-slate-700 dark:text-slate-300"
-                        >
-                          {v.word}: {v.definition}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  {/* 3 CORE STUDY BUTTONS */}
-                  <div className="pt-2 flex items-center justify-between gap-2 border-t border-slate-100 dark:border-slate-800 flex-wrap">
-                    <button
-                      type="button"
-                      onClick={() => toggleLesson(lesson.id)}
-                      className="text-[11px] font-bold text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 flex items-center gap-1 cursor-pointer"
-                    >
-                      {isLessonExpanded ? (
-                        <ChevronDown className="w-3.5 h-3.5" />
-                      ) : (
-                        <ChevronRight className="w-3.5 h-3.5 rtl:rotate-180" />
-                      )}
-                      <span>
-                        {isLessonExpanded
-                          ? isAr
-                            ? 'إخفاء التفاصيل'
-                            : 'Hide Details'
-                          : isAr
-                          ? `المفاهيم (${lesson.concepts.length})`
-                          : `Concepts (${lesson.concepts.length})`}
-                      </span>
-                    </button>
-
-                    <div className="flex items-center gap-1.5 flex-wrap">
-                      {/* Button 1: Open Textbook & Exercises */}
-                      <button
-                        type="button"
-                        onClick={() => setActiveStudyLesson(lesson)}
-                        className="py-1.5 px-3 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-                      >
-                        <BookOpen className="w-3.5 h-3.5" />
-                        <span>{isAr ? 'افتح الدرس والتمارين' : 'Study Lesson'}</span>
-                      </button>
-
-                      {/* Button 2: Study with Miss Nour in Classroom */}
-                      <button
-                        type="button"
-                        onClick={() => {
-                          setSelectedCurriculumLessonId(lesson.id);
-                          setActiveTab('companion');
-                        }}
-                        className="py-1.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-xs transition-all flex items-center gap-1.5 active:scale-95 cursor-pointer"
-                      >
-                        <span>👩‍🏫</span>
-                        <span>{isAr ? 'شرح المعلمة نور' : 'Teach with Nour'}</span>
-                      </button>
-
-                      {/* Button 3: Interactive Stage */}
-                      <button
-                        type="button"
-                        onClick={() => setActiveTeachingLessonId(lesson.id)}
-                        className="py-1.5 px-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-600 text-slate-800 dark:text-slate-200 font-bold text-xs shadow-xs transition-all flex items-center gap-1 cursor-pointer"
-                      >
-                        <Play className="w-3 h-3 fill-current" />
-                        <span>{isAr ? 'المسرح 🎭' : 'Stage 🎭'}</span>
-                      </button>
-                    </div>
-                  </div>
-
-                  {/* Expanded Concepts List */}
-                  {isLessonExpanded && (
-                    <div className="pt-2 space-y-1.5 border-t border-slate-100 dark:border-slate-800">
-                      {lesson.concepts.map((concept) => (
-                        <div
-                          key={concept.id}
-                          className="p-2.5 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 text-xs flex items-center justify-between gap-2"
-                        >
-                          <div className="space-y-0.5">
-                            <span className="font-bold text-slate-900 dark:text-slate-100 block">
-                              {isAr ? concept.titleAr : concept.titleEn}
-                            </span>
-                            <span className="text-[10px] text-slate-500 dark:text-slate-400">
-                              {concept.keyPoints[0]}
-                            </span>
-                          </div>
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 shrink-0">
-                            {isAr ? `مفهوم ${concept.conceptNumber}` : `C${concept.conceptNumber}`}
-                          </span>
-                        </div>
-                      ))}
-                    </div>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => setActiveStageLessonId(lesson.id)}
+                    className="px-2.5 py-1 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black shadow-xs flex items-center gap-1"
+                  >
+                    <span>👩‍🏫 {isAr ? 'اشرحي يا مس نور' : 'Teach with Nour'}</span>
+                  </button>
                 </div>
               </div>
-            );
-          })
-        )}
-      </div>
+            ))}
+          </div>
+        </div>
+      )}
 
-      {/* Lesson Study Modal */}
+      {/* Full Modal Runners */}
+      {activeStageLessonId && (
+        <StageModal
+          lessonId={activeStageLessonId}
+          onClose={() => setActiveStageLessonId(null)}
+        />
+      )}
+
       {activeStudyLesson && (
         <LessonStudyModal
           lesson={activeStudyLesson}
@@ -465,12 +600,33 @@ export const CurriculumBrowser: React.FC = () => {
         />
       )}
 
-      {/* The Stage Modal */}
-      {activeTeachingLessonId && (
-        <StageModal
-          lessonId={activeTeachingLessonId}
-          onClose={() => setActiveTeachingLessonId(null)}
-        />
+      {activePracticeMission && (
+        activePracticeMission.type === 'homework' ? (
+          <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-3">
+            <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl h-[88vh] overflow-hidden">
+              <HomeworkRunner
+                mission={activePracticeMission}
+                onComplete={() => setActivePracticeMission(null)}
+                onSkip={() => setActivePracticeMission(null)}
+                onClose={() => setActivePracticeMission(null)}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-3">
+            <div className="bg-white dark:bg-slate-900 w-full max-w-lg rounded-3xl h-[88vh] overflow-hidden">
+              <QuizRunner
+                mission={activePracticeMission}
+                onComplete={() => setActivePracticeMission(null)}
+                onSkip={() => setActivePracticeMission(null)}
+                onExplainDifferently={() => {
+                  setActivePracticeMission(null);
+                  if (activePracticeMission.lessonId) setActiveStageLessonId(activePracticeMission.lessonId);
+                }}
+              />
+            </div>
+          </div>
+        )
       )}
     </div>
   );

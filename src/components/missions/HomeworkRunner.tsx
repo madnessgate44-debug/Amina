@@ -1106,13 +1106,39 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
                       </div>
                     ) : (
                       /* Legible OCR extraction */
-                      <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border text-xs space-y-1 text-right rtl:text-right">
-                        <span className="text-[10px] text-slate-400 block font-bold">
-                          {isAr ? 'النص المستخرج من صورتك:' : 'Extracted Text:'}
-                        </span>
-                        <p className="font-bold text-slate-900 dark:text-slate-100">
-                          "{photoEvaluation.extractedAnswerText || isAr ? 'لا يوجد نص محدد' : 'No specific text'}"
-                        </p>
+                      <div className="space-y-2">
+                        <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border text-xs space-y-1 text-right rtl:text-right">
+                          <span className="text-[10px] text-slate-400 block font-bold">
+                            {isAr ? 'النص المستخرج من صورتك:' : 'Extracted Text:'}
+                          </span>
+                          <p className="font-bold text-slate-900 dark:text-slate-100">
+                            "{photoEvaluation.extractedAnswerText || (isAr ? 'لا يوجد نص محدد' : 'No specific text')}"
+                          </p>
+                        </div>
+
+                        {/* Separate Handwriting Quality Evaluation (Does not penalize academic score) */}
+                        {photoEvaluation.handwritingQuality && (
+                          <div className="p-3 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 text-xs space-y-1 text-right rtl:text-right">
+                            <div className="flex items-center justify-between">
+                              <span className="font-bold text-indigo-900 dark:text-indigo-200 flex items-center gap-1">
+                                <span>✍️</span>
+                                <span>{isAr ? 'تقييم جودة الخط اليدوي (منفصل تماماً عن صحة الحل):' : 'Handwriting Quality (Separated from Academic Correctness):'}</span>
+                              </span>
+                              <Badge variant={photoEvaluation.handwritingQuality === 'neat' ? 'official' : photoEvaluation.handwritingQuality === 'readable' ? 'demo' : 'warning'}>
+                                {photoEvaluation.handwritingQuality === 'neat'
+                                  ? (isAr ? 'خط أنيق وممتاز' : 'Neat')
+                                  : photoEvaluation.handwritingQuality === 'readable'
+                                  ? (isAr ? 'خط مقروء وواضح' : 'Readable')
+                                  : (isAr ? 'يحتاج تنظيماً وترتيباً' : 'Needs Practice')}
+                              </Badge>
+                            </div>
+                            {photoEvaluation.handwritingFeedback && (
+                              <p className="text-[11px] text-indigo-950/80 dark:text-indigo-300">
+                                {photoEvaluation.handwritingFeedback}
+                              </p>
+                            )}
+                          </div>
+                        )}
                       </div>
                     )}
                   </div>

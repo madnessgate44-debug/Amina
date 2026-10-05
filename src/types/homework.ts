@@ -70,6 +70,8 @@ export interface PhotoEvaluationResult {
   workedStep: string | null;
   finalAnswer: string | null;
   rawModelFeedback?: string;
+  handwritingQuality?: 'neat' | 'readable' | 'messy' | 'unclear';
+  handwritingFeedback?: string | null;
 }
 
 export interface HomeworkSubmission {

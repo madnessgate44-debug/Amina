@@ -14,18 +14,124 @@ export interface SubjectCurriculumSummary {
   subjectId: string;
   subjectNameAr: string;
   subjectNameEn: string;
+  subjectNameFr?: string;
   totalLessons: number;
   availableLessons: number;
   bookTitleAr: string;
   bookTitleEn: string;
+  icon: string;
+  color: string;
+  bgGradient: string;
+  termLabel: string;
+  badgeAr: string;
+  badgeEn: string;
 }
 
 export interface UnitCurriculumSummary {
   unitNumber: number;
   unitNameAr: string;
   unitNameEn: string;
+  unitNameFr?: string;
   lessons: OfficialCurriculumLesson[];
 }
+
+export const SUBJECT_METADATA_MAP: Record<string, {
+  icon: string;
+  color: string;
+  bgGradient: string;
+  termLabel: string;
+  badgeAr: string;
+  badgeEn: string;
+}> = {
+  subj_arabic: {
+    icon: '📖',
+    color: 'sky',
+    bgGradient: 'from-sky-600 to-indigo-800',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'لغة عربية',
+    badgeEn: 'Arabic',
+  },
+  subj_french: {
+    icon: '🥐',
+    color: 'blue',
+    bgGradient: 'from-blue-600 via-indigo-700 to-rose-700',
+    termLabel: '1er Semestre',
+    badgeAr: 'لغة فرنسية',
+    badgeEn: 'Français',
+  },
+  subj_math: {
+    icon: '📐',
+    color: 'emerald',
+    bgGradient: 'from-emerald-600 to-teal-800',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'رياضيات',
+    badgeEn: 'Mathematics',
+  },
+  subj_math_fr: {
+    icon: '🔢',
+    color: 'teal',
+    bgGradient: 'from-teal-600 via-cyan-700 to-blue-800',
+    termLabel: '1er Semestre — Bilingue',
+    badgeAr: 'ماث بالفرنسية',
+    badgeEn: 'Maths Français',
+  },
+  subj_science: {
+    icon: '🔬',
+    color: 'purple',
+    bgGradient: 'from-purple-600 to-indigo-900',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'علوم',
+    badgeEn: 'Science',
+  },
+  subj_science_fr: {
+    icon: '🧪',
+    color: 'violet',
+    bgGradient: 'from-violet-600 via-purple-700 to-pink-800',
+    termLabel: '1er Semestre — Bilingue',
+    badgeAr: 'ساينس بالفرنسية',
+    badgeEn: 'Sciences Français',
+  },
+  subj_social: {
+    icon: '🌍',
+    color: 'amber',
+    bgGradient: 'from-amber-600 to-orange-800',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'دراسات',
+    badgeEn: 'Social Studies',
+  },
+  subj_english: {
+    icon: '🇬🇧',
+    color: 'blue',
+    bgGradient: 'from-blue-600 to-indigo-800',
+    termLabel: 'Term 1',
+    badgeAr: 'إنجليزي',
+    badgeEn: 'English',
+  },
+  subj_ict: {
+    icon: '💻',
+    color: 'cyan',
+    bgGradient: 'from-cyan-600 to-blue-800',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'تكنولوجيا',
+    badgeEn: 'ICT',
+  },
+  subj_islamic: {
+    icon: '🕌',
+    color: 'emerald',
+    bgGradient: 'from-emerald-700 to-green-900',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'تربية إسلامية',
+    badgeEn: 'Islamic Education',
+  },
+  subj_calligraphy: {
+    icon: '✒️',
+    color: 'amber',
+    bgGradient: 'from-amber-700 to-stone-900',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'خط عربي',
+    badgeEn: 'Calligraphy',
+  },
+};
 
 export class CurriculumService {
   private lessons: OfficialCurriculumLesson[] = [];
@@ -35,8 +141,7 @@ export class CurriculumService {
   }
 
   /**
-   * Ingest a new official curriculum lesson (e.g. when French books are uploaded)
-   * Ensures zero engine changes for new subjects.
+   * Ingest a new official curriculum lesson
    */
   public ingest(lesson: OfficialCurriculumLesson): void {
     const existingIndex = this.lessons.findIndex((l) => l.id === lesson.id);
@@ -62,11 +167,16 @@ export class CurriculumService {
   }
 
   /**
-   * Return the 5 primary proving lessons (one per subject)
+   * Return primary proving lessons (one per main discipline)
    */
   public getProvingLessons(): OfficialCurriculumLesson[] {
     const provingIds = [
       'off_ar_u1_l2',
+      'off_fr_u1_l1_salutations',
+      'off_math_u1_l1',
+      'off_mathfr_u1_l1_decimaux',
+      'off_sci_u1_l1_plant_needs',
+      'off_scifr_u1_l1_plantes',
       'off_en_u1_apple_tree',
       'off_soc_u1_l2_surface',
       'off_rel_abdurrahman_eid_nasr',
@@ -106,21 +216,37 @@ export class CurriculumService {
   }
 
   /**
-   * Get all official subjects with lesson counts and book source titles
+   * Get all official subjects with lesson counts, virtual book metadata and badges
    */
   public getSubjectsSummary(): SubjectCurriculumSummary[] {
     const map = new Map<string, SubjectCurriculumSummary>();
 
     for (const l of this.lessons) {
       if (!map.has(l.subjectId)) {
+        const meta = SUBJECT_METADATA_MAP[l.subjectId] || {
+          icon: '📚',
+          color: 'indigo',
+          bgGradient: 'from-indigo-600 to-indigo-800',
+          termLabel: 'الفصل الدراسي الأول',
+          badgeAr: l.subjectNameAr,
+          badgeEn: l.subjectNameEn,
+        };
+
         map.set(l.subjectId, {
           subjectId: l.subjectId,
           subjectNameAr: l.subjectNameAr,
           subjectNameEn: l.subjectNameEn,
+          subjectNameFr: l.subjectNameFr,
           totalLessons: 0,
           availableLessons: 0,
           bookTitleAr: l.sourceRef.bookAr,
           bookTitleEn: l.sourceRef.bookEn,
+          icon: meta.icon,
+          color: meta.color,
+          bgGradient: meta.bgGradient,
+          termLabel: meta.termLabel,
+          badgeAr: meta.badgeAr,
+          badgeEn: meta.badgeEn,
         });
       }
       const entry = map.get(l.subjectId)!;
@@ -146,6 +272,7 @@ export class CurriculumService {
           unitNumber: lesson.unitNumber,
           unitNameAr: lesson.unitNameAr,
           unitNameEn: lesson.unitNameEn,
+          unitNameFr: lesson.unitNameFr,
           lessons: [],
         });
       }

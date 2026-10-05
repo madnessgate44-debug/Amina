@@ -577,14 +577,20 @@ YOUR TASK:
    - If wrong or partial, identify the specific mistake in a gentle, warm tone in "mistakeDescription".
    - Provide a partial hint / worked step ("workedStep") to guide them without revealing the full answer.
    - Set "finalAnswer" to the correct target answer.
-5. Return JSON ONLY matching this exact schema:
+5. SEPARATION OF ACADEMIC CORRECTNESS VS HANDWRITING QUALITY:
+   - If the student's concept, calculation, or fact is right, assign evaluation = "correct", EVEN IF the handwriting is messy or uneven!
+   - Separately evaluate "handwritingQuality": "neat" | "readable" | "messy" | "unclear".
+   - In "handwritingFeedback", provide gentle, friendly handwriting advice (e.g. "حلك الرياضي صحيح ١٠٠٪! نصيحة لتحسين الخط: باعدي قليلاً بين الأرقام").
+6. Return JSON ONLY matching this exact schema:
 {
   "extractedAnswerText": string | null,
   "extractionConfidence": number (between 0.0 and 1.0),
   "evaluation": "correct" | "partial" | "wrong" | "unclear",
   "mistakeDescription": string | null,
   "workedStep": string | null,
-  "finalAnswer": string | null
+  "finalAnswer": string | null,
+  "handwritingQuality": "neat" | "readable" | "messy" | "unclear",
+  "handwritingFeedback": string | null
 }
 `.trim();
 
@@ -620,6 +626,8 @@ YOUR TASK:
       mistakeDescription: parsed.mistakeDescription ?? null,
       workedStep: parsed.workedStep ?? null,
       finalAnswer: parsed.finalAnswer ?? null,
+      handwritingQuality: parsed.handwritingQuality ?? 'readable',
+      handwritingFeedback: parsed.handwritingFeedback ?? null,
       source: 'gemini_vision',
     });
   } catch (error: any) {
@@ -690,20 +698,36 @@ app.post('/api/reconstruct-day', async (req, res) => {
       const lessons: { subject: string; topic?: string; notes?: string }[] = [];
       const homework: { subject: string; description: string; dueDate?: string }[] = [];
 
+      if (lower.includes('فرنساوي') || lower.includes('french') || lower.includes('français')) {
+        lessons.push({ subject: 'اللغة الفرنسية', topic: 'Salutations et vocabulaire', notes: 'حسب وصف الطالب' });
+        if (lower.includes('واجب') || lower.includes('homework') || lower.includes('devoir')) {
+          homework.push({ subject: 'اللغة الفرنسية', description: 'Exercices du livre', dueDate: isArabic ? 'غداً' : 'Demain' });
+        }
+      }
+      if (lower.includes('ماث') || (lower.includes('math') && lower.includes('fr')) || lower.includes('mathématiques')) {
+        lessons.push({ subject: 'الرياضيات بالفرنسية (Maths)', topic: 'Nombres décimaux et fractions', notes: 'حسب وصف الطالب' });
+        if (lower.includes('واجب') || lower.includes('homework') || lower.includes('devoir')) {
+          homework.push({ subject: 'الرياضيات بالفرنسية (Maths)', description: 'Exercices Techbook', dueDate: isArabic ? 'غداً' : 'Demain' });
+        }
+      } else if (lower.includes('رياض') || lower.includes('math') || lower.includes('حساب') || lower.includes('كسور')) {
+        lessons.push({ subject: 'الرياضيات', topic: 'الكسور والعمليات الحسابية', notes: 'حسب وصف الطالب' });
+        if (lower.includes('واجب') || lower.includes('homework') || lower.includes('مسائل')) {
+          homework.push({ subject: 'الرياضيات', description: 'تمارين الكتاب', dueDate: isArabic ? 'غداً' : 'Tomorrow' });
+        }
+      }
+      if (lower.includes('ساينس') || (lower.includes('sci') && lower.includes('fr')) || lower.includes('sciences')) {
+        lessons.push({ subject: 'العلوم بالفرنسية (Sciences)', topic: 'Écosystèmes et photosynthèse', notes: 'حسب وصف الطالب' });
+      } else if (lower.includes('علوم') || lower.includes('science')) {
+        lessons.push({ subject: 'العلوم', topic: 'الكائنات الحية والبيئة', notes: 'حسب وصف الطالب' });
+      }
       if (lower.includes('عرب') || lower.includes('arabic')) {
         lessons.push({ subject: 'اللغة العربية', topic: 'نحو وقراءة', notes: 'حسب وصف الطالب' });
         if (lower.includes('واجب') || lower.includes('homework')) {
           homework.push({ subject: 'اللغة العربية', description: 'حل تدريبات الدرس', dueDate: isArabic ? 'غداً' : 'Tomorrow' });
         }
       }
-      if (lower.includes('رياض') || lower.includes('math') || lower.includes('حساب') || lower.includes('كسور')) {
-        lessons.push({ subject: 'الرياضيات', topic: 'الكسور والعمليات الحسابية', notes: 'حسب وصف الطالب' });
-        if (lower.includes('واجب') || lower.includes('homework') || lower.includes('مسائل')) {
-          homework.push({ subject: 'الرياضيات', description: 'تمارين الكتاب', dueDate: isArabic ? 'غداً' : 'Tomorrow' });
-        }
-      }
-      if (lower.includes('علوم') || lower.includes('science')) {
-        lessons.push({ subject: 'العلوم', topic: 'الكائنات الحية والبيئة', notes: 'حسب وصف الطالب' });
+      if (lower.includes('إنجليز') || lower.includes('انجليز') || lower.includes('english')) {
+        lessons.push({ subject: 'اللغة الإنجليزية', topic: 'Connect 5 Unit 1', notes: 'حسب وصف الطالب' });
       }
 
       return res.json({

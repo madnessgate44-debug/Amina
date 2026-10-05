@@ -86,9 +86,13 @@ export const VirtualTeacherClassroom: React.FC = () => {
   // Outfit mapping based on subject
   const outfitMap: Record<string, SubjectOutfit> = {
     subj_arabic: 'arabic',
+    subj_french: 'english',
     subj_math: 'math',
+    subj_math_fr: 'math',
     subj_science: 'science',
+    subj_science_fr: 'science',
     subj_ict: 'science',
+    subj_social: 'social_studies',
     subj_social_studies: 'social_studies',
     subj_islamic: 'islamic',
     subj_english: 'english',

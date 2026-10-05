@@ -25,12 +25,40 @@ export interface ReconciliationResult {
 // Normalized subject matching
 function normalizeSubject(name: string): string {
   const clean = name.toLowerCase().trim();
+
+  // French Math
+  if (
+    (clean.includes('math') && (clean.includes('fr') || clean.includes('فرنس'))) ||
+    clean.includes('mathématiques') ||
+    clean.includes('رياضيات بالفرنسية')
+  ) {
+    return 'math_fr';
+  }
+
+  // French Science
+  if (
+    (clean.includes('sci') && (clean.includes('fr') || clean.includes('فرنس'))) ||
+    clean.includes('sciences fr') ||
+    clean.includes('علوم بالفرنسية')
+  ) {
+    return 'science_fr';
+  }
+
+  // French Language
+  if (clean.includes('فرنساوي') || clean.includes('فرنسي') || clean.includes('french') || clean.includes('français')) {
+    return 'french';
+  }
+
   if (clean.includes('عرب') || clean.includes('arabic')) return 'arabic';
   if (clean.includes('رياض') || clean.includes('حساب') || clean.includes('math')) return 'math';
   if (clean.includes('علوم') || clean.includes('ساينس') || clean.includes('science')) return 'science';
+  if (clean.includes('دراس') || clean.includes('social')) return 'social';
+  if (clean.includes('إنجليز') || clean.includes('انجليز') || clean.includes('english')) return 'english';
+  if (clean.includes('تكنولوج') || clean.includes('ict')) return 'ict';
   if (clean.includes('دين') || clean.includes('islamic') || clean.includes('religion')) return 'religion';
   if (clean.includes('رسم') || clean.includes('فني') || clean.includes('art')) return 'art';
   if (clean.includes('رياضي') || clean.includes('pe') || clean.includes('gym') || clean.includes('ألعاب')) return 'pe';
+  if (clean.includes('خط') || clean.includes('calligraphy')) return 'calligraphy';
   return clean;
 }
 

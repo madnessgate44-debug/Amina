@@ -12,49 +12,49 @@ import {
   Target,
   CheckCircle2,
   TrendingUp,
-  Bot,
   User,
   Sparkles,
 } from 'lucide-react';
 
 export const BottomNav: React.FC = () => {
-  const { t, activeTab, setActiveTab, language } = useApp();
+  const { activeTab, setActiveTab, language } = useApp();
   const isArabic = language === 'ar';
+  const isFrench = language === 'fr';
 
   const navItems: { id: NavigationTab; label: string; icon: React.ReactNode }[] = [
     {
       id: 'home',
-      label: t.nav.home,
+      label: isArabic ? 'الرئيسية' : isFrench ? 'Accueil' : 'Home',
       icon: <Home className="w-4 h-4" />,
     },
     {
       id: 'learn',
-      label: t.nav.learn,
+      label: isArabic ? 'مدرستي 📚' : isFrench ? 'Mon École 📚' : 'My School 📚',
       icon: <BookOpen className="w-4 h-4" />,
     },
     {
-      id: 'missions',
-      label: t.nav.missions,
-      icon: <Target className="w-4 h-4" />,
-    },
-    {
       id: 'companion',
-      label: isArabic ? 'المعلمة نور 👩‍🏫' : 'Teacher Nour 👩‍🏫',
+      label: isArabic ? 'مس نور 👩‍🏫' : isFrench ? 'Mlle Nour 👩‍🏫' : 'Miss Nour 👩‍🏫',
       icon: <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />,
     },
     {
+      id: 'missions',
+      label: isArabic ? 'مهامي' : isFrench ? 'Missions' : 'Missions',
+      icon: <Target className="w-4 h-4" />,
+    },
+    {
       id: 'review',
-      label: t.nav.review,
+      label: isArabic ? 'المراجعة' : isFrench ? 'Révision' : 'Review',
       icon: <CheckCircle2 className="w-4 h-4" />,
     },
     {
       id: 'progress',
-      label: t.nav.progress,
+      label: isArabic ? 'التقدّم' : isFrench ? 'Progrès' : 'Progress',
       icon: <TrendingUp className="w-4 h-4" />,
     },
     {
       id: 'profile',
-      label: t.nav.profile || 'Profile',
+      label: isArabic ? 'حسابي' : isFrench ? 'Profil' : 'Profile',
       icon: <User className="w-4 h-4" />,
     },
   ];
@@ -71,7 +71,7 @@ export const BottomNav: React.FC = () => {
               key={item.id}
               type="button"
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all relative ${
+              className={`flex flex-col items-center justify-center py-1.5 px-2 rounded-xl transition-all relative cursor-pointer ${
                 isActive
                   ? 'text-indigo-600 dark:text-indigo-400 font-bold'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 font-medium'
@@ -80,7 +80,7 @@ export const BottomNav: React.FC = () => {
               <div
                 className={`p-1 rounded-lg transition-transform ${
                   isActive ? 'scale-110 bg-indigo-50 dark:bg-indigo-950/60' : ''
-                } ${isCompanion && !isActive ? 'text-indigo-500' : ''}`}
+                } ${isCompanion && !isActive ? 'text-amber-500' : ''}`}
               >
                 {item.icon}
               </div>

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-export type SavableType = 'reel' | 'explanation' | 'game' | 'quiz' | 'note' | 'concept';
+export type SavableType = 'reel' | 'explanation' | 'game' | 'quiz' | 'note' | 'concept' | 'lesson';
 
 export interface SavedItem {
   id: string;
