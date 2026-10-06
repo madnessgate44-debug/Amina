@@ -19,6 +19,7 @@ import {
   Sparkles,
   TrendingUp,
   Award,
+  RotateCcw,
 } from 'lucide-react';
 
 interface QuizRunnerProps {
@@ -34,7 +35,7 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
   onSkip,
   onExplainDifferently,
 }) => {
-  const { language, masteryRecords } = useApp();
+  const { language, masteryRecords, recordEvidence, setCompanionContext, setActiveTab } = useApp();
   const isAr = language === 'ar';
 
   const [questions, setQuestions] = useState<QuizQuestion[]>([]);
@@ -44,6 +45,7 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
   const [showHint, setShowHint] = useState(false);
   const [scoreCount, setScoreCount] = useState(0);
   const [adaptiveDifficulty, setAdaptiveDifficulty] = useState<'easy' | 'medium' | 'hard'>('medium');
+  const [hasRetriedCurrent, setHasRetriedCurrent] = useState(false);
 
   const currentMastery = mission.conceptId ? masteryRecords[mission.conceptId]?.score ?? 0.5 : 0.5;
 
@@ -89,24 +91,65 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
 
     const isCorrect = index === currentQ.correctAnswer;
     if (isCorrect) {
-      setScoreCount((prev) => prev + 1);
-      // Adaptive difficulty shift upwards
+      setScoreCount((prev) => prev + (hasRetriedCurrent ? 0.75 : 1));
       setAdaptiveDifficulty('hard');
+      if (mission.conceptId) {
+        recordEvidence(mission.conceptId, {
+          correctness: 'full',
+          difficulty: adaptiveDifficulty === 'hard' ? 0.8 : 0.5,
+          independence: showHint || hasRetriedCurrent ? 'hinted' : 'unassisted',
+          modality: 'quiz',
+          notes: hasRetriedCurrent ? 'Quiz answered correctly after adaptive explanation' : 'Quiz question answered correctly',
+        });
+      }
     } else {
-      // Adaptive difficulty shift downwards
       setAdaptiveDifficulty('easy');
+      if (mission.conceptId) {
+        recordEvidence(mission.conceptId, {
+          correctness: 'partial',
+          difficulty: 0.4,
+          independence: 'unassisted',
+          modality: 'quiz',
+          notes: 'Quiz struggle - adaptive scaffold presented',
+        });
+      }
+    }
+  };
+
+  const handleRetryWithScaffolding = () => {
+    setSelectedAnswer(null);
+    setIsAnswered(false);
+    setShowHint(true);
+    setHasRetriedCurrent(true);
+  };
+
+  const handleLaunchDeepExplanation = () => {
+    if (mission.conceptId) {
+      setCompanionContext({
+        source: 'weakness',
+        conceptId: mission.conceptId,
+        lessonId: mission.lessonId,
+        topic: mission.title,
+        notes: isAr ? currentQ.hintAr : currentQ.hintEn,
+      });
+    }
+    if (onExplainDifferently) {
+      onExplainDifferently();
+    } else {
+      setActiveTab('companion');
     }
   };
 
   const handleNext = () => {
     if (isLastQuestion) {
-      const finalScore = totalQuestions > 0 ? (scoreCount + (selectedAnswer === currentQ.correctAnswer ? 0 : 0)) / totalQuestions : 0.8;
+      const finalScore = totalQuestions > 0 ? scoreCount / totalQuestions : 0.8;
       onComplete(finalScore);
     } else {
       setCurrentQuestionIndex((prev) => prev + 1);
       setSelectedAnswer(null);
       setIsAnswered(false);
       setShowHint(false);
+      setHasRetriedCurrent(false);
     }
   };
 
@@ -195,29 +238,52 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
           })}
         </div>
 
-        {/* Immediate Feedback Box */}
+        {/* Immediate Feedback Box & Adaptive Scaffolding */}
         {isAnswered && (
           <div
-            className={`p-3.5 rounded-2xl border text-xs leading-relaxed space-y-1.5 ${
+            className={`p-3.5 rounded-2xl border text-xs leading-relaxed space-y-2.5 ${
               isCurrentCorrect
                 ? 'bg-emerald-50/70 dark:bg-emerald-950/30 border-emerald-300 dark:border-emerald-800 text-emerald-900 dark:text-emerald-200'
-                : 'bg-rose-50/70 dark:bg-rose-950/30 border-rose-300 dark:border-rose-800 text-rose-900 dark:text-rose-200'
+                : 'bg-amber-50/80 dark:bg-amber-950/40 border-amber-300 dark:border-amber-800 text-amber-950 dark:text-amber-200'
             }`}
           >
             <div className="flex items-center gap-1.5 font-bold">
               {isCurrentCorrect ? (
                 <>
-                  <CheckCircle className="w-4 h-4 text-emerald-600" />
+                  <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0" />
                   <span>{isAr ? 'إجابة صحيحة وموفقة!' : 'Correct Answer!'}</span>
                 </>
               ) : (
                 <>
-                  <XCircle className="w-4 h-4 text-rose-600" />
-                  <span>{isAr ? 'إجابة غير دقيقة' : 'Not quite right'}</span>
+                  <Sparkles className="w-4 h-4 text-amber-600 shrink-0" />
+                  <span>{isAr ? 'قريبة جداً! تعالي نفهم الفكرة بزاوية مبسطة:' : 'Close! Let\'s look at it from another angle:'}</span>
                 </>
               )}
             </div>
-            <p>{isAr ? currentQ.explanationAr : currentQ.explanationEn}</p>
+            <p className="leading-relaxed">{isAr ? currentQ.explanationAr : currentQ.explanationEn}</p>
+
+            {/* Adaptive Intervention Pathways when incorrect */}
+            {!isCurrentCorrect && (
+              <div className="pt-2 border-t border-amber-200/80 dark:border-amber-800/60 flex items-center gap-2 flex-wrap">
+                <button
+                  type="button"
+                  onClick={handleRetryWithScaffolding}
+                  className="py-1.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-500 text-slate-950 font-black text-[11px] shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <RotateCcw className="w-3.5 h-3.5" />
+                  <span>{isAr ? 'أعيدي المحاولة مع تلميح مبسط' : 'Retry with Scaffolding'}</span>
+                </button>
+
+                <button
+                  type="button"
+                  onClick={handleLaunchDeepExplanation}
+                  className="py-1.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[11px] shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
+                >
+                  <span>👩‍🏫</span>
+                  <span>{isAr ? 'اشرحي لي صوتياً مع مس نور' : 'Explain with Miss Nour'}</span>
+                </button>
+              </div>
+            )}
           </div>
         )}
 

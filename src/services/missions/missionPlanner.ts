@@ -14,7 +14,6 @@ import {
   Language,
   ParentPreferences,
 } from '../../types';
-import { DEMO_CURRICULUM, getFlatConcepts } from '../../data/demoCurriculum';
 import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
 import { getDueReviewConcepts } from '../review/spacedReviewScheduler';
@@ -171,32 +170,7 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
   } = params;
 
   const isAr = language === 'ar';
-  const demoFlat = getFlatConcepts();
-  const officialLessons = curriculumService.getAllLessons();
-  const officialFlat: FlatCurriculumConcept[] = [];
-  for (const l of officialLessons) {
-    for (const c of l.concepts) {
-      officialFlat.push({
-        id: c.id,
-        parentId: l.id,
-        subjectId: l.subjectId,
-        subjectNameAr: l.subjectNameAr,
-        subjectNameEn: l.subjectNameEn,
-        unitId: `unit_${l.subjectId}_${l.unitNumber}`,
-        unitNameAr: l.unitNameAr,
-        unitNameEn: l.unitNameEn,
-        lessonId: l.id,
-        lessonNameAr: l.titleAr,
-        lessonNameEn: l.titleEn,
-        nameAr: c.titleAr,
-        nameEn: c.titleEn,
-        descriptionAr: c.sourceText,
-        descriptionEn: c.sourceText,
-        origin: 'official',
-      });
-    }
-  }
-  const flatConcepts = [...demoFlat, ...officialFlat];
+  const flatConcepts = curriculumService.getFlatConcepts();
 
   let parentOverrideApplied = false;
   let parentOverrideMessage: string | undefined;
@@ -255,8 +229,8 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
 
   const isConfirmedDay = Boolean(dayRecord && dayRecord.confirmed);
 
-  if (isConfirmedDay && dayRecord) {
-    // Collect from confirmed lessons
+  if (dayRecord && dayRecord.lessonsCovered && dayRecord.lessonsCovered.length > 0) {
+    // Collect from today's recorded lessons (confirmed or student-logged)
     dayRecord.lessonsCovered.forEach((l) => {
       const sId = normalizeSubject(l.subject);
       if (sId && !activeSubjectIds.includes(sId)) activeSubjectIds.push(sId);
@@ -286,15 +260,29 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
     }
   }
 
-  // Default fallback if still empty
+  // Fallback if no subjects identified from day record or timetable:
+  // First prioritize subjects with due reviews or low mastery; then fall back to authoritative curriculum subjects.
   if (activeSubjectIds.length === 0) {
-    activeSubjectIds = ['subj_math', 'subj_arabic', 'subj_science'];
+    const dueReviews = getDueReviewConcepts(student.id, masteryRecords, { language });
+    for (const r of dueReviews) {
+      const c = flatConcepts.find((fc) => fc.id === r.conceptId);
+      if (c && !activeSubjectIds.includes(c.subjectId)) {
+        activeSubjectIds.push(c.subjectId);
+      }
+    }
+
+    if (activeSubjectIds.length === 0) {
+      // Use available subjects from Amina's authoritative curriculum
+      const allSubjects = curriculumService.getSubjectsSummary().map((s) => s.subjectId);
+      activeSubjectIds = allSubjects.slice(0, 4);
+    }
   }
 
   // PRIORITY A: Homework assigned today (per Day Record)
   if (isConfirmedDay && dayRecord && dayRecord.homeworkAssigned?.length > 0) {
+    const authoritativeFallbackSubj = curriculumService.getSubjectsSummary()[0]?.subjectId || 'subj_arabic';
     dayRecord.homeworkAssigned.forEach((hw, idx) => {
-      const sId = normalizeSubject(hw.subject) || activeSubjectIds[0] || 'subj_math';
+      const sId = normalizeSubject(hw.subject) || activeSubjectIds[0] || authoritativeFallbackSubj;
       const matched = findConceptsForSubject(sId, hw.description, flatConcepts);
       const targetConcept = matched[0];
       const conceptId = targetConcept?.id;
@@ -325,7 +313,7 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
           type: 'homework',
           estimatedMinutes: 10,
           whyNow,
-          originTag: targetConcept?.origin || 'demo',
+          originTag: targetConcept?.origin || 'official',
           successCriterion: isAr
             ? 'حل أسئلة الواجب والتحقق من الاستيعاب'
             : 'Complete homework questions and verify comprehension',
@@ -450,7 +438,7 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
         whyNow: isAr
           ? `حان موعد المراجعة المتباعدة (${item.reason}).`
           : `Spaced review interval reached (${item.reason}).`,
-        originTag: conceptMeta?.origin || 'demo',
+        originTag: conceptMeta?.origin || 'official',
         successCriterion: isAr
           ? 'إكمال أسئلة المراجعة وتأكيد ثبات المفهوم'
           : 'Complete review questions and confirm retention',

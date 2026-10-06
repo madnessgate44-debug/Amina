@@ -64,6 +64,7 @@ export const HomeScreen: React.FC = () => {
     dueReviewNudges,
     gentleCompanionNudge,
     dismissGentleNudge,
+    setCompanionContext,
   } = useApp();
 
   const isArabic = language === 'ar';
@@ -259,7 +260,17 @@ export const HomeScreen: React.FC = () => {
 
               <button
                 type="button"
-                onClick={() => setActiveTab('companion')}
+                onClick={() => {
+                  setCompanionContext({
+                    source: nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action',
+                    missionId: nextPendingMission.id,
+                    lessonId: nextPendingMission.lessonId,
+                    conceptId: nextPendingMission.conceptId,
+                    topic: nextPendingMission.title,
+                    notes: nextPendingMission.whyNow,
+                  });
+                  setActiveTab('companion');
+                }}
                 className="px-3.5 py-3.5 rounded-2xl bg-white/15 hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center transition-all cursor-pointer"
                 title={isArabic ? 'اسألي مس نور عن أي شيء' : 'Ask Miss Nour'}
               >
@@ -371,21 +382,33 @@ export const HomeScreen: React.FC = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-          {curriculumBooks.slice(0, 4).map((b) => (
+        {/* Scrollable Bookshelf Row displaying ALL subjects without arbitrarily hiding any */}
+        <div className="flex items-stretch gap-2 overflow-x-auto pb-2 pt-0.5 scrollbar-thin">
+          {curriculumBooks.map((b) => (
             <div
               key={b.subjectId}
               onClick={() => setActiveTab('learn')}
-              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-indigo-400 bg-slate-50 dark:bg-slate-750 transition-all cursor-pointer flex flex-col justify-between"
+              className="min-w-[125px] w-[125px] p-2.5 rounded-2xl border border-slate-200 dark:border-slate-700 hover:border-indigo-400 bg-slate-50 dark:bg-slate-750 transition-all cursor-pointer flex flex-col justify-between shrink-0 group hover:shadow-md"
             >
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-xl">{b.icon}</span>
-                <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300">
-                  {b.totalLessons} {isArabic ? 'دروس' : 'les'}
-                </span>
+              <div className="space-y-1">
+                <div className="flex items-center justify-between">
+                  <span className="text-2xl group-hover:scale-110 transition-transform">{b.icon}</span>
+                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-2xs">
+                    {b.availableLessons} {isArabic ? 'دروس' : 'les'}
+                  </span>
+                </div>
+                <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 truncate pt-1">
+                  {isArabic ? b.subjectNameAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
+                </h4>
+                <p className="text-[9px] text-slate-400 truncate">
+                  {isArabic ? b.bookTitleAr : b.bookTitleEn}
+                </p>
               </div>
-              <span className="text-xs font-black truncate">{isArabic ? b.subjectNameAr : b.subjectNameEn}</span>
-              <span className="text-[9px] text-slate-400 truncate">{isArabic ? b.bookTitleAr : b.bookTitleEn}</span>
+
+              <div className="pt-2 mt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[10px] font-bold text-indigo-600 dark:text-indigo-400">
+                <span>{isArabic ? 'افتحي الكتاب' : 'Open'}</span>
+                <span>←</span>
+              </div>
             </div>
           ))}
         </div>
@@ -394,7 +417,16 @@ export const HomeScreen: React.FC = () => {
       {/* 6. PERSISTENT TALK TO MISS NOUR ACTION */}
       <button
         type="button"
-        onClick={() => setActiveTab('companion')}
+        onClick={() => {
+          setCompanionContext({
+            source: nextPendingMission ? (nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action') : 'general',
+            missionId: nextPendingMission?.id,
+            lessonId: nextPendingMission?.lessonId,
+            conceptId: nextPendingMission?.conceptId,
+            topic: nextPendingMission?.title,
+          });
+          setActiveTab('companion');
+        }}
         className="w-full p-4 rounded-3xl bg-linear-to-r from-indigo-600 via-indigo-700 to-purple-700 hover:from-indigo-700 text-white font-bold text-xs sm:text-sm flex items-center justify-between shadow-lg shadow-indigo-600/20 transition-all group cursor-pointer"
       >
         <div className="flex items-center gap-3">

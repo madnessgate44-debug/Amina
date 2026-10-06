@@ -8,7 +8,7 @@ import { useApp } from '../../context/AppContext';
 import { KnowledgeMap } from '../mastery/KnowledgeMap';
 import { Badge } from '../common/Badge';
 import { formatMasteryView } from '../../services/mastery/masteryEngine';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../../services/curriculum/curriculumService';
 import {
   TrendingUp,
   Download,
@@ -38,7 +38,7 @@ export const ProgressScreen: React.FC = () => {
   } = useApp();
 
   const isAr = language === 'ar';
-  const flatConcepts = useMemo(() => getFlatConcepts(), []);
+  const flatConcepts = useMemo(() => curriculumService.getFlatConcepts(), []);
   const conceptMap = useMemo(() => new Map(flatConcepts.map((c) => [c.id, c])), [flatConcepts]);
 
   const [showKnowledgeMapFull, setShowKnowledgeMapFull] = useState<boolean>(true);

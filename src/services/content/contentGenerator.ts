@@ -4,7 +4,7 @@
  */
 
 import { FlatCurriculumConcept, Language } from '../../types';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 
 export interface ReelScene {
   phase: 'hook' | 'explanation' | 'example' | 'quick_check';
@@ -57,7 +57,7 @@ export interface QuizQuestion {
  * strictly from the seeded demo curriculum concepts (never fabricated).
  */
 export function getReelForConcept(conceptId: string): LearningReelContent | null {
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const concept = flatConcepts.find((c) => c.id === conceptId);
   if (!concept) return null;
 
@@ -146,7 +146,7 @@ export function getQuizQuestionsForConcept(
   conceptId: string,
   currentMasteryScore: number = 0.5
 ): QuizQuestion[] {
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const concept = flatConcepts.find((c) => c.id === conceptId);
   if (!concept) return [];
 

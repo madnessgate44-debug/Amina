@@ -10,7 +10,7 @@ import {
   SpacedReviewSummary,
   Language,
 } from '../../types';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
 
 export interface SchedulerOptions {
@@ -176,7 +176,7 @@ export function getAllSpacedReviewSchedules(
   masteryRecords: Record<string, MasteryRecord>,
   options: SchedulerOptions = {}
 ): SpacedReviewSummary {
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const items: SpacedReviewSchedule[] = [];
 
   for (const concept of flatConcepts) {

@@ -10,7 +10,7 @@ import {
   FlatCurriculumConcept,
   Language,
 } from '../../types';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 
 /**
  * In-memory registry of active tutor sessions keyed by `${studentId}_${conceptId}_${sessionId}`
@@ -117,8 +117,8 @@ export function advanceTutorEscalation(params: GenerateTutorStepParams): TutorRe
   const isAr = language === 'ar';
   const state = getOrCreateTutorState(studentId, conceptId, sessionId);
 
-  // Find concept in demo curriculum
-  const flatConcepts = getFlatConcepts();
+  // Find concept in authoritative curriculum
+  const flatConcepts = curriculumService.getFlatConcepts();
   const concept = flatConcepts.find((c) => c.id === conceptId);
 
   const conceptName = concept

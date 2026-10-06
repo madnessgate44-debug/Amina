@@ -11,17 +11,47 @@ import {
   FlatCurriculumConcept,
   Language,
 } from '../../types';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 
 /**
- * Normalizes subject string across Arabic and English to curriculum subject ID
+ * Normalizes subject string across Arabic, French, and English to curriculum subject ID
  */
 export function normalizeSubjectId(subName?: string): string {
   if (!subName) return '';
   const s = subName.trim().toLowerCase();
-  if (s.includes('عرب') || s.includes('لغة') || s.includes('arabic')) return 'subj_arabic';
+
+  // French Math specific
+  if (
+    (s.includes('math') && (s.includes('fr') || s.includes('فرنس'))) ||
+    s.includes('mathématiques') ||
+    s.includes('الرياضيات بالفرنسية')
+  ) {
+    return 'subj_math_fr';
+  }
+
+  // French Science specific
+  if (
+    (s.includes('sci') && (s.includes('fr') || s.includes('فرنس'))) ||
+    s.includes('sciences fr') ||
+    s.includes('العلوم بالفرنسية')
+  ) {
+    return 'subj_science_fr';
+  }
+
+  // French Language
+  if (s.includes('فرنساوي') || s.includes('فرنسي') || s.includes('french') || s.includes('français')) {
+    return 'subj_french';
+  }
+
+  if (s.includes('عرب') || s.includes('لغة عربية') || s.includes('arabic')) return 'subj_arabic';
   if (s.includes('رياض') || s.includes('حساب') || s.includes('math') || s.includes('كسور')) return 'subj_math';
   if (s.includes('علوم') || s.includes('science') || s.includes('كائنات') || s.includes('بيئة')) return 'subj_science';
+  if (s.includes('دراس') || s.includes('social')) return 'subj_social';
+  if (s.includes('إنجليز') || s.includes('انجليز') || s.includes('english')) return 'subj_english';
+  if (s.includes('تكنولوج') || s.includes('ict')) return 'subj_ict';
+  if (s.includes('دين') || s.includes('islamic') || s.includes('religion')) return 'subj_islamic';
+  if (s.includes('خط') || s.includes('calligraphy')) return 'subj_calligraphy';
+
   return '';
 }
 
@@ -36,7 +66,7 @@ export function findConceptForHomework(
   const subjectId = normalizeSubjectId(subject);
   if (!subjectId) return null;
 
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const subjectConcepts = flatConcepts.filter((c) => c.subjectId === subjectId);
   if (subjectConcepts.length === 0) return null;
 

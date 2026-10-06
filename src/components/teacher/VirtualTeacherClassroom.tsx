@@ -59,15 +59,34 @@ interface QuickQuizQuestion {
 }
 
 export const VirtualTeacherClassroom: React.FC = () => {
-  const { language, student, selectedCurriculumLessonId, setSelectedCurriculumLessonId } = useApp();
+  const {
+    language,
+    student,
+    selectedCurriculumLessonId,
+    setSelectedCurriculumLessonId,
+    companionContext,
+    recordEvidence,
+    completeMission,
+    setActiveTab,
+    missionsForToday,
+    masteryRecords,
+    getMasteryForConcept,
+    showToast,
+  } = useApp();
   const isArabic = language === 'ar';
   const isFrench = language === 'fr';
-  const studentName = student?.name || (isArabic ? 'يا بطل' : isFrench ? 'Champion' : 'Student');
+  const studentName = student?.name || (isArabic ? 'أمينة' : 'Amina');
 
   // Currently Active Lesson from Ministry Curriculum
   const [currentLessonId, setCurrentLessonId] = useState<string>(
-    selectedCurriculumLessonId || 'off_ar_u1_l1_ana_astatee'
+    selectedCurriculumLessonId || companionContext?.lessonId || 'off_ar_u1_l1_ana_astatee'
   );
+
+  // Learning Orchestration States
+  const [isQuizCompleted, setIsQuizCompleted] = useState(false);
+  const [quizRetried, setQuizRetried] = useState(false);
+  const [correctAnswersCount, setCorrectAnswersCount] = useState(0);
+  const [missionDoneNotification, setMissionDoneNotification] = useState(false);
 
   // Sync if global selected lesson changes
   useEffect(() => {
@@ -75,6 +94,44 @@ export const VirtualTeacherClassroom: React.FC = () => {
       setCurrentLessonId(selectedCurriculumLessonId);
     }
   }, [selectedCurriculumLessonId, currentLessonId]);
+
+  // Synchronize context from Home / Lesson / Homework / Weakness
+  useEffect(() => {
+    if (companionContext) {
+      if (companionContext.lessonId) {
+        setCurrentLessonId(companionContext.lessonId);
+      }
+      let greeting = '';
+      if (companionContext.source === 'homework') {
+        greeting = isArabic
+          ? `أهلاً بكِ يا ${studentName}! شفت إن عندك واجب مهم في ${companionContext.topic || 'درسك اليوم'}. تعالي نراجع الخطوات مع بعض بهدوء عشان تحلي الواجب بثقة تامة!`
+          : isFrench
+          ? `Bienvenue ${studentName}! J'ai vu tes devoirs pour ${companionContext.topic || 'la leçon'}. Révisons les points clés pour réussir facilement!`
+          : `Welcome, ${studentName}! I noticed you have homework for ${companionContext.topic || 'today'}. Let's review the key concepts together so you can complete it with confidence!`;
+      } else if (companionContext.source === 'home_next_action') {
+        greeting = isArabic
+          ? `أهلاً يا ${studentName}! خطوتك الأهم الآن هي: «${companionContext.topic || 'درس اليوم'}». جهزت لك الشرح والسبورة، يلا نبدأ وننجزها في وقت قياسي!`
+          : isFrench
+          ? `Bonjour ${studentName}! Ton action prioritaire est: «${companionContext.topic || 'la leçon'}». Tout est prêt, commençons!`
+          : `Hello, ${studentName}! Your top priority right now is: "${companionContext.topic || "today's lesson"}". Everything is ready on the board, let's start!`;
+      } else if (companionContext.source === 'weakness') {
+        greeting = isArabic
+          ? `أهلاً يا بطلة! لاحظت إن مفهوم «${companionContext.topic || 'هذا الدرس'}» محتاج مننا زاوية شرح تانية. متقلقيش خالص، هنشرحه بقصة ومثال واقعي وهتفهميه فوراً!`
+          : isFrench
+          ? `Bienvenue ${studentName}! Prenons un nouvel angle pour bien assimiler «${companionContext.topic || 'cette notion'}». C'est parti!`
+          : `Welcome, ${studentName}! Let's explore "${companionContext.topic || 'this concept'}" from a fresh perspective with a real-life analogy!`;
+      } else if (companionContext.source === 'review') {
+        greeting = isArabic
+          ? `يا هلا بأمينة! ده وقت المراجعة الدورية لتثبيت المفاهيم في الذاكرة طويلة المدى عشان متتنسيش أبداً.`
+          : isFrench
+          ? `Bienvenue ${studentName}! C'est l'heure de notre révision espacée pour ancrer les acquis solidement.`
+          : `Welcome, ${studentName}! Time for our spaced refresh to keep concepts crystal clear in long-term memory.`;
+      }
+      if (greeting) {
+        setTeacherSpeech(greeting);
+      }
+    }
+  }, [companionContext, isArabic, isFrench, studentName]);
 
   const currentLesson: OfficialCurriculumLesson = useMemo(() => {
     return (
@@ -300,6 +357,10 @@ export const VirtualTeacherClassroom: React.FC = () => {
     setQuizFeedback(null);
     setActiveVocabIndex(0);
     setExplanationSubTab('hook');
+    setIsQuizCompleted(false);
+    setQuizRetried(false);
+    setCorrectAnswersCount(0);
+    setMissionDoneNotification(false);
 
     const greeting = isArabic
       ? `أهلاً يا ${studentName}! فتحنا درس «${lesson.titleAr}» من ${lesson.sourceRef.bookAr}! أنا مستعدة لشرح كل فكرة وحل التمارين معاكي!`
@@ -399,11 +460,23 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
     const question = quizQuestions[currentQuizIndex];
     const isCorrect = optionIndex === question.correctIndex;
+    const firstConcept = currentLesson.concepts && currentLesson.concepts[0];
+
+    if (firstConcept) {
+      recordEvidence(firstConcept.id, {
+        correctness: isCorrect ? 'full' : 'wrong',
+        difficulty: 0.5,
+        independence: quizRetried ? 'hinted' : 'unassisted',
+        modality: 'quiz',
+        notes: `Miss Nour Classroom Check: ${isArabic ? question.questionAr : question.questionEn}`,
+      });
+    }
 
     if (isCorrect) {
       soundEffects.playSuccess();
       soundEffects.playStarEarned();
       setStarsCount((prev) => prev + 1);
+      setCorrectAnswersCount((prev) => prev + 1);
       const praise = isArabic
         ? question.explanationAr
         : isFrench
@@ -414,10 +487,10 @@ export const VirtualTeacherClassroom: React.FC = () => {
     } else {
       soundEffects.playPop();
       const encouragement = isArabic
-        ? `ولا يهمك خالص يا ${studentName}! الإجابة الصحيحة من كتاب الوزارة هي: «${question.optionsAr[question.correctIndex]}». تعالي نفهم السبب ونجرب السؤال اللي بعده!`
+        ? `ولا يهمك يا ${studentName}! فكرة السؤال محتاجة تركيز: كتاب الوزارة بيوضح إن «${question.optionsAr[question.correctIndex]}» هي الإجابة النموذجية. اطلعي على التلميح وحاولي تاني لتثبت في ذهنك!`
         : isFrench
-        ? `Presque, ${studentName}! La bonne réponse est: «${question.optionsFr[question.correctIndex]}». Regardons ensemble l'explication!`
-        : `Almost there, ${studentName}! The correct answer was: "${question.optionsEn[question.correctIndex]}". Let's look at why!`;
+        ? `Pas d'inquiétude, ${studentName}! La bonne réponse du manuel est «${question.optionsFr[question.correctIndex]}». Regarde l'indice pédagogique et réessaye!`
+        : `Almost there, ${studentName}! The textbook answer is "${question.optionsEn[question.correctIndex]}". Check the hint and try again to reinforce it!`;
       setQuizFeedback(encouragement);
       speakText(encouragement, 'encouraging');
     }
@@ -427,18 +500,32 @@ export const VirtualTeacherClassroom: React.FC = () => {
     soundEffects.playPop();
     setSelectedAnswer(null);
     setQuizFeedback(null);
+    setQuizRetried(false);
+
     if (currentQuizIndex < quizQuestions.length - 1) {
       setCurrentQuizIndex((prev) => prev + 1);
       const nextQ = quizQuestions[currentQuizIndex + 1];
       const qText = isArabic ? nextQ.questionAr : isFrench ? nextQ.questionFr : nextQ.questionEn;
       speakText(qText, 'thinking');
     } else {
+      setIsQuizCompleted(true);
       soundEffects.playSuccess();
+
+      // Check if linked to an active mission from Home / Next Action
+      if (companionContext?.missionId) {
+        const finalRatio = Math.min(1.0, (correctAnswersCount + 1) / Math.max(1, quizQuestions.length));
+        completeMission(companionContext.missionId, {
+          score: finalRatio,
+          modality: 'quiz',
+        });
+        setMissionDoneNotification(true);
+      }
+
       const congrats = isArabic
-        ? `🎉 برافو عليكي يا ${studentName}! أتممتي كل أسئلة درس «${currentLesson.titleAr}» وجمعتي ${starsCount} نجوم ذهبية متألقة!`
+        ? `🎉 برافو عليكي يا بطلة يا ${studentName}! أتممتِ كل أسئلة فحص استيعاب درس «${currentLesson.titleAr}»، وتم تسجيل إتقانك وتحديث خريطة التعلم لليوم!`
         : isFrench
-        ? `🎉 Félicitations ${studentName}! Tu as terminé le quiz avec ${starsCount} étoiles dorées!`
-        : `🎉 Amazing job, ${studentName}! You completed the quiz for "${currentLesson.titleEn}" with ${starsCount} gold stars!`;
+        ? `🎉 Félicitations ${studentName}! Tu as brillamment validé la leçon «${currentLesson.titleEn}»!`
+        : `🎉 Amazing job, ${studentName}! You completed the understanding check for "${currentLesson.titleEn}" and updated your mastery!`;
       speakText(congrats, 'celebrating');
     }
   };
@@ -917,24 +1004,48 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 <span className="truncate">{isArabic ? 'ابدأي اختبار التمارين' : 'Start Lesson Quiz'}</span>
               </button>
             </div>
+
+            {/* Direct Pedagogic Bridge from Teach to Check Understanding */}
+            <div className="pt-2">
+              <button
+                type="button"
+                onClick={() => {
+                  soundEffects.playPop();
+                  setActiveStation('quiz');
+                  const prompt = isArabic
+                    ? `رائع يا ${studentName}! يلا نتحقق من فهمك لدرس «${currentLesson.titleAr}» بأسئلة وتحدي النجوم!`
+                    : isFrench
+                    ? `Parfait ${studentName}! Vérifions ta compréhension avec le quiz et les étoiles!`
+                    : `Awesome ${studentName}! Let's check your understanding of "${currentLesson.titleEn}" with the quiz challenge!`;
+                  speakText(prompt, 'excited');
+                }}
+                className="w-full py-3 px-4 rounded-2xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+              >
+                <span>⭐ {isArabic ? 'فهمت الشرح! اختبري استيعابي الآن مع مس نور' : 'Understood! Check Understanding with Miss Nour'}</span>
+                <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+              </button>
+            </div>
           </div>
         </div>
       )}
 
-      {/* STATION 2: QUIZ & STAR CHALLENGE */}
+      {/* STATION 2: QUIZ & STAR CHALLENGE (CHECK UNDERSTANDING -> ADAPT -> UPDATE MASTERY -> NEXT ACTION) */}
       {activeStation === 'quiz' && (
         <div className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 space-y-3">
+          {/* Header */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xl">⭐</span>
               <div>
                 <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
-                  {isArabic ? 'تحدي الأسئلة والنجوم' : 'Textbook Quiz Challenge'}
+                  {isArabic ? 'فحص الاستيعاب وتحدي النجوم' : 'Comprehension Check & Stars'}
                 </h3>
                 <p className="text-[10px] text-slate-500 dark:text-slate-400">
-                  {isArabic
-                    ? `السؤال ${currentQuizIndex + 1} من ${quizQuestions.length} من كتاب الوزارة`
-                    : `Question ${currentQuizIndex + 1} of ${quizQuestions.length} from textbook`}
+                  {isQuizCompleted
+                    ? (isArabic ? 'اكتمل فحص الاستيعاب بنجاح 🎯' : 'Check Completed Successfully 🎯')
+                    : (isArabic
+                        ? `السؤال ${currentQuizIndex + 1} من ${quizQuestions.length} من كتاب الوزارة`
+                        : `Question ${currentQuizIndex + 1} of ${quizQuestions.length} from textbook`)}
                 </p>
               </div>
             </div>
@@ -944,81 +1055,241 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </span>
           </div>
 
-          {/* Current Question Card */}
-          {quizQuestions[currentQuizIndex] && (
-            <div className="space-y-3 pt-1">
-              <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-slate-750 border border-indigo-100 dark:border-slate-700">
-                <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 block mb-1">
-                  {isArabic ? 'السؤال:' : 'Question:'}
-                </span>
-                <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
-                  {isArabic
-                    ? quizQuestions[currentQuizIndex].questionAr
-                    : isFrench
-                    ? quizQuestions[currentQuizIndex].questionFr
-                    : quizQuestions[currentQuizIndex].questionEn}
-                </h4>
-              </div>
+          {/* STATE A: Quiz Completed -> Orchestrated Mastery Update & Next Action */}
+          {isQuizCompleted ? (
+            <div className="py-2 space-y-3.5 animate-in fade-in duration-200">
+              {/* Mastery Outcome Card */}
+              <div className="p-4 rounded-2xl bg-linear-to-br from-emerald-500/10 via-teal-500/10 to-indigo-500/10 border border-emerald-300/80 dark:border-emerald-800/60 space-y-2.5 text-center">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500 text-white mx-auto flex items-center justify-center text-2xl shadow-sm">
+                  🌟
+                </div>
+                <div>
+                  <h4 className="text-sm font-black text-slate-900 dark:text-slate-100">
+                    {isArabic ? `أحسنتِ يا ${studentName}! تم إتقان الدرس بنجاح` : `Well Done ${studentName}! Lesson Mastered`}
+                  </h4>
+                  <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5">
+                    «{isArabic ? currentLesson.titleAr : currentLesson.titleEn}» • {currentLesson.sourceRef.bookAr}
+                  </p>
+                </div>
 
-              {/* Options */}
-              <div className="space-y-1.5">
-                {(isArabic
-                  ? quizQuestions[currentQuizIndex].optionsAr
-                  : isFrench
-                  ? quizQuestions[currentQuizIndex].optionsFr
-                  : quizQuestions[currentQuizIndex].optionsEn
-                ).map((opt, oIdx) => {
-                  const isSelected = selectedAnswer === oIdx;
-                  const isCorrect = oIdx === quizQuestions[currentQuizIndex].correctIndex;
-                  const showResult = selectedAnswer !== null;
-
-                  return (
-                    <button
-                      key={oIdx}
-                      type="button"
-                      disabled={selectedAnswer !== null}
-                      onClick={() => handleSelectQuizOption(oIdx)}
-                      className={`w-full p-2.5 rounded-xl border text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center justify-between cursor-pointer ${
-                        showResult
-                          ? isCorrect
-                            ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-200'
-                            : isSelected
-                            ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-500 text-rose-900 dark:text-rose-200'
-                            : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60'
-                          : 'bg-slate-50 hover:bg-indigo-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700'
-                      }`}
-                    >
-                      <span>{opt}</span>
-                      {showResult && (
-                        <span>
-                          {isCorrect ? (
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                          ) : isSelected ? (
-                            <XCircle className="w-4 h-4 text-rose-600" />
-                          ) : null}
-                        </span>
-                      )}
-                    </button>
-                  );
-                })}
-              </div>
-
-              {/* Feedback and Next Button */}
-              {selectedAnswer !== null && (
-                <div className="pt-2 animate-in fade-in duration-200 space-y-2">
-                  <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 text-xs font-medium text-amber-900 dark:text-amber-200">
-                    {quizFeedback}
+                {/* Concept Mastery Badge */}
+                {currentLesson.concepts && currentLesson.concepts[0] && (
+                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900 shadow-2xs">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                    <span className="text-xs font-black text-emerald-800 dark:text-emerald-300">
+                      {isArabic ? 'مفهوم متقن ومثبت في خريطة التعلم' : 'Concept Mastered in Knowledge Map'}
+                    </span>
                   </div>
+                )}
+
+                {/* Mission Complete Feedback */}
+                {missionDoneNotification && (
+                  <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-[11px] font-bold text-indigo-800 dark:text-indigo-200 flex items-center justify-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    <span>{isArabic ? 'تم إنجاز المهمة اليومية وحصد نقاط الخبرة (XP) بنجاح!' : 'Daily mission completed & XP awarded!'}</span>
+                  </div>
+                )}
+              </div>
+
+              {/* NEXT ACTIONS ORCHESTRATION */}
+              <div className="space-y-2 pt-1">
+                <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
+                  {isArabic ? '🚀 الخطوة التالية الموصى بها لأمينة:' : '🚀 Recommended Next Action for Amina:'}
+                </span>
+
+                {/* Button 1: Return to Today's Next Mission */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playPop();
+                    setActiveTab('home');
+                  }}
+                  className="w-full py-3 px-4 rounded-xl bg-linear-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 hover:to-indigo-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                >
+                  <span>{isArabic ? 'المهمة التالية في جدولك اليوم 🚀' : 'Next Mission on Today\'s Schedule 🚀'}</span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </button>
+
+                {/* Button 2: Inspect Knowledge Map */}
+                <button
+                  type="button"
+                  onClick={() => {
+                    soundEffects.playPop();
+                    setActiveTab('progress');
+                  }}
+                  className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                >
+                  <span>📊 {isArabic ? 'مراجعة خريطة الإتقان الشاملة' : 'View Full Knowledge Map'}</span>
+                </button>
+
+                <div className="flex items-center gap-2 pt-1">
+                  {/* Button 3: Pick another lesson */}
                   <button
                     type="button"
-                    onClick={handleNextQuizQuestion}
-                    className="w-full py-2.5 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer"
+                    onClick={() => {
+                      soundEffects.playPop();
+                      setIsPickerOpen(true);
+                    }}
+                    className="flex-1 py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-700 dark:text-slate-200 font-bold text-xs transition-all flex items-center justify-center gap-1 cursor-pointer"
                   >
-                    <span>{isArabic ? 'السؤال التالي ←' : 'Next Question →'}</span>
+                    <span>📚 {isArabic ? 'اختيار درس آخر' : 'Choose Another Lesson'}</span>
+                  </button>
+
+                  {/* Button 4: Retry Quiz */}
+                  <button
+                    type="button"
+                    onClick={() => {
+                      soundEffects.playPop();
+                      setIsQuizCompleted(false);
+                      setCurrentQuizIndex(0);
+                      setSelectedAnswer(null);
+                      setQuizFeedback(null);
+                      setQuizRetried(false);
+                    }}
+                    className="py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-700 dark:text-slate-200 font-bold text-xs transition-all flex items-center justify-center gap-1 cursor-pointer"
+                  >
+                    <RotateCcw className="w-3.5 h-3.5" />
+                    <span>{isArabic ? 'إعادة الفحص' : 'Retry'}</span>
                   </button>
                 </div>
-              )}
+              </div>
             </div>
+          ) : (
+            /* STATE B: Active Question in Progress */
+            quizQuestions[currentQuizIndex] && (
+              <div className="space-y-3 pt-1">
+                <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-slate-750 border border-indigo-100 dark:border-slate-700">
+                  <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 block mb-1">
+                    {isArabic ? 'السؤال:' : 'Question:'}
+                  </span>
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
+                    {isArabic
+                      ? quizQuestions[currentQuizIndex].questionAr
+                      : isFrench
+                      ? quizQuestions[currentQuizIndex].questionFr
+                      : quizQuestions[currentQuizIndex].questionEn}
+                  </h4>
+                </div>
+
+                {/* Options */}
+                <div className="space-y-1.5">
+                  {(isArabic
+                    ? quizQuestions[currentQuizIndex].optionsAr
+                    : isFrench
+                    ? quizQuestions[currentQuizIndex].optionsFr
+                    : quizQuestions[currentQuizIndex].optionsEn
+                  ).map((opt, oIdx) => {
+                    const isSelected = selectedAnswer === oIdx;
+                    const isCorrect = oIdx === quizQuestions[currentQuizIndex].correctIndex;
+                    const showResult = selectedAnswer !== null;
+
+                    return (
+                      <button
+                        key={oIdx}
+                        type="button"
+                        disabled={selectedAnswer !== null}
+                        onClick={() => handleSelectQuizOption(oIdx)}
+                        className={`w-full p-2.5 rounded-xl border text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center justify-between cursor-pointer ${
+                          showResult
+                            ? isCorrect
+                              ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-200'
+                              : isSelected
+                              ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-500 text-rose-900 dark:text-rose-200'
+                              : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60'
+                            : 'bg-slate-50 hover:bg-indigo-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700'
+                        }`}
+                      >
+                        <span>{opt}</span>
+                        {showResult && (
+                          <span>
+                            {isCorrect ? (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                            ) : isSelected ? (
+                              <XCircle className="w-4 h-4 text-rose-600" />
+                            ) : null}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* ADAPT IF WRONG: Pedagogical Feedback & Adaptive Intervention Box */}
+                {selectedAnswer !== null && (
+                  <div className="pt-2 animate-in fade-in duration-200 space-y-2.5">
+                    {/* Feedback message */}
+                    <div className="p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 text-xs font-medium text-amber-900 dark:text-amber-200 leading-relaxed">
+                      {quizFeedback}
+                    </div>
+
+                    {/* If Wrong: Adaptive Pedagogical Guidance */}
+                    {selectedAnswer !== quizQuestions[currentQuizIndex].correctIndex && (
+                      <div className="p-3 rounded-2xl bg-amber-500/10 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-800 space-y-2">
+                        <div className="flex items-center gap-1.5 text-xs font-bold text-amber-900 dark:text-amber-200">
+                          <Lightbulb className="w-4 h-4 text-amber-600 dark:text-amber-400" />
+                          <span>{isArabic ? 'تلميح مس نور المساعد 💡' : 'Miss Nour\'s Adaptive Hint 💡'}</span>
+                        </div>
+                        <p className="text-xs text-amber-800/90 dark:text-amber-300/90 leading-relaxed">
+                          {isArabic
+                            ? quizQuestions[currentQuizIndex].explanationAr
+                            : isFrench
+                            ? quizQuestions[currentQuizIndex].explanationFr
+                            : quizQuestions[currentQuizIndex].explanationEn}
+                        </p>
+                        <div className="flex items-center gap-2 pt-1">
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEffects.playPop();
+                              setSelectedAnswer(null);
+                              setQuizFeedback(null);
+                              setQuizRetried(true);
+                              const retryMsg = isArabic
+                                ? `يلا يا ${studentName}! جربي السؤال تاني بهدوء، أنا واثقة فيكي!`
+                                : `Try again ${studentName}! Take your time!`;
+                              speakText(retryMsg, 'talking');
+                            }}
+                            className="flex-1 py-2 px-3 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-black text-xs shadow-xs transition-all active:scale-95 flex items-center justify-center gap-1 cursor-pointer"
+                          >
+                            <RotateCcw className="w-3.5 h-3.5" />
+                            <span>{isArabic ? 'إعادة المحاولة مع التلميح 🔄' : 'Try Again with Hint 🔄'}</span>
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEffects.playPop();
+                              setActiveStation('chalkboard');
+                              setExplanationSubTab('chalkboard');
+                              const boardMsg = isArabic
+                                ? `تعالي نراجع السبورة ونقرأ النقطة دي تاني سوا يا ${studentName}!`
+                                : `Let's review this on the chalkboard together!`;
+                              speakText(boardMsg, 'talking');
+                            }}
+                            className="py-2 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-100 text-slate-700 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-bold text-xs transition-all flex items-center gap-1 cursor-pointer"
+                          >
+                            <span>📝 {isArabic ? 'شرح السبورة' : 'Blackboard'}</span>
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Button to proceed: Next Question or Complete Check */}
+                    <button
+                      type="button"
+                      onClick={handleNextQuizQuestion}
+                      className="w-full py-2.5 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-md transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer"
+                    >
+                      <span>
+                        {currentQuizIndex < quizQuestions.length - 1
+                          ? (isArabic ? 'السؤال التالي ←' : 'Next Question →')
+                          : (isArabic ? 'إنهاء الفحص وعرض الإتقان ⭐' : 'Finish & View Mastery ⭐')}
+                      </span>
+                    </button>
+                  </div>
+                )}
+              </div>
+            )
           )}
         </div>
       )}

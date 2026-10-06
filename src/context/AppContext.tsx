@@ -60,7 +60,16 @@ import {
   getOrInitGamification,
   awardMissionGamification,
 } from '../services/gamification/gamificationService';
-import { getFlatConcepts } from '../data/demoCurriculum';
+import { curriculumService } from '../services/curriculum/curriculumService';
+
+export interface CompanionContext {
+  source: 'home_next_action' | 'lesson' | 'weakness' | 'homework' | 'review' | 'general';
+  lessonId?: string;
+  conceptId?: string;
+  missionId?: string;
+  topic?: string;
+  notes?: string;
+}
 
 interface AppContextValue {
   student: Student | null;
@@ -178,6 +187,8 @@ interface AppContextValue {
   dismissGentleNudge: () => void;
   selectedCurriculumLessonId: string | null;
   setSelectedCurriculumLessonId: (id: string | null) => void;
+  companionContext: CompanionContext | null;
+  setCompanionContext: (ctx: CompanionContext | null) => void;
 }
 
 const AppContext = createContext<AppContextValue | null>(null);
@@ -219,6 +230,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [selectedCurriculumLessonId, setSelectedCurriculumLessonId] = useState<string | null>(null);
+  const [companionContext, setCompanionContext] = useState<CompanionContext | null>(null);
 
   // Phase 7 States
   const [weeklyReviews, setWeeklyReviews] = useState<WeeklyReview[]>([]);
@@ -838,15 +850,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Phase 7 Manual Review Trigger
   const handleTriggerManualReview = (conceptId: string) => {
-    const flatConcepts = getFlatConcepts();
+    const flatConcepts = curriculumService.getFlatConcepts();
     const concept = flatConcepts.find((c) => c.id === conceptId);
     const isAr = settings.language === 'ar';
-    const subjName =
-      concept?.subjectId === 'subj_math'
-        ? isAr ? 'الرياضيات' : 'Mathematics'
-        : concept?.subjectId === 'subj_arabic'
-        ? isAr ? 'اللغة العربية' : 'Arabic'
-        : isAr ? 'العلوم' : 'Science';
+    const subjName = isAr
+      ? concept?.subjectNameAr || 'المادة الدراسية'
+      : concept?.subjectNameEn || 'Subject';
 
     const revMission: Mission = {
       id: `manual_rev_${Date.now()}`,
@@ -1103,6 +1112,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       dismissGentleNudge: () => setGentleCompanionNudge(null),
       selectedCurriculumLessonId,
       setSelectedCurriculumLessonId,
+      companionContext,
+      setCompanionContext,
     }),
     [
       student,
@@ -1134,6 +1145,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       gamification,
       gentleCompanionNudge,
       selectedCurriculumLessonId,
+      companionContext,
     ]
   );
 

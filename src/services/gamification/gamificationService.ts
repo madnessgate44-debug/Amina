@@ -11,7 +11,7 @@ import {
   Mission,
 } from '../../types';
 import { IStorageService } from '../storage/IStorageService';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 
 export const INITIAL_BADGES: AchievementBadge[] = [
   {
@@ -174,7 +174,7 @@ export async function awardMissionGamification(
   const newStreak = updateForgivingStreak(profile.streak);
 
   // Recalculate badge progress
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const masteredCount = Object.values(masteryRecords).filter((r) => r.score >= 0.75).length;
 
   const updatedBadges = profile.badges.map((b) => {

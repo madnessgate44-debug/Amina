@@ -38,7 +38,15 @@ import {
 } from 'lucide-react';
 
 export const CurriculumBrowser: React.FC = () => {
-  const { language, getMasteryForConcept, setSelectedCurriculumLessonId, setActiveTab, startMission } = useApp();
+  const {
+    language,
+    getMasteryForConcept,
+    setSelectedCurriculumLessonId,
+    setActiveTab,
+    startMission,
+    student,
+    setCompanionContext,
+  } = useApp();
   const isAr = language === 'ar';
   const isFr = language === 'fr';
 
@@ -97,7 +105,7 @@ export const CurriculumBrowser: React.FC = () => {
   const handleLaunchPracticeQuiz = (lesson: OfficialCurriculumLesson) => {
     const dummyMission: Mission = {
       id: 'mission_quiz_' + lesson.id,
-      studentId: 'student_amina',
+      studentId: student?.id || 'amina',
       date: new Date().toISOString().split('T')[0],
       subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
       title: (isAr ? 'تمارين وتطبيق: ' : 'Practice Quiz: ') + (isAr ? lesson.titleAr : lesson.titleEn),
@@ -116,7 +124,7 @@ export const CurriculumBrowser: React.FC = () => {
   const handleLaunchHomework = (lesson: OfficialCurriculumLesson) => {
     const dummyMission: Mission = {
       id: 'mission_hw_' + lesson.id,
-      studentId: 'student_amina',
+      studentId: student?.id || 'amina',
       date: new Date().toISOString().split('T')[0],
       subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
       title: (isAr ? 'واجب كتاب الوزارة: ' : 'Homework: ') + (isAr ? lesson.titleAr : lesson.titleEn),
@@ -451,7 +459,15 @@ export const CurriculumBrowser: React.FC = () => {
                               <div className="grid grid-cols-3 gap-1.5 pt-1">
                                 <button
                                   type="button"
-                                  onClick={() => setActiveStageLessonId(lesson.id)}
+                                  onClick={() => {
+                                    setSelectedCurriculumLessonId(lesson.id);
+                                    setCompanionContext({
+                                      source: 'lesson',
+                                      lessonId: lesson.id,
+                                      topic: isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn,
+                                    });
+                                    setActiveStageLessonId(lesson.id);
+                                  }}
                                   className="p-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-[10px] shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
                                 >
                                   <span>👩‍🏫</span>

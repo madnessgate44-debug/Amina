@@ -6,7 +6,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Student, InterviewAnswers, Language, LearningStylePreference, SessionDurationPreference } from '../../types';
-import { DEMO_SUBJECTS } from '../../data/demoCurriculum';
+import { curriculumService } from '../../services/curriculum/curriculumService';
 import { Badge } from '../common/Badge';
 import { Sparkles, Bot, Check, ArrowRight, ArrowLeft, BookOpen, Clock, Heart, Award, ShieldAlert } from 'lucide-react';
 
@@ -315,23 +315,26 @@ export const OnboardingFlow: React.FC = () => {
                 <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                   {t.onboarding.subjectsLabel}
                 </label>
-                <div className="grid grid-cols-3 gap-2">
-                  {DEMO_SUBJECTS.map((sub) => (
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {curriculumService.getSubjectsSummary().map((sub) => (
                     <div
-                      key={sub.id}
+                      key={sub.subjectId}
                       className="p-2.5 rounded-xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50/50 dark:bg-indigo-950/30 text-center flex flex-col items-center justify-center gap-1"
                     >
-                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                        {isArabic ? sub.nameAr : sub.nameEn}
+                      <span className="text-sm">{sub.icon}</span>
+                      <span className="text-xs font-bold text-slate-800 dark:text-slate-200 truncate max-w-full">
+                        {isArabic ? sub.subjectNameAr : sub.subjectNameEn}
                       </span>
-                      <Badge variant="demo" size="sm">
-                        demo
+                      <Badge variant="official" size="sm">
+                        {isArabic ? 'رسمي' : 'Official'}
                       </Badge>
                     </div>
                   ))}
                 </div>
                 <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
-                  {t.onboarding.subjectsNote}
+                  {isArabic
+                    ? 'منهج الصف الخامس الابتدائي الرسمي المعتمد لأمينة (القسم الفرنسي التجريبي).'
+                    : "Authoritative Egyptian Ministry Grade 5 Curriculum for Amina (French Section)."}
                 </p>
               </div>
             </div>

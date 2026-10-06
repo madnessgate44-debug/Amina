@@ -15,7 +15,7 @@ import {
   Language,
 } from '../../types';
 import { IStorageService } from '../storage/IStorageService';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
 import { getDueReviewConcepts } from '../review/spacedReviewScheduler';
 
@@ -105,7 +105,7 @@ export function generateParentWeeklySummary(params: BuildParentSummaryParams): P
   } = params;
 
   const isAr = language === 'ar';
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const conceptMap = new Map(flatConcepts.map((c) => [c.id, c]));
 
   // 1. Lessons covered count

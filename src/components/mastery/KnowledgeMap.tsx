@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useMemo } from 'react';
-import { DEMO_CURRICULUM, getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../../services/curriculum/curriculumService';
 import { FlatCurriculumConcept, MasteryThreshold, ConfidenceBand } from '../../types';
 import { useApp } from '../../context/AppContext';
 import { formatMasteryView } from '../../services/mastery/masteryEngine';
@@ -36,13 +36,15 @@ export const KnowledgeMap: React.FC = () => {
     resetSimulatedDecay,
   } = useApp();
   const isAr = language === 'ar';
+  const isFrench = language === 'fr';
 
-  const flatConcepts = useMemo(() => getFlatConcepts(), []);
+  const flatConcepts = useMemo(() => curriculumService.getFlatConcepts(), []);
+  const allSubjects = useMemo(() => curriculumService.getSubjectsSummary(), []);
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>('all');
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [activeConcept, setActiveConcept] = useState<FlatCurriculumConcept | null>(null);
 
-  // Calculate statistics across all 54 concepts
+  // Calculate statistics across all authoritative concepts
   const stats = useMemo(() => {
     let masteredCount = 0;
     let learningCount = 0;
@@ -69,9 +71,9 @@ export const KnowledgeMap: React.FC = () => {
 
   // Filter subjects
   const filteredSubjects = useMemo(() => {
-    if (selectedSubjectId === 'all') return DEMO_CURRICULUM;
-    return DEMO_CURRICULUM.filter((s) => s.id === selectedSubjectId);
-  }, [selectedSubjectId]);
+    if (selectedSubjectId === 'all') return allSubjects;
+    return allSubjects.filter((s) => s.subjectId === selectedSubjectId);
+  }, [allSubjects, selectedSubjectId]);
 
   return (
     <div className="flex-1 flex flex-col p-4 space-y-4 max-w-lg mx-auto w-full pb-24">
@@ -85,8 +87,8 @@ export const KnowledgeMap: React.FC = () => {
             <div>
               <h2 className="text-base font-black text-slate-900 dark:text-slate-100 flex items-center gap-2">
                 <span>{t.curriculum.knowledgeMapTitle}</span>
-                <Badge variant="demo" size="sm">
-                  {t.curriculum.demoBadge}
+                <Badge variant="official" size="sm">
+                  {isAr ? 'المنهج الرسمي' : 'Official Curriculum'}
                 </Badge>
               </h2>
               <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -233,76 +235,84 @@ export const KnowledgeMap: React.FC = () => {
         >
           {t.curriculum.allSubjects}
         </button>
-        {DEMO_CURRICULUM.map((s) => (
+        {allSubjects.map((s) => (
           <button
-            key={s.id}
+            key={s.subjectId}
             type="button"
-            onClick={() => setSelectedSubjectId(s.id)}
+            onClick={() => setSelectedSubjectId(s.subjectId)}
             className={`px-3 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap flex items-center gap-1.5 ${
-              selectedSubjectId === s.id
+              selectedSubjectId === s.subjectId
                 ? 'bg-purple-600 text-white shadow-xs'
                 : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700'
             }`}
           >
-            <span>{isAr ? s.nameAr : s.nameEn}</span>
+            <span>{s.icon}</span>
+            <span>{isAr ? s.subjectNameAr : isFrench ? (s.subjectNameFr || s.subjectNameEn) : s.subjectNameEn}</span>
           </button>
         ))}
       </div>
 
       {/* Hierarchical Knowledge Tree */}
       <div className="space-y-4">
-        {filteredSubjects.map((subject) => (
-          <div
-            key={subject.id}
-            className="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs overflow-hidden"
-          >
-            {/* Subject Banner */}
-            <div className="p-3 bg-slate-50 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <span className="text-base">
-                  {subject.id === 'sub_arabic' ? '📖' : subject.id === 'sub_math' ? '📐' : '🔬'}
+        {filteredSubjects.map((subject) => {
+          const units = curriculumService.getUnitsForSubject(subject.subjectId);
+          const subjectConceptsCount = flatConcepts.filter((c) => c.subjectId === subject.subjectId).length;
+          return (
+            <div
+              key={subject.subjectId}
+              className="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs overflow-hidden"
+            >
+              {/* Subject Banner */}
+              <div className="p-3 bg-slate-50 dark:bg-slate-800/90 border-b border-slate-200 dark:border-slate-700 flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <span className="text-base">{subject.icon}</span>
+                  <h3 className="text-xs font-black text-slate-900 dark:text-slate-100">
+                    {isAr ? subject.subjectNameAr : isFrench ? (subject.subjectNameFr || subject.subjectNameEn) : subject.subjectNameEn}
+                  </h3>
+                  <Badge variant="official" size="sm">
+                    {isAr ? 'منهج رسمي' : 'Official'}
+                  </Badge>
+                </div>
+                <span className="text-[10px] font-mono text-slate-400">
+                  {subjectConceptsCount} {isAr ? 'مفهوماً' : 'concepts'}
                 </span>
-                <h3 className="text-xs font-black text-slate-900 dark:text-slate-100">
-                  {isAr ? subject.nameAr : subject.nameEn}
-                </h3>
-                <Badge variant="demo" size="sm">
-                  {subject.origin}
-                </Badge>
               </div>
-              <span className="text-[10px] font-mono text-slate-400">
-                18 {isAr ? 'مفهوماً' : 'concepts'}
-              </span>
-            </div>
 
-            {/* Units & Concepts Grid */}
-            <div className="p-3 space-y-4">
-              {subject.units.map((unit) => (
-                <div key={unit.id} className="space-y-2">
-                  <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/60 pb-1">
-                    <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
-                      {isAr ? unit.nameAr : unit.nameEn}
-                    </span>
-                    <Badge variant="demo" size="sm">
-                      {unit.origin}
-                    </Badge>
-                  </div>
+              {/* Units & Concepts Grid */}
+              <div className="p-3 space-y-4">
+                {units.map((unit) => (
+                  <div key={unit.unitNumber} className="space-y-2">
+                    <div className="flex items-center justify-between border-b border-slate-100 dark:border-slate-700/60 pb-1">
+                      <span className="text-xs font-bold text-slate-700 dark:text-slate-300 flex items-center gap-1.5">
+                        <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                        {isAr ? unit.unitNameAr : isFrench ? (unit.unitNameFr || unit.unitNameEn) : unit.unitNameEn}
+                      </span>
+                      <Badge variant="official" size="sm">
+                        {isAr ? `الوحدة ${unit.unitNumber}` : `Unit ${unit.unitNumber}`}
+                      </Badge>
+                    </div>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {unit.lessons.flatMap((lesson) =>
-                      lesson.concepts.map((concept) => {
-                        const flat: FlatCurriculumConcept = {
-                          ...concept,
-                          lessonId: lesson.id,
-                          lessonNameAr: lesson.nameAr,
-                          lessonNameEn: lesson.nameEn,
-                          unitId: unit.id,
-                          unitNameAr: unit.nameAr,
-                          unitNameEn: unit.nameEn,
-                          subjectId: subject.id,
-                          subjectNameAr: subject.nameAr,
-                          subjectNameEn: subject.nameEn,
-                        };
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {unit.lessons.flatMap((lesson) =>
+                        lesson.concepts.map((concept) => {
+                          const flat: FlatCurriculumConcept = {
+                            id: concept.id,
+                            parentId: lesson.id,
+                            subjectId: subject.subjectId,
+                            subjectNameAr: subject.subjectNameAr,
+                            subjectNameEn: subject.subjectNameEn,
+                            unitId: `unit_${subject.subjectId}_${unit.unitNumber}`,
+                            unitNameAr: unit.unitNameAr,
+                            unitNameEn: unit.unitNameEn,
+                            lessonId: lesson.id,
+                            lessonNameAr: lesson.titleAr,
+                            lessonNameEn: lesson.titleEn,
+                            nameAr: concept.titleAr,
+                            nameEn: concept.titleEn,
+                            descriptionAr: concept.sourceText,
+                            descriptionEn: concept.sourceText,
+                            origin: 'official',
+                          };
 
                         const record = masteryRecords[concept.id];
                         const view = formatMasteryView(record, language);
@@ -370,14 +380,14 @@ export const KnowledgeMap: React.FC = () => {
                                     className={`w-2 h-2 rounded-full shrink-0 ${styles.indicator}`}
                                   />
                                   <h5 className="text-xs font-bold text-slate-900 dark:text-slate-100 truncate">
-                                    {isAr ? concept.nameAr : concept.nameEn}
+                                    {isAr ? concept.titleAr : concept.titleEn}
                                   </h5>
-                                  <Badge variant="demo" size="sm">
-                                    {concept.origin}
+                                  <Badge variant="official" size="sm">
+                                    {isAr ? 'رسمي' : 'Official'}
                                   </Badge>
                                 </div>
                                 <span className="text-[10px] text-slate-400 truncate block">
-                                  {isAr ? lesson.nameAr : lesson.nameEn}
+                                  {isAr ? lesson.titleAr : lesson.titleEn}
                                 </span>
                               </div>
                             </div>
@@ -405,7 +415,8 @@ export const KnowledgeMap: React.FC = () => {
               ))}
             </div>
           </div>
-        ))}
+        );
+      })}
       </div>
 
       {/* Concept Detail Modal */}

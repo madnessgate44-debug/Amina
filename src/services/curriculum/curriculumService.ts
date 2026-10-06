@@ -8,6 +8,7 @@ import {
   CurriculumLessonConcept,
   SourceRef,
 } from '../../types/teachingSession';
+import { FlatCurriculumConcept } from '../../types/curriculum';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 
 export interface SubjectCurriculumSummary {
@@ -281,6 +282,61 @@ export class CurriculumService {
 
     return Array.from(unitMap.values()).sort((a, b) => a.unitNumber - b.unitNumber);
   }
+
+  /**
+   * Return all curriculum concepts in flat format for planning, mastery, and review
+   * Derived 100% from Amina's authoritative official curriculum.
+   */
+  public getFlatConcepts(): FlatCurriculumConcept[] {
+    const flat: FlatCurriculumConcept[] = [];
+    for (const l of this.lessons) {
+      for (const c of l.concepts) {
+        flat.push({
+          id: c.id,
+          parentId: l.id,
+          subjectId: l.subjectId,
+          subjectNameAr: l.subjectNameAr,
+          subjectNameEn: l.subjectNameEn,
+          unitId: `unit_${l.subjectId}_${l.unitNumber}`,
+          unitNameAr: l.unitNameAr,
+          unitNameEn: l.unitNameEn,
+          lessonId: l.id,
+          lessonNameAr: l.titleAr,
+          lessonNameEn: l.titleEn,
+          nameAr: c.titleAr,
+          nameEn: c.titleEn,
+          descriptionAr: c.sourceText,
+          descriptionEn: c.sourceText,
+          origin: 'official',
+        });
+      }
+    }
+    return flat;
+  }
+
+  /**
+   * Authoritative Amina Curriculum API methods
+   */
+  public getAminaCurriculum(): OfficialCurriculumLesson[] {
+    return this.getAllLessons();
+  }
+
+  public getAminaSubjects(): SubjectCurriculumSummary[] {
+    return this.getSubjectsSummary();
+  }
+
+  public getAminaSubject(id: string): SubjectCurriculumSummary | undefined {
+    return this.getSubjectsSummary().find((s) => s.subjectId === id);
+  }
+
+  public getAminaLesson(id: string): OfficialCurriculumLesson | undefined {
+    return this.getLessonById(id);
+  }
+
+  public getAminaConcept(id: string) {
+    return this.getConceptById(id);
+  }
 }
 
 export const curriculumService = new CurriculumService();
+export const getAminaFlatConcepts = () => curriculumService.getFlatConcepts();

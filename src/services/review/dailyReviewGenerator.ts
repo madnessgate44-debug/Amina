@@ -14,7 +14,7 @@ import {
   MasteredConceptItem,
   NeedsAttentionItem,
 } from '../../types';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 
 export interface GenerateDailyReviewParams {
   student: Student;
@@ -40,7 +40,7 @@ export function generateDailyReview(params: GenerateDailyReviewParams): DailyRev
   } = params;
 
   const isAr = language === 'ar';
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const conceptMap = new Map(flatConcepts.map((c) => [c.id, c]));
 
   // 1. Partition Missions

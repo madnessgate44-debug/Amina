@@ -17,7 +17,7 @@ import {
   ModalityEffectiveness,
   Language,
 } from '../../types';
-import { getFlatConcepts } from '../../data/demoCurriculum';
+import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
 
 export interface GenerateWeeklyReviewParams {
@@ -54,7 +54,7 @@ export function generateWeeklyReview(params: GenerateWeeklyReviewParams): Weekly
   const weekStartObj = new Date(now.getTime() - 7 * 24 * 3600 * 1000);
   const weekStartDate = customStartDate || weekStartObj.toISOString().split('T')[0];
 
-  const flatConcepts = getFlatConcepts();
+  const flatConcepts = curriculumService.getFlatConcepts();
   const conceptMap = new Map(flatConcepts.map((c) => [c.id, c]));
 
   // 1. Lessons covered this week
