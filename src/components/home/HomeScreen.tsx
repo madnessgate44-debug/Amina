@@ -261,13 +261,18 @@ export const HomeScreen: React.FC = () => {
               <button
                 type="button"
                 onClick={() => {
+                  const todayLessonsStr = currentDayRecord?.lessonsCovered?.map((l) => `${l.subject}: ${l.topic || ''}`).join(', ') || '';
                   setCompanionContext({
                     source: nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action',
                     missionId: nextPendingMission.id,
                     lessonId: nextPendingMission.lessonId,
                     conceptId: nextPendingMission.conceptId,
+                    subjectName: nextPendingMission.subject,
                     topic: nextPendingMission.title,
                     notes: nextPendingMission.whyNow,
+                    whyNow: nextPendingMission.whyNow,
+                    schoolDaySummary: todayLessonsStr,
+                    reasonWhyRecommended: nextPendingMission.whyNow,
                   });
                   setActiveTab('companion');
                 }}
@@ -418,12 +423,18 @@ export const HomeScreen: React.FC = () => {
       <button
         type="button"
         onClick={() => {
+          const todayLessonsStr = currentDayRecord?.lessonsCovered?.map((l) => `${l.subject}: ${l.topic || ''}`).join(', ') || '';
           setCompanionContext({
             source: nextPendingMission ? (nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action') : 'general',
             missionId: nextPendingMission?.id,
             lessonId: nextPendingMission?.lessonId,
             conceptId: nextPendingMission?.conceptId,
+            subjectName: nextPendingMission?.subject,
             topic: nextPendingMission?.title,
+            notes: nextPendingMission?.whyNow,
+            whyNow: nextPendingMission?.whyNow,
+            schoolDaySummary: todayLessonsStr,
+            reasonWhyRecommended: nextPendingMission?.whyNow,
           });
           setActiveTab('companion');
         }}

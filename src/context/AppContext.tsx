@@ -67,8 +67,14 @@ export interface CompanionContext {
   lessonId?: string;
   conceptId?: string;
   missionId?: string;
+  subjectId?: string;
+  subjectName?: string;
   topic?: string;
   notes?: string;
+  whyNow?: string;
+  schoolDaySummary?: string;
+  masterySummary?: string;
+  reasonWhyRecommended?: string;
 }
 
 interface AppContextValue {

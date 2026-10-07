@@ -43,6 +43,44 @@ import {
   Square,
   Bookmark,
 } from 'lucide-react';
+import {
+  buildNormalizedTeacherContext,
+  NormalizedTeacherContext,
+  TeachingStrategy,
+  TeachingDecisionOutcome,
+  ErrorDiagnosisType,
+} from '../../services/teacher/teacherContextEngine';
+
+function getStrategyLabel(strategy: TeachingStrategy, lang: string): string {
+  if (lang === 'fr') {
+    switch (strategy) {
+      case 'visual_model': return 'Modèle visuel et schéma 🎨';
+      case 'everyday_analogy': return 'Analogie du quotidien 🍕';
+      case 'step_by_step_procedure': return 'Méthode pas à pas 📝';
+      case 'bilingual_vocabulary': return 'Vocabulaire bilingue clé 📘';
+      case 'simpler_prerequisite': return 'Rappel des bases 💡';
+      default: return 'Pratique guidée ⭐';
+    }
+  }
+  if (lang === 'en') {
+    switch (strategy) {
+      case 'visual_model': return 'Visual Model & Diagram 🎨';
+      case 'everyday_analogy': return 'Everyday Life Analogy 🍕';
+      case 'step_by_step_procedure': return 'Step-by-Step Method 📝';
+      case 'bilingual_vocabulary': return 'Bilingual Vocabulary 📘';
+      case 'simpler_prerequisite': return 'Foundational Prerequisite 💡';
+      default: return 'Guided Practice ⭐';
+    }
+  }
+  switch (strategy) {
+    case 'visual_model': return 'نموذج بصري ورسم توضيحي 🎨';
+    case 'everyday_analogy': return 'تشبيه وقصة من الواقع 🍕';
+    case 'step_by_step_procedure': return 'خطوات منهجية متسلسلة 📝';
+    case 'bilingual_vocabulary': return 'ربط المفردات والمصطلحات 📘';
+    case 'simpler_prerequisite': return 'تثبيت الأساسيات والمقدمات 💡';
+    default: return 'تمارين وتطبيق موجه ⭐';
+  }
+}
 
 interface QuickQuizQuestion {
   id: string;
@@ -71,6 +109,9 @@ export const VirtualTeacherClassroom: React.FC = () => {
     missionsForToday,
     masteryRecords,
     getMasteryForConcept,
+    currentDayRecord,
+    timetable,
+    dueReviewNudges,
     showToast,
   } = useApp();
   const isArabic = language === 'ar';
@@ -81,6 +122,39 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const [currentLessonId, setCurrentLessonId] = useState<string>(
     selectedCurriculumLessonId || companionContext?.lessonId || 'off_ar_u1_l1_ana_astatee'
   );
+
+  // Normalized Teacher Context connecting School -> Curriculum -> Diagnosis -> Teaching -> Evidence -> Mastery
+  const teacherContext: NormalizedTeacherContext = useMemo(() => {
+    return buildNormalizedTeacherContext({
+      student,
+      currentDayRecord,
+      timetable,
+      masteryRecords,
+      nextPendingMission: missionsForToday.find((m) => m.status !== 'completed') || null,
+      companionContext,
+      dueReviews: dueReviewNudges,
+      language,
+      explicitLessonId: currentLessonId,
+    });
+  }, [
+    student,
+    currentDayRecord,
+    timetable,
+    masteryRecords,
+    missionsForToday,
+    companionContext,
+    dueReviewNudges,
+    language,
+    currentLessonId,
+  ]);
+
+  // Diagnostic Station States (DIAGNOSE BEFORE TEACHING & MAKE AMINA EXPLAIN THINKING)
+  const [selectedDiagnosticIndex, setSelectedDiagnosticIndex] = useState<number | null>(null);
+  const [studentThinkingInput, setStudentThinkingInput] = useState<string>('');
+  const [isThinkingSubmitted, setIsThinkingSubmitted] = useState<boolean>(false);
+  const [chosenTeachingStrategy, setChosenTeachingStrategy] = useState<TeachingStrategy>('visual_model');
+  const [sessionOutcome, setSessionOutcome] = useState<TeachingDecisionOutcome | null>(null);
+  const [sessionEvidenceRecorded, setSessionEvidenceRecorded] = useState<boolean>(false);
 
   // Learning Orchestration States
   const [isQuizCompleted, setIsQuizCompleted] = useState(false);
@@ -97,41 +171,13 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
   // Synchronize context from Home / Lesson / Homework / Weakness
   useEffect(() => {
-    if (companionContext) {
-      if (companionContext.lessonId) {
-        setCurrentLessonId(companionContext.lessonId);
-      }
-      let greeting = '';
-      if (companionContext.source === 'homework') {
-        greeting = isArabic
-          ? `أهلاً بكِ يا ${studentName}! شفت إن عندك واجب مهم في ${companionContext.topic || 'درسك اليوم'}. تعالي نراجع الخطوات مع بعض بهدوء عشان تحلي الواجب بثقة تامة!`
-          : isFrench
-          ? `Bienvenue ${studentName}! J'ai vu tes devoirs pour ${companionContext.topic || 'la leçon'}. Révisons les points clés pour réussir facilement!`
-          : `Welcome, ${studentName}! I noticed you have homework for ${companionContext.topic || 'today'}. Let's review the key concepts together so you can complete it with confidence!`;
-      } else if (companionContext.source === 'home_next_action') {
-        greeting = isArabic
-          ? `أهلاً يا ${studentName}! خطوتك الأهم الآن هي: «${companionContext.topic || 'درس اليوم'}». جهزت لك الشرح والسبورة، يلا نبدأ وننجزها في وقت قياسي!`
-          : isFrench
-          ? `Bonjour ${studentName}! Ton action prioritaire est: «${companionContext.topic || 'la leçon'}». Tout est prêt, commençons!`
-          : `Hello, ${studentName}! Your top priority right now is: "${companionContext.topic || "today's lesson"}". Everything is ready on the board, let's start!`;
-      } else if (companionContext.source === 'weakness') {
-        greeting = isArabic
-          ? `أهلاً يا بطلة! لاحظت إن مفهوم «${companionContext.topic || 'هذا الدرس'}» محتاج مننا زاوية شرح تانية. متقلقيش خالص، هنشرحه بقصة ومثال واقعي وهتفهميه فوراً!`
-          : isFrench
-          ? `Bienvenue ${studentName}! Prenons un nouvel angle pour bien assimiler «${companionContext.topic || 'cette notion'}». C'est parti!`
-          : `Welcome, ${studentName}! Let's explore "${companionContext.topic || 'this concept'}" from a fresh perspective with a real-life analogy!`;
-      } else if (companionContext.source === 'review') {
-        greeting = isArabic
-          ? `يا هلا بأمينة! ده وقت المراجعة الدورية لتثبيت المفاهيم في الذاكرة طويلة المدى عشان متتنسيش أبداً.`
-          : isFrench
-          ? `Bienvenue ${studentName}! C'est l'heure de notre révision espacée pour ancrer les acquis solidement.`
-          : `Welcome, ${studentName}! Time for our spaced refresh to keep concepts crystal clear in long-term memory.`;
-      }
-      if (greeting) {
-        setTeacherSpeech(greeting);
-      }
+    if (companionContext?.lessonId) {
+      setCurrentLessonId(companionContext.lessonId);
     }
-  }, [companionContext, isArabic, isFrench, studentName]);
+    if (teacherContext.proactiveOpeningSpeech) {
+      setTeacherSpeech(teacherContext.proactiveOpeningSpeech);
+    }
+  }, [companionContext, teacherContext.proactiveOpeningSpeech]);
 
   const currentLesson: OfficialCurriculumLesson = useMemo(() => {
     return (
@@ -169,18 +215,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
   }, [currentLesson]);
 
   const [teacherSpeech, setTeacherSpeech] = useState<string>(() => {
-    return isArabic
-      ? `أهلاً بكِ يا ${studentName}! أنا معلمتكِ نور 👩‍🏫 درس اليوم هو «${currentLesson.titleAr}» من ${currentLesson.sourceRef.bookAr}. جاهزة نكتشف سر الدرس ونحل التمارين سوا؟`
-      : isFrench
-      ? `Bienvenue ${studentName}! Je suis Maîtresse Nour 👩‍🏫 Notre leçon est «${currentLesson.titleEn}». Prête à découvrir les secrets du cours ensemble?`
-      : `Welcome, ${studentName}! I'm Miss Nour 👩‍🏫 Today's lesson is "${currentLesson.titleEn}" from ${currentLesson.sourceRef.bookEn}. Ready to explore and master it together?`;
+    return teacherContext.proactiveOpeningSpeech;
   });
 
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(!soundEffects.getMuted());
 
-  // Interactive Classroom Station: 'chalkboard' | 'quiz' | 'vocab' | 'ask'
-  const [activeStation, setActiveStation] = useState<'chalkboard' | 'quiz' | 'vocab' | 'ask'>('chalkboard');
+  // Interactive Classroom Station: 'diagnostic' | 'chalkboard' | 'quiz' | 'vocab' | 'ask'
+  const [activeStation, setActiveStation] = useState<'diagnostic' | 'chalkboard' | 'quiz' | 'vocab' | 'ask'>('diagnostic');
 
   // Chalkboard Deep Explanation Sub-Tab: 'hook' | 'chalkboard' | 'analogy' | 'discussion'
   const [explanationSubTab, setExplanationSubTab] = useState<'hook' | 'chalkboard' | 'analogy' | 'discussion'>('hook');
@@ -361,6 +403,13 @@ export const VirtualTeacherClassroom: React.FC = () => {
     setQuizRetried(false);
     setCorrectAnswersCount(0);
     setMissionDoneNotification(false);
+    setSelectedDiagnosticIndex(null);
+    setStudentThinkingInput('');
+    setIsThinkingSubmitted(false);
+    setChosenTeachingStrategy('visual_model');
+    setSessionOutcome(null);
+    setSessionEvidenceRecorded(false);
+    setActiveStation('diagnostic');
 
     const greeting = isArabic
       ? `أهلاً يا ${studentName}! فتحنا درس «${lesson.titleAr}» من ${lesson.sourceRef.bookAr}! أنا مستعدة لشرح كل فكرة وحل التمارين معاكي!`
@@ -369,6 +418,52 @@ export const VirtualTeacherClassroom: React.FC = () => {
       : `Welcome ${studentName}! We opened "${lesson.titleEn}" from ${lesson.sourceRef.bookEn}! Let's master this lesson together!`;
 
     speakText(greeting, 'excited');
+  };
+
+  // Diagnostic Question Selection (DIAGNOSE BEFORE TEACHING)
+  const handleSelectDiagnosticOption = (optionIndex: number) => {
+    if (selectedDiagnosticIndex !== null) return;
+    setSelectedDiagnosticIndex(optionIndex);
+
+    const option = teacherContext.diagnosticQuestion.options[optionIndex];
+    setChosenTeachingStrategy(option.suggestedStrategy);
+
+    if (option.isCorrect) {
+      soundEffects.playSuccess();
+      setNourState('celebrating');
+      const praise = isArabic
+        ? `ممتازة جداً يا ${studentName}! ${option.diagnosisExplanationAr} قولي لي: إزاي وصلتي للحل ده؟`
+        : isFrench
+        ? `Bravo ${studentName}! ${option.diagnosisExplanationFr} Explique-moi comment tu as pensé!`
+        : `Outstanding ${studentName}! ${option.diagnosisExplanationEn} How did you reason through this?`;
+      speakText(praise, 'celebrating');
+    } else {
+      soundEffects.playPop();
+      setNourState('thinking');
+      const diagSpeech = isArabic
+        ? `ملاحظة ذكية يا ${studentName}! ${option.diagnosisExplanationAr} ${option.pedagogicHintAr} احكي لي طريقة تفكيرك عشان نصلحها سوا!`
+        : isFrench
+        ? `Regardons ensemble ${studentName}! ${option.diagnosisExplanationFr} ${option.pedagogicHintFr}`
+        : `Let's look at this, ${studentName}! ${option.diagnosisExplanationEn} ${option.pedagogicHintEn}`;
+      speakText(diagSpeech, 'encouraging');
+    }
+  };
+
+  // Transition from Diagnostic to Targeted Chalkboard
+  const handleProceedToChalkboardWithStrategy = () => {
+    soundEffects.playPop();
+    // Pre-configure explanation subtab to match the pedagogical strategy
+    if (chosenTeachingStrategy === 'visual_model' || chosenTeachingStrategy === 'everyday_analogy') {
+      setExplanationSubTab('analogy');
+    } else if (chosenTeachingStrategy === 'step_by_step_procedure' || chosenTeachingStrategy === 'simpler_prerequisite') {
+      setExplanationSubTab('chalkboard');
+    }
+    setActiveStation('chalkboard');
+
+    const prompt = isArabic
+      ? `يلا يا ${studentName}! فتحنا السبورة واستراتيجيتنا دلوقتي هي: ${getStrategyLabel(chosenTeachingStrategy, language)}!`
+      : `Let's head to the board with our strategy: ${getStrategyLabel(chosenTeachingStrategy, language)}!`;
+    speakText(prompt, 'talking');
   };
 
   // Tap on Nour for a fun interactive cheer
@@ -856,13 +951,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. FOUR MAIN CLASSROOM STATIONS SELECTOR TABS */}
-      <div className="grid grid-cols-4 gap-1.5 p-1 bg-slate-200/80 dark:bg-slate-800/90 rounded-2xl">
+      {/* 4. FIVE MAIN CLASSROOM STATIONS SELECTOR TABS */}
+      <div className="grid grid-cols-5 gap-1 p-1 bg-slate-200/80 dark:bg-slate-800/90 rounded-2xl">
         {[
-          { id: 'chalkboard', labelAr: 'الشرح والسبورة', labelEn: 'Explanation', icon: '👩‍🏫' },
-          { id: 'quiz', labelAr: 'تحدي الأسئلة', labelEn: 'Quiz Challenge', icon: '⭐' },
-          { id: 'vocab', labelAr: 'المفردات والمعاني', labelEn: 'Vocabulary', icon: '📘' },
-          { id: 'ask', labelAr: 'اسألي مس نور', labelEn: 'Ask Nour', icon: '💬' },
+          { id: 'diagnostic', labelAr: 'التشخيص أولاً', labelEn: 'Diagnosis', icon: '🩺' },
+          { id: 'chalkboard', labelAr: 'الشرح والسبورة', labelEn: 'Blackboard', icon: '👩‍🏫' },
+          { id: 'quiz', labelAr: 'تمارين الوزارة', labelEn: 'Practice', icon: '⭐' },
+          { id: 'vocab', labelAr: 'المفردات', labelEn: 'Vocabulary', icon: '📘' },
+          { id: 'ask', labelAr: 'اسألي نور', labelEn: 'Ask Nour', icon: '💬' },
         ].map((tab) => {
           const isActive = activeStation === tab.id;
           return (
@@ -873,14 +969,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 soundEffects.playPop();
                 setActiveStation(tab.id as any);
               }}
-              className={`py-2 px-1 rounded-xl text-center transition-all flex flex-col items-center gap-0.5 cursor-pointer ${
+              className={`py-2 px-0.5 rounded-xl text-center transition-all flex flex-col items-center gap-0.5 cursor-pointer ${
                 isActive
                   ? 'bg-indigo-600 text-white shadow-md font-black scale-[1.02]'
                   : 'text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-700/60 font-bold'
               }`}
             >
               <span className="text-base">{tab.icon}</span>
-              <span className="text-[10px] leading-tight truncate">
+              <span className="text-[9px] sm:text-[10px] leading-tight truncate">
                 {isArabic ? tab.labelAr : tab.labelEn}
               </span>
             </button>
@@ -890,9 +986,208 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
       {/* 5. STATION CONTENT VIEW */}
 
+      {/* STATION 0: PROACTIVE DIAGNOSTIC STATION (DIAGNOSE BEFORE TEACHING) */}
+      {activeStation === 'diagnostic' && (
+        <div className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 space-y-3.5">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🩺</span>
+              <div>
+                <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
+                  {isArabic ? 'محطة التشخيص الاستكشافي' : 'Exploratory Diagnostic Station'}
+                </h3>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                  {isArabic
+                    ? 'نفحص استيعابك أولاً لتحديد الأسلوب الأنسب للشرح'
+                    : 'Diagnosing understanding before detailed explanation'}
+                </p>
+              </div>
+            </div>
+
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
+              {teacherContext.targetLesson.subjectNameAr}
+            </span>
+          </div>
+
+          {/* School Context Banner */}
+          <div className="p-2.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 flex items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="text-base shrink-0">🏫</span>
+              <span className="text-[11px] font-bold text-indigo-950 dark:text-indigo-200 truncate">
+                {teacherContext.recommendedReason}
+              </span>
+            </div>
+            {teacherContext.masteryState && (
+              <span className="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+                {teacherContext.masteryState.compositeLabel}
+              </span>
+            )}
+          </div>
+
+          {/* Diagnostic Question Card */}
+          <div className="space-y-3">
+            <div className="p-3 rounded-2xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 space-y-1">
+              <span className="text-[10px] font-black text-amber-800 dark:text-amber-300 block">
+                {isArabic ? 'سؤال استكشافي من مس نور:' : 'Diagnostic Question from Miss Nour:'}
+              </span>
+              <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
+                {isArabic
+                  ? teacherContext.diagnosticQuestion.promptAr
+                  : isFrench
+                  ? teacherContext.diagnosticQuestion.promptFr
+                  : teacherContext.diagnosticQuestion.promptEn}
+              </h4>
+            </div>
+
+            {/* Diagnostic Options */}
+            <div className="space-y-2">
+              {teacherContext.diagnosticQuestion.options.map((opt, oIdx) => {
+                const isSelected = selectedDiagnosticIndex === oIdx;
+                const isCorrect = opt.isCorrect;
+                const showFeedback = selectedDiagnosticIndex !== null;
+
+                return (
+                  <button
+                    key={oIdx}
+                    type="button"
+                    disabled={selectedDiagnosticIndex !== null}
+                    onClick={() => handleSelectDiagnosticOption(oIdx)}
+                    className={`w-full p-3 rounded-2xl border text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-start justify-between gap-2 cursor-pointer ${
+                      showFeedback
+                        ? isCorrect
+                          ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-200'
+                          : isSelected
+                          ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-500 text-rose-900 dark:text-rose-200'
+                          : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60'
+                        : 'bg-slate-50 hover:bg-indigo-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700'
+                    }`}
+                  >
+                    <span className="leading-relaxed">
+                      {isArabic ? opt.textAr : isFrench ? opt.textFr : opt.textEn}
+                    </span>
+                    {showFeedback && (
+                      <span className="shrink-0 mt-0.5">
+                        {isCorrect ? (
+                          <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                        ) : isSelected ? (
+                          <XCircle className="w-4 h-4 text-rose-600" />
+                        ) : null}
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Diagnostic Evaluation & Thinking Input (MAKE AMINA EXPLAIN HER THINKING) */}
+            {selectedDiagnosticIndex !== null && (
+              <div className="pt-2 animate-in fade-in duration-200 space-y-3">
+                {/* Pedagogical Diagnosis Notice */}
+                {(() => {
+                  const opt = teacherContext.diagnosticQuestion.options[selectedDiagnosticIndex];
+                  return (
+                    <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 space-y-1.5">
+                      <div className="flex items-center gap-1.5 text-xs font-black text-indigo-900 dark:text-indigo-200">
+                        <Lightbulb className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                        <span>{isArabic ? 'تشخيص المعلمة نور التربوي 💡' : 'Miss Nour\'s Pedagogical Diagnosis 💡'}</span>
+                      </div>
+                      <p className="text-xs text-indigo-900 dark:text-indigo-200 leading-relaxed font-medium">
+                        {isArabic ? opt.diagnosisExplanationAr : isFrench ? opt.diagnosisExplanationFr : opt.diagnosisExplanationEn}
+                      </p>
+                      <div className="pt-1 flex items-center gap-1.5 text-[11px] text-indigo-700 dark:text-indigo-300 font-bold">
+                        <span>🎯 {isArabic ? 'الاستراتيجية المقررة للشرح:' : 'Selected Strategy:'}</span>
+                        <span className="px-2 py-0.5 rounded-full bg-indigo-200/60 dark:bg-indigo-900 text-indigo-950 dark:text-indigo-100">
+                          {getStrategyLabel(opt.suggestedStrategy, language)}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })()}
+
+                {/* Make Amina Explain Her Thinking */}
+                <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 space-y-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black text-amber-950 dark:text-amber-200 flex items-center gap-1.5">
+                      <span>🎙️</span>
+                      <span>
+                        {isArabic
+                          ? teacherContext.diagnosticQuestion.thinkingPromptAr
+                          : teacherContext.diagnosticQuestion.thinkingPromptEn}
+                      </span>
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={studentThinkingInput}
+                      onChange={(e) => setStudentThinkingInput(e.target.value)}
+                      placeholder={
+                        isArabic
+                          ? 'اكتبي أو تحدثي بصوتك: مثلاً فكرت في كذا علشان...'
+                          : 'Type or speak: e.g. I thought about...'
+                      }
+                      className="flex-1 py-2 px-3 rounded-xl bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-700 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-hidden"
+                    />
+                    <VoiceInputControl
+                      onTranscriptConfirmed={(text: string) => {
+                        setStudentThinkingInput((prev) => (prev ? `${prev} ${text}` : text));
+                      }}
+                    />
+                  </div>
+
+                  {studentThinkingInput && (
+                    <div className="p-2 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-amber-200 dark:border-amber-900 text-[11px] text-slate-700 dark:text-slate-300">
+                      <span className="font-bold text-amber-900 dark:text-amber-300">
+                        {isArabic ? 'طريقة تفكير أمينة المسجلة:' : 'Amina\'s reasoning:'}{' '}
+                      </span>
+                      <span>{studentThinkingInput}</span>
+                    </div>
+                  )}
+                </div>
+
+                {/* Transition to Chalkboard with Chosen Strategy */}
+                <button
+                  type="button"
+                  onClick={handleProceedToChalkboardWithStrategy}
+                  className="w-full py-3 px-4 rounded-2xl bg-linear-to-r from-indigo-600 via-indigo-700 to-purple-700 hover:from-indigo-500 text-white font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                >
+                  <span>
+                    {isArabic
+                      ? 'الانتقال للشرح على السبورة بالأسلوب المختار 👩‍🏫'
+                      : 'Advance to Chalkboard with Chosen Strategy 👩‍🏫'}
+                  </span>
+                  <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
       {/* STATION 1: DEEP INTERACTIVE EXPLANATION STATION */}
       {activeStation === 'chalkboard' && (
         <div className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 space-y-3">
+          {/* Strategy Indicator Banner */}
+          <div className="p-2.5 rounded-2xl bg-indigo-50/80 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 flex items-center justify-between gap-2 text-xs">
+            <div className="flex items-center gap-1.5 min-w-0">
+              <span className="text-base shrink-0">🎯</span>
+              <span className="font-bold text-indigo-900 dark:text-indigo-200 truncate">
+                {isArabic ? 'استراتيجية مس نور للشرح:' : 'Miss Nour\'s Chosen Strategy:'}
+              </span>
+              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-indigo-600 text-white shrink-0">
+                {getStrategyLabel(chosenTeachingStrategy, language)}
+              </span>
+            </div>
+            <button
+              type="button"
+              onClick={() => setActiveStation('diagnostic')}
+              className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0 cursor-pointer"
+            >
+              {isArabic ? 'إعادة التشخيص 🩺' : 'Re-diagnose 🩺'}
+            </button>
+          </div>
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-2">
               <span className="text-xl">👩‍🏫</span>
