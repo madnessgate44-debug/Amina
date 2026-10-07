@@ -49,6 +49,14 @@ import {
   TeachingStrategy,
   TeachingDecisionOutcome,
   ErrorDiagnosisType,
+  ReasoningCategory,
+  ReasoningAnalysisResult,
+  TargetedTeachingContent,
+  RecheckPracticeQuestion,
+  analyzeStudentReasoning,
+  buildTargetedIntervention,
+  buildRecheckQuestionForConcept,
+  evaluateTeachingOutcome,
 } from '../../services/teacher/teacherContextEngine';
 
 function getStrategyLabel(strategy: TeachingStrategy, lang: string): string {
@@ -79,6 +87,78 @@ function getStrategyLabel(strategy: TeachingStrategy, lang: string): string {
     case 'bilingual_vocabulary': return 'ربط المفردات والمصطلحات 📘';
     case 'simpler_prerequisite': return 'تثبيت الأساسيات والمقدمات 💡';
     default: return 'تمارين وتطبيق موجه ⭐';
+  }
+}
+
+function getReasoningLabel(category: ReasoningCategory, lang: string): string {
+  if (lang === 'fr') {
+    switch (category) {
+      case 'correct_reasoning': return 'Raisonnement exact et rigoureux 🌟';
+      case 'misconception': return 'Idée fausse conceptuelle 💡';
+      case 'incomplete_reasoning': return 'Justification partielle 📝';
+      case 'procedural_error': return 'Erreur de calcul ou démarche 🔍';
+      case 'vocabulary_difficulty': return 'Difficulté de vocabulaire 📘';
+      case 'guessing': return 'Hésitation ou supposition 🎲';
+      case 'prerequisite_gap': return 'Prérequis à consolider 🧱';
+      default: return 'Raisonnement à clarifier 🤔';
+    }
+  }
+  if (lang === 'en') {
+    switch (category) {
+      case 'correct_reasoning': return 'Sound Concept Reasoning 🌟';
+      case 'misconception': return 'Conceptual Misconception 💡';
+      case 'incomplete_reasoning': return 'Partial Reasoning 📝';
+      case 'procedural_error': return 'Procedural / Calculation Slip 🔍';
+      case 'vocabulary_difficulty': return 'Vocabulary Confusion 📘';
+      case 'guessing': return 'Guessing / Uncertain 🎲';
+      case 'prerequisite_gap': return 'Prerequisite Foundation Gap 🧱';
+      default: return 'Reasoning to Clarify 🤔';
+    }
+  }
+  switch (category) {
+    case 'correct_reasoning': return 'تفكير منطقي واستيعاب سليم 🌟';
+    case 'misconception': return 'سوء فهم تصوري محدد 💡';
+    case 'incomplete_reasoning': return 'تعليل مختصر أو سطحي 📝';
+    case 'procedural_error': return 'خطأ إجرائي أو حسابي 🔍';
+    case 'vocabulary_difficulty': return 'التباس في المفردات والمصطلحات 📘';
+    case 'guessing': return 'تخمين أو غير متأكدة 🎲';
+    case 'prerequisite_gap': return 'حاجة لتثبيت الأساسيات السابقة 🧱';
+    default: return 'طريقة تفكير تحتاج لتوضيح بمثال 🤔';
+  }
+}
+
+function getOutcomeBadge(outcome: TeachingDecisionOutcome, lang: string): { label: string; color: string; icon: string } {
+  switch (outcome) {
+    case 'mastered':
+      return {
+        label: lang === 'ar' ? 'متقن تماماً (MASTERED)' : 'Mastered',
+        color: 'bg-emerald-500 text-white',
+        icon: '🏆',
+      };
+    case 'almost':
+      return {
+        label: lang === 'ar' ? 'مستوعب وقريب للإتقان (ALMOST)' : 'Almost Mastered',
+        color: 'bg-teal-500 text-white',
+        icon: '⭐',
+      };
+    case 'misconception':
+      return {
+        label: lang === 'ar' ? 'سوء فهم تصوري (MISCONCEPTION)' : 'Misconception',
+        color: 'bg-amber-500 text-slate-950',
+        icon: '💡',
+      };
+    case 'struggling':
+      return {
+        label: lang === 'ar' ? 'يحتاج تعزيزاً وتدريباً (STRUGGLING)' : 'Struggling',
+        color: 'bg-rose-500 text-white',
+        icon: '🤝',
+      };
+    case 'not_yet_learned':
+      return {
+        label: lang === 'ar' ? 'أساسيات سابقة مطلوبة (NOT YET LEARNED)' : 'Prerequisite Needed',
+        color: 'bg-indigo-600 text-white',
+        icon: '🧱',
+      };
   }
 }
 
@@ -152,8 +232,21 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const [selectedDiagnosticIndex, setSelectedDiagnosticIndex] = useState<number | null>(null);
   const [studentThinkingInput, setStudentThinkingInput] = useState<string>('');
   const [isThinkingSubmitted, setIsThinkingSubmitted] = useState<boolean>(false);
+  const [reasoningAnalysis, setReasoningAnalysis] = useState<ReasoningAnalysisResult | null>(null);
   const [chosenTeachingStrategy, setChosenTeachingStrategy] = useState<TeachingStrategy>('visual_model');
+  const [targetedTeachingContent, setTargetedTeachingContent] = useState<TargetedTeachingContent | null>(null);
+
+  // Re-Check Practice States (CLOSE THE ADAPTIVE PEDAGOGICAL LOOP)
+  const [recheckQuestion, setRecheckQuestion] = useState<RecheckPracticeQuestion | null>(null);
+  const [selectedRecheckIndex, setSelectedRecheckIndex] = useState<number | null>(null);
+  const [recheckThinkingInput, setRecheckThinkingInput] = useState<string>('');
+  const [isRecheckSubmitted, setIsRecheckSubmitted] = useState<boolean>(false);
+  const [recheckReasoningAnalysis, setRecheckReasoningAnalysis] = useState<ReasoningAnalysisResult | null>(null);
+
+  // Teaching Decision Outcome & Verified Evidence
   const [sessionOutcome, setSessionOutcome] = useState<TeachingDecisionOutcome | null>(null);
+  const [sessionOutcomeRationale, setSessionOutcomeRationale] = useState<string>('');
+  const [sessionReviewInterval, setSessionReviewInterval] = useState<number>(7);
   const [sessionEvidenceRecorded, setSessionEvidenceRecorded] = useState<boolean>(false);
 
   // Learning Orchestration States
@@ -221,8 +314,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(!soundEffects.getMuted());
 
-  // Interactive Classroom Station: 'diagnostic' | 'chalkboard' | 'quiz' | 'vocab' | 'ask'
-  const [activeStation, setActiveStation] = useState<'diagnostic' | 'chalkboard' | 'quiz' | 'vocab' | 'ask'>('diagnostic');
+  // Interactive Classroom Station: 'diagnostic' | 'chalkboard' | 'recheck' | 'quiz' | 'vocab' | 'ask'
+  const [activeStation, setActiveStation] = useState<'diagnostic' | 'chalkboard' | 'recheck' | 'quiz' | 'vocab' | 'ask'>('diagnostic');
 
   // Chalkboard Deep Explanation Sub-Tab: 'hook' | 'chalkboard' | 'analogy' | 'discussion'
   const [explanationSubTab, setExplanationSubTab] = useState<'hook' | 'chalkboard' | 'analogy' | 'discussion'>('hook');
@@ -406,8 +499,15 @@ export const VirtualTeacherClassroom: React.FC = () => {
     setSelectedDiagnosticIndex(null);
     setStudentThinkingInput('');
     setIsThinkingSubmitted(false);
-    setChosenTeachingStrategy('visual_model');
+    setReasoningAnalysis(null);
+    setTargetedTeachingContent(null);
+    setSelectedRecheckIndex(null);
+    setRecheckThinkingInput('');
+    setIsRecheckSubmitted(false);
+    setRecheckReasoningAnalysis(null);
     setSessionOutcome(null);
+    setSessionOutcomeRationale('');
+    setSessionReviewInterval(7);
     setSessionEvidenceRecorded(false);
     setActiveStation('diagnostic');
 
@@ -449,10 +549,106 @@ export const VirtualTeacherClassroom: React.FC = () => {
     }
   };
 
+  // Analyze Student Reasoning (MAKE AMINA EXPLAIN HER THINKING & DRIVE STRATEGY)
+  const handleAnalyzeThinking = () => {
+    if (selectedDiagnosticIndex === null) return;
+    const option = teacherContext.diagnosticQuestion.options[selectedDiagnosticIndex];
+    const analysis = analyzeStudentReasoning(
+      studentThinkingInput,
+      option,
+      teacherContext.targetConcept,
+      currentLesson,
+      language
+    );
+    setReasoningAnalysis(analysis);
+    setIsThinkingSubmitted(true);
+
+    // Pedagogical Strategy selection driven by genuine diagnosis
+    let nextStrategy: TeachingStrategy = option.suggestedStrategy;
+    if (analysis.category === 'misconception') {
+      nextStrategy = 'visual_model';
+    } else if (analysis.category === 'prerequisite_gap') {
+      nextStrategy = 'simpler_prerequisite';
+    } else if (analysis.category === 'vocabulary_difficulty') {
+      nextStrategy = 'bilingual_vocabulary';
+    } else if (analysis.category === 'guessing' || analysis.category === 'procedural_error') {
+      nextStrategy = 'step_by_step_procedure';
+    } else if (analysis.category === 'correct_reasoning') {
+      nextStrategy = 'guided_practice';
+    }
+    setChosenTeachingStrategy(nextStrategy);
+
+    // Build targeted intervention addressing the diagnosed need
+    const targeted = buildTargetedIntervention(
+      currentLesson,
+      teacherContext.targetConcept,
+      studentName,
+      option.diagnosisType,
+      nextStrategy
+    );
+    setTargetedTeachingContent(targeted);
+
+    // Build Re-Check question testing same underlying concept
+    const recheck = buildRecheckQuestionForConcept(
+      currentLesson,
+      teacherContext.targetConcept,
+      studentName
+    );
+    setRecheckQuestion(recheck);
+
+    const feedback = isArabic
+      ? `تحليل دقيق يا ${studentName}! ${analysis.explanationAr}`
+      : `Pedagogical analysis: ${analysis.explanationEn}`;
+    speakText(feedback, analysis.category === 'correct_reasoning' ? 'celebrating' : 'thinking');
+  };
+
   // Transition from Diagnostic to Targeted Chalkboard
   const handleProceedToChalkboardWithStrategy = () => {
     soundEffects.playPop();
-    // Pre-configure explanation subtab to match the pedagogical strategy
+    // Ensure thinking is analyzed if student directly clicks advance
+    if (!reasoningAnalysis && selectedDiagnosticIndex !== null) {
+      const option = teacherContext.diagnosticQuestion.options[selectedDiagnosticIndex];
+      const analysis = analyzeStudentReasoning(
+        studentThinkingInput,
+        option,
+        teacherContext.targetConcept,
+        currentLesson,
+        language
+      );
+      setReasoningAnalysis(analysis);
+      setIsThinkingSubmitted(true);
+
+      let nextStrategy: TeachingStrategy = option.suggestedStrategy;
+      if (analysis.category === 'misconception') {
+        nextStrategy = 'visual_model';
+      } else if (analysis.category === 'prerequisite_gap') {
+        nextStrategy = 'simpler_prerequisite';
+      } else if (analysis.category === 'vocabulary_difficulty') {
+        nextStrategy = 'bilingual_vocabulary';
+      } else if (analysis.category === 'guessing' || analysis.category === 'procedural_error') {
+        nextStrategy = 'step_by_step_procedure';
+      } else if (analysis.category === 'correct_reasoning') {
+        nextStrategy = 'guided_practice';
+      }
+      setChosenTeachingStrategy(nextStrategy);
+
+      const targeted = buildTargetedIntervention(
+        currentLesson,
+        teacherContext.targetConcept,
+        studentName,
+        option.diagnosisType,
+        nextStrategy
+      );
+      setTargetedTeachingContent(targeted);
+
+      const recheck = buildRecheckQuestionForConcept(
+        currentLesson,
+        teacherContext.targetConcept,
+        studentName
+      );
+      setRecheckQuestion(recheck);
+    }
+
     if (chosenTeachingStrategy === 'visual_model' || chosenTeachingStrategy === 'everyday_analogy') {
       setExplanationSubTab('analogy');
     } else if (chosenTeachingStrategy === 'step_by_step_procedure' || chosenTeachingStrategy === 'simpler_prerequisite') {
@@ -460,10 +656,137 @@ export const VirtualTeacherClassroom: React.FC = () => {
     }
     setActiveStation('chalkboard');
 
+    const targeted = targetedTeachingContent || teacherContext.targetedTeaching;
     const prompt = isArabic
-      ? `يلا يا ${studentName}! فتحنا السبورة واستراتيجيتنا دلوقتي هي: ${getStrategyLabel(chosenTeachingStrategy, language)}!`
+      ? `يلا يا ${studentName}! فتحنا السبورة واستراتيجيتنا الموجهة هي: ${getStrategyLabel(chosenTeachingStrategy, language)}! ${targeted.headlineAr}`
       : `Let's head to the board with our strategy: ${getStrategyLabel(chosenTeachingStrategy, language)}!`;
     speakText(prompt, 'talking');
+  };
+
+  // Start Re-Check Practice (CLOSE THE PEDAGOGICAL LOOP)
+  const handleStartRecheck = () => {
+    soundEffects.playPop();
+    setActiveStation('recheck');
+    setSelectedRecheckIndex(null);
+    setRecheckThinkingInput('');
+    setIsRecheckSubmitted(false);
+    const rq = recheckQuestion || teacherContext.recheckQuestion;
+    const prompt = isArabic
+      ? `دلوقتي بعد ما شرحنا الفكرة يا ${studentName}، تعالي نتحقق من فهمك بمثال تطبيقي جديد ونشوف النتيجة سوا!`
+      : `Now that we explored the concept, ${studentName}, let's verify with a brand new practice example!`;
+    speakText(prompt, 'excited');
+  };
+
+  const handleSelectRecheckOption = (optIdx: number) => {
+    if (isRecheckSubmitted) return;
+    setSelectedRecheckIndex(optIdx);
+    soundEffects.playPop();
+  };
+
+  // Confirm Re-Check & Evaluate Real Outcome
+  const handleConfirmRecheck = async () => {
+    if (selectedRecheckIndex === null) return;
+    soundEffects.playPop();
+
+    const rq = recheckQuestion || teacherContext.recheckQuestion;
+    const selectedRecheckOpt = rq.options[selectedRecheckIndex];
+    if (!selectedRecheckOpt) return;
+
+    // 1. Analyze Recheck Reasoning
+    const recheckAnalysis = analyzeStudentReasoning(
+      recheckThinkingInput,
+      {
+        isCorrect: selectedRecheckOpt.isCorrect,
+        diagnosisType: selectedRecheckOpt.isCorrect ? 'solid_understanding' : 'misconception',
+        suggestedStrategy: 'guided_practice',
+        textAr: selectedRecheckOpt.textAr,
+        textEn: selectedRecheckOpt.textEn,
+        textFr: selectedRecheckOpt.textFr,
+        diagnosisExplanationAr: selectedRecheckOpt.explanationAr,
+        diagnosisExplanationEn: selectedRecheckOpt.explanationEn,
+        diagnosisExplanationFr: selectedRecheckOpt.explanationFr,
+        pedagogicHintAr: selectedRecheckOpt.explanationAr,
+        pedagogicHintEn: selectedRecheckOpt.explanationEn,
+        pedagogicHintFr: selectedRecheckOpt.explanationFr,
+      },
+      teacherContext.targetConcept,
+      currentLesson,
+      language
+    );
+    setRecheckReasoningAnalysis(recheckAnalysis);
+    setIsRecheckSubmitted(true);
+
+    // 2. Evaluate Genuine Teaching Outcome
+    const outcomeEval = evaluateTeachingOutcome({
+      initialDiagnosticCorrect: Boolean(
+        selectedDiagnosticIndex !== null &&
+        teacherContext.diagnosticQuestion.options[selectedDiagnosticIndex]?.isCorrect
+      ),
+      initialReasoningCategory: reasoningAnalysis?.category || 'unclear_reasoning',
+      recheckCorrect: selectedRecheckOpt.isCorrect,
+      recheckReasoningCategory: recheckAnalysis.category,
+      attemptsCount: 2,
+    });
+
+    setSessionOutcome(outcomeEval.outcome);
+    setSessionOutcomeRationale(isArabic ? outcomeEval.rationaleAr : isFrench ? outcomeEval.rationaleFr : outcomeEval.rationaleEn);
+    setSessionReviewInterval(outcomeEval.reviewIntervalDays);
+
+    // 3. Record Real Evidence to Existing Mastery Architecture
+    const targetConceptId = teacherContext.targetConcept?.id || `${currentLesson.id}_c1`;
+    await recordEvidence(targetConceptId, {
+      correctness: outcomeEval.evidenceCorrectness,
+      difficulty: 0.6,
+      independence: outcomeEval.evidenceIndependence,
+      modality: 'quiz',
+      notes: `Miss Nour Adaptive Closed Loop: Diagnostic=${reasoningAnalysis?.category || 'unknown'} -> Teaching=${chosenTeachingStrategy} -> Recheck=${recheckAnalysis.category} -> Outcome=${outcomeEval.outcome.toUpperCase()}`,
+    });
+    setSessionEvidenceRecorded(true);
+
+    // 4. Complete Mission if applicable
+    if (companionContext?.missionId && (outcomeEval.outcome === 'mastered' || outcomeEval.outcome === 'almost')) {
+      completeMission(companionContext.missionId, {
+        score: outcomeEval.outcome === 'mastered' ? 1.0 : 0.8,
+        modality: 'practice',
+      });
+      setMissionDoneNotification(true);
+    }
+
+    // 5. Miss Nour Voice Feedback based on real outcome
+    if (outcomeEval.outcome === 'mastered') {
+      soundEffects.playSuccess();
+      soundEffects.playStarEarned();
+      setStarsCount((prev) => prev + 2);
+      const msg = isArabic
+        ? `🎉 ألف مبروك يا بطلتنا ${studentName}! أثبتِ إتقانك للمفهوم بتعليل منطقي سليم على مثال جديد. تم تسجيل إتقانك وتحديث خريطة التعلم!`
+        : `🎉 Fantastic ${studentName}! You mastered the concept with sound reasoning verified on a new example!`;
+      speakText(msg, 'celebrating');
+    } else if (outcomeEval.outcome === 'almost') {
+      soundEffects.playSuccess();
+      setStarsCount((prev) => prev + 1);
+      const msg = isArabic
+        ? `⭐ ممتازة وقريبة جداً من الإتقان التام يا ${studentName}! تمرين واحد بس وهتكوني متمكنة 100%! تم تسجيل تقدمك.`
+        : `⭐ Almost mastered ${studentName}! Great understanding, just one more exercise for full mastery!`;
+      speakText(msg, 'encouraging');
+    } else if (outcomeEval.outcome === 'misconception') {
+      soundEffects.playPop();
+      const msg = isArabic
+        ? `💡 يا ${studentName}، لاحظت إن فكرة المفهوم محتاجة نوضحها أكتر بزاوية تانية. ولا يهمك خالص، مس نور معاكي خطوة بخطوة!`
+        : `💡 Misconception noted, ${studentName}! We will approach this from another angle together.`;
+      speakText(msg, 'encouraging');
+    } else if (outcomeEval.outcome === 'not_yet_learned') {
+      soundEffects.playPop();
+      const msg = isArabic
+        ? `🧱 يا ${studentName}، الأفضل نراجع أساسيات الدرس والتمهيد الأول عشان نفهم الفكرة دي بثقة وبدون أي لبس!`
+        : `🧱 Let's revisit foundational prerequisites first, ${studentName}, so everything makes complete sense!`;
+      speakText(msg, 'encouraging');
+    } else {
+      soundEffects.playPop();
+      const msg = isArabic
+        ? `🤝 ولا يهمك يا ${studentName}! كلنا بنتعلم من المحاولة. سجلنا المفهوم للمراجعة القريبة غداً عشان نثبته براحتنا!`
+        : `🤝 Don't worry ${studentName}! We scheduled this for a quick review tomorrow to reinforce it smoothly.`;
+      speakText(msg, 'encouraging');
+    }
   };
 
   // Tap on Nour for a fun interactive cheer
@@ -951,14 +1274,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
         </div>
       </div>
 
-      {/* 4. FIVE MAIN CLASSROOM STATIONS SELECTOR TABS */}
+      {/* 4. MAIN CLASSROOM STATIONS SELECTOR TABS */}
       <div className="grid grid-cols-5 gap-1 p-1 bg-slate-200/80 dark:bg-slate-800/90 rounded-2xl">
         {[
-          { id: 'diagnostic', labelAr: 'التشخيص أولاً', labelEn: 'Diagnosis', icon: '🩺' },
-          { id: 'chalkboard', labelAr: 'الشرح والسبورة', labelEn: 'Blackboard', icon: '👩‍🏫' },
-          { id: 'quiz', labelAr: 'تمارين الوزارة', labelEn: 'Practice', icon: '⭐' },
-          { id: 'vocab', labelAr: 'المفردات', labelEn: 'Vocabulary', icon: '📘' },
-          { id: 'ask', labelAr: 'اسألي نور', labelEn: 'Ask Nour', icon: '💬' },
+          { id: 'diagnostic', labelAr: '1. التشخيص', labelEn: '1. Diagnosis', icon: '🩺' },
+          { id: 'chalkboard', labelAr: '2. الشرح الموجه', labelEn: '2. Teaching', icon: '👩‍🏫' },
+          { id: 'recheck', labelAr: '3. فحص الإتقان', labelEn: '3. Re-Check', icon: '🎯' },
+          { id: 'quiz', labelAr: '4. تمارين الوزارة', labelEn: '4. Exercises', icon: '⭐' },
+          { id: 'ask', labelAr: '5. اسألي نور', labelEn: '5. Ask Nour', icon: '💬' },
         ].map((tab) => {
           const isActive = activeStation === tab.id;
           return (
@@ -1090,17 +1413,11 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 space-y-1.5">
                       <div className="flex items-center gap-1.5 text-xs font-black text-indigo-900 dark:text-indigo-200">
                         <Lightbulb className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                        <span>{isArabic ? 'تشخيص المعلمة نور التربوي 💡' : 'Miss Nour\'s Pedagogical Diagnosis 💡'}</span>
+                        <span>{isArabic ? 'تشخيص المعلمة نور الأولي 💡' : 'Miss Nour\'s Initial Diagnosis 💡'}</span>
                       </div>
                       <p className="text-xs text-indigo-900 dark:text-indigo-200 leading-relaxed font-medium">
                         {isArabic ? opt.diagnosisExplanationAr : isFrench ? opt.diagnosisExplanationFr : opt.diagnosisExplanationEn}
                       </p>
-                      <div className="pt-1 flex items-center gap-1.5 text-[11px] text-indigo-700 dark:text-indigo-300 font-bold">
-                        <span>🎯 {isArabic ? 'الاستراتيجية المقررة للشرح:' : 'Selected Strategy:'}</span>
-                        <span className="px-2 py-0.5 rounded-full bg-indigo-200/60 dark:bg-indigo-900 text-indigo-950 dark:text-indigo-100">
-                          {getStrategyLabel(opt.suggestedStrategy, language)}
-                        </span>
-                      </div>
                     </div>
                   );
                 })()}
@@ -1145,7 +1462,41 @@ export const VirtualTeacherClassroom: React.FC = () => {
                       <span>{studentThinkingInput}</span>
                     </div>
                   )}
+
+                  {/* Trigger reasoning analysis */}
+                  <button
+                    type="button"
+                    onClick={handleAnalyzeThinking}
+                    className="w-full py-2 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-xs transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+                  >
+                    <span>💡</span>
+                    <span>{isArabic ? 'تحليل طريقة تفكيرك واختيار الاستراتيجية' : 'Analyze Reasoning & Pick Strategy'}</span>
+                  </button>
                 </div>
+
+                {/* Reasoning Analysis Feedback Card */}
+                {reasoningAnalysis && (
+                  <div className="p-3 rounded-2xl bg-purple-50 dark:bg-purple-950/40 border border-purple-200 dark:border-purple-800 space-y-1.5 animate-in fade-in">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs font-black text-purple-900 dark:text-purple-200 flex items-center gap-1">
+                        <span>🔍</span>
+                        <span>{isArabic ? 'تصنيف طريقة التفكير:' : 'Reasoning Classification:'}</span>
+                      </span>
+                      <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-purple-200/80 dark:bg-purple-900 text-purple-950 dark:text-purple-100">
+                        {getReasoningLabel(reasoningAnalysis.category, language)}
+                      </span>
+                    </div>
+                    <p className="text-xs text-purple-900 dark:text-purple-200 leading-relaxed font-medium">
+                      {isArabic ? reasoningAnalysis.explanationAr : reasoningAnalysis.explanationEn}
+                    </p>
+                    <div className="pt-1 flex items-center gap-1.5 text-[11px] text-purple-800 dark:text-purple-300 font-bold">
+                      <span>🎯 {isArabic ? 'استراتيجية مس نور المقررة:' : 'Miss Nour\'s Chosen Strategy:'}</span>
+                      <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-black text-[10px]">
+                        {getStrategyLabel(chosenTeachingStrategy, language)}
+                      </span>
+                    </div>
+                  </div>
+                )}
 
                 {/* Transition to Chalkboard with Chosen Strategy */}
                 <button
@@ -1155,8 +1506,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 >
                   <span>
                     {isArabic
-                      ? 'الانتقال للشرح على السبورة بالأسلوب المختار 👩‍🏫'
-                      : 'Advance to Chalkboard with Chosen Strategy 👩‍🏫'}
+                      ? 'الانتقال للشرح الموجه على السبورة 👩‍🏫'
+                      : 'Advance to Targeted Teaching on Chalkboard 👩‍🏫'}
                   </span>
                   <ArrowRight className="w-4 h-4 rtl:rotate-180" />
                 </button>
@@ -1166,7 +1517,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
         </div>
       )}
 
-      {/* STATION 1: DEEP INTERACTIVE EXPLANATION STATION */}
+      {/* STATION 1: TARGETED INTERACTIVE EXPLANATION STATION */}
       {activeStation === 'chalkboard' && (
         <div className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 space-y-3">
           {/* Strategy Indicator Banner */}
@@ -1174,7 +1525,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             <div className="flex items-center gap-1.5 min-w-0">
               <span className="text-base shrink-0">🎯</span>
               <span className="font-bold text-indigo-900 dark:text-indigo-200 truncate">
-                {isArabic ? 'استراتيجية مس نور للشرح:' : 'Miss Nour\'s Chosen Strategy:'}
+                {isArabic ? 'استراتيجية مس نور الموجهة:' : 'Miss Nour\'s Targeted Strategy:'}
               </span>
               <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-indigo-600 text-white shrink-0">
                 {getStrategyLabel(chosenTeachingStrategy, language)}
@@ -1188,35 +1539,46 @@ export const VirtualTeacherClassroom: React.FC = () => {
               {isArabic ? 'إعادة التشخيص 🩺' : 'Re-diagnose 🩺'}
             </button>
           </div>
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-xl">👩‍🏫</span>
-              <div>
-                <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
-                  {isArabic ? 'محطة الشرح التفاعلي مع مس نور' : 'Interactive Explanation with Miss Nour'}
-                </h3>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400">
-                  {isArabic ? 'شرح مبسط وممتع لكل جوانب درس كتاب الوزارة' : 'Clear pedagogic breakdown with audio'}
+
+          {/* TARGETED PEDAGOGICAL INTERVENTION CARD (TEACH SPECIFICALLY FOR THE DIAGNOSED NEED) */}
+          {(() => {
+            const targeted = targetedTeachingContent || teacherContext.targetedTeaching;
+            return (
+              <div className="p-3.5 rounded-2xl bg-linear-to-br from-indigo-50/90 via-amber-50/40 to-purple-50/70 dark:from-slate-750 dark:via-slate-800 dark:to-slate-750 border-2 border-indigo-300 dark:border-indigo-700 space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <span className="text-xs sm:text-sm font-black text-indigo-950 dark:text-indigo-200 flex items-center gap-1.5">
+                    <span>💡</span>
+                    <span>{isArabic ? targeted.headlineAr : targeted.headlineEn}</span>
+                  </span>
+                  <button
+                    type="button"
+                    onClick={() => speakText(targeted.coreExplanationAr, 'talking')}
+                    className="px-2.5 py-1 rounded-xl bg-indigo-600 text-white font-bold text-[10px] flex items-center gap-1 shadow-xs cursor-pointer active:scale-95"
+                  >
+                    <Volume2 className="w-3.5 h-3.5" />
+                    <span>{isArabic ? 'استمعي' : 'Listen'}</span>
+                  </button>
+                </div>
+
+                <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-100 leading-relaxed whitespace-pre-wrap">
+                  {isArabic ? targeted.coreExplanationAr : targeted.coreExplanationEn}
                 </p>
+
+                {/* Contrast / Analogy Model */}
+                <div className="p-2.5 rounded-xl bg-white dark:bg-slate-850 border border-indigo-100 dark:border-slate-700 text-xs font-semibold text-indigo-950 dark:text-indigo-200 whitespace-pre-wrap leading-relaxed">
+                  {isArabic ? targeted.contrastOrAnalogyAr : targeted.contrastOrAnalogyEn}
+                </div>
+
+                {/* Golden Rule Card */}
+                <div className="p-2 rounded-xl bg-amber-400 text-slate-950 font-black text-xs flex items-center justify-between gap-2 shadow-xs">
+                  <span>🌟 {isArabic ? 'القاعدة الذهبية:' : 'Golden Rule:'}</span>
+                  <span className="truncate">{isArabic ? targeted.keyRuleAr : targeted.keyRuleEn}</span>
+                </div>
               </div>
-            </div>
+            );
+          })()}
 
-            {/* Listen Button for this explanation */}
-            <button
-              type="button"
-              onClick={() => {
-                const textToSpeak = currentLessonExplanations[explanationSubTab];
-                speakText(textToSpeak, 'talking');
-              }}
-              className="px-2.5 py-1 rounded-xl bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 font-bold text-[10px] flex items-center gap-1 transition-all active:scale-95 cursor-pointer shadow-xs"
-              title={isArabic ? 'استمعي لهذا الجزء بصوت مس نور' : "Listen to Miss Nour's voice"}
-            >
-              <Volume2 className="w-3.5 h-3.5" />
-              <span>{isArabic ? 'استمعي للشرح 🔊' : 'Listen 🔊'}</span>
-            </button>
-          </div>
-
-          {/* Sub-tabs for the explanation: Hook Story | Core Blackboard | Real Analogy | Discussion */}
+          {/* Sub-tabs for the general textbook explanation: Hook Story | Core Blackboard | Real Analogy | Discussion */}
           <div className="flex items-center gap-1 border-b border-slate-100 dark:border-slate-700 pb-2 overflow-x-auto text-[11px] font-bold">
             {[
               { id: 'hook', labelAr: 'القصة والمقدمة 🌟', labelEn: 'The Hook 🌟' },
@@ -1244,8 +1606,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
           </div>
 
           {/* Explanation Text Box */}
-          <div className="p-3.5 rounded-2xl bg-indigo-50/60 dark:bg-slate-750 border border-indigo-100 dark:border-slate-700 space-y-2">
-            <p className="text-xs sm:text-sm font-medium text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-wrap">
+          <div className="p-3 rounded-2xl bg-indigo-50/50 dark:bg-slate-750 border border-indigo-100 dark:border-slate-700 space-y-2">
+            <p className="text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
               {currentLessonExplanations[explanationSubTab]}
             </p>
           </div>
@@ -1289,38 +1651,294 @@ export const VirtualTeacherClassroom: React.FC = () => {
               <button
                 type="button"
                 disabled={customExplanationLoading}
-                onClick={() => {
-                  soundEffects.playPop();
-                  setActiveStation('quiz');
-                }}
+                onClick={handleStartRecheck}
                 className="p-2 rounded-xl bg-slate-50 hover:bg-purple-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-[11px] font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
               >
                 <span>🎯</span>
-                <span className="truncate">{isArabic ? 'ابدأي اختبار التمارين' : 'Start Lesson Quiz'}</span>
+                <span className="truncate">{isArabic ? 'التحقق بمثال جديد' : 'Re-Check Example'}</span>
               </button>
             </div>
 
-            {/* Direct Pedagogic Bridge from Teach to Check Understanding */}
+            {/* DIRECT PEDAGOGIC BRIDGE: RE-CHECK PRACTICE */}
             <div className="pt-2">
               <button
                 type="button"
-                onClick={() => {
-                  soundEffects.playPop();
-                  setActiveStation('quiz');
-                  const prompt = isArabic
-                    ? `رائع يا ${studentName}! يلا نتحقق من فهمك لدرس «${currentLesson.titleAr}» بأسئلة وتحدي النجوم!`
-                    : isFrench
-                    ? `Parfait ${studentName}! Vérifions ta compréhension avec le quiz et les étoiles!`
-                    : `Awesome ${studentName}! Let's check your understanding of "${currentLesson.titleEn}" with the quiz challenge!`;
-                  speakText(prompt, 'excited');
-                }}
-                className="w-full py-3 px-4 rounded-2xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                onClick={handleStartRecheck}
+                className="w-full py-3 px-4 rounded-2xl bg-linear-to-r from-emerald-500 via-teal-600 to-indigo-600 hover:from-emerald-400 text-white font-black text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
               >
-                <span>⭐ {isArabic ? 'فهمت الشرح! اختبري استيعابي الآن مع مس نور' : 'Understood! Check Understanding with Miss Nour'}</span>
+                <span>🎯 {isArabic ? 'التحقق من الفهم بمثال جديد مع مس نور' : 'Verify Understanding with New Example'}</span>
                 <ArrowRight className="w-4 h-4 rtl:rotate-180" />
               </button>
             </div>
           </div>
+        </div>
+      )}
+
+      {/* STATION 3: RE-CHECK PRACTICE STATION (CLOSE THE PEDAGOGICAL LOOP) */}
+      {activeStation === 'recheck' && (
+        <div className="p-3.5 sm:p-4 rounded-3xl bg-white dark:bg-slate-800 shadow-sm border border-slate-200 dark:border-slate-700 space-y-3.5">
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🎯</span>
+              <div>
+                <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
+                  {isArabic ? 'محطة فحص الإتقان بمثال جديد' : 'Mastery Verification Station'}
+                </h3>
+                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                  {isArabic
+                    ? 'مثال تطبيقي جديد للتأكد من زوال اللبس وترسيخ المفهوم'
+                    : 'Testing the same concept on a new example to verify understanding'}
+                </p>
+              </div>
+            </div>
+
+            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
+              {teacherContext.targetLesson.subjectNameAr}
+            </span>
+          </div>
+
+          {/* Re-Check Question Card */}
+          {(() => {
+            const rq = recheckQuestion || teacherContext.recheckQuestion;
+            return (
+              <div className="space-y-3">
+                <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-slate-750 border border-indigo-200 dark:border-slate-700 space-y-1">
+                  <span className="text-[10px] font-black text-indigo-700 dark:text-indigo-300 block">
+                    {isArabic ? 'سؤال التحقق بمثال جديد من مس نور:' : 'Re-Check Question from Miss Nour:'}
+                  </span>
+                  <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
+                    {isArabic ? rq.promptAr : isFrench ? rq.promptFr : rq.promptEn}
+                  </h4>
+                </div>
+
+                {/* Re-Check Options */}
+                <div className="space-y-2">
+                  {rq.options.map((opt, oIdx) => {
+                    const isSelected = selectedRecheckIndex === oIdx;
+                    const showFeedback = isRecheckSubmitted;
+
+                    return (
+                      <button
+                        key={oIdx}
+                        type="button"
+                        disabled={isRecheckSubmitted}
+                        onClick={() => handleSelectRecheckOption(oIdx)}
+                        className={`w-full p-3 rounded-2xl border text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-start justify-between gap-2 cursor-pointer ${
+                          showFeedback
+                            ? opt.isCorrect
+                              ? 'bg-emerald-50 dark:bg-emerald-950/60 border-emerald-500 text-emerald-900 dark:text-emerald-200'
+                              : isSelected
+                              ? 'bg-rose-50 dark:bg-rose-950/60 border-rose-500 text-rose-900 dark:text-rose-200'
+                              : 'bg-slate-50 dark:bg-slate-800 border-slate-200 dark:border-slate-700 opacity-60'
+                            : isSelected
+                            ? 'bg-indigo-100 dark:bg-indigo-950 border-indigo-600 text-indigo-950 dark:text-indigo-100 ring-2 ring-indigo-400'
+                            : 'bg-slate-50 hover:bg-indigo-50 dark:bg-slate-800 dark:hover:bg-slate-700 border-slate-200 dark:border-slate-700'
+                        }`}
+                      >
+                        <span className="leading-relaxed">
+                          {isArabic ? opt.textAr : isFrench ? opt.textFr : opt.textEn}
+                        </span>
+                        {showFeedback && (
+                          <span className="shrink-0 mt-0.5">
+                            {opt.isCorrect ? (
+                              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                            ) : isSelected ? (
+                              <XCircle className="w-4 h-4 text-rose-600" />
+                            ) : null}
+                          </span>
+                        )}
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Re-Check Reasoning Capture */}
+                {selectedRecheckIndex !== null && !isRecheckSubmitted && (
+                  <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 space-y-2 animate-in fade-in">
+                    <span className="text-xs font-black text-amber-950 dark:text-amber-200 flex items-center gap-1.5">
+                      <span>🎙️</span>
+                      <span>
+                        {isArabic ? rq.thinkingPromptAr : rq.thinkingPromptEn}
+                      </span>
+                    </span>
+
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={recheckThinkingInput}
+                        onChange={(e) => setRecheckThinkingInput(e.target.value)}
+                        placeholder={
+                          isArabic
+                            ? 'اكتبي أو تحدثي بصوتك: مثلاً اخترت ده لأن...'
+                            : 'Type or speak: e.g. I chose this because...'
+                        }
+                        className="flex-1 py-2 px-3 rounded-xl bg-white dark:bg-slate-800 border border-amber-300 dark:border-amber-700 text-xs text-slate-900 dark:text-slate-100 placeholder-slate-400 focus:outline-hidden"
+                      />
+                      <VoiceInputControl
+                        onTranscriptConfirmed={(text: string) => {
+                          setRecheckThinkingInput((prev) => (prev ? `${prev} ${text}` : text));
+                        }}
+                      />
+                    </div>
+
+                    <button
+                      type="button"
+                      onClick={handleConfirmRecheck}
+                      className="w-full py-2.5 px-4 rounded-xl bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                    >
+                      <span>🏆 {isArabic ? 'اعتماد الإجابة وتقييم الإتقان والقرار التربوي' : 'Confirm & Evaluate Teaching Decision'}</span>
+                    </button>
+                  </div>
+                )}
+
+                {/* FINAL TEACHING DECISION & OUTCOME CARD */}
+                {isRecheckSubmitted && sessionOutcome && (
+                  <div className="pt-2 space-y-3.5 animate-in fade-in duration-300">
+                    {/* Outcome Badge Card */}
+                    {(() => {
+                      const badge = getOutcomeBadge(sessionOutcome, language);
+                      return (
+                        <div className="p-4 rounded-2xl bg-linear-to-br from-indigo-50 via-white to-amber-50 dark:from-slate-800 dark:via-slate-750 dark:to-slate-800 border-2 border-indigo-300 dark:border-indigo-700 space-y-3 text-center shadow-sm">
+                          <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-black shadow-xs mx-auto">
+                            <span className={`px-3 py-1 rounded-full ${badge.color} font-black text-xs flex items-center gap-1.5`}>
+                              <span>{badge.icon}</span>
+                              <span>{badge.label}</span>
+                            </span>
+                          </div>
+
+                          <div>
+                            <h4 className="text-sm font-black text-slate-900 dark:text-slate-100">
+                              {sessionOutcome === 'mastered'
+                                ? (isArabic ? `ألف مبروك يا ${studentName}! تم إتقان المفهوم بنجاح 🌟` : `Congratulations ${studentName}! Concept Mastered 🌟`)
+                                : sessionOutcome === 'almost'
+                                ? (isArabic ? `قريبة جداً من الإتقان التام يا ${studentName}! ⭐` : `Almost Mastered ${studentName}! ⭐`)
+                                : (isArabic ? `قرار المعلمة نور التربوي لمتابعة التعلم 💡` : `Miss Nour's Pedagogical Decision 💡`)}
+                            </h4>
+                            <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
+                              {sessionOutcomeRationale}
+                            </p>
+                          </div>
+
+                          {/* Spaced Review Scheduler Indicator */}
+                          <div className="p-2 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-[11px] font-bold text-indigo-900 dark:text-indigo-200 flex items-center justify-center gap-1.5">
+                            <span>📅</span>
+                            <span>
+                              {isArabic
+                                ? `جدولة المراجعة المتباعدة: موعد التحقق القادم بعد ${sessionReviewInterval} ${sessionReviewInterval === 1 ? 'يوم' : 'أيام'}`
+                                : `Spaced Review Scheduled: next check in ${sessionReviewInterval} days`}
+                            </span>
+                          </div>
+
+                          {/* Mission Complete Feedback */}
+                          {missionDoneNotification && (
+                            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-[11px] font-bold text-emerald-800 dark:text-emerald-200 flex items-center justify-center gap-1.5">
+                              <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                              <span>{isArabic ? 'تم إنجاز المهمة اليومية وحصد نقاط الخبرة (XP) بنجاح!' : 'Daily mission completed & XP awarded!'}</span>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })()}
+
+                    {/* DYNAMIC NEXT ACTIONS ACCORDING TO REAL OUTCOME */}
+                    <div className="space-y-2 pt-1">
+                      <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
+                        {isArabic ? '🚀 الخطوة التالية المقررة لأمينة:' : '🚀 Next Recommended Action for Amina:'}
+                      </span>
+
+                      {/* If Mastered: Go to Home/Next Mission or Progress */}
+                      {sessionOutcome === 'mastered' && (
+                        <>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEffects.playPop();
+                              setActiveTab('home');
+                            }}
+                            className="w-full py-3 px-4 rounded-xl bg-linear-to-r from-indigo-600 to-indigo-700 hover:from-indigo-500 text-white font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                          >
+                            <span>{isArabic ? 'المهمة التالية في جدولك اليوم 🚀' : 'Next Mission on Today\'s Schedule 🚀'}</span>
+                            <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                          </button>
+
+                          <button
+                            type="button"
+                            onClick={() => {
+                              soundEffects.playPop();
+                              setActiveTab('progress');
+                            }}
+                            className="w-full py-2.5 px-3 rounded-xl bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-750 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-700 font-bold text-xs flex items-center justify-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                          >
+                            <span>📊 {isArabic ? 'مراجعة خريطة الإتقان الشاملة' : 'View Full Knowledge Map'}</span>
+                          </button>
+                        </>
+                      )}
+
+                      {/* If Almost: Do 1 targeted practice exercise */}
+                      {sessionOutcome === 'almost' && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playPop();
+                            setActiveStation('quiz');
+                          }}
+                          className="w-full py-3 px-4 rounded-xl bg-linear-to-r from-teal-600 to-emerald-600 hover:from-teal-500 text-white font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                        >
+                          <span>⭐ {isArabic ? 'حل تمرين تطبيقي من كتاب الوزارة لتثبيت الإتقان 📝' : 'Complete 1 Targeted Textbook Practice 📝'}</span>
+                          <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                        </button>
+                      )}
+
+                      {/* If Misconception: Reteach with alternative modality */}
+                      {sessionOutcome === 'misconception' && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playPop();
+                            setChosenTeachingStrategy('everyday_analogy');
+                            setActiveStation('chalkboard');
+                          }}
+                          className="w-full py-3 px-4 rounded-xl bg-linear-to-r from-amber-500 to-orange-600 hover:from-amber-400 text-white font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                        >
+                          <span>🔄 {isArabic ? 'إعادة الشرح بقصة تشبيهية ومثال واقعي بديل 🍕' : 'Reteach with Alternative Real-World Analogy 🍕'}</span>
+                          <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                        </button>
+                      )}
+
+                      {/* If Struggling or Not Yet Learned: Simplify & Reinforce */}
+                      {(sessionOutcome === 'struggling' || sessionOutcome === 'not_yet_learned') && (
+                        <button
+                          type="button"
+                          onClick={() => {
+                            soundEffects.playPop();
+                            setChosenTeachingStrategy('simpler_prerequisite');
+                            setActiveStation('chalkboard');
+                          }}
+                          className="w-full py-3 px-4 rounded-xl bg-linear-to-r from-indigo-700 to-purple-800 hover:from-indigo-600 text-white font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
+                        >
+                          <span>💡 {isArabic ? 'تثبيت الأساسيات التمهيدية والتبسيط خطوة بخطوة 🧱' : 'Review Foundational Prerequisite Step-by-Step 🧱'}</span>
+                          <ArrowRight className="w-4 h-4 rtl:rotate-180" />
+                        </button>
+                      )}
+
+                      {/* Additional control: Pick another lesson */}
+                      <button
+                        type="button"
+                        onClick={() => {
+                          soundEffects.playPop();
+                          setIsPickerOpen(true);
+                        }}
+                        className="w-full py-2 px-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 dark:hover:bg-slate-650 text-slate-700 dark:text-slate-200 font-bold text-xs transition-all flex items-center justify-center gap-1 cursor-pointer"
+                      >
+                        <span>📚 {isArabic ? 'اختيار درس آخر من كتب الوزارة' : 'Choose Another Lesson'}</span>
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </div>
       )}
 
