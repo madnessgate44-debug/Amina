@@ -139,20 +139,6 @@ export const HomeScreen: React.FC = () => {
             </p>
           </div>
 
-          <div className="p-2.5 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/15 flex items-center justify-between text-xs">
-            <div className="flex items-center gap-2">
-              {!isPostSchool ? <Sun className="w-4 h-4 text-amber-300" /> : <Moon className="w-4 h-4 text-indigo-200" />}
-              <span className="font-bold text-[11px]">
-                {!isPostSchool ? (isArabic ? 'ساعات اليوم الدراسي (المدرسة)' : 'School Hours') : (isArabic ? 'وقت بعد المدرسة (المنزل)' : 'After School Time')}
-              </span>
-            </div>
-            <button
-              onClick={() => setActiveTab('settings')}
-              className="text-[10px] text-amber-300 hover:underline font-bold"
-            >
-              {t.app.demoControl}
-            </button>
-          </div>
         </div>
       </div>
 
@@ -163,9 +149,7 @@ export const HomeScreen: React.FC = () => {
             <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
             <span>{isArabic ? 'ماذا أفعل الآن يا مس نور؟' : 'What Should I Do Now, Miss Nour?'}</span>
           </span>
-          <span className="text-[10px] text-slate-400 font-bold">
-            {completedMissionsCount} / {missionsForToday.length} {isArabic ? 'منجز' : 'done'}
-          </span>
+
         </div>
 
         {/* STATE A: Need School Day Reconstruction */}
