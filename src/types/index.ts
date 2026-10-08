@@ -139,9 +139,11 @@ export type NavigationTab =
   | 'feed' 
   | 'learn' 
   | 'missions' 
+  | 'homework'
   | 'review' 
   | 'progress' 
   | 'companion' 
   | 'timetable'
   | 'settings'
+  | 'collections'
   | 'profile';
