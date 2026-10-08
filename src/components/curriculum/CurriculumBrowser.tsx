@@ -9,7 +9,7 @@ import { curriculumService, SubjectCurriculumSummary } from '../../services/curr
 import { useApp } from '../../context/AppContext';
 import { formatMasteryView } from '../../services/mastery/masteryEngine';
 import { Badge } from '../common/Badge';
-import { StageModal } from '../stage/StageModal';
+import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
 import { LessonStudyModal } from './LessonStudyModal';
 import { QuizRunner } from '../missions/QuizRunner';
 import { HomeworkRunner } from '../missions/HomeworkRunner';
@@ -64,7 +64,7 @@ export const CurriculumBrowser: React.FC = () => {
     'off_scifr_u1_l1_plantes': true,
   });
 
-  const [activeStageLessonId, setActiveStageLessonId] = useState<string | null>(null);
+  const [activeTeachingLessonId, setActiveTeachingLessonId] = useState<string | null>(null);
   const [activeStudyLesson, setActiveStudyLesson] = useState<OfficialCurriculumLesson | null>(null);
   const [activePracticeMission, setActivePracticeMission] = useState<Mission | null>(null);
 
@@ -591,7 +591,7 @@ export const CurriculumBrowser: React.FC = () => {
 
                   <button
                     type="button"
-                    onClick={() => setActiveStageLessonId(lesson.id)}
+                    onClick={() => setActiveTeachingLessonId(lesson.id)}
                     className="px-2.5 py-1 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black shadow-xs flex items-center gap-1"
                   >
                     <span>👩‍🏫 {isAr ? 'اشرحي يا مس نور' : 'Teach with Nour'}</span>
@@ -604,10 +604,10 @@ export const CurriculumBrowser: React.FC = () => {
       )}
 
       {/* Full Modal Runners */}
-      {activeStageLessonId && (
-        <StageModal
-          lessonId={activeStageLessonId}
-          onClose={() => setActiveStageLessonId(null)}
+      {activeTeachingLessonId && (
+        <TeachingSessionModal
+          lessonId={activeTeachingLessonId}
+          onClose={() => setActiveTeachingLessonId(null)}
         />
       )}
 
@@ -639,7 +639,7 @@ export const CurriculumBrowser: React.FC = () => {
                 onSkip={() => setActivePracticeMission(null)}
                 onExplainDifferently={() => {
                   setActivePracticeMission(null);
-                  if (activePracticeMission.lessonId) setActiveStageLessonId(activePracticeMission.lessonId);
+                  if (activePracticeMission.lessonId) setActiveTeachingLessonId(activePracticeMission.lessonId);
                 }}
               />
             </div>
