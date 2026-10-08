@@ -131,7 +131,8 @@ export class TeachingSessionEngine {
    * Advance the teaching loop based on student response
    */
   public advanceSession(input: AdvanceSessionInput): AdvanceSessionResult {
-    const { session, studentInput = '', isAudio = false, language, forceVisual = false } = input;
+    let { session } = input;
+    const { studentInput = '', isAudio = false, language, forceVisual = false } = input;
 
     const lesson = curriculumService.getLessonById(session.lessonId);
     if (!lesson) {
@@ -277,12 +278,6 @@ export class TeachingSessionEngine {
         if (evalScore >= 0.7) {
           // Good grasp! Proceed to Step 7: Mandatory Explain-it-back
           nextStep = 'explain_back';
-          masteryUpdate = {
-            conceptId: currentConcept.id,
-            correctness: 'full',
-            independence: 'unassisted',
-            modality: 'reel_check',
-          };
           replyText = isFr
             ? `Excellente compréhension ! 👍\n\nEt maintenant, voici le vrai test du maître :\n«À ton tour de m'enseigner ! Explique-moi la notion de '${currentConcept.titleEn}' comme si j'étais un nouvel élève qui ne sait absolument rien !»`
             : isAr
@@ -307,12 +302,6 @@ export class TeachingSessionEngine {
         if (evalScore >= 0.65) {
           // Understood through the ladder! Advance to mandatory explain-it-back
           nextStep = 'explain_back';
-          masteryUpdate = {
-            conceptId: currentConcept.id,
-            correctness: 'full',
-            independence: 'hinted',
-            modality: 'reel_check',
-          };
           replyText = isFr
             ? `Formidable ! Maintenant l'idée est limpide. 🎯\n\nÀ ton tour de m'enseigner ! Explique-moi «${currentConcept.titleEn}» avec tes propres mots comme si je n'avais pas lu le manuel !`
             : isAr
@@ -322,12 +311,6 @@ export class TeachingSessionEngine {
           // Reached Attempt 6: Flag for review gently
           nextStep = 'celebrate';
           modalityUsed = 'flag_for_review';
-          masteryUpdate = {
-            conceptId: currentConcept.id,
-            correctness: 'partial',
-            independence: 'hinted',
-            modality: 'reel_check',
-          };
           replyText = isFr
             ? `Bravo pour tes efforts persévérants ! 🌟 Nous avons noté «${currentConcept.titleEn}» pour une révision calme demain sans surcharge. Ton confort passe avant tout !`
             : isAr
@@ -345,50 +328,83 @@ export class TeachingSessionEngine {
       }
 
       case 'explain_back': {
-        // Enforce explain-it-back (Step 7)
-        const isExplanationSufficient = studentInput.trim().length >= 10;
+        // Explain-back is the recheck/evaluation gate. Length alone is never enough.
+        const explanation = studentInput.trim();
+        const analysis = this.evaluateExplainBack(explanation, currentConcept);
 
-        if (isExplanationSufficient) {
+        const evidence = {
+          text: explanation,
+          quality: analysis.quality,
+          conceptKeywordMatches: analysis.conceptKeywordMatches,
+          keyPointMatches: analysis.keyPointMatches,
+          confidence: analysis.confidence,
+          capturedAt: new Date().toISOString(),
+        } as TeachingSession['explainBackEvidence'];
+
+        if (analysis.quality === 'sound') {
           nextStep = 'celebrate';
           masteryUpdate = {
             conceptId: currentConcept.id,
             correctness: 'full',
             independence: session.currentAttemptCount === 0 ? 'unassisted' : 'hinted',
-            modality: 'quiz', // High-weight mastery update
+            modality: 'quiz',
           };
 
-          // Grounded, specific praise linking to concept
           replyText = isFr
-            ? `Explication brillante et très claire de la notion «${currentConcept.titleEn}» ! 🌟 Tu as simplifié le concept avec exactitude et confiance.`
+            ? `Excellente explication de «${currentConcept.titleEn}» ! 🌟 Tu as relié l'idée aux points essentiels du cours.`
             : isAr
-            ? `شرح عبقري ومتقن لمفهوم «${currentConcept.titleAr}»! 🌟 أحسنت التعبير تماماً، وأعجبني جداً كيف بسطت الفكرة ونقلت المعنى بدقة دون تكلف.`
-            : `Brilliant explanation of "${currentConcept.titleEn}"! 🌟 You simplified the concept accurately and expressed it with true confidence.`;
+            ? `شرح قوي ومبني على الفكرة الأساسية في «${currentConcept.titleAr}»! 🌟 دلوقتي عندنا دليل حقيقي على الفهم، مش مجرد إجابة صحيحة.`
+            : `Strong explanation of "${currentConcept.titleEn}"! 🌟 You connected the idea to the key points, so we have real evidence of understanding.`;
 
-          // If multi-concept, check if more concepts remain
           if (session.currentConceptIndex < lesson.concepts.length - 1) {
             const nextConcept = lesson.concepts[session.currentConceptIndex + 1];
             replyText += isFr
-              ? `\n\n✨ Et maintenant, passons-nous à la notion suivante : «${nextConcept.titleEn}» ?`
+              ? `\\n\\n✨ Passons maintenant à «${nextConcept.titleEn}» ?`
               : isAr
-              ? `\n\n✨ والآن، هل ننتقل للمفهوم التالي: «${nextConcept.titleAr}»؟`
-              : `\n\n✨ Shall we move to the next concept: "${nextConcept.titleEn}"?`;
+              ? `\\n\\n✨ والآن ننتقل للمفهوم التالي: «${nextConcept.titleAr}»؟`
+              : `\\n\\n✨ Shall we move to the next concept: "${nextConcept.titleEn}"?`;
           } else {
             isSessionCompleted = true;
             nextStep = 'close';
             replyText += isFr
-              ? `\n\n🎉 Félicitations ! Nous avons maîtrisé toutes les notions de la leçon «${lesson.titleEn}» et mis à jour ta carte des connaissances.`
+              ? `\\n\\n🎉 Félicitations ! Toutes les notions de «${lesson.titleEn}» sont maintenant vérifiées.`
               : isAr
-              ? `\n\n🎉 مبارك يا بطل! أتممنا جميع مفاهيم درس «${lesson.titleAr}» بنجاح وتم تحديث درجات إتقانك في خريطة المعرفة.`
-              : `\n\n🎉 Congratulations! We have mastered all concepts of "${lesson.titleEn}" and updated your Knowledge Map!`;
+              ? `\\n\\n🎉 ممتاز! تم التحقق من فهم جميع مفاهيم درس «${lesson.titleAr}».`
+              : `\\n\\n🎉 Excellent! All concepts in "${lesson.titleEn}" have now been verified.`;
           }
         } else {
-          // Prompt child to give a bit more detail
+          // Weak/guessing explain-back: no mastery evidence. Return to targeted practice.
+          nextStep = 'adjust';
+          const attempt = session.currentAttemptCount + 1;
+          const escalation = this.getEscalationResponse(attempt, currentConcept, lesson, effectiveLang);
+          modalityUsed = escalation.modality;
+          visualData = escalation.visualData;
           replyText = isFr
-            ? `C'est un bon début ! Peux-tu m'expliquer encore un petit détail : comment expliquerais-tu «${currentConcept.titleEn}» à un ami qui n'était pas là ?`
+            ? `Ton idée est encore partielle. Je ne vais pas compter cela comme une maîtrise tout de suite. Reprenons avec une autre façon d'expliquer, puis tu réessaieras.\\n\\n${escalation.text}`
             : isAr
-            ? `بداية جيدة! لكن أريدك أن تشرح لي تفصيلاً صغيراً إضافياً: كيف تشرح لي «${currentConcept.titleAr}» لو سألك أخوك الصغير عنها؟`
-            : `Good start! Tell me one more small detail: how would you explain "${currentConcept.titleEn}" to your younger sibling?`;
+            ? `لسه محتاجين دليل أوضح على الفهم، فمش هاعتبر المفهوم متقن دلوقتي. هنغيّر طريقة الشرح ونجرّب تاني.\\n\\n${escalation.text}`
+            : `We need stronger evidence of understanding, so I won't mark this mastered yet. Let's change the teaching strategy and try again.\\n\\n${escalation.text}`;
         }
+
+        const evidenceTurn: TutorTurn = {
+          id: `turn_evidence_${Date.now()}`,
+          role: 'system',
+          step: nextStep,
+          text: '',
+          isExplainBack: true,
+          timestamp: new Date().toISOString(),
+        };
+
+        const updatedSessionWithEvidence: TeachingSession = {
+          ...session,
+          explainBackEvidence: evidence,
+          explainBackDone: analysis.quality === 'sound',
+          lastActiveAt: new Date().toISOString(),
+          turnHistory: [...updatedTurns, evidenceTurn],
+        };
+
+        // Continue through the common final session update below.
+        session = updatedSessionWithEvidence;
         break;
       }
 
@@ -481,6 +497,57 @@ export class TeachingSessionEngine {
       shouldTriggerVisual: Boolean(visualData),
       isSessionCompleted,
     };
+  }
+
+  private evaluateExplainBack(
+    input: string,
+    concept: CurriculumLessonConcept
+  ): {
+    quality: 'sound' | 'partial' | 'guessing' | 'unclear';
+    conceptKeywordMatches: number;
+    keyPointMatches: number;
+    confidence: 'high' | 'medium' | 'low';
+  } {
+    const text = (input || '').trim().toLowerCase();
+    if (!text) return { quality: 'unclear', conceptKeywordMatches: 0, keyPointMatches: 0, confidence: 'low' };
+
+    const conceptTerms = [
+      ...concept.titleAr.toLowerCase().split(/\\s+/),
+      ...concept.titleEn.toLowerCase().split(/\\s+/),
+    ].filter((w) => w.length > 2);
+
+    const keyPointTerms = concept.keyPoints
+      .flatMap((p) => p.toLowerCase().split(/\\s+/))
+      .filter((w) => w.length > 2);
+
+    const conceptKeywordMatches = [...new Set(conceptTerms.filter((t) => text.includes(t)))].length;
+    const keyPointMatches = [...new Set(keyPointTerms.filter((t) => text.includes(t)))].length;
+
+    const guessing = [
+      'تخمين', 'مش متأكدة', 'مش متاكد', 'مش عارفة', 'حظ', 'يمكن',
+      'guess', 'not sure', 'maybe', 'lucky',
+      'au hasard', 'pas sûre', 'peut-être',
+    ].some((t) => text.includes(t));
+
+    if (guessing) {
+      return { quality: 'guessing', conceptKeywordMatches, keyPointMatches, confidence: 'high' };
+    }
+
+    const causal = [
+      'لأن', 'عشان', 'علشان', 'بسبب', 'يعني', 'كلما', 'لذلك',
+      'because', 'since', 'therefore', 'means',
+      'parce que', 'donc', 'cela signifie',
+    ].some((t) => text.includes(t));
+
+    if (text.length >= 25 && keyPointMatches >= 1 && (conceptKeywordMatches >= 1 || causal)) {
+      return { quality: 'sound', conceptKeywordMatches, keyPointMatches, confidence: 'high' };
+    }
+
+    if (text.length >= 10 && (keyPointMatches >= 1 || conceptKeywordMatches >= 1 || causal)) {
+      return { quality: 'partial', conceptKeywordMatches, keyPointMatches, confidence: 'medium' };
+    }
+
+    return { quality: 'unclear', conceptKeywordMatches, keyPointMatches, confidence: 'low' };
   }
 
   /**
