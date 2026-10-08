@@ -9,7 +9,9 @@ import { curriculumService } from '../curriculum/curriculumService';
 import { createInitialMasteryRecord, addEvidenceToMastery, formatMasteryView } from '../mastery/masteryEngine';
 import { getAllSpacedReviewSchedules, computeConceptReviewSchedule } from '../review/spacedReviewScheduler';
 import { reconcileDayWithTimetable } from '../reconstruction/dayRecordReconciliation';
-import { Student, DayRecord, Timetable } from '../../types';
+import { processMissionCompletion } from '../missions/missionCompletion';
+import { storageService } from '../storage';
+import { Student, DayRecord, Timetable, Mission, MissionOutcome, MasteryRecord } from '../../types';
 
 let passed = 0;
 let failed = 0;
@@ -283,6 +285,140 @@ async function runIntegrityTests() {
   const diagnostic = buildDiagnosticForConcept(fractionLesson, targetConcept, realStudent.name);
   assert(diagnostic.options.length >= 2, '10.1: Diagnostic question constructed for concept');
   assert(diagnostic.conceptId === targetConcept.id, '10.2: Diagnostic question bound to real curriculum concept');
+
+  // =========================================================================
+  // TASK 3 REGRESSION TESTS: Mission Completion Integrity & evidenceAdded
+  // =========================================================================
+  console.log('\nTask 3 Regression Tests: Authoritative Student ID & Truthful evidenceAdded');
+
+  const savedMissions: Mission[] = [];
+  const savedOutcomes: MissionOutcome[] = [];
+  const savedMastery: MasteryRecord[] = [];
+
+  const testStorage: any = Object.create(storageService);
+  testStorage.saveMission = async (m: Mission) => {
+    savedMissions.push(m);
+    return storageService.saveMission(m);
+  };
+  testStorage.saveMissionOutcome = async (o: MissionOutcome) => {
+    savedOutcomes.push(o);
+    return storageService.saveMissionOutcome(o);
+  };
+  testStorage.saveMasteryRecord = async (rec: MasteryRecord) => {
+    savedMastery.push(rec);
+    return storageService.saveMasteryRecord(rec);
+  };
+
+  // Test A: Attempt to complete a mission whose studentId belongs to a different student than the active student
+  const activeStudent: Student = {
+    id: 'student_active_authoritative',
+    name: 'أمينة النشطة',
+    age: 10,
+    grade: 'الصف الخامس الابتدائي',
+    country: 'Egypt',
+    curriculum: 'Egyptian Bilingue',
+    academicYear: '2026',
+    preferredLanguage: 'ar',
+    subjects: ['اللغة العربية'],
+    interviewAnswers: {
+      enjoyMost: 'العلوم',
+      hardest: 'الرياضيات',
+      learningStyle: 'games',
+      sessionDuration: '30min',
+      upcomingExams: '',
+    },
+    isOnboarded: true,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  };
+
+  const mismatchedMission: Mission = {
+    id: 'mission_mismatched_001',
+    studentId: 'student_foreign_imposter', // Different student from active student!
+    date: '2026-10-08',
+    subject: 'الرياضيات',
+    title: 'تطبيق مقارنة الكسور',
+    type: 'quiz',
+    estimatedMinutes: 10,
+    whyNow: 'اختبار تشخيصي',
+    originTag: 'official',
+    successCriterion: 'حل الأسئلة',
+    status: 'pending',
+    conceptId: mathConcept?.id,
+  };
+
+  const resultA = await processMissionCompletion({
+    student: activeStudent,
+    mission: mismatchedMission,
+    outcomeParams: { score: 0.95, modality: 'quiz' },
+    storage: testStorage,
+  });
+
+  assert(resultA.success === false, 'Test A.1: Completion is safely rejected when student IDs do not match');
+  assert(resultA.rejectedReason === 'student_id_mismatch', 'Test A.2: Rejection reason is "student_id_mismatch"');
+  assert(resultA.evidenceAdded === false, 'Test A.3: evidenceAdded is false for rejected mission');
+  assert(resultA.gamificationAwarded === false, 'Test A.4: No gamification awarded for rejected mission');
+  assert(savedMissions.length === 0, 'Test A.5: No completed mission persisted to storage');
+  assert(savedOutcomes.length === 0, 'Test A.6: No MissionOutcome persisted to storage');
+  assert(savedMastery.length === 0, 'Test A.7: No mastery evidence created for rejected mission');
+
+  // Test B: Complete a mission with a valid conceptId but WITHOUT an evaluated score
+  const validConceptMissionNoScore: Mission = {
+    id: 'mission_concept_no_score_002',
+    studentId: activeStudent.id,
+    date: '2026-10-08',
+    subject: 'الرياضيات',
+    title: 'مراجعة المفهوم بدون تقييم',
+    type: 'practice',
+    estimatedMinutes: 10,
+    whyNow: 'تصفح تدريبي',
+    originTag: 'official',
+    successCriterion: 'إتمام النشاط',
+    status: 'pending',
+    conceptId: mathConcept?.id,
+  };
+
+  const resultB = await processMissionCompletion({
+    student: activeStudent,
+    mission: validConceptMissionNoScore,
+    outcomeParams: undefined, // WITHOUT evaluated score!
+    storage: testStorage,
+  });
+
+  assert(resultB.success === true, 'Test B.1: Mission marked completed normally without score');
+  assert(resultB.completedMission?.status === 'completed', 'Test B.2: Completed mission status is "completed"');
+  assert(resultB.evidenceAdded === false, 'Test B.3: evidenceAdded === false when no evaluated score is provided');
+  assert(resultB.outcome?.evidenceAdded === false, 'Test B.4: MissionOutcome.evidenceAdded === false in outcome record');
+  assert(savedMastery.length === 0, 'Test B.5: No mastery evidence recorded when score is absent');
+
+  // Test C: Complete a valid mission with active student, matching mission.studentId, authoritative conceptId, and actual evaluated score
+  const validEvaluatedMission: Mission = {
+    id: 'mission_evaluated_003',
+    studentId: activeStudent.id,
+    date: '2026-10-08',
+    subject: 'الرياضيات',
+    title: 'اختبار متقن على مفهوم الكسور',
+    type: 'quiz',
+    estimatedMinutes: 10,
+    whyNow: 'تقييم رسمي للمفهوم',
+    originTag: 'official',
+    successCriterion: 'الحصول على درجة كاملة',
+    status: 'pending',
+    conceptId: mathConcept?.id,
+  };
+
+  const resultC = await processMissionCompletion({
+    student: activeStudent,
+    mission: validEvaluatedMission,
+    outcomeParams: { score: 1.0, modality: 'quiz' },
+    storage: testStorage,
+  });
+
+  assert(resultC.success === true, 'Test C.1: Valid mission completes successfully');
+  assert(resultC.evidenceAdded === true, 'Test C.2: evidenceAdded === true when authoritative concept and score exist');
+  assert(resultC.outcome?.evidenceAdded === true, 'Test C.3: MissionOutcome.evidenceAdded === true');
+  assert(resultC.gamificationAwarded === true, 'Test C.4: Gamification awarded on legitimate evaluated completion');
+  assert(savedMastery.length === 1, 'Test C.5: Mastery evidence successfully recorded and persisted');
 
   console.log('\n=================================================================');
   console.log(`INTEGRITY TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);

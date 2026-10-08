@@ -39,6 +39,7 @@ import {
   applyDecay,
 } from '../services/mastery/masteryEngine';
 import { planDailyMissions } from '../services/missions/missionPlanner';
+import { processMissionCompletion } from '../services/missions/missionCompletion';
 import { generateDailyReview } from '../services/review/dailyReviewGenerator';
 import {
   getAllSpacedReviewSchedules,
@@ -601,75 +602,37 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     outcomeParams?: { score?: number; modality?: 'quiz' | 'reel_check' | 'practice' | 'homework' }
   ) => {
     const mission = missionsForToday.find((m) => m.id === missionId);
-    if (!mission) return;
 
-    const completedAt = new Date().toISOString();
-    const updatedMissions = missionsForToday.map((m) =>
-      m.id === missionId ? { ...m, status: 'completed' as const, completedAt } : m
-    );
-    setMissionsForToday(updatedMissions);
-    await storageService.saveMission({ ...mission, status: 'completed', completedAt });
+    const result = await processMissionCompletion({
+      student,
+      mission,
+      outcomeParams,
+      storage: storageService,
+      masteryRecords,
+      onRecordEvidence: handleRecordEvidence,
+    });
 
-    // Save Mission Outcome
-    const outcome: MissionOutcome = {
-      id: `out_${mission.id}_${Date.now()}`,
-      missionId: mission.id,
-      studentId: mission.studentId,
-      completedAt,
-      status: 'completed',
-      score: outcomeParams?.score,
-      modalityUsed: outcomeParams?.modality,
-      evidenceAdded: Boolean(mission.conceptId),
-    };
-    await storageService.saveMissionOutcome(outcome);
-
-    // Update Mastery through Phase 4 mastery engine if tied to a concept and actual evaluated score is provided
-    if (mission.conceptId && outcomeParams?.score !== undefined) {
-      const modality: EvidenceModality =
-        outcomeParams?.modality === 'quiz'
-          ? 'quiz'
-          : outcomeParams?.modality === 'reel_check'
-          ? 'reel_check'
-          : 'homework';
-
-      const correctness: EvidenceCorrectness =
-        outcomeParams.score >= 0.7
-          ? 'full'
-          : outcomeParams.score >= 0.4
-          ? 'partial'
-          : 'wrong';
-
-      await handleRecordEvidence(mission.conceptId, {
-        correctness,
-        difficulty: 0.5,
-        independence: 'unassisted',
-        modality,
-        notes: `Completed mission with score ${(outcomeParams.score * 100).toFixed(0)}%: ${mission.title}`,
-      });
+    if (!result.success || !result.completedMission) {
+      return;
     }
 
-    // Award forgiving gamification XP and update streak/badges
-    if (student?.id) {
-      try {
-        const updatedGam = await awardMissionGamification(
-          student.id,
-          storageService,
-          mission,
-          masteryRecords
-        );
-        setGamification(updatedGam);
-      } catch (e) {
-        console.warn('Could not award gamification:', e);
-      }
+    setMissionsForToday((prev) =>
+      prev.map((m) => (m.id === missionId ? result.completedMission! : m))
+    );
+
+    if (result.updatedGamification) {
+      setGamification(result.updatedGamification);
     }
 
     setActiveMissionRunnerOpen(false);
     setActiveMission(null);
-    showToast(
-      settings.language === 'ar'
-        ? `أحسنت يا بطل! تم إنجاز المهمة: ${mission.title}`
-        : `Well done! Completed mission: ${mission.title}`
-    );
+    if (mission) {
+      showToast(
+        settings.language === 'ar'
+          ? `أحسنت يا بطل! تم إنجاز المهمة: ${mission.title}`
+          : `Well done! Completed mission: ${mission.title}`
+      );
+    }
   };
 
   const handleOpenDailyReview = async (): Promise<DailyReview> => {
