@@ -41,6 +41,14 @@ jobs:
       - name: Test integrity
         run: npm run test:integrity
 
+      - name: Upload teaching test diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: teaching-test-diagnostics
+          path: teaching-test-failure.txt
+          if-no-files-found: ignore
+
       - name: Build
         run: npm run build
         env:
