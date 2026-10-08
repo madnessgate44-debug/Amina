@@ -57,7 +57,7 @@ export interface IStorageService {
   /**
    * Retrieves the confirmed or draft DayRecord for a specified date (defaulting to today YYYY-MM-DD).
    */
-  getDayRecord(date: string): Promise<DayRecord | null>;
+  getDayRecord(date: string, studentId?: string): Promise<DayRecord | null>;
 
   /**
    * Persists a DayRecord (draft or confirmed).
