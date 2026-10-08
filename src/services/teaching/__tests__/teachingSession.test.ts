@@ -52,6 +52,12 @@ function advance(session: any, input: string) {
   session = advance(session, 'القيمة المكانية بعد الفاصلة ثم أجزاء من عشرة ومئة وألف').session;
   assert(session.currentStep === 'ask', 'setup should reach understanding check');
 
+  session = advance(
+    session,
+    'القيمة المكانية بعد الفاصلة: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف، وكل رتبة إلى اليمين أصغر بعشر مرات. Chaque rang vers la droite est 10 fois plus petit.'
+  ).session;
+  assert(session.currentStep === 'explain_back', 'practice should lead to explain-back before evaluating reasoning');
+
   const result = advance(session, 'تخمين وحظ، مش متأكدة ومش عارفة أشرح');
   assert(result.session.currentStep === 'adjust', 'guessing explain-back must return to adjustment');
   assert(result.session.explainBackEvidence?.quality === 'guessing', 'guessing explain-back must be captured');
