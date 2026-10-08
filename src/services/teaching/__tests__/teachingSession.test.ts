@@ -89,7 +89,7 @@ function advance(session: any, input: string) {
     practice.session,
     'القيمة المكانية بعد الفاصلة توضح قيمة كل رقم حسب مكانه، وكل رتبة إلى اليمين أصغر بعشر مرات. Chaque rang vers la droite est 10 fois plus petit.'
   );
-  assert(final.session.explainBackEvidence?.quality === 'sound', 'sound explain-back must be captured');
+  assert(final.session.explainBackEvidence?.quality === 'sound', `sound explain-back must be captured: ${JSON.stringify(final.session.explainBackEvidence)}`);
   assert(final.masteryUpdate?.correctness === 'full', 'sound explain-back is the mastery gate');
   assert(final.masteryUpdate?.independence === 'unassisted', 'first successful explain-back remains unassisted');
 }
