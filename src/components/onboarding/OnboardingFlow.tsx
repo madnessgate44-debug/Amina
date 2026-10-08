@@ -21,8 +21,10 @@ export const OnboardingFlow: React.FC = () => {
   const [age, setAge] = useState(10);
   const [grade, setGrade] = useState('الصف الخامس الابتدائي (Grade 5)');
   const [country, setCountry] = useState('مصر (Egypt)');
-  const [curriculum, setCurriculum] = useState('Demo — Egyptian Grade 5');
+  const [curriculum, setCurriculum] = useState('Girard French Track — Egyptian National + French Curriculum');
   const [academicYear, setAcademicYear] = useState('2026 – 2027');
+  const [school] = useState('École Girard');
+  const [location] = useState('Alexandria, Egypt');
   const [preferredLang, setPreferredLang] = useState<Language>(language);
   const [selectedSubjects, setSelectedSubjects] = useState<string[]>(['اللغة العربية', 'الرياضيات', 'العلوم']);
 
@@ -138,6 +140,9 @@ export const OnboardingFlow: React.FC = () => {
       country,
       curriculum,
       academicYear,
+      school,
+      location,
+      curriculumTrack: 'french_bilingual',
       preferredLanguage: preferredLang,
       subjects: selectedSubjects,
       interviewAnswers,
@@ -158,7 +163,7 @@ export const OnboardingFlow: React.FC = () => {
       <div className="mb-6">
         <div className="flex items-center justify-between text-xs font-medium text-slate-500 mb-2">
           <span>{isArabic ? `الخطوة ${step} من 3` : `Step ${step} of 3`}</span>
-          <Badge variant="demo">{t.app.demoBadge}</Badge>
+          <Badge variant="official">Girard French Track</Badge>
         </div>
         <div className="w-full bg-slate-200 dark:bg-slate-800 h-2 rounded-full overflow-hidden">
           <div
@@ -254,7 +259,7 @@ export const OnboardingFlow: React.FC = () => {
                 </label>
                 <div className="flex items-center justify-between px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900">
                   <span className="text-xs font-medium text-slate-800 dark:text-slate-200">{curriculum}</span>
-                  <Badge variant="demo">origin: demo</Badge>
+                  <Badge variant="official">Girard / French Track</Badge>
                 </div>
               </div>
 
@@ -333,8 +338,8 @@ export const OnboardingFlow: React.FC = () => {
                 </div>
                 <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-1">
                   {isArabic
-                    ? 'منهج الصف الخامس الابتدائي الرسمي المعتمد لأمينة (القسم الفرنسي التجريبي).'
-                    : "Authoritative Egyptian Ministry Grade 5 Curriculum for Amina (French Section)."}
+                    ? 'منهج أمينة في جيرار: المنهج المصري حيث ينطبق، مع مسار فرنسي، والرياضيات والعلوم باللغة الفرنسية.'
+                    : "Grade 5 at École Girard: Egyptian national curriculum where applicable, with French-track curriculum and French instruction for Mathematics and Science."}
                 </p>
               </div>
             </div>
