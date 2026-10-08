@@ -8,6 +8,7 @@ import { useApp } from '../../context/AppContext';
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { Mission } from '../../types';
 import { QuizRunner } from '../missions/QuizRunner';
+import { ReelViewer } from '../missions/ReelViewer';
 import { HomeworkRunner } from '../missions/HomeworkRunner';
 import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
 import { SaveLikeButton } from '../collections/SaveLikeButton';
@@ -187,6 +188,13 @@ export const FeedScreen: React.FC = () => {
             <button onClick={() => setActiveMission(null)} className="absolute right-3 top-3 z-10 p-2 rounded-full bg-slate-900/80 text-white"><X className="w-4 h-4" /></button>
             {activeMission.type === 'homework' ? (
               <HomeworkRunner mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} onClose={() => setActiveMission(null)} />
+            ) : activeMission.conceptId ? (
+              <ReelViewer
+                mission={activeMission}
+                onComplete={() => setActiveMission(null)}
+                onSkip={() => setActiveMission(null)}
+                onExplainDifferently={() => setActiveMission(null)}
+              />
             ) : (
               <QuizRunner mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} onExplainDifferently={() => setActiveMission(null)} />
             )}
