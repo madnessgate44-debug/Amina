@@ -15,8 +15,10 @@ import { ISLAMIC_CURRICULUM_LESSONS } from './curriculum/islamicCurriculum';
 import { CALLIGRAPHY_CURRICULUM_LESSONS } from './curriculum/calligraphyCurriculum';
 
 /**
- * Official Egyptian Ministry of Education Curriculum for Grade 5 (Term 1)
- * Complete, unified repository covering all official books and subjects for Amina:
+ * Amina Grade 5 curriculum registry for École Girard (Term 1).
+ * This registry separates curriculum source from language of instruction.
+ * It contains the authoritative lesson material currently present in the repository;
+ * it must not be treated as a claim that every physical textbook page has been digitized:
  *
  * 1. اللغة العربية (Arabic Language)
  * 2. اللغة الفرنسية (French Language / Français)
