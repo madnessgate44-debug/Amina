@@ -184,7 +184,7 @@ export const CompanionChatScreen: React.FC = () => {
   useEffect(() => {
     async function loadChat() {
       try {
-        const storedConv = await storageService.getConversation();
+        const storedConv = student?.id ? await storageService.getConversation(student.id) : null;
         if (storedConv && storedConv.messages.length > 0) {
           setMessages(storedConv.messages);
         } else {
@@ -378,6 +378,31 @@ export const CompanionChatScreen: React.FC = () => {
             studentName,
             grade: student?.grade || 'Grade 5',
             language,
+            schoolBrainContext: {
+              studentId: student?.id,
+              school: student?.school,
+              location: student?.location,
+              curriculumTrack: student?.curriculumTrack,
+              dayRecord: currentDayRecord
+                ? {
+                    date: currentDayRecord.date,
+                    confirmed: currentDayRecord.confirmed,
+                    lessons: currentDayRecord.lessons,
+                    homework: currentDayRecord.homework,
+                    notes: currentDayRecord.notes,
+                  }
+                : null,
+              activeMission: activeMission
+                ? {
+                    id: activeMission.id,
+                    subjectId: activeMission.subjectId,
+                    conceptId: activeMission.conceptId,
+                    title: activeMission.title,
+                    status: activeMission.status,
+                    whyNow: activeMission.whyNow,
+                  }
+                : null,
+            },
           },
           {
             studentId: student?.id,
