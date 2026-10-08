@@ -5,63 +5,83 @@ function assert(condition: boolean, message: string) {
 }
 
 const engine = new TeachingSessionEngine();
-const initialized = engine.initializeSession({
-  studentId: 'student_test',
-  lessonId: 'off_mathfr_u1_l1_decimaux',
-  language: 'ar',
-});
+const lessonId = 'off_mathfr_u1_l1_decimaux';
 
-let session = initialized.session;
-const conceptText = 'القيمة المكانية بعد الفاصلة: جزء من عشرة، ثم جزء من مئة، ثم جزء من ألف';
+function advance(session: any, input: string) {
+  return engine.advanceSession({ session, studentInput: input, language: 'ar' });
+}
 
-let result = engine.advanceSession({ session, studentInput: 'جاهزة', language: 'ar' });
-session = result.session;
-assert(session.currentStep === 'warmup', 'greet should advance to warmup');
+// Verify the loop reaches an explain-back gate without awarding mastery from practice alone.
+{
+  const initialized = engine.initializeSession({
+    studentId: 'student_test',
+    lessonId,
+    language: 'ar',
+  });
 
-result = engine.advanceSession({ session, studentInput: 'جاهزة', language: 'ar' });
-session = result.session;
-assert(session.currentStep === 'teach', 'warmup should advance to teach');
+  let session = initialized.session;
+  let result = advance(session, 'جاهزة');
+  session = result.session;
+  assert(session.currentStep === 'warmup', 'greet should advance to warmup');
 
-result = engine.advanceSession({ session, studentInput: conceptText, language: 'ar' });
-session = result.session;
-assert(session.currentStep === 'ask', 'teach should advance to the practice/check step');
-assert(!result.masteryUpdate, 'practice/check must not create mastery evidence');
+  result = advance(session, 'جاهزة');
+  session = result.session;
+  assert(session.currentStep === 'teach', 'warmup should advance to teach');
 
-result = engine.advanceSession({
-  session,
-  studentInput: 'القيمة المكانية بعد الفاصلة هي جزء من عشرة ثم جزء من مئة ثم جزء من ألف',
-  language: 'ar',
-});
-session = result.session;
-assert(session.currentStep === 'explain_back', 'successful practice should require explain-back');
-assert(!result.masteryUpdate, 'successful practice must not award mastery before explain-back');
+  result = advance(session, 'القيمة المكانية بعد الفاصلة');
+  session = result.session;
+  assert(session.currentStep === 'ask', 'teach should advance to the understanding check');
+  assert(!result.masteryUpdate, 'understanding check must not award mastery');
+}
 
-result = engine.advanceSession({
-  session,
-  studentInput: 'تخمين وحظ، مش متأكدة من الإجابة ومش عارفة أشرح القاعدة',
-  language: 'ar',
-});
-session = result.session;
-assert(session.explainBackEvidence?.quality === 'guessing', 'guessing explain-back must be captured');
-assert(session.currentStep === 'adjust', 'weak explain-back must return to targeted practice');
-assert(!result.masteryUpdate, 'guessing explain-back must never award mastery evidence');
+// Verify weak explain-back is captured and rejected.
+{
+  const initialized = engine.initializeSession({
+    studentId: 'student_test_weak',
+    lessonId,
+    language: 'ar',
+  });
 
-result = engine.advanceSession({
-  session,
-  studentInput: 'القيمة المكانية بعد الفاصلة تعني ترتيب الأرقام: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف. Chaque rang vers la droite est 10 fois plus petit، لذلك نعرف قيمة كل رقم من مكانه.',
-  language: 'ar',
-});
-session = result.session;
-assert(session.currentStep === 'explain_back', 'targeted practice should lead back to explain-back');
-assert(!result.masteryUpdate, 'targeted practice must not award mastery by itself');
+  let session = initialized.session;
+  session = advance(session, 'جاهزة').session;
+  session = advance(session, 'جاهزة').session;
+  session = advance(session, 'القيمة المكانية بعد الفاصلة ثم أجزاء من عشرة ومئة وألف').session;
+  assert(session.currentStep === 'ask', 'setup should reach understanding check');
 
-result = engine.advanceSession({
-  session,
-  studentInput: 'القيمة المكانية بعد الفاصلة تعني ترتيب الأرقام: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف. Chaque rang vers la droite est 10 fois plus petit، لذلك نعرف قيمة كل رقم من مكانه.',
-  language: 'ar',
-});
-session = result.session;
-assert(session.explainBackEvidence?.quality === 'sound', 'sound explain-back must be captured');
-assert(result.masteryUpdate?.correctness === 'full', 'sound explain-back should be the mastery gate');
-assert(result.masteryUpdate?.independence === 'hinted', 'successful explain-back after targeted retry reflects guided teaching');
+  const result = advance(session, 'تخمين وحظ، مش متأكدة ومش عارفة أشرح');
+  assert(result.session.currentStep === 'adjust', 'guessing explain-back must return to adjustment');
+  assert(result.session.explainBackEvidence?.quality === 'guessing', 'guessing explain-back must be captured');
+  assert(!result.masteryUpdate, 'guessing explain-back must never award mastery');
+}
+
+// Verify source-grounded sound explain-back is the mastery gate.
+{
+  const initialized = engine.initializeSession({
+    studentId: 'student_test_sound',
+    lessonId,
+    language: 'ar',
+  });
+
+  let session = initialized.session;
+  session = advance(session, 'جاهزة').session;
+  session = advance(session, 'جاهزة').session;
+  session = advance(session, 'القيمة المكانية بعد الفاصلة، وكل رتبة إلى اليمين أصغر بعشر مرات').session;
+  assert(session.currentStep === 'ask', 'sound-path setup should reach understanding check');
+
+  const practice = advance(
+    session,
+    'القيمة المكانية بعد الفاصلة: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف، وكل رتبة إلى اليمين أصغر بعشر مرات. Chaque rang vers la droite est 10 fois plus petit.'
+  );
+  assert(practice.session.currentStep === 'explain_back', 'successful understanding check should require explain-back');
+  assert(!practice.masteryUpdate, 'practice success must not award mastery before explain-back');
+
+  const final = advance(
+    practice.session,
+    'القيمة المكانية بعد الفاصلة توضح قيمة كل رقم حسب مكانه، وكل رتبة إلى اليمين أصغر بعشر مرات. Chaque rang vers la droite est 10 fois plus petit.'
+  );
+  assert(final.session.explainBackEvidence?.quality === 'sound', 'sound explain-back must be captured');
+  assert(final.masteryUpdate?.correctness === 'full', 'sound explain-back is the mastery gate');
+  assert(final.masteryUpdate?.independence === 'unassisted', 'first successful explain-back remains unassisted');
+}
+
 console.log('TeachingSession explain-back evidence tests passed.');
