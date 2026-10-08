@@ -7,7 +7,6 @@ import React, { useMemo, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { Mission } from '../../types';
-import { ReelViewer } from '../missions/ReelViewer';
 import { QuizRunner } from '../missions/QuizRunner';
 import { HomeworkRunner } from '../missions/HomeworkRunner';
 import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
@@ -127,7 +126,7 @@ export const FeedScreen: React.FC = () => {
                 <div className="rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/15 p-6 shadow-2xl">
                   <div className="text-[11px] uppercase tracking-widest text-amber-300 font-black mb-3">{card.purpose}</div>
                   <h2 className="text-3xl font-black leading-tight">{card.mission.title}</h2>
-                  <p className="text-slate-300 text-sm mt-3">{card.mission.description}</p>
+                  <p className="text-slate-300 text-sm mt-3">{card.mission.whyNow}</p>
                   <button onClick={() => runMission(card.mission)} className="mt-7 w-full rounded-2xl bg-white text-slate-950 py-3 font-black flex items-center justify-center gap-2">
                     <Play className="w-4 h-4" /> {isAr ? 'يلا نبدأ' : 'Let’s try it'}
                   </button>
@@ -161,8 +160,6 @@ export const FeedScreen: React.FC = () => {
             <button onClick={() => setActiveMission(null)} className="absolute right-3 top-3 z-10 p-2 rounded-full bg-slate-900/80 text-white"><X className="w-4 h-4" /></button>
             {activeMission.type === 'homework' ? (
               <HomeworkRunner mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} onClose={() => setActiveMission(null)} />
-            ) : activeMission.type === 'reel' ? (
-              <ReelViewer mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} />
             ) : (
               <QuizRunner mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} onExplainDifferently={() => setActiveMission(null)} />
             )}
