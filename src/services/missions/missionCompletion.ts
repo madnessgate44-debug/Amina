@@ -120,6 +120,8 @@ export async function processMissionCompletion(
         ? 'quiz'
         : outcomeParams?.modality === 'reel_check'
         ? 'reel_check'
+        : outcomeParams?.modality === 'practice'
+        ? 'practice'
         : 'homework';
 
     const correctness: EvidenceCorrectness =
