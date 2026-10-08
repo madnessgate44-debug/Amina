@@ -15,7 +15,7 @@ export const BottomNav: React.FC = () => {
 
   const navItems: { id: NavigationTab; label: string; icon: React.ReactNode }[] = [
     { id: 'home', label: isArabic ? 'الرئيسية' : isFrench ? 'Accueil' : 'Home', icon: <Home className="w-5 h-5" /> },
-    { id: 'feed', label: isArabic ? 'التعلّم' : isFrench ? 'Apprendre' : 'Feed', icon: <Play className="w-5 h-5" /> },
+    { id: 'feed', label: isArabic ? 'الموجز' : isFrench ? 'Fil' : 'Feed', icon: <Play className="w-5 h-5" /> },
     { id: 'learn', label: isArabic ? 'المكتبة' : isFrench ? 'Bibliothèque' : 'Library', icon: <BookOpen className="w-5 h-5" /> },
     { id: 'companion', label: isArabic ? 'نور' : isFrench ? 'Nour' : 'Nour', icon: <Sparkles className="w-5 h-5" /> },
   ];
