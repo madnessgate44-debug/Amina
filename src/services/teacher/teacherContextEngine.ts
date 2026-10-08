@@ -1075,6 +1075,94 @@ export function buildRecheckQuestionForConcept(
     };
   }
 
+  // 7. Curriculum-grounded fallback: use the lesson's own exercises/key points.
+  // Never invent a topic-specific answer when the source material does not provide one.
+  const sourceExercise =
+    lesson.exercises?.find((exercise) => exercise.options?.length && exercise.expectedAnswer) ||
+    lesson.exercises?.find((exercise) => exercise.expectedAnswer) ||
+    lesson.exercises?.[0];
+
+  const sourceOptions = sourceExercise?.options?.filter(Boolean) || [];
+  const expectedAnswer =
+    sourceExercise?.expectedAnswer ||
+    concept?.keyPoints?.[0] ||
+    lesson.objectives?.[0] ||
+    '';
+
+  if (sourceExercise && expectedAnswer) {
+    const uniqueOptions = Array.from(new Set([
+      expectedAnswer,
+      ...sourceOptions.filter((option) => option !== expectedAnswer),
+    ])).slice(0, 3);
+
+    while (uniqueOptions.length < 3) {
+      uniqueOptions.push(
+        uniqueOptions.length === 1
+          ? 'I need another example before I answer.'
+          : 'I am not sure yet.'
+      );
+    }
+
+    return {
+      id: `diag_${cId}`,
+      conceptId: cId,
+      promptAr: sourceExercise.question,
+      promptEn: sourceExercise.question,
+      promptFr: sourceExercise.question,
+      thinkingPromptAr: `اشرحي لي يا ${studentName} إزاي وصلتي لإجابتك، حتى لو مش متأكدة.`,
+      thinkingPromptEn: `Explain how you reached your answer, ${studentName}, even if you are not sure.`,
+      thinkingPromptFr: `Explique-moi comment tu es arrivée à ta réponse, ${studentName}, même si tu n'es pas sûre.`,
+      correctAnswerTextAr: expectedAnswer,
+      correctAnswerTextEn: expectedAnswer,
+      correctAnswerTextFr: expectedAnswer,
+      underlyingConceptAr: concept?.titleAr || lesson.titleAr,
+      underlyingConceptEn: concept?.titleEn || lesson.titleEn,
+      options: uniqueOptions.map((option, index) => ({
+        textAr: option,
+        textEn: option,
+        textFr: option,
+        isCorrect: option === expectedAnswer,
+        diagnosisType: option === expectedAnswer
+          ? 'solid_understanding'
+          : index === 1
+          ? 'misconception'
+          : 'missing_prerequisite',
+        diagnosisExplanationAr: option === expectedAnswer
+          ? 'الإجابة مطابقة للمادة التعليمية المتاحة.'
+          : 'الإجابة لا تطابق الإجابة المرجعية المتاحة في مادة الدرس.',
+        diagnosisExplanationEn: option === expectedAnswer
+          ? 'The answer matches the available curriculum reference.'
+          : 'The answer does not match the available curriculum reference.',
+        diagnosisExplanationFr: option === expectedAnswer
+          ? 'La réponse correspond à la référence disponible.'
+          : 'La réponse ne correspond pas à la référence disponible.',
+        pedagogicHintAr: 'لنراجع النص أو المثال الموجود في الدرس خطوة بخطوة.',
+        pedagogicHintEn: 'Let us review the lesson text or example step by step.',
+        pedagogicHintFr: 'Revoyons le texte ou l’exemple de la leçon étape par étape.',
+        suggestedStrategy: option === expectedAnswer ? 'guided_practice' : 'step_by_step_procedure',
+      })),
+    };
+  }
+
+  // No source-backed question exists. Return an explicit no-diagnostic state
+  // rather than fabricate a question or answer.
+  return {
+    id: 'diag_none',
+    conceptId: cId,
+    promptAr: 'لا توجد مادة كافية لبناء سؤال تشخيصي موثوق لهذا الدرس بعد.',
+    promptEn: 'There is not enough source material to build a reliable diagnostic for this lesson yet.',
+    promptFr: 'Il n’y a pas encore assez de contenu source pour construire un diagnostic fiable.',
+    thinkingPromptAr: 'أحتاج مادة الدرس أو تمريناً موثقاً قبل أن أشخّص فهمك.',
+    thinkingPromptEn: 'I need the lesson material or a sourced exercise before diagnosing your understanding.',
+    thinkingPromptFr: 'J’ai besoin du contenu de la leçon ou d’un exercice sourcé avant de diagnostiquer ta compréhension.',
+    correctAnswerTextAr: '',
+    correctAnswerTextEn: '',
+    correctAnswerTextFr: '',
+    underlyingConceptAr: concept?.titleAr || lesson.titleAr,
+    underlyingConceptEn: concept?.titleEn || lesson.titleEn,
+    options: [],
+  };
+
   // 7. General Fallback Recheck from second exercise or concept key points
   const secondEx = lesson.exercises?.[1] || lesson.exercises?.[0];
   const expected = secondEx?.expectedAnswer || concept?.keyPoints?.[1] || lesson.objectives[0] || 'الإجابة المنهجية المعتمدة';
