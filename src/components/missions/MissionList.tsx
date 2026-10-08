@@ -105,7 +105,6 @@ export const MissionList: React.FC<MissionListProps> = ({ missions, onStartMissi
                   <span className="text-[11px] font-bold px-2 py-0.5 rounded-lg bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200/50">
                     {mission.subject}
                   </span>
-                  <Badge variant="demo">{mission.originTag}</Badge>
                   {mission.type === 'homework' && (
                     <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-purple-50 dark:bg-purple-950/60 text-purple-700 dark:text-purple-300 border border-purple-200/50">
                       {isAr ? 'رقمي / صورة' : 'Digital & Photo'}
