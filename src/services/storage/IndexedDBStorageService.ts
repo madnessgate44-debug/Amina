@@ -245,10 +245,11 @@ export class IndexedDBStorageService implements IStorageService {
     });
   }
 
-  async getTimetable(): Promise<Timetable | null> {
+  async getTimetable(studentId?: string): Promise<Timetable | null> {
     const db = await this.getDB();
     if (!db) {
-      return this.fallbackMemory.get(STORES.TIMETABLE) || null;
+      const timetable = this.fallbackMemory.get(STORES.TIMETABLE) || null;
+      return studentId && timetable?.studentId === studentId ? timetable : null;
     }
 
     return new Promise((resolve) => {
@@ -258,14 +259,15 @@ export class IndexedDBStorageService implements IStorageService {
         const request = store.getAll();
 
         request.onsuccess = () => {
-          const results = request.result;
-          const timetable = results && results.length > 0 ? (results[0] as Timetable) : null;
+          const results = request.result as Timetable[];
+          const timetable = studentId ? (results.find((item) => item.studentId === studentId) || null) : null;
           if (timetable) this.saveToLocalStorage(STORES.TIMETABLE, timetable);
-          resolve(timetable || this.fallbackMemory.get(STORES.TIMETABLE) || null);
+          resolve(timetable || (studentId ? null : this.fallbackMemory.get(STORES.TIMETABLE) || null));
         };
 
         request.onerror = () => {
-          resolve(this.fallbackMemory.get(STORES.TIMETABLE) || null);
+          const fallback = this.fallbackMemory.get(STORES.TIMETABLE) || null;
+          resolve(studentId && fallback?.studentId === studentId ? fallback : null);
         };
       } catch {
         resolve(this.fallbackMemory.get(STORES.TIMETABLE) || null);
@@ -385,11 +387,12 @@ export class IndexedDBStorageService implements IStorageService {
     });
   }
 
-  async getDayRecord(date: string): Promise<DayRecord | null> {
+  async getDayRecord(date: string, studentId?: string): Promise<DayRecord | null> {
     const db = await this.getDB();
     if (!db) {
       const all: Record<string, DayRecord> = this.fallbackMemory.get(STORES.DAY_RECORDS) || {};
-      return all[date] || null;
+      const record = all[date] || null;
+      return studentId && record?.studentId === studentId ? record : null;
     }
 
     return new Promise((resolve) => {
@@ -401,17 +404,20 @@ export class IndexedDBStorageService implements IStorageService {
 
         request.onsuccess = () => {
           const results = request.result;
-          const record = results && results.length > 0 ? (results[results.length - 1] as DayRecord) : null;
+          const list = (results || []) as DayRecord[];
+          const record = studentId ? (list.filter((item) => item.studentId === studentId).at(-1) || null) : null;
           resolve(record);
         };
 
         request.onerror = () => {
           const all: Record<string, DayRecord> = this.fallbackMemory.get(STORES.DAY_RECORDS) || {};
-          resolve(all[date] || null);
+          const record = all[date] || null;
+          resolve(studentId && record?.studentId === studentId ? record : null);
         };
       } catch {
         const all: Record<string, DayRecord> = this.fallbackMemory.get(STORES.DAY_RECORDS) || {};
-        resolve(all[date] || null);
+        const record = all[date] || null;
+        resolve(studentId && record?.studentId === studentId ? record : null);
       }
     });
   }
@@ -653,7 +659,7 @@ export class IndexedDBStorageService implements IStorageService {
   async getHomeworkItems(studentId: string, date?: string): Promise<HomeworkItem[]> {
     const memoryItems: Record<string, HomeworkItem> = this.fallbackMemory.get(STORES.HOMEWORK_ITEMS) || {};
     const fallbackList = Object.values(memoryItems).filter(
-      (h) => (!h.studentId || h.studentId === studentId) && (!date || h.date === date)
+      (h) => Boolean(h.studentId) && h.studentId === studentId && (!date || h.date === date)
     );
 
     const db = await this.getDB();
@@ -667,7 +673,7 @@ export class IndexedDBStorageService implements IStorageService {
         req.onsuccess = () => {
           const results = (req.result as HomeworkItem[]) || [];
           const filtered = results.filter(
-            (h) => (!h.studentId || h.studentId === studentId) && (!date || h.date === date)
+            (h) => Boolean(h.studentId) && h.studentId === studentId && (!date || h.date === date)
           );
           resolve(filtered.length > 0 ? filtered : fallbackList);
         };
