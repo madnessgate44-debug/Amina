@@ -1620,13 +1620,13 @@ export function buildNormalizedTeacherContext(
   // Never silently substitute the first curriculum lesson.
 
   // 2. Resolve Target Concept
+  const requestedConceptId =
+    companionContext?.conceptId || nextPendingMission?.conceptId;
+
   const targetConcept = targetLesson
-    ? (companionContext?.conceptId &&
-        targetLesson.concepts.find((c) => c.id === companionContext.conceptId)) ||
-      (nextPendingMission?.conceptId &&
-        targetLesson.concepts.find((c) => c.id === nextPendingMission.conceptId)) ||
-      targetLesson.concepts[0] ||
-      null
+    ? requestedConceptId
+      ? targetLesson.concepts.find((c) => c.id === requestedConceptId) || null
+      : targetLesson.concepts[0] || null
     : null;
 
   // 3. Extract Mastery State for Target Concept
