@@ -15,8 +15,8 @@ interface NourCharacterProps {
 }
 
 /**
- * Nour (نور) — The Animated Multimodal Robot-Child Tutor
- * Sub-Phase 11.1
+ * Nour (نور) — The Animated Personal Teacher
+ * Feed teacher presentation: expressive human-like visual treatment
  *
  * Implements 9 expressive states with smooth CSS keyframe animations
  * and 8 subject-specific outfit variations.
