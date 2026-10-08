@@ -7,7 +7,7 @@ function assert(condition: boolean, message: string) {
 const engine = new TeachingSessionEngine();
 const initialized = engine.initializeSession({
   studentId: 'student_test',
-  lessonId: 'off_math_u1_l1',
+  lessonId: 'off_mathfr_u1_l1_decimaux',
   language: 'ar',
 });
 
