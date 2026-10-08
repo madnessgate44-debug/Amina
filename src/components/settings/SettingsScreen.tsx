@@ -252,7 +252,8 @@ export const SettingsScreen: React.FC = () => {
         </div>
       </div>
 
-      {/* 2. Demo Time Simulator (Required: Labeled DEMO CONTROL) */}
+      {/* Developer-only demo controls: hidden from the child-facing settings surface. */}
+      {showDevPanel && (
       <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -300,6 +301,7 @@ export const SettingsScreen: React.FC = () => {
           </button>
         </div>
       </div>
+      )}
 
       {/* 3. Data & Privacy Management (Reset Profile / Purge All Data) */}
       <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm space-y-3">
