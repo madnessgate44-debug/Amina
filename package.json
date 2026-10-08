@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "test": "tsx src/services/teacher/__tests__/adaptiveLoop.test.ts && tsx src/services/__tests__/integritySourceOfTruth.test.ts"
+    "test": "tsx src/services/teacher/__tests__/adaptiveLoop.test.ts && tsx src/services/teaching/__tests__/teachingSession.test.ts && tsx src/services/__tests__/integritySourceOfTruth.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
