@@ -146,7 +146,7 @@ export interface NormalizedTeacherContext {
   todayHomeworkAssigned: HomeworkItem[];
   targetSubjectId: string;
   targetSubjectName: string;
-  targetLesson: OfficialCurriculumLesson;
+  targetLesson: OfficialCurriculumLesson | null;
   targetConcept: CurriculumLessonConcept | null;
   masteryState: {
     score: number;
@@ -1616,10 +1616,8 @@ export function buildNormalizedTeacherContext(
     ) || null;
   }
 
-  // Safe fallback to first authoritative lesson, without fabricating fake ones
-  if (!targetLesson) {
-    targetLesson = allLessons[0] || null;
-  }
+  // No verified learning target means no teaching target.
+  // Never silently substitute the first curriculum lesson.
 
   // 2. Resolve Target Concept
   const targetConcept = targetLesson
