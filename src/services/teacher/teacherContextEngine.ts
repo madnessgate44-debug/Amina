@@ -275,7 +275,7 @@ export function buildDiagnosticForConcept(
   // 2. Math / Math FR: Decimals & Place Value (e.g. off_math_u1_l1 - الأجزاء من ألف)
   if (
     subjectId === 'subj_math' ||
-    subjectId === 'subj_math_fr' ||
+    subjectId === 'subj_math' ||
     conceptTitle.includes('عشري') ||
     conceptTitle.includes('ألف') ||
     conceptTitle.includes('قيمة مكانية') ||
@@ -838,7 +838,7 @@ export function buildRecheckQuestionForConcept(
   // 2. Math: Decimals Re-Check (Different number: 2,468 - centièmes)
   if (
     lesson.subjectId === 'subj_math' ||
-    lesson.subjectId === 'subj_math_fr' ||
+    lesson.subjectId === 'subj_math' ||
     conceptTitle.includes('عشري') ||
     conceptTitle.includes('ألف') ||
     conceptTitleEn.includes('decimal')
@@ -1157,11 +1157,11 @@ export function buildTargetedIntervention(
   const isDecimal =
     (concept?.titleAr || lesson.titleAr).includes('عشري') ||
     lesson.subjectId === 'subj_math' ||
-    lesson.subjectId === 'subj_math_fr';
+    lesson.subjectId === 'subj_math';
 
   const isScience =
     lesson.subjectId === 'subj_science' ||
-    lesson.subjectId === 'subj_science_fr';
+    lesson.subjectId === 'subj_science';
 
   const isFrench = lesson.subjectId === 'subj_french';
 
