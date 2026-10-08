@@ -52,6 +52,15 @@ result = engine.advanceSession({
   language: 'ar',
 });
 session = result.session;
+assert(session.currentStep === 'explain_back', 'targeted practice should lead back to explain-back');
+assert(!result.masteryUpdate, 'targeted practice must not award mastery by itself');
+
+result = engine.advanceSession({
+  session,
+  studentInput: 'القيمة المكانية بعد الفاصلة تعني ترتيب الأرقام: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف، لذلك نعرف قيمة كل رقم من مكانه.',
+  language: 'ar',
+});
+session = result.session;
 assert(session.explainBackEvidence?.quality === 'sound', 'sound explain-back must be captured');
 assert(result.masteryUpdate?.correctness === 'full', 'sound explain-back should be the mastery gate');
 assert(result.masteryUpdate?.independence === 'unassisted', 'first successful explain-back should remain unassisted');
