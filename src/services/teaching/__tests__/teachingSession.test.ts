@@ -57,7 +57,7 @@ assert(!result.masteryUpdate, 'targeted practice must not award mastery by itsel
 
 result = engine.advanceSession({
   session,
-  studentInput: 'القيمة المكانية بعد الفاصلة تعني ترتيب الأرقام: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف. كلما اتجهنا يميناً يصبح كل رتبة أصغر بعشر مرات، لذلك نعرف قيمة كل رقم من مكانه.',
+  studentInput: 'القيمة المكانية بعد الفاصلة تعني ترتيب الأرقام: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف. Chaque rang vers la droite est 10 fois plus petit، لذلك نعرف قيمة كل رقم من مكانه.',
   language: 'ar',
 });
 session = result.session;
