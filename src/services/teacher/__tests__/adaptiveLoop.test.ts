@@ -286,7 +286,23 @@ function runTests() {
       explicitLessonId: 'off_math_u1_l1',
     });
     assert(Boolean(ctx.recommendedNextAction), 'Case 8.1: Teacher context provides concrete recommendedNextAction');
-    assert(ctx.targetLesson.id === 'off_math_u1_l1', 'Case 8.2: Target lesson is preserved as requested');
+    assert(ctx.targetLesson?.id === 'off_math_u1_l1', 'Case 8.2: Target lesson is preserved as requested');
+  }
+
+  // =========================================================================
+  // CASE 9: Missing target lesson must not fabricate a curriculum target
+  // =========================================================================
+  {
+    const ctx = buildNormalizedTeacherContext({
+      student: null,
+      currentDayRecord: null,
+      timetable: null,
+      masteryRecords: {},
+      nextPendingMission: null,
+      language: 'ar',
+    });
+    assert(ctx.targetLesson === null, 'Case 10.1: No target lesson is selected without verified context');
+    assert(ctx.targetConcept === null, 'Case 10.2: No target concept is selected without a target lesson');
   }
 
   // =========================================================================
@@ -301,9 +317,9 @@ function runTests() {
       nextPendingMission: null,
       language: 'ar',
     });
-    assert(ctx.student === null, 'Case 9.1: Student remains null when not provided (no fake student created)');
-    assert(ctx.studentName === 'أمينة', 'Case 9.2: Uses display name Amina for copy without fabricating database user');
-    assert(curriculumService.getAllLessons().length > 0, 'Case 9.3: Real authoritative curriculum is the source of truth');
+    assert(ctx.student === null, 'Case 10.1: Student remains null when not provided (no fake student created)');
+    assert(ctx.studentName === 'أمينة', 'Case 10.2: Uses display name Amina for copy without fabricating database user');
+    assert(curriculumService.getAllLessons().length > 0, 'Case 10.3: Real authoritative curriculum is the source of truth');
   }
 
   console.log(`\n--- TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED ---`);
