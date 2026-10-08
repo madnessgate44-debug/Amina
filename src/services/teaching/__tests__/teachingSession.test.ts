@@ -63,5 +63,5 @@ result = engine.advanceSession({
 session = result.session;
 assert(session.explainBackEvidence?.quality === 'sound', 'sound explain-back must be captured');
 assert(result.masteryUpdate?.correctness === 'full', 'sound explain-back should be the mastery gate');
-assert(result.masteryUpdate?.independence === 'unassisted', 'first successful explain-back should remain unassisted');
+assert(result.masteryUpdate?.independence === 'hinted', 'successful explain-back after targeted retry reflects guided teaching');
 console.log('TeachingSession explain-back evidence tests passed.');
