@@ -16,9 +16,9 @@ export const ChildTopMenu: React.FC = () => {
   const items = [
     { id: 'learn' as const, label: isAr ? 'كتبي والمنهج' : isFr ? 'Mes livres & programme' : 'My Books & Curriculum', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'missions' as const, label: isAr ? 'مهامي' : 'Missions', icon: <Target className="w-4 h-4" /> },
-    { id: 'missions' as const, label: isAr ? 'الواجب' : 'Homework', icon: <ClipboardCheck className="w-4 h-4" /> },
+    { id: 'homework' as const, label: isAr ? 'الواجب' : 'Homework', icon: <ClipboardCheck className="w-4 h-4" /> },
     { id: 'review' as const, label: isAr ? 'مراجعة' : 'Review', icon: <CheckCircle2 className="w-4 h-4" /> },
-    { id: 'learn' as const, label: isAr ? 'المحفوظات والمجموعات' : 'Saved & Collections', icon: <Heart className="w-4 h-4" /> },
+    { id: 'collections' as const, label: isAr ? 'المحفوظات والمجموعات' : 'Saved & Collections', icon: <Heart className="w-4 h-4" /> },
     { id: 'progress' as const, label: isAr ? 'تقدمي' : 'Progress', icon: <TrendingUp className="w-4 h-4" /> },
     { id: 'profile' as const, label: isAr ? 'ملفي' : 'Profile', icon: <User className="w-4 h-4" /> },
     { id: 'settings' as const, label: isAr ? 'الإعدادات' : 'Settings', icon: <Settings className="w-4 h-4" /> },
