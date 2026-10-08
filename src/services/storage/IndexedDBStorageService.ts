@@ -1376,8 +1376,8 @@ export class IndexedDBStorageService implements IStorageService {
       teachingSessions,
     ] = await Promise.all([
       this.getStudent(),
-      this.getTimetable(),
-      this.getConversation(),
+      this.getTimetable(studentId),
+      this.getConversation(studentId),
       this.getSettings(),
       this.getAllMasteryRecords(studentId),
       this.getMissions(studentId, today),
