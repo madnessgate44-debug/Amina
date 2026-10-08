@@ -159,7 +159,7 @@ export const FeedScreen: React.FC = () => {
           <div className="w-full max-w-lg h-[90vh] bg-white dark:bg-slate-900 rounded-3xl overflow-hidden relative">
             <button onClick={() => setActiveMission(null)} className="absolute right-3 top-3 z-10 p-2 rounded-full bg-slate-900/80 text-white"><X className="w-4 h-4" /></button>
             {activeMission.type === 'homework' ? (
-              <HomeworkRunner mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} onClose={() => setActiveMission(null)} />
+              <HomeworkRunner mission={activeMission} onComplete={(score) => setActiveMission(null)} onSkip={() => setActiveMission(null)} onClose={() => setActiveMission(null)} />
             ) : (
               <QuizRunner mission={activeMission} onComplete={(score) => setActiveMission(null)} onSkip={() => setActiveMission(null)} onExplainDifferently={() => setActiveMission(null)} />
             )}
