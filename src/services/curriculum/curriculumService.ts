@@ -10,6 +10,7 @@ import {
 } from '../../types/teachingSession';
 import { FlatCurriculumConcept } from '../../types/curriculum';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
+import { AMINA_CURRICULUM_CONTEXT } from '../../data/aminaCurriculumConfig';
 
 export interface SubjectCurriculumSummary {
   subjectId: string;
@@ -138,7 +139,18 @@ export class CurriculumService {
   private lessons: OfficialCurriculumLesson[] = [];
 
   constructor() {
-    this.lessons = [...OFFICIAL_CURRICULUM_LESSONS];
+    this.lessons = OFFICIAL_CURRICULUM_LESSONS.map((lesson) => {
+      const config = AMINA_CURRICULUM_CONTEXT.subjectConfigs[lesson.subjectId];
+      if (!config) return lesson;
+      return {
+        ...lesson,
+        curriculumSource: config.curriculumSource,
+        instructionLanguage: config.instructionLanguage,
+        contentLanguage: config.contentLanguage,
+        assessmentLanguage: config.assessmentLanguage,
+        track: config.track,
+      };
+    });
   }
 
   /**
@@ -318,7 +330,15 @@ export class CurriculumService {
    * Authoritative Amina Curriculum API methods
    */
   public getAminaCurriculum(): OfficialCurriculumLesson[] {
-    return this.getAllLessons();
+    return this.getAllLessons().filter((lesson) => Boolean(AMINA_CURRICULUM_CONTEXT.subjectConfigs[lesson.subjectId]));
+  }
+
+  public getAminaCurriculumContext() {
+    return AMINA_CURRICULUM_CONTEXT;
+  }
+
+  public getAminaSubjectConfig(id: string) {
+    return AMINA_CURRICULUM_CONTEXT.subjectConfigs[id];
   }
 
   public getAminaSubjects(): SubjectCurriculumSummary[] {
