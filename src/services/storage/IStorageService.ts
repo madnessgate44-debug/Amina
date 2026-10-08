@@ -47,7 +47,7 @@ export interface IStorageService {
   /**
    * Retrieves the active AI Companion chat conversation.
    */
-  getConversation(studentId?: string): Promise<AIConversation | null>;
+  getConversation(studentId: string): Promise<AIConversation | null>;
 
   /**
    * Persists the AI Companion conversation.
