@@ -317,9 +317,36 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
     };
   }
 
-  // If there IS a learning signal, but activeSubjectIds is empty, consider all curriculum subjects without arbitrary slicing
+  // Existing mastery is a learning signal only for the subjects represented by
+  // those authoritative concepts. Never expand an otherwise unscoped state to
+  // every curriculum subject.
+  if (activeSubjectIds.length === 0 && Object.keys(masteryRecords).length > 0) {
+    for (const conceptId of Object.keys(masteryRecords)) {
+      const concept = flatConcepts.find((fc) => fc.id === conceptId);
+      if (concept && !activeSubjectIds.includes(concept.subjectId)) {
+        activeSubjectIds.push(concept.subjectId);
+      }
+    }
+  }
+
+  // If we still cannot identify a reliable subject, ask for school information
+  // instead of choosing an arbitrary curriculum subject.
   if (activeSubjectIds.length === 0) {
-    activeSubjectIds = curriculumService.getSubjectsSummary().map((s) => s.subjectId);
+    return {
+      missions: [],
+      explanation: {
+        droppedCount: 0,
+        isMinimumViableDay: false,
+        usedTimetableFallback,
+        totalEstimatedMinutes: 0,
+        budgetMinutes: declaredBudget,
+        needsSchoolInformation: true,
+        emptyReason: 'needs_school_info',
+        droppedMessage: isAr
+          ? 'لم نتمكن من تحديد مادة دراسية موثوقة لهذا اليوم. سجلي ما تم دراسته أو جدول الحصص لنضع خطة دقيقة.'
+          : 'No reliable subject is available for today. Please log today’s lessons or timetable so we can build an accurate plan.',
+      },
+    };
   }
 
   // PRIORITY A: Homework assigned today (per Day Record)
