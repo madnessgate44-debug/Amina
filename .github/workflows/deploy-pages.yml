@@ -32,8 +32,14 @@ jobs:
       - name: Install dependencies
         run: npm install --legacy-peer-deps
 
-      - name: Test
-        run: npm test
+      - name: Test adaptive loop
+        run: npm run test:adaptive
+
+      - name: Test teaching session
+        run: npm run test:teaching
+
+      - name: Test integrity
+        run: npm run test:integrity
 
       - name: Build
         run: npm run build
