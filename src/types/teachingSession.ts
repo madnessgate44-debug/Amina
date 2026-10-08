@@ -160,6 +160,7 @@ export interface TeachingSession {
   modalityHistory: TeachingModality[];
   turnHistory: TutorTurn[];
   explainBackDone: boolean;
+  explainBackEvidence?: { text: string; quality: 'sound' | 'partial' | 'guessing' | 'unclear'; conceptKeywordMatches: number; keyPointMatches: number; confidence: 'high' | 'medium' | 'low'; capturedAt: string; };
   activeVisual?: StructuredVisualData;
   offBookQuestions: Array<{
     question: string;
