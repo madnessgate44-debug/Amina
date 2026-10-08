@@ -317,10 +317,14 @@ export const CompanionChatScreen: React.FC = () => {
         const targetConceptId =
           activeMission?.conceptId ||
           missionsForToday.find((m) => m.conceptId)?.conceptId ||
-          curriculumService.getFlatConcepts()[0]?.id ||
           '';
 
-        const tutorResponse = advanceTutorEscalation({
+        if (!student?.id || !targetConceptId) {
+          replyContent = isArabic
+            ? 'أحتاج أولاً إلى تحديد الطالب والمفهوم الذي نعمل عليه. افتحي مهمة اليوم أو اختاري درساً من المنهج، ثم قولي لي «اشرحي بطريقة تانية».'
+            : 'I first need the active student and the concept we are working on. Open today’s mission or choose a curriculum lesson, then ask me to explain it differently.';
+        } else {
+          const tutorResponse = advanceTutorEscalation({
           studentId: student?.id || '',
           conceptId: targetConceptId,
           sessionId: 'companion_session',
@@ -345,6 +349,7 @@ export const CompanionChatScreen: React.FC = () => {
           replyContent += isArabic
             ? `\n\n📌 ملحوظة: تم وسم المفهوم لخانة (المراجعة اللاحقة) لحمايتك من الإرهاق. ما رأيك أن ننتقل لنشاط آخر خفيف؟`
             : `\n\n📌 Note: Concept marked for (Later Review) to prevent fatigue. Would you like to move on to a lighter activity?`;
+        }
         }
       }
       // 6. Check Student Frustration / Disengagement (Failure mode 1g)
