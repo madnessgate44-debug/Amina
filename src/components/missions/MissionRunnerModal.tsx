@@ -6,7 +6,6 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Mission, TutorModality, TutorResponse } from '../../types';
-import { ReelViewer } from './ReelViewer';
 import { QuizRunner } from './QuizRunner';
 import { HomeworkRunner } from './HomeworkRunner';
 import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
@@ -72,25 +71,21 @@ export const MissionRunnerModal: React.FC<MissionRunnerModalProps> = ({ mission,
 
   // Sub-Phase 9.5: "understand_lesson" mission opens Teaching Session directly. The session IS the mission.
   if (mission.type === 'understand_lesson') {
-    const targetLessonId =
-      mission.lessonId && curriculumService.getLessonById(mission.lessonId)
-        ? mission.lessonId
-        : mission.subject.includes('عرب')
-        ? 'off_ar_u1_l2'
-        : mission.subject.toLowerCase().includes('eng')
-        ? 'off_en_u1_apple_tree'
-        : mission.subject.includes('دراس')
-        ? 'off_soc_u1_l2_surface'
-        : mission.subject.includes('دين')
-        ? 'off_rel_abdurrahman_eid_nasr'
-        : mission.subject.includes('خط')
-        ? 'off_callig_alif_naskh_ruqaa'
-        : 'off_ar_u1_l2';
+    if (!mission.lessonId || !curriculumService.getLessonById(mission.lessonId)) {
+      return (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+          <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 p-6 text-center space-y-3">
+            <h3 className="text-lg font-black">{isAr ? 'نور محتاجة درس موثّق قبل ما نبدأ' : 'Nour needs a verified lesson before starting'}</h3>
+            <p className="text-xs text-slate-500">{isAr ? 'المهمة دي لا تحتوي على درس صالح، لذلك لن نخمن أو نستبدل المحتوى.' : 'This mission has no valid lesson, so the app will not guess or substitute content.'}</p>
+            <button type="button" onClick={onClose} className="px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-black">{isAr ? 'رجوع' : 'Go back'}</button>
+          </div>
+        </div>
+      );
+    }
 
-    // Sub-Phase 11.8: "understand_lesson" mission opens The Stage directly.
     return (
       <StageModal
-        lessonId={targetLessonId}
+        lessonId={mission.lessonId}
         onClose={onClose}
         onSessionComplete={() => handleCompleteMission(1.0)}
       />
