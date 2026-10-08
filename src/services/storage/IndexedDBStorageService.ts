@@ -293,10 +293,11 @@ export class IndexedDBStorageService implements IStorageService {
     });
   }
 
-  async getConversation(): Promise<AIConversation | null> {
+  async getConversation(studentId: string): Promise<AIConversation | null> {
     const db = await this.getDB();
     if (!db) {
-      return this.fallbackMemory.get(STORES.CONVERSATION) || null;
+      const conversations = (this.fallbackMemory.get(STORES.CONVERSATION) || []) as AIConversation[];
+      return conversations.find((item) => item.studentId === studentId) || null;
     }
 
     return new Promise((resolve) => {
@@ -306,8 +307,8 @@ export class IndexedDBStorageService implements IStorageService {
         const request = store.getAll();
 
         request.onsuccess = () => {
-          const results = request.result;
-          const conv = results && results.length > 0 ? (results[0] as AIConversation) : null;
+          const results = request.result as AIConversation[];
+          const conv = results?.find((item) => item.studentId === studentId) || null;
           if (conv) this.saveToLocalStorage(STORES.CONVERSATION, conv);
           resolve(conv || this.fallbackMemory.get(STORES.CONVERSATION) || null);
         };
