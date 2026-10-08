@@ -296,8 +296,8 @@ export class IndexedDBStorageService implements IStorageService {
   async getConversation(studentId: string): Promise<AIConversation | null> {
     const db = await this.getDB();
     if (!db) {
-      const conversations = (this.fallbackMemory.get(STORES.CONVERSATION) || []) as AIConversation[];
-      return conversations.find((item) => item.studentId === studentId) || null;
+      const fallback = this.fallbackMemory.get(STORES.CONVERSATION) as AIConversation | undefined;
+      return fallback?.studentId === studentId ? fallback : null;
     }
 
     return new Promise((resolve) => {
@@ -310,11 +310,13 @@ export class IndexedDBStorageService implements IStorageService {
           const results = request.result as AIConversation[];
           const conv = results?.find((item) => item.studentId === studentId) || null;
           if (conv) this.saveToLocalStorage(STORES.CONVERSATION, conv);
-          resolve(conv || this.fallbackMemory.get(STORES.CONVERSATION) || null);
+          const fallback = this.fallbackMemory.get(STORES.CONVERSATION) as AIConversation | undefined;
+          resolve(conv || (fallback?.studentId === studentId ? fallback : null));
         };
 
         request.onerror = () => {
-          resolve(this.fallbackMemory.get(STORES.CONVERSATION) || null);
+          const fallback = this.fallbackMemory.get(STORES.CONVERSATION) as AIConversation | undefined;
+          resolve(fallback?.studentId === studentId ? fallback : null);
         };
       } catch {
         resolve(this.fallbackMemory.get(STORES.CONVERSATION) || null);
