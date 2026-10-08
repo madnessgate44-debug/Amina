@@ -136,6 +136,7 @@ export * from './stage';
 
 export type NavigationTab = 
   | 'home' 
+  | 'feed' 
   | 'learn' 
   | 'missions' 
   | 'review' 
