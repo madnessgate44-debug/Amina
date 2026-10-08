@@ -62,7 +62,7 @@ app.get('/api/health', (_req, res) => {
 // Chat API endpoint for Companion
 app.post('/api/chat', async (req, res) => {
   try {
-    const { messages = [], studentName = 'طالب', grade = 'Grade 5', language = 'ar' } = req.body;
+    const { messages = [], studentName = 'طالب', grade = 'Grade 5', language = 'ar', schoolBrainContext = null } = req.body;
 
     const isArabic = language === 'ar';
     const lastUserMsg = (messages[messages.length - 1]?.content || '').trim();
@@ -119,6 +119,14 @@ app.post('/api/chat', async (req, res) => {
       });
     }
 
+    const contextJson = schoolBrainContext ? JSON.stringify({
+      school: schoolBrainContext.school || null,
+      location: schoolBrainContext.location || null,
+      curriculumTrack: schoolBrainContext.curriculumTrack || null,
+      dayRecord: schoolBrainContext.dayRecord || null,
+      activeMission: schoolBrainContext.activeMission || null,
+    }) : 'No verified School Brain context was supplied.';
+
     const systemInstruction = `
 You are the "AI School Companion" (الرفيق الدراسي الذكي), a personal AI learning assistant for a ${grade} student named "${studentName}".
 CRITICAL PRINCIPLES:
@@ -127,7 +135,15 @@ CRITICAL PRINCIPLES:
 3. Absolutely NO moralizing, scolding, or guilt-tripping (e.g. never say "you should have studied earlier" or "why didn't you finish?").
 4. Praise must be specific and grounded, never generic or effusive.
 5. Language: Primarily Egyptian/Friendly Arabic when the student writes in Arabic (${isArabic ? 'Active' : 'Optional'}), clear simple English if English is selected.
-6. SPECIAL INTENT HANDLING:
+6. SCHOOL BRAIN IS AUTHORITATIVE:
+   - Treat the verified context below as the source of truth for the student's current school day, curriculum track, and active mission.
+   - Do not invent lessons, homework, concepts, assignments, scores, mastery, or school events that are not present in the verified context.
+   - If the context does not contain enough information to answer a school-specific question, say exactly what information is missing and ask for it or direct the student to record today's school information.
+   - Never silently substitute another lesson or another subject.
+   - When discussing learning, stay grounded in the active mission/day record when one exists.
+7. VERIFIED SCHOOL BRAIN CONTEXT:
+${contextJson}
+8. SPECIAL INTENT HANDLING:
    - If the student says "I don't understand" / "مش فاهم": Reassure them warmly that learning takes time, normalize confusion, and invite them gently to say which part was confusing.
    - If the student says "explain differently" / "اشرح بطريقة تانية": Offer a simple everyday analogy or relatable example suited for an 11-year-old.
    - If the student says "test me" / "اختبرني": Provide a single, friendly, low-stakes practice question to build confidence, and encourage them to take their time.
