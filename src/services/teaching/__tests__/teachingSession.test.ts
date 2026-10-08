@@ -1,4 +1,5 @@
 import { TeachingSessionEngine } from '../teachingSession';
+import { curriculumService } from '../../curriculum/curriculumService';
 import { writeFileSync } from 'node:fs';
 
 function assert(condition: boolean, message: string) {
@@ -10,6 +11,10 @@ function assert(condition: boolean, message: string) {
 
 const engine = new TeachingSessionEngine();
 const lessonId = 'off_mathfr_u1_l1_decimaux';
+const lesson = curriculumService.getLessonById(lessonId);
+if (!lesson || !lesson.concepts[0]) throw new Error('authoritative test lesson missing');
+const sourceConcept = lesson.concepts[0];
+const sourceKeyPoint = sourceConcept.keyPoints[0] || sourceConcept.sourceText;
 
 function advance(session: any, input: string) {
   return engine.advanceSession({ session, studentInput: input, language: 'ar' });
@@ -54,7 +59,7 @@ function advance(session: any, input: string) {
 
   session = advance(
     session,
-    'القيمة المكانية بعد الفاصلة: الأول أجزاء من عشرة والثاني من مئة والثالث من ألف، وكل رتبة إلى اليمين أصغر بعشر مرات. Chaque rang vers la droite est 10 fois plus petit.'
+    `${sourceConcept.titleAr}: ${sourceKeyPoint}. ${sourceConcept.titleEn}: ${sourceKeyPoint}.`
   ).session;
   assert(session.currentStep === 'explain_back', 'practice should lead to explain-back before evaluating reasoning');
 
@@ -75,7 +80,7 @@ function advance(session: any, input: string) {
   let session = initialized.session;
   session = advance(session, 'جاهزة').session;
   session = advance(session, 'جاهزة').session;
-  session = advance(session, 'القيمة المكانية بعد الفاصلة، وكل رتبة إلى اليمين أصغر بعشر مرات').session;
+  session = advance(session, `${sourceConcept.titleAr}: ${sourceKeyPoint}`).session;
   assert(session.currentStep === 'ask', 'sound-path setup should reach understanding check');
 
   const practice = advance(
@@ -87,7 +92,7 @@ function advance(session: any, input: string) {
 
   const final = advance(
     practice.session,
-    'القيمة المكانية بعد الفاصلة توضح قيمة كل رقم حسب مكانه، وكل رتبة إلى اليمين أصغر بعشر مرات. Chaque rang vers la droite est 10 fois plus petit.'
+    `${sourceConcept.titleAr}: ${sourceKeyPoint}. ${sourceConcept.titleEn}: ${sourceKeyPoint}.`
   );
   assert(final.session.explainBackEvidence?.quality === 'sound', `sound explain-back must be captured: ${JSON.stringify(final.session.explainBackEvidence)}`);
   assert(final.masteryUpdate?.correctness === 'full', 'sound explain-back is the mastery gate');
