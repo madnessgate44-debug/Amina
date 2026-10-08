@@ -2,7 +2,10 @@ import { TeachingSessionEngine } from '../teachingSession';
 import { writeFileSync } from 'node:fs';
 
 function assert(condition: boolean, message: string) {
-  if (!condition) throw new Error(message);
+  if (!condition) {
+    writeFileSync('teaching-test-failure.txt', message, 'utf8');
+    throw new Error(message);
+  }
 }
 
 const engine = new TeachingSessionEngine();
