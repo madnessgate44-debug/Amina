@@ -121,19 +121,22 @@ export function advanceTutorEscalation(params: GenerateTutorStepParams): TutorRe
   const flatConcepts = curriculumService.getFlatConcepts();
   const concept = flatConcepts.find((c) => c.id === conceptId);
 
-  const conceptName = concept
-    ? isAr
-      ? concept.nameAr
-      : concept.nameEn
-    : isAr
-    ? 'المفهوم الحالي'
-    : 'Current Concept';
+  if (!concept) {
+    return {
+      state,
+      text: isAr
+        ? 'لا أريد أن أشرح لكِ شيئاً عشوائياً. اختاري درساً أو مهمة مرتبطة بمفهوم محدد، وسأشرحها لكِ بطريقة مختلفة.'
+        : 'I do not want to explain something arbitrary. Please open a lesson or mission with a verified concept, and I will explain it in a different way.',
+      modality: 'normal_explanation',
+      modalityLabelAr: 'لا يوجد مفهوم موثّق بعد',
+      modalityLabelEn: 'No verified concept yet',
+      checkQuestion: undefined,
+      suggestNextStep: isAr ? 'اختيار درس أو مهمة' : 'Choose a lesson or mission',
+    };
+  }
 
-  const conceptDesc = concept
-    ? isAr
-      ? concept.descriptionAr
-      : concept.descriptionEn
-    : '';
+  const conceptName = isAr ? concept.nameAr : concept.nameEn;
+  const conceptDesc = isAr ? concept.descriptionAr : concept.descriptionEn;
 
   // Determine next attempt step
   const nextAttempt = state.attemptCount + 1;
