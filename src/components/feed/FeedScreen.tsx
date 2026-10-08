@@ -95,18 +95,18 @@ export const FeedScreen: React.FC = () => {
           </div>
           <div className="flex items-center justify-center gap-2 text-amber-300 text-sm font-black mb-4">
             <Sparkles className="w-4 h-4" />
-            <span>{isAr ? 'نور معاكِ' : 'Miss Nour is here'}</span>
+            <span>{isAr ? 'نور دخلت معاكِ الحصة' : 'Nour is teaching you now'}</span>
           </div>
           <div className="mx-auto max-w-sm rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/15 p-5 text-center">
             <p className="text-lg font-black leading-relaxed">
               {isAr
-                ? `"يلا يا ${student?.name || 'أمينة'} — هوريكي حاجة، وبعدها عايزة أشوف تفكيرك."`
-                : `“Let’s learn something, ${student?.name || 'Amina'}. I’ll show you something, then I want to see how you think.”`}
+                ? `"يلا يا ${student?.name || 'أمينة'} — هوريكي حاجة، وبعدها عايزة أشوفك بتفكري إزاي."`
+                : `“Come on, ${student?.name || 'Amina'}. Watch what I’m showing you, then show me how you think.”`}
             </p>
           </div>
           <div className="mt-6 flex items-center justify-center gap-2 text-slate-400 text-xs">
             <ArrowDown className="w-4 h-4 animate-bounce" />
-            <span>{isAr ? 'اسحبي لأعلى وكمّلي مع نور' : 'Swipe up and learn with Nour'}</span>
+            <span>{isAr ? 'اسحبي لأعلى — نور هتكمّل معاكي خطوة بخطوة' : 'Swipe up — Nour will guide you step by step'}</span>
           </div>
         </div>
       </section>
