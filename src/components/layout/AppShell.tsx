@@ -85,7 +85,7 @@ export const AppShell: React.FC = () => {
               {activeTab === 'learn' && <CurriculumBrowser />}
               {activeTab === 'companion' && <VirtualTeacherClassroom />}
               {activeTab === 'missions' && <MissionsScreen />}
-              {activeTab === 'homework' && <MissionsScreen />
+              {activeTab === 'homework' && <MissionsScreen />}
               {activeTab === 'collections' && <CollectionsScreen />}
               {activeTab === 'review' && <ReviewScreen />}
               {activeTab === 'progress' && <ProgressScreen />}
