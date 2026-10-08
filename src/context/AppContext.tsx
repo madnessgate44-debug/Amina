@@ -31,7 +31,6 @@ import {
   SavableType,
 } from '../types';
 import { storageService } from '../services/storage';
-import { createDefaultTimetable } from '../data/defaultTimetable';
 import { translations } from '../i18n/translations';
 import { voiceService } from '../services/voice/voiceService';
 import {
@@ -288,16 +287,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         setStudent(storedStudent);
 
         if (storedStudent) {
-          // Student exists: safely load or initialize their timetable
+          // Student exists: safely load their timetable if previously saved by user
           let storedTimetable = await storageService.getTimetable(storedStudent.id);
           if (!storedTimetable) {
             storedTimetable = await storageService.getTimetable();
           }
-          if (!storedTimetable) {
-            storedTimetable = createDefaultTimetable(storedStudent.id);
-            await storageService.saveTimetable(storedTimetable);
-          }
-          setTimetable(storedTimetable);
+          // If student has no saved timetable, do NOT silently invent a fake one!
+          setTimetable(storedTimetable || null);
 
           // Load today's day record
           const todayDate = new Date().toISOString().split('T')[0];
@@ -375,16 +371,12 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     await storageService.saveStudent(newStudent);
     setStudent(newStudent);
 
-    // 2. Safe Timetable Initialization (Rule: new student + no timetable -> create)
+    // 2. Load timetable if already saved, otherwise leave null until set up by user
     let studentTimetable = await storageService.getTimetable(newStudent.id);
     if (!studentTimetable) {
       studentTimetable = await storageService.getTimetable();
     }
-    if (!studentTimetable) {
-      studentTimetable = createDefaultTimetable(newStudent.id);
-      await storageService.saveTimetable(studentTimetable);
-    }
-    setTimetable(studentTimetable);
+    setTimetable(studentTimetable || null);
 
     // 3. Initialize required student-scoped baseline data
     const studentId = newStudent.id;
@@ -504,7 +496,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       notes?: string;
     }
   ): Promise<MasteryRecord> => {
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) {
+      console.warn('Cannot record evidence: no active student profile');
+      return null as any;
+    }
+
+    const flatConcepts = curriculumService.getFlatConcepts();
+    const conceptExists = flatConcepts.some((c) => c.id === conceptId);
+    if (!conceptExists) {
+      console.warn(`Cannot record evidence: concept "${conceptId}" not found in authoritative curriculum`);
+      return null as any;
+    }
+
+    const studentId = student.id;
     const existing =
       masteryRecords[conceptId] || createInitialMasteryRecord(studentId, conceptId);
 
@@ -528,6 +532,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const handleSimulateDecayDays = async (days: number) => {
+    if (!student?.id) return;
     const newOffset = (settings.simulatedDaysOffset || 0) + days;
     const updated: AppSettings = {
       ...settings,
@@ -536,7 +541,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setSettings(updated);
     await storageService.saveSettings(updated);
 
-    const studentId = student?.id || 'demo_student';
+    const studentId = student.id;
     const persistedRecords = await storageService.getAllMasteryRecords(studentId);
     const updatedMap: Record<string, MasteryRecord> = {};
 
@@ -553,6 +558,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const handleResetSimulatedDecay = async () => {
+    if (!student?.id) return;
     const updated: AppSettings = {
       ...settings,
       simulatedDaysOffset: 0,
@@ -560,7 +566,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setSettings(updated);
     await storageService.saveSettings(updated);
 
-    const studentId = student?.id || 'demo_student';
+    const studentId = student.id;
     const persistedRecords = await storageService.getAllMasteryRecords(studentId);
     const updatedMap: Record<string, MasteryRecord> = {};
     for (const r of persistedRecords) {
@@ -617,8 +623,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     };
     await storageService.saveMissionOutcome(outcome);
 
-    // Update Mastery through Phase 4 mastery engine if tied to a concept
-    if (mission.conceptId) {
+    // Update Mastery through Phase 4 mastery engine if tied to a concept and actual evaluated score is provided
+    if (mission.conceptId && outcomeParams?.score !== undefined) {
       const modality: EvidenceModality =
         outcomeParams?.modality === 'quiz'
           ? 'quiz'
@@ -627,9 +633,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           : 'homework';
 
       const correctness: EvidenceCorrectness =
-        (outcomeParams?.score ?? 1.0) >= 0.7
+        outcomeParams.score >= 0.7
           ? 'full'
-          : (outcomeParams?.score ?? 1.0) >= 0.4
+          : outcomeParams.score >= 0.4
           ? 'partial'
           : 'wrong';
 
@@ -638,22 +644,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         difficulty: 0.5,
         independence: 'unassisted',
         modality,
-        notes: `Completed mission: ${mission.title}`,
+        notes: `Completed mission with score ${(outcomeParams.score * 100).toFixed(0)}%: ${mission.title}`,
       });
     }
 
     // Award forgiving gamification XP and update streak/badges
-    const studentId = student?.id || 'demo_student';
-    try {
-      const updatedGam = await awardMissionGamification(
-        studentId,
-        storageService,
-        mission,
-        masteryRecords
-      );
-      setGamification(updatedGam);
-    } catch (e) {
-      console.warn('Could not award gamification:', e);
+    if (student?.id) {
+      try {
+        const updatedGam = await awardMissionGamification(
+          student.id,
+          storageService,
+          mission,
+          masteryRecords
+        );
+        setGamification(updatedGam);
+      } catch (e) {
+        console.warn('Could not award gamification:', e);
+      }
     }
 
     setActiveMissionRunnerOpen(false);
@@ -666,7 +673,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const handleOpenDailyReview = async (): Promise<DailyReview> => {
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return null as any;
+    const studentId = student.id;
     const today = new Date().toISOString().split('T')[0];
     const stored = await storageService.getDailyReview(studentId, today);
     if (stored) {
@@ -676,7 +684,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
 
     const newReview = generateDailyReview({
-      student: student || ({ id: studentId, name: 'طالب' } as any),
+      student,
       missions: missionsForToday,
       masteryRecords,
       date: today,
@@ -693,7 +701,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const handleGetHomeworkSubmission = async (homeworkItemId: string): Promise<HomeworkSubmission | null> => {
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return null;
+    const studentId = student.id;
     if (homeworkSubmissions[homeworkItemId]) return homeworkSubmissions[homeworkItemId];
     const stored = await storageService.getHomeworkSubmission(homeworkItemId, studentId);
     if (stored) {
@@ -774,8 +783,16 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const handleExportProgressData = async () => {
+    if (!student?.id) {
+      showToast(
+        settings.language === 'ar'
+          ? 'لا يوجد حساب طالب نشط لتصدير بياناته'
+          : 'No active student account to export data'
+      );
+      return;
+    }
     try {
-      const studentId = student?.id || 'demo_student';
+      const studentId = student.id;
       const jsonStr = await storageService.exportAllData(studentId);
       const blob = new Blob([jsonStr], { type: 'application/json' });
       const url = URL.createObjectURL(blob);
@@ -802,6 +819,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const handleResetProfile = async () => {
     await storageService.resetProfile();
     setStudent(null);
+    setTimetable(null);
     setCurrentDayRecord(null);
     setActiveTab('home');
     showToast(settings.language === 'ar' ? 'تمت إعادة تعيين الملف الشخصي' : 'Student profile reset');
@@ -809,10 +827,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const handleClearAllData = async () => {
     await storageService.clearAllData();
-    const defaultTt = createDefaultTimetable('demo_student');
-    await storageService.saveTimetable(defaultTt);
     setStudent(null);
-    setTimetable(defaultTt);
+    setTimetable(null);
     setCurrentDayRecord(null);
     setMasteryRecords({});
     setCurrentDailyReview(null);
@@ -841,21 +857,22 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Phase 7 Computed Spaced Review Schedules
   const allReviewSchedules = useMemo(() => {
-    const studentId = student?.id || 'demo_student';
-    return getAllSpacedReviewSchedules(studentId, masteryRecords, {
+    if (!student?.id) return { dueCount: 0, overdueCount: 0, upcomingCount: 0, items: [] };
+    return getAllSpacedReviewSchedules(student.id, masteryRecords, {
       language: settings.language,
     });
   }, [student, masteryRecords, settings.language]);
 
   const dueReviewNudges = useMemo(() => {
-    const studentId = student?.id || 'demo_student';
-    return getOverdueReviewNudges(studentId, masteryRecords, {
+    if (!student?.id) return [];
+    return getOverdueReviewNudges(student.id, masteryRecords, {
       language: settings.language,
     });
   }, [student, masteryRecords, settings.language]);
 
   // Phase 7 Manual Review Trigger
   const handleTriggerManualReview = (conceptId: string) => {
+    if (!student?.id) return;
     const flatConcepts = curriculumService.getFlatConcepts();
     const concept = flatConcepts.find((c) => c.id === conceptId);
     const isAr = settings.language === 'ar';
@@ -865,7 +882,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const revMission: Mission = {
       id: `manual_rev_${Date.now()}`,
-      studentId: student?.id || 'demo_student',
+      studentId: student.id,
       date: new Date().toISOString().split('T')[0],
       subject: subjName,
       lessonId: concept?.lessonId,
@@ -874,7 +891,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       type: 'review',
       estimatedMinutes: 8,
       whyNow: isAr ? 'مراجعة فورية بطلب من الطالب لتثبيت الفهم.' : 'Immediate review requested by student.',
-      originTag: concept?.origin || 'demo',
+      originTag: concept?.origin || 'official',
       successCriterion: isAr ? 'إتمام أسئلة المراجعة واستعادة الثقة' : 'Complete review questions',
       status: 'pending',
     };
@@ -885,9 +902,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   // Phase 7 Weekly Review Trigger
   const handleGenerateAndOpenWeeklyReview = async (manualTrigger?: boolean): Promise<WeeklyReview> => {
-    const studentObj = student || ({ id: 'demo_student', name: 'طالب' } as any);
+    if (!student) return null as any;
     const newRev = generateWeeklyReview({
-      student: studentObj,
+      student,
       dayRecords: currentDayRecord ? [currentDayRecord] : [],
       masteryRecords,
       completedMissions: missionsForToday.filter((m) => m.status === 'completed'),
@@ -914,7 +931,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     collectionIds: string[];
     isLiked?: boolean;
   }) => {
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return null as any;
+    const studentId = student.id;
     const item = await saveItem(studentId, storageService, payload);
     const updatedAll = await storageService.getSavedItems(studentId);
     setSavedItems(updatedAll);
@@ -933,7 +951,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       snippet?: string;
     }
   ) => {
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return false;
+    const studentId = student.id;
     const res = await toggleLike(studentId, storageService, sourceId, meta);
     const updatedAll = await storageService.getSavedItems(studentId);
     setSavedItems(updatedAll);
@@ -946,7 +965,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const handleCreateCollection = async (name: string, nameAr?: string) => {
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return null as any;
+    const studentId = student.id;
     const newCol: Collection = {
       id: `col_${Date.now()}`,
       studentId,
@@ -966,7 +986,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const item = savedItems.find((i) => i.id === itemId);
     if (!item) return;
     await updateItemNote(storageService, item, note);
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return;
+    const studentId = student.id;
     const updatedAll = await storageService.getSavedItems(studentId);
     setSavedItems(updatedAll);
     showToast(settings.language === 'ar' ? 'تم تحديث الملاحظة بنجاح' : 'Note updated successfully');
@@ -974,7 +995,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const handleRemoveSavedItem = async (itemId: string) => {
     await storageService.deleteSavedItem(itemId);
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return;
+    const studentId = student.id;
     const updatedAll = await storageService.getSavedItems(studentId);
     setSavedItems(updatedAll);
     showToast(settings.language === 'ar' ? 'تم حذف العنصر من المحفوظات' : 'Removed from saved items');
@@ -987,7 +1009,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     pin: string;
     preferences?: Partial<ParentPreferences>;
   }) => {
-    const studentId = student?.id || 'demo_student';
+    if (!student?.id) return null as any;
+    const studentId = student.id;
     const acc = await linkParentAccount(storageService, studentId, data);
     setParentAccount(acc);
     showToast(settings.language === 'ar' ? 'تم ربط حساب ولي الأمر بنجاح!' : 'Parent account linked successfully!');

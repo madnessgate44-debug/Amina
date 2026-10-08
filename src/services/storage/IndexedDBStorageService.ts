@@ -1348,7 +1348,7 @@ export class IndexedDBStorageService implements IStorageService {
     });
   }
 
-  async exportAllData(studentId: string = 'demo_student'): Promise<string> {
+  async exportAllData(studentId: string): Promise<string> {
     const today = new Date().toISOString().split('T')[0];
     const [
       student,

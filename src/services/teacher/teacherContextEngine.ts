@@ -176,10 +176,29 @@ export interface NormalizedTeacherContext {
  * Arabic grammar, reading, and French vocabulary/salutations.
  */
 export function buildDiagnosticForConcept(
-  lesson: OfficialCurriculumLesson,
+  lesson: OfficialCurriculumLesson | null,
   concept: CurriculumLessonConcept | null,
   studentName: string
 ): DiagnosticQuestion {
+  if (!lesson) {
+    return {
+      id: 'diag_none',
+      conceptId: 'none',
+      promptAr: 'لا يوجد درس محدد للتشخيص حالياً.',
+      promptEn: 'No lesson currently selected for diagnostic.',
+      promptFr: 'Aucune leçon sélectionnée actuellement.',
+      thinkingPromptAr: 'يمكنك اختيار درس من خطة المنهج الدراسي.',
+      thinkingPromptEn: 'You can choose a lesson from the curriculum plan.',
+      thinkingPromptFr: 'Vous pouvez choisir une leçon dans le programme.',
+      correctAnswerTextAr: '',
+      correctAnswerTextEn: '',
+      correctAnswerTextFr: '',
+      underlyingConceptAr: '',
+      underlyingConceptEn: '',
+      options: [],
+    };
+  }
+
   const cId = concept?.id || `${lesson.id}_c1`;
   const subjectId = lesson.subjectId;
   const conceptTitle = (concept?.titleAr || lesson.titleAr || '').toLowerCase();
@@ -744,10 +763,25 @@ export function buildDiagnosticForConcept(
  * This ensures Miss Nour verifies whether the teaching intervention actually worked.
  */
 export function buildRecheckQuestionForConcept(
-  lesson: OfficialCurriculumLesson,
+  lesson: OfficialCurriculumLesson | null,
   concept: CurriculumLessonConcept | null,
   studentName: string
 ): RecheckPracticeQuestion {
+  if (!lesson) {
+    return {
+      id: 'recheck_none',
+      conceptId: 'none',
+      promptAr: 'لا توجد مسألة تحقق متاحة لعدم تحديد درس.',
+      promptEn: 'No re-check question available without a selected lesson.',
+      promptFr: 'Aucune question de vérification disponible.',
+      thinkingPromptAr: '',
+      thinkingPromptEn: '',
+      thinkingPromptFr: '',
+      options: [],
+      correctIndex: -1,
+    };
+  }
+
   const cId = concept?.id || `${lesson.id}_c1`;
   const conceptTitle = (concept?.titleAr || lesson.titleAr || '').toLowerCase();
   const conceptTitleEn = (concept?.titleEn || lesson.titleEn || '').toLowerCase();
@@ -1092,12 +1126,30 @@ export function buildRecheckQuestionForConcept(
  * Instead of repeating generic text, Miss Nour directly addresses the misconception or prerequisite.
  */
 export function buildTargetedIntervention(
-  lesson: OfficialCurriculumLesson,
+  lesson: OfficialCurriculumLesson | null,
   concept: CurriculumLessonConcept | null,
   studentName: string,
   diagnosisType: ErrorDiagnosisType,
   strategy: TeachingStrategy
 ): TargetedTeachingContent {
+  if (!lesson) {
+    return {
+      headlineAr: 'توجيه تعليمي',
+      headlineEn: 'Learning Guidance',
+      headlineFr: 'Orientation pédagogique',
+      coreExplanationAr: `يا أهلاً يا ${studentName}! حددي درساً من المنهج لنبدأ رحلة الشرح التفاعلي خطوة بخطوة.`,
+      coreExplanationEn: `Hello ${studentName}! Please select a lesson from the curriculum to start our guided session.`,
+      coreExplanationFr: `Bonjour ${studentName}! Choisis une leçon pour commencer.`,
+      contrastOrAnalogyAr: '',
+      contrastOrAnalogyEn: '',
+      contrastOrAnalogyFr: '',
+      keyRuleAr: '',
+      keyRuleEn: '',
+      keyRuleFr: '',
+      strategy,
+    };
+  }
+
   const isFraction =
     (concept?.titleAr || lesson.titleAr).includes('كسر') ||
     (concept?.titleAr || lesson.titleAr).includes('كسور');
@@ -1566,46 +1618,18 @@ export function buildNormalizedTeacherContext(
 
   // Safe fallback to first authoritative lesson, without fabricating fake ones
   if (!targetLesson) {
-    targetLesson = allLessons[0] || ({
-      id: 'off_ar_u1_l1_ana_astatee',
-      subjectId: 'subj_arabic',
-      subjectNameAr: 'اللغة العربية',
-      subjectNameEn: 'Arabic Language',
-      unitNumber: 1,
-      unitNameAr: 'الوحدة الأولى',
-      unitNameEn: 'Unit 1',
-      lessonNumber: 1,
-      titleAr: 'أنا أستطيع',
-      titleEn: 'I Can',
-      originTag: 'official',
-      isAvailable: true,
-      sourceRef: {
-        book: 'كتاب اللغة العربية',
-        bookAr: 'اللغة العربية — كتاب الوزارة',
-        bookEn: 'Arabic Ministry Book',
-        grade: 'الصف الخامس',
-        term: 'الفصل الدراسي الأول',
-        unit: 'الوحدة الأولى',
-        lesson: 'الدرس الأول',
-        page: 10,
-        isAvailable: true,
-      },
-      objectives: ['تحديد الفكرة الرئيسة للنص القرائي'],
-      readingText: 'أنا أستطيع... هذه العبارة التي كنت أقولها لنفسي دائماً',
-      vocabulary: [],
-      exercises: [],
-      concepts: [],
-    } as OfficialCurriculumLesson);
+    targetLesson = allLessons[0] || null;
   }
 
   // 2. Resolve Target Concept
-  const targetConcept =
-    (companionContext?.conceptId &&
-      targetLesson.concepts.find((c) => c.id === companionContext.conceptId)) ||
-    (nextPendingMission?.conceptId &&
-      targetLesson.concepts.find((c) => c.id === nextPendingMission.conceptId)) ||
-    targetLesson.concepts[0] ||
-    null;
+  const targetConcept = targetLesson
+    ? (companionContext?.conceptId &&
+        targetLesson.concepts.find((c) => c.id === companionContext.conceptId)) ||
+      (nextPendingMission?.conceptId &&
+        targetLesson.concepts.find((c) => c.id === nextPendingMission.conceptId)) ||
+      targetLesson.concepts[0] ||
+      null
+    : null;
 
   // 3. Extract Mastery State for Target Concept
   const rec = targetConcept ? masteryRecords[targetConcept.id] : null;
@@ -1655,7 +1679,7 @@ export function buildNormalizedTeacherContext(
   let recommendedReason = '';
   let recommendedNextAction = '';
 
-  if (contextSource === 'homework') {
+  if (contextSource === 'homework' && targetLesson) {
     recommendedReason = isAr
       ? `تم تسجيل واجب مدرسي في «${targetLesson.subjectNameAr}» يجب إنجازه اليوم بثقة ودون تراكم.`
       : `Pending homework assigned today in "${targetLesson.subjectNameEn}".`;
@@ -1665,7 +1689,7 @@ export function buildNormalizedTeacherContext(
     recommendedNextAction = nextPendingMission.title;
   } else if (contextSource === 'weakness') {
     recommendedReason = isAr
-      ? `لاحظنا أن مفهوم «${targetConcept?.titleAr || targetLesson.titleAr}» يحتاج إلى زاوية شرح إيضاحية بديلة.`
+      ? `لاحظنا أن مفهوم «${targetConcept?.titleAr || targetLesson?.titleAr || ''}» يحتاج إلى زاوية شرح إيضاحية بديلة.`
       : `Concept needs alternative explanatory perspective.`;
     recommendedNextAction = isAr ? 'إعادة تثبيت المفهوم بنموذج بصري ومثال' : 'Re-anchor concept with visual model';
   } else if (dueReviews.length > 0) {
@@ -1673,43 +1697,57 @@ export function buildNormalizedTeacherContext(
       ? `مفهوم مستحق للمراجعة المتباعدة لضمان ترسيخه في الذاكرة طويلة المدى.`
       : `Spaced review due to ensure long-term retention.`;
     recommendedNextAction = isAr ? 'مراجعة سريعة وتثبيت الإتقان' : 'Quick refresh and mastery re-check';
-  } else {
+  } else if (targetLesson) {
     recommendedReason = isAr
       ? `متابعة التسلسل الطبيعي في كتاب الوزارة لـ «${targetLesson.titleAr}».`
       : `Following official curriculum textbook progression.`;
     recommendedNextAction = isAr ? 'استكشاف الدرس وحل تمارين الوزارة' : 'Explore lesson and solve textbook practice';
+  } else {
+    recommendedReason = isAr
+      ? 'لم يتم تحديد درس حالياً؛ يمكنكِ اختيار مادة أو درس من خطة المنهج.'
+      : 'No lesson currently selected; you can pick a subject or lesson from the curriculum.';
+    recommendedNextAction = isAr ? 'تصفح المنهج الدراسي واختيار درس' : 'Browse curriculum and select a lesson';
   }
 
   // 7. Synthesize Proactive Opening Speech
   let proactiveOpeningSpeech = '';
-  const didStudyTodayAtSchool = todayLessonsCovered.some(
-    (l) => l.subject.includes(targetLesson.subjectNameAr) || targetLesson.subjectNameAr.includes(l.subject)
-  );
+  const didStudyTodayAtSchool =
+    Boolean(currentDayRecord?.confirmed) &&
+    Boolean(targetLesson) &&
+    todayLessonsCovered.some(
+      (l) => l.subject.includes(targetLesson!.subjectNameAr) || targetLesson!.subjectNameAr.includes(l.subject)
+    );
 
-  if (didStudyTodayAtSchool) {
+  if (didStudyTodayAtSchool && targetLesson) {
     proactiveOpeningSpeech = isAr
-      ? `يا أهلاً يا ${studentName}! شفت في سجل يومك إنك درستي «${targetLesson.titleAr}» في المدرسة النهاردة. قبل ما نفتح التمارين، عايزة أسألك سؤال استكشافي ذكي عشان نتأكد إن الفكرة الأساسية واضحة في دماغك ومفيش أي التباس!`
+      ? `يا أهلاً يا ${studentName}! شفت في سجل يومك المؤكد إنك درستي «${targetLesson.titleAr}» في المدرسة النهاردة. قبل ما نفتح التمارين، عايزة أسألك سؤال استكشافي ذكي عشان نتأكد إن الفكرة الأساسية واضحة في دماغك ومفيش أي التباس!`
       : isFr
-      ? `Bonjour ${studentName}! J'ai vu que tu as étudié «${targetLesson.titleEn}» à l'école aujourd'hui. Avant de passer aux exercices, commençons par une petite question diagnostique pour vérifier tes repères !`
-      : `Hello ${studentName}! I noticed you studied "${targetLesson.titleEn}" at school today. Before we jump into practice, let's start with a quick diagnostic question to see exactly what clicked!`;
-  } else if (pendingHomework.length > 0 && pendingHomework.some((h) => h.subject.includes(targetLesson.subjectNameAr))) {
+      ? `Bonjour ${studentName}! J'ai vu dans ton journal confirmé que tu as étudié «${targetLesson.titleEn}» à l'école aujourd'hui. Avant de passer aux exercices, commençons par une petite question diagnostique pour vérifier tes repères !`
+      : `Hello ${studentName}! I noticed in your confirmed school record that you studied "${targetLesson.titleEn}" at school today. Before we jump into practice, let's start with a quick diagnostic question to see exactly what clicked!`;
+  } else if (targetLesson && pendingHomework.length > 0 && pendingHomework.some((h) => h.subject.includes(targetLesson.subjectNameAr))) {
     proactiveOpeningSpeech = isAr
       ? `أهلاً يا ${studentName}! عندك واجب مسجل في «${targetLesson.sourceRef.bookAr}». تعالي نختبر فهمك للفكرة المحورية الأول بسؤال بسيط عشان تحلي الواجب بسرعة وبدون تردد!`
       : isFr
       ? `Bonjour ${studentName}! Tu as des devoirs pour «${targetLesson.sourceRef.bookEn}». Vérifions la notion clé ensemble pour que tu puisses les faire en toute autonomie !`
       : `Hello ${studentName}! You have homework recorded for "${targetLesson.sourceRef.bookEn}". Let's test the core concept first so you can complete it smoothly!`;
-  } else if (masteryState && (masteryState.threshold === 'needs_review' || masteryState.score < 0.6)) {
+  } else if (masteryState && (masteryState.threshold === 'needs_review' || masteryState.score < 0.6) && targetLesson) {
     proactiveOpeningSpeech = isAr
       ? `يا هلا ببطلتنا ${studentName}! درس «${targetLesson.titleAr}» محتاج مننا زاوية شرح جديدة وممتعة. جهزت لك سؤال تشخيصي لطيف يحدد بالظبط النقطة اللي محتاجة توضيح!`
       : isFr
       ? `Bonjour ${studentName}! La leçon «${targetLesson.titleEn}» mérite un nouvel éclairage. Faisons un petit test amical pour voir exactement ce qu'on va consolider !`
       : `Hello ${studentName}! "${targetLesson.titleEn}" calls for a fresh, engaging angle. Let's start with a diagnostic check to pinpoint exactly where to focus!`;
-  } else {
+  } else if (targetLesson) {
     proactiveOpeningSpeech = isAr
       ? `أهلاً يا ${studentName}! أنا معلمتكِ نور 👩‍🏫 خطوتنا الدراسية الآن هي درس «${targetLesson.titleAr}» من ${targetLesson.sourceRef.bookAr}. يلا نكتشف مستوانا بسؤال تشخيصي سريع قبل الشرح!`
       : isFr
       ? `Bienvenue ${studentName}! Je suis Maîtresse Nour 👩‍🏫 Notre étape actuelle est «${targetLesson.titleEn}». Commençons par un rapide diagnostic avant le tableau !`
       : `Welcome, ${studentName}! I'm Miss Nour 👩‍🏫 Our current lesson is "${targetLesson.titleEn}" from ${targetLesson.sourceRef.bookEn}. Let's check where we stand with a quick diagnostic!`;
+  } else {
+    proactiveOpeningSpeech = isAr
+      ? `أهلاً يا ${studentName}! أنا معلمتكِ نور 👩‍🏫 لم يتم تحديد درس حالياً من المنهج. تعالي نستكشف رف الكتب والمواد الدراسية لنبدأ!`
+      : isFr
+      ? `Bienvenue ${studentName}! Je suis Maîtresse Nour 👩‍🏫 Aucune leçon n'est sélectionnée. Choisissons un livre pour commencer !`
+      : `Welcome ${studentName}! I'm Miss Nour 👩‍🏫 No lesson is currently selected. Let's explore your curriculum books to get started!`;
   }
 
   // 8. Generate Curriculum Diagnostic Question, Targeted Teaching, and Recheck Question
@@ -1732,8 +1770,8 @@ export function buildNormalizedTeacherContext(
     schoolDayConfirmed: Boolean(currentDayRecord?.confirmed),
     todayLessonsCovered,
     todayHomeworkAssigned,
-    targetSubjectId: targetLesson.subjectId,
-    targetSubjectName: isAr ? targetLesson.subjectNameAr : targetLesson.subjectNameEn,
+    targetSubjectId: targetLesson?.subjectId || '',
+    targetSubjectName: targetLesson ? (isAr ? targetLesson.subjectNameAr : targetLesson.subjectNameEn) : '',
     targetLesson,
     targetConcept,
     masteryState,

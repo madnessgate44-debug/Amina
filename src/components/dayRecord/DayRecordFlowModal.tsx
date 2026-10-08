@@ -71,7 +71,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
   // Pipeline Step 1 -> Step 4
   const handleProcessInput = async (inputText: string) => {
     const text = (inputText || studentInput).trim();
-    if (!text || isProcessing) return;
+    if (!text || isProcessing || !student?.id) return;
 
     setIsProcessing(true);
 
@@ -83,7 +83,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
         body: JSON.stringify({
           studentInput: text,
           studentName,
-          grade: student?.grade || 'Grade 5',
+          grade: student.grade || 'Grade 5',
           language,
           todayTimetableSubjects: timetable?.days.find((d) => d.day === todayKey)?.periods.map((p) => p.subject) || [],
         }),
@@ -97,7 +97,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
 
       const draftRecord: DayRecord = {
         id: 'dr_' + Date.now(),
-        studentId: student?.id || 'demo_student',
+        studentId: student.id,
         date: todayDate,
         lessonsCovered: extracted.lessonsCovered,
         homeworkAssigned: extracted.homeworkAssigned,
@@ -121,14 +121,15 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
       }
     } catch (err) {
       console.error('Reconstruction error:', err);
-      // Fallback draft
+      // Safe draft without fabricating unconfirmed lessons
       const fallbackDraft: DayRecord = {
         id: 'dr_' + Date.now(),
-        studentId: student?.id || 'demo_student',
+        studentId: student.id,
         date: todayDate,
-        lessonsCovered: [{ subject: isArabic ? 'اللغة العربية' : 'Arabic', topic: text }],
+        lessonsCovered: [],
         homeworkAssigned: [],
         notes: text,
+        rawStudentInput: text,
         confirmed: false,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),
@@ -174,9 +175,10 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
 
   // Step 7: Student confirms Day Record
   const handleConfirmRecord = async () => {
-    if (!proposedRecord) return;
+    if (!proposedRecord || !student) return;
     const confirmedRecord: DayRecord = {
       ...proposedRecord,
+      studentId: student.id,
       confirmed: true,
       confirmedAt: new Date().toISOString(),
       origin: 'student_confirmed',

@@ -141,11 +141,10 @@ export function computeConceptReviewSchedule(
     status = 'due';
   }
 
-  const subjectName = concept.subjectId === 'subj_math'
-    ? (isAr ? 'الرياضيات' : 'Mathematics')
-    : concept.subjectId === 'subj_arabic'
-    ? (isAr ? 'اللغة العربية' : 'Arabic')
-    : (isAr ? 'العلوم' : 'Science');
+  const subjectMeta = curriculumService.getAminaSubject(concept.subjectId);
+  const subjectName = isAr
+    ? (concept.subjectNameAr || subjectMeta?.subjectNameAr || concept.subjectId)
+    : (concept.subjectNameEn || subjectMeta?.subjectNameEn || concept.subjectId);
 
   return {
     conceptId: concept.id,

@@ -8,6 +8,7 @@ import { useApp } from '../../context/AppContext';
 import { ChatMessage, AIConversation } from '../../types';
 import { storageService } from '../../services/storage';
 import { voiceService } from '../../services/voice/voiceService';
+import { curriculumService } from '../../services/curriculum/curriculumService';
 import { isEscalationTrigger, advanceTutorEscalation } from '../../services/tutor/tutorEngine';
 import { Badge } from '../common/Badge';
 import { DayRecordFlowModal } from '../dayRecord/DayRecordFlowModal';
@@ -197,13 +198,15 @@ export const CompanionChatScreen: React.FC = () => {
             timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
           };
           setMessages([initialGreeting]);
-          const newConv: AIConversation = {
-            id: 'conv_' + (student?.id || 'demo'),
-            studentId: student?.id || 'demo',
-            messages: [initialGreeting],
-            updatedAt: new Date().toISOString(),
-          };
-          await storageService.saveConversation(newConv);
+          if (student?.id) {
+            const newConv: AIConversation = {
+              id: 'conv_' + student.id,
+              studentId: student.id,
+              messages: [initialGreeting],
+              updatedAt: new Date().toISOString(),
+            };
+            await storageService.saveConversation(newConv);
+          }
         }
       } catch (e) {
         console.error('Failed to load conversation:', e);
@@ -268,21 +271,9 @@ export const CompanionChatScreen: React.FC = () => {
           missionsForToday.find((m) => m.status === 'pending');
 
         if (targetMission) {
-          await completeMission(targetMission.id, { score: 1.0, modality: 'practice' });
-          const remaining = missionsForToday.filter(
-            (m) => m.id !== targetMission.id && m.status === 'pending'
-          );
-          const nextMission = remaining[0];
-
           replyContent = isArabic
-            ? `ألف مبروك إنجازك لمهمة «${targetMission.title}»! 🌟 تم تحديث مستوى الإتقان وتسجيل تقدمك بنجاح.` +
-              (nextMission
-                ? `\n\nالمهمة التالية في قائمتك: «${nextMission.title}» (${nextMission.estimatedMinutes} دقيقة).`
-                : '\n\n🎉 لقد انتهت جميع مهام اليوم!')
-            : `Awesome job finishing "${targetMission.title}"! 🌟 Your mastery records and progress have been updated.` +
-              (nextMission
-                ? `\n\nNext mission on your list: "${nextMission.title}" (${nextMission.estimatedMinutes} min).`
-                : '\n\n🎉 All daily missions are complete!');
+            ? `ممتاز يا بطلة! لتسجيل إتمام مهمة «${targetMission.title}» رسمياً في سجل إتقانك، تعالي نفتح تمرين المهمة السريع لنتأكد من تثبيت الفكرة ونمنحك نجوم الإنجاز! ⭐`
+            : `Great job! To record completion of "${targetMission.title}" in your mastery records, let's open the quick mission check to verify understanding and earn your stars! ⭐`;
         } else {
           replyContent = isArabic
             ? `رائع جداً! كل مهام اليوم مسجلة كمكتملة، ولا توجد مهمة قيد التنفيذ الآن.`
@@ -326,10 +317,11 @@ export const CompanionChatScreen: React.FC = () => {
         const targetConceptId =
           activeMission?.conceptId ||
           missionsForToday.find((m) => m.conceptId)?.conceptId ||
-          'sci_elem_g5_c1';
+          curriculumService.getFlatConcepts()[0]?.id ||
+          '';
 
         const tutorResponse = advanceTutorEscalation({
-          studentId: student?.id || 'demo',
+          studentId: student?.id || '',
           conceptId: targetConceptId,
           sessionId: 'companion_session',
           language,
@@ -410,12 +402,14 @@ export const CompanionChatScreen: React.FC = () => {
       }
 
       // Persist to storage
-      await storageService.saveConversation({
-        id: 'conv_' + (student?.id || 'demo'),
-        studentId: student?.id || 'demo',
-        messages: finalMessages,
-        updatedAt: new Date().toISOString(),
-      });
+      if (student?.id) {
+        await storageService.saveConversation({
+          id: 'conv_' + student.id,
+          studentId: student.id,
+          messages: finalMessages,
+          updatedAt: new Date().toISOString(),
+        });
+      }
     } catch (err: any) {
       console.error('Chat error:', err);
       const assistantFallback: ChatMessage = {
@@ -444,12 +438,14 @@ export const CompanionChatScreen: React.FC = () => {
       timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
     setMessages([initialGreeting]);
-    await storageService.saveConversation({
-      id: 'conv_' + (student?.id || 'demo'),
-      studentId: student?.id || 'demo',
-      messages: [initialGreeting],
-      updatedAt: new Date().toISOString(),
-    });
+    if (student?.id) {
+      await storageService.saveConversation({
+        id: 'conv_' + student.id,
+        studentId: student.id,
+        messages: [initialGreeting],
+        updatedAt: new Date().toISOString(),
+      });
+    }
   };
 
   const samplePrompts = [

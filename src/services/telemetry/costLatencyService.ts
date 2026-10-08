@@ -146,7 +146,7 @@ class CostLatencyService {
       costUsd,
       latencyMs: Math.round(params.latencyMs),
       status: params.status || 'success',
-      studentId: params.studentId || 'demo_student',
+      studentId: params.studentId || '',
     };
 
     this.logs.push(metric);

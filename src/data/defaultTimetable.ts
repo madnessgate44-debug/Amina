@@ -17,7 +17,7 @@ import { Timetable, DaySchedule, SchoolDayKey } from '../types';
  * - تكنولوجيا المعلومات والاتصالات (ICT)
  * - التربية الدينية الإسلامية (Islamic Education)
  */
-export function createDefaultTimetable(studentId: string = 'demo_student'): Timetable {
+export function createDefaultTimetable(studentId: string): Timetable {
   const days: DaySchedule[] = [
     {
       day: 'sunday' as SchoolDayKey,

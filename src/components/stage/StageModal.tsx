@@ -151,29 +151,30 @@ export const StageModal: React.FC<StageModalProps> = ({
       });
     }
 
-    // Save session in IndexedDB
-    const studentId = student?.id || 'demo_student';
-    await storageService.saveTeachingSession({
-      sessionId: `stage_sess_${lessonId}`,
-      studentId,
-      lessonId,
-      subjectId: sequence.subjectId,
-      startedAt: new Date().toISOString(),
-      lastActiveAt: new Date().toISOString(),
-      currentConceptIndex: newState.currentBeatIndex,
-      totalConcepts: sequence.beats.length,
-      currentStep: 'teach',
-      currentAttemptCount: 0,
-      modalityHistory: ['structured_visual'],
-      turnHistory: [],
-      explainBackDone: Object.values(newState.explainBackPassed).some(Boolean),
-      offBookQuestions: newState.offBookQuestions.map((q) => ({
-        question: q,
-        timestamp: new Date().toISOString(),
-        parentNote: `سؤال استكشافي من المسرح التفاعلي: "${q}"`,
-      })),
-      status: result.isLessonCompleted ? 'completed' : 'in_progress',
-    });
+    // Save session in IndexedDB if active student exists
+    if (student?.id) {
+      await storageService.saveTeachingSession({
+        sessionId: `stage_sess_${lessonId}`,
+        studentId: student.id,
+        lessonId,
+        subjectId: sequence.subjectId,
+        startedAt: new Date().toISOString(),
+        lastActiveAt: new Date().toISOString(),
+        currentConceptIndex: newState.currentBeatIndex,
+        totalConcepts: sequence.beats.length,
+        currentStep: 'teach',
+        currentAttemptCount: 0,
+        modalityHistory: ['structured_visual'],
+        turnHistory: [],
+        explainBackDone: Object.values(newState.explainBackPassed).some(Boolean),
+        offBookQuestions: newState.offBookQuestions.map((q) => ({
+          question: q,
+          timestamp: new Date().toISOString(),
+          parentNote: `سؤال استكشافي من المسرح التفاعلي: "${q}"`,
+        })),
+        status: result.isLessonCompleted ? 'completed' : 'in_progress',
+      });
+    }
 
     if (result.isLessonCompleted) {
       showToast(

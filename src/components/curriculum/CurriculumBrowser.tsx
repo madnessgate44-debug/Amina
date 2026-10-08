@@ -103,9 +103,10 @@ export const CurriculumBrowser: React.FC = () => {
   }, [selectedSubjectId]);
 
   const handleLaunchPracticeQuiz = (lesson: OfficialCurriculumLesson) => {
+    if (!student?.id) return;
     const dummyMission: Mission = {
       id: 'mission_quiz_' + lesson.id,
-      studentId: student?.id || 'amina',
+      studentId: student.id,
       date: new Date().toISOString().split('T')[0],
       subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
       title: (isAr ? 'تمارين وتطبيق: ' : 'Practice Quiz: ') + (isAr ? lesson.titleAr : lesson.titleEn),
@@ -122,9 +123,10 @@ export const CurriculumBrowser: React.FC = () => {
   };
 
   const handleLaunchHomework = (lesson: OfficialCurriculumLesson) => {
+    if (!student?.id) return;
     const dummyMission: Mission = {
       id: 'mission_hw_' + lesson.id,
-      studentId: student?.id || 'amina',
+      studentId: student.id,
       date: new Date().toISOString().split('T')[0],
       subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
       title: (isAr ? 'واجب كتاب الوزارة: ' : 'Homework: ') + (isAr ? lesson.titleAr : lesson.titleEn),

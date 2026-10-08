@@ -11,7 +11,7 @@ import { createDefaultTimetable } from '../../data/defaultTimetable';
 import { Calendar, Plus, Edit2, Trash2, Clock, Check, RotateCcw, AlertCircle } from 'lucide-react';
 
 export const TimetableScreen: React.FC = () => {
-  const { t, language, timetable, saveTimetable, student } = useApp();
+  const { t, language, timetable, saveTimetable, student, showToast } = useApp();
   const isArabic = language === 'ar';
 
   const [activeDayKey, setActiveDayKey] = useState<SchoolDayKey>('sunday');
@@ -25,9 +25,13 @@ export const TimetableScreen: React.FC = () => {
   const [slotSubject, setSlotSubject] = useState<string>('اللغة العربية');
   const [slotIsBreak, setSlotIsBreak] = useState<boolean>(false);
 
-  const currentTimetable = timetable || createDefaultTimetable(student?.id || 'demo_student');
+  // If no saved timetable, do NOT silently pretend demo schedule is real.
+  const isTimetableConfigured = Boolean(timetable);
+  const currentTimetable = timetable || null;
 
-  const activeDay = currentTimetable.days.find((d) => d.day === activeDayKey) || currentTimetable.days[0];
+  const activeDay = currentTimetable
+    ? currentTimetable.days.find((d) => d.day === activeDayKey) || currentTimetable.days[0]
+    : null;
 
   const handleOpenEdit = (slot: TimeSlot) => {
     setEditingSlot(slot);
@@ -40,6 +44,7 @@ export const TimetableScreen: React.FC = () => {
   };
 
   const handleOpenAdd = () => {
+    if (!activeDay) return;
     const nextPeriodNum = (activeDay.periods.length || 0) + 1;
     setEditingSlot(null);
     setIsAddingNew(true);
@@ -50,7 +55,39 @@ export const TimetableScreen: React.FC = () => {
     setSlotIsBreak(false);
   };
 
+  const handleCreateBlankTimetable = async () => {
+    if (!student?.id) {
+      showToast(isArabic ? 'يرجى إعداد ملف الطالب أولاً' : 'Please set up student profile first');
+      return;
+    }
+    const days: DaySchedule[] = [
+      { day: 'sunday', dayNameAr: 'الأحد', dayNameEn: 'Sunday', periods: [] },
+      { day: 'monday', dayNameAr: 'الإثنين', dayNameEn: 'Monday', periods: [] },
+      { day: 'tuesday', dayNameAr: 'الثلاثاء', dayNameEn: 'Tuesday', periods: [] },
+      { day: 'wednesday', dayNameAr: 'الأربعاء', dayNameEn: 'Wednesday', periods: [] },
+      { day: 'thursday', dayNameAr: 'الخميس', dayNameEn: 'Thursday', periods: [] },
+    ];
+    const blankTt: Timetable = {
+      id: `tt_${student.id}`,
+      studentId: student.id,
+      days,
+      updatedAt: new Date().toISOString(),
+      isDemo: false,
+    };
+    await saveTimetable(blankTt);
+  };
+
+  const handleLoadSampleTemplate = async () => {
+    if (!student?.id) {
+      showToast(isArabic ? 'يرجى إعداد ملف الطالب أولاً' : 'Please set up student profile first');
+      return;
+    }
+    const sampleTt = createDefaultTimetable(student.id);
+    await saveTimetable(sampleTt);
+  };
+
   const handleSaveSlot = async () => {
+    if (!currentTimetable || !student?.id) return;
     const updatedDays: DaySchedule[] = currentTimetable.days.map((day) => {
       if (day.day !== activeDayKey) return day;
 
@@ -86,8 +123,10 @@ export const TimetableScreen: React.FC = () => {
 
     const updatedTt: Timetable = {
       ...currentTimetable,
+      studentId: student.id,
       days: updatedDays,
       updatedAt: new Date().toISOString(),
+      isDemo: false,
     };
 
     await saveTimetable(updatedTt);
@@ -96,6 +135,7 @@ export const TimetableScreen: React.FC = () => {
   };
 
   const handleDeleteSlot = async (slotId: string) => {
+    if (!currentTimetable || !student?.id) return;
     const updatedDays: DaySchedule[] = currentTimetable.days.map((day) => {
       if (day.day !== activeDayKey) return day;
       return {
@@ -106,15 +146,18 @@ export const TimetableScreen: React.FC = () => {
 
     const updatedTt: Timetable = {
       ...currentTimetable,
+      studentId: student.id,
       days: updatedDays,
       updatedAt: new Date().toISOString(),
+      isDemo: false,
     };
 
     await saveTimetable(updatedTt);
   };
 
   const handleResetToDefault = async () => {
-    const defaultTt = createDefaultTimetable(student?.id || 'demo_student');
+    if (!student?.id) return;
+    const defaultTt = createDefaultTimetable(student.id);
     await saveTimetable(defaultTt);
   };
 
@@ -140,63 +183,104 @@ export const TimetableScreen: React.FC = () => {
               </p>
             </div>
           </div>
-          <Badge variant="demo">{t.app.demoOriginTag}</Badge>
+          {currentTimetable?.isDemo ? (
+            <Badge variant="demo">{t.app.demoOriginTag}</Badge>
+          ) : currentTimetable ? (
+            <Badge variant="official">{isArabic ? 'جدول مدرسي معتمد' : 'Confirmed Schedule'}</Badge>
+          ) : null}
         </div>
 
-        {/* Demo Notice */}
-        <div className="mt-3 p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 flex items-center gap-2 text-[11px] text-amber-800 dark:text-amber-300">
-          <AlertCircle className="w-4 h-4 shrink-0 text-amber-600" />
-          <span>{t.timetable.demoNotice}</span>
-        </div>
+        {/* Demo Notice (Only when viewing demo timetable) */}
+        {currentTimetable?.isDemo && (
+          <div className="mt-3 p-2.5 rounded-xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-800/50 flex items-center gap-2 text-[11px] text-amber-800 dark:text-amber-300">
+            <AlertCircle className="w-4 h-4 shrink-0 text-amber-600" />
+            <span>{t.timetable.demoNotice}</span>
+          </div>
+        )}
       </div>
 
-      {/* Days Tabs (Sunday - Thursday) */}
-      <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800 no-scrollbar">
-        {currentTimetable.days.map((d) => {
-          const isActive = d.day === activeDayKey;
-          return (
-            <button
-              key={d.day}
-              onClick={() => setActiveDayKey(d.day)}
-              className={`px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
-                isActive
-                  ? 'bg-indigo-600 text-white shadow-sm'
-                  : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50'
-              }`}
-            >
-              <span>{isArabic ? d.dayNameAr : d.dayNameEn}</span>
-              <span
-                className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                  isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
-                }`}
-              >
-                {d.periods.length}
-              </span>
-            </button>
-          );
-        })}
-      </div>
-
-      {/* Periods list for active day */}
-      <div className="mt-4 space-y-2.5 flex-1">
-        <div className="flex items-center justify-between text-xs font-semibold text-slate-500 px-1">
-          <span>{isArabic ? `حصص يوم ${activeDay.dayNameAr}` : `${activeDay.dayNameEn} Periods`}</span>
-          <button
-            onClick={handleOpenAdd}
-            className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 font-bold"
-          >
-            <Plus className="w-3.5 h-3.5" />
-            <span>{t.timetable.addPeriod}</span>
-          </button>
-        </div>
-
-        {activeDay.periods.length === 0 ? (
-          <div className="text-center py-10 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
-            <p className="text-xs text-slate-400">
-              {isArabic ? 'لا توجد حصص مسجلة لهذا اليوم' : 'No periods recorded for this day'}
+      {!currentTimetable ? (
+        /* Empty / Unconfigured Timetable State */
+        <div className="my-auto py-12 px-6 rounded-3xl bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-center space-y-4 shadow-sm">
+          <div className="w-14 h-14 rounded-2xl bg-indigo-100 dark:bg-indigo-950/60 text-indigo-600 dark:text-indigo-400 mx-auto flex items-center justify-center text-2xl shadow-xs">
+            📅
+          </div>
+          <div className="space-y-1.5 max-w-sm mx-auto">
+            <h3 className="text-base font-black text-slate-900 dark:text-slate-100">
+              {isArabic ? 'لم يتم إدخال جدول الحصص بعد' : 'No School Timetable Set Up Yet'}
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+              {isArabic
+                ? 'المعلمة نور تعتمد حالياً على ما تسجلينه في سجل اليوم المدرسي. يمكنكِ إنشاء جدولك الآن أو استيراد نموذج لتعديله.'
+                : 'Miss Nour currently relies on your daily school reports. You can build your schedule now or load a sample template.'}
             </p>
           </div>
-        ) : (
+          <div className="pt-2 flex flex-col sm:flex-row gap-2 max-w-xs mx-auto">
+            <button
+              type="button"
+              onClick={handleLoadSampleTemplate}
+              className="flex-1 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow-md shadow-indigo-600/20 transition-all cursor-pointer"
+            >
+              {isArabic ? 'تحميل نموذج تجريبي للتعديل' : 'Load Sample Template'}
+            </button>
+            <button
+              type="button"
+              onClick={handleCreateBlankTimetable}
+              className="flex-1 py-3 px-4 rounded-xl bg-white dark:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs hover:bg-slate-100 dark:hover:bg-slate-750 transition-all cursor-pointer"
+            >
+              {isArabic ? 'إنشاء جدول فارغ' : 'Create Blank Schedule'}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <>
+          {/* Days Tabs (Sunday - Thursday) */}
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-2 border-b border-slate-200 dark:border-slate-800 no-scrollbar">
+            {currentTimetable.days.map((d) => {
+              const isActive = d.day === activeDayKey;
+              return (
+                <button
+                  key={d.day}
+                  onClick={() => setActiveDayKey(d.day)}
+                  className={`px-3 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all flex items-center gap-1.5 ${
+                    isActive
+                      ? 'bg-indigo-600 text-white shadow-sm'
+                      : 'bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-800 hover:bg-slate-50'
+                  }`}
+                >
+                  <span>{isArabic ? d.dayNameAr : d.dayNameEn}</span>
+                  <span
+                    className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                      isActive ? 'bg-indigo-700 text-indigo-100' : 'bg-slate-100 dark:bg-slate-800 text-slate-500'
+                    }`}
+                  >
+                    {d.periods.length}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Periods list for active day */}
+          <div className="mt-4 space-y-2.5 flex-1">
+            <div className="flex items-center justify-between text-xs font-semibold text-slate-500 px-1">
+              <span>{isArabic ? `حصص يوم ${activeDay?.dayNameAr || ''}` : `${activeDay?.dayNameEn || ''} Periods`}</span>
+              <button
+                onClick={handleOpenAdd}
+                className="flex items-center gap-1 text-indigo-600 hover:text-indigo-700 dark:text-indigo-400 font-bold cursor-pointer"
+              >
+                <Plus className="w-3.5 h-3.5" />
+                <span>{t.timetable.addPeriod}</span>
+              </button>
+            </div>
+
+            {!activeDay || activeDay.periods.length === 0 ? (
+              <div className="text-center py-10 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
+                <p className="text-xs text-slate-400">
+                  {isArabic ? 'لا توجد حصص مسجلة لهذا اليوم' : 'No periods recorded for this day'}
+                </p>
+              </div>
+            ) : (
           activeDay.periods.map((period) => (
             <div
               key={period.id}
@@ -270,6 +354,8 @@ export const TimetableScreen: React.FC = () => {
           {currentTimetable.days.reduce((acc, d) => acc + d.periods.length, 0)} {isArabic ? 'حصة مسجلة' : 'total periods'}
         </span>
       </div>
+        </>
+      )}
 
       {/* Modal for Add / Edit Slot */}
       {(editingSlot || isAddingNew) && (
@@ -278,8 +364,8 @@ export const TimetableScreen: React.FC = () => {
             <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
               {isAddingNew
                 ? isArabic
-                  ? `إضافة حصة ليوم ${activeDay.dayNameAr}`
-                  : `Add Period for ${activeDay.dayNameEn}`
+                  ? `إضافة حصة ليوم ${activeDay?.dayNameAr || ''}`
+                  : `Add Period for ${activeDay?.dayNameEn || ''}`
                 : isArabic
                 ? 'تعديل الحصة'
                 : 'Edit Period'}

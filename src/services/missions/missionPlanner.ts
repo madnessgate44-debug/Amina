@@ -19,7 +19,7 @@ import { formatMasteryView } from '../mastery/masteryEngine';
 import { getDueReviewConcepts } from '../review/spacedReviewScheduler';
 
 export interface PlanMissionsParams {
-  student: Student;
+  student?: Student | null;
   dayRecord?: DayRecord | null;
   timetable?: Timetable | null;
   masteryRecords: Record<string, MasteryRecord>;
@@ -42,6 +42,8 @@ export interface PlanMissionsResult {
     budgetMinutes: number;
     parentOverrideApplied?: boolean;
     parentOverrideMessage?: string;
+    needsSchoolInformation?: boolean;
+    emptyReason?: string;
   };
 }
 
@@ -170,6 +172,25 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
   } = params;
 
   const isAr = language === 'ar';
+
+  if (!student || !student.id) {
+    return {
+      missions: [],
+      explanation: {
+        droppedCount: 0,
+        isMinimumViableDay: false,
+        usedTimetableFallback: false,
+        totalEstimatedMinutes: 0,
+        budgetMinutes: 0,
+        needsSchoolInformation: true,
+        emptyReason: 'no_student',
+        droppedMessage: isAr
+          ? 'لا يوجد ملف طالب نشط حالياً. يرجى إعداد الملف للبدء.'
+          : 'No active student profile found. Please complete onboarding first.',
+      },
+    };
+  }
+
   const flatConcepts = curriculumService.getFlatConcepts();
 
   let parentOverrideApplied = false;
@@ -260,8 +281,7 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
     }
   }
 
-  // Fallback if no subjects identified from day record or timetable:
-  // First prioritize subjects with due reviews or low mastery; then fall back to authoritative curriculum subjects.
+  // Identify subjects with due reviews or low mastery
   if (activeSubjectIds.length === 0) {
     const dueReviews = getDueReviewConcepts(student.id, masteryRecords, { language });
     for (const r of dueReviews) {
@@ -270,12 +290,37 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
         activeSubjectIds.push(c.subjectId);
       }
     }
+  }
 
-    if (activeSubjectIds.length === 0) {
-      // Use available subjects from Amina's authoritative curriculum
-      const allSubjects = curriculumService.getSubjectsSummary().map((s) => s.subjectId);
-      activeSubjectIds = allSubjects.slice(0, 4);
-    }
+  // If no reliable learning signal exists (no confirmed day record, no timetable for today, no due reviews, no mastery history):
+  // Safe fallback: Return explicit safe onboarding / needs-school-info state without fabricating priorities!
+  const hasLearningSignal =
+    (isConfirmedDay && ((dayRecord?.lessonsCovered?.length || 0) > 0 || (dayRecord?.homeworkAssigned?.length || 0) > 0)) ||
+    usedTimetableFallback ||
+    activeSubjectIds.length > 0 ||
+    Object.keys(masteryRecords).length > 0;
+
+  if (!hasLearningSignal) {
+    return {
+      missions: [],
+      explanation: {
+        droppedCount: 0,
+        isMinimumViableDay: false,
+        usedTimetableFallback: false,
+        totalEstimatedMinutes: 0,
+        budgetMinutes: declaredBudget,
+        needsSchoolInformation: true,
+        emptyReason: 'needs_school_info',
+        droppedMessage: isAr
+          ? 'لم يتم تسجيل يوم مدرسي أو جدول حصص بعد. سجلي ما تم دراسته اليوم في المدرسة لنضع لكِ خطة مذاكرة ذكية ودقيقة!'
+          : 'No school day record or timetable yet. Please log today\'s school lessons so we can build your personalized learning plan!',
+      },
+    };
+  }
+
+  // If there IS a learning signal, but activeSubjectIds is empty, consider all curriculum subjects without arbitrary slicing
+  if (activeSubjectIds.length === 0) {
+    activeSubjectIds = curriculumService.getSubjectsSummary().map((s) => s.subjectId);
   }
 
   // PRIORITY A: Homework assigned today (per Day Record)

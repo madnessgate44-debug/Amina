@@ -57,7 +57,8 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
       if (!foundLesson) return;
       setLesson(foundLesson);
 
-      const studentId = student?.id || 'demo_student';
+      if (!student?.id) return;
+      const studentId = student.id;
       const existingSessions = await storageService.getTeachingSessionsForStudent(studentId);
       const existing = existingSessions.find(
         (s) => s.lessonId === lessonId && s.status === 'in_progress'

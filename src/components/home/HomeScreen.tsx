@@ -74,7 +74,8 @@ export const HomeScreen: React.FC = () => {
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState<number>(45);
   const [isStageOpen, setIsStageOpen] = useState(false);
-  const [activeStageLessonId, setActiveStageLessonId] = useState<string>('off_ar_u1_l1_ana_astatee');
+  const defaultStageLessonId = curriculumService.getAvailableLessons()[0]?.id || curriculumService.getAllLessons()[0]?.id || '';
+  const [activeStageLessonId, setActiveStageLessonId] = useState<string>(defaultStageLessonId);
 
   const studentName = student?.name || (isArabic ? 'أمينة' : 'Amina');
   const gradeLabel = student?.grade || (isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary 🇪🇬');
@@ -240,9 +241,14 @@ export const HomeScreen: React.FC = () => {
                   {nextPendingMission.title}
                 </h3>
                 <p className="text-[11px] text-indigo-200 leading-snug">
-                  {nextPendingMission.type === 'homework'
-                    ? (isArabic ? 'لماذا الآن؟ واجب تم تسجيله اليوم ويجب إنهاؤه لتفادي التراكم.' : 'Why? Homework due soon to keep your progress clear.')
-                    : (isArabic ? 'لماذا الآن؟ تثبيت هذا المفهوم خطوة حاسمة لفهم الدروس القادمة.' : 'Why? Mastering this concept unlocks upcoming topics.')}
+                  {nextPendingMission.whyNow ? (
+                    <span>💡 {isArabic ? 'لماذا الآن؟ ' : 'Why now? '}{nextPendingMission.whyNow}</span>
+                  ) : (
+                    <span>💡 {nextPendingMission.type === 'homework'
+                      ? (isArabic ? 'واجب تم تسجيله اليوم ويجب إنهاؤه لتفادي التراكم.' : 'Homework due soon to keep your progress clear.')
+                      : (isArabic ? 'تثبيت هذا المفهوم خطوة حاسمة لفهم الدروس القادمة.' : 'Mastering this concept unlocks upcoming topics.')}
+                    </span>
+                  )}
                 </p>
               </div>
             </div>

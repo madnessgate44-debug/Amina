@@ -50,23 +50,13 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
 
   const isAr = language === 'ar';
 
-  // Build safe weekly summary (strictly no raw answers, no transcripts)
-  const summary = generateParentWeeklySummary({
-    student: student || ({ id: 'demo_student', name: 'الطالب', grade: 'الصف الخامس' } as any),
-    dayRecords: currentDayRecord ? [currentDayRecord] : [],
-    masteryRecords,
-    completedMissions: missionsForToday.filter((m) => m.status === 'completed'),
-    homeworkItems: currentDayRecord?.homeworkAssigned || [],
-    language,
-  });
-
   const [activeTab, setActiveTab] = useState<'summary' | 'sessions' | 'controls'>('summary');
   const [teachingSessions, setTeachingSessions] = useState<TeachingSession[]>([]);
 
   useEffect(() => {
     async function loadSessions() {
-      const studentId = student?.id || 'demo_student';
-      const list = await storageService.getTeachingSessionsForStudent(studentId);
+      if (!student?.id) return;
+      const list = await storageService.getTeachingSessionsForStudent(student.id);
       setTeachingSessions(
         [...list].sort(
           (a, b) => new Date(b.lastActiveAt).getTime() - new Date(a.lastActiveAt).getTime()
@@ -75,6 +65,43 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
     }
     loadSessions();
   }, [student?.id]);
+
+  if (!student) {
+    return (
+      <div className="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-3 sm:p-4">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl max-w-md w-full p-6 text-center space-y-3 shadow-2xl">
+          <div className="w-12 h-12 rounded-2xl bg-amber-100 dark:bg-amber-950 text-amber-600 flex items-center justify-center mx-auto text-xl">
+            👤
+          </div>
+          <h3 className="text-base font-bold text-slate-900 dark:text-slate-100">
+            {isAr ? 'لا يوجد ملف طالب نشط' : 'No Active Student Profile'}
+          </h3>
+          <p className="text-xs text-slate-500">
+            {isAr
+              ? 'يرجى إكمال إعداد ملف الطالب أولاً لعرض لوحة تحكم ولي الأمر.'
+              : 'Please set up a student profile first to view the parent dashboard.'}
+          </p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs cursor-pointer hover:bg-indigo-700 transition-all"
+          >
+            {isAr ? 'إغلاق' : 'Close'}
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  // Build safe weekly summary (strictly no raw answers, no transcripts)
+  const summary = generateParentWeeklySummary({
+    student,
+    dayRecords: currentDayRecord ? [currentDayRecord] : [],
+    masteryRecords,
+    completedMissions: missionsForToday.filter((m) => m.status === 'completed'),
+    homeworkItems: currentDayRecord?.homeworkAssigned || [],
+    language,
+  });
 
   const getModalityLabel = (modality: TeachingModality) => {
     switch (modality) {

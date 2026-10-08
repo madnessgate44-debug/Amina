@@ -199,8 +199,9 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const studentName = student?.name || (isArabic ? 'أمينة' : 'Amina');
 
   // Currently Active Lesson from Ministry Curriculum
+  const defaultLessonId = curriculumService.getAvailableLessons()[0]?.id || curriculumService.getAllLessons()[0]?.id || '';
   const [currentLessonId, setCurrentLessonId] = useState<string>(
-    selectedCurriculumLessonId || companionContext?.lessonId || 'off_ar_u1_l1_ana_astatee'
+    selectedCurriculumLessonId || companionContext?.lessonId || defaultLessonId
   );
 
   // Normalized Teacher Context connecting School -> Curriculum -> Diagnosis -> Teaching -> Evidence -> Mastery
