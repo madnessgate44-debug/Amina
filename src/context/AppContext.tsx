@@ -298,7 +298,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
           // Load today's day record
           const todayDate = new Date().toISOString().split('T')[0];
-          const record = await storageService.getDayRecord(todayDate);
+          const record = await storageService.getDayRecord(todayDate, storedStudent.id);
           setCurrentDayRecord(record);
 
           // Load mastery records for student
@@ -784,6 +784,23 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setStudent(null);
     setTimetable(null);
     setCurrentDayRecord(null);
+    setMasteryRecords({});
+    setMissionsForToday([]);
+    setPlannerExplanation(null);
+    setCurrentDailyReview(null);
+    setIsDailyReviewOpen(false);
+    setHomeworkSubmissions({});
+    setWeeklyReviews([]);
+    setSavedItems([]);
+    setCollections([]);
+    setParentAccount(null);
+    setIsParentModeActive(false);
+    setGamification(null);
+    setActiveMission(null);
+    setActiveMissionRunnerOpen(false);
+    setSelectedCurriculumLessonId(null);
+    setCompanionContext(null);
+    setGentleCompanionNudge(null);
     setActiveTab('home');
     showToast(settings.language === 'ar' ? 'تمت إعادة تعيين الملف الشخصي' : 'Student profile reset');
   };
