@@ -283,10 +283,10 @@ function runTests() {
       masteryRecords: {},
       nextPendingMission: null,
       language: 'ar',
-      explicitLessonId: 'off_math_u1_l1',
+      explicitLessonId: 'off_mathfr_u1_l1_decimaux',
     });
     assert(Boolean(ctx.recommendedNextAction), 'Case 8.1: Teacher context provides concrete recommendedNextAction');
-    assert(ctx.targetLesson?.id === 'off_math_u1_l1', 'Case 8.2: Target lesson is preserved as requested');
+    assert(ctx.targetLesson?.id === 'off_mathfr_u1_l1_decimaux', 'Case 8.2: Target lesson is preserved as requested');
   }
 
   // =========================================================================
