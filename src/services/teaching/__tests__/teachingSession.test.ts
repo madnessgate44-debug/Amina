@@ -1,4 +1,5 @@
 import { TeachingSessionEngine } from '../teachingSession';
+import { writeFileSync } from 'node:fs';
 
 function assert(condition: boolean, message: string) {
   if (!condition) throw new Error(message);
