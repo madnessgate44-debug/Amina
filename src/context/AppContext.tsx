@@ -289,11 +289,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
         if (storedStudent) {
           // Student exists: safely load their timetable if previously saved by user
-          let storedTimetable = await storageService.getTimetable(storedStudent.id);
-          if (!storedTimetable) {
-            storedTimetable = await storageService.getTimetable();
-          }
-          // If student has no saved timetable, do NOT silently invent a fake one!
+          const storedTimetable = await storageService.getTimetable(storedStudent.id);
+          // Timetable reads remain strictly student-scoped.
+          // If this student has no saved timetable, do not fall back to another scope.
           setTimetable(storedTimetable || null);
 
           // Load today's day record
@@ -373,10 +371,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setStudent(newStudent);
 
     // 2. Load timetable if already saved, otherwise leave null until set up by user
-    let studentTimetable = await storageService.getTimetable(newStudent.id);
-    if (!studentTimetable) {
-      studentTimetable = await storageService.getTimetable();
-    }
+    const studentTimetable = await storageService.getTimetable(newStudent.id);
     setTimetable(studentTimetable || null);
 
     // 3. Initialize required student-scoped baseline data
