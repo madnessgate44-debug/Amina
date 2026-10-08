@@ -161,7 +161,7 @@ export const FeedScreen: React.FC = () => {
             {activeMission.type === 'homework' ? (
               <HomeworkRunner mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} onClose={() => setActiveMission(null)} />
             ) : (
-              <QuizRunner mission={activeMission} onComplete={() => setActiveMission(null)} onSkip={() => setActiveMission(null)} onExplainDifferently={() => setActiveMission(null)} />
+              <QuizRunner mission={activeMission} onComplete={(score) => setActiveMission(null)} onSkip={() => setActiveMission(null)} onExplainDifferently={() => setActiveMission(null)} />
             )}
           </div>
         </div>
