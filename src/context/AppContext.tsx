@@ -681,7 +681,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const handleSkipMission = async (missionId: string, reason?: string) => {
     const mission = missionsForToday.find((m) => m.id === missionId);
-    if (!mission) return;
+    if (!mission || !student?.id || mission.studentId !== student.id) return;
 
     const skippedAt = new Date().toISOString();
     const updatedMissions = missionsForToday.map((m) =>
