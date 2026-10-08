@@ -58,22 +58,24 @@ function normalizeSubject(subName?: string): string {
   if (!subName) return '';
   const s = subName.trim().toLowerCase();
 
-  // French Math specific
+  // Math is the Egyptian national curriculum taught in French.
+  // French wording must never create a second subject identity.
   if (
     (s.includes('math') && (s.includes('fr') || s.includes('فرنس'))) ||
     s.includes('mathématiques') ||
     s.includes('الرياضيات بالفرنسية')
   ) {
-    return 'subj_math_fr';
+    return 'subj_math';
   }
 
-  // French Science specific
+  // Science is the Egyptian national curriculum taught in French.
+  // French wording must never create a second subject identity.
   if (
     (s.includes('sci') && (s.includes('fr') || s.includes('فرنس'))) ||
     s.includes('sciences fr') ||
     s.includes('العلوم بالفرنسية')
   ) {
-    return 'subj_science_fr';
+    return 'subj_science';
   }
 
   // French Language
@@ -103,10 +105,7 @@ function getSubjectDisplayName(subjId: string, lang: Language): string {
   switch (subjId) {
     case 'subj_french':
       return isAr ? 'اللغة الفرنسية' : isFr ? 'Français' : 'French Language';
-    case 'subj_math_fr':
-      return isAr ? 'الرياضيات بالفرنسية' : isFr ? 'Mathématiques' : 'French Mathematics';
-    case 'subj_science_fr':
-      return isAr ? 'العلوم بالفرنسية' : isFr ? 'Sciences' : 'French Science';
+    // Math/Science use canonical subject IDs even when taught in French.
     case 'subj_arabic':
       return isAr ? 'اللغة العربية' : isFr ? 'Langue Arabe' : 'Arabic Language';
     case 'subj_math':
