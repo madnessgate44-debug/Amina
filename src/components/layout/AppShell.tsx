@@ -14,6 +14,8 @@ import { CurriculumBrowser } from '../curriculum/CurriculumBrowser';
 import { ReviewScreen } from '../review/ReviewScreen';
 import { ProgressScreen } from '../progress/ProgressScreen';
 import { ProfileScreen } from '../profile/ProfileScreen';
+import { MissionsScreen } from '../missions/MissionsScreen';
+import { CollectionsScreen } from '../collections/CollectionsScreen';
 import { OnboardingFlow } from '../onboarding/OnboardingFlow';
 import { FeedScreen } from '../feed/FeedScreen';
 import { VirtualTeacherClassroom } from '../teacher/VirtualTeacherClassroom';
@@ -62,21 +64,7 @@ export const AppShell: React.FC = () => {
               </div>
             </div>
 
-            <div className="flex items-center gap-1.5">
-              <div className="flex items-center bg-slate-100 dark:bg-slate-800 p-0.5 rounded-full border border-slate-200 dark:border-slate-700">
-                {(['ar', 'en', 'fr'] as const).map((lang) => (
-                  <button
-                    key={lang}
-                    type="button"
-                    onClick={() => setLanguage(lang)}
-                    className={`px-2 py-1 rounded-full text-[9px] font-black ${language === lang ? 'bg-indigo-600 text-white' : 'text-slate-500 dark:text-slate-300'}`}
-                  >
-                    {lang === 'ar' ? 'ع' : lang.toUpperCase()}
-                  </button>
-                ))}
-              </div>
-              <ChildTopMenu />
-            </div>
+            <ChildTopMenu />
           </header>
         )}
 
@@ -96,7 +84,9 @@ export const AppShell: React.FC = () => {
               {activeTab === 'feed' && <FeedScreen />}
               {activeTab === 'learn' && <CurriculumBrowser />}
               {activeTab === 'companion' && <VirtualTeacherClassroom />}
-              {activeTab === 'missions' && <HomeScreen />}
+              {activeTab === 'missions' && <MissionsScreen />}
+              {activeTab === 'homework' && <MissionsScreen />
+              {activeTab === 'collections' && <CollectionsScreen />}
               {activeTab === 'review' && <ReviewScreen />}
               {activeTab === 'progress' && <ProgressScreen />}
               {activeTab === 'timetable' && <TimetableScreen />}
