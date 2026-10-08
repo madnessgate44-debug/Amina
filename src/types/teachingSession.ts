@@ -4,6 +4,7 @@
  */
 
 import { Language } from './index';
+import { CurriculumSource, CurriculumTrack } from './curriculum';
 
 export type SessionStep =
   | 'greet'
@@ -101,6 +102,11 @@ export interface OfficialCurriculumLesson {
   concepts: CurriculumLessonConcept[];
   originTag: 'official';
   language?: 'ar' | 'en' | 'fr';
+  curriculumSource?: CurriculumSource;
+  instructionLanguage?: 'ar' | 'en' | 'fr';
+  contentLanguage?: 'ar' | 'en' | 'fr';
+  assessmentLanguage?: 'ar' | 'en' | 'fr';
+  track?: CurriculumTrack;
   isAvailable: boolean;
   contentStatus?: 'available' | 'pending_materials';
   supplementaryResources?: SupplementaryResource[];

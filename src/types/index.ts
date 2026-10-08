@@ -4,6 +4,7 @@
  */
 
 import { HomeworkItem } from './homework';
+import { CurriculumTrack } from './curriculum';
 
 export type Language = 'ar' | 'en' | 'fr';
 
@@ -27,6 +28,9 @@ export interface Student {
   curriculum: string;
   academicYear: string;
   preferredLanguage: Language;
+  school?: string;
+  location?: string;
+  curriculumTrack?: CurriculumTrack | string;
   subjects: string[];
   interviewAnswers: InterviewAnswers;
   isOnboarded: boolean;

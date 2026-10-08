@@ -5,6 +5,50 @@
 
 export type CurriculumOrigin = 'demo' | 'official' | 'ai_generated';
 
+export type CurriculumSource =
+  | 'egyptian_national'
+  | 'french_girard_track'
+  | 'school_specific';
+
+export type CurriculumTrack =
+  | 'french_bilingual'
+  | 'national_arabic'
+  | 'general';
+
+export interface SubjectCurriculumConfig {
+  subjectId: string;
+  subjectNameAr: string;
+  subjectNameEn: string;
+  subjectNameFr?: string;
+  curriculumSource: CurriculumSource;
+  curriculumSourceLabelAr: string;
+  curriculumSourceLabelEn: string;
+  curriculumSourceLabelFr?: string;
+  instructionLanguage: 'ar' | 'fr' | 'en';
+  contentLanguage: 'ar' | 'fr' | 'en';
+  assessmentLanguage: 'ar' | 'fr' | 'en';
+  grade: string;
+  track: CurriculumTrack;
+  schoolContext?: string;
+  isFrenchTrackSpecific?: boolean;
+  bookTitleAr: string;
+  bookTitleEn: string;
+  bookTitleFr?: string;
+}
+
+export interface StudentCurriculumContext {
+  studentName: string;
+  school: string;
+  location: string;
+  grade: string;
+  academicYear: string;
+  track: CurriculumTrack;
+  trackLabelAr: string;
+  trackLabelEn: string;
+  trackLabelFr?: string;
+  subjectConfigs: Record<string, SubjectCurriculumConfig>;
+}
+
 export interface CurriculumNodeBase {
   id: string;
   parentId: string | null;
