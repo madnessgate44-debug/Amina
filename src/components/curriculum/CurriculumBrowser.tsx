@@ -468,7 +468,7 @@ export const CurriculumBrowser: React.FC = () => {
                                       lessonId: lesson.id,
                                       topic: isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn,
                                     });
-                                    setActiveStageLessonId(lesson.id);
+                                    setActiveTab('companion');
                                   }}
                                   className="p-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-[10px] shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
                                 >
