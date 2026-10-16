@@ -14,6 +14,39 @@ import {
 } from '../../types/teachingSession';
 import { curriculumService } from '../curriculum/curriculumService';
 
+const DIACRITICS = /[\u064B-\u065F\u0670\u0640]/g;
+
+export function normalizeText(s: string): string {
+  return (s || '')
+    .toLowerCase()
+    .replace(DIACRITICS, '')
+    .replace(/[\u0622\u0623\u0625]/g, '\u0627') // آأإ -> ا
+    .replace(/\u0649/g, '\u064A')               // ى -> ي
+    .replace(/\u0629/g, '\u0647')               // ة -> ه
+    .replace(/[^\p{L}\p{N}\s]/gu, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+const STOP = new Set(
+  ['التي', 'الذي', 'هذا', 'هذه', 'ذلك', 'على', 'الى', 'عن',
+   'the', 'and', 'that', 'this', 'with', 'for', 'are', 'was', 'from',
+   'les', 'des', 'une', 'est', 'que', 'qui', 'dans', 'pour', 'par', 'sur', 'avec', 'pas'
+  ].map((w) => normalizeText(w))
+);
+
+const stem = (w: string) => w.replace(/^ال/, '');
+
+function tokens(s: string): Set<string> {
+  return new Set(
+    normalizeText(s).split(' ').filter((w) => w.length > 2 && !STOP.has(w)).map(stem)
+  );
+}
+
+function hasPhrase(haystack: string, phrase: string): boolean {
+  return ` ${normalizeText(haystack)} `.includes(` ${normalizeText(phrase)} `);
+}
+
 export interface AdvanceSessionInput {
   session: TeachingSession;
   studentInput?: string;
@@ -359,18 +392,18 @@ export class TeachingSessionEngine {
           if (session.currentConceptIndex < lesson.concepts.length - 1) {
             const nextConcept = lesson.concepts[session.currentConceptIndex + 1];
             replyText += isFr
-              ? `\\n\\n✨ Passons maintenant à «${nextConcept.titleEn}» ?`
+              ? `\n\n✨ Passons maintenant à «${nextConcept.titleEn}» ?`
               : isAr
-              ? `\\n\\n✨ والآن ننتقل للمفهوم التالي: «${nextConcept.titleAr}»؟`
-              : `\\n\\n✨ Shall we move to the next concept: "${nextConcept.titleEn}"?`;
+              ? `\n\n✨ والآن ننتقل للمفهوم التالي: «${nextConcept.titleAr}»؟`
+              : `\n\n✨ Shall we move to the next concept: "${nextConcept.titleEn}"?`;
           } else {
             isSessionCompleted = true;
             nextStep = 'close';
             replyText += isFr
-              ? `\\n\\n🎉 Félicitations ! Toutes les notions de «${lesson.titleEn}» sont maintenant vérifiées.`
+              ? `\n\n🎉 Félicitations ! Toutes les notions de «${lesson.titleEn}» sont maintenant vérifiées.`
               : isAr
-              ? `\\n\\n🎉 ممتاز! تم التحقق من فهم جميع مفاهيم درس «${lesson.titleAr}».`
-              : `\\n\\n🎉 Excellent! All concepts in "${lesson.titleEn}" have now been verified.`;
+              ? `\n\n🎉 ممتاز! تم التحقق من فهم جميع مفاهيم درس «${lesson.titleAr}».`
+              : `\n\n🎉 Excellent! All concepts in "${lesson.titleEn}" have now been verified.`;
           }
         } else {
           // Weak/guessing explain-back: no mastery evidence. Return to targeted practice.
@@ -380,10 +413,10 @@ export class TeachingSessionEngine {
           modalityUsed = escalation.modality;
           visualData = escalation.visualData;
           replyText = isFr
-            ? `Ton idée est encore partielle. Je ne vais pas compter cela comme une maîtrise tout de suite. Reprenons avec une autre façon d'expliquer, puis tu réessaieras.\\n\\n${escalation.text}`
+            ? `Ton idée est encore partielle. Je ne vais pas compter cela comme une maîtrise tout de suite. Reprenons avec une autre façon d'expliquer, puis tu réessaieras.\n\n${escalation.text}`
             : isAr
-            ? `لسه محتاجين دليل أوضح على الفهم، فمش هاعتبر المفهوم متقن دلوقتي. هنغيّر طريقة الشرح ونجرّب تاني.\\n\\n${escalation.text}`
-            : `We need stronger evidence of understanding, so I won't mark this mastered yet. Let's change the teaching strategy and try again.\\n\\n${escalation.text}`;
+            ? `لسه محتاجين دليل أوضح على الفهم، فمش هاعتبر المفهوم متقن دلوقتي. هنغيّر طريقة الشرح ونجرّب تاني.\n\n${escalation.text}`
+            : `We need stronger evidence of understanding, so I won't mark this mastered yet. Let's change the teaching strategy and try again.\n\n${escalation.text}`;
         }
 
         const evidenceTurn: TutorTurn = {
@@ -481,7 +514,7 @@ export class TeachingSessionEngine {
       ...session,
       currentStep: nextStep,
       currentAttemptCount: nextStep === 'adjust' ? session.currentAttemptCount + 1 : session.currentAttemptCount,
-      explainBackDone: nextStep === 'celebrate' || session.explainBackDone,
+      explainBackDone: (nextStep === 'celebrate' && modalityUsed !== 'flag_for_review') || session.explainBackDone,
       modalityHistory: modalityUsed ? [...session.modalityHistory, modalityUsed] : session.modalityHistory,
       turnHistory: [...updatedTurns, tutorTurn],
       activeVisual: visualData || session.activeVisual,
@@ -508,45 +541,44 @@ export class TeachingSessionEngine {
     keyPointMatches: number;
     confidence: 'high' | 'medium' | 'low';
   } {
-    const text = (input || '').trim().toLowerCase();
+    const text = (input || '').trim();
     if (!text) return { quality: 'unclear', conceptKeywordMatches: 0, keyPointMatches: 0, confidence: 'low' };
 
-    const conceptTerms = [
-      ...concept.titleAr.toLowerCase().split(/\\s+/),
-      ...concept.titleEn.toLowerCase().split(/\\s+/),
-    ].filter((w) => w.length > 2);
+    const student = tokens(text);
+    const conceptTerms = new Set([...tokens(concept.titleAr), ...tokens(concept.titleEn)]);
+    const keyPointTerms = new Set(concept.keyPoints.flatMap((p) => [...tokens(p)]));
+    const conceptKeywordMatches = [...conceptTerms].filter((t) => student.has(t)).length;
+    const keyPointMatches = [...keyPointTerms].filter((t) => student.has(t)).length;
 
-    const keyPointTerms = concept.keyPoints
-      .flatMap((p) => p.toLowerCase().split(/\\s+/))
-      .filter((w) => w.length > 2);
-
-    const conceptKeywordMatches = [...new Set(conceptTerms.filter((t) => text.includes(t)))].length;
-    const keyPointMatches = [...new Set(keyPointTerms.filter((t) => text.includes(t)))].length;
-
-    const guessing = [
-      'تخمين', 'مش متأكدة', 'مش متاكد', 'مش عارفة', 'حظ', 'يمكن',
-      'guess', 'not sure', 'maybe', 'lucky',
-      'au hasard', 'pas sûre', 'peut-être',
-    ].some((t) => text.includes(t));
-
-    if (guessing) {
+    // Guessing: whole-word phrases only. Hedging ("maybe") is NOT guessing.
+    const GUESS = ['تخمين', 'حظ', 'مش متأكد', 'مش متأكدة', 'مش عارف', 'مش عارفة',
+                   'guess', 'not sure', 'lucky', 'au hasard', 'pas sure', 'pas sûre'];
+    if (GUESS.some((p) => hasPhrase(text, p))) {
       return { quality: 'guessing', conceptKeywordMatches, keyPointMatches, confidence: 'high' };
     }
 
-    const causal = [
-      'لأن', 'عشان', 'علشان', 'بسبب', 'يعني', 'كلما', 'لذلك',
-      'because', 'since', 'therefore', 'means',
-      'parce que', 'donc', 'cela signifie',
-    ].some((t) => text.includes(t));
+    const CAUSAL = ['لأن', 'عشان', 'علشان', 'بسبب', 'يعني', 'كلما', 'لذلك',
+                    'because', 'since', 'therefore', 'means', 'parce que', 'donc', 'cela signifie'];
+    const causal = CAUSAL.some((p) => hasPhrase(text, p));
 
-    if (text.length >= 25 && keyPointMatches >= 1 && (conceptKeywordMatches >= 1 || causal)) {
-      return { quality: 'sound', conceptKeywordMatches, keyPointMatches, confidence: 'high' };
-    }
-
-    if (text.length >= 10 && (keyPointMatches >= 1 || conceptKeywordMatches >= 1 || causal)) {
+    // Parroting: almost none of the child's words are her own (they all come from the source).
+    const sourceTokens = new Set([
+      ...conceptTerms, ...keyPointTerms, ...tokens(concept.sourceText || ''),
+    ]);
+    const own = [...student].filter((t) => !sourceTokens.has(t)).length;
+    // ponytail: 0.15 own-word ratio is a heuristic; upgrade: grade explain-back with the model + rubric
+    const parroting = student.size > 0 && own / student.size < 0.15;
+    if (parroting) {
       return { quality: 'partial', conceptKeywordMatches, keyPointMatches, confidence: 'medium' };
     }
 
+    const len = normalizeText(text).length;
+    if (len >= 25 && keyPointMatches >= 2 && (conceptKeywordMatches >= 1 || causal)) {
+      return { quality: 'sound', conceptKeywordMatches, keyPointMatches, confidence: 'high' };
+    }
+    if (len >= 10 && (keyPointMatches >= 1 || conceptKeywordMatches >= 1 || causal)) {
+      return { quality: 'partial', conceptKeywordMatches, keyPointMatches, confidence: 'medium' };
+    }
     return { quality: 'unclear', conceptKeywordMatches, keyPointMatches, confidence: 'low' };
   }
 

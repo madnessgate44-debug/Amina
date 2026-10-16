@@ -72,6 +72,7 @@ export interface PhotoEvaluationResult {
   rawModelFeedback?: string;
   handwritingQuality?: 'neat' | 'readable' | 'messy' | 'unclear';
   handwritingFeedback?: string | null;
+  degraded?: boolean;
 }
 
 export interface HomeworkSubmission {

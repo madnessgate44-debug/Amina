@@ -24,6 +24,7 @@ import {
   ChevronDown,
   ChevronUp,
 } from 'lucide-react';
+import { localDateStr } from '../../utils/time';
 
 export const ProgressScreen: React.FC = () => {
   const {
@@ -147,7 +148,7 @@ export const ProgressScreen: React.FC = () => {
     const now = new Date();
     for (let i = 13; i >= 0; i--) {
       const d = new Date(now.getTime() - i * 24 * 3600 * 1000);
-      const dateStr = d.toISOString().split('T')[0];
+      const dateStr = localDateStr(d);
       const displayLabel = d.toLocaleDateString(isAr ? 'ar-EG' : 'en-US', {
         weekday: 'narrow',
         day: 'numeric',

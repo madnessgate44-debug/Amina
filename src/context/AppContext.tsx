@@ -61,6 +61,7 @@ import {
   awardMissionGamification,
 } from '../services/gamification/gamificationService';
 import { curriculumService } from '../services/curriculum/curriculumService';
+import { localDateStr } from '../utils/time';
 
 export interface CompanionContext {
   source: 'home_next_action' | 'lesson' | 'weakness' | 'homework' | 'review' | 'general';
@@ -207,13 +208,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isReconstructingDay, setIsReconstructingDay] = useState<boolean>(false);
   const [settings, setSettings] = useState<AppSettings>({
     language: 'ar',
-    demoTimeSimulatorActive: true,
+    demoTimeSimulatorActive: false,
     simulatedTimeOfDay: 'after_school',
     simulatedTime: '14:30',
     companionVoiceEnabled: true,
     micPermissionStatus: 'prompt',
     showEvidenceLog: false,
     simulatedDaysOffset: 0,
+    demoDefaultMigratedV1: true,
   });
   const [masteryRecords, setMasteryRecords] = useState<Record<string, MasteryRecord>>({});
   const [missionsForToday, setMissionsForToday] = useState<Mission[]>([]);
@@ -272,17 +274,24 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     async function loadInitialData() {
       try {
         const storedSettings = await storageService.getSettings();
-        
+
+        let effectiveSettings = storedSettings;
+        if (!storedSettings.demoDefaultMigratedV1) {
+          // Old installs saved the demo default as if it were a choice. One-time reset.
+          effectiveSettings = { ...storedSettings, demoTimeSimulatorActive: false, demoDefaultMigratedV1: true };
+          await storageService.saveSettings(effectiveSettings);
+        }
+
         // Detect mic permission status
         const initialMicStatus = await voiceService.getMicPermissionStatus();
         const settingsWithMic: AppSettings = {
-          ...storedSettings,
-          companionVoiceEnabled: storedSettings.companionVoiceEnabled ?? true,
+          ...effectiveSettings,
+          companionVoiceEnabled: effectiveSettings.companionVoiceEnabled ?? true,
           micPermissionStatus: initialMicStatus,
         };
 
         setSettings(settingsWithMic);
-        updateDocumentDirection(storedSettings.language);
+        updateDocumentDirection(effectiveSettings.language);
 
         const storedStudent = await storageService.getStudent();
         setStudent(storedStudent);
@@ -295,7 +304,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setTimetable(storedTimetable || null);
 
           // Load today's day record
-          const todayDate = new Date().toISOString().split('T')[0];
+          const todayDate = localDateStr();
           const record = await storageService.getDayRecord(todayDate, storedStudent.id);
           setCurrentDayRecord(record);
 
@@ -303,7 +312,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           const studentId = storedStudent.id;
           const rawMastery = await storageService.getAllMasteryRecords(studentId);
           const map: Record<string, MasteryRecord> = {};
-          const daysOffset = storedSettings.simulatedDaysOffset || 0;
+          const daysOffset = effectiveSettings.simulatedDaysOffset || 0;
           for (const item of rawMastery) {
             map[item.conceptId] = daysOffset > 0 ? applyDecay(item, new Date(), daysOffset) : item;
           }
@@ -320,7 +329,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
               timetable: storedTimetable,
               masteryRecords: map,
               availableMinutes: 45,
-              language: storedSettings.language,
+              language: effectiveSettings.language,
             });
             setMissionsForToday(planned.missions);
             setPlannerExplanation(planned.explanation);
@@ -382,7 +391,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const userGamification = await getOrInitGamification(studentId, storageService);
     setGamification(userGamification);
 
-    const todayDate = new Date().toISOString().split('T')[0];
+    const todayDate = localDateStr();
     const planned = planDailyMissions({
       student: newStudent,
       dayRecord: null,
@@ -633,7 +642,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const handleOpenDailyReview = async (): Promise<DailyReview> => {
     if (!student?.id) return null as any;
     const studentId = student.id;
-    const today = new Date().toISOString().split('T')[0];
+    const today = localDateStr();
     const stored = await storageService.getDailyReview(studentId, today);
     if (stored) {
       setCurrentDailyReview(stored);
@@ -720,7 +729,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
   const handleRegenerateMissionsForToday = async (declaredMinutes?: number) => {
     if (!student) return;
-    const todayDate = new Date().toISOString().split('T')[0];
+    const todayDate = localDateStr();
     const planned = planDailyMissions({
       student,
       dayRecord: currentDayRecord,
@@ -756,7 +765,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `ai_school_companion_progress_${new Date().toISOString().split('T')[0]}.json`;
+      a.download = `ai_school_companion_progress_${localDateStr()}.json`;
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
@@ -816,13 +825,14 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     setGamification(null);
     const defaultSettings: AppSettings = {
       language: 'ar',
-      demoTimeSimulatorActive: true,
+      demoTimeSimulatorActive: false,
       simulatedTimeOfDay: 'after_school',
       simulatedTime: '14:30',
       companionVoiceEnabled: true,
       micPermissionStatus: 'prompt',
       showEvidenceLog: false,
       simulatedDaysOffset: 0,
+      demoDefaultMigratedV1: true,
     };
     setSettings(defaultSettings);
     updateDocumentDirection('ar');
@@ -858,7 +868,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     const revMission: Mission = {
       id: `manual_rev_${Date.now()}`,
       studentId: student.id,
-      date: new Date().toISOString().split('T')[0],
+      date: localDateStr(),
       subject: subjName,
       lessonId: concept?.lessonId,
       conceptId: concept?.id,

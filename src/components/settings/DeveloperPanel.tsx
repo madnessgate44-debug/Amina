@@ -26,6 +26,7 @@ import {
   Layers,
   Sparkles,
 } from 'lucide-react';
+import { localDateStr } from '../../utils/time';
 
 interface DeveloperPanelProps {
   language: Language;
@@ -53,7 +54,7 @@ export const DeveloperPanel: React.FC<DeveloperPanelProps> = ({ language }) => {
     refreshData();
   }, []);
 
-  const todayStr = new Date().toISOString().split('T')[0];
+  const todayStr = localDateStr();
   const todaySummary = summaries.find((s) => s.date === todayStr) || {
     date: todayStr,
     callCount: 0,

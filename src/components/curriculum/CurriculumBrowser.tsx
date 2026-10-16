@@ -36,6 +36,7 @@ import {
   Clock,
   Check,
 } from 'lucide-react';
+import { localDateStr } from '../../utils/time';
 
 export const CurriculumBrowser: React.FC = () => {
   const {
@@ -107,7 +108,7 @@ export const CurriculumBrowser: React.FC = () => {
     const dummyMission: Mission = {
       id: 'mission_quiz_' + lesson.id,
       studentId: student.id,
-      date: new Date().toISOString().split('T')[0],
+      date: localDateStr(),
       subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
       title: (isAr ? 'تمارين وتطبيق: ' : 'Practice Quiz: ') + (isAr ? lesson.titleAr : lesson.titleEn),
       type: 'quiz',
@@ -127,7 +128,7 @@ export const CurriculumBrowser: React.FC = () => {
     const dummyMission: Mission = {
       id: 'mission_hw_' + lesson.id,
       studentId: student.id,
-      date: new Date().toISOString().split('T')[0],
+      date: localDateStr(),
       subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
       title: (isAr ? 'واجب كتاب الوزارة: ' : 'Homework: ') + (isAr ? lesson.titleAr : lesson.titleEn),
       type: 'homework',

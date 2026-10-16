@@ -23,6 +23,7 @@ import {
   TeachingSession,
 } from '../../types';
 import { IStorageService } from './IStorageService';
+import { localDateStr } from '../../utils/time';
 
 const DB_NAME = 'ai_school_companion_v2';
 const DB_VERSION = 7;
@@ -49,13 +50,14 @@ const STORES = {
 
 const DEFAULT_SETTINGS: AppSettings = {
   language: 'ar',
-  demoTimeSimulatorActive: true,
+  demoTimeSimulatorActive: false,
   simulatedTimeOfDay: 'after_school',
   simulatedTime: '14:30',
   companionVoiceEnabled: true,
   micPermissionStatus: 'prompt',
   showEvidenceLog: false,
   simulatedDaysOffset: 0,
+  demoDefaultMigratedV1: true,
 };
 
 export class IndexedDBStorageService implements IStorageService {
@@ -1358,7 +1360,7 @@ export class IndexedDBStorageService implements IStorageService {
   }
 
   async exportAllData(studentId: string): Promise<string> {
-    const today = new Date().toISOString().split('T')[0];
+    const today = localDateStr();
     const [
       student,
       timetable,

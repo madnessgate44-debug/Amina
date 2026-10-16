@@ -15,6 +15,7 @@ import {
   NeedsAttentionItem,
 } from '../../types';
 import { curriculumService } from '../curriculum/curriculumService';
+import { localDateStr } from '../../utils/time';
 
 export interface GenerateDailyReviewParams {
   student: Student;
@@ -35,7 +36,7 @@ export function generateDailyReview(params: GenerateDailyReviewParams): DailyRev
     student,
     missions,
     masteryRecords,
-    date = new Date().toISOString().split('T')[0],
+    date = localDateStr(),
     language = 'ar',
   } = params;
 

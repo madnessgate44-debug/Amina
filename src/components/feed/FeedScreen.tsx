@@ -100,8 +100,8 @@ export const FeedScreen: React.FC = () => {
           <div className="mx-auto max-w-sm rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/15 p-5 text-center">
             <p className="text-lg font-black leading-relaxed">
               {isAr
-                ? `"يلا يا ${student?.name || 'أمينة'} — هوريكي حاجة، وبعدها عايزة أشوفك بتفكري إزاي."`
-                : `“Come on, ${student?.name || 'Amina'}. Watch what I’m showing you, then show me how you think.”`}
+                ? `"يلا يا ${student?.name || ''} — هوريكي حاجة، وبعدها عايزة أشوفك بتفكري إزاي."`
+                : `“Come on, ${student?.name || ''}. Watch what I’m showing you, then show me how you think.”`}
             </p>
           </div>
           <div className="mt-6 flex items-center justify-center gap-2 text-slate-400 text-xs">

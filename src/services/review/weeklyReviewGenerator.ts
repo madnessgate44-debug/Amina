@@ -19,6 +19,7 @@ import {
 } from '../../types';
 import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
+import { localDateStr } from '../../utils/time';
 
 export interface GenerateWeeklyReviewParams {
   student: Student;
@@ -50,9 +51,9 @@ export function generateWeeklyReview(params: GenerateWeeklyReviewParams): Weekly
 
   const isAr = language === 'ar';
   const now = new Date();
-  const weekEndDate = customEndDate || now.toISOString().split('T')[0];
+  const weekEndDate = customEndDate || localDateStr(now);
   const weekStartObj = new Date(now.getTime() - 7 * 24 * 3600 * 1000);
-  const weekStartDate = customStartDate || weekStartObj.toISOString().split('T')[0];
+  const weekStartDate = customStartDate || localDateStr(weekStartObj);
 
   const flatConcepts = curriculumService.getFlatConcepts();
   const conceptMap = new Map(flatConcepts.map((c) => [c.id, c]));

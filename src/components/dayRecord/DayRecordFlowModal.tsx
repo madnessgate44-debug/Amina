@@ -27,6 +27,7 @@ import {
   Clock,
   BookOpen,
 } from 'lucide-react';
+import { localDateStr } from '../../utils/time';
 
 interface DayRecordFlowModalProps {
   onClose: () => void;
@@ -65,8 +66,8 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
     3: 'wednesday',
     4: 'thursday',
   };
-  const todayKey = dayKeyMap[currentDayIndex] || 'sunday';
-  const todayDate = new Date().toISOString().split('T')[0];
+  const todayKey: SchoolDayKey | null = dayKeyMap[currentDayIndex] ?? null;
+  const todayDate = localDateStr();
 
   // Pipeline Step 1 -> Step 4
   const handleProcessInput = async (inputText: string) => {

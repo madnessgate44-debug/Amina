@@ -1,0 +1,30 @@
+name: CI
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - name: Type check
+        run: npm run lint
+        # ponytail: remove continue-on-error once the pre-existing type errors are 0
+        continue-on-error: true
+      - run: npm test
+      - run: npm run build
+      - name: Upload teaching test diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: teaching-test-diagnostics
+          path: teaching-test-failure.txt
+          if-no-files-found: ignore
