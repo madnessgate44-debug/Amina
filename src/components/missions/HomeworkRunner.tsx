@@ -403,7 +403,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
 
       // OCR Honesty Check (Deliverable 2):
       // If extractionConfidence < 0.5 → do NOT present a verdict.
-      if (data.extractionConfidence < 0.5 || data.evaluation === 'unclear') {
+      if (data.degraded || data.extractionConfidence < 0.5 || data.evaluation === 'unclear') {
         setGuidanceMessage({
           type: 'hint',
           text: isAr
