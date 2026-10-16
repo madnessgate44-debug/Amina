@@ -676,8 +676,9 @@ app.post('/api/reconstruct-day', async (req, res) => {
     const silenceTriggers = ['مش فاكر', 'نسيت', 'مش عارف', 'don\'t remember', 'dont remember', 'i forgot', 'forgot'];
     const vagueTriggers = ['عادي', 'معملناش حاجة', 'stuff', 'we did stuff', 'nothing special'];
 
-    const isSilence = !trimmedInput || silenceTriggers.some((t) => lower.includes(t));
-    const isVague = vagueTriggers.some((t) => lower === t || lower.includes(t));
+    // ponytail: length gates stop a real report from being discarded; upgrade: let the model classify
+    const isSilence = !trimmedInput || (trimmedInput.length <= 30 && silenceTriggers.some((t) => lower.includes(t)));
+    const isVague = trimmedInput.length <= 20 && vagueTriggers.some((t) => lower.includes(t));
 
     if (isSilence) {
       return res.json({
@@ -703,50 +704,51 @@ app.post('/api/reconstruct-day', async (req, res) => {
       });
     }
 
-    if (!ai) {
+    if (!ai || Date.now() < globalQuotaCooldownUntil) {
       // Local rule-based parser fallback
       const lessons: { subject: string; topic?: string; notes?: string }[] = [];
       const homework: { subject: string; description: string; dueDate?: string }[] = [];
 
       if (lower.includes('فرنساوي') || lower.includes('french') || lower.includes('français')) {
-        lessons.push({ subject: 'اللغة الفرنسية', topic: 'Salutations et vocabulaire', notes: 'حسب وصف الطالب' });
+        lessons.push({ subject: 'اللغة الفرنسية' });
         if (lower.includes('واجب') || lower.includes('homework') || lower.includes('devoir')) {
-          homework.push({ subject: 'اللغة الفرنسية', description: 'Exercices du livre', dueDate: isArabic ? 'غداً' : 'Demain' });
+          homework.push({ subject: 'اللغة الفرنسية', description: isArabic ? 'واجب (التفاصيل غير محددة)' : 'Homework (details not specified)' });
         }
       }
       if (lower.includes('ماث') || (lower.includes('math') && lower.includes('fr')) || lower.includes('mathématiques')) {
-        lessons.push({ subject: 'الرياضيات بالفرنسية (Maths)', topic: 'Nombres décimaux et fractions', notes: 'حسب وصف الطالب' });
+        lessons.push({ subject: 'الرياضيات بالفرنسية (Maths)' });
         if (lower.includes('واجب') || lower.includes('homework') || lower.includes('devoir')) {
-          homework.push({ subject: 'الرياضيات بالفرنسية (Maths)', description: 'Exercices Techbook', dueDate: isArabic ? 'غداً' : 'Demain' });
+          homework.push({ subject: 'الرياضيات بالفرنسية (Maths)', description: isArabic ? 'واجب (التفاصيل غير محددة)' : 'Homework (details not specified)' });
         }
       } else if (lower.includes('رياض') || lower.includes('math') || lower.includes('حساب') || lower.includes('كسور')) {
-        lessons.push({ subject: 'الرياضيات', topic: 'الكسور والعمليات الحسابية', notes: 'حسب وصف الطالب' });
+        lessons.push({ subject: 'الرياضيات' });
         if (lower.includes('واجب') || lower.includes('homework') || lower.includes('مسائل')) {
-          homework.push({ subject: 'الرياضيات', description: 'تمارين الكتاب', dueDate: isArabic ? 'غداً' : 'Tomorrow' });
+          homework.push({ subject: 'الرياضيات', description: isArabic ? 'واجب (التفاصيل غير محددة)' : 'Homework (details not specified)' });
         }
       }
       if (lower.includes('ساينس') || (lower.includes('sci') && lower.includes('fr')) || lower.includes('sciences')) {
-        lessons.push({ subject: 'العلوم بالفرنسية (Sciences)', topic: 'Écosystèmes et photosynthèse', notes: 'حسب وصف الطالب' });
+        lessons.push({ subject: 'العلوم بالفرنسية (Sciences)' });
       } else if (lower.includes('علوم') || lower.includes('science')) {
-        lessons.push({ subject: 'العلوم', topic: 'الكائنات الحية والبيئة', notes: 'حسب وصف الطالب' });
+        lessons.push({ subject: 'العلوم' });
       }
       if (lower.includes('عرب') || lower.includes('arabic')) {
-        lessons.push({ subject: 'اللغة العربية', topic: 'نحو وقراءة', notes: 'حسب وصف الطالب' });
+        lessons.push({ subject: 'اللغة العربية' });
         if (lower.includes('واجب') || lower.includes('homework')) {
-          homework.push({ subject: 'اللغة العربية', description: 'حل تدريبات الدرس', dueDate: isArabic ? 'غداً' : 'Tomorrow' });
+          homework.push({ subject: 'اللغة العربية', description: isArabic ? 'واجب (التفاصيل غير محددة)' : 'Homework (details not specified)' });
         }
       }
       if (lower.includes('إنجليز') || lower.includes('انجليز') || lower.includes('english')) {
-        lessons.push({ subject: 'اللغة الإنجليزية', topic: 'Connect 5 Unit 1', notes: 'حسب وصف الطالب' });
+        lessons.push({ subject: 'اللغة الإنجليزية' });
       }
 
       return res.json({
-        lessonsCovered: lessons.length > 0 ? lessons : [{ subject: 'مراجعة عامة', topic: trimmedInput }],
+        lessonsCovered: lessons,                      // may be empty; never invent a default lesson
         homeworkAssigned: homework,
         notes: trimmedInput,
         isSilence: false,
-        isVague: false,
-        detectedConfidence: lessons.length > 0 ? 'high' : 'partial',
+        isVague: lessons.length === 0,
+        detectedConfidence: lessons.length > 0 ? 'partial' : 'vague',
+        degraded: true,
         source: 'local_parser_fallback',
       });
     }
@@ -802,12 +804,13 @@ CRITICAL RULES:
   } catch (error: any) {
     console.error('Reconstruct Day API Error:', error);
     res.json({
-      lessonsCovered: [{ subject: 'اللغة العربية', topic: 'مراجعة عامة' }],
+      lessonsCovered: [],
       homeworkAssigned: [],
       notes: req.body?.studentInput || '',
-      detectedConfidence: 'partial',
+      detectedConfidence: 'vague',
       isSilence: false,
-      isVague: false,
+      isVague: true,
+      degraded: true,
       source: 'error_fallback',
     });
   }
