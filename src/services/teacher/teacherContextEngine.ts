@@ -1678,7 +1678,7 @@ export function buildNormalizedTeacherContext(
 
   const isAr = language === 'ar';
   const isFr = language === 'fr';
-  const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
+  const studentName = student?.name || (isAr ? 'صديقي' : 'Friend');
   const currentDate = localDateStr();
 
   // 1. Resolve Target Lesson safely from authoritative curriculum

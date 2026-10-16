@@ -41,7 +41,7 @@ async function runIntegrityTests() {
     nextPendingMission: null,
   });
   assert(teacherContextNoStudent.student === null, '1.1: Teacher context student is null when no student exists');
-  assert(teacherContextNoStudent.studentName === 'أمينة', '1.2: Uses display name Amina for respectful child copy without creating synthetic DB user');
+  assert(teacherContextNoStudent.studentName === 'صديقي', '1.2: Uses neutral fallback display name without creating synthetic DB user');
 
   const missionPlanNoStudent = planDailyMissions({
     student: null,
