@@ -7,7 +7,7 @@ import { buildNormalizedTeacherContext, buildDiagnosticForConcept } from '../tea
 import { planDailyMissions } from '../missions/missionPlanner';
 import { curriculumService } from '../curriculum/curriculumService';
 import { createInitialMasteryRecord, addEvidenceToMastery, formatMasteryView } from '../mastery/masteryEngine';
-import { getAllSpacedReviewSchedules, computeConceptReviewSchedule } from '../review/spacedReviewScheduler';
+import { getAllSpacedReviewSchedules, computeConceptReviewSchedule, getDueReviewConcepts } from '../review/spacedReviewScheduler';
 import { reconcileDayWithTimetable } from '../reconstruction/dayRecordReconciliation';
 import { processMissionCompletion } from '../missions/missionCompletion';
 import { storageService } from '../storage';
@@ -419,6 +419,49 @@ async function runIntegrityTests() {
   assert(resultC.outcome?.evidenceAdded === true, 'Test C.3: MissionOutcome.evidenceAdded === true');
   assert(resultC.gamificationAwarded === true, 'Test C.4: Gamification awarded on legitimate evaluated completion');
   assert(savedMastery.length === 1, 'Test C.5: Mastery evidence successfully recorded and persisted');
+
+  // --- Section D: T7 "flagged for review" must actually enter the review queue ---
+  // The companion writes exactly this evidence when the tutor ladder ends in flag_for_review.
+  if (mathConcept) {
+    const flagStudentId = 'test_student_t7_flag';
+    const before = computeConceptReviewSchedule(
+      flagStudentId,
+      mathConcept,
+      createInitialMasteryRecord(flagStudentId, mathConcept.id)
+    );
+    assert(before === null, 'Test D.1: no evidence -> concept is not in the review queue');
+
+    const flagRecord = addEvidenceToMastery(
+      createInitialMasteryRecord(flagStudentId, mathConcept.id),
+      {
+        correctness: 'wrong',
+        difficulty: 0.5,
+        independence: 'revealed',
+        modality: 'reel_check',
+        notes: 'Flagged for review after repeated explanation attempts',
+      }
+    ).updatedRecord;
+
+    assert(flagRecord.evidenceCount > 0, 'Test D.2: flagging persists a mastery record with evidence');
+    assert(flagRecord.score < 0.6, `Test D.3: flagging lowers the score below 0.6 (got ${flagRecord.score.toFixed(3)})`);
+
+    const after = computeConceptReviewSchedule(flagStudentId, mathConcept, flagRecord);
+    assert(after !== null, 'Test D.4: flagged concept enters the review queue (was null before)');
+    assert(after?.status === 'just_revealed', `Test D.5: revealed evidence is scheduled as just_revealed (got ${after?.status})`);
+    assert(after?.intervalDays === 1, `Test D.6: retry interval is 1 day (got ${after?.intervalDays})`);
+
+    const schedule = getAllSpacedReviewSchedules(flagStudentId, { [mathConcept.id]: flagRecord });
+    const flaggedItem = schedule.items.find((i) => i.conceptId === mathConcept.id);
+    assert(Boolean(flaggedItem), 'Test D.7: flagged concept is present in the review schedule');
+    assert(flaggedItem?.isDue === false && flaggedItem?.status === 'just_revealed',
+      'Test D.8: it is queued as upcoming (retry in 1 day), not claimed due immediately');
+
+    const dueInTwoDays = getDueReviewConcepts(flagStudentId, { [mathConcept.id]: flagRecord }, {
+      currentDate: new Date(Date.now() + 2 * 24 * 3600 * 1000),
+    });
+    assert(dueInTwoDays.some((i) => i.conceptId === mathConcept.id),
+      'Test D.9: the flagged concept becomes due once its 1-day interval elapses');
+  }
 
   console.log('\n=================================================================');
   console.log(`INTEGRITY TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
