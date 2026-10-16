@@ -4,14 +4,16 @@
     <meta charset="UTF-8" />
     <title>Amina — AI School Companion</title>
     <script>
-      // Static hosts (GitHub Pages) have no SPA rewrite. Preserve the deep link
-      // and hand it to the app shell.
-      var path = location.pathname + location.search + location.hash;
-      location.replace('/' + (path.indexOf('/') === 0 ? path.slice(1) : path));
+      // Static hosts (GitHub Pages) serve this page for any unknown path. Send a
+      // deep link back to the app's own directory. It only ever navigates to a
+      // shorter path, so it can never bounce forever.
+      // ponytail: real deep-link restore needs a router; this only sends the visitor home.
+      var parts = location.pathname.split('/').filter(Boolean);
+      if (parts.length > 1) location.replace('/' + parts[0] + '/');
+      else if (parts.length === 1) location.replace('/');
     </script>
-    <meta http-equiv="refresh" content="0; url=/" />
   </head>
   <body>
-    <p>Redirecting to <a href="/">Amina</a>…</p>
+    <p>Redirecting to <a href="./">Amina</a>…</p>
   </body>
 </html>

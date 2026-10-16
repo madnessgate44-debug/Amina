@@ -5,6 +5,10 @@
 #
 # Set GEMINI_API_KEY in the Render dashboard (Environment). Without it the app
 # still runs, but the AI routes return truthful degraded fallbacks.
+#
+# npm start sets NODE_ENV=production itself, so no NODE_ENV env var is needed.
+# ALLOWED_ORIGINS is not read by server.ts yet, so it is not listed.
+# Free plans may sleep when idle, so the first load can be slow; owner to verify current Render policy.
 
 services:
   - type: web
@@ -13,13 +17,12 @@ services:
     plan: free
     region: frankfurt
     branch: main
-    buildCommand: npm ci --legacy-peer-deps && npm run build
+    # --include=dev: the build needs tailwindcss and the start script needs tsx (both devDependencies).
+    buildCommand: npm ci --legacy-peer-deps --include=dev && npm run build
     startCommand: npm start
     healthCheckPath: /api/health
     envVars:
-      - key: NODE_ENV
-        value: production
       - key: GEMINI_API_KEY
         sync: false
-      - key: ALLOWED_ORIGINS
+      - key: GEMINI_MODEL
         sync: false

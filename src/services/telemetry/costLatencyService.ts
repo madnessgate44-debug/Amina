@@ -294,11 +294,11 @@ class CostLatencyService {
         signal: controller.signal,
       });
 
+      clearTimeout(timer);
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const ct = res.headers.get('content-type') || '';
       if (!ct.includes('application/json')) throw new Error('Non-JSON response');
 
-      clearTimeout(timer);
       const t1 = performance.now();
       const latencyMs = Math.round(t1 - t0);
 

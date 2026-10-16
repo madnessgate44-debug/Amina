@@ -1,3 +1,5 @@
+# MANUAL ONLY. GitHub Pages serves static files; the AI routes need server.ts (see render.yaml).
+# Do not use Pages as the main app.
 name: Deploy to GitHub Pages
 
 on:

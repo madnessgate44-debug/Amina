@@ -318,7 +318,7 @@ function runTests() {
       language: 'ar',
     });
     assert(ctx.student === null, 'Case 10.1: Student remains null when not provided (no fake student created)');
-    assert(ctx.studentName === 'أمينة', 'Case 10.2: Uses display name Amina for copy without fabricating database user');
+    assert(ctx.studentName === 'صديقي', 'Case 10.2: Uses display name for copy without fabricating database user');
     assert(curriculumService.getAllLessons().length > 0, 'Case 10.3: Real authoritative curriculum is the source of truth');
   }
 

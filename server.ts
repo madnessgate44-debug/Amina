@@ -189,8 +189,8 @@ ${contextJson}
     handleAiError('chat', error);
     const isArabic = req.body?.language !== 'en';
     const errorFallback = isArabic
-      ? 'أنا هنا معاك. واجهت ثانية بطء في الاتصال، بس نقدر نواصل تنظيم يومنا بدون أي مشكلة.'
-      : "I'm right here with you. Had a momentary connection blip, but we can keep planning your day without issue.";
+      ? 'مش قادرة أوصل للمساعد دلوقتي. جرّبي كمان شوية.'
+      : "I can't reach the assistant right now. Try again in a moment.";
     res.json({ reply: errorFallback, source: 'error_fallback', degraded: true });
   }
 });
