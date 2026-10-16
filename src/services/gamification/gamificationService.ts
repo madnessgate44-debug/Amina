@@ -12,6 +12,7 @@ import {
 } from '../../types';
 import { IStorageService } from '../storage/IStorageService';
 import { curriculumService } from '../curriculum/curriculumService';
+import { localDateStr } from '../../utils/time';
 
 export const INITIAL_BADGES: AchievementBadge[] = [
   {
@@ -83,7 +84,7 @@ export async function getOrInitGamification(
     xpToNextLevel: 100,
     streak: {
       currentDays: 1,
-      lastActiveDate: new Date().toISOString().split('T')[0],
+      lastActiveDate: localDateStr(),
       restDayUsedThisWeek: false,
       isPaused: false,
       totalActiveDays: 1,
@@ -112,7 +113,7 @@ export async function getOrInitGamification(
  */
 export function updateForgivingStreak(
   currentStreak: ForgivingStreak,
-  todayDate: string = new Date().toISOString().split('T')[0]
+  todayDate: string = localDateStr()
 ): ForgivingStreak {
   if (currentStreak.lastActiveDate === todayDate) {
     return { ...currentStreak, isPaused: false };

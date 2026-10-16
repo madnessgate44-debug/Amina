@@ -17,6 +17,7 @@ import {
 import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
 import { getDueReviewConcepts } from '../review/spacedReviewScheduler';
+import { localDateStr } from '../../utils/time';
 
 export interface PlanMissionsParams {
   student?: Student | null;
@@ -165,7 +166,7 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
     masteryRecords,
     availableMinutes,
     fatigueSignal = false,
-    date = new Date().toISOString().split('T')[0],
+    date = localDateStr(),
     language = 'ar',
     parentPreferences,
   } = params;
@@ -268,8 +269,8 @@ export function planDailyMissions(params: PlanMissionsParams): PlanMissionsResul
       3: 'wednesday',
       4: 'thursday',
     };
-    const todayKey = dayKeyMap[currentDayIndex] || 'sunday';
-    const daySched = timetable.days.find((d) => d.day === todayKey);
+    const todayKey: SchoolDayKey | null = dayKeyMap[currentDayIndex] ?? null;
+    const daySched = todayKey ? timetable.days.find((d) => d.day === todayKey) : undefined;
     if (daySched) {
       daySched.periods.forEach((p) => {
         if (!p.isBreak) {

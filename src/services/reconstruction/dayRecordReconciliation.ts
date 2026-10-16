@@ -104,14 +104,14 @@ export function detectVagueness(text: string): boolean {
 export function reconcileDayWithTimetable(
   extracted: ExtractedDayData,
   timetable: Timetable | null,
-  dayKey: SchoolDayKey,
+  dayKey: SchoolDayKey | null,
   language: Language
 ): ReconciliationResult {
   const isArabic = language === 'ar';
 
   // 1. Extract scheduled subjects from timetable
   let scheduledSubjects: string[] = [];
-  if (timetable && timetable.days) {
+  if (timetable && timetable.days && dayKey) {
     const todaySchedule = timetable.days.find((d) => d.day === dayKey);
     if (todaySchedule) {
       scheduledSubjects = todaySchedule.periods

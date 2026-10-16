@@ -17,6 +17,7 @@ import { MissionList } from '../missions/MissionList';
 import { StageModal } from '../stage/StageModal';
 import { DailyReviewModal } from './DailyReviewModal';
 import { Badge } from '../common/Badge';
+import { getEffectiveTimeOfDay, localTimeStr } from '../../utils/time';
 import {
   Sparkles,
   Clock,
@@ -77,7 +78,7 @@ export const HomeScreen: React.FC = () => {
   const defaultStageLessonId = curriculumService.getAvailableLessons()[0]?.id || curriculumService.getAllLessons()[0]?.id || '';
   const [activeStageLessonId, setActiveStageLessonId] = useState<string>(defaultStageLessonId);
 
-  const studentName = student?.name || (isArabic ? 'أمينة' : 'Amina');
+  const studentName = student?.name || '';
   const gradeLabel = student?.grade || (isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary 🇪🇬');
 
   // Determine current day of week
@@ -89,10 +90,10 @@ export const HomeScreen: React.FC = () => {
     3: 'wednesday',
     4: 'thursday',
   };
-  const todayKey = dayKeyMap[currentDayIndex] || 'sunday';
-  const todaySchedule = timetable?.days.find((d) => d.day === todayKey);
+  const todayKey: SchoolDayKey | null = dayKeyMap[currentDayIndex] ?? null;
+  const todaySchedule = todayKey ? timetable?.days.find((d) => d.day === todayKey) : undefined;
 
-  const isPostSchool = settings.simulatedTimeOfDay === 'after_school';
+  const isPostSchool = getEffectiveTimeOfDay(settings) === 'after_school';
   const hasConfirmedDayRecord = Boolean(currentDayRecord && currentDayRecord.confirmed);
 
   // Compute Next Action Mission
@@ -123,7 +124,7 @@ export const HomeScreen: React.FC = () => {
             </div>
             <div className="flex items-center gap-1.5 text-xs bg-black/25 px-2.5 py-1 rounded-full text-indigo-100 font-mono">
               <Clock className="w-3.5 h-3.5" />
-              <span dir="ltr">{settings.simulatedTime}</span>
+              <span dir="ltr">{settings.demoTimeSimulatorActive ? settings.simulatedTime : localTimeStr()}</span>
             </div>
           </div>
 
@@ -165,7 +166,7 @@ export const HomeScreen: React.FC = () => {
                     {isArabic ? 'الخطوة الأولى والأهم' : 'Top Priority Action'}
                   </span>
                   <h2 className="text-base sm:text-lg font-black text-slate-950 mt-1">
-                    {isArabic ? 'حمد الله على سلامتك يا أمينة!' : 'Welcome home, Amina!'}
+                    {isArabic ? `حمد الله على سلامتك يا ${studentName}!` : `Welcome home, ${studentName}!`}
                   </h2>
                 </div>
               </div>
@@ -174,8 +175,8 @@ export const HomeScreen: React.FC = () => {
             <div className="bg-slate-950/10 rounded-2xl p-3 backdrop-blur-xs text-xs sm:text-sm font-bold text-slate-950 leading-relaxed">
               <p>
                 {isArabic
-                  ? '«طمنيني يا بطلة.. إيه اللي حصل في المدرسة النهارده؟ أخدتي إيه في الفرنساوي والماث والعلوم؟ وإيه الواجب المطلوب؟»'
-                  : '"Tell me Amina, what happened at school today? What did you cover in French, Maths, and Science? Any homework?"'}
+                  ? '«طمنيني يا بطلة.. إيه اللي حصل في المدرسة النهارده؟ أخدتي إيه في كل مادة؟ وإيه الواجب المطلوب؟»'
+                  : `"Tell me ${studentName}, what happened at school today? What did you cover in each subject? Any homework?"`}
               </p>
             </div>
 
@@ -203,7 +204,11 @@ export const HomeScreen: React.FC = () => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 shadow-xs">
-                  {nextPendingMission.type === 'homework' ? '✍️ واجب اليوم' : nextPendingMission.type === 'understand_lesson' ? '👩‍🏫 شرح درس' : '🎯 تطبيق وتدريب'}
+                  {nextPendingMission.type === 'homework'
+                    ? (isArabic ? '✍️ واجب اليوم' : isFrench ? '✍️ Devoirs du jour' : "✍️ Today's homework")
+                    : nextPendingMission.type === 'understand_lesson'
+                    ? (isArabic ? '👩‍🏫 شرح درس' : isFrench ? '👩‍🏫 Explication de leçon' : '👩‍🏫 Lesson explanation')
+                    : (isArabic ? '🎯 تطبيق وتدريب' : isFrench ? '🎯 Pratique et entraînement' : '🎯 Practice and drill')}
                 </span>
                 <span className="text-[10px] font-bold text-indigo-200">
                   {nextPendingMission.subject}

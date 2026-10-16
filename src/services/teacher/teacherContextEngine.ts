@@ -16,6 +16,7 @@ import {
 import { OfficialCurriculumLesson, CurriculumLessonConcept } from '../../types/teachingSession';
 import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
+import { localDateStr } from '../../utils/time';
 
 export type ErrorDiagnosisType =
   | 'misconception'
@@ -1678,7 +1679,7 @@ export function buildNormalizedTeacherContext(
   const isAr = language === 'ar';
   const isFr = language === 'fr';
   const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
-  const currentDate = new Date().toISOString().split('T')[0];
+  const currentDate = localDateStr();
 
   // 1. Resolve Target Lesson safely from authoritative curriculum
   const allLessons = curriculumService.getAllLessons();

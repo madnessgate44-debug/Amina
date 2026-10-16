@@ -47,6 +47,7 @@ import {
   RotateCcw,
   ShieldAlert,
 } from 'lucide-react';
+import { localDateStr } from '../../utils/time';
 
 interface HomeworkRunnerProps {
   mission: Mission;
@@ -116,7 +117,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
       if (!student) return;
 
       const studentId = student.id;
-      const todayDate = mission.date || new Date().toISOString().split('T')[0];
+      const todayDate = mission.date || localDateStr();
 
       // Check if Day Record has a matching homework item
       let matchedDayHw = currentDayRecord?.homeworkAssigned?.find(

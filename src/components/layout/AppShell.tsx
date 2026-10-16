@@ -59,7 +59,7 @@ export const AppShell: React.FC = () => {
               <div>
                 <div className="text-sm font-black tracking-tight">Miss Nour</div>
                 <div className="text-[10px] text-slate-500 dark:text-slate-400">
-                  {student?.name || (isArabic ? 'أمينة' : 'Amina')}
+                  {student?.name || ''}
                 </div>
               </div>
             </div>

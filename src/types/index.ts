@@ -119,6 +119,7 @@ export interface AppSettings {
   micPermissionStatus: MicPermissionState;
   showEvidenceLog: boolean;
   simulatedDaysOffset?: number; // Days forward to test decay over time
+  demoDefaultMigratedV1?: boolean;
 }
 
 export * from './curriculum';

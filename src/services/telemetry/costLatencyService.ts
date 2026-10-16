@@ -1,3 +1,4 @@
+import { localDateStr } from '../../utils/time';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -98,7 +99,7 @@ class CostLatencyService {
   private pruneOldLogs() {
     const cutoffDate = new Date();
     cutoffDate.setDate(cutoffDate.getDate() - MAX_HISTORY_DAYS);
-    const cutoffStr = cutoffDate.toISOString().split('T')[0];
+    const cutoffStr = localDateStr(cutoffDate);
     this.logs = this.logs.filter((l) => l.date >= cutoffStr);
   }
 
@@ -132,7 +133,7 @@ class CostLatencyService {
     status?: 'success' | 'fallback' | 'error';
     studentId?: string;
   }): ApiCallMetric {
-    const today = new Date().toISOString().split('T')[0];
+    const today = localDateStr();
     const costUsd = this.computeCostUsd(params.tokensIn, params.tokensOut);
 
     const metric: ApiCallMetric = {
@@ -228,7 +229,7 @@ class CostLatencyService {
 
     for (let i = 0; i < MAX_HISTORY_DAYS; i++) {
       const d = new Date(now.getTime() - i * 24 * 3600 * 1000);
-      const dateStr = d.toISOString().split('T')[0];
+      const dateStr = localDateStr(d);
       days.push(this.getSummaryForDate(dateStr));
     }
 
@@ -239,7 +240,7 @@ class CostLatencyService {
    * Check if graceful degradation should be engaged
    */
   public getDegradationStatus(): DegradationModeStatus {
-    const today = new Date().toISOString().split('T')[0];
+    const today = localDateStr();
     const todaySummary = this.getSummaryForDate(today);
 
     // If today's cost is >= 80% of limit or recent calls are timing out
