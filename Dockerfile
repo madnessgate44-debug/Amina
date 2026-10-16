@@ -18,6 +18,6 @@ COPY --from=build /app/dist ./dist
 COPY server.ts tsconfig.json ./
 COPY src ./src
 # tsx runs server.ts directly; it is a runtime dependency of `npm start`.
-RUN npm install --no-save tsx@^4.21.0 && npm cache clean --force
+RUN npm install --no-save --legacy-peer-deps --include=dev tsx@^4.21.0 && npm cache clean --force
 EXPOSE 3000
 CMD ["npm", "start"]
