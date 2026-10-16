@@ -115,6 +115,7 @@ app.post('/api/chat', async (req, res) => {
       return res.json({
         reply: fallbackReply,
         source: 'local_companion_fallback',
+        degraded: true,
         detectedIntent: isDontUnderstand ? 'dont_understand' : isExplainDifferently ? 'explain_differently' : isTestMe ? 'test_me' : 'general',
       });
     }
@@ -151,10 +152,22 @@ ${contextJson}
 `.trim();
 
     // Prepare contents array for Gemini
-    const contents = messages.map((m: { role: string; content: string }) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }],
-    }));
+    let started = false;
+    const contents = (Array.isArray(messages) ? messages : [])
+      .filter((m: any) => m && typeof m.content === 'string' && m.content.trim())
+      .slice(-12)
+      .map((m: { role: string; content: string }) => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content.slice(0, 2000) }],
+      }))
+      .filter((c: { role: string }) => {
+        if (!started && c.role === 'model') return false; // history must start with a user turn
+        started = true;
+        return true;
+      });
+    if (contents.length === 0) {
+      return res.status(400).json({ error: 'No messages', degraded: true });
+    }
 
     // Generate response using SDK default model
     const response = await ai.models.generateContent({
@@ -178,7 +191,7 @@ ${contextJson}
     const errorFallback = isArabic
       ? 'أنا هنا معاك. واجهت ثانية بطء في الاتصال، بس نقدر نواصل تنظيم يومنا بدون أي مشكلة.'
       : "I'm right here with you. Had a momentary connection blip, but we can keep planning your day without issue.";
-    res.json({ reply: errorFallback, source: 'error_fallback' });
+    res.json({ reply: errorFallback, source: 'error_fallback', degraded: true });
   }
 });
 

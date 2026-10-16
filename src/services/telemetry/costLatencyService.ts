@@ -293,6 +293,10 @@ class CostLatencyService {
         signal: controller.signal,
       });
 
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const ct = res.headers.get('content-type') || '';
+      if (!ct.includes('application/json')) throw new Error('Non-JSON response');
+
       clearTimeout(timer);
       const t1 = performance.now();
       const latencyMs = Math.round(t1 - t0);
@@ -307,7 +311,7 @@ class CostLatencyService {
         tokensIn,
         tokensOut,
         latencyMs,
-        status: data.source === 'error_fallback' ? 'fallback' : 'success',
+        status: data.source === 'error_fallback' || data.degraded ? 'fallback' : 'success',
         studentId: options.studentId,
       });
 

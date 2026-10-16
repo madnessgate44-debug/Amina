@@ -387,15 +387,20 @@ export const CompanionChatScreen: React.FC = () => {
                 ? {
                     date: currentDayRecord.date,
                     confirmed: currentDayRecord.confirmed,
-                    lessons: currentDayRecord.lessons,
-                    homework: currentDayRecord.homework,
+                    lessons: currentDayRecord.lessonsCovered,
+                    homework: currentDayRecord.homeworkAssigned.map((h) => ({
+                      subject: h.subject,
+                      description: h.description,
+                      status: h.status,
+                    })),
                     notes: currentDayRecord.notes,
                   }
                 : null,
               activeMission: activeMission
                 ? {
                     id: activeMission.id,
-                    subjectId: activeMission.subjectId,
+                    subject: activeMission.subject,
+                    lessonId: activeMission.lessonId,
                     conceptId: activeMission.conceptId,
                     title: activeMission.title,
                     status: activeMission.status,
@@ -446,8 +451,8 @@ export const CompanionChatScreen: React.FC = () => {
         id: 'msg_fallback_' + Date.now(),
         role: 'assistant',
         content: isArabic
-          ? 'سمعتك بوضوح. كرفيق ذكاء اصطناعي، أنا مبرمج أكون معاك في كل خطوة. نقدر نرتب جدولك وموادك في أي لحظة.'
-          : 'I heard you clearly. As your AI companion, I am set up to assist you with every step of your study routine.',
+          ? 'مش قادرة أوصل للمساعد دلوقتي. جرّبي كمان شوية، وممكن نكمل بالمهام من الصفحة الرئيسية.'
+          : "I can't reach the assistant right now. Try again in a moment; you can keep going with your missions from Home.",
         timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
       };
       const finalMessages = [...updatedHistory, assistantFallback];
