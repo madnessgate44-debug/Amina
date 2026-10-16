@@ -9,7 +9,7 @@
  * removing. Cross-origin requests (fonts) are left to the browser.
  */
 
-const VERSION = 'amina-v1';
+const VERSION = 'amina-v2';
 const SHELL = `${VERSION}-shell`;
 const ASSETS = `${VERSION}-assets`;
 
@@ -44,15 +44,18 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
-  if (url.pathname.startsWith('/api/')) return;
+  if (url.pathname.includes('/api/')) return;
 
   // Navigations: network first, fall back to the cached shell offline.
   if (request.mode === 'navigate') {
     event.respondWith(
       fetch(request)
         .then((res) => {
-          const copy = res.clone();
-          caches.open(SHELL).then((c) => c.put(INDEX, copy)).catch(() => {});
+          // Only cache a good response for the app shell itself, never an error page or another path.
+          if (res.ok && (url.pathname === ROOT || url.pathname === INDEX)) {
+            const copy = res.clone();
+            caches.open(SHELL).then((c) => c.put(INDEX, copy)).catch(() => {});
+          }
           return res;
         })
         .catch(() => caches.match(INDEX).then((r) => r || caches.match(ROOT)))
@@ -61,11 +64,14 @@ self.addEventListener('fetch', (event) => {
   }
 
   // Hashed build assets: cache first, they never change under one name.
-  if (url.pathname.includes('/assets/')) {
+  const isHashedAsset = /\/assets\/[^/]+-[A-Za-z0-9_-]{8,}\.[a-z0-9]+$/.test(url.pathname);
+  if (isHashedAsset) {
     event.respondWith(
       caches.match(request).then((hit) => hit || fetch(request).then((res) => {
-        const copy = res.clone();
-        caches.open(ASSETS).then((c) => c.put(request, copy)).catch(() => {});
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(ASSETS).then((c) => c.put(request, copy)).catch(() => {});
+        }
         return res;
       }))
     );
@@ -76,8 +82,10 @@ self.addEventListener('fetch', (event) => {
   event.respondWith(
     fetch(request)
       .then((res) => {
-        const copy = res.clone();
-        caches.open(SHELL).then((c) => c.put(request, copy)).catch(() => {});
+        if (res.ok && res.type === 'basic') {
+          const copy = res.clone();
+          caches.open(SHELL).then((c) => c.put(request, copy)).catch(() => {});
+        }
         return res;
       })
       .catch(() => caches.match(request))
