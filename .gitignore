@@ -7,8 +7,11 @@ coverage/
 .env*
 !.env.example
 
-# Rendered curriculum books (237 MB, symlinked from the external pipeline dir).
-# Regenerate with tools/curriculum/pipeline.py; do not commit page images.
-content/curriculum/
+# Rendered curriculum books (237 MB of page images, symlinked from the external
+# pipeline dir). Regenerate with tools/curriculum/pipeline.py; do not commit page
+# images. The small manifest.json files ARE committed so the real parsed
+# structure (units/lessons/page map) can be audited without the source PDFs.
+content/curriculum/books/*/pages
+content/curriculum/books/*/pages/
 __pycache__/
 *.pyc

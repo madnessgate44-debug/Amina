@@ -6,9 +6,11 @@ Update it at the end of every working session.
 
 **Last updated:** 2026-10-21
 **Repository:** `madnessgate44-debug/Amina`
-**Branch:** `main` (shallow clone; HEAD `86c1e73`)
+**Branch:** `wip/handoff-2026-10-21` (this work is committed here; base `main` = `86c1e73`)
 **Work order:** `docs/AMINA_PROJECT_MEMORY_AND_FORGE_ORDERS.md`
 **Audit result:** `docs/AMINA_READINESS_AUDIT.md`
+**Session transcript:** `docs/AMINA_SESSION_TRANSCRIPT_2026-10-21.md` (how this state was
+reached, what was asked, what was deliberately not done)
 
 ---
 
@@ -23,28 +25,29 @@ decisions the owner must make. Everything else is depth, polish, or running a de
 
 ---
 
-## 2. READ THIS FIRST — uncommitted state
+## 2. Commit state
 
-**Nothing below is committed.** The working tree has 35 modified/untracked entries on
-`main`. A new agent will not see any of this work until it is committed and pushed.
-Do not assume the remote `main` reflects what is described here.
+**Committed** on `wip/handoff-2026-10-21` as `6b10880`, pushed to `origin`. A reviewer can
+see the whole session's work by checking out that branch.
 
-```
-git status --short | wc -l   # => 35
-git log --oneline -1         # => 86c1e73 (grafted) Merge pull request #5
-```
+The commit contains ~28 other files that were already modified in the working tree when
+this session started (server, curriculum service, teaching engine, tests, etc.). Those are
+**not** this session's work and were not reviewed here — separate them before opening a
+reviewable PR.
 
-Notable untracked files:
+Notable files in the commit:
 
 | Path | What it is |
 |------|-----------|
-| `AGENTS.md` | Repo notes for agents (already existed; **now stale**, see §7) |
+| `AGENTS.md` | Repo notes for agents (already existed; the curriculum section was corrected, see §7) |
 | `docs/AMINA_READINESS_AUDIT.md` | Requirements-to-evidence matrix (the audit deliverable) |
+| `docs/AMINA_SESSION_TRANSCRIPT_2026-10-21.md` | Full session transcript |
 | `src/components/curriculum/BookReader.tsx` | Book reader + chapter drawer |
 | `src/services/content/bookLibrary.ts` | On-demand book fetch / offline cache |
 | `src/services/curriculum/subjectIdentity.ts` | Subject identity helper |
 | `src/utils/studentAddress.ts` | Student address helper |
 | `tools/curriculum/*.py` | The curriculum ingestion pipeline (see §4) |
+| `content/curriculum/books/*/manifest.json` | The 7 parsed book manifests (168 KB, auditable) |
 
 ---
 
@@ -116,12 +119,13 @@ python3 tools/curriculum/toc.py /path/to/book.pdf
 | Artifact | Size | Why excluded |
 |----------|------|--------------|
 | Source PDFs | 5.0 GB | Too large; re-fetch with `fetch.py` |
-| Rendered books (`content/curriculum/`) | 237 MB | Generated; regenerate with `pipeline.py`. Now gitignored |
+| Rendered page images | 237 MB | Generated; regenerate with `pipeline.py`. Gitignored (`content/curriculum/books/*/pages`) |
 | Frameworks | 98 MB | Regenerate |
 | Teacher extracts | 13 MB | Regenerate |
 
-`content/curriculum/books` is a **symlink** into the external pipeline output, which is
-why `du -sh content/curriculum` reports ~4 KB. Git will not follow it; that is intended.
+The **manifests are committed** (168 KB total) so the parsed structure is auditable
+without the source PDFs. Each book dir has a real `manifest.json` plus a `pages` symlink
+into the external pipeline output; the symlink is gitignored, which is intended.
 
 ---
 
@@ -187,16 +191,17 @@ Vision remains a last-resort fallback only. Update `AGENTS.md` before relying on
 
 ## 8. Next actions for the next agent
 
-1. **Commit and push the current work.** It is all uncommitted on `main`. The work order
-   (§Phase B item 11) asks for a dedicated branch and a reviewable PR. There are ~28
-   other modified files in the tree; separate them from this session's changes so the
-   diff is reviewable.
+1. **Open a reviewable PR** from `wip/handoff-2026-10-21`. First separate this session's
+   files from the ~28 unrelated modified files already in the tree, so the diff is
+   reviewable. Do **not** merge without owner approval.
 2. **Ask the owner for the two product decisions** in §6 items 1–2 before building
    billing or persistence. Do not guess a business model.
 3. **Add the missing source PDFs** (French, English, Social Studies, ICT, Islamic Ed) and
    run `tools/curriculum/pipeline.py` to close the content-depth gap.
-4. **Fix the stale `AGENTS.md`** section described in §7.
-5. Do **not** merge or deploy without explicit owner approval.
+4. **Fix `math-g5-t1-en`** — it is an empty stub with no manifest. Either render it or
+   remove the directory; do not fabricate its contents.
+5. **Review the stale `AGENTS.md`** section described in §7 (already corrected in this
+   commit; confirm the rest of the file is still accurate).
 
 ---
 
