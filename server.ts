@@ -1,8 +1,8 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
-import { GoogleGenAI } from '@google/genai';
 
 dotenv.config();
 
@@ -12,18 +12,110 @@ const PORT = Number(process.env.PORT) || 3000;
 
 app.use(express.json({ limit: '15mb' }));
 
-// Initialize GoogleGenAI
-const apiKey = process.env.GEMINI_API_KEY;
-const ai = apiKey
-  ? new GoogleGenAI({
-      apiKey,
-      httpOptions: {
+// AI access via the Gemini REST API.
+// The @google/genai SDK misclassifies Google's newer "AQ." authentication keys
+// as OAuth access tokens and returns 403 ACCESS_TOKEN_SCOPE_INSUFFICIENT, while
+// the same key authenticates correctly over REST. We therefore call the REST API
+// directly with the key in the x-goog-api-key header, which works for both the
+// legacy "AIza" and the newer "AQ." key formats.
+const API_KEY_SOURCES = ['GEMINI_API_KEY', 'GOOGLE_API_KEY', 'GOOGLE_GENAI_API_KEY', 'API_KEY'] as const;
+const apiKeySource = API_KEY_SOURCES.find((name) => Boolean(process.env[name])) ?? null;
+const apiKey = apiKeySource ? process.env[apiKeySource] : undefined;
+const GEMINI_BASE_URL = 'https://generativelanguage.googleapis.com/v1beta';
+
+if (!apiKey) {
+  console.warn(
+    '\n⚠️  NO AI API KEY DETECTED — Nour will run in local companion mode (no live model calls).\n' +
+      '   To enable the live tutor, provide a Gemini API key as one of:\n' +
+      `   ${API_KEY_SOURCES.join(', ')}\n` +
+      '   Easiest local option: create a file named ".env" in the project root containing\n' +
+      '     GEMINI_API_KEY=your_key_here\n' +
+      '   then restart the server. (.env is gitignored.)\n'
+  );
+}
+
+class GeminiRequestError extends Error {
+  status: number;
+  constructor(status: number, message: string) {
+    super(message);
+    this.status = status;
+  }
+}
+
+// Preferred text models, tried in order. A model that is temporarily overloaded
+// (503) or rate-limited (429) falls through to the next, so a busy model never
+// takes the whole app down. Text-only: TTS/image models are never substituted.
+const TEXT_MODEL_FALLBACKS = ['gemini-2.5-flash', 'gemini-3.5-flash'];
+const DEFAULT_TEXT_MODEL = TEXT_MODEL_FALLBACKS[0];
+
+/** Resolve the model list to attempt for a request. */
+function modelCandidates(requested: string): string[] {
+  const isTextModel = !requested.includes('tts') && !requested.includes('image');
+  if (!isTextModel) return [requested];
+  const chain = [requested, ...TEXT_MODEL_FALLBACKS];
+  return [...new Set(chain)];
+}
+
+/**
+ * Minimal REST client for the subset of Gemini the app uses (generateContent).
+ * Kept intentionally small so the key travels in the header the API expects.
+ */
+const gemini = {
+  async generateContent(body: {
+    model: string;
+    contents: unknown;
+    config?: Record<string, unknown>;
+  }): Promise<any> {
+    if (!apiKey) throw new GeminiRequestError(401, 'No API key configured');
+    const { model, contents, config } = body;
+    const payload: Record<string, unknown> = { contents };
+    if (config) {
+      const { systemInstruction, ...generationConfig } = config as Record<string, unknown>;
+      // REST expects sampling/response options nested under generationConfig;
+      // only systemInstruction sits at the top level.
+      if (Object.keys(generationConfig).length > 0) payload.generationConfig = generationConfig;
+      if (systemInstruction) payload.systemInstruction = { parts: [{ text: systemInstruction }] };
+    }
+
+    const candidates = modelCandidates(model);
+    let lastError: GeminiRequestError | null = null;
+    for (let i = 0; i < candidates.length; i++) {
+      const resp = await fetch(`${GEMINI_BASE_URL}/models/${candidates[i]}:generateContent`, {
+        method: 'POST',
         headers: {
-          'User-Agent': 'aistudio-build',
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey,
         },
-      },
-    })
-  : null;
+        body: JSON.stringify(payload),
+      });
+      const json: any = await resp.json().catch(() => ({}));
+      if (resp.ok) return json;
+
+      const status = resp.status;
+      lastError = new GeminiRequestError(
+        status,
+        json?.error?.message || `Gemini request failed (HTTP ${status})`
+      );
+      // Only transient availability/quota problems justify trying another model.
+      const retryable = status === 503 || status === 429 || status === 500;
+      if (!retryable || i === candidates.length - 1) throw lastError;
+      console.warn(
+        `[gemini] ${candidates[i]} unavailable (HTTP ${status}); falling back to ${candidates[i + 1]}`
+      );
+    }
+    throw lastError ?? new GeminiRequestError(500, 'Gemini request failed');
+  },
+};
+
+/** Extract plain text from a generateContent response. */
+function geminiText(response: any): string {
+  const parts = response?.candidates?.[0]?.content?.parts;
+  if (!Array.isArray(parts)) return '';
+  return parts
+    .map((p: any) => (typeof p?.text === 'string' ? p.text : ''))
+    .join('')
+    .trim();
+}
 
 // Quota & Rate Limit Protection (Circuit breaker for 429 RESOURCE_EXHAUSTED)
 let globalQuotaCooldownUntil = 0;
@@ -55,6 +147,7 @@ app.get('/api/health', (_req, res) => {
   res.json({
     status: 'ok',
     hasApiKey: Boolean(apiKey),
+    apiKeySource,
     timestamp: new Date().toISOString(),
   });
 });
@@ -91,7 +184,7 @@ app.post('/api/chat', async (req, res) => {
       lowerUserMsg.includes('test me') ||
       lowerUserMsg.includes('quiz me');
 
-    if (!ai || Date.now() < globalQuotaCooldownUntil) {
+    if (!apiKey || Date.now() < globalQuotaCooldownUntil) {
       // Graceful offline/local companion fallback if API key is not yet set or during quota cooldown
       let fallbackReply = '';
       if (isDontUnderstand) {
@@ -170,16 +263,17 @@ ${contextJson}
     }
 
     // Generate response using SDK default model
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await gemini.generateContent({
+      model: process.env.GEMINI_MODEL || DEFAULT_TEXT_MODEL,
       contents,
       config: {
         systemInstruction,
         temperature: 0.7,
       },
     });
+    const responseText = geminiText(response);
 
-    const reply = response.text || (isArabic ? 'أنا معاك، نقدر نكمل!' : "I'm with you, let's continue!");
+    const reply = responseText || (isArabic ? 'أنا معاك، نقدر نكمل!' : "I'm with you, let's continue!");
     res.json({
       reply,
       source: 'gemini',
@@ -204,7 +298,7 @@ app.post('/api/stt', async (req, res) => {
       return res.status(400).json({ error: 'Missing audio data', transcript: '' });
     }
 
-    if (!ai) {
+    if (!apiKey) {
       return res.json({
         transcript: '',
         error: 'Gemini STT requires API key',
@@ -217,8 +311,8 @@ app.post('/api/stt', async (req, res) => {
       ? 'استمع إلى التسجيل الصوتي المرفق وقم بتفريغه نصياً بدقة كما نطق الطالب باللغة العربية (اللهجة المصرية أو الفصحى). أرجع فقط النص الدقيق بدون أي مقدمات أو تحيات أو إضافات.'
       : 'Listen to the audio recording and transcribe it accurately as spoken. Return only the exact transcription without any commentary.';
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await gemini.generateContent({
+      model: process.env.GEMINI_MODEL || DEFAULT_TEXT_MODEL,
       contents: [
         {
           role: 'user',
@@ -239,8 +333,9 @@ app.post('/api/stt', async (req, res) => {
         temperature: 0.1,
       },
     });
+    const responseText = geminiText(response);
 
-    const transcript = (response.text || '').trim();
+    const transcript = (responseText || '').trim();
     res.json({
       transcript,
       tier: 'gemini_stt',
@@ -285,7 +380,7 @@ app.post('/api/tts', async (req, res) => {
       });
     }
 
-    if (!ai) {
+    if (!apiKey) {
       return res.json({
         success: false,
         useBrowserSpeech: true,
@@ -296,7 +391,7 @@ app.post('/api/tts', async (req, res) => {
 
     try {
       const voiceName = langKey === 'ar' ? 'Puck' : langKey === 'fr' ? 'Kore' : 'Kore';
-      const response = await ai.models.generateContent({
+      const response = await gemini.generateContent({
         model: 'gemini-3.8-flash-lite-tts',
         contents: [
           {
@@ -313,6 +408,7 @@ app.post('/api/tts', async (req, res) => {
           },
         },
       });
+      const responseText = geminiText(response);
 
       const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
       if (base64Audio) {
@@ -351,7 +447,8 @@ app.post('/api/tutor-explain', async (req, res) => {
       lessonTitle = 'الدرس',
       subjectName = 'المادة',
       lessonText = '',
-      studentName = 'أمينة',
+      supplementaryReference = null,
+      studentName = 'صديقتي',
       language = 'ar',
       mode = 'full_hook_story',
     } = req.body;
@@ -359,7 +456,7 @@ app.post('/api/tutor-explain', async (req, res) => {
     const isArabic = language === 'ar';
     const isFrench = language === 'fr';
 
-    if (!ai || Date.now() < globalQuotaCooldownUntil) {
+    if (!apiKey || Date.now() < globalQuotaCooldownUntil) {
       // Local pedagogic explanations fallback
       const fallbackExplanations: Record<string, string> = {
         full_hook_story: isArabic
@@ -396,23 +493,29 @@ You are teaching a 5th-grade student named "${studentName}".
 CURRENT LESSON: "${lessonTitle}" in Subject: "${subjectName}".
 LESSON TEXT / CURRICULUM CONTEXT:
 """${lessonText ? lessonText.slice(0, 1000) : 'Official Egyptian Ministry Curriculum for Grade 5.'}"""
+${
+  supplementaryReference
+    ? `SUPPLEMENTARY RESOURCES THE STUDENT ACTUALLY HAS (الأضواء / سلاح التلميذ / دليل المعلم). You may refer the student to these by name and page when it helps:
+${String(supplementaryReference).slice(0, 600)}`
+    : 'SUPPLEMENTARY RESOURCES: none recorded for this lesson. Do not invent or cite any supplementary book.'
+}
 
 TEACHING GOAL FOR MODE "${mode}":
 - If mode is "full_hook_story": Create an irresistible, captivating 3-4 sentence hook/story that makes an 11-year-old curious and excited to learn this specific lesson!
 - If mode is "core_concepts": Clearly break down the 2-3 essential concepts of "${lessonTitle}" using simple, engaging language and practical clarity suited for Grade 5.
 - If mode is "real_world_analogy": Give a vivid everyday real-world analogy (e.g. food, sports, nature, family) that makes the abstract concept immediately click.
-- If mode is "discussion_question": Ask Amina a gentle, thought-provoking question to test her understanding warmly.
-- If mode is "simplify": Amina found the lesson hard. Reassure her affectionately, and re-explain in ultra-simple, reassuring terms.
+- If mode is "discussion_question": Ask the student a gentle, thought-provoking question to test her understanding warmly.
+- If mode is "simplify": The student found the lesson hard. Reassure her affectionately, and re-explain in ultra-simple, reassuring terms.
 
 STYLE & LANGUAGE:
-- If language is "ar": Use natural, warm, affectionate Egyptian Arabic (e.g. "يا حبيبتي يا أمينة", "شوفي يا ستي", "الموضوع ممتع جداً", "بصي معايا").
-- If language is "fr": Use warm, polite, enthusiastic French adapted for primary school students ("Chère Amina", "C'est très simple et passionnant!").
+- If language is "ar": Use natural, warm, affectionate Egyptian Arabic (e.g. "يا حبيبتي", "شوفي يا ستي", "الموضوع ممتع جداً", "بصي معايا").
+- If language is "fr": Use warm, polite, enthusiastic French adapted for primary school students ("Chère amie", "C'est très simple et passionnant!").
 - If language is "en": Use warm, encouraging, engaging English suitable for 5th grade.
 - Keep output concise (max 4-5 sentences) so it reads beautifully and can be spoken out loud by the voice engine without lagging.
 `.trim();
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await gemini.generateContent({
+      model: process.env.GEMINI_MODEL || DEFAULT_TEXT_MODEL,
       contents: [
         {
           role: 'user',
@@ -424,16 +527,17 @@ STYLE & LANGUAGE:
         temperature: 0.7,
       },
     });
+    const responseText = geminiText(response);
 
-    const explanation = response.text || (isArabic ? `درس «${lessonTitle}» درس ممتع ومهم جداً يا ${studentName}!` : `Our lesson "${lessonTitle}" is exciting and important, ${studentName}!`);
+    const explanation = responseText || (isArabic ? `درس «${lessonTitle}» درس ممتع ومهم جداً يا ${studentName}!` : `Our lesson "${lessonTitle}" is exciting and important, ${studentName}!`);
     res.json({ explanation, source: 'gemini' });
   } catch (error: any) {
     handleAiError('tutor-explain', error);
     const isAr = req.body?.language !== 'en' && req.body?.language !== 'fr';
     res.json({
       explanation: isAr
-        ? `أهلاً يا ${req.body?.studentName || 'أمينة'}! درس «${req.body?.lessonTitle || 'الدرس'}» من أهم الدروس في كتاب الوزارة، يلا نستكشفه سوا خطوة بخطوة!`
-        : `Welcome ${req.body?.studentName || 'Amina'}! This lesson is a key part of your textbook, let's explore it together!`,
+        ? `أهلاً يا ${req.body?.studentName || 'صديقتي'}! درس «${req.body?.lessonTitle || 'الدرس'}» من أهم الدروس في كتاب الوزارة، يلا نستكشفه سوا خطوة بخطوة!`
+        : `Welcome ${req.body?.studentName || 'friend'}! This lesson is a key part of your textbook, let's explore it together!`,
       source: 'error_fallback',
     });
   }
@@ -447,14 +551,14 @@ app.post('/api/tutor-reply', async (req, res) => {
       currentBeatText = '',
       lessonTitle = 'الدرس',
       subjectName = 'المادة',
-      studentName = 'أمينة',
+      studentName = 'صديقتي',
       language = 'ar',
     } = req.body;
 
     const isArabic = language === 'ar';
     const isFrench = language === 'fr';
 
-    if (!ai || Date.now() < globalQuotaCooldownUntil) {
+    if (!apiKey || Date.now() < globalQuotaCooldownUntil) {
       const lower = (studentInput || '').toLowerCase();
       let contextualReply = '';
 
@@ -487,7 +591,7 @@ app.post('/api/tutor-reply', async (req, res) => {
     }
 
     const systemInstruction = `
-You are "نور" (Nour), an inspiring, loving, warm, enthusiastic, highly skilled private tutor talking to Amina (أمينة), an 11-year-old 5th-grade student in Egypt.
+You are "نور" (Nour), an inspiring, loving, warm, enthusiastic, highly skilled private tutor talking to a ${studentName}, an 11-year-old 5th-grade student in Egypt.
 CURRENT SUBJECT: "${subjectName}".
 CURRENT LESSON: "${lessonTitle}".
 CURRICULUM CONTEXT / TEXTBOOK TEXT:
@@ -497,19 +601,19 @@ RULES:
 1. Ground your answer in the ACTUAL lesson "${lessonTitle}" and "${subjectName}". Never give generic boilerplate.
 2. If student says they don't understand, reassure them warmly and give a concrete, memorable everyday analogy suited for an 11-year-old.
 3. Language:
-   - If language is "ar": Speak in warm, natural, friendly Egyptian Arabic (e.g. "يا حبيبتي يا أمينة", "بصي يا ستي", "الفكرة ببساطة", "تعالي نتخيلها سوا").
-   - If language is "fr": Speak in gentle, encouraging French for primary school ("Chère Amina, c'est très simple...").
+   - If language is "ar": Speak in warm, natural, friendly Egyptian Arabic (e.g. "يا حبيبتي", "بصي يا ستي", "الفكرة ببساطة", "تعالي نتخيلها سوا").
+   - If language is "fr": Speak in gentle, encouraging French for primary school ("Chère amie, c'est très simple...").
    - If language is "en": Speak in clear, warm, enthusiastic English.
 4. Keep it concise (2-4 sentences max) so it can be read smoothly and spoken aloud without overwhelming the child.
 5. End with a friendly, gentle check for understanding (e.g. "وضحت كده يا بطلة ولا نجرب مثال تاني؟").
 `.trim();
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await gemini.generateContent({
+      model: process.env.GEMINI_MODEL || DEFAULT_TEXT_MODEL,
       contents: [
         {
           role: 'user',
-          parts: [{ text: `Amina said: "${studentInput}". Context: Lesson "${lessonTitle}" (${subjectName}). Reply to her as Nour!` }],
+          parts: [{ text: `${studentName} said: "${studentInput}". Context: Lesson "${lessonTitle}" (${subjectName}). Reply to her as Nour!` }],
         },
       ],
       config: {
@@ -517,16 +621,17 @@ RULES:
         temperature: 0.7,
       },
     });
+    const responseText = geminiText(response);
 
-    const reply = response.text || (isArabic ? `أنا سامعاكي يا ${studentName}، وضحت ليكي الفكرة في «${lessonTitle}»؟` : `I hear you ${studentName}, does that make sense for "${lessonTitle}"?`);
+    const reply = responseText || (isArabic ? `أنا سامعاكي يا ${studentName}، وضحت ليكي الفكرة في «${lessonTitle}»؟` : `I hear you ${studentName}, does that make sense for "${lessonTitle}"?`);
     res.json({ reply });
   } catch (error: any) {
     handleAiError('tutor-reply', error);
     const isAr = req.body?.language !== 'en' && req.body?.language !== 'fr';
     res.json({
       reply: isAr
-        ? `أنا معاكي يا ${req.body?.studentName || 'أمينة'} خطوة بخطوة! في درسنا «${req.body?.lessonTitle || 'الدرس'}»، أهم فكرة هي الفهم والتركيز في كتاب الوزارة.`
-        : `I'm right here with you, ${req.body?.studentName || 'Amina'}! In "${req.body?.lessonTitle || 'our lesson'}", the main point is to stay curious and focused.`,
+        ? `أنا معاكي يا ${req.body?.studentName || 'صديقتي'} خطوة بخطوة! في درسنا «${req.body?.lessonTitle || 'الدرس'}»، أهم فكرة هي الفهم والتركيز في كتاب الوزارة.`
+        : `I'm right here with you, ${req.body?.studentName || 'friend'}! In "${req.body?.lessonTitle || 'our lesson'}", the main point is to stay curious and focused.`,
     });
   }
 });
@@ -551,7 +656,7 @@ app.post('/api/check-homework', async (req, res) => {
       return res.status(400).json({ error: 'Missing image or text payload' });
     }
 
-    if (!ai || Date.now() < globalQuotaCooldownUntil) {
+    if (!apiKey || Date.now() < globalQuotaCooldownUntil) {
       // Never grade without the model. Tell the client we are degraded.
       return res.json({
         extractedAnswerText: null,
@@ -629,16 +734,17 @@ YOUR TASK:
           : ''),
     });
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await gemini.generateContent({
+      model: process.env.GEMINI_MODEL || DEFAULT_TEXT_MODEL,
       contents: [{ role: 'user', parts }],
       config: {
         systemInstruction,
         responseMimeType: 'application/json',
       },
     });
+    const responseText = geminiText(response);
 
-    const text = response.text || '{}';
+    const text = responseText || '{}';
     const parsed = JSON.parse(text);
 
     res.json({
@@ -717,7 +823,7 @@ app.post('/api/reconstruct-day', async (req, res) => {
       });
     }
 
-    if (!ai || Date.now() < globalQuotaCooldownUntil) {
+    if (!apiKey || Date.now() < globalQuotaCooldownUntil) {
       // Local rule-based parser fallback
       const lessons: { subject: string; topic?: string; notes?: string }[] = [];
       const homework: { subject: string; description: string; dueDate?: string }[] = [];
@@ -793,16 +899,17 @@ CRITICAL RULES:
 }
 `.trim();
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await gemini.generateContent({
+      model: process.env.GEMINI_MODEL || DEFAULT_TEXT_MODEL,
       contents: [{ role: 'user', parts: [{ text: trimmedInput }] }],
       config: {
         systemInstruction,
         responseMimeType: 'application/json',
       },
     });
+    const responseText = geminiText(response);
 
-    const text = response.text || '{}';
+    const text = responseText || '{}';
     const parsed = JSON.parse(text);
 
     res.json({
@@ -827,6 +934,52 @@ CRITICAL RULES:
       source: 'error_fallback',
     });
   }
+});
+
+// Curriculum library: light book pages + manifests, served from a
+// CDN-friendly route. Page filenames are content-stable, so they can be cached
+// immutably; the client downloads one book on demand and keeps it offline.
+const CURRICULUM_ROOT = path.resolve(__dirname, 'content', 'curriculum');
+
+app.get('/api/curriculum/index', (_req, res) => {
+  const dir = path.join(CURRICULUM_ROOT, 'books');
+  fs.readdir(dir, { withFileTypes: true }, (err, entries) => {
+    if (err) return res.status(503).json({ error: 'curriculum_unavailable' });
+    const books = [];
+    for (const e of entries) {
+      if (!e.isDirectory()) continue;
+      try {
+        const m = JSON.parse(fs.readFileSync(path.join(dir, e.name, 'manifest.json'), 'utf8'));
+        books.push({
+          id: m.id, subject: m.subject, language: m.language, term: m.term,
+          pages: m.pages, bytes: m.bytes, width: m.width,
+          unitCount: (m.units || []).length,
+        });
+      } catch { /* skip an unreadable book rather than fail the list */ }
+    }
+    res.set('Cache-Control', 'no-cache');
+    res.json({ books });
+  });
+});
+
+app.get('/api/curriculum/:bookId/manifest', (req, res) => {
+  const { bookId } = req.params;
+  if (!/^[a-z0-9-]+$/i.test(bookId)) return res.status(400).json({ error: 'bad_id' });
+  res.sendFile(path.join(CURRICULUM_ROOT, 'books', bookId, 'manifest.json'), (err) => {
+    if (err) res.status(404).json({ error: 'book_not_found' });
+  });
+});
+
+app.get('/api/curriculum/:bookId/pages/:file', (req, res) => {
+  const { bookId, file } = req.params;
+  if (!/^[a-z0-9-]+$/i.test(bookId)) return res.status(400).json({ error: 'bad_id' });
+  if (!/^\d{4}\.webp$/.test(file)) return res.status(400).json({ error: 'bad_page' });
+  // Content is immutable per filename, so the device may cache it indefinitely.
+  res.set('Cache-Control', 'public, max-age=31536000, immutable');
+  res.type('image/webp');
+  res.sendFile(path.join(CURRICULUM_ROOT, 'books', bookId, 'pages', file), (err) => {
+    if (err) res.status(404).json({ error: 'page_not_found' });
+  });
 });
 
 // Dev vs Prod server setup

@@ -48,8 +48,8 @@ export const AMINA_CURRICULUM_CONTEXT: StudentCurriculumContext = {
       instructionLanguage: 'en', contentLanguage: 'en', assessmentLanguage: 'en', grade: 'Grade 5', track: 'french_bilingual',
       schoolContext: 'École Girard, Alexandria', bookTitleAr: 'اللغة الإنجليزية', bookTitleEn: 'English',
     },
-    subj_social: {
-      subjectId: 'subj_social', subjectNameAr: 'الدراسات الاجتماعية', subjectNameEn: 'Social Studies',
+    subj_social_studies: {
+      subjectId: 'subj_social_studies', subjectNameAr: 'الدراسات الاجتماعية', subjectNameEn: 'Social Studies',
       curriculumSource: 'egyptian_national', curriculumSourceLabelAr: 'المنهج المصري', curriculumSourceLabelEn: 'Egyptian National Curriculum',
       instructionLanguage: 'ar', contentLanguage: 'ar', assessmentLanguage: 'ar', grade: 'Grade 5', track: 'french_bilingual',
       schoolContext: 'École Girard, Alexandria', bookTitleAr: 'الدراسات الاجتماعية', bookTitleEn: 'Social Studies',

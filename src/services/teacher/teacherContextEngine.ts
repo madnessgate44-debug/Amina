@@ -17,6 +17,7 @@ import { OfficialCurriculumLesson, CurriculumLessonConcept } from '../../types/t
 import { curriculumService } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
 import { localDateStr } from '../../utils/time';
+import { resolveStudentName } from '../../utils/studentAddress';
 
 export type ErrorDiagnosisType =
   | 'misconception'
@@ -529,7 +530,7 @@ export function buildDiagnosticForConcept(
           diagnosisExplanationAr: 'خلط بين الفاعل (من قام بالفعل) والمفعول به (من وقع عليه الفعل).',
           diagnosisExplanationEn: 'Confusing the subject with the direct object.',
           diagnosisExplanationFr: 'Confusion entre sujet et complément d’objet direct.',
-          pedagogicHintAr: 'هل القصة هي اللي قرأت، ولا أمينة هي اللي قرأتها؟ القصة مفعول به!',
+          pedagogicHintAr: `هل القصة هي اللي قرأت، ولا ${studentName} هي اللي قرأتها؟ القصة مفعول به!`,
           pedagogicHintEn: 'Did the story read, or was the story read by Amina? The story is the object!',
           pedagogicHintFr: 'L’histoire est l’objet lu, pas celui qui lit !',
           suggestedStrategy: 'step_by_step_procedure',
@@ -595,8 +596,8 @@ export function buildDiagnosticForConcept(
           diagnosisExplanationAr: 'سوء فهم للرسالة التربوية للقصة؛ التجنب عكس الإصرار والثقة بالنفس.',
           diagnosisExplanationEn: 'Misunderstanding story theme; avoidance is opposite of confidence.',
           diagnosisExplanationFr: 'Mauvaise interprétation du message pédagogique.',
-          pedagogicHintAr: 'تذكري يا أمينة حكمة القصة: هل آسر استسلم ولا قاد فريقه وفاز بالمسابقة؟',
-          pedagogicHintEn: 'Remember Amina: did Aser give up, or did he lead his team to win?',
+          pedagogicHintAr: `تذكري يا ${studentName} حكمة القصة: هل آسر استسلم ولا قاد فريقه وفاز بالمسابقة؟`,
+          pedagogicHintEn: `Remember ${studentName}: did Aser give up, or did he lead his team to win?`,
           pedagogicHintFr: 'Rappelle-toi: Asser a-t-il abandonné ou a-t-il mené son équipe à la victoire ?',
           suggestedStrategy: 'everyday_analogy',
         },
@@ -644,7 +645,7 @@ export function buildDiagnosticForConcept(
           diagnosisExplanationAr: 'ممتازة! إدراك صحيح لفعل s’appeler المخصص للتعريف بالاسم.',
           diagnosisExplanationEn: 'Excellent! Accurate recognition of the verb s’appeler for personal names.',
           diagnosisExplanationFr: 'Bravo! Utilisation correcte du verbe s’appeler.',
-          pedagogicHintAr: 'تمام يا أمينة! "Je m’appelle" تعني "اسمي".',
+          pedagogicHintAr: `تمام يا ${studentName}! "Je m’appelle" تعني "اسمي".`,
           pedagogicHintEn: 'Great! "Je m’appelle" means "My name is".',
           pedagogicHintFr: 'Parfait !',
           suggestedStrategy: 'guided_practice',
@@ -758,18 +759,23 @@ export function buildDiagnosticForConcept(
     ],
   };
 
+  // The `if (!lesson)` guard above guarantees a lesson from here on. Re-bind it
+  // to a non-null local so the narrowing survives the intervening return-heavy
+  // branches (TypeScript otherwise widens it back to `| null`).
+  const activeLesson = lesson as OfficialCurriculumLesson;
+
   // 7. Curriculum-grounded fallback: use the lesson's own exercises/key points.
   // Never invent a topic-specific answer when the source material does not provide one.
   const sourceExercise =
-    lesson.exercises?.find((exercise) => exercise.options?.length && exercise.expectedAnswer) ||
-    lesson.exercises?.find((exercise) => exercise.expectedAnswer) ||
-    lesson.exercises?.[0];
+    activeLesson.exercises?.find((exercise) => exercise.options?.length && exercise.expectedAnswer) ||
+    activeLesson.exercises?.find((exercise) => exercise.expectedAnswer) ||
+    activeLesson.exercises?.[0];
 
   const sourceOptions = sourceExercise?.options?.filter(Boolean) || [];
   const expectedAnswer =
     sourceExercise?.expectedAnswer ||
     concept?.keyPoints?.[0] ||
-    lesson.objectives?.[0] ||
+    activeLesson.objectives?.[0] ||
     '';
 
   if (sourceExercise && expectedAnswer) {
@@ -798,8 +804,8 @@ export function buildDiagnosticForConcept(
       correctAnswerTextAr: expectedAnswer,
       correctAnswerTextEn: expectedAnswer,
       correctAnswerTextFr: expectedAnswer,
-      underlyingConceptAr: concept?.titleAr || lesson.titleAr,
-      underlyingConceptEn: concept?.titleEn || lesson.titleEn,
+      underlyingConceptAr: concept?.titleAr || activeLesson.titleAr,
+      underlyingConceptEn: concept?.titleEn || activeLesson.titleEn,
       options: uniqueOptions.map((option, index) => ({
         textAr: option,
         textEn: option,
@@ -841,8 +847,8 @@ export function buildDiagnosticForConcept(
     correctAnswerTextAr: '',
     correctAnswerTextEn: '',
     correctAnswerTextFr: '',
-    underlyingConceptAr: concept?.titleAr || lesson.titleAr,
-    underlyingConceptEn: concept?.titleEn || lesson.titleEn,
+    underlyingConceptAr: concept?.titleAr || activeLesson.titleAr,
+    underlyingConceptEn: concept?.titleEn || activeLesson.titleEn,
     options: [],
   };
 }
@@ -1094,7 +1100,7 @@ export function buildRecheckQuestionForConcept(
           textEn: '"The lesson", because it was the thing written (marked with fatha)',
           textFr: '«La leçon» (مفعول به)',
           isCorrect: true,
-          explanationAr: 'برافو يا أمينة! إعراب دقيق وتمييز رائع بين الفاعل والمفعول به.',
+          explanationAr: `برافو يا ${studentName}! إعراب دقيق وتمييز رائع بين الفاعل والمفعول به.`,
           explanationEn: 'Bravo Amina! Accurate distinction between subject and object.',
           explanationFr: 'Bravo ! Excellente distinction sujet / objet.',
         },
@@ -1358,18 +1364,20 @@ export function analyzeStudentReasoning(
   selectedOption: DiagnosticOption,
   concept: CurriculumLessonConcept | null,
   lesson: OfficialCurriculumLesson,
-  language: Language
+  language: Language,
+  studentName: string = ''
 ): ReasoningAnalysisResult {
   const text = (reasoningText || '').trim().toLowerCase();
   const isAr = language === 'ar';
   const isFr = language === 'fr';
+  const student = resolveStudentName(studentName, language);
 
   // 1. Unclear / Missing Reasoning (insufficient input)
   if (text.length === 0) {
     return {
       category: 'unclear_reasoning',
       confidence: 'low',
-      explanationAr: 'لم تسجل أمينة تعليلاً كافياً؛ نحتاج لسؤال استكشافي لتحديد طريقة تفكيرها بدقة.',
+      explanationAr: `لم تسجل ${student} تعليلاً كافياً؛ نحتاج لسؤال استكشافي لتحديد طريقة تفكيرها بدقة.`,
       explanationEn: 'No reasoning text provided; exploratory questioning needed.',
       explanationFr: 'Aucun raisonnement fourni ; questionnement nécessaire.',
       recommendedPedagogicalAction: 'clarify_thinking_with_new_example',
@@ -1388,7 +1396,7 @@ export function analyzeStudentReasoning(
     return {
       category: 'guessing',
       confidence: 'high',
-      explanationAr: 'أمينة تعتمد على التخمين أو غير متأكدة من إجابتها؛ لا يمكن اعتماد الإتقان قبل توضيح القاعدة وتثبيتها.',
+      explanationAr: `${student} تعتمد على التخمين أو غير متأكدة من إجابتها؛ لا يمكن اعتماد الإتقان قبل توضيح القاعدة وتثبيتها.`,
       explanationEn: 'Student is guessing or uncertain; cannot assume mastery without reinforcing the rule.',
       explanationFr: 'L’élève devine ou hésite ; consolidation nécessaire avant validation.',
       recommendedPedagogicalAction: 'guided_step_by_step',
@@ -1538,6 +1546,8 @@ export interface TeachingOutcomeEvaluationParams {
   recheckCorrect: boolean;
   recheckReasoningCategory: ReasoningCategory;
   attemptsCount: number;
+  studentName?: string;
+  language?: Language;
 }
 
 /**
@@ -1559,7 +1569,11 @@ export function evaluateTeachingOutcome(params: TeachingOutcomeEvaluationParams)
     recheckCorrect,
     recheckReasoningCategory,
     attemptsCount: _attemptsCount,
+    studentName = '',
+    language = 'ar',
   } = params;
+
+  const student = resolveStudentName(studentName, language);
 
   // Outcome 5: NOT_YET_LEARNED (Missing prerequisite foundations)
   if (
@@ -1587,8 +1601,8 @@ export function evaluateTeachingOutcome(params: TeachingOutcomeEvaluationParams)
     const isUnassisted = initialDiagnosticCorrect && initialReasoningCategory === 'correct_reasoning';
     return {
       outcome: 'mastered',
-      rationaleAr: 'إتقان تام مثبت! أجابت أمينة بشكل صحيح مع تعليل منطقي سليم على مثال تطبيقي جديد.',
-      rationaleEn: 'Fully mastered! Amina answered correctly with sound reasoning verified on a new example.',
+      rationaleAr: `إتقان تام مثبت! أجابت ${student} بشكل صحيح مع تعليل منطقي سليم على مثال تطبيقي جديد.`,
+      rationaleEn: 'Fully mastered! The student answered correctly with sound reasoning verified on a new example.',
       rationaleFr: 'Parfaitement maîtrisé ! Réponse exacte avec raisonnement rigoureux sur un nouvel exemple.',
       evidenceCorrectness: 'full',
       evidenceIndependence: isUnassisted ? 'unassisted' : 'hinted',

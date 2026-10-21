@@ -89,6 +89,9 @@ export function computeEvidenceWeights(params: {
     case 'game':
       modalityWeight = 0.75;
       break;
+    case 'practice':
+      modalityWeight = 0.85;
+      break;
     case 'reel_check':
       modalityWeight = 0.60;
       break;

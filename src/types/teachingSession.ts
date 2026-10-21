@@ -35,6 +35,13 @@ export interface SourceRef {
   lesson: string;
   page: number | string;
   isAvailable: boolean;
+  /**
+   * Optional URL pointing to where this lesson's source material can actually
+   * be obtained or viewed (e.g. the official ministry portal or the school's
+   * copy). When present, the UI links the student to the real resource instead
+   * of pretending the content is embedded. Never fabricate this.
+   */
+  resourceUrl?: string;
 }
 
 export interface CurriculumVocabulary {

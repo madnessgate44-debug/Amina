@@ -357,6 +357,34 @@ export const HomeScreen: React.FC = () => {
         />
       </section>
 
+      {/* 4b. TODAY'S SCHOOL TIMETABLE (real data only; demo labelled) */}
+      {todaySchedule && todaySchedule.periods.length > 0 && (
+        <section className="space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-sm font-black text-slate-900 dark:text-white flex items-center gap-2">
+              <Calendar className="w-4 h-4 text-indigo-600" />
+              {isArabic ? 'جدول اليوم الدراسي' : "Today's School Timetable"}
+            </h3>
+            {timetable?.isDemo && (
+              <Badge variant="demo" size="sm">{isArabic ? 'نموذج تجريبي' : 'Sample'}</Badge>
+            )}
+          </div>
+          <div className="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 divide-y divide-slate-100 dark:divide-slate-700 overflow-hidden">
+            {todaySchedule.periods.map((period) => (
+              <div key={period.id} className="flex items-center gap-3 px-3.5 py-2.5 text-xs">
+                <span className="font-mono text-slate-500 dark:text-slate-400 tabular-nums">
+                  {period.startTime}–{period.endTime}
+                </span>
+                <span className={`font-bold ${period.isBreak ? 'text-slate-500 dark:text-slate-400' : 'text-slate-800 dark:text-slate-200'}`}>
+                  {period.subject}
+                </span>
+                {period.isBreak && <Badge variant="neutral" size="sm">{isArabic ? 'استراحة' : 'Break'}</Badge>}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
       {/* 5. VIRTUAL BOOKSHELF QUICK ENTRY */}
       <section className="p-4 rounded-3xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs space-y-3">
         <div className="flex items-center justify-between">

@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect, useMemo } from 'react';
 import { useApp } from '../../context/AppContext';
+import { resolveStudentName } from '../../utils/studentAddress';
 import { NourCharacter } from '../stage/NourCharacter';
 import { NourState, SubjectOutfit } from '../../types/stage';
 import { voiceService } from '../../services/voice/voiceService';
@@ -196,7 +197,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
   } = useApp();
   const isArabic = language === 'ar';
   const isFrench = language === 'fr';
-  const studentName = student?.name || (isArabic ? 'أمينة' : 'Amina');
+  const studentName = resolveStudentName(student?.name, language);
 
   // Currently Active Lesson from Ministry Curriculum
   const defaultLessonId = curriculumService.getAvailableLessons()[0]?.id || curriculumService.getAllLessons()[0]?.id || '';
@@ -289,7 +290,6 @@ export const VirtualTeacherClassroom: React.FC = () => {
     subj_science: 'science',
     subj_science_fr: 'science',
     subj_ict: 'science',
-    subj_social: 'social_studies',
     subj_social_studies: 'social_studies',
     subj_islamic: 'islamic',
     subj_english: 'english',
@@ -559,7 +559,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
       option,
       teacherContext.targetConcept,
       currentLesson,
-      language
+      language,
+      studentName
     );
     setReasoningAnalysis(analysis);
     setIsThinkingSubmitted(true);
@@ -614,7 +615,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
         option,
         teacherContext.targetConcept,
         currentLesson,
-        language
+        language,
+        studentName
       );
       setReasoningAnalysis(analysis);
       setIsThinkingSubmitted(true);
@@ -712,7 +714,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
       },
       teacherContext.targetConcept,
       currentLesson,
-      language
+      language,
+      studentName
     );
     setRecheckReasoningAnalysis(recheckAnalysis);
     setIsRecheckSubmitted(true);
@@ -727,6 +730,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
       recheckCorrect: selectedRecheckOpt.isCorrect,
       recheckReasoningCategory: recheckAnalysis.category,
       attemptsCount: 2,
+      studentName,
+      language,
     });
 
     setSessionOutcome(outcomeEval.outcome);
@@ -850,6 +855,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
           lessonTitle: isArabic ? currentLesson.titleAr : currentLesson.titleEn,
           subjectName: isArabic ? currentLesson.sourceRef.bookAr : currentLesson.sourceRef.bookEn,
           lessonText: currentLesson.readingText || currentLesson.objectives.join(' - '),
+          supplementaryReference: curriculumService.buildSupplementaryReference(currentLesson.id),
           studentName,
           language,
           mode,
@@ -1330,7 +1336,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </div>
 
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
-              {teacherContext.targetLesson.subjectNameAr}
+              {teacherContext.targetLesson?.subjectNameAr}
             </span>
           </div>
 
@@ -1458,7 +1464,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                   {studentThinkingInput && (
                     <div className="p-2 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-amber-200 dark:border-amber-900 text-[11px] text-slate-700 dark:text-slate-300">
                       <span className="font-bold text-amber-900 dark:text-amber-300">
-                        {isArabic ? 'طريقة تفكير أمينة المسجلة:' : 'Amina\'s reasoning:'}{' '}
+                        {isArabic ? `طريقة تفكير ${studentName} المسجلة:` : `${studentName}\'s reasoning:`}{' '}
                       </span>
                       <span>{studentThinkingInput}</span>
                     </div>
@@ -1695,7 +1701,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </div>
 
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
-              {teacherContext.targetLesson.subjectNameAr}
+              {teacherContext.targetLesson?.subjectNameAr}
             </span>
           </div>
 
@@ -1845,7 +1851,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     {/* DYNAMIC NEXT ACTIONS ACCORDING TO REAL OUTCOME */}
                     <div className="space-y-2 pt-1">
                       <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
-                        {isArabic ? '🚀 الخطوة التالية المقررة لأمينة:' : '🚀 Next Recommended Action for Amina:'}
+                        {isArabic ? `🚀 الخطوة التالية المقررة لـ${studentName}:` : `🚀 Next Recommended Action for ${studentName}:`}
                       </span>
 
                       {/* If Mastered: Go to Home/Next Mission or Progress */}
@@ -2008,7 +2014,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               {/* NEXT ACTIONS ORCHESTRATION */}
               <div className="space-y-2 pt-1">
                 <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
-                  {isArabic ? '🚀 الخطوة التالية الموصى بها لأمينة:' : '🚀 Recommended Next Action for Amina:'}
+                  {isArabic ? `🚀 الخطوة التالية الموصى بها لـ${studentName}:` : `🚀 Recommended Next Action for ${studentName}:`}
                 </span>
 
                 {/* Button 1: Return to Today's Next Mission */}

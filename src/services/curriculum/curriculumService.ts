@@ -93,7 +93,7 @@ export const SUBJECT_METADATA_MAP: Record<string, {
     badgeAr: 'ساينس بالفرنسية',
     badgeEn: 'Sciences Français',
   },
-  subj_social: {
+  subj_social_studies: {
     icon: '🌍',
     color: 'amber',
     bgGradient: 'from-amber-600 to-orange-800',
@@ -324,6 +324,139 @@ export class CurriculumService {
       }
     }
     return flat;
+  }
+
+  /**
+   * Build a compact, citable reference block of the lesson's supplementary
+   * resources (الأضواء / سلاح التلميذ / دليل المعلم) for tutor prompts.
+   * Returns null when the lesson has no available supplementary material, so
+   * callers never present a resource the student does not actually have.
+   */
+  public buildSupplementaryReference(lessonId: string): string | null {
+    const lesson = this.getLessonById(lessonId);
+    if (!lesson) return null;
+    const available = (lesson.supplementaryResources || []).filter((r) => r.isAvailable);
+    if (available.length === 0) return null;
+
+    return available
+      .map((r) => {
+        const page = r.page ? `, p.${r.page}` : '';
+        const notes = r.notes ? ` — ${r.notes}` : '';
+        return `- ${r.sourceNameEn} (${r.sourceNameAr}) — ${r.unit} / ${r.lesson}${page}${notes}`;
+      })
+      .join('\n');
+  }
+
+  /**
+   * Official source portals where the lesson material can actually be obtained.
+   * These are real, verifiable destinations (the Egyptian Ministry of Education
+   * portal and the Egyptian Knowledge Bank, which hosts ministry textbooks).
+   * The app links out to them rather than pretending the full book is embedded.
+   * Only publicly verifiable portals belong here — never invent a URL.
+   */
+  public static readonly RESOURCE_PORTALS = {
+    ministryOfEducation: 'https://moe.gov.eg',
+    egyptianKnowledgeBank: 'https://www.ekb.eg',
+  } as const;
+
+  /**
+   * Return the best known official source link for a lesson's book, or null when
+   * none is recorded. Callers must treat a null result as "no online source"
+   * and must not substitute a fabricated one.
+   */
+  public getLessonResourceUrl(lessonId: string): string | null {
+    const lesson = this.getLessonById(lessonId);
+    if (!lesson) return null;
+    if (lesson.sourceRef.resourceUrl) return lesson.sourceRef.resourceUrl;
+    // The Egyptian Knowledge Bank hosts official ministry textbooks for all
+    // school subjects; it is the correct general destination for a lesson whose
+    // exact book URL is not individually recorded.
+    return lesson.sourceRef.isAvailable
+      ? CurriculumService.RESOURCE_PORTALS.egyptianKnowledgeBank
+      : null;
+  }
+
+  /**
+   * Truthful curriculum coverage report.
+   *
+   * Reports what is actually present in the repository — never an estimate of
+   * what the physical textbook contains. A lesson counts as "complete" only
+   * when it has concepts, vocabulary and exercises, so the app cannot present
+   * a thin lesson as finished material.
+   */
+  public getCurriculumCoverage(): {
+    totalLessons: number;
+    completeLessons: number;
+    pendingLessons: number;
+    lessonsWithoutAvailableResource: number;
+    bySubject: Array<{
+      subjectId: string;
+      subjectNameAr: string;
+      units: number;
+      lessons: number;
+      completeLessons: number;
+      pendingLessons: number;
+      availableResources: number;
+    }>;
+  } {
+    const all = this.getAllLessons();
+    const isComplete = (l: OfficialCurriculumLesson) =>
+      l.concepts.length > 0 && l.vocabulary.length > 0 && l.exercises.length > 0;
+
+    const bySubjectMap = new Map<string, {
+      subjectId: string;
+      subjectNameAr: string;
+      units: Set<number>;
+      lessons: number;
+      completeLessons: number;
+      pendingLessons: number;
+      availableResources: number;
+    }>();
+
+    let completeLessons = 0;
+    let pendingLessons = 0;
+    let lessonsWithoutAvailableResource = 0;
+
+    for (const l of all) {
+      const complete = isComplete(l);
+      if (complete) completeLessons++;
+      else pendingLessons++;
+
+      const available = (l.supplementaryResources || []).filter((r) => r.isAvailable).length;
+      if (available === 0) lessonsWithoutAvailableResource++;
+
+      const entry = bySubjectMap.get(l.subjectId) || {
+        subjectId: l.subjectId,
+        subjectNameAr: l.subjectNameAr,
+        units: new Set<number>(),
+        lessons: 0,
+        completeLessons: 0,
+        pendingLessons: 0,
+        availableResources: 0,
+      };
+      entry.units.add(l.unitNumber);
+      entry.lessons++;
+      if (complete) entry.completeLessons++;
+      else entry.pendingLessons++;
+      entry.availableResources += available;
+      bySubjectMap.set(l.subjectId, entry);
+    }
+
+    return {
+      totalLessons: all.length,
+      completeLessons,
+      pendingLessons,
+      lessonsWithoutAvailableResource,
+      bySubject: [...bySubjectMap.values()].map((e) => ({
+        subjectId: e.subjectId,
+        subjectNameAr: e.subjectNameAr,
+        units: e.units.size,
+        lessons: e.lessons,
+        completeLessons: e.completeLessons,
+        pendingLessons: e.pendingLessons,
+        availableResources: e.availableResources,
+      })),
+    };
   }
 
   /**

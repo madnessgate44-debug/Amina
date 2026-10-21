@@ -12,6 +12,7 @@
 const VERSION = 'amina-v2';
 const SHELL = `${VERSION}-shell`;
 const ASSETS = `${VERSION}-assets`;
+const BOOKS = `${VERSION}-books`;
 
 // Resolve paths against the service worker's own scope so the app works on a
 // root domain or a subpath host. scoped('/') -> '/', scoped('/amina') -> '/amina/'.
@@ -44,6 +45,23 @@ self.addEventListener('fetch', (event) => {
 
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
+
+  // Downloaded book pages are immutable and must work offline: cache first.
+  // This is the one content class we *do* keep, because it is fixed material,
+  // not a generated answer. The API itself stays live (see below).
+  if (url.pathname.startsWith('/api/curriculum/') && url.pathname.includes('/pages/')) {
+    event.respondWith(
+      caches.match(request).then((hit) => hit || fetch(request).then((res) => {
+        if (res.ok) {
+          const copy = res.clone();
+          caches.open(BOOKS).then((c) => c.put(request, copy)).catch(() => {});
+        }
+        return res;
+      }))
+    );
+    return;
+  }
+
   if (url.pathname.includes('/api/')) return;
 
   // Navigations: network first, fall back to the cached shell offline.

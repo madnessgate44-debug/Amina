@@ -6,3 +6,9 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Rendered curriculum books (237 MB, symlinked from the external pipeline dir).
+# Regenerate with tools/curriculum/pipeline.py; do not commit page images.
+content/curriculum/
+__pycache__/
+*.pyc

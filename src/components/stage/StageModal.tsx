@@ -5,6 +5,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useApp } from '../../context/AppContext';
+import { resolveStudentName } from '../../utils/studentAddress';
 import {
   StageLessonSequence,
   StageSessionState,
@@ -65,7 +66,7 @@ export const StageModal: React.FC<StageModalProps> = ({
 }) => {
   const { language, recordEvidence, showToast, student } = useApp();
   const isAr = language === 'ar';
-  const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
+  const studentName = resolveStudentName(student?.name, language);
 
   const [sequence] = useState<StageLessonSequence>(() =>
     stageEngine.getSequenceForLesson(lessonId)
@@ -500,7 +501,9 @@ export const StageModal: React.FC<StageModalProps> = ({
       case 'child_speak_answer':
         return (
           <VoiceAnswerControl
-            promptText={isAr ? currentBeat.nourTextAr : currentBeat.nourTextEn}
+            promptText={(isAr ? currentBeat.nourTextAr : currentBeat.nourTextEn)
+              .replace(/أمينة/g, studentName)
+              .replace(/Amina/g, studentName)}
             onAnswerSubmit={(text) => {
               setHasStartedAudio(true);
               handleNextBeat(true);

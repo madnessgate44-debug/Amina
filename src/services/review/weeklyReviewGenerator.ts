@@ -79,14 +79,8 @@ export function generateWeeklyReview(params: GenerateWeeklyReviewParams): Weekly
     }
   });
 
-  // Fallback demo lessons if records are empty
-  if (lessonsCovered.length === 0) {
-    lessonsCovered.push(
-      { subject: isAr ? 'الرياضيات' : 'Mathematics', topic: isAr ? 'ضرب الكسور الاعتيادية' : 'Multiplying Fractions' },
-      { subject: isAr ? 'اللغة العربية' : 'Arabic', topic: isAr ? 'المفعول به وعلامات إعرابه' : 'Direct Object and Inflections' },
-      { subject: isAr ? 'العلوم' : 'Science', topic: isAr ? 'السلاسل والشبكات الغذائية' : 'Food Chains & Food Webs' }
-    );
-  }
+  // No fabricated demo lessons. When nothing was logged this week the list is
+  // legitimately empty and the UI reports "no lessons recorded".
 
   // 2. Homework completion
   const recentHomework = homeworkItems.filter((hw) => !hw.date || (hw.date >= weekStartDate && hw.date <= weekEndDate));

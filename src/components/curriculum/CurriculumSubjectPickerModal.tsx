@@ -7,6 +7,7 @@ import React, { useState, useMemo } from 'react';
 import { OfficialCurriculumLesson } from '../../types/teachingSession';
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { useApp } from '../../context/AppContext';
+import { resolveStudentName } from '../../utils/studentAddress';
 import {
   X,
   BookOpen,
@@ -91,7 +92,7 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
 }) => {
   const { language, student } = useApp();
   const isAr = language === 'ar';
-  const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
+  const studentName = resolveStudentName(student?.name, language);
 
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>(initialSubjectId);
   const [searchQuery, setSearchQuery] = useState('');

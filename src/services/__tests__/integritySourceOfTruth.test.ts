@@ -5,7 +5,7 @@
 
 import { buildNormalizedTeacherContext, buildDiagnosticForConcept } from '../teacher/teacherContextEngine';
 import { planDailyMissions } from '../missions/missionPlanner';
-import { curriculumService } from '../curriculum/curriculumService';
+import { curriculumService, CurriculumService } from '../curriculum/curriculumService';
 import { createInitialMasteryRecord, addEvidenceToMastery, formatMasteryView } from '../mastery/masteryEngine';
 import { getAllSpacedReviewSchedules, computeConceptReviewSchedule, getDueReviewConcepts } from '../review/spacedReviewScheduler';
 import { reconcileDayWithTimetable } from '../reconstruction/dayRecordReconciliation';
@@ -461,6 +461,61 @@ async function runIntegrityTests() {
     });
     assert(dueInTwoDays.some((i) => i.conceptId === mathConcept.id),
       'Test D.9: the flagged concept becomes due once its 1-day interval elapses');
+  }
+
+  // Section E: Curriculum coverage must be reported truthfully
+  {
+    console.log('\n--- SECTION E: TRUTHFUL CURRICULUM COVERAGE ---');
+    const coverage = curriculumService.getCurriculumCoverage();
+    const all = curriculumService.getAllLessons();
+
+    assert(coverage.totalLessons === all.length,
+      `Test E.1: coverage total matches registry (${coverage.totalLessons})`);
+    assert(coverage.completeLessons + coverage.pendingLessons === coverage.totalLessons,
+      'Test E.2: complete + pending partitions the whole registry');
+
+    // Every lesson counted "complete" must genuinely carry concepts, vocabulary and exercises.
+    const genuinelyComplete = all.filter(
+      (l) => l.concepts.length > 0 && l.vocabulary.length > 0 && l.exercises.length > 0
+    ).length;
+    assert(coverage.completeLessons === genuinelyComplete,
+      `Test E.3: "complete" count (${coverage.completeLessons}) equals genuinely complete lessons (${genuinelyComplete})`);
+
+    const thin = all.filter((l) => l.concepts.length === 0 || l.vocabulary.length === 0 || l.exercises.length === 0);
+    assert(coverage.pendingLessons >= thin.length,
+      `Test E.4: every thin lesson is reported pending (${thin.length} thin, ${coverage.pendingLessons} pending)`);
+
+    // All nine target subjects must be present; no four-subject cap.
+    assert(coverage.bySubject.length >= 9,
+      `Test E.5: all ${coverage.bySubject.length} subjects present (no 4-subject cap)`);
+
+    // Supplementary reference must never be invented.
+    const withRes = all.filter((l) => (l.supplementaryResources || []).some((r) => r.isAvailable));
+    assert(withRes.length > 0, `Test E.6: ${withRes.length} lessons carry a real available supplementary resource`);
+    for (const l of withRes) {
+      const ref = curriculumService.buildSupplementaryReference(l.id);
+      assert(Boolean(ref && ref.length > 0), `Test E.7: reference built for ${l.id}`);
+    }
+    const withoutRes = all.filter((l) => !(l.supplementaryResources || []).some((r) => r.isAvailable));
+    for (const l of withoutRes) {
+      assert(curriculumService.buildSupplementaryReference(l.id) === null,
+        `Test E.8: no invented reference for ${l.id}`);
+    }
+
+    // Resource links must point only to declared/whitelisted official portals.
+    const allowed = new Set<string>(Object.values(CurriculumService.RESOURCE_PORTALS));
+    for (const l of all) {
+      const url = curriculumService.getLessonResourceUrl(l.id);
+      if (url === null) {
+        assert(!l.sourceRef.isAvailable,
+          `Test E.9: only unavailable lessons have no resource link (${l.id})`);
+      } else {
+        const ok = allowed.has(url) || url === l.sourceRef.resourceUrl;
+        assert(ok, `Test E.10: resource link for ${l.id} is a known official source (${url})`);
+      }
+    }
+    assert(curriculumService.getLessonResourceUrl('does_not_exist') === null,
+      'Test E.11: unknown lesson has no resource link');
   }
 
   console.log('\n=================================================================');

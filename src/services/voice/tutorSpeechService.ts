@@ -49,7 +49,7 @@ class TutorSpeechService {
    */
   public async speakTaskInstruction(
     instructionText: string,
-    studentName: string = 'أمينة',
+    studentName: string = 'صديقتي',
     options?: TutorSpeechOptions
   ): Promise<void> {
     if (!instructionText || !instructionText.trim()) return;
@@ -93,7 +93,7 @@ class TutorSpeechService {
    */
   public async speakEncouragingFeedback(
     type: EncouragementType,
-    studentName: string = 'أمينة',
+    studentName: string = 'صديقتي',
     customNote?: string,
     options?: TutorSpeechOptions
   ): Promise<void> {

@@ -6,6 +6,7 @@
 import React, { useState } from 'react';
 import { Sparkles, ThumbsUp, HelpCircle, BookOpen, Volume2, Mic, Send, MessageCircle } from 'lucide-react';
 import { VoiceInputControl } from '../../voice/VoiceInputControl';
+import { resolveStudentName } from '../../../utils/studentAddress';
 
 interface TutorExplanationCheckProps {
   studentName: string;
@@ -30,7 +31,7 @@ interface TutorExplanationCheckProps {
  * explains vocabulary, and listens to her spoken or typed questions.
  */
 export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
-  studentName = 'أمينة',
+  studentName,
   conceptPrompt,
   simplifiedAnalogyAr,
   simplifiedAnalogyEn,
@@ -41,6 +42,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
   language = 'ar',
 }) => {
   const isAr = language === 'ar';
+  studentName = resolveStudentName(studentName, language);
   const [activeMode, setActiveMode] = useState<'prompt' | 'analogy' | 'vocab' | 'ask'>('prompt');
   const [customQuestion, setCustomQuestion] = useState('');
 
@@ -170,7 +172,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
 
           <div className="pt-1 flex items-center justify-between gap-2 border-t border-amber-200 dark:border-amber-800">
             <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300">
-              {isAr ? 'ها يا أمينة، كده وضحت الفكرة؟' : 'Is it clear now, Amina?'}
+              {isAr ? `ها يا ${studentName}، كده وضحت الفكرة؟` : `Is it clear now, ${studentName}?`}
             </span>
             <button
               type="button"

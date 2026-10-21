@@ -15,6 +15,7 @@ import {
   ParentPreferences,
 } from '../../types';
 import { curriculumService } from '../curriculum/curriculumService';
+import { normalizeSubjectId, getSubjectDisplayName } from '../curriculum/subjectIdentity';
 import { formatMasteryView } from '../mastery/masteryEngine';
 import { getDueReviewConcepts } from '../review/spacedReviewScheduler';
 import { localDateStr } from '../../utils/time';
@@ -53,80 +54,10 @@ const MAX_MISSIONS_CAP = 6;
 const MAX_MISSION_MINUTES = 20;
 
 /**
- * Maps subject strings across Arabic, French, and English to curriculum subject IDs
+ * Maps subject strings across Arabic, French, and English to curriculum subject IDs.
+ * Delegates to the shared canonical resolver so every engine agrees.
  */
-function normalizeSubject(subName?: string): string {
-  if (!subName) return '';
-  const s = subName.trim().toLowerCase();
-
-  // Math is the Egyptian national curriculum taught in French.
-  // French wording must never create a second subject identity.
-  if (
-    (s.includes('math') && (s.includes('fr') || s.includes('فرنس'))) ||
-    s.includes('mathématiques') ||
-    s.includes('الرياضيات بالفرنسية')
-  ) {
-    return 'subj_math';
-  }
-
-  // Science is the Egyptian national curriculum taught in French.
-  // French wording must never create a second subject identity.
-  if (
-    (s.includes('sci') && (s.includes('fr') || s.includes('فرنس'))) ||
-    s.includes('sciences fr') ||
-    s.includes('العلوم بالفرنسية')
-  ) {
-    return 'subj_science';
-  }
-
-  // French Language
-  if (s.includes('فرنساوي') || s.includes('فرنسي') || s.includes('french') || s.includes('français')) {
-    return 'subj_french';
-  }
-
-  if (s.includes('عرب') || s.includes('لغة عربية') || s.includes('arabic')) return 'subj_arabic';
-  if (s.includes('رياض') || s.includes('حساب') || s.includes('math')) return 'subj_math';
-  if (s.includes('علوم') || s.includes('science')) return 'subj_science';
-  if (s.includes('دراس') || s.includes('social')) return 'subj_social';
-  if (s.includes('إنجليز') || s.includes('انجليز') || s.includes('english')) return 'subj_english';
-  if (s.includes('تكنولوج') || s.includes('ict')) return 'subj_ict';
-  if (s.includes('دين') || s.includes('islamic') || s.includes('religion')) return 'subj_islamic';
-  if (s.includes('خط') || s.includes('calligraphy')) return 'subj_calligraphy';
-
-  return '';
-}
-
-/**
- * Gets human-readable subject name
- */
-function getSubjectDisplayName(subjId: string, lang: Language): string {
-  const isAr = lang === 'ar';
-  const isFr = lang === 'fr';
-
-  switch (subjId) {
-    case 'subj_french':
-      return isAr ? 'اللغة الفرنسية' : isFr ? 'Français' : 'French Language';
-    // Math/Science use canonical subject IDs even when taught in French.
-    case 'subj_arabic':
-      return isAr ? 'اللغة العربية' : isFr ? 'Langue Arabe' : 'Arabic Language';
-    case 'subj_math':
-      return isAr ? 'الرياضيات' : isFr ? 'Maths' : 'Mathematics';
-    case 'subj_science':
-      return isAr ? 'العلوم' : isFr ? 'Sciences' : 'Science';
-    case 'subj_social':
-      return isAr ? 'الدراسات الاجتماعية' : isFr ? 'Études Sociales' : 'Social Studies';
-    case 'subj_english':
-      return isAr ? 'اللغة الإنجليزية' : isFr ? 'Anglais' : 'English Connect 5';
-    case 'subj_ict':
-      return isAr ? 'تكنولوجيا المعلومات والاتصالات' : isFr ? 'TIC' : 'ICT';
-    case 'subj_islamic':
-      return isAr ? 'التربية الدينية الإسلامية' : isFr ? 'Éducation Islamique' : 'Islamic Education';
-    case 'subj_calligraphy':
-      return isAr ? 'الخط العربي' : isFr ? 'Calligraphie' : 'Arabic Calligraphy';
-    default:
-      return isAr ? 'المادة الدراسية' : isFr ? 'Matière Scolaire' : 'School Subject';
-  }
-}
+const normalizeSubject = normalizeSubjectId;
 
 /**
  * Finds curriculum concepts related to a subject or topic text

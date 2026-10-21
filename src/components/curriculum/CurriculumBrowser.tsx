@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { OfficialCurriculumLesson } from '../../types/teachingSession';
-import { curriculumService, SubjectCurriculumSummary } from '../../services/curriculum/curriculumService';
+import { curriculumService, CurriculumService, SubjectCurriculumSummary } from '../../services/curriculum/curriculumService';
 import { useApp } from '../../context/AppContext';
 import { formatMasteryView } from '../../services/mastery/masteryEngine';
 import { Badge } from '../common/Badge';
@@ -37,6 +37,8 @@ import {
   Check,
 } from 'lucide-react';
 import { localDateStr } from '../../utils/time';
+import { BookReader } from './BookReader';
+import { listBooks, downloadedBookIds, type BookSummary } from '../../services/content/bookLibrary';
 
 export const CurriculumBrowser: React.FC = () => {
   const {
@@ -69,8 +71,30 @@ export const CurriculumBrowser: React.FC = () => {
   const [activeStudyLesson, setActiveStudyLesson] = useState<OfficialCurriculumLesson | null>(null);
   const [activePracticeMission, setActivePracticeMission] = useState<Mission | null>(null);
 
+  // Textbooks downloaded on demand. Absent books are simply not shown.
+  const [books, setBooks] = useState<BookSummary[]>([]);
+  const [booksError, setBooksError] = useState(false);
+  const [openBookId, setOpenBookId] = useState<string | null>(null);
+  const [downloaded, setDownloaded] = useState<string[]>(() => downloadedBookIds());
+
+  useEffect(() => {
+    let alive = true;
+    listBooks()
+      .then((b) => alive && setBooks(b))
+      .catch(() => alive && setBooksError(true));
+    return () => {
+      alive = false;
+    };
+  }, []);
+
+  // Refresh the "downloaded" marks whenever the reader closes.
+  useEffect(() => {
+    if (!openBookId) setDownloaded(downloadedBookIds());
+  }, [openBookId]);
+
   const officialLessons = useMemo(() => curriculumService.getAllLessons(), []);
   const officialSubjectsSummary = useMemo(() => curriculumService.getSubjectsSummary(), []);
+  const coverage = useMemo(() => curriculumService.getCurriculumCoverage(), []);
 
   const toggleLesson = (lessonId: string) => {
     setExpandedLessons((prev) => ({ ...prev, [lessonId]: !prev[lessonId] }));
@@ -145,6 +169,57 @@ export const CurriculumBrowser: React.FC = () => {
 
   return (
     <div className="flex-1 flex flex-col p-3 sm:p-4 space-y-4 max-w-lg mx-auto w-full pb-24" dir={isAr ? 'rtl' : 'ltr'}>
+      {openBookId && (
+        <BookReader
+          bookId={openBookId}
+          language={isAr ? 'ar' : 'en'}
+          onClose={() => setOpenBookId(null)}
+        />
+      )}
+
+      {/* Textbooks — the real ministry books, fetched when opened. */}
+      {books.length > 0 ? (
+        <div className="space-y-2">
+          <div className="flex items-center gap-2 text-sm font-bold text-slate-700 dark:text-slate-200">
+            <BookOpen size={16} />
+            {isAr ? 'الكتب المدرسية' : 'Textbooks'}
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            {books.map((b) => {
+              const isDownloaded = downloaded.includes(b.id);
+              return (
+                <button
+                  key={b.id}
+                  onClick={() => setOpenBookId(b.id)}
+                  className="flex flex-col items-start gap-1 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800/80 p-3 text-start hover:border-indigo-400 transition-colors"
+                >
+                  <span className="text-xs font-semibold text-slate-800 dark:text-slate-100 line-clamp-2">
+                    {b.subject}
+                  </span>
+                  <span className="text-[10px] text-slate-500">
+                    {isAr ? `الفصل ${b.term}` : `Term ${b.term}`} · {b.pages} {isAr ? 'صفحة' : 'pp'}
+                  </span>
+                  <span
+                    className={`text-[9px] font-bold px-1.5 py-0.5 rounded ${
+                      isDownloaded
+                        ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-950 dark:text-emerald-300'
+                        : 'bg-slate-100 text-slate-600 dark:bg-slate-700 dark:text-slate-300'
+                    }`}
+                  >
+                    {isDownloaded
+                      ? isAr ? '✓ على جهازك' : '✓ On device'
+                      : `${Math.round(b.bytes / 1024 / 1024)} MB`}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <div className="text-[11px] text-slate-500" data-testid="books-state">
+          {booksError ? 'Textbooks unavailable' : 'Loading textbooks…'}
+        </div>
+      )}
       {/* 1. Header & Virtual Bookshelf Badge */}
       <div className="p-4 rounded-3xl bg-linear-to-br from-indigo-950 via-indigo-900 to-purple-950 text-white shadow-xl border border-indigo-700/60 space-y-3">
         <div className="flex items-center justify-between">
@@ -168,6 +243,27 @@ export const CurriculumBrowser: React.FC = () => {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Truthful coverage: what is actually digitised today, not what the textbook contains */}
+        <div className="rounded-2xl bg-white/10 border border-white/15 px-3 py-2.5 space-y-1">
+          <div className="flex items-center justify-between text-[11px] font-bold text-white">
+            <span>{isAr ? 'المحتوى الرقمي المتاح الآن' : 'Digitised content available now'}</span>
+            <span className="tabular-nums">
+              {coverage.completeLessons}/{coverage.totalLessons}
+            </span>
+          </div>
+          <div className="h-1.5 rounded-full bg-white/15 overflow-hidden">
+            <div
+              className="h-full rounded-full bg-emerald-400"
+              style={{ width: `${coverage.totalLessons ? Math.round((coverage.completeLessons / coverage.totalLessons) * 100) : 0}%` }}
+            />
+          </div>
+          <p className="text-[10px] text-indigo-200 leading-relaxed">
+            {isAr
+              ? `${coverage.bySubject.length} مواد · ${coverage.pendingLessons} درس قيد رفع مواد الوزارة · ${coverage.lessonsWithoutAvailableResource} درس بدون مرجع داعم مسجّل`
+              : `${coverage.bySubject.length} subjects · ${coverage.pendingLessons} lessons awaiting ministry materials · ${coverage.lessonsWithoutAvailableResource} without a recorded supplementary reference`}
+          </p>
         </div>
 
         {/* View Mode Switcher: Virtual Bookshelf vs Units Outline */}
@@ -325,6 +421,19 @@ export const CurriculumBrowser: React.FC = () => {
                 </p>
               </div>
             </div>
+
+            {/* Real source link: open the official book/portal, not a fabricated in-app copy */}
+            <a
+              href={curriculumService.getLessonResourceUrl(
+                curriculumService.getLessonsBySubject(selectedBookForDetail.subjectId)[0]?.id || ''
+              ) || CurriculumService.RESOURCE_PORTALS.ministryOfEducation}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-1 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/20 hover:bg-white/30 text-white text-[11px] font-bold transition-all"
+            >
+              <ExternalLink className="w-3.5 h-3.5" />
+              <span>{isAr ? 'المصدر الرسمي للكتاب (بنك المعرفة المصري)' : 'Official book source (Egyptian Knowledge Bank)'}</span>
+            </a>
           </div>
 
           {/* Units Navigation for this book */}

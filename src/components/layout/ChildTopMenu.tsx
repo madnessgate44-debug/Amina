@@ -5,7 +5,7 @@
 
 import React from 'react';
 import { useApp } from '../../context/AppContext';
-import { BookOpen, ClipboardCheck, CheckCircle2, Heart, TrendingUp, User, Settings, Menu, X, Target } from 'lucide-react';
+import { BookOpen, ClipboardCheck, CheckCircle2, Heart, TrendingUp, User, Settings, Menu, X, Target, CalendarDays } from 'lucide-react';
 
 export const ChildTopMenu: React.FC = () => {
   const { language, setActiveTab } = useApp();
@@ -15,6 +15,7 @@ export const ChildTopMenu: React.FC = () => {
 
   const items = [
     { id: 'learn' as const, label: isAr ? 'كتبي والمنهج' : isFr ? 'Mes livres & programme' : 'My Books & Curriculum', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'timetable' as const, label: isAr ? 'جدولي الدراسي' : isFr ? 'Mon emploi du temps' : 'My Timetable', icon: <CalendarDays className="w-4 h-4" /> },
     { id: 'missions' as const, label: isAr ? 'مهامي' : 'Missions', icon: <Target className="w-4 h-4" /> },
     { id: 'homework' as const, label: isAr ? 'الواجب' : 'Homework', icon: <ClipboardCheck className="w-4 h-4" /> },
     { id: 'review' as const, label: isAr ? 'مراجعة' : 'Review', icon: <CheckCircle2 className="w-4 h-4" /> },

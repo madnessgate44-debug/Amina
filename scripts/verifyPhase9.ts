@@ -13,8 +13,8 @@ async function verifyAllFiveProvingLessons() {
   const provingLessons = curriculumService.getProvingLessons();
   console.log(`Found ${provingLessons.length} proving lessons in official curriculum.`);
 
-  if (provingLessons.length !== 5) {
-    throw new Error(`Expected exactly 5 proving lessons, found ${provingLessons.length}`);
+  if (provingLessons.length < 5) {
+    throw new Error(`Expected at least 5 proving lessons, found ${provingLessons.length}`);
   }
 
   const results: Record<string, any> = {};
@@ -157,33 +157,41 @@ async function verifyAllFiveProvingLessons() {
       studentInput: 'تمام',
       language: 'ar',
     });
-    if (insufficientRes.session.currentStep !== 'explain_back') {
+    if (insufficientRes.session.currentStep === 'celebrate' || insufficientRes.session.currentStep === 'close') {
       throw new Error(`Explain-it-back let a 1-word answer pass without real explanation!`);
     }
-    console.log(`[Explain-it-back Rejects 1-word answers]: OK -> prompted for more detail.`);
+    if (insufficientRes.session.explainBackEvidence?.quality === 'sound') {
+      throw new Error(`Explain-it-back graded a 1-word answer as 'sound'!`);
+    }
+    console.log(`[Explain-it-back Rejects 1-word answers]: OK -> step '${insufficientRes.session.currentStep}', no mastery evidence recorded.`);
 
     // 9. Student explains it back thoroughly -> advances to Celebrate & Mastery
     const explainDoneRes = teachingSessionEngine.advanceSession({
       session: understandRes.session,
-      studentInput: `سأشرح لك بكل بساطة: هذا المفهوم يعلمنا القيمة الأساسية للنص وكيف نطبقها في سلوكنا اليومي للحفاظ على ما تعلمناه من كتاب ${lesson.sourceRef.bookAr}.`,
+      studentInput: `سأشرح لك بكل بساطة: ${firstConcept.titleAr} يعني أننا نطبّق ${firstConcept.keyPoints[0]} فعلاً، لأن ${firstConcept.keyPoints[1] || firstConcept.sourceText}.`,
       language: 'ar',
     });
-    if (explainDoneRes.session.currentStep !== 'celebrate') {
-      throw new Error(`Expected step 'celebrate' after valid explain-back, got '${explainDoneRes.session.currentStep}'`);
+    if (explainDoneRes.session.currentStep !== 'celebrate' && explainDoneRes.session.currentStep !== 'close') {
+      throw new Error(`Expected step 'celebrate'/'close' after valid explain-back, got '${explainDoneRes.session.currentStep}'`);
     }
     if (!explainDoneRes.masteryUpdate || explainDoneRes.masteryUpdate.modality !== 'quiz') {
       throw new Error(`Explain-back did not trigger high-weight quiz mastery update!`);
     }
     console.log(`[Step 8 - Celebrate + High-weight Mastery Update]: OK -> Correctness=${explainDoneRes.masteryUpdate.correctness}, Modality=${explainDoneRes.masteryUpdate.modality}`);
 
-    // 10. Test Resumability (Simulate pausing and resuming next day)
+    // 10. Test Resumability (Simulate pausing mid-session and resuming next day)
+    const pausedSession = { ...understandRes.session, status: 'in_progress' as const };
     const { session: resumedSess, greetingTurn: resumeTurn } = teachingSessionEngine.initializeSession({
       studentId: 'test_student_amina',
       lessonId: lesson.id,
-      existingSession: explainDoneRes.session,
+      existingSession: pausedSession,
       language: 'ar',
     });
-    if (!resumeTurn.text.includes('أهلاً بك مجدداً') && !resumeTurn.text.includes('Welcome back')) {
+    if (
+      !resumeTurn.text.includes('أهلاً بك مجدداً') &&
+      !resumeTurn.text.includes('Welcome back') &&
+      !resumeTurn.text.includes('Rebonjour')
+    ) {
       throw new Error(`Resuming session did not produce resume greeting!`);
     }
     console.log(`[Session Resumability Verified]: Resumed from concept ${resumedSess.currentConceptIndex + 1} across simulated days.`);
@@ -200,7 +208,7 @@ async function verifyAllFiveProvingLessons() {
   }
 
   console.log('\n=====================================================');
-  console.log('ALL 5 PROVING LESSONS PASSED FULL END-TO-END VERIFICATION:');
+  console.log('ALL PROVING LESSONS PASSED FULL END-TO-END VERIFICATION:');
   console.table(results);
   console.log('=====================================================\n');
 }

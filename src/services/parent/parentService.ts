@@ -108,12 +108,12 @@ export function generateParentWeeklySummary(params: BuildParentSummaryParams): P
   const flatConcepts = curriculumService.getFlatConcepts();
   const conceptMap = new Map(flatConcepts.map((c) => [c.id, c]));
 
-  // 1. Lessons covered count
+  // 1. Lessons covered count — real evidence only. When nothing has been
+  // logged we report 0 rather than fabricating a demo baseline.
   let lessonsCount = 0;
   dayRecords.forEach((d) => {
     lessonsCount += d.lessonsCovered.length;
   });
-  if (lessonsCount === 0) lessonsCount = 4; // demo baseline
 
   // 2. Homework completion
   const hwTotal = Math.max(1, homeworkItems.length);

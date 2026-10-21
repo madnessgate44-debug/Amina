@@ -7,6 +7,7 @@ import React, { useState, useEffect } from 'react';
 import { tutorSpeechService, EncouragementType } from '../../services/voice/tutorSpeechService';
 import { Volume2, VolumeX, RotateCcw, Sparkles } from 'lucide-react';
 import { Language } from '../../types';
+import { resolveStudentName } from '../../utils/studentAddress';
 
 interface TaskInstructionSpeakerProps {
   instructionText: string;
@@ -22,7 +23,7 @@ interface TaskInstructionSpeakerProps {
 
 export const TaskInstructionSpeaker: React.FC<TaskInstructionSpeakerProps> = ({
   instructionText,
-  studentName = 'أمينة',
+  studentName,
   autoSpeak = false,
   language = 'ar',
   encouragingFeedback = null,
@@ -30,6 +31,7 @@ export const TaskInstructionSpeaker: React.FC<TaskInstructionSpeakerProps> = ({
 }) => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const isAr = language === 'ar';
+  studentName = resolveStudentName(studentName, language);
 
   // Speak instruction on mount or when instruction changes if autoSpeak is true
   useEffect(() => {

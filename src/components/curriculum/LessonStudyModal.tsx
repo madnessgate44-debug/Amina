@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { OfficialCurriculumLesson } from '../../types/teachingSession';
 import { useApp } from '../../context/AppContext';
+import { resolveStudentName } from '../../utils/studentAddress';
 import { TaskInstructionSpeaker } from '../voice/TaskInstructionSpeaker';
 import { tutorSpeechService, EncouragementType } from '../../services/voice/tutorSpeechService';
 import { soundEffects } from '../../services/sound/soundEffects';
@@ -35,7 +36,7 @@ interface LessonStudyModalProps {
 export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onClose }) => {
   const { language, student } = useApp();
   const isAr = language === 'ar';
-  const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
+  const studentName = resolveStudentName(student?.name, language);
 
   const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'exercises'>('explanation');
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
