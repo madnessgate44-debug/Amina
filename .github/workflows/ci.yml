@@ -89,6 +89,7 @@ jobs:
       - name: Classify synthetic learner evidence
         if: always()
         run: |
+          mkdir -p artifacts/design-audit
           python - <<'PY'
           import json
           from pathlib import Path
