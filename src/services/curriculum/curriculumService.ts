@@ -21,6 +21,7 @@ export interface SubjectCurriculumSummary {
   availableLessons: number;
   bookTitleAr: string;
   bookTitleEn: string;
+  bookTitleFr?: string;
   icon: string;
   color: string;
   bgGradient: string;
@@ -254,6 +255,7 @@ export class CurriculumService {
           availableLessons: 0,
           bookTitleAr: l.sourceRef.bookAr,
           bookTitleEn: l.sourceRef.bookEn,
+          bookTitleFr: AMINA_CURRICULUM_CONTEXT.subjectConfigs[l.subjectId]?.bookTitleFr,
           icon: meta.icon,
           color: meta.color,
           bgGradient: meta.bgGradient,
