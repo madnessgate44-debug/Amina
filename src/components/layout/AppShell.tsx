@@ -57,9 +57,9 @@ export const AppShell: React.FC = () => {
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-sm font-black tracking-tight">Miss Nour</div>
-                <div className="text-[10px] text-slate-500 dark:text-slate-400">
-                  {student?.name || ''}
+                <div className="text-sm font-black tracking-tight">Amina</div>
+                <div className="text-[10px] text-slate-500 dark:text-slate-400 truncate max-w-[210px]">
+                  Miss Nour · {student?.name || ''}
                 </div>
               </div>
             </div>
