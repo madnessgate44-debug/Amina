@@ -2,7 +2,7 @@
 
 **Status:** OpenHands-side recovery EXECUTED and exported (documentation only). ChatGPT-side and other-source coverage remains incomplete.
 
-**Last index update (UTC):** `2026-10-22T10:28:59Z`
+**Last index update (UTC):** `2026-10-22T11:20:00Z` (four running sessions refreshed)
 
 This index is maintained by OpenHands per `CHAT_HUB_MISSION_AND_EXPORT_PROTOCOL.md` and `RECOVERY_REQUEST_AND_AVAILABLE_RECORDS.md`.
 
@@ -31,20 +31,21 @@ Every OpenHands Cloud conversation visible to this account at export time is pre
 | 17 | `8e7ac5344f0948fc8b9f0b68599647a0` | 2026-10-17T10:05:57 | `madnessgate44-debug/Amina` | 🚀 Amina app sale readiness update | 200 | 1/1 | 70 | `VERBATIM_COMPLETE` | [`8e7ac5344f09…`](transcripts/openhands-cloud/openhands-8e7ac5344f0948fc8b9f0b68599647a0.md) |
 | 18 | `4c8d052277f44e8ba02c8131e4d42ba4` | 2026-10-17T11:22:38 | `madnessgate44-debug/Firstborn` | 🐛 Audit PR A: App.tsx error handling fixes | 1225 | 17/15 | 381 | `VERBATIM_COMPLETE` | [`4c8d052277f4…`](transcripts/openhands-cloud/openhands-4c8d052277f44e8ba02c8131e4d42ba4.md) |
 | 19 | `38a3b41f4302467197d375a026fe3c30` | 2026-10-21T14:35:47 | `madnessgate44-debug/Amina` | 📝 Amina app sellable blockers | 7625 | 63/24 | 1904 | `VERBATIM_COMPLETE` | [`38a3b41f4302…`](transcripts/openhands-cloud/openhands-38a3b41f4302467197d375a026fe3c30.md) |
-| 20 | `94cd4b3331a74ac9b731965330ca5186` | 2026-10-21T22:45:31 | `madnessgate44-debug/Amina` | ♻️ Audit Amina against intended behavior | 6534 | 12/1 | 1866 | `VERBATIM_PARTIAL` | [`94cd4b3331a7…`](transcripts/openhands-cloud/openhands-94cd4b3331a74ac9b731965330ca5186.md) |
+| 20 | `94cd4b3331a74ac9b731965330ca5186` | 2026-10-21T22:45:31 | `madnessgate44-debug/Amina` | ♻️ Audit Amina against intended behavior | 6964 | 12/1 | 1972 | `VERBATIM_PARTIAL` | [`94cd4b3331a7…`](transcripts/openhands-cloud/openhands-94cd4b3331a74ac9b731965330ca5186.md) |
 | 21 | `90d3f13ea700425681b643bc56c776ce` | 2026-10-22T09:40:28 | `madnessgate44-debug/Amina` | 📝 Check GPT schedule in comms hub | 207 | 1/1 | 64 | `VERBATIM_COMPLETE` | [`90d3f13ea700…`](transcripts/openhands-cloud/openhands-90d3f13ea700425681b643bc56c776ce.md) |
-| 22 | `c315f0b0f03a4a0ba7751954f2ebf63a` | 2026-10-22T10:03:15 | `madnessgate44-debug/Amina` | GitHub Issue #9: OpenHands: forensic product audit, strict … | 250 | 1/0 | 78 | `VERBATIM_PARTIAL` | [`c315f0b0f03a…`](transcripts/openhands-cloud/openhands-c315f0b0f03a4a0ba7751954f2ebf63a.md) |
-| 23 | `296b0ce0a1f34183ac8244418ca253fd` | 2026-10-22T10:04:09 | `madnessgate44-debug/Amina` | GitHub Issue #9: OpenHands: forensic product audit, strict … | 230 | 1/0 | 66 | `VERBATIM_PARTIAL` | [`296b0ce0a1f3…`](transcripts/openhands-cloud/openhands-296b0ce0a1f34183ac8244418ca253fd.md) |
-| 24 | `8db6375184834040bc49dabfae41e8ad` | 2026-10-22T10:08:27 | `madnessgate44-debug/Amina` | 📝 Upload olive oil chats to comm hub | 87 | 1/0 | 24 | `VERBATIM_PARTIAL` | [`8db637518483…`](transcripts/openhands-cloud/openhands-8db6375184834040bc49dabfae41e8ad.md) |
+| 22 | `c315f0b0f03a4a0ba7751954f2ebf63a` | 2026-10-22T10:03:15 | `madnessgate44-debug/Amina` | GitHub Issue #9: OpenHands: forensic product audit, strict … | 638 | 1/1 | 186 | `VERBATIM_COMPLETE` | [`c315f0b0f03a…`](transcripts/openhands-cloud/openhands-c315f0b0f03a4a0ba7751954f2ebf63a.md) |
+| 23 | `296b0ce0a1f34183ac8244418ca253fd` | 2026-10-22T10:04:09 | `madnessgate44-debug/Amina` | GitHub Issue #9: OpenHands: forensic product audit, strict … | 424 | 1/0 | 123 | `VERBATIM_PARTIAL` | [`296b0ce0a1f3…`](transcripts/openhands-cloud/openhands-296b0ce0a1f34183ac8244418ca253fd.md) |
+| 24 | `8db6375184834040bc49dabfae41e8ad` | 2026-10-22T10:08:27 | `madnessgate44-debug/Amina` | 📝 Upload olive oil chats to comm hub | 410 | 3/0 | 110 | `VERBATIM_PARTIAL` | [`8db637518483…`](transcripts/openhands-cloud/openhands-8db6375184834040bc49dabfae41e8ad.md) |
 
 ### A.1 Totals
 
 - OpenHands Cloud conversations exported: **24**
 - Amina-repository sessions: **7**; sessions on other repositories: **17**
-- `VERBATIM_COMPLETE` (paused/finished at export): **20**; `VERBATIM_PARTIAL` (still running at export): **4**
-- Total events: **32977**
-- Total MessageEvents: **507** (user **314**, assistant **193**)
-- Total ActionEvents (tool calls): **9573**
+- `VERBATIM_COMPLETE`: **20**; `VERBATIM_PARTIAL` (still running at last refresh): **4** (`94cd4b33`, `296b0ce0`, `8db63751`, `c315f0b0`)
+- Status is point-in-time: a running session keeps producing events, so a `VERBATIM_PARTIAL` snapshot grows on each refresh.
+- Total events: **34312**
+- Total MessageEvents: **510** (user **316**, assistant **194**)
+- Total ActionEvents (tool calls): **9930**
 - Earliest session: `2026-10-11T10:23:22` — latest session created: `2026-10-22T10:08:27`
 
 ## B. Amina-repository sessions (primary relevance)
@@ -55,7 +56,7 @@ Every OpenHands Cloud conversation visible to this account at export time is pre
 | 2 | `38a3b41f4302467197d375a026fe3c30` | 2026-10-21T14:35:47 | 📝 Amina app sellable blockers | `VERBATIM_COMPLETE` | [`38a3b41f4302…`](transcripts/openhands-cloud/openhands-38a3b41f4302467197d375a026fe3c30.md) |
 | 3 | `94cd4b3331a74ac9b731965330ca5186` | 2026-10-21T22:45:31 | ♻️ Audit Amina against intended behavior | `VERBATIM_PARTIAL` | [`94cd4b3331a7…`](transcripts/openhands-cloud/openhands-94cd4b3331a74ac9b731965330ca5186.md) |
 | 4 | `90d3f13ea700425681b643bc56c776ce` | 2026-10-22T09:40:28 | 📝 Check GPT schedule in comms hub | `VERBATIM_COMPLETE` | [`90d3f13ea700…`](transcripts/openhands-cloud/openhands-90d3f13ea700425681b643bc56c776ce.md) |
-| 5 | `c315f0b0f03a4a0ba7751954f2ebf63a` | 2026-10-22T10:03:15 | GitHub Issue #9: OpenHands: forensic product audit, strict TypeScript… | `VERBATIM_PARTIAL` | [`c315f0b0f03a…`](transcripts/openhands-cloud/openhands-c315f0b0f03a4a0ba7751954f2ebf63a.md) |
+| 5 | `c315f0b0f03a4a0ba7751954f2ebf63a` | 2026-10-22T10:03:15 | GitHub Issue #9: OpenHands: forensic product audit, strict TypeScript… | `VERBATIM_COMPLETE` | [`c315f0b0f03a…`](transcripts/openhands-cloud/openhands-c315f0b0f03a4a0ba7751954f2ebf63a.md) |
 | 6 | `296b0ce0a1f34183ac8244418ca253fd` | 2026-10-22T10:04:09 | GitHub Issue #9: OpenHands: forensic product audit, strict TypeScript… | `VERBATIM_PARTIAL` | [`296b0ce0a1f3…`](transcripts/openhands-cloud/openhands-296b0ce0a1f34183ac8244418ca253fd.md) |
 | 7 | `8db6375184834040bc49dabfae41e8ad` | 2026-10-22T10:08:27 | 📝 Upload olive oil chats to comm hub | `VERBATIM_PARTIAL` | [`8db637518483…`](transcripts/openhands-cloud/openhands-8db6375184834040bc49dabfae41e8ad.md) |
 

@@ -58,3 +58,62 @@ A post-export scan for common credential shapes (`ghp_`, `gho_`, `ghu_`, `ghs_`,
 - Redaction replaces credential values with `[REDACTED_*]` markers, so original credential values are not recoverable from this archive; the surrounding conversation text is preserved.
 - This archive is documentation only. No application code, build, merge, or deployment was touched.
 
+
+---
+
+## 7. Independent verification and refresh — 2026-10-22 (OpenHands agent)
+
+A second OpenHands agent independently re-ran this export and verified the
+claims above, then refreshed the sessions that were incomplete.
+
+**Independent reproduction.** The agent enumerated the same 24 conversations
+(`/api/v1/app-conversations/search`), re-downloaded every trajectory, and
+re-rendered every transcript. Per-session event counts matched this report
+except for the four sessions below, which were exported mid-run.
+
+**Efficiency finding.** The paginated `events/search` endpoint rate-limits hard
+(HTTP 429, often with an unusable `Retry-After: 0`) and cannot reliably finish
+large sessions. The single-call trajectory download
+(`GET /api/v1/app-conversations/{id}/download`) returns the same event stream
+without rate limiting. The 7,625-event session completed in ~60 seconds via
+download after failing repeatedly via pagination. Future exports should prefer
+the download; a reusable exporter is committed at
+`tools/export_conversations.py`.
+
+**Refresh of the four `VERBATIM_PARTIAL` sessions.** Those sessions had settled
+by the time of the refresh, so their full streams are now available:
+
+| conversation | events before | events now | status now |
+|---|---:|---:|---|
+| `94cd4b3331a74ac9b731965330ca5186` | 6534 | 6964 | `VERBATIM_PARTIAL` (still running) |
+| `c315f0b0f03a4a0ba7751954f2ebf63a` | 250 | 638 | `VERBATIM_COMPLETE` |
+| `296b0ce0a1f34183ac8244418ca253fd` | 230 | 424 | `VERBATIM_PARTIAL` (still running) |
+| `8db6375184834040bc49dabfae41e8ad` | 87 | 410 | `VERBATIM_PARTIAL` (restarted) |
+
+After the refresh: **20 / 24 `VERBATIM_COMPLETE`**, **4 / 24
+`VERBATIM_PARTIAL`** (the four still executing when read — a live conversation
+cannot be exported to a fixed point; one of them restarted when a new message
+arrived). Totals across the archive: **34,312 events**, **510 MessageEvents**
+(user 316, assistant 194), **9,930 ActionEvents**. Raw exports and SHA-256 hashes for these
+four were regenerated; the readable transcripts and `raw/openhands-cloud/*.gz`
+were replaced in place. `tools/refresh_partial.py` performs this refresh.
+
+**Redaction defect found and fixed.** The refresh tool initially wrote
+transcripts without the shared secret redactor, and the re-exported stream
+contained live `ghu_…` GitHub tokens embedded in `git remote -v` output. The
+tool now imports the shared `redact()` from `tools/export_conversations.py`
+and redacts both the raw payload and every rendered block. A post-fix scan for
+`ghu_`/`ghp_`/`sk-` patterns across the whole archive tree returns no matches.
+This is recorded because it happened. The defective commit was never pushed —
+it was a local intermediate commit, discarded when the work was rebuilt on the
+canonical layout — so the pushed history and the current tree are both clean.
+The tokens were, however, briefly present in the local sandbox and in the
+session event stream itself, so they should still be treated as compromised and
+rotated.
+
+**Reconciliation with the canonical layout.** The primary export lives at
+`raw/openhands-cloud/` and `transcripts/openhands-cloud/` (the mission's
+canonical paths). This agent's earlier parallel export used
+`transcripts/openhands/`; it was dropped in favour of the canonical tree so
+there is exactly one transcript per conversation. The reusable tooling
+(`tools/`) and the coordination channel (`COORDINATION.md`) were kept.
