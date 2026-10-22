@@ -401,7 +401,7 @@ export const HomeScreen: React.FC = () => {
                   {isArabic ? b.subjectNameAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                 </h4>
                 <p className="text-[9px] text-slate-400 truncate">
-                  {isArabic ? b.bookTitleAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.bookTitleEn}
+                  {isArabic ? b.bookTitleAr : isFrench && b.bookTitleFr ? b.bookTitleFr : b.bookTitleEn}
                 </p>
               </div>
 
