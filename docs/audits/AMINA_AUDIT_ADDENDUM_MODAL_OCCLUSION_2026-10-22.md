@@ -22,6 +22,16 @@ This addendum records a **second, independent defect in the same flow** that the
 
 ## 2. F-08 — The Save-to-Collection sheet's confirm button is physically unclickable (P1, functional)
 
+> **Update 2026-10-22T12:05Z — fixed and verified on PR #15.** The sheet is now rendered through
+> `createPortal(..., document.body)`, so it anchors to the viewport instead of the blurred Feed card.
+> Re-verified with the same probe at both viewports, with a collection ticked so the button is enabled:
+> the sheet now spans the full viewport (0–844 / 0–900), the button sits at 636–664 / 657–685, the
+> centre hit-test resolves **inside the button**, and a **non-forced pointer click is delivered and
+> saves the item** (saved_items 0 → 1). The probe was hardened to treat a hit on the button's own
+> inner span/icon as a hit on the button and to require the real click, so it cannot pass again on
+> geometry alone. Evidence: `docs/audits/evidence/modal-occlusion-pr15-portal/`. This is in addition
+> to the F-01 guard; both are on PR #15.
+
 **Verified.** In a real headless browser, at both tested viewports, the **Save Item** button's centre hit-tests to an element that is **not** the button. A real pointer/touch click therefore never reaches it.
 
 | Viewport | Button rect (top–bottom) | Sheet rect (top–bottom) | Bottom nav (top–bottom) | `elementFromPoint` at button centre | Occluded |
