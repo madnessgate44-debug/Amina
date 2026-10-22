@@ -1023,11 +1023,11 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 {isArabic ? 'فصل المعلمة نور' : isFrench ? 'Classe de Maîtresse Nour' : "Miss Nour's Classroom"}
               </h2>
               <span className="px-1.5 py-0.2 rounded-md text-[9px] font-black bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
-                {isArabic ? 'الصف الخامس' : 'Grade 5'}
+                {isArabic ? 'الصف الخامس' : isFrench ? 'Grade 5 · Parcours Girard' : 'Grade 5'}
               </span>
             </div>
             <p className="text-[10px] text-slate-500 dark:text-slate-400">
-              {isArabic ? 'شرح ذكي • صوت حقيقي • كتاب الوزارة' : 'Smart Voice Tutor • Ministry Textbooks'}
+              {isArabic ? 'شرح ذكي • صوت حقيقي • كتاب الوزارة' : isFrench ? 'Tutorat vocal intelligent • Manuels scolaires' : 'Smart Voice Tutor • Ministry Textbooks'}
             </p>
           </div>
         </div>
@@ -1218,7 +1218,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 className="py-1.5 px-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[11px] shadow-xs transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer"
               >
                 <Play className="w-3 h-3 fill-current" />
-                <span>{isArabic ? 'المسرح الحي 🎭' : 'Live Stage 🎭'}</span>
+                <span>{isArabic ? 'المسرح الحي 🎭' : isFrench ? 'Scène en direct 🎭' : 'Live Stage 🎭'}</span>
               </button>
 
               <button
@@ -1230,7 +1230,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 className="py-1.5 px-2 rounded-xl bg-white/20 hover:bg-white/30 text-white font-black text-[11px] border border-white/20 transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer"
               >
                 <BookOpen className="w-3 h-3" />
-                <span>{isArabic ? 'كتاب الوزارة 📖' : 'Textbook 📖'}</span>
+                <span>{isArabic ? 'كتاب الوزارة 📖' : isFrench ? 'Manuel scolaire 📖' : 'Textbook 📖'}</span>
               </button>
             </div>
           </div>
@@ -1278,11 +1278,11 @@ export const VirtualTeacherClassroom: React.FC = () => {
       {/* 4. MAIN CLASSROOM STATIONS SELECTOR TABS */}
       <div className="grid grid-cols-5 gap-1 p-1 bg-slate-200/80 dark:bg-slate-800/90 rounded-2xl">
         {[
-          { id: 'diagnostic', labelAr: '1. التشخيص', labelEn: '1. Diagnosis', icon: '🩺' },
-          { id: 'chalkboard', labelAr: '2. الشرح الموجه', labelEn: '2. Teaching', icon: '👩‍🏫' },
-          { id: 'recheck', labelAr: '3. فحص الإتقان', labelEn: '3. Re-Check', icon: '🎯' },
-          { id: 'quiz', labelAr: '4. تمارين الوزارة', labelEn: '4. Exercises', icon: '⭐' },
-          { id: 'ask', labelAr: '5. اسألي نور', labelEn: '5. Ask Nour', icon: '💬' },
+          { id: 'diagnostic', labelAr: '1. التشخيص', labelEn: '1. Diagnosis', labelFr: '1. Diagnostic', icon: '🩺' },
+          { id: 'chalkboard', labelAr: '2. الشرح الموجه', labelEn: '2. Teaching', labelFr: '2. Explication', icon: '👩‍🏫' },
+          { id: 'recheck', labelAr: '3. فحص الإتقان', labelEn: '3. Re-Check', labelFr: '3. Vérification', icon: '🎯' },
+          { id: 'quiz', labelAr: '4. تمارين الوزارة', labelEn: '4. Exercises', labelFr: '4. Exercices', icon: '⭐' },
+          { id: 'ask', labelAr: '5. اسألي نور', labelEn: '5. Ask Nour', labelFr: '5. Demander à Nour', icon: '💬' },
         ].map((tab) => {
           const isActive = activeStation === tab.id;
           return (
@@ -1301,7 +1301,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             >
               <span className="text-base">{tab.icon}</span>
               <span className="text-[9px] sm:text-[10px] leading-tight truncate">
-                {isArabic ? tab.labelAr : tab.labelEn}
+                {isArabic ? tab.labelAr : isFrench ? tab.labelFr : tab.labelEn}
               </span>
             </button>
           );
@@ -1414,7 +1414,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 space-y-1.5">
                       <div className="flex items-center gap-1.5 text-xs font-black text-indigo-900 dark:text-indigo-200">
                         <Lightbulb className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                        <span>{isArabic ? 'تشخيص المعلمة نور الأولي 💡' : 'Miss Nour\'s Initial Diagnosis 💡'}</span>
+                        <span>{isArabic ? 'تشخيص المعلمة نور الأولي 💡' : isFrench ? 'Diagnostic initial de Maîtresse Nour 💡' : 'Miss Nour\'s Initial Diagnosis 💡'}</span>
                       </div>
                       <p className="text-xs text-indigo-900 dark:text-indigo-200 leading-relaxed font-medium">
                         {isArabic ? opt.diagnosisExplanationAr : isFrench ? opt.diagnosisExplanationFr : opt.diagnosisExplanationEn}
@@ -1706,7 +1706,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               <div className="space-y-3">
                 <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-slate-750 border border-indigo-200 dark:border-slate-700 space-y-1">
                   <span className="text-[10px] font-black text-indigo-700 dark:text-indigo-300 block">
-                    {isArabic ? 'سؤال التحقق بمثال جديد من مس نور:' : 'Re-Check Question from Miss Nour:'}
+                    {isArabic ? 'سؤال التحقق بمثال جديد من مس نور:' : isFrench ? 'Question de vérification de Maîtresse Nour :' : 'Re-Check Question from Miss Nour:'}
                   </span>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
                     {isArabic ? rq.promptAr : isFrench ? rq.promptFr : rq.promptEn}
@@ -1788,7 +1788,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                       onClick={handleConfirmRecheck}
                       className="w-full py-2.5 px-4 rounded-xl bg-linear-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 text-white font-black text-xs shadow-md flex items-center justify-center gap-2 transition-all active:scale-[0.99] cursor-pointer"
                     >
-                      <span>🏆 {isArabic ? 'اعتماد الإجابة وتقييم الإتقان والقرار التربوي' : 'Confirm & Evaluate Teaching Decision'}</span>
+                      <span>🏆 {isArabic ? 'اعتماد الإجابة وتقييم الإتقان والقرار التربوي' : isFrench ? 'Confirmer et évaluer l’apprentissage' : 'Confirm & Evaluate Teaching Decision'}</span>
                     </button>
                   </div>
                 )}
@@ -2216,7 +2216,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               <span className="text-xl">📘</span>
               <div>
                 <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
-                  {isArabic ? 'المفردات والمصطلحات الرسمية' : 'Textbook Vocabulary'}
+                  {isArabic ? 'المفردات والمصطلحات الرسمية' : isFrench ? 'Vocabulaire du manuel' : 'Textbook Vocabulary'}
                 </h3>
                 <p className="text-[10px] text-slate-500 dark:text-slate-400">
                   {isArabic ? 'اضغطي على أي بطاقة لتسمعي النطق والمعنى من مس نور' : 'Tap any card to hear pronunciation'}
