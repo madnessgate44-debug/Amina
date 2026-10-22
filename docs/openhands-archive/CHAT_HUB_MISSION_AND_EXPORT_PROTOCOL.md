@@ -59,3 +59,14 @@ The task is complete only when every identified in-scope conversation has been e
 - A request for OpenHands session recovery has been posted, but completion is not verified.
 - Full historical ChatGPT conversations are not currently available to this assistant through the connected retrieval tools. This is an explicit source-access blocker, not proof that those conversations do not exist.
 - Overall status: **OPEN / PARTIAL / NOT COMPLETE**.
+
+---
+
+## OpenHands source — status update 2026-10-22
+
+The OpenHands source listed under "Source-by-source execution" has now been executed and is no longer pending:
+**24** OpenHands Cloud conversations were enumerated and exported verbatim (raw JSON plus readable transcripts),
+with an index, coverage report, gap report, and verification report. See `OPENHANDS_EXPORT_COMPLETION_2026-10-22.md`.
+
+Overall mission status remains **OPEN / NOT COMPLETE** because the ChatGPT source and other connected apps are still
+unexported. The OpenHands source itself is complete for the account that performed this export.

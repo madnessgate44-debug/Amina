@@ -130,3 +130,18 @@ The following partial message record was added:
 This partial record preserves the two user messages in the current conversation verbatim and four earlier Amina user-message excerpts returned by personal-context retrieval. It explicitly identifies the excerpts as incomplete and records that the full `Amina School Companion — Product Transformation Report` was identified but its text was not returned. That report has not been fabricated or reconstructed.
 
 **Assistant-side recovery status: PARTIAL.** A complete export of all previous ChatGPT conversations about Amina is not available through the retrieval results currently exposed to this conversation. This does not prove that additional conversations do not exist. Continue searching the ChatGPT conversation/library sources and recover the full Product Transformation Report if its original source becomes accessible.
+
+---
+
+## 8. OpenHands recovery executed — 2026-10-22
+
+The instructions in §4 have been carried out. OpenHands searched its own accessible session history, exported every
+conversation it can access, and added the results to this archive branch:
+
+- **24 conversations exported** (7 on `madnessgate44-debug/Amina`, 17 on other repositories).
+- Raw untouched JSON: `raw/openhands-cloud/`.
+- One readable transcript per conversation: `transcripts/openhands-cloud/`.
+- `INDEX.md`, `SOURCE_COVERAGE.md`, `GAPS_AND_INACCESSIBLE_SOURCES.md`, `VERIFICATION_REPORT.md` created/updated.
+- 4 conversations were still running at export and are marked `VERBATIM_PARTIAL`; all others are `VERBATIM_COMPLETE`.
+
+See `OPENHANDS_EXPORT_COMPLETION_2026-10-22.md` for the full report. Documentation only — no app code, build, merge, or deploy.
