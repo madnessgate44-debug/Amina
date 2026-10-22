@@ -116,7 +116,7 @@ jobs:
               })
             except Exception as exc:
               status['reason'] = f'Could not parse Forge evidence: {exc}'
-          out.write_text(json.dumps(status, indent=2) + '\\n')
+          out.write_text(json.dumps(status, indent=2) + '\n')
           print(json.dumps(status, indent=2))
           PY
       - name: Stop Amina test server
