@@ -1,16 +1,16 @@
-# Amina — Consolidated Project Memory, Decisions, and Forge Work Order
+# Miss Noor — Consolidated Product Memory, Decisions, and Agent Work Order
 
 **Purpose:** This is the durable project handoff for Forge and any coding agent working in this repository. Read it before auditing, planning, or changing code. It consolidates the known decisions and requirements from Amina-related conversations; it is **not a verbatim export of every chat message**. If a detail in the live repository contradicts an old status note, inspect the code and report the current evidence rather than assuming the old status is still true.
 
 **Project:** `madnessgate44-debug/Amina`  
-**Product:** Amina — Personal AI School Companion  
+**Product/brand:** Miss Noor — Personal AI School Companion (owner-approved name as of 2026-10-22; repository name remains Amina unless separately approved)  
 **Student/curriculum context last explicitly confirmed:** Grade 5, École Girard, Alexandria, 2026–2027, French track. Egyptian curriculum with French-language learning/assessment for Mathematics and Science. Treat this as the current project target unless the owner updates it.
 
 ---
 
 ## 1. Product vision — locked
 
-Amina is a **personal AI School Companion**, not a conventional LMS, school administration system, or generic chatbot.
+Miss Noor is a **personal AI School Companion**, not a conventional LMS, school administration system, or generic chatbot.
 
 The experience should feel like a polished, modern, visual, mobile-first learning product: smooth, engaging, game-like, and age-appropriate without feeling childish. Do not expose internal pedagogical or engineering terminology to the child.
 
@@ -57,7 +57,20 @@ Voice should be a first-class interaction, not a decorative microphone. Preserve
 
 ## 4. FEED — a hard acceptance requirement
 
-A real educational Feed is mandatory. Previous discussions explicitly called out that Feed/reels were still absent after a prior Phase 4 effort; do **not** assume the requirement is met because a route, tab, placeholder, or architecture exists.
+**Owner-approved direction (2026-10-22): Balanced Feed with explicit Learn and Explore modes.** The Feed must serve both curriculum learning and enjoyable out-of-curriculum discovery. Amina/learner chooses the mode; Explore is first-class and is not a reward for studying or a disguised homework area. See the detailed requirements in `docs/design-lab/MISS_NOOR_BALANCED_FEED_PRODUCT_SPEC_2026-10-22.md` on branch `design/ai-design-lab-toolkit`; reconcile this spec into the working branch before implementation.
+
+A real Feed is mandatory. It has two connected but clearly distinct modes:
+
+- **LEARN:** curriculum-connected lessons, visual explanations, educational reels/micro-lessons, quizzes, practice, revision, homework/review actions, and recommendations based on actual learning evidence.
+- **EXPLORE:** age-appropriate out-of-curriculum knowledge and enjoyment across learner-selected interests such as space, animals, science, technology, mysteries, art, music, sport, cultures, history, food, nature, stories, inventions, games, and other hobbies. Include visual explainers, short videos where rights/source and safety allow, stories, facts, puzzles, creative activities, and safe experiments. Explore content does not need to become a quiz.
+
+The learner must be able to switch modes without penalty. Offer a short visual, skippable and editable interest survey, custom interests, and preference controls such as “More like this,” “Less like this,” “Not interested,” “Show me something new,” “Save,” and an honest “Why am I seeing this?” explanation. Mix preferred topics with controlled novelty to avoid a narrow bubble.
+
+Recommendation principles: use explicit preferences first; apply source reliability, factuality, age suitability and safety as hard eligibility gates; value variety and discovery; treat skips as ambiguous; use completion/watch time only as supporting signals. Do not optimize for raw screen time, endless scrolling, or compulsive engagement. Passive viewing is not proof of mastery. Start with transparent rules-based ranking before considering machine learning.
+
+Content sources should be controlled: curated trustworthy sources, attributed/approved external media, and original Miss Noor explainers/stories/challenges with factuality checks. Do not provide an unrestricted public-content firehose or fabricate sources. Explore is a first-class destination and must not be framed as avoidance or failure.
+
+Previous discussions explicitly called out that Feed/reels were still absent after a prior Phase 4 effort; do **not** assume the requirement is met because a route, tab, placeholder, or architecture exists.
 
 The Feed must be a purposeful, full-screen, vertically swipeable experience containing curriculum-connected items such as:
 
@@ -209,7 +222,7 @@ Forge: execute the following in order. The purpose is to make Amina usable and s
 
 The following decisions were explicitly established in Amina conversations in early October 2026 and must remain in force unless the owner changes them:
 
-- Amina is a Personal AI School Companion, not an LMS.
+- Miss Noor is a Personal AI School Companion, not an LMS.
 - Primary navigation: HOME | FEED | LIBRARY | NOUR.
 - Miss Nour is the common teaching interface and front door to learning.
 - One School Brain and one connected curriculum-to-learning-to-evidence loop.
@@ -222,3 +235,49 @@ The following decisions were explicitly established in Amina conversations in ea
 - Keep implementation token-efficient, inspect the repo first, preserve settled work, and prove changes with tests/evidence.
 
 **Forge's immediate next action:** begin Phase A now, using the current repository state. Do not stop after reading this document or return only a generic plan; complete the evidence-based audit, then implement the minimal safe fixes on a branch and open a PR without merging.
+
+
+---
+
+## 12. Owner-approved product update — Miss Noor Balanced Feed (2026-10-22)
+
+This section supersedes conflicting older product naming and Feed-only assumptions in this document. Preserve historical context, but follow this newer decision.
+
+### Brand and naming
+- The owner-approved product/brand name is **Miss Noor** (exact spelling and capitalization).
+- The repository remains named `Amina`; do not rename the repository, package identifiers, deployment resources, domains, stored data, or technical identifiers without a separate impact report and approval.
+- Existing docs and code using “Amina” may be historical or refer to the learner. Distinguish the product brand from the learner's name and from the AI teacher role rather than performing a blind global replacement.
+- Use Miss Noor consistently in new user-facing product/design documentation.
+
+### Product architecture and navigation
+- Preserve the four primary destinations: **HOME / FEED / LIBRARY / NOUR**. Do not create a fifth top-level destination for interests or entertainment.
+- FEED contains **Learn** and **Explore** modes. Amina chooses the mode and can switch at any time.
+- HOME remains the daily plan and next-action dashboard; LIBRARY remains the source of available curriculum/books and saved items; NOUR remains the shared teaching interface. The Feed must integrate with these rather than duplicate their systems.
+
+### Learn mode
+- Stay curriculum-grounded and informed by real learner context, school priorities, misconceptions, revision needs, and verified learning evidence.
+- Link Feed cards to the shared Nour flow with lesson context; allow saving/revisiting through Library.
+- Do not claim mastery from passive viewing or a completed card.
+
+### Explore mode
+- Provide enjoyable, genuinely out-of-curriculum discovery: knowledge, hobbies, culture, creativity, entertainment, stories, facts, puzzles, nature, technology, sports, art, music, and other interests the learner chooses.
+- Begin with a visual, skippable interest survey; allow custom interests and later editing. Optional preferences include content format and familiar-versus-new topic balance. Do not collect unnecessary personal/sensitive information.
+- Use explicit preferences, quality, safety, source reliability, variety, saves/revisits, and voluntary deeper exploration to inform recommendations. Keep watch time and completion as weak supporting signals, not the primary goal.
+- Include controls to tune recommendations and honest explanations for why content appears. Provide controlled novelty and diversity rather than a narrow algorithmic bubble.
+- Content may come from curated trusted sources, approved/attributed media, and original Miss Noor content. Verify factual claims; distinguish fact, uncertainty, opinion, and fiction. Do not fabricate external sources or expose an unrestricted social-media content stream.
+- Avoid infinite-scroll pressure, manipulative urgency, streak guilt, and engagement mechanics designed to maximize screen time. Support useful stopping points and age-appropriate content boundaries.
+
+### Current authorization / implementation gate
+- As of this update, the owner has approved **product/design planning only** for the Balanced Feed. This is not authorization to edit application code, merge, or deploy.
+- The immediate agent task is read-only inspection and specification: inspect the current Feed and design assets, map each new and existing requirement to exact code/component/test/runtime evidence, identify gaps, propose phone-first Learn/Explore and interest-survey screens, and provide an acceptance-test/content-safety plan.
+- Clearly label every claim VERIFIED / OBSERVED NOT FULLY VERIFIED / HYPOTHESIS / BLOCKED / NOT VERIFIED. Distinguish concept art from actual app screenshots.
+- Wait for explicit owner approval before implementation. Do not follow older instructions in this file that say to immediately implement gaps; the newer owner instruction temporarily overrides that implementation step.
+- Do not merge or deploy without separate explicit approval.
+
+### Required handoff references
+- Detailed Feed spec (on design branch): `docs/design-lab/MISS_NOOR_BALANCED_FEED_PRODUCT_SPEC_2026-10-22.md`
+- Branding and function audit: `docs/design-lab/MISS_NOOR_BRANDING_AND_FUNCTION_AUDIT_2026-10-22.md`
+- Current OpenHands synchronization handoff: `docs/design-lab/OPENHANDS_CURRENT_WORK_HANDOFF_2026-10-22.md`
+
+### Immediate next action
+Update and synchronize this master document into the active design/agent branch, then perform the requested read-only audit and visual design proposal. Do not make application-code changes until the owner explicitly approves implementation.
