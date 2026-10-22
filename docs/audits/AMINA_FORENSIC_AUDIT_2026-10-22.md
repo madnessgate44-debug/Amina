@@ -75,11 +75,12 @@ Status legend: **Implemented** (present and runtime-verified), **PR-only** (exis
 
 ## 4. Severity-ranked findings
 
-### F-01 — Saved items can be filed into no collection and then vanish (P1, functional)
+### F-01 — Saved items can be filed into no collection and then appear lost (P1, functional)
 - **Verified.** Learner-flow task 5 FAIL. Sequence: FEED card → "Save to Collection" → modal → "Save Item". The modal's Save button is only disabled while `isSaving`, so it is clickable with zero collections selected (`SaveToCollectionModal.tsx:196`). `handleSave` then calls `saveContent` with `collectionIds: []`; `saveItem` persists the item, and `handleSaveContent` shows the toast "Saved to collection" (`AppContext.tsx:926`).
-- **Evidence:** `artifacts/learner-flow/task5-collections.png` — the item is absent and the screen shows "Nothing saved here yet."; the toast "Saved to collection" is visible in the same capture. `artifacts/learner-flow/learner-flow-report.json` (task 5 detail).
-- **Impact:** the learner is told the save succeeded, but the item appears in no collection and cannot be found again — a trust-breaking failure in the save/revisit loop.
-- **Smallest safe fix (for a separate PR, not this audit):** in `SaveToCollectionModal.handleSave`, when `selectedColIds` is empty, either require a selection (disable Save until one is chosen) or default to a real collection (e.g. the first default collection) before persisting. Behaviour-preserving elsewhere.
+- **Exact behaviour (Verified in source + capture):** the item *is* written to storage, so it still appears under Review → Saved Items → "All Saves" (`ReviewScreen.tsx:67`, which lists all `savedItems`). But it belongs to no collection, so the **"Saved & Collections" screen shows "Nothing saved here yet."** while the success toast is still on screen. Default collections always exist at this point (ensured in `AppContext.tsx:340`), so this is purely "the learner did not tick a box", not "no collections exist".
+- **Evidence:** `artifacts/learner-flow/task5-collections.png` — empty collection list and the "Saved to collection" toast in the same capture. `artifacts/learner-flow/learner-flow-report.json` (task 5 detail).
+- **Impact:** the confirmation message and the "Saved & Collections" destination both imply the item was filed somewhere it can be reopened; instead it is unfiled and invisible on that screen. It is a trust and findability defect in the save/revisit loop, not total data loss.
+- **Smallest safe fix (for a separate PR, not this audit):** in `SaveToCollectionModal.handleSave`, when `selectedColIds` is empty, either require a selection (disable Save until one is chosen) or default to a real collection before persisting. Either way the toast must reflect reality. Behaviour-preserving elsewhere.
 
 ### F-02 — Product identity and teacher identity are conflated (P2, branding)
 - **Verified** on `main`. The persistent header renders "Miss Nour" as the app title with the learner name beneath (`AppShell.tsx`). Harness check "product brand and teacher identity are distinct" expects both "Amina" and "Miss Nour" and FAILs on `main`.
