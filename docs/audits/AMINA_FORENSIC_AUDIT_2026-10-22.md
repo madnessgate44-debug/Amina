@@ -82,20 +82,26 @@ Status legend: **Implemented** (present and runtime-verified), **PR-only** (exis
 - **Impact:** the confirmation message and the "Saved & Collections" destination both imply the item was filed somewhere it can be reopened; instead it is unfiled and invisible on that screen. It is a trust and findability defect in the save/revisit loop, not total data loss.
 - **Smallest safe fix (for a separate PR, not this audit):** in `SaveToCollectionModal.handleSave`, when `selectedColIds` is empty, either require a selection (disable Save until one is chosen) or default to a real collection before persisting. Either way the toast must reflect reality. Behaviour-preserving elsewhere.
 
-### F-02 — Product identity and teacher identity are conflated (P2, branding)
-- **Verified** on `main`. The persistent header renders "Miss Nour" as the app title with the learner name beneath (`AppShell.tsx`). Harness check "product brand and teacher identity are distinct" expects both "Amina" and "Miss Nour" and FAILs on `main`.
-- **Evidence:** `artifacts/design-audit/04-home-mobile.png`; harness check list in `artifacts/design-audit/report.json`.
-- **Note:** the design branch (PR #7) reports a fix ("header title is now 'Amina'"). That fix is **PR-only**, not on `main`.
+### F-02 — Product identity and teacher identity are conflated (P2, branding) — **already fixed on PR #7**
+- **Verified** on `main`. The persistent header renders "Miss Nour" as the app title with the learner name beneath (`AppShell.tsx:60`). Harness check "product brand and teacher identity are distinct" expects both "Amina" and "Miss Nour" and FAILs on `main`.
+- **Evidence:** `docs/audits/evidence/design-audit/04-home-mobile.png`.
+- **PR #7 already fixes this** (Verified): its `AppShell.tsx` renders `Amina` as the title with `Miss Nour · <name>` beneath. Running the audit against a build of PR #7's branch gives **25/25 checks passing**, including this one. See `docs/audits/evidence/pr7-verified/design-audit-report.json`.
+- **Consequence:** do not open a separate branding fix. Merging PR #7 resolves F-02 on `main`.
 
-### F-03 — French selection yields mixed-language UI (P1, localization)
-- **Verified** on `main`. With French selected: HOME shows "Welcome, Learner QA!", "Your personal AI School Companion", "What Should I Do Now, Miss Nour?"; FEED's intro is English ("Nour is teaching you now"); LIBRARY's search placeholder is not French.
-- **Root cause (Observed-not-verified):** `FeedScreen.tsx` only branches on `isAr` for its copy (no `isFr`), and `HomeScreen.tsx:151` has only Arabic/English for the next-action heading. The `fr` dictionary exists in `translations.ts` but those strings are hard-coded.
-- **Evidence:** `artifacts/learner-flow/task1-home.png`, `artifacts/design-audit/04-feed-mobile.png`, harness FAIL checks.
+### F-03 — French selection yields mixed-language UI (P1, localization) — **already fixed on PR #7**
+- **Verified** on `main`. With French selected: HOME shows "Welcome, Learner QA!", "Your personal AI School Companion", "What Should I Do Now, Miss Nour?"; FEED's intro is English ("Nour is teaching you now"); LIBRARY's search placeholder is English.
+- **Root cause (Verified):** `HomeScreen.tsx` has 27 and `FeedScreen.tsx` has 15 `isArabic ? … : 'English'` ternaries with no French branch, and `CurriculumBrowser.tsx:213` has no French placeholder. The `fr` dictionary exists in `translations.ts` but these strings are hard-coded.
+- **PR #7 already fixes the audited cases** (Verified): its `FeedScreen.tsx` adds `isFr` branches ("Nour t'accompagne maintenant", "Un moment d'apprentissage choisi par Nour"), and its `CurriculumBrowser.tsx` adds a `Rechercher…` placeholder. Running the audit against a build of PR #7's branch gives **25/25 checks passing**, including "French Feed intro uses French UI copy" and "curriculum search placeholder is French in French mode".
+- **Separate real i18n defect found while inspecting (still open on `main` and on PR #7):** `HomeScreen.tsx:397` renders `{isArabic ? 'دروس' : 'les'}` — the French word "les" is shown in the **English** UI. This is a genuine bug independent of F-03 and is not addressed by PR #7.
+- **Evidence:** `docs/audits/evidence/design-audit/04-feed-mobile.png` (baseline) vs `docs/audits/evidence/pr7-verified/` (PR #7).
+- **Consequence:** do not re-do the Feed/Library French work; merging PR #7 resolves those. The `HomeScreen.tsx:397` string remains a small, separate fix.
 
 ### F-04 — The TypeScript quality gate does not block (P1, CI integrity)
 - **Verified, both by reproduction and by CI records.** `npm run lint` on `main` exits 1 with 11 errors, yet CI run [38888767348](https://github.com/madnessgate44-debug/Amina/actions/runs/38888767348) shows the "Type check" step conclusion = **success**. `.github/workflows/ci.yml` sets `continue-on-error: true` on that step.
 - **The 11 errors (Verified):** 8 × TS18047 in `teacherContextEngine.ts` (unreachable code after an unconditional `return` disables narrowing), 2 × TS18047 in `VirtualTeacherClassroom.tsx` (`targetLesson` nullable), 1 × TS2322 in `missionCompletion.ts` (`'practice'` missing from `EvidenceModality`).
-- **Status of the fix:** PR #11 removes `continue-on-error`, deletes the 87-line unreachable block, adds `'practice'` to `EvidenceModality` with an explicit `1.0` weight, and adds optional chaining. Independently verified here: 0 type errors, adaptive 39/39, integrity 72/72, build pass. PR #11 is still **draft and unmerged**.
+- **Status of the fix:** two competing PRs fix it. **PR #11** removes `continue-on-error`, deletes the 87-line unreachable block, adds `'practice'` to `EvidenceModality`, and adds optional chaining. **PR #12** does the same **and** sets `"strict": true` and `"allowUnreachableCode": false` in `tsconfig.json`, adds a dedicated gate suite (`strictTypecheckGate.test.ts`, 8 checks), and wires `test:gate` into `npm test`.
+- **Both independently verified here:** each gives `tsc --noEmit` → **0 errors** and passing suites. On PR #12: adaptive **39/39**, integrity **66/66**, gate **8/8**, build pass; a browser walkthrough against PR #12's build gives 6/7 (only the known F-01 save defect, fixed separately by PR #15), so strict mode does not break runtime.
+- **Recommendation:** land **PR #12** and close **PR #11** as superseded. Neither is merged.
 
 ### F-05 — No full digital book reader (P2, product scope)
 - **Observed-not-verified.** `main` has no `BookReader`; "Open Book" opens `LessonStudyModal`. The product source of truth (PR #10) asks for full digital books, not only sample cards. Recovery notes indicate `BookReader.tsx` exists on the archive/design branches — so this is a **PR-only** capability, not on `main`.
@@ -139,10 +145,11 @@ Coverage: mobile 390×844 and desktop 1365×900; English onboarding and French l
 
 ## 7. Recommended next work (smallest verified gaps first)
 
-1. **Fix F-01 (save with no collection).** One-file, behaviour-preserving change in `SaveToCollectionModal.tsx`; add a regression test to the integrity suite. This is the highest-value verified defect because it breaks the save/revisit promise.
-2. **Land F-04 (PR #11)** after review — it is independently verified and removes a false-green CI gate. It is currently draft.
-3. **Fix F-03 (French copy)** for the highest-traffic strings (HOME next-action heading, FEED intro) by routing them through the existing `fr` dictionary; do not claim full French localization.
-4. **F-02 branding** — adopt the "Amina as product / Miss Nour as teacher" header already implemented on PR #7.
+0. **Merge order (verified):** land **PR #12** (strict gate) and close **PR #11** as superseded; land **PR #15** (save fix); land **PR #7** (design lab + French + branding); land **PR #13** (this audit) and **PR #10** (product source of truth) as documentation. PR #8 (chat archive) is stacked on PR #7.
+1. **Fix F-01 (save with no collection)** — delivered in **PR #15**; needs review.
+2. **Land F-04 (PR #12)** — verified; removes a false-green CI gate.
+3. **F-03 remaining** — the Feed/Library French work is already done on PR #7; only `HomeScreen.tsx:397` (`'les'` in the English UI) still needs a one-line fix.
+4. **F-02 branding** — already done on PR #7; no separate work needed.
 5. **F-05** — decide whether to bring `BookReader` from the design branch to `main`.
 
 Each of these should be its own small PR, kept separate from this audit report.
@@ -161,7 +168,8 @@ Each of these should be its own small PR, kept separate from this audit report.
 
 ## 9. Artifacts referenced
 
-- `artifacts/learner-flow/learner-flow-report.json` and 17 screenshots (`artifacts/learner-flow/`).
-- `artifacts/design-audit/report.json` and 13 screenshots (`artifacts/design-audit/`).
+- `docs/audits/evidence/learner-flow/` — report JSON + 17 screenshots.
+- `docs/audits/evidence/design-audit/` — baseline report JSON + 13 screenshots (3 FAIL).
+- `docs/audits/evidence/pr7-verified/` — PR #7 build: report JSON + 13 screenshots (25/25 checks PASS).
 - `scripts/learner-flow-audit.mjs` (new, this branch) — reproducible seven-task harness.
 - CI: main run [38888767348](https://github.com/madnessgate44-debug/Amina/actions/runs/38888767348); PR #11 run [39765429795](https://github.com/madnessgate44-debug/Amina/actions/runs/39765429795).
