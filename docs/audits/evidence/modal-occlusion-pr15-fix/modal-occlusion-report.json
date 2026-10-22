@@ -1,13 +1,38 @@
 {
   "mission": "Modal occlusion probe — is the Save-to-Collection sheet clickable at its own coordinates?",
   "baseURL": "http://127.0.0.1:4175",
-  "startedAt": "2026-10-22T11:36:43.567Z",
+  "startedAt": "2026-10-22T11:46:07.963Z",
   "environment": "Disposable headless Chromium; synthetic QA profile only; no real student data",
   "results": [
     {
       "viewport": "mobile-390x844",
       "sheetOpened": true,
       "probe": {
+        "found": true,
+        "disabled": true,
+        "button": {
+          "top": 761,
+          "bottom": 789,
+          "height": 28
+        },
+        "sheet": {
+          "top": 397,
+          "bottom": 697,
+          "height": 300
+        },
+        "nav": {
+          "top": 774,
+          "bottom": 844,
+          "height": 70
+        },
+        "viewportHeight": 844,
+        "hitTag": "NAV",
+        "hitIsButton": false,
+        "centreHitIsButton": false,
+        "centreHitIsDescendant": false
+      },
+      "error": null,
+      "afterSelectingCollection": {
         "found": true,
         "disabled": false,
         "button": {
@@ -28,14 +53,49 @@
         "viewportHeight": 844,
         "hitTag": "NAV",
         "hitIsButton": false,
-        "occluded": true
+        "centreHitIsButton": false,
+        "centreHitIsDescendant": false
       },
-      "error": null
+      "rawCentreClick": {
+        "savedItemsBefore": 0,
+        "savedItemsAfter": 0,
+        "saved": false
+      },
+      "normalClick": {
+        "savedItemsBefore": 0,
+        "savedItemsAfter": 1,
+        "saved": true
+      }
     },
     {
       "viewport": "desktop-1365x900",
       "sheetOpened": true,
       "probe": {
+        "found": true,
+        "disabled": true,
+        "button": {
+          "top": 805,
+          "bottom": 833,
+          "height": 28
+        },
+        "sheet": {
+          "top": 460,
+          "bottom": 722,
+          "height": 262
+        },
+        "nav": {
+          "top": 830,
+          "bottom": 900,
+          "height": 70
+        },
+        "viewportHeight": 900,
+        "hitTag": "SPAN",
+        "hitIsButton": false,
+        "centreHitIsButton": false,
+        "centreHitIsDescendant": true
+      },
+      "error": null,
+      "afterSelectingCollection": {
         "found": true,
         "disabled": false,
         "button": {
@@ -56,16 +116,26 @@
         "viewportHeight": 900,
         "hitTag": "SPAN",
         "hitIsButton": false,
-        "occluded": true
+        "centreHitIsButton": false,
+        "centreHitIsDescendant": true
       },
-      "error": null
+      "rawCentreClick": {
+        "savedItemsBefore": 0,
+        "savedItemsAfter": 1,
+        "saved": true
+      },
+      "normalClick": {
+        "savedItemsBefore": 1,
+        "savedItemsAfter": 1,
+        "saved": false
+      }
     }
   ],
   "errors": [],
   "health": {
     "status": "ok",
     "hasApiKey": false,
-    "timestamp": "2026-10-22T11:36:43.576Z"
+    "timestamp": "2026-10-22T11:46:07.972Z"
   },
-  "finishedAt": "2026-10-22T11:37:07.187Z"
+  "finishedAt": "2026-10-22T11:46:42.417Z"
 }

@@ -4,12 +4,15 @@
 // inside a Feed card that carries `backdrop-blur-xl`. A non-`none` `backdrop-filter`
 // makes that card the containing block for `position: fixed` descendants, so the
 // sheet's "fixed inset-0" is clamped to the card instead of the viewport and its
-// footer can land under the sticky bottom nav. A real pointer/touch click is then
-// delivered to the nav, and the Save button silently does nothing.
+// footer can land under the sticky bottom nav.
 //
-// This probe records, for each viewport, the button's rectangle and what
-// `document.elementFromPoint` actually hits at its centre. No pointer events are
-// synthesised, so the geometry is reported even when the button is covered.
+// This probe reports geometry, but geometry alone is NOT proof that a click fails:
+// `elementFromPoint` ignores the ancestor chain that a real event bubbles through.
+// So it also sends a real pointer click at the button's centre and asserts a side
+// effect (the IndexedDB saved_items count). Only the side-effect result decides
+// PASS/FAIL; the hit-test is recorded as a signal. Note that a normal Playwright
+// click auto-scrolls first, so `rawCenterClick` (no auto-scroll) is the strictest
+// measure of what a learner's finger does at that pixel.
 //
 // Synthetic QA profile only. No real child or student data.
 
@@ -107,6 +110,23 @@ async function reachSaveSheet(page) {
   return true;
 }
 
+async function savedItemCount(page) {
+  return page.evaluate(async () => {
+    try {
+      const db = await new Promise((resolve) => {
+        const req = indexedDB.open('ai_school_companion_v2');
+        req.onsuccess = () => resolve(req.result);
+      });
+      return await new Promise((ok) => {
+        const rq = db.transaction('saved_items', 'readonly').objectStore('saved_items').count();
+        rq.onsuccess = () => ok(rq.result);
+      });
+    } catch {
+      return -1;
+    }
+  });
+}
+
 async function probe(page) {
   return page.evaluate(() => {
     const button = Array.from(document.querySelectorAll('button'))
@@ -132,7 +152,10 @@ async function probe(page) {
       viewportHeight: window.innerHeight,
       hitTag: hit ? hit.tagName : null,
       hitIsButton: hit === button,
-      occluded: hit !== button,
+      // A non-button hit is only a *signal*: it does not by itself mean the click
+      // fails, because the event still bubbles through the button's ancestors.
+      centreHitIsButton: hit === button,
+      centreHitIsDescendant: Boolean(hit && button.contains(hit)),
     };
   });
 }
@@ -166,7 +189,34 @@ try {
       if (entry.sheetOpened) {
         entry.probe = await probe(page);
         await page.screenshot({ path: `${outDir}/save-sheet-${vp.name}.png`, animations: 'disabled' });
-        if (entry.probe.occluded) exitCode = 1;
+
+        // Select a collection so the confirm button is enabled and a click is meaningful.
+        const chip = page.locator('div.grid button').first();
+        if (await chip.count()) { await chip.click({ force: true }); await delay(400); }
+        entry.afterSelectingCollection = await probe(page);
+
+        // Decisive test: a raw pointer click at the button centre, then a side effect.
+        const rect = await page.evaluate(() => {
+          const b = Array.from(document.querySelectorAll('button'))
+            .find((x) => (x.innerText || '').trim() === 'Save Item');
+          const r = b.getBoundingClientRect();
+          return { cx: r.left + r.width / 2, cy: r.top + r.height / 2, top: r.top, height: r.height };
+        });
+        const before = await savedItemCount(page);
+        await page.mouse.click(rect.cx, rect.cy);   // no auto-scroll, no actionability retry
+        await delay(1200);
+        const after = await savedItemCount(page);
+        entry.rawCentreClick = { savedItemsBefore: before, savedItemsAfter: after, saved: after > before };
+
+        // Comparison: a normal Playwright click, which auto-scrolls first.
+        const beforeNormal = after;
+        await page.getByRole('button', { name: /Save Item/ }).first().click({ timeout: 6000 }).catch(() => {});
+        await delay(1200);
+        const afterNormal = await savedItemCount(page);
+        entry.normalClick = { savedItemsBefore: beforeNormal, savedItemsAfter: afterNormal, saved: afterNormal > beforeNormal };
+
+        // PASS/FAIL is decided by the strictest real interaction, not by geometry.
+        if (!entry.rawCentreClick.saved) exitCode = 1;
       }
     } catch (error) {
       entry.error = String(error);
