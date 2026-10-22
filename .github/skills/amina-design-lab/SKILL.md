@@ -25,9 +25,9 @@ Deliver a visibly stronger and more coherent Amina experience based on actual le
 4. Run existing lint/build/tests when a real runner is available; report exact commands and results. Do not infer pass from configuration.
 
 ### Phase B — Observe the product as a learner
-1. Use a rendered browser/computer-use session at a narrow phone viewport (390×844 or nearest available) and a second common phone viewport.
+1. Run `node scripts/design-lab-browser-audit.mjs` from a built app with Playwright installed, or inspect the `amina-design-lab-browser-evidence` artifact from PR CI. The harness uses synthetic QA profile data, a 390×844 phone viewport, a desktop viewport, and Arabic RTL capture.
 2. Complete the seven tasks in `.github/agents/amina-learner-simulator.agent.md`.
-3. Capture initial screen, key transitions, failure/recovery, and final state. If no running app or browser tool is available, record this as a blocker and do not substitute source inspection as visual proof.
+3. Capture initial screen, onboarding transitions, HOME / FEED / LIBRARY / NOUR, feed scroll, and Arabic RTL. Inspect the uploaded `report.json` and screenshots. The scripted run is browser evidence, not a model-driven synthetic participant; continue with the learner task matrix for deeper tasks.
 4. Use the upstream UI Check skill in `.github/skills/ui-check/SKILL.md` for screenshot inventory, state coverage, and evidence-backed visual findings.
 5. Use Humanish only if the configured local/hosted runtime and credentials are available. Its no-key preview is a format preview, not a product test. Do not incur hosted desktop or model spend without explicit authorization.
 
