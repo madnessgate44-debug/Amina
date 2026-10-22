@@ -30,6 +30,34 @@ export interface SubjectCurriculumSummary {
   badgeEn: string;
 }
 
+const FRENCH_SUBJECT_NAMES: Record<string, string> = {
+  subj_arabic: 'Arabe',
+  subj_french: 'Français',
+  subj_math: 'Mathématiques',
+  subj_math_fr: 'Mathématiques',
+  subj_science: 'Sciences',
+  subj_science_fr: 'Sciences',
+  subj_social: 'Études sociales',
+  subj_english: 'Anglais',
+  subj_ict: 'Informatique',
+  subj_islamic: 'Éducation islamique',
+  subj_calligraphy: 'Calligraphie arabe',
+};
+
+const FRENCH_BOOK_LABELS: Record<string, string> = {
+  subj_arabic: 'Manuel d’arabe',
+  subj_french: 'Manuel de français',
+  subj_math: 'Manuel de mathématiques',
+  subj_math_fr: 'Manuel de mathématiques',
+  subj_science: 'Manuel de sciences',
+  subj_science_fr: 'Manuel de sciences',
+  subj_social: 'Manuel d’études sociales',
+  subj_english: 'Manuel d’anglais',
+  subj_ict: 'Manuel d’informatique',
+  subj_islamic: 'Manuel d’éducation islamique',
+  subj_calligraphy: 'Manuel de calligraphie arabe',
+};
+
 export interface UnitCurriculumSummary {
   unitNumber: number;
   unitNameAr: string;
@@ -145,6 +173,7 @@ export class CurriculumService {
       if (!config) return lesson;
       return {
         ...lesson,
+        subjectNameFr: lesson.subjectNameFr || FRENCH_SUBJECT_NAMES[lesson.subjectId],
         curriculumSource: config.curriculumSource,
         instructionLanguage: config.instructionLanguage,
         contentLanguage: config.contentLanguage,
@@ -250,12 +279,12 @@ export class CurriculumService {
           subjectId: l.subjectId,
           subjectNameAr: l.subjectNameAr,
           subjectNameEn: l.subjectNameEn,
-          subjectNameFr: l.subjectNameFr,
+          subjectNameFr: l.subjectNameFr || FRENCH_SUBJECT_NAMES[l.subjectId],
           totalLessons: 0,
           availableLessons: 0,
           bookTitleAr: l.sourceRef.bookAr,
           bookTitleEn: l.sourceRef.bookEn,
-          bookTitleFr: AMINA_CURRICULUM_CONTEXT.subjectConfigs[l.subjectId]?.bookTitleFr,
+          bookTitleFr: AMINA_CURRICULUM_CONTEXT.subjectConfigs[l.subjectId]?.bookTitleFr || FRENCH_BOOK_LABELS[l.subjectId],
           icon: meta.icon,
           color: meta.color,
           bgGradient: meta.bgGradient,
