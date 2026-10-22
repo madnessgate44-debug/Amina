@@ -114,3 +114,19 @@ OpenHands: please do the following **before any implementation work**:
 - 2026-10-22: Confirmed the connected GitHub PR #7 discussion contains three relevant owner comments listed above.
 - 2026-10-22: The connected ChatGPT conversation-file search did not return verbatim OpenHands transcripts. This is a retrieval limitation, not evidence that no OpenHands chats exist.
 - Pending: OpenHands searches its own session history, exports transcripts, and reports coverage.
+
+
+## 7. Assistant-side recovery update — 2026-10-22
+
+In response to the owner's instruction to apply the same process to ChatGPT-side Amina conversations, the assistant searched the connected conversation/library index and retrieved personal context. The search surfaced two existing School Companion master documents and excerpts of four earlier user messages, but did not return full prior chat transcripts.
+
+The following full project artifacts were read to their end and copied verbatim to this archive branch:
+- `docs/openhands-archive/recovered-project-artifacts/AI_School_Companion_Product_UX_Master_Brief_V1_1.md` (27,278 characters)
+- `docs/openhands-archive/recovered-project-artifacts/AMINA_SCHOOL_COMPANION_HANDOFF.md` (17,174 characters)
+
+The following partial message record was added:
+- `docs/openhands-archive/transcripts/chatgpt-recovered-context-2026-10-22-PARTIAL.md`
+
+This partial record preserves the two user messages in the current conversation verbatim and four earlier Amina user-message excerpts returned by personal-context retrieval. It explicitly identifies the excerpts as incomplete and records that the full `Amina School Companion — Product Transformation Report` was identified but its text was not returned. That report has not been fabricated or reconstructed.
+
+**Assistant-side recovery status: PARTIAL.** A complete export of all previous ChatGPT conversations about Amina is not available through the retrieval results currently exposed to this conversation. This does not prove that additional conversations do not exist. Continue searching the ChatGPT conversation/library sources and recover the full Product Transformation Report if its original source becomes accessible.
