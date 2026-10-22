@@ -42,7 +42,7 @@ export const MissionList: React.FC<MissionListProps> = ({ missions, onStartMissi
         </div>
         <div>
           <h3 className="text-sm font-bold text-slate-800 dark:text-slate-100">
-            {isAr ? 'لا توجد مهام مجدولة بعد' : 'No missions planned yet'}
+            {isAr ? 'لا توجد مهام مجدولة بعد' : language === 'fr' ? 'Aucune mission prévue pour le moment' : 'No missions planned yet'}
           </h3>
           <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1">
             {isAr
