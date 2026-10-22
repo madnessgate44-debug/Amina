@@ -463,6 +463,32 @@ async function runIntegrityTests() {
       'Test D.9: the flagged concept becomes due once its 1-day interval elapses');
   }
 
+  // ---- Phase E: branding and localization invariants ----
+  console.log('\n--- PHASE E: BRANDING & LOCALIZATION INVARIANTS ---\n');
+
+  {
+    const { translations } = await import('../../i18n/translations');
+    const locales = ['ar', 'en', 'fr'] as const;
+
+    for (const loc of locales) {
+      const t = (translations as Record<string, { app: { name: string } }>)[loc];
+      assert(t.app.name === 'Miss Noor', `E.1.${loc}: product name is "Miss Noor" (got "${t.app.name}")`);
+    }
+
+    const subjects = curriculumService.getSubjectsSummary();
+    const missingFr = subjects.filter((s) => !s.subjectNameFr);
+    assert(missingFr.length === 0,
+      `E.2: every subject has a French name (missing: ${missingFr.map((s) => s.subjectId).join(', ') || 'none'})`);
+
+    const lessonsWithFr = curriculumService.getAllLessons().filter((l) => l.subjectNameFr);
+    assert(lessonsWithFr.length === curriculumService.getAllLessons().length,
+      'E.3: every lesson carries a French subject name for French mode');
+
+    const mathSummary = subjects.find((s) => s.subjectId === 'subj_math');
+    assert(mathSummary?.subjectNameFr === 'Mathématiques',
+      `E.4: mathematics renders as "Mathématiques" in French (got "${mathSummary?.subjectNameFr}")`);
+  }
+
   console.log('\n=================================================================');
   console.log(`INTEGRITY TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');

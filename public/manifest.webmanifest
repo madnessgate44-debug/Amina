@@ -1,13 +1,13 @@
 {
-  "name": "Amina — AI School Companion",
-  "short_name": "Amina",
-  "description": "A personal study companion: lessons, homework, and mastery tracking.",
+  "name": "Miss Noor — AI School Companion",
+  "short_name": "Miss Noor",
+  "description": "A personal AI school companion: lessons, homework, practice, and progress.",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
   "orientation": "portrait",
-  "background_color": "#0b1020",
-  "theme_color": "#6366f1",
+  "background_color": "#17233b",
+  "theme_color": "#615bff",
   "lang": "ar",
   "dir": "rtl",
   "icons": [

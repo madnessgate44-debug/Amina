@@ -90,7 +90,10 @@ export const CurriculumBrowser: React.FC = () => {
           l.titleEn.toLowerCase().includes(q) ||
           (l.titleFr && l.titleFr.toLowerCase().includes(q)) ||
           l.subjectNameAr.toLowerCase().includes(q) ||
+          l.subjectNameEn.toLowerCase().includes(q) ||
+          (l.subjectNameFr && l.subjectNameFr.toLowerCase().includes(q)) ||
           l.sourceRef.bookAr.toLowerCase().includes(q) ||
+          l.sourceRef.bookEn.toLowerCase().includes(q) ||
           (l.readingText && l.readingText.toLowerCase().includes(q))
       );
     }
@@ -155,7 +158,7 @@ export const CurriculumBrowser: React.FC = () => {
             <div>
               <div className="flex items-center gap-2 flex-wrap">
                 <h2 className="text-base font-black text-white">
-                  {isAr ? 'مدرستي — كتب ومناهج أمينة' : isFr ? 'Mon École — Manuels d’Amina' : 'My School — Amina\'s Books'}
+                  {isAr ? 'مدرستي — الكتب والمناهج' : isFr ? 'Mon École — Manuels' : 'My School — Books'}
                 </h2>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-400 text-slate-950 shadow-xs">
                   {isAr ? 'المنهج المعتمد 🇪🇬' : 'Official Curriculum'}
@@ -212,8 +215,8 @@ export const CurriculumBrowser: React.FC = () => {
           onChange={(e) => setSearchQuery(e.target.value)}
           placeholder={
             isAr
-              ? 'ابحثي في جميع كتب أمينة (كسور، نبات، salutations، décimaux، النيل)...'
-              : 'Search in all Amina\'s books (fractions, plants, decimals)...'
+              ? 'ابحثي في جميع الكتب (كسور، نبات، salutations، décimaux، النيل)...'
+              : isFr ? 'Rechercher dans tous les manuels (fractions, plantes, décimaux)...' : 'Search in all books (fractions, plants, decimals)...'
           }
           className="w-full py-2.5 px-9 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-2xs"
         />
@@ -265,7 +268,7 @@ export const CurriculumBrowser: React.FC = () => {
                     {isAr ? b.subjectNameAr : isFr && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                   </h3>
                   <p className="text-[9px] text-white/80 line-clamp-1">
-                    {isAr ? b.bookTitleAr : b.bookTitleEn}
+                    {isAr ? b.bookTitleAr : isFr && b.bookTitleFr ? b.bookTitleFr : b.bookTitleEn}
                   </p>
                 </div>
 
@@ -321,7 +324,7 @@ export const CurriculumBrowser: React.FC = () => {
                   {isAr ? selectedBookForDetail.subjectNameAr : isFr && selectedBookForDetail.subjectNameFr ? selectedBookForDetail.subjectNameFr : selectedBookForDetail.subjectNameEn}
                 </h3>
                 <p className="text-xs text-white/90">
-                  {isAr ? selectedBookForDetail.bookTitleAr : selectedBookForDetail.bookTitleEn}
+                  {isAr ? selectedBookForDetail.bookTitleAr : isFr && selectedBookForDetail.bookTitleFr ? selectedBookForDetail.bookTitleFr : selectedBookForDetail.bookTitleEn}
                 </p>
               </div>
             </div>

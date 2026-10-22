@@ -130,13 +130,13 @@ export const HomeScreen: React.FC = () => {
 
           <div>
             <h1 className="text-xl font-black tracking-tight flex items-center gap-1.5">
-              <span>{t.home.welcome} {studentName}!</span>
+              <span>{isFrench ? 'Bienvenue' : t.home.welcome} {studentName}!</span>
               <span className="text-amber-300">👋</span>
             </h1>
             <p className="text-xs text-indigo-200 mt-0.5">
               {isArabic
                 ? 'رفيقكِ ومعلمتكِ الذكية لتنظيم يومك والمذاكرة خطوة بخطوة بدون ضغط'
-                : 'Your personal AI teacher & companion for relaxed, joyful learning'}
+                : isFrench ? 'Ton enseignante IA personnelle pour apprendre sereinement, à ton rythme' : 'Your personal AI teacher & companion for relaxed, joyful learning'}
             </p>
           </div>
 
@@ -148,7 +148,7 @@ export const HomeScreen: React.FC = () => {
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-black text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
-            <span>{isArabic ? 'ماذا أفعل الآن يا مس نور؟' : 'What Should I Do Now, Miss Nour?'}</span>
+            <span>{isArabic ? 'ماذا أفعل الآن يا مس نور؟' : isFrench ? 'Que dois-je faire maintenant, Maîtresse Nour ?' : 'What Should I Do Now, Miss Nour?'}</span>
           </span>
 
         </div>
@@ -163,7 +163,7 @@ export const HomeScreen: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-950 text-white">
-                    {isArabic ? 'الخطوة الأولى والأهم' : 'Top Priority Action'}
+                    {isArabic ? 'الخطوة الأولى والأهم' : isFrench ? 'Action prioritaire' : 'Top Priority Action'}
                   </span>
                   <h2 className="text-base sm:text-lg font-black text-slate-950 mt-1">
                     {isArabic ? `حمد الله على سلامتك يا ${studentName}!` : `Welcome home, ${studentName}!`}
@@ -322,7 +322,7 @@ export const HomeScreen: React.FC = () => {
           <div className="flex items-center gap-2">
             <Sliders className="w-4 h-4 text-indigo-600" />
             <span className="font-bold text-slate-800 dark:text-slate-200">
-              {isArabic ? 'وقت المذاكرة المتاح اليوم:' : 'Available Study Time:'}
+              {isArabic ? 'وقت المذاكرة المتاح اليوم:' : isFrench ? 'Temps d’étude disponible :' : 'Available Study Time:'}
             </span>
             <select
               value={selectedDuration}
@@ -364,7 +364,7 @@ export const HomeScreen: React.FC = () => {
             <span className="text-xl">📚</span>
             <div>
               <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
-                {isArabic ? 'مدرستي — كتبي المدرسية' : 'My School — Textbooks'}
+                {isArabic ? 'مدرستي — كتبي المدرسية' : isFrench ? 'Mon école — Manuels' : 'My School — Textbooks'}
               </h3>
               <p className="text-[10px] text-slate-400">
                 {isArabic ? 'جميع كتب وزارة التربية والتعليم الرسمية والداعمة' : 'All official & supplementary curriculum books'}
@@ -394,14 +394,14 @@ export const HomeScreen: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-2xl group-hover:scale-110 transition-transform">{b.icon}</span>
                   <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-2xs">
-                    {b.availableLessons} {isArabic ? 'دروس' : 'les'}
+                    {b.availableLessons} {isArabic ? 'دروس' : isFrench ? 'leçons' : 'lessons'}
                   </span>
                 </div>
                 <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 truncate pt-1">
                   {isArabic ? b.subjectNameAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                 </h4>
                 <p className="text-[9px] text-slate-400 truncate">
-                  {isArabic ? b.bookTitleAr : b.bookTitleEn}
+                  {isArabic ? b.bookTitleAr : isFrench && b.bookTitleFr ? b.bookTitleFr : b.bookTitleEn}
                 </p>
               </div>
 
