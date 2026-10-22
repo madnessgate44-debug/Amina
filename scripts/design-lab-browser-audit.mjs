@@ -1,7 +1,8 @@
 import { spawn } from 'node:child_process';
 import { mkdir, writeFile } from 'node:fs/promises';
 import { setTimeout as delay } from 'node:timers/promises';
-import { chromium } from 'playwright';
+const playwrightModule = process.env.PLAYWRIGHT_MODULE || 'playwright';
+const { chromium } = await import(playwrightModule);
 
 const baseURL = process.env.AMINA_BASE_URL || 'http://127.0.0.1:4173';
 const keepServer = process.env.AMINA_KEEP_SERVER === 'true';
