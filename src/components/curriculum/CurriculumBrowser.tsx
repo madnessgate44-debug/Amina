@@ -94,11 +94,12 @@ export const CurriculumBrowser: React.FC = () => {
           (l.subjectNameFr && l.subjectNameFr.toLowerCase().includes(q)) ||
           l.sourceRef.bookAr.toLowerCase().includes(q) ||
           l.sourceRef.bookEn.toLowerCase().includes(q) ||
+          (officialSubjectsSummary.find((s) => s.subjectId === l.subjectId)?.bookTitleFr || '').toLowerCase().includes(q) ||
           (l.readingText && l.readingText.toLowerCase().includes(q))
       );
     }
     return list;
-  }, [officialLessons, selectedSubjectId, searchQuery]);
+  }, [officialLessons, officialSubjectsSummary, selectedSubjectId, searchQuery]);
 
   // Group lessons of current selected subject by unit
   const activeSubjectUnits = useMemo(() => {
@@ -562,7 +563,7 @@ export const CurriculumBrowser: React.FC = () => {
                   <div className="flex-1 space-y-0.5">
                     <div className="flex items-center gap-1.5">
                       <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
-                        {isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
+                        {isAr ? lesson.subjectNameAr : isFr && lesson.subjectNameFr ? lesson.subjectNameFr : lesson.subjectNameEn}
                       </span>
                       <span className="text-[10px] text-slate-400">
                         {isAr ? `الوحدة ${lesson.unitNumber}` : isFr ? `Unité ${lesson.unitNumber}` : `Unit ${lesson.unitNumber}`}
@@ -573,7 +574,7 @@ export const CurriculumBrowser: React.FC = () => {
                       {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
                     </h4>
                     <p className="text-[10px] text-slate-400">
-                      {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
+                      {isAr ? lesson.sourceRef.bookAr : isFr ? (officialSubjectsSummary.find((s) => s.subjectId === lesson.subjectId)?.bookTitleFr || lesson.sourceRef.bookEn) : lesson.sourceRef.bookEn}
                     </p>
                   </div>
 
