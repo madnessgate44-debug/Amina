@@ -37,9 +37,9 @@ Because this repository is operated through GitHub and the owner works from a ph
 
 - [x] Inspected Amina's current `package.json` and project handoff.
 - [x] Selected and arranged role-specific design/research/critique/learner workflows.
-- [x] Automated rendered browser walkthrough wired into PR CI; first execution pending.
-- [ ] Review first screenshot artifact and finish screenshot-backed duplicate-pattern / visual diagnosis.
-- [ ] Model-driven synthetic learner run against Amina (Humanish remains gated on supported runtime/provider availability).
+- [x] First rendered browser baseline captured: [run 39738852961](https://github.com/madnessgate44-debug/Amina/actions/runs/39738852961); current branch rerun pending.
+- [x] Record initial screenshot-backed findings in `docs/design-lab/RENDERED_AUDIT_FINDINGS.md`; current branch changes still need visual re-verification.
+- [ ] Forera synthetic learner attempted but blocked during onboarding at 12 steps; improved 24-step rerun is queued. Humanish remains optional and gated on supported runtime/provider availability.
 - [ ] Concept comparison and owner review.
 - [ ] Production implementation and regression verification.
 
