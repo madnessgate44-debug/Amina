@@ -112,13 +112,13 @@ export const CurriculumBrowser: React.FC = () => {
       id: 'mission_quiz_' + lesson.id,
       studentId: student.id,
       date: localDateStr(),
-      subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
-      title: (isAr ? 'تمارين وتطبيق: ' : 'Practice Quiz: ') + (isAr ? lesson.titleAr : lesson.titleEn),
+      subject: isAr ? lesson.subjectNameAr : isFr && lesson.subjectNameFr ? lesson.subjectNameFr : lesson.subjectNameEn,
+      title: (isAr ? 'تمارين وتطبيق: ' : isFr ? 'Quiz de révision : ' : 'Practice Quiz: ') + (isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn),
       type: 'quiz',
       estimatedMinutes: 10,
-      whyNow: isAr ? 'تطبيق وتدريب لتثبيت المفهوم' : 'Practice to solidify concept',
+      whyNow: isAr ? 'تطبيق وتدريب لتثبيت المفهوم' : isFr ? 'Entraîne-toi pour consolider cette notion' : 'Practice to solidify concept',
       originTag: 'official_curriculum',
-      successCriterion: isAr ? 'حل التمارين بنجاح' : 'Complete practice quiz',
+      successCriterion: isAr ? 'حل التمارين بنجاح' : isFr ? 'Terminer le quiz de révision' : 'Complete practice quiz',
       status: 'pending',
       conceptId: lesson.concepts[0]?.id,
       lessonId: lesson.id,
@@ -133,12 +133,12 @@ export const CurriculumBrowser: React.FC = () => {
       studentId: student.id,
       date: localDateStr(),
       subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
-      title: (isAr ? 'واجب كتاب الوزارة: ' : 'Homework: ') + (isAr ? lesson.titleAr : lesson.titleEn),
+      title: (isAr ? 'واجب كتاب الوزارة: ' : isFr ? 'Devoir : ' : 'Homework: ') + (isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn),
       type: 'homework',
       estimatedMinutes: 15,
-      whyNow: isAr ? 'واجب مدرسي لتثبيت الدرس' : 'Textbook homework for the lesson',
+      whyNow: isAr ? 'واجب مدرسي لتثبيت الدرس' : isFr ? 'Devoir pour consolider la leçon' : 'Textbook homework for the lesson',
       originTag: 'official_curriculum',
-      successCriterion: isAr ? 'إنهاء وحل مسائل الواجب' : 'Complete homework exercises',
+      successCriterion: isAr ? 'إنهاء وحل مسائل الواجب' : isFr ? 'Terminer les exercices du devoir' : 'Complete homework exercises',
       status: 'pending',
       conceptId: lesson.concepts[0]?.id,
       lessonId: lesson.id,
@@ -161,13 +161,13 @@ export const CurriculumBrowser: React.FC = () => {
                   {isAr ? 'مدرستي — كتب ومناهج أمينة' : isFr ? 'Mon École — Manuels d’Amina' : 'My School — Amina\'s Books'}
                 </h2>
                 <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-400 text-slate-950 shadow-xs">
-                  {isAr ? 'المنهج المعتمد 🇪🇬' : 'Official Curriculum'}
+                  {isAr ? 'المنهج المعتمد 🇪🇬' : isFr ? 'Programme officiel' : 'Official Curriculum'}
                 </span>
               </div>
               <p className="text-xs text-indigo-200 mt-0.5">
                 {isAr
                   ? 'جميع كتب وزارة التربية والتعليم الرسمية والكتب الداعمة (الفصل الدراسي الأول)'
-                  : 'Official Ministry of Education Textbooks & Supplementary Guides (Term 1)'}
+                  : isFr ? 'Manuels officiels du ministère et guides complémentaires (1er semestre)' : 'Official Ministry of Education Textbooks & Supplementary Guides (Term 1)'}
               </p>
             </div>
           </div>
@@ -397,7 +397,7 @@ export const CurriculumBrowser: React.FC = () => {
                                 sourceId={lesson.id}
                                 type="lesson"
                                 title={isAr ? lesson.titleAr : lesson.titleEn}
-                                subject={isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
+                                subject={isAr ? lesson.subjectNameAr : isFr && lesson.subjectNameFr ? lesson.subjectNameFr : lesson.subjectNameEn}
                                 snippet={lesson.readingText?.slice(0, 100) || undefined}
                               />
                               <button
@@ -545,7 +545,7 @@ export const CurriculumBrowser: React.FC = () => {
                   }`}
                 >
                   <span>{s.icon}</span>
-                  <span>{isAr ? s.badgeAr : s.badgeEn}</span>
+                  <span>{isAr ? s.badgeAr : isFr && s.subjectNameFr ? s.subjectNameFr : s.badgeEn}</span>
                 </button>
               );
             })}
@@ -580,8 +580,8 @@ export const CurriculumBrowser: React.FC = () => {
                   <SaveLikeButton
                     sourceId={lesson.id}
                     type="lesson"
-                    title={isAr ? lesson.titleAr : lesson.titleEn}
-                    subject={isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
+                    title={isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
+                    subject={isAr ? lesson.subjectNameAr : isFr && lesson.subjectNameFr ? lesson.subjectNameFr : lesson.subjectNameEn}
                   />
                 </div>
 
