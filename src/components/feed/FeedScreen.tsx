@@ -86,7 +86,7 @@ export const FeedScreen: React.FC = () => {
   };
 
   return (
-    <div className="h-[calc(100vh-64px)] overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="flex-1 min-h-0 overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white" dir={isAr ? 'rtl' : 'ltr'}>
       <section className="min-h-full snap-start flex flex-col justify-center px-5 py-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-b from-violet-950 via-slate-950 to-slate-950" />
         <div className="relative z-10 max-w-md mx-auto w-full">
