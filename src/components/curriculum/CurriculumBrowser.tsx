@@ -132,7 +132,7 @@ export const CurriculumBrowser: React.FC = () => {
       id: 'mission_hw_' + lesson.id,
       studentId: student.id,
       date: localDateStr(),
-      subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
+      subject: isAr ? lesson.subjectNameAr : isFr && lesson.subjectNameFr ? lesson.subjectNameFr : lesson.subjectNameEn,
       title: (isAr ? 'واجب كتاب الوزارة: ' : isFr ? 'Devoir : ' : 'Homework: ') + (isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn),
       type: 'homework',
       estimatedMinutes: 15,
@@ -396,7 +396,7 @@ export const CurriculumBrowser: React.FC = () => {
                               <SaveLikeButton
                                 sourceId={lesson.id}
                                 type="lesson"
-                                title={isAr ? lesson.titleAr : lesson.titleEn}
+                                title={isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
                                 subject={isAr ? lesson.subjectNameAr : isFr && lesson.subjectNameFr ? lesson.subjectNameFr : lesson.subjectNameEn}
                                 snippet={lesson.readingText?.slice(0, 100) || undefined}
                               />
