@@ -90,7 +90,10 @@ export const CurriculumBrowser: React.FC = () => {
           l.titleEn.toLowerCase().includes(q) ||
           (l.titleFr && l.titleFr.toLowerCase().includes(q)) ||
           l.subjectNameAr.toLowerCase().includes(q) ||
+          l.subjectNameEn.toLowerCase().includes(q) ||
+          (l.subjectNameFr && l.subjectNameFr.toLowerCase().includes(q)) ||
           l.sourceRef.bookAr.toLowerCase().includes(q) ||
+          l.sourceRef.bookEn.toLowerCase().includes(q) ||
           (l.readingText && l.readingText.toLowerCase().includes(q))
       );
     }
