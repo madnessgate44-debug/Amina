@@ -4,6 +4,7 @@ import { setTimeout as delay } from 'node:timers/promises';
 import { chromium } from 'playwright';
 
 const baseURL = process.env.AMINA_BASE_URL || 'http://127.0.0.1:4173';
+const keepServer = process.env.AMINA_KEEP_SERVER === 'true';
 const outDir = 'artifacts/design-audit';
 await mkdir(outDir, { recursive: true });
 
@@ -194,7 +195,7 @@ try {
   report.serverOutputTail = (server ? '' : '').slice(-1000);
 } finally {
   if (browser) await browser.close().catch(() => {});
-  if (server && server.exitCode === null) {
+  if (server && server.exitCode === null && !keepServer) {
     server.kill('SIGTERM');
     await Promise.race([
       new Promise((resolve) => server.once('exit', resolve)),
