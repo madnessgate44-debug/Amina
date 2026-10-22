@@ -132,13 +132,47 @@ try {
   for (let i = 0; i < tabNames.length; i += 1) {
     await nav.nth(i).click();
     await delay(450);
-    await capture(page, `04-${tabNames[i]}-mobile`, tabNames[i]);
+    const screen = await capture(page, `04-${tabNames[i]}-mobile`, tabNames[i]);
+    if (tabNames[i] === 'home') {
+      const headerText = await page.locator('header').innerText();
+      check('product brand and teacher identity are distinct',
+        headerText.includes('Amina') && headerText.includes('Miss Nour'), headerText);
+    }
     if (tabNames[i] === 'feed') {
-      // Capture a second position in the vertical feed if content is scrollable.
-      await page.mouse.wheel(0, 650);
-      await delay(250);
+      check('French Feed intro uses French UI copy',
+        screen.bodyText.includes('Nour t’accompagne maintenant'),
+        screen.bodyText.slice(0, 450));
+      // Scroll the actual overflowing feed container; wheel input alone was not reliable under snap scrolling.
+      const scrollState = await page.evaluate(() => {
+        const candidates = Array.from(document.querySelectorAll('*')).filter((el) => {
+          const style = getComputedStyle(el);
+          return (style.overflowY === 'auto' || style.overflowY === 'scroll') &&
+            el.scrollHeight > el.clientHeight + 20 && el.clientHeight > 300;
+        });
+        const target = candidates.sort((a, b) => b.clientHeight - a.clientHeight)[0];
+        if (!target) return { found: false, reason: 'No scrollable feed container found' };
+        const before = target.scrollTop;
+        target.scrollTop = Math.min(target.scrollHeight, before + target.clientHeight * 0.95);
+        target.dispatchEvent(new Event('scroll', { bubbles: true }));
+        return { found: true, before, after: target.scrollTop, clientHeight: target.clientHeight, scrollHeight: target.scrollHeight };
+      });
+      check('Feed advances when scrolled', scrollState.found && scrollState.after > scrollState.before,
+        JSON.stringify(scrollState));
+      await delay(300);
       await capture(page, '05-feed-after-scroll-mobile', 'feed');
-      await page.mouse.wheel(0, -900);
+    }
+    if (tabNames[i] === 'library') {
+      const search = page.locator('input[type="text"]').first();
+      const placeholder = await search.getAttribute('placeholder') || '';
+      check('curriculum search placeholder is French in French mode',
+        placeholder.startsWith('Rechercher'), placeholder);
+      await search.fill('Mathématiques');
+      await delay(350);
+      const resultCount = await page.locator('h4').count();
+      check('French subject search returns curriculum results', resultCount > 0,
+        `visible lesson headings=${resultCount}`);
+      await capture(page, '05-library-french-search-mobile', 'library');
+      await search.fill('');
     }
   }
 
