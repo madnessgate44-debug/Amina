@@ -31,9 +31,14 @@ jobs:
         env:
           PORT: "4173"
           NODE_ENV: production
-      - name: Start Amina for the agentic learner walkthrough
+          AMINA_KEEP_SERVER: "true"
+      - name: Ensure Amina is running for the agentic learner walkthrough
         run: |
           mkdir -p artifacts/design-audit
+          if curl --fail --silent http://127.0.0.1:4173/api/health >/dev/null; then
+            echo "Reusing the app server from the browser audit."
+            exit 0
+          fi
           npm start > artifacts/design-audit/amina-server.log 2>&1 &
           echo $! > /tmp/amina-server.pid
           for attempt in $(seq 1 45); do
