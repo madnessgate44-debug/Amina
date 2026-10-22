@@ -394,7 +394,7 @@ export const HomeScreen: React.FC = () => {
                 <div className="flex items-center justify-between">
                   <span className="text-2xl group-hover:scale-110 transition-transform">{b.icon}</span>
                   <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-2xs">
-                    {b.availableLessons} {isArabic ? 'دروس' : 'les'}
+                    {b.availableLessons} {isArabic ? 'دروس' : isFrench ? 'leçons' : 'lessons'}
                   </span>
                 </div>
                 <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 truncate pt-1">
