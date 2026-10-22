@@ -1,0 +1,524 @@
+{
+  "mission": "Amina rendered mobile UX reconnaissance",
+  "baseURL": "http://127.0.0.1:4173",
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "startedAt": "2026-10-22T11:12:03.266Z",
+  "environment": "GitHub Actions disposable browser; synthetic QA profile only",
+  "checks": [
+    {
+      "name": "local app health endpoint responds",
+      "passed": true,
+      "detail": "status=ok; API key presence intentionally not recorded"
+    },
+    {
+      "name": "app route returns HTTP 200",
+      "passed": true,
+      "detail": "status=200"
+    },
+    {
+      "name": "01-onboarding-initial: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "02-onboarding-interview-q1: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "03-onboarding-profile-confirmation: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "four primary destinations are rendered",
+      "passed": true,
+      "detail": "count=4"
+    },
+    {
+      "name": "04-home-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "product brand and teacher identity are distinct",
+      "passed": false,
+      "detail": "Miss Nour\nLearner QA"
+    },
+    {
+      "name": "04-feed-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "French Feed intro uses French UI copy",
+      "passed": false,
+      "detail": "Miss Nour\nLearner QA\n☀️\nNour is teaching you now\n\n“Come on, Learner QA. Watch what I’m showing you, then show me how you think.”\n\nSwipe up — Nour will guide you step by step\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nListening Story: \"I Can\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not j"
+    },
+    {
+      "name": "Feed advances when scrolled",
+      "passed": true,
+      "detail": "{\"found\":true,\"before\":0,\"after\":780,\"clientHeight\":780,\"scrollHeight\":5460}"
+    },
+    {
+      "name": "05-feed-after-scroll-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "04-library-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "curriculum search placeholder is French in French mode",
+      "passed": false,
+      "detail": "Search in all Amina's books (fractions, plants, decimals)..."
+    },
+    {
+      "name": "French subject search returns curriculum results",
+      "passed": true,
+      "detail": "visible lesson headings=5"
+    },
+    {
+      "name": "05-library-french-search-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "04-nour-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "06-home-desktop: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=1365px document=1365px"
+    },
+    {
+      "name": "07-feed-desktop: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=1365px document=1365px"
+    },
+    {
+      "name": "no uncaught page errors",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "name": "no browser console errors",
+      "passed": true,
+      "detail": "[]"
+    },
+    {
+      "name": "08-home-arabic-rtl-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "Arabic page exposes RTL direction",
+      "passed": true,
+      "detail": "document direction=rtl"
+    },
+    {
+      "name": "09-feed-arabic-rtl-mobile: no horizontal overflow",
+      "passed": true,
+      "detail": "viewport=390px document=390px"
+    },
+    {
+      "name": "at least eight screen states captured",
+      "passed": true,
+      "detail": "screens=13"
+    }
+  ],
+  "screens": [
+    {
+      "name": "01-onboarding-initial",
+      "tab": "onboarding",
+      "screenshot": "artifacts/design-audit/01-onboarding-initial.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 1111,
+      "direction": "rtl",
+      "language": "ar",
+      "bodyText": "الخطوة 1 من 3\nGirard French Track\nتسجيل بيانات الطالب\n\nلنبدأ بإعداد ملفك الدراسي الشخصي\n\nاسم الطالب\nالعمر\nالصف الدراسي\nالدولة\nالعام الدراسي\nالمنهج الدراسي\nGirard French Track — Egyptian National + French Curriculum\nGirard / French Track\nلغة التطبيق الأساسية\nالعربية 🇪🇬\nEnglish 🇬🇧\nFrançais 🇫🇷\nالمواد الدراسية (النسخة التجريبية)\n📖\nاللغة العربية\nرسمي\n🥐\nاللغة الفرنسية\nرسمي\n📐\nالرياضيات\nرسمي\n🔬\nالعلوم\nرسمي\n📚\nالدراسات الاجتماعية\nرسمي\n🇬🇧\nاللغة الإنجليزية\nرسمي\n💻\nتكنولوجيا المعلومات والاتصالات\nرسمي\n🕌\nالتربية الدينية الإسلامية\nرسمي\n✒️\nالخط العربي\nرسمي\n\nمنهج أمينة في جيرار: المنهج المصري حيث ينطبق، مع مسار فرنسي، والرياضيات والعلوم باللغة الفرنسية.\n\nمتابعة للتعارف مع الرفيق ←",
+      "visibleButtons": [
+        "العربية 🇪🇬",
+        "English 🇬🇧",
+        "Français 🇫🇷",
+        "متابعة للتعارف مع الرفيق ←"
+      ]
+    },
+    {
+      "name": "02-onboarding-interview-q1",
+      "tab": "onboarding",
+      "screenshot": "artifacts/design-audit/02-onboarding-interview-q1.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 844,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Step 2 of 3\nGirard French Track\nAI School Companion\nAI Companion\n\nHello! I am your AI School Companion. I am an AI, not a human teacher or parent. My role is to help you organize your day, clarify tough topics, and get things done without study fatigue.\n\nQuestion 1 of 5\n20%\nWhich subject do you enjoy most?\n\nType your favorite subject or pick a suggestion below\n\nPick a quick choice or write freely:\nScience 🔬\nMathematics 📐\nArabic Language 📖\nArts & Activities 🎨\nSubmit\nBack\nNext Question",
+      "visibleButtons": [
+        "Science 🔬",
+        "Mathematics 📐",
+        "Arabic Language 📖",
+        "Arts & Activities 🎨",
+        "Submit",
+        "Back",
+        "Next Question"
+      ]
+    },
+    {
+      "name": "03-onboarding-profile-confirmation",
+      "tab": "onboarding",
+      "screenshot": "artifacts/design-audit/03-onboarding-profile-confirmation.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 844,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Step 3 of 3\nGirard French Track\nConfirm Student Profile\n\nReview your details before beginning your daily journey\n\nL\nLearner QA\n\n10 years old • الصف الخامس الابتدائي (Grade 5)\n\norigin: demo\nCURRICULUM\nGirard French Track — Egyptian National + French Curriculum\nCOUNTRY\nمصر (Egypt)\nAI Companion Interview Insights:\nFavorite Subject:\nالعلوم\nNeeds Focus:\nالرياضيات\nLearning Style:\ngames\nSession Length:\n10min\nExam Readiness:\nاختبارات شهرية قريبة\nSave Profile & Start Day ✨\nEdit Interview Answers",
+      "visibleButtons": [
+        "Save Profile & Start Day ✨",
+        "Edit Interview Answers"
+      ]
+    },
+    {
+      "name": "04-home-mobile",
+      "tab": "home",
+      "screenshot": "artifacts/design-audit/04-home-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 1007,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\nAI School Companion\nالصف الخامس الابتدائي (Grade 5)\n11:12\nWelcome, Learner QA!\n👋\n\nYour personal AI teacher & companion for relaxed, joyful learning\n\nWhat Should I Do Now, Miss Nour?\nAvailable Study Time:\n10 min (MVD)\n20 min\n35 min\n45 min\n60 min\nNo missions planned yet\n\nConfirm your school day record or pick your study time to generate daily missions.\n\n📚\nMy School — Textbooks\n\nAll official & supplementary curriculum books\n\nView Shelf\n←\n📖\n5 les\nArabic Language\n\nArabic Ministry Book pp. 6-11\n\nOpen\n←\n🥐\n3 les\nFrançais\n\nMinistry French Book pp. 4-9\n\nOpen\n←\n📐\n3 les\nMathématiques\n\nMinistry Mathématiques Techbook pp. 3-8\n\nOpen\n←\n🔬\n2 les\nSciences\n\nMinistry Sciences Textbook pp. 8-15\n\nOpen\n←\n📚\n3 les\nSocial Studies\n\nSocial Studies Ministry Book pp. 10-16\n\nOpen\n←\n🇬🇧\n2 les\nEnglish (Connect 5)\n\nEnglish Connect 5 pp. 14-16\n\nOpen\n←\n💻\n12 les\nICT\n\nICT Ministry Book pp. 7-9\n\nOpen\n←\n🕌\n2 les\nIslamic Studies\n\nIslamic Education Ministry Book pp. 8-15\n\nOpen\n←\n✒️\n1 les\nArabic Calligraphy\n\nArabic Calligraphy Workbook pp. 4-6\n\nOpen\n←\nTalk with Miss Nour 👩‍🏫\nAsk her anything about lessons, voice or text\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "",
+        "View Shelf ←",
+        "Talk with Miss Nour 👩‍🏫 Ask her anything about lessons, voice or text",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "04-feed-mobile",
+      "tab": "feed",
+      "screenshot": "artifacts/design-audit/04-feed-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 911,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\n☀️\nNour is teaching you now\n\n“Come on, Learner QA. Watch what I’m showing you, then show me how you think.”\n\nSwipe up — Nour will guide you step by step\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nListening Story: \"I Can\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nReading Text: \"I Have Not Polluted the River Water\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nArabic Grammar: The Nominal Sentence (Subject & Predicate)\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nInformational Text: \"True Beauty\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nListening Text: \"Interview with Dr. Magdi Yacoub\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nFrench Language\nLes salutations et se présenter\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "05-feed-after-scroll-mobile",
+      "tab": "feed",
+      "screenshot": "artifacts/design-audit/05-feed-after-scroll-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 911,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\n☀️\nNour is teaching you now\n\n“Come on, Learner QA. Watch what I’m showing you, then show me how you think.”\n\nSwipe up — Nour will guide you step by step\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nListening Story: \"I Can\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nReading Text: \"I Have Not Polluted the River Water\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nArabic Grammar: The Nominal Sentence (Subject & Predicate)\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nInformational Text: \"True Beauty\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nListening Text: \"Interview with Dr. Magdi Yacoub\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nFrench Language\nLes salutations et se présenter\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "04-library-mobile",
+      "tab": "library",
+      "screenshot": "artifacts/design-audit/04-library-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 1370,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\n📚\nMon École — Manuels d’Amina\nOfficial Curriculum\n\nOfficial Ministry of Education Textbooks & Supplementary Guides (Term 1)\n\n📖\nSchool Bookshelf\n📑\nUnits & Lessons\n📚 كتب أمينة الدراسية (الصف الخامس):\n(9 كتب معتمدة)\n📖\nالفصل الدراسي الأول\nArabic Language\n\nArabic Ministry Book pp. 6-11\n\n5 Lessons\n5 Available\nOpen Book 📖\n←\n🥐\n1er Semestre\nFrançais\n\nMinistry French Book pp. 4-9\n\n4 Lessons\n3 Available\nOpen Book 📖\n←\n📐\nالفصل الدراسي الأول\nMathématiques\n\nMinistry Mathématiques Techbook pp. 3-8\n\n4 Lessons\n3 Available\nOpen Book 📖\n←\n🔬\nالفصل الدراسي الأول\nSciences\n\nMinistry Sciences Textbook pp. 8-15\n\n3 Lessons\n2 Available\nOpen Book 📖\n←\n📚\nالفصل الدراسي الأول\nSocial Studies\n\nSocial Studies Ministry Book pp. 10-16\n\n3 Lessons\n3 Available\nOpen Book 📖\n←\n🇬🇧\nTerm 1\nEnglish (Connect 5)\n\nEnglish Connect 5 pp. 14-16\n\n2 Lessons\n2 Available\nOpen Book 📖\n←\n💻\nالفصل الدراسي الأول\nICT\n\nICT Ministry Book pp. 7-9\n\n12 Lessons\n12 Available\nOpen Book 📖\n←\n🕌\nالفصل الدراسي الأول\nIslamic Studies\n\nIslamic Education Ministry Book pp. 8-15\n\n2 Lessons\n2 Available\nOpen Book 📖\n←\n✒️\nالفصل الدراسي الأول\nArabic Calligraphy\n\nArabic Calligraphy Workbook pp. 4-6\n\n1 Lessons\n1 Available\nOpen Book 📖\n←\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "📖 School Bookshelf",
+        "📑 Units & Lessons",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "05-library-french-search-mobile",
+      "tab": "library",
+      "screenshot": "artifacts/design-audit/05-library-french-search-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 1264,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\n📚\nMon École — Manuels d’Amina\nOfficial Curriculum\n\nOfficial Ministry of Education Textbooks & Supplementary Guides (Term 1)\n\n📖\nSchool Bookshelf\n📑\nUnits & Lessons\n✕\nAll Subjects (36)\n📖\nArabic\n🥐\nFrançais\n📐\nMathematics\n🔬\nScience\n📚\nSocial Studies\n🇬🇧\nEnglish\n💻\nICT\n🕌\nIslamic Education\n✒️\nCalligraphy\nFrench Language\nUnit 2\nLes objets de la classe et les fournitures\n\nMinistry French Book pp. 16-22\n\nView Lesson\n←\n👩‍🏫 Teach with Nour\nMathematics\nUnit 1\nLes nombres décimaux jusqu'aux millièmes\n\nMinistry Mathématiques Techbook pp. 3-8\n\nView Lesson\n←\n👩‍🏫 Teach with Nour\nMathematics\nUnit 1\nComparer et ordonner les nombres décimaux\n\nMinistry Mathématiques Techbook pp. 9-14\n\nView Lesson\n←\n👩‍🏫 Teach with Nour\nMathematics\nUnit 2\nFractions équivalentes et simplification\n\nMinistry Mathématiques Techbook pp. 25-32\n\nView Lesson\n←\n👩‍🏫 Teach with Nour\nMathematics\nUnit 3\nMultiplier les décimaux par 10, 100 et 1000\n\nMinistry Mathématiques Techbook pp. 45-50 (Pending Upload)\n\nView Lesson\n←\n👩‍🏫 Teach with Nour\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "📖 School Bookshelf",
+        "📑 Units & Lessons",
+        "✕",
+        "All Subjects (36)",
+        "📖 Arabic",
+        "🥐 Français",
+        "📐 Mathematics",
+        "🔬 Science",
+        "📚 Social Studies",
+        "🇬🇧 English",
+        "💻 ICT",
+        "🕌 Islamic Education",
+        "✒️ Calligraphy",
+        "",
+        "",
+        "View Lesson ←",
+        "👩‍🏫 Teach with Nour",
+        "",
+        "",
+        "View Lesson ←",
+        "👩‍🏫 Teach with Nour",
+        "",
+        "",
+        "View Lesson ←",
+        "👩‍🏫 Teach with Nour",
+        "",
+        "",
+        "View Lesson ←",
+        "👩‍🏫 Teach with Nour",
+        "",
+        "",
+        "View Lesson ←",
+        "👩‍🏫 Teach with Nour",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "04-nour-mobile",
+      "tab": "nour",
+      "screenshot": "artifacts/design-audit/04-nour-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 1439,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\n👩‍🏫\nClasse de Maîtresse Nour\nGrade 5\n\nSmart Voice Tutor • Ministry Textbooks\n\n3\n📖\nاللغة العربية — تواصل ص. 6-11 • ص. 6\n«Listening Story: \"I Can\"»\n📚\nChanger\n\nBienvenue Learner QA! Je suis Maîtresse Nour 👩‍🏫 Notre étape actuelle est «Listening Story: \"I Can\"». Commençons par un rapide diagnostic avant le tableau !\n\n☀️\nMiss Nour 🌟\n📝 سبورة الدرس:\nاللغة العربية — تواصل ص. 6-11\nص. 6\n«Listening Story: \"I Can\"»\n\n«أنا أستطيع، هذه العبارة التي كنت أقولها لنفسي حين يواجهني شيء لا أقدر عليه أو حين يضيع مني الأمل». بهذه الكلمات بدأ آسر حديثه بعد حصوله على تقدير ضعيف في اختبار مادة اللغة العربية...\n\nLive Stage 🎭\nTextbook 📖\nOutfit:\nعربي 📜\nرياضيات 📐\nعلوم 🔬\nإنجليزي 🇬🇧\nدراسات 🧭\nدين 🕌\n🩺\n1. Diagnosis\n👩‍🏫\n2. Teaching\n🎯\n3. Re-Check\n⭐\n4. Exercises\n💬\n5. Ask Nour\n🩺\nExploratory Diagnostic Station\n\nDiagnosing understanding before detailed explanation\n\nاللغة العربية\n🏫\nFollowing official curriculum textbook progression.\nDiagnostic Question from Miss Nour:\nDans l’histoire \"Je peux\", quand Asser était découragé, quelle leçon essentielle a-t-il apprise ?\nL’échec n’est pas une fatalité mais une motivation à persévérer\nÉviter toute tâche difficile pour ne plus échouer\nCompter entièrement sur les autres sans effort personnel\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "",
+        "",
+        "",
+        "📚 Changer",
+        "",
+        "Live Stage 🎭",
+        "Textbook 📖",
+        "عربي 📜",
+        "رياضيات 📐",
+        "علوم 🔬",
+        "إنجليزي 🇬🇧",
+        "دراسات 🧭",
+        "دين 🕌",
+        "🩺 1. Diagnosis",
+        "👩‍🏫 2. Teaching",
+        "🎯 3. Re-Check",
+        "⭐ 4. Exercises",
+        "💬 5. Ask Nour",
+        "L’échec n’est pas une fatalité mais une motivation à persévérer",
+        "Éviter toute tâche difficile pour ne plus échouer",
+        "Compter entièrement sur les autres sans effort personnel",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "06-home-desktop",
+      "tab": "home",
+      "screenshot": "artifacts/design-audit/06-home-desktop.png",
+      "viewportWidth": 1365,
+      "documentWidth": 1365,
+      "viewportHeight": 900,
+      "documentHeight": 900,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\nAI School Companion\nالصف الخامس الابتدائي (Grade 5)\n11:12\nWelcome, Learner QA!\n👋\n\nYour personal AI teacher & companion for relaxed, joyful learning\n\nWhat Should I Do Now, Miss Nour?\nAvailable Study Time:\n10 min (MVD)\n20 min\n35 min\n45 min\n60 min\nNo missions planned yet\n\nConfirm your school day record or pick your study time to generate daily missions.\n\n📚\nMy School — Textbooks\n\nAll official & supplementary curriculum books\n\nView Shelf\n←\n📖\n5 les\nArabic Language\n\nArabic Ministry Book pp. 6-11\n\nOpen\n←\n🥐\n3 les\nFrançais\n\nMinistry French Book pp. 4-9\n\nOpen\n←\n📐\n3 les\nMathématiques\n\nMinistry Mathématiques Techbook pp. 3-8\n\nOpen\n←\n🔬\n2 les\nSciences\n\nMinistry Sciences Textbook pp. 8-15\n\nOpen\n←\n📚\n3 les\nSocial Studies\n\nSocial Studies Ministry Book pp. 10-16\n\nOpen\n←\n🇬🇧\n2 les\nEnglish (Connect 5)\n\nEnglish Connect 5 pp. 14-16\n\nOpen\n←\n💻\n12 les\nICT\n\nICT Ministry Book pp. 7-9\n\nOpen\n←\n🕌\n2 les\nIslamic Studies\n\nIslamic Education Ministry Book pp. 8-15\n\nOpen\n←\n✒️\n1 les\nArabic Calligraphy\n\nArabic Calligraphy Workbook pp. 4-6\n\nOpen\n←\nTalk with Miss Nour 👩‍🏫\nAsk her anything about lessons, voice or text\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "",
+        "View Shelf ←",
+        "Talk with Miss Nour 👩‍🏫 Ask her anything about lessons, voice or text",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "07-feed-desktop",
+      "tab": "feed",
+      "screenshot": "artifacts/design-audit/07-feed-desktop.png",
+      "viewportWidth": 1365,
+      "documentWidth": 1365,
+      "viewportHeight": 900,
+      "documentHeight": 967,
+      "direction": "ltr",
+      "language": "fr",
+      "bodyText": "Miss Nour\nLearner QA\n☀️\nNour is teaching you now\n\n“Come on, Learner QA. Watch what I’m showing you, then show me how you think.”\n\nSwipe up — Nour will guide you step by step\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nListening Story: \"I Can\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nReading Text: \"I Have Not Polluted the River Water\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nArabic Grammar: The Nominal Sentence (Subject & Predicate)\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nInformational Text: \"True Beauty\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nArabic Language\nListening Text: \"Interview with Dr. Magdi Yacoub\"\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\n📐\nNOUR\n\nI want to teach this with you, not just show you the page.\n\nA REAL LESSON FROM YOUR CURRICULUM\nFrench Language\nLes salutations et se présenter\n\nNour will teach, question you, listen to your reasoning, and adapt.\n\nLearn with Nour\nAccueil\nFil\nBibliothèque\nNour",
+      "visibleButtons": [
+        "Menu",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "",
+        "",
+        "Learn with Nour",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Nour"
+      ]
+    },
+    {
+      "name": "08-home-arabic-rtl-mobile",
+      "tab": "home-ar",
+      "screenshot": "artifacts/design-audit/08-home-arabic-rtl-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 1023,
+      "direction": "rtl",
+      "language": "ar",
+      "bodyText": "Miss Nour\nاختبار\nالرفيق الدراسي الذكي\nالصف الخامس الابتدائي (Grade 5)\n11:12\nأهلاً بك يا اختبار!\n👋\n\nرفيقكِ ومعلمتكِ الذكية لتنظيم يومك والمذاكرة خطوة بخطوة بدون ضغط\n\nماذا أفعل الآن يا مس نور؟\nوقت المذاكرة المتاح اليوم:\n١٠ دقائق (أدنى يوم فعال)\n٢٠ دقيقة\n٣٥ دقيقة\n٤٥ دقيقة (افتراضي)\n٦٠ دقيقة\nلا توجد مهام مجدولة بعد\n\nقم بتأكيد ملخص يومك المدرسي أو حدد وقتك لنقوم بجدولة مهامك تلقائياً.\n\n📚\nمدرستي — كتبي المدرسية\n\nجميع كتب وزارة التربية والتعليم الرسمية والداعمة\n\nتصفح الرف كاملاً\n←\n📖\n5 دروس\nاللغة العربية\n\nاللغة العربية — تواصل ص. 6-11\n\nافتحي الكتاب\n←\n🥐\n3 دروس\nاللغة الفرنسية\n\nكتاب الوزارة للغة الفرنسية ص. 4-9\n\nافتحي الكتاب\n←\n📐\n3 دروس\nالرياضيات\n\nكتاب الوزارة Mathématiques ص. 3-8\n\nافتحي الكتاب\n←\n🔬\n2 دروس\nالعلوم\n\nكتاب الوزارة Sciences ص. 8-15\n\nافتحي الكتاب\n←\n📚\n3 دروس\nالدراسات الاجتماعية\n\nالدراسات الاجتماعية — كتاب الوزارة ص. 10-16\n\nافتحي الكتاب\n←\n🇬🇧\n2 دروس\nاللغة الإنجليزية\n\nاللغة الإنجليزية كونكت 5 ص. 14-16\n\nافتحي الكتاب\n←\n💻\n12 دروس\nتكنولوجيا المعلومات والاتصالات\n\nتكنولوجيا المعلومات والاتصالات ص. 7-9\n\nافتحي الكتاب\n←\n🕌\n2 دروس\nالتربية الدينية الإسلامية\n\nالتربية الدينية الإسلامية — كتاب الوزارة ص. 8-15\n\nافتحي الكتاب\n←\n✒️\n1 دروس\nالخط العربي\n\nكراسة الخط العربي ص. 4-6\n\nافتحي الكتاب\n←\nتحدثي مع المعلمة نور 👩‍🏫\nاسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت\nالرئيسية\nالموجز\nالمكتبة\nنور",
+      "visibleButtons": [
+        "القائمة",
+        "",
+        "تصفح الرف كاملاً ←",
+        "تحدثي مع المعلمة نور 👩‍🏫 اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ]
+    },
+    {
+      "name": "09-feed-arabic-rtl-mobile",
+      "tab": "feed-ar",
+      "screenshot": "artifacts/design-audit/09-feed-arabic-rtl-mobile.png",
+      "viewportWidth": 390,
+      "documentWidth": 390,
+      "viewportHeight": 844,
+      "documentHeight": 911,
+      "direction": "rtl",
+      "language": "ar",
+      "bodyText": "Miss Nour\nاختبار\n☀️\nنور دخلت معاكِ الحصة\n\n\"يلا يا اختبار — هوريكي حاجة، وبعدها عايزة أشوفك بتفكري إزاي.\"\n\nاسحبي لأعلى — نور هتكمّل معاكي خطوة بخطوة\n📐\nنور\n\nأنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.\n\nدرس حقيقي من منهجك\nاللغة العربية\nقصة الاستماع: «أنا أستطيع»\n\nنور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.\n\nاتعلمي مع نور\n📐\nنور\n\nأنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.\n\nدرس حقيقي من منهجك\nاللغة العربية\nنص القراءة: «لم أوت ماء النهر»\n\nنور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.\n\nاتعلمي مع نور\n📐\nنور\n\nأنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.\n\nدرس حقيقي من منهجك\nاللغة العربية\nالقواعد النحوية: الجملة الاسمية وركناها (المبتدأ والخبر)\n\nنور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.\n\nاتعلمي مع نور\n📐\nنور\n\nأنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.\n\nدرس حقيقي من منهجك\nاللغة العربية\nالنص المعلوماتي: «الجمال الحقيقي»\n\nنور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.\n\nاتعلمي مع نور\n📐\nنور\n\nأنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.\n\nدرس حقيقي من منهجك\nاللغة العربية\nنص الاستماع: «حوار مع د. مجدي يعقوب»\n\nنور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.\n\nاتعلمي مع نور\n📐\nنور\n\nأنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.\n\nدرس حقيقي من منهجك\nاللغة الفرنسية\nالتحيات والتعريف بالنفس\n\nنور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.\n\nاتعلمي مع نور\nالرئيسية\nالموجز\nالمكتبة\nنور",
+      "visibleButtons": [
+        "القائمة",
+        "",
+        "",
+        "اتعلمي مع نور",
+        "",
+        "",
+        "اتعلمي مع نور",
+        "",
+        "",
+        "اتعلمي مع نور",
+        "",
+        "",
+        "اتعلمي مع نور",
+        "",
+        "",
+        "اتعلمي مع نور",
+        "",
+        "",
+        "اتعلمي مع نور",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ]
+    }
+  ],
+  "errors": [],
+  "finishedAt": "2026-10-22T11:12:12.059Z",
+  "exitCode": 1
+}

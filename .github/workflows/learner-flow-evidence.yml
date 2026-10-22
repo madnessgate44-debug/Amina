@@ -1,0 +1,54 @@
+# Reproducible learner-flow evidence
+#
+# Manual dispatch only. This workflow is intentionally not triggered on push or a
+# schedule: it installs a browser, boots the app, and writes screenshots. It exists
+# so any reviewer can regenerate the audit evidence on demand.
+#
+# It does not deploy and does not require secrets. Without GEMINI_API_KEY the AI
+# routes serve their documented degraded fallbacks, which is expected.
+
+name: Learner-flow evidence
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  learner-flow:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --legacy-peer-deps
+      - name: Install Playwright Chromium
+        run: |
+          npm install --no-save --legacy-peer-deps playwright@1.64.1
+          npx playwright install --with-deps chromium
+      # server.ts serves ./dist when NODE_ENV=production, which the harnesses use.
+      - name: Build the app
+        run: npm run build
+      - name: Run seven-task learner walkthrough
+        run: node scripts/learner-flow-audit.mjs
+        continue-on-error: true
+      - name: Run rendered mobile audit
+        run: node scripts/design-lab-browser-audit.mjs
+        continue-on-error: true
+      - name: Upload learner-flow evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: learner-flow-evidence
+          path: artifacts/learner-flow/
+          if-no-files-found: ignore
+      - name: Upload rendered-audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: design-audit-evidence
+          path: artifacts/design-audit/
+          if-no-files-found: ignore

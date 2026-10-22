@@ -1,0 +1,132 @@
+{
+  "mission": "Amina seven-task synthetic learner walkthrough",
+  "baseURL": "http://127.0.0.1:4174",
+  "viewports": {
+    "mobile": {
+      "width": 390,
+      "height": 844
+    },
+    "desktop": {
+      "width": 1365,
+      "height": 900
+    }
+  },
+  "startedAt": "2026-10-22T11:18:26.939Z",
+  "environment": "Disposable headless Chromium; synthetic QA profile only; no real student data",
+  "tasks": [
+    {
+      "id": 1,
+      "name": "From HOME, determine what to do next today",
+      "status": "PASS",
+      "detail": "HOME presents an explicit next-action prompt and study-time selector.",
+      "evidence": {
+        "screenshot": "artifacts/learner-flow/task1-home.png",
+        "excerpt": "Miss Nour Learner QA AI School Companion الصف الخامس الابتدائي (Grade 5) 11:18 Welcome, Learner QA! 👋 Your personal AI teacher & companion for relaxed, joyful learning What Should I Do Now, Miss Nour? Available Study Time: 10 min (MVD) 20 min 35 min 45 min 60 min No missions planned yet Confirm your school day record or pick your study time to generate daily missions. 📚 My School — Textbooks All"
+      }
+    },
+    {
+      "id": 2,
+      "name": "Find a lesson in LIBRARY and start learning it with NOUR",
+      "status": "PASS",
+      "detail": "Opened a curriculum book and reached a learning surface.",
+      "evidence": {
+        "screenshots": [
+          "artifacts/learner-flow/task2-library-search.png",
+          "artifacts/learner-flow/task2-after-open.png"
+        ],
+        "excerpt": "Miss Nour Learner QA 📚 Mon École — Manuels d’Amina Official Curriculum Official Ministry of Education Textbooks & Supplementary Guides (Term 1) 📖 School Bookshelf 📑 Units & Lessons ✕ All Subjects (36) 📖 Arabic 🥐 Français 📐 Mathematics 🔬 Science 📚 Social Studies 🇬🇧 English 💻 ICT 🕌 Islamic Education ✒️ Calligraphy French Language Unit 2 Les objets de la classe et les fournitures Ministry"
+      }
+    },
+    {
+      "id": 3,
+      "name": "In FEED, complete a micro-lesson or quick check and identify the next action",
+      "status": "PASS",
+      "detail": "FEED renders snap sections, advances on scroll, and exposes a \"Learn with Nour\" entry action.",
+      "evidence": {
+        "screenshots": [
+          "artifacts/learner-flow/task3-feed-top.png",
+          "artifacts/learner-flow/task3-feed-after-scroll.png"
+        ],
+        "scroll": {
+          "found": true,
+          "scrollTop": 780,
+          "scrollHeight": 5460
+        },
+        "excerptTop": "Miss Nour Learner QA ☀️ Nour is teaching you now “Come on, Learner QA. Watch what I’m showing you, then show me how you think.” Swipe up — Nour will guide you step by step 📐 NOUR I want to teach this with you, not just show you the page. A REAL LESSON FROM YOUR CURRICULUM Arabic Language Listening ",
+        "excerptAfter": "Miss Nour Learner QA ☀️ Nour is teaching you now “Come on, Learner QA. Watch what I’m showing you, then show me how you think.” Swipe up — Nour will guide you step by step 📐 NOUR I want to teach this with you, not just show you the page. A REAL LESSON FROM YOUR CURRICULUM Arabic Language Listening "
+      }
+    },
+    {
+      "id": 4,
+      "name": "Make a mistake in a practice item and recover using feedback",
+      "status": "PASS",
+      "detail": "Selecting a wrong diagnostic option produced explicit corrective feedback (pedagogical diagnosis and hint) that the learner can act on.",
+      "evidence": {
+        "screenshots": [
+          "artifacts/learner-flow/task4-nour-diagnostic.png",
+          "artifacts/learner-flow/task4-nour-feedback.png"
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "name": "Save an item and find it again",
+      "status": "FAIL",
+      "detail": "Saved & Collections opened but the newly saved item was not visible.",
+      "evidence": {
+        "screenshots": [
+          "artifacts/learner-flow/task5-save-modal.png",
+          "artifacts/learner-flow/task5-collections.png"
+        ],
+        "excerpt": "Miss Nour Learner QA Saved to collection Saved & Collections Everything you saved from your learning world, in one place. Arabic Before Exam Important Mathematics I Don't Understand Review Later Nothing saved here yet. Accueil Fil Bibliothèque Nour"
+      }
+    },
+    {
+      "id": 6,
+      "name": "Navigate away from and resume a teaching session",
+      "status": "PASS",
+      "detail": "NOUR classroom re-opened with its session state intact after navigating away and back.",
+      "evidence": {
+        "screenshots": [
+          "artifacts/learner-flow/task6-nour-open.png",
+          "artifacts/learner-flow/task6-nour-resumed.png"
+        ],
+        "excerpt": "Miss Nour Learner QA 👩‍🏫 Classe de Maîtresse Nour Grade 5 Smart Voice Tutor • Ministry Textbooks 3 📖 اللغة العربية — تواصل ص. 6-11 • ص. 6 «Listening Story: \"I Can\"» 📚 Changer Bienvenue Learner QA! Je suis Maîtresse Nour 👩‍🏫 Notre étape actuelle est «Listening Story: \"I Can\"». Commençons par un"
+      }
+    },
+    {
+      "id": 7,
+      "name": "Handle an empty/loading/error state without guessing whether work was saved",
+      "status": "PASS",
+      "detail": "An empty state is explicitly labelled rather than left blank, so the learner is not left guessing.",
+      "evidence": {
+        "screenshot": "artifacts/learner-flow/task7-home-state.png",
+        "excerpt": "Miss Nour Learner QA AI School Companion الصف الخامس الابتدائي (Grade 5) 11:18 Welcome, Learner QA! 👋 Your personal AI teacher & companion for relaxed, joyful learning What Should I Do Now, Miss Nour? Available Study Time: 10 min (MVD) 20 min 35 min 45 min 60 min No missions planned yet Confirm your school day record or pick your study time to generate daily missions. 📚 My School — Textbooks All"
+      }
+    }
+  ],
+  "trace": [
+    {
+      "t": "2026-10-22T11:18:27.470Z",
+      "label": "server healthy",
+      "detail": "status=ok hasApiKey=false"
+    },
+    {
+      "t": "2026-10-22T11:18:29.953Z",
+      "label": "onboarding complete",
+      "detail": "profile=Learner QA language=fr"
+    },
+    {
+      "t": "2026-10-22T11:18:29.955Z",
+      "label": "nav destinations",
+      "detail": "count=4"
+    }
+  ],
+  "errors": [],
+  "finishedAt": "2026-10-22T11:18:48.161Z",
+  "exitCode": 1,
+  "summary": {
+    "PASS": 6,
+    "FAIL": 1
+  }
+}

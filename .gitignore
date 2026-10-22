@@ -6,3 +6,6 @@ coverage/
 *.log
 .env*
 !.env.example
+
+# Local audit run output; committed evidence lives in docs/audits/evidence/
+artifacts/
