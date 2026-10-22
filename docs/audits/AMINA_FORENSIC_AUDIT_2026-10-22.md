@@ -24,6 +24,8 @@
 | Rendered browser audit (main) | `scripts/design-lab-browser-audit.mjs` against a real production build | 13 screenshots, 21 checks, 3 FAIL (Verified) |
 | Seven-task learner walkthrough (main) | `scripts/learner-flow-audit.mjs` (new, this branch) | 6 PASS / 1 FAIL (Verified) |
 | CI inspection | GitHub Actions API, runs for `main` and PR #11 | Verified |
+| Deployment record inspection | GitHub Deployments API (`/deployments`), environment `github-pages` | One recorded deployment, SHA `a0eda354`, 17 commits behind `main` (Verified) |
+| Deployment liveness | `GET https://madnessgate44-debug.github.io/Amina/` | **HTTP 404** "Site not found" (Verified) |
 | Deployment probe | `GET /api/health` on candidate Render hosts | 404 on all (Blocked) |
 
 Browser runs used a disposable headless Chromium, a synthetic profile (`Learner QA`), and no real child or student data. No `GEMINI_API_KEY` was present in this environment, so AI routes returned their truthful degraded fallbacks; that is stated where it affects a result.
@@ -68,7 +70,7 @@ Status legend: **Implemented** (present and runtime-verified), **PR-only** (exis
 | 16 | Arabic RTL | Harness check "Arabic page exposes RTL direction" PASS (`document.dir === 'rtl'`) | Implemented |
 | 17 | Mobile layout (390px) | 13 captures, "no horizontal overflow" PASS at 390px and 1365px | Implemented |
 | 18 | Safety/privacy | Homework honesty rules in `server.ts` prompt; no real student data in tests; `render.yaml` notes key in dashboard | Implemented (Observed-not-verified for full privacy review) |
-| 19 | Production/deployment | `render.yaml` (service `amina`, branch `main`); live probe 404 on candidate hosts | **Blocked** (F-06) |
+| 19 | Production/deployment | Only recorded deployment `7116513688` = Pages, SHA `a0eda354` (17 behind `main`); Pages URL 404; `render.yaml` service `amina` unreachable | **Blocked / stale** (F-06) |
 | 20 | Strict typecheck gate | `main` CI "Type check" step = success **while tsc emits 11 errors** (`continue-on-error: true`) | **Broken** (F-04) |
 
 ---
@@ -95,15 +97,17 @@ Status legend: **Implemented** (present and runtime-verified), **PR-only** (exis
 ### F-04 — The TypeScript quality gate does not block (P1, CI integrity)
 - **Verified, both by reproduction and by CI records.** `npm run lint` on `main` exits 1 with 11 errors, yet CI run [38888767348](https://github.com/madnessgate44-debug/Amina/actions/runs/38888767348) shows the "Type check" step conclusion = **success**. `.github/workflows/ci.yml` sets `continue-on-error: true` on that step.
 - **The 11 errors (Verified):** 8 × TS18047 in `teacherContextEngine.ts` (unreachable code after an unconditional `return` disables narrowing), 2 × TS18047 in `VirtualTeacherClassroom.tsx` (`targetLesson` nullable), 1 × TS2322 in `missionCompletion.ts` (`'practice'` missing from `EvidenceModality`).
-- **Status of the fix:** PR #11 removes `continue-on-error`, deletes the 87-line unreachable block, adds `'practice'` to `EvidenceModality` with an explicit `1.0` weight, and adds optional chaining. Independently verified here: 0 type errors, adaptive 39/39, integrity 72/72, build pass. PR #11 is still **draft and unmerged**.
+- **Status of the fix:** PR #11 removes `continue-on-error`, deletes the 87-line unreachable block, adds `'practice'` to `EvidenceModality` with an explicit `1.0` weight, and adds optional chaining. Independently verified here: 0 type errors, adaptive 39/39, integrity 72/72, build pass. Follow-up hardening on PR #11 also declares `strict: true` + `allowUnreachableCode: false` explicitly and adds a `strictTypecheckGate` regression suite. I also reproduced the gate failing correctly: a deliberately seeded error made CI run 39770574935 exit 1, proving the step is now blocking. PR #11 is unmerged (draft).
 
 ### F-05 — No full digital book reader (P2, product scope)
 - **Observed-not-verified.** `main` has no `BookReader`; "Open Book" opens `LessonStudyModal`. The product source of truth (PR #10) asks for full digital books, not only sample cards. Recovery notes indicate `BookReader.tsx` exists on the archive/design branches — so this is a **PR-only** capability, not on `main`.
 
-### F-06 — Production/deployment identity not verifiable from here (P1, blocked)
-- **Blocked.** `render.yaml` configures a Render web service named `amina`, branch `main`, health check `/api/health`, free plan. I probed `amina.onrender.com`, `amina-1.onrender.com`, and `miss-noor.onrender.com`; all returned **404** on `/api/health`. There is no recorded deployed URL or Render API token in this environment.
-- **What was checked:** `render.yaml` (blob `59bf2463`), the three host probes above, and the repo's GitHub Pages workflow (manual-only, and its own comment says Pages cannot serve the AI routes).
-- **Conclusion:** the deployed URL and deployed SHA are **not verified**. I did not guess and did not deploy.
+### F-06 — Production/deployment identity: Pages deployment is stale, Render identity unverified (P1, blocked/partial)
+- **Verified (stronger than a bare probe).** GitHub records exactly one deployment for this repo: deployment `7116513688`, environment `github-pages`, `ref: main`, deployed SHA `a0eda3542170fd3356559b446eb0bcac75790568`, status `success` at 2026-10-16T10:18:06Z, produced by run [38886228008](https://github.com/madnessgate44-debug/Amina/actions/runs/38886228008).
+- **Verified: that SHA is stale.** GitHub's compare API reports `a0eda354` is **17 commits behind** `main` (`86c1e73`), `ahead_by: 0`. So even the only recorded deployment does not correspond to current `main`.
+- **Verified: the Pages URL is not live.** `GET https://madnessgate44-debug.github.io/Amina/` returns **HTTP 404** with the GitHub Pages "Site not found" page, despite the recorded success status. The `deploy-pages.yml` workflow is manual-only (`workflow_dispatch`) and its own header says Pages cannot serve the AI routes (they need `server.ts`).
+- **Blocked: the Render target.** `render.yaml` configures a Render web service named `amina` on branch `main` with health check `/api/health`, but no Render API token or deployed hostname exists in this environment. Probes of `amina.onrender.com`, `amina-1.onrender.com`, and `miss-noor.onrender.com` all returned **404** on `/api/health`, and no `onrender.com` URL is referenced anywhere in the repository.
+- **Conclusion:** the deployed URL/service and deployed SHA are **not verified** for the live app. The one recorded deployment (`a0eda354`) is 17 commits behind `main` and its URL is 404. I did not guess and did not deploy. Closing this needs either the real Render URL + Render account access, or the owner confirming GitHub Pages is not the intended production surface.
 
 ### F-07 — AI routes unexercised in this environment (informational)
 - No `GEMINI_API_KEY` was present, so `/api/chat`, `/api/tutor-*`, `/api/stt`, `/api/tts`, `/api/check-homework`, `/api/reconstruct-day` returned their documented degraded fallbacks. The app renders and the degraded paths are honest ("I can't check this right now…"), which is correct behaviour — but real model output was **not** exercised here and is **Unverified**.
@@ -130,7 +134,7 @@ Coverage: mobile 390×844 and desktop 1365×900; English onboarding and French l
 
 ## 6. Unresolved blockers
 
-1. **Deployment identity (F-06)** — needs the actual deployed URL or Render account access. Without it, deployed-SHA verification is impossible.
+1. **Deployment identity (F-06)** — the only recorded deployment (Pages, `a0eda354`) is 17 commits behind `main` and its URL 404s. The Render service in `render.yaml` is unreachable from here. Needs the real Render URL + account access, or owner confirmation of the intended production surface.
 2. **AI model output (F-07)** — needs an authorized `GEMINI_API_KEY` for a hosted run, which is a spend/access decision for the owner.
 3. **Arabic RTL depth** — direction is verified RTL, but full RTL layout quality (mixed Arabic/French curriculum terms, forms) was not exhaustively checked.
 4. **Full digital books (F-05)** — a product decision: should `main` adopt the `BookReader` that exists on the design/archive branches?
