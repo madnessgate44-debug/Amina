@@ -47,7 +47,10 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
     setShowAddColInput(false);
   };
 
+  const canSave = selectedColIds.length > 0;
+
   const handleSave = async () => {
+    if (!canSave) return;
     setIsSaving(true);
     try {
       await saveContent({
@@ -194,9 +197,10 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
           </button>
           <button
             type="button"
-            disabled={isSaving}
+            disabled={isSaving || !canSave}
             onClick={handleSave}
-            className="py-1.5 px-4 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 shadow-sm flex items-center gap-1.5"
+            title={canSave ? undefined : (isAr ? 'اختاري مجموعة واحدة على الأقل' : 'Select at least one collection')}
+            className="py-1.5 px-4 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 shadow-sm flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Bookmark className="w-3.5 h-3.5" />
             <span>{isAr ? 'حفظ التغييرات' : 'Save Item'}</span>

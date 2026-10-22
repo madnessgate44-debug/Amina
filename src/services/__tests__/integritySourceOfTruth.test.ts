@@ -11,6 +11,7 @@ import { getAllSpacedReviewSchedules, computeConceptReviewSchedule, getDueReview
 import { reconcileDayWithTimetable } from '../reconstruction/dayRecordReconciliation';
 import { processMissionCompletion } from '../missions/missionCompletion';
 import { storageService } from '../storage';
+import { ensureDefaultCollections, saveItem } from '../collections/collectionService';
 import { Student, DayRecord, Timetable, Mission, MissionOutcome, MasteryRecord } from '../../types';
 
 let passed = 0;
@@ -461,6 +462,58 @@ async function runIntegrityTests() {
     });
     assert(dueInTwoDays.some((i) => i.conceptId === mathConcept.id),
       'Test D.9: the flagged concept becomes due once its 1-day interval elapses');
+  }
+
+  // =========================================================================
+  // TEST E: Saving without a collection must never orphan an item
+  // =========================================================================
+  console.log('\nTest E: Save-to-Collection Integrity');
+  {
+    const saveStudent: Student = {
+      id: 'student_save_integrity',
+      name: 'تلميذة اختبار',
+      age: 11,
+      grade: 'الصف الخامس الابتدائي',
+      country: 'Egypt',
+      curriculum: 'Egyptian Bilingue',
+      academicYear: '2026',
+      preferredLanguage: 'ar',
+      subjects: ['الرياضيات'],
+      interviewAnswers: {
+        enjoyMost: '', hardest: '', learningStyle: 'games', sessionDuration: '30min', upcomingExams: '',
+      },
+      isOnboarded: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    await storageService.saveStudent(saveStudent);
+    const cols = await ensureDefaultCollections(saveStudent.id, storageService);
+    assert(cols.length > 0, 'E.1: default collections exist for a real student before any save');
+
+    // Regression: an item saved with no collection must not be reported as filed.
+    const orphan = await saveItem(saveStudent.id, storageService, {
+      type: 'lesson',
+      sourceId: 'src_orphan',
+      title: 'عنصر بلا مجموعة',
+      collectionIds: [],
+    });
+    const colsAfterOrphan = await storageService.getCollections(saveStudent.id);
+    const filedAnywhere = colsAfterOrphan.some((c) => c.itemIds.includes(orphan.id));
+    assert(filedAnywhere === false,
+      'E.2: saving with an empty collection list files the item into no collection (the UI must therefore block this)');
+
+    // The corrected behaviour: a save that names a collection is findable there.
+    const target = cols[0];
+    const filed = await saveItem(saveStudent.id, storageService, {
+      type: 'lesson',
+      sourceId: 'src_filed',
+      title: 'عنصر محفوظ',
+      collectionIds: [target.id],
+    });
+    const colsAfterFiled = await storageService.getCollections(saveStudent.id);
+    const targetAfter = colsAfterFiled.find((c) => c.id === target.id);
+    assert(Boolean(targetAfter?.itemIds.includes(filed.id)),
+      'E.3: an item saved into a chosen collection is discoverable in that collection');
   }
 
   console.log('\n=================================================================');
