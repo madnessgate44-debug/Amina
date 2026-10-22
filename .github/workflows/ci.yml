@@ -25,16 +25,20 @@ jobs:
         continue-on-error: true
       - run: npm test
       - run: npm run build
-      - name: Install disposable browser test runner
+      - name: Checkout Forera browser agent
+        run: git clone --depth 1 https://github.com/madnessgate44-debug/Firstborn.git firstborn
+      - name: Install Forera browser agent and Chromium
         run: |
-          npm install --no-save --legacy-peer-deps playwright
+          npm ci
           npx playwright install --with-deps chromium
+        working-directory: firstborn
       - name: Exercise rendered app at phone and desktop viewports
         run: node scripts/design-lab-browser-audit.mjs
         env:
           PORT: "4173"
           NODE_ENV: production
           AMINA_KEEP_SERVER: "true"
+          PLAYWRIGHT_MODULE: ${{ github.workspace }}/firstborn/node_modules/playwright/index.mjs
       - name: Ensure Amina is running for the agentic learner walkthrough
         run: |
           mkdir -p artifacts/design-audit
@@ -56,11 +60,6 @@ jobs:
         env:
           PORT: "4173"
           NODE_ENV: production
-      - name: Checkout Forera browser agent
-        run: git clone --depth 1 https://github.com/madnessgate44-debug/Firstborn.git firstborn
-      - name: Install Forera browser agent dependencies
-        run: npm ci
-        working-directory: firstborn
       - name: Run synthetic learner through Forera browser tools
         continue-on-error: true
         working-directory: firstborn
