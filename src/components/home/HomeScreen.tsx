@@ -79,7 +79,7 @@ export const HomeScreen: React.FC = () => {
   const [activeStageLessonId, setActiveStageLessonId] = useState<string>(defaultStageLessonId);
 
   const studentName = student?.name || '';
-  const gradeLabel = student?.grade || (isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary 🇪🇬');
+  const gradeLabel = isFrench ? 'Grade 5 · Girard French Track' : student?.grade || (isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary 🇪🇬');
 
   // Determine current day of week
   const currentDayIndex = new Date().getDay();
@@ -130,13 +130,13 @@ export const HomeScreen: React.FC = () => {
 
           <div>
             <h1 className="text-xl font-black tracking-tight flex items-center gap-1.5">
-              <span>{t.home.welcome} {studentName}!</span>
+              <span>{isFrench ? 'Bienvenue' : t.home.welcome} {studentName}!</span>
               <span className="text-amber-300">👋</span>
             </h1>
             <p className="text-xs text-indigo-200 mt-0.5">
               {isArabic
                 ? 'رفيقكِ ومعلمتكِ الذكية لتنظيم يومك والمذاكرة خطوة بخطوة بدون ضغط'
-                : 'Your personal AI teacher & companion for relaxed, joyful learning'}
+                : isFrench ? 'Ton enseignante IA personnelle pour apprendre sereinement, à ton rythme' : 'Your personal AI teacher & companion for relaxed, joyful learning'}
             </p>
           </div>
 
@@ -148,7 +148,7 @@ export const HomeScreen: React.FC = () => {
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-black text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
-            <span>{isArabic ? 'ماذا أفعل الآن يا مس نور؟' : 'What Should I Do Now, Miss Nour?'}</span>
+            <span>{isArabic ? 'ماذا أفعل الآن يا مس نور؟' : isFrench ? 'Que dois-je faire maintenant, Maîtresse Nour ?' : 'What Should I Do Now, Miss Nour?'}</span>
           </span>
 
         </div>
@@ -163,10 +163,10 @@ export const HomeScreen: React.FC = () => {
                 </div>
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-950 text-white">
-                    {isArabic ? 'الخطوة الأولى والأهم' : 'Top Priority Action'}
+                    {isArabic ? 'الخطوة الأولى والأهم' : isFrench ? 'Action prioritaire' : 'Top Priority Action'}
                   </span>
                   <h2 className="text-base sm:text-lg font-black text-slate-950 mt-1">
-                    {isArabic ? `حمد الله على سلامتك يا ${studentName}!` : `Welcome home, ${studentName}!`}
+                    {isArabic ? `حمد الله على سلامتك يا ${studentName}!` : isFrench ? `Te voilà de retour, ${studentName} !` : `Welcome home, ${studentName}!`}
                   </h2>
                 </div>
               </div>
@@ -176,7 +176,7 @@ export const HomeScreen: React.FC = () => {
               <p>
                 {isArabic
                   ? '«طمنيني يا بطلة.. إيه اللي حصل في المدرسة النهارده؟ أخدتي إيه في كل مادة؟ وإيه الواجب المطلوب؟»'
-                  : `"Tell me ${studentName}, what happened at school today? What did you cover in each subject? Any homework?"`}
+                  : isFrench ? `« Raconte-moi, ${studentName} : qu’as-tu appris à l’école aujourd’hui ? Quels devoirs as-tu ? »` : `"Tell me ${studentName}, what happened at school today? What did you cover in each subject? Any homework?"`}
               </p>
             </div>
 
@@ -322,7 +322,7 @@ export const HomeScreen: React.FC = () => {
           <div className="flex items-center gap-2">
             <Sliders className="w-4 h-4 text-indigo-600" />
             <span className="font-bold text-slate-800 dark:text-slate-200">
-              {isArabic ? 'وقت المذاكرة المتاح اليوم:' : 'Available Study Time:'}
+              {isArabic ? 'وقت المذاكرة المتاح اليوم:' : isFrench ? 'Temps d’étude disponible :' : 'Available Study Time:'}
             </span>
             <select
               value={selectedDuration}
@@ -333,10 +333,10 @@ export const HomeScreen: React.FC = () => {
               }}
               className="bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg px-2 py-1 font-bold text-indigo-700 dark:text-indigo-300 focus:outline-hidden"
             >
-              <option value={10}>{isArabic ? '١٠ دقائق (أدنى يوم فعال)' : '10 min (MVD)'}</option>
+              <option value={10}>{isArabic ? '١٠ دقائق (أدنى يوم فعال)' : isFrench ? '10 min (minimum utile)' : '10 min (MVD)'}</option>
               <option value={20}>{isArabic ? '٢٠ دقيقة' : '20 min'}</option>
               <option value={35}>{isArabic ? '٣٥ دقيقة' : '35 min'}</option>
-              <option value={45}>{isArabic ? '٤٥ دقيقة (افتراضي)' : '45 min'}</option>
+              <option value={45}>{isArabic ? '٤٥ دقيقة (افتراضي)' : isFrench ? '45 min (par défaut)' : '45 min'}</option>
               <option value={60}>{isArabic ? '٦٠ دقيقة' : '60 min'}</option>
             </select>
           </div>
@@ -344,7 +344,7 @@ export const HomeScreen: React.FC = () => {
           <button
             onClick={() => regenerateMissionsForToday(selectedDuration)}
             className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-all"
-            title={isArabic ? 'إعادة جدولة المهام' : 'Re-plan missions'}
+            title={isArabic ? 'إعادة جدولة المهام' : isFrench ? 'Replanifier les missions' : 'Re-plan missions'}
           >
             <RotateCcw className="w-3.5 h-3.5" />
           </button>
@@ -364,10 +364,10 @@ export const HomeScreen: React.FC = () => {
             <span className="text-xl">📚</span>
             <div>
               <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
-                {isArabic ? 'مدرستي — كتبي المدرسية' : 'My School — Textbooks'}
+                {isArabic ? 'مدرستي — كتبي المدرسية' : isFrench ? 'Mon école — Manuels' : 'My School — Textbooks'}
               </h3>
               <p className="text-[10px] text-slate-400">
-                {isArabic ? 'جميع كتب وزارة التربية والتعليم الرسمية والداعمة' : 'All official & supplementary curriculum books'}
+                {isArabic ? 'جميع كتب وزارة التربية والتعليم الرسمية والداعمة' : isFrench ? 'Manuels officiels et ressources complémentaires' : 'All official & supplementary curriculum books'}
               </p>
             </div>
           </div>
@@ -377,7 +377,7 @@ export const HomeScreen: React.FC = () => {
             onClick={() => setActiveTab('learn')}
             className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
           >
-            <span>{isArabic ? 'تصفح الرف كاملاً' : 'View Shelf'}</span>
+            <span>{isArabic ? 'تصفح الرف كاملاً' : isFrench ? 'Voir tous les manuels' : 'View Shelf'}</span>
             <span>←</span>
           </button>
         </div>
@@ -401,12 +401,12 @@ export const HomeScreen: React.FC = () => {
                   {isArabic ? b.subjectNameAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                 </h4>
                 <p className="text-[9px] text-slate-400 truncate">
-                  {isArabic ? b.bookTitleAr : b.bookTitleEn}
+                  {isArabic ? b.bookTitleAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.bookTitleEn}
                 </p>
               </div>
 
               <div className="pt-2 mt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[10px] font-bold text-indigo-600 dark:text-indigo-400">
-                <span>{isArabic ? 'افتحي الكتاب' : 'Open'}</span>
+                <span>{isArabic ? 'افتحي الكتاب' : isFrench ? 'Ouvrir' : 'Open'}</span>
                 <span>←</span>
               </div>
             </div>
@@ -440,9 +440,9 @@ export const HomeScreen: React.FC = () => {
             <Bot className="w-5 h-5 text-white" />
           </div>
           <div className="text-left rtl:text-right">
-            <span className="block font-black text-sm">{isArabic ? 'تحدثي مع المعلمة نور 👩‍🏫' : 'Talk with Miss Nour 👩‍🏫'}</span>
+            <span className="block font-black text-sm">{isArabic ? 'تحدثي مع المعلمة نور 👩‍🏫' : isFrench ? 'Parler avec Maîtresse Nour 👩‍🏫' : 'Talk with Miss Nour 👩‍🏫'}</span>
             <span className="block text-[10px] text-indigo-100 font-normal mt-0.5">
-              {isArabic ? 'اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت' : 'Ask her anything about lessons, voice or text'}
+              {isArabic ? 'اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت' : isFrench ? 'Pose-lui tes questions sur les leçons, par écrit ou à la voix.' : 'Ask her anything about lessons, voice or text'}
             </span>
           </div>
         </div>
