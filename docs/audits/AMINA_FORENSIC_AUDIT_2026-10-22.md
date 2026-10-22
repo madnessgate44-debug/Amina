@@ -62,7 +62,7 @@ Status legend: **Implemented** (present and runtime-verified), **PR-only** (exis
 | 8 | Curriculum/textbooks | `src/data/curriculum/*.ts` (10 subject files incl. French variants); 9 Ministry books listed | Implemented |
 | 9 | Homework / photo correction | `server.ts:535 /api/check-homework`; `src/components/missions/HomeworkRunner.tsx` (photo capture) | Implemented (degrades honestly without key) |
 | 10 | Mastery / review | `src/services/mastery/masteryEngine.ts`; `src/services/review/*`; integrity suite 66/66 | Implemented |
-| 11 | Save / revisit | Save → Collections flow; learner-flow task 5 **FAIL** (see F-01 **and F-08**) | **Broken** |
+| 11 | Save / revisit | Save → Collections flow; learner-flow task 5 **FAIL** (see F-01; F-08 is a smaller overlap) | **Broken** |
 | 12 | Voice (STT/TTS) | `src/services/voice/voiceService.ts` (Web Speech + MediaRecorder); `server.ts /api/stt`, `/api/tts` | Implemented (Observed-not-verified in-browser) |
 | 13 | Persistence | IndexedDB `ai_school_companion_v2` + localStorage fallback | Implemented |
 | 14 | Branding | Header renders "Miss Nour" + learner name (`AppShell.tsx`); harness check "brand and teacher identity are distinct" **FAIL** on `main` | Partial (F-02) |
@@ -120,13 +120,15 @@ Status legend: **Implemented** (present and runtime-verified), **PR-only** (exis
 ### F-07 — AI routes unexercised in this environment (informational)
 - No `GEMINI_API_KEY` was present, so `/api/chat`, `/api/tutor-*`, `/api/stt`, `/api/tts`, `/api/check-homework`, `/api/reconstruct-day` returned their documented degraded fallbacks. The app renders and the degraded paths are honest ("I can't check this right now…"), which is correct behaviour — but real model output was **not** exercised here and is **Unverified**.
 
-### F-08 — The Save-to-Collection confirm button is physically unclickable (P1, functional)
+### F-08 — The Save-to-Collection sheet footer is overlapped by the bottom nav (P2, layout/interaction)
 
-**Verified.** See the companion addendum `AMINA_AUDIT_ADDENDUM_MODAL_OCCLUSION_2026-10-22.md` for the full analysis. In short: the sheet is a `fixed inset-0` overlay mounted inside a FEED card that carries `backdrop-blur-xl`, so the card becomes the containing block for the fixed sheet and its footer lands under the sticky bottom nav. At 390×844 the button's centre hit-tests to `NAV`; at 1365×900 it hits a sibling `SPAN`. A real tap therefore does nothing even though the button is enabled.
+**Verified, and deliberately narrower than an earlier draft of this report claimed.** See the companion addendum `AMINA_AUDIT_ADDENDUM_MODAL_OCCLUSION_2026-10-22.md`. The sheet is a `fixed inset-0` overlay mounted inside a FEED card that carries `backdrop-blur-xl`, so the card becomes the containing block for the fixed sheet and its footer slides under the sticky bottom nav.
 
-- **Independent of F-01, and not fixed by PR #15.** With a collection selected the guard enables the button, but it is still occluded.
+- **Measured overlap:** 15 px of the 28 px button (54%) on mobile 390×844; 3 px (11%) on desktop 1365×900.
+- **Measured effect:** a real pointer click at the button's exact centre is **swallowed on mobile** (`saved_items` 0 → 0) and **works on desktop**. Clicking the button's upper third works on both. A normal Playwright click (which auto-scrolls first) succeeds on both.
+- **Corrected claim:** the flow is *not* universally broken and PR #15 is *not* insufficient. An earlier draft said "unclickable at all viewports" — that was wrong, and it is withdrawn. It came from reading `elementFromPoint` at the button's centre as proof, which ignores the ancestor chain a real event bubbles through.
 - **Evidence:** `docs/audits/evidence/modal-occlusion/` (baseline) and `docs/audits/evidence/modal-occlusion-pr15-fix/` (PR #15), plus `scripts/modal-occlusion-probe.mjs`.
-- **Impact:** any browser evidence that force-clicks or dispatches a synthetic DOM click in this flow can report a false PASS.
+- **Impact:** low-to-moderate — a tap on the lower half of the confirm button on a phone gives no feedback, so a learner may think the save failed.
 
 ---
 
@@ -138,7 +140,7 @@ Status legend: **Implemented** (present and runtime-verified), **PR-only** (exis
 | 2. Find a lesson in LIBRARY and start it with NOUR | PASS | `task2-library-search.png`, `task2-after-open.png` |
 | 3. In FEED, complete a micro-lesson/check and identify next action | PASS | `task3-feed-top.png`, `task3-feed-after-scroll.png` |
 | 4. Make a mistake and recover using feedback | PASS | `task4-nour-diagnostic.png`, `task4-nour-feedback.png` — wrong option → pedagogical diagnosis + hint |
-| 5. Save an item and find it again | **FAIL** | `task5-save-modal.png`, `task5-collections.png` — two independent causes: F-01 (save allowed with no collection) and F-08 (the confirm button is occluded, so a real tap never fires) |
+| 5. Save an item and find it again | **FAIL** | `task5-save-modal.png`, `task5-collections.png` — cause is F-01 (save allowed with no collection). F-08 is a separate, smaller overlap defect that does not by itself break this task |
 | 6. Navigate away from and resume a teaching session | PASS | `task6-nour-open.png`, `task6-nour-resumed.png` |
 | 7. Handle an empty/loading/error state without guessing | PASS | `task7-home-state.png` — empty state explicitly labelled |
 
@@ -159,9 +161,9 @@ Coverage: mobile 390×844 and desktop 1365×900; English onboarding and French l
 
 ## 7. Recommended next work (smallest verified gaps first)
 
-0. **Merge order (verified):** land one strict-gate PR (**#12**, or #11 with its config hardening) and close the other; land **PR #15** (F-01 save guard); land **PR #7** (design lab + French + branding); land **PR #13** (this audit) and **PR #10** (product source of truth) as documentation. PR #8 (chat archive) is stacked on PR #7.
-1. **Fix F-01 (save with no collection)** — delivered in **PR #15**; needs review. It is necessary but **not sufficient on its own**: see F-08.
-2. **Fix F-08 (occluded confirm button)** — the same button is physically covered at both tested viewports, so the save loop still appears frozen to a learner after F-01 lands. Fix by portalling the sheet to `document.body` (or hoisting it out of the blurred FEED card). Land F-01 and F-08 together; add a hit-testing regression test, not a synthetic-click one.
+0. **Merge order (verified):** land one strict-gate PR (**#12**, or #11 with its config hardening) and close the other; land **PR #15** (F-01 guard **and** the F-08 portal fix, both verified); land **PR #7** (design lab + French + branding); land **PR #13** (this audit) and **PR #10** (product source of truth) as documentation. PR #8 (chat archive) is stacked on PR #7.
+1. **F-01 (save with no collection) — fixed on PR #15.** A guard disables Save until a collection is ticked, plus a regression test (integrity 69/69). This was the cause of learner-flow task 5's failure.
+2. **F-08 (overlapped sheet footer) — fixed on PR #15.** The sheet is portalled to `document.body`, so `fixed inset-0` anchors to the viewport and the button no longer sits under the nav at either viewport. Regression test asserts a **real** click's side effect, not `elementFromPoint` and not a `force`/synthetic click, both of which mislead here. Verified: non-forced pointer click saves at 390x844 and 1365x900.
 3. **Land the strict gate (F-04)** — verified; removes a false-green CI gate. Two overlapping drafts (PR #11, PR #12); pick one and close the other.
 4. **F-03 remaining** — the Feed/Library French work is already done on PR #7; only `HomeScreen.tsx:397` (`'les'` in the English UI) still needs a one-line fix.
 5. **F-02 branding** — already done on PR #7; no separate work needed.
