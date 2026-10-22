@@ -463,6 +463,70 @@ async function runIntegrityTests() {
       'Test D.9: the flagged concept becomes due once its 1-day interval elapses');
   }
 
+  // =========================================================================
+  // TEST E: Strict typecheck regression guards
+  // These assertions lock the three defects fixed in the strict-typecheck PR:
+  // a misplaced (unreachable) diagnostic block, a missing 'practice' evidence
+  // modality, and unguarded nullable lesson access in the teacher UI.
+  // =========================================================================
+  console.log('\nTest E: Strict Typecheck Regression Guards');
+
+  // E.1: buildDiagnosticForConcept must return a live, non-empty diagnostic for a
+  // sourced lesson. Before the fix, an unreachable duplicate block disabled
+  // control-flow narrowing, so the returned shape could not be trusted.
+  const sourcedLesson = allLessons.find((l) => l.exercises && l.exercises.length > 0) || allLessons[0];
+  const sourcedDiagnostic = buildDiagnosticForConcept(sourcedLesson, sourcedLesson.concepts[0], 'أمينة');
+  assert(sourcedDiagnostic.options.length >= 2,
+    'E.1: Diagnostic from a sourced lesson returns real options (dead code removed)');
+  assert(sourcedDiagnostic.conceptId === sourcedLesson.concepts[0].id,
+    'E.2: Diagnostic stays bound to the requested concept');
+
+  // E.3: 'practice' is a first-class EvidenceModality and is scored like the
+  // default weight, so adding it did not change mastery numbers.
+  const practiceRecord = addEvidenceToMastery(createInitialMasteryRecord(realStudent.id, mathConcept!.id), {
+    correctness: 'full',
+    difficulty: 0.5,
+    independence: 'unassisted',
+    modality: 'practice',
+  });
+  const defaultWeightRecord = addEvidenceToMastery(createInitialMasteryRecord(realStudent.id, mathConcept!.id), {
+    correctness: 'full',
+    difficulty: 0.5,
+    independence: 'unassisted',
+    modality: 'quiz',
+  });
+  assert(practiceRecord.newEntry.modality === 'practice',
+    'E.3: Evidence entry accepts the practice modality');
+  assert(Math.abs(practiceRecord.updatedRecord.score - defaultWeightRecord.updatedRecord.score) < 1e-9,
+    'E.4: practice modality keeps the default 1.0 weight (no behaviour change)');
+
+  // E.5: Mission completion with a practice modality still records evidence and
+  // labels the outcome with the same modality value end to end.
+  const practiceMission: Mission = {
+    id: 'mission_practice_modality_005',
+    studentId: realStudent.id,
+    date: '2026-10-22',
+    subject: 'الرياضيات',
+    title: 'تدريب على الكسور',
+    type: 'practice',
+    estimatedMinutes: 10,
+    whyNow: 'تدريب موجه',
+    originTag: 'official',
+    successCriterion: 'إتمام التدريب',
+    status: 'pending',
+    conceptId: mathConcept?.id,
+  };
+  const practiceResult = await processMissionCompletion({
+    student: realStudent,
+    mission: practiceMission,
+    outcomeParams: { score: 0.8, modality: 'practice' },
+    storage: testStorage,
+  });
+  assert(practiceResult.success === true && practiceResult.evidenceAdded === true,
+    'E.5: practice-modality mission records evidence');
+  assert(practiceResult.outcome?.modalityUsed === 'practice',
+    'E.6: practice modality is preserved on the saved outcome');
+
   console.log('\n=================================================================');
   console.log(`INTEGRITY TEST SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');

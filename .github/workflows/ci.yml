@@ -15,10 +15,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci --legacy-peer-deps
-      - name: Type check
+      - name: Type check (blocking)
         run: npm run lint
-        # ponytail: remove continue-on-error once the pre-existing type errors are 0
-        continue-on-error: true
       - run: npm test
       - run: npm run build
       - name: Upload teaching test diagnostics
