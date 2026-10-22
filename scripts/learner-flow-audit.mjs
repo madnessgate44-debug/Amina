@@ -212,17 +212,25 @@ try {
   const feedSave = page.getByRole('button', { name: /Save to Collection/i }).first();
   let saveStatus = 'BLOCKED';
   let saveDetail = 'No save/bookmark control was reachable from the deterministic walkthrough.';
+  let guardVerified = null;
   if (await feedSave.count()) {
     await feedSave.click();
     await delay(700);
     const modalOpen = /Save to Collections/i.test(await visibleText(page));
     await shot(page, 'task5-save-modal');
     if (modalOpen) {
+      const saveItemBtn = page.getByRole('button', { name: /^Save Item$/i }).first();
+      // Guard check: with nothing ticked, Save must be disabled so an item can never
+      // be reported as filed while belonging to no collection.
+      guardVerified = await saveItemBtn.isDisabled().catch(() => null);
+      const collectionNames = /^(Arabic|Mathematics|Before Exam|I Don't Understand|Important|Review Later|اللغة العربية|الرياضيات|قبل الامتحان|مش فاهم|مهم|أراجع لاحقاً)$/;
+      const colBtn = page.locator('button').filter({ hasText: collectionNames }).first();
+      if (await colBtn.count()) {
+        await colBtn.click();
+        await delay(300);
+      }
       const confirm = page.getByRole('button', { name: /^Save Item$/i }).first();
-      if (await confirm.count()) {
-        // Select the first collection so the item is filed somewhere findable.
-        const colBtn = page.locator('button').filter({ hasText: /Favorites|Révisions|Watching|Favourites|قائمة/ }).first();
-        if (await colBtn.count()) await colBtn.click();
+      if (await confirm.count() && !(await confirm.isDisabled())) {
         await confirm.click();
         await delay(900);
       }
@@ -236,12 +244,14 @@ try {
   const collectionsText = await visibleText(page);
   const collectionsShot = await shot(page, 'task5-collections');
   const savedItemVisible = /Saved & Collections/i.test(collectionsText) && !/Nothing saved here yet/i.test(collectionsText);
-  saveStatus = savedItemVisible ? 'PASS' : 'FAIL';
-  saveDetail = savedItemVisible
-    ? 'A saved item appears in Saved & Collections after being filed from a FEED card.'
-    : 'Saved & Collections opened but the newly saved item was not visible.';
+  // On the baseline the guard does not exist, so this reports FAIL (the defect). On a
+  // branch that adds the guard, the empty-selection Save is disabled and this PASSes.
+  saveStatus = savedItemVisible && guardVerified === true ? 'PASS' : 'FAIL';
+  saveDetail = saveStatus === 'PASS'
+    ? 'With no collection ticked the Save button is disabled, so an item can never be reported as filed while unfiled; after ticking a collection the item appears in Saved & Collections.'
+    : `Save/revisit check failed (guard disabled when empty=${guardVerified}, item visible after save=${savedItemVisible}).`;
   task(5, 'Save an item and find it again', saveStatus, saveDetail,
-    { screenshots: [`${outDir}/task5-save-modal.png`, collectionsShot], excerpt: collectionsText.slice(0, 400) });
+    { screenshots: [`${outDir}/task5-save-modal.png`, collectionsShot], guardDisabledWhenEmpty: guardVerified, itemVisibleAfterSave: savedItemVisible, excerpt: collectionsText.slice(0, 400) });
 
   // TASK 6 — Navigate away from and resume a teaching session.
   await navTo(page, 3);
