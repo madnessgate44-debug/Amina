@@ -31,12 +31,99 @@ jobs:
         env:
           PORT: "4173"
           NODE_ENV: production
-      - name: Upload screenshots and audit report
+      - name: Start Amina for the agentic learner walkthrough
+        run: |
+          mkdir -p artifacts/design-audit
+          npm start > artifacts/design-audit/amina-server.log 2>&1 &
+          echo $! > /tmp/amina-server.pid
+          for attempt in $(seq 1 45); do
+            if curl --fail --silent http://127.0.0.1:4173/api/health >/dev/null; then
+              echo "Amina is healthy on port 4173."
+              exit 0
+            fi
+            sleep 1
+          done
+          cat artifacts/design-audit/amina-server.log
+          exit 1
+        env:
+          PORT: "4173"
+          NODE_ENV: production
+      - name: Checkout Forera browser agent
+        run: git clone --depth 1 https://github.com/madnessgate44-debug/Firstborn.git firstborn
+      - name: Install Forera browser agent dependencies
+        run: npm ci
+        working-directory: firstborn
+      - name: Run synthetic learner through Forera browser tools
+        continue-on-error: true
+        working-directory: firstborn
+        env:
+          FIRSTBORN_KEYLESS_ONLY: "true"
+          FORGE_ALLOW_BROWSER: "true"
+          FORGE_LOOP_MAX_STEPS: "12"
+          FORGE_LOOP_MAX_RUNTIME_MS: "420000"
+          FORGE_LOOP_REF: "main"
+          GITHUB_REPOSITORY: "madnessgate44-debug/Firstborn"
+          FORGE_LOOP_GOAL: |
+            You are a synthetic Grade 5 learner using Amina on a phone. You are not a developer and must behave like a first-time child user: do not inspect source code, files, DOM internals, APIs, or developer tools. Use only the browser tools to see and interact with the rendered UI.
+
+            Open http://127.0.0.1:4173 with browser_open first. Use a 390x844 mobile-sized view if the browser tool supports it. Complete onboarding with fictional test data only (name: Learner QA; no real personal data). Choose French as the interface language.
+
+            Then attempt these tasks using only visible interface cues:
+            1. From HOME, tell what the next useful action is.
+            2. Open FEED, complete or inspect one learning card, and try to move to the next card.
+            3. Open LIBRARY and find a Mathematics or Science lesson; note whether French subject labels are searchable.
+            4. Open NOUR and identify how to begin a learning conversation.
+            5. Navigate back to HOME and note whether your place/context is clear.
+
+            After each action, inspect the updated page. If a control does not work, try one reasonable recovery, then record the blocker. Do not guess success. Finish with a concise learner report: tasks attempted/completed, exact points of confusion, any repeated or duplicate-looking content, visible language inconsistencies, and the browser evidence that supports each observation. Clearly label anything you could not verify.
+        run: npx tsx src/agent/loop-runner.ts
+      - name: Classify synthetic learner evidence
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          evidence = Path('firstborn/.firstborn/evidence/forge-loop.json')
+          out = Path('artifacts/design-audit/synthetic-learner-status.json')
+          status = {
+            'runner': 'Forera browser tools through Firstborn Forge loop',
+            'status': 'BLOCKED',
+            'reason': 'No usable Forge loop evidence file was produced.',
+            'evidencePath': str(evidence),
+          }
+          if evidence.exists():
+            try:
+              data = json.loads(evidence.read_text())
+              steps = data.get('steps', [])
+              opens = [s for s in steps if (s.get('action') or {}).get('tool') == 'browser_open']
+              observed = [s for s in opens if (s.get('observation') or {}).get('ok') is True]
+              status.update({
+                'forgeStatus': data.get('status'),
+                'stepCount': len(steps),
+                'browserOpenCalls': len(opens),
+                'successfulBrowserOpens': len(observed),
+                'status': 'PASS' if observed and data.get('status') == 'COMPLETED' else 'BLOCKED',
+                'reason': 'Browser evidence confirmed.' if observed and data.get('status') == 'COMPLETED' else 'The loop did not complete a verified browser walkthrough.',
+              })
+            except Exception as exc:
+              status['reason'] = f'Could not parse Forge evidence: {exc}'
+          out.write_text(json.dumps(status, indent=2) + '\\n')
+          print(json.dumps(status, indent=2))
+          PY
+      - name: Stop Amina test server
+        if: always()
+        run: |
+          if [ -f /tmp/amina-server.pid ]; then
+            kill "$(cat /tmp/amina-server.pid)" 2>/dev/null || true
+          fi
+      - name: Upload screenshots, browser trace, and audit report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: amina-design-lab-browser-evidence
-          path: artifacts/design-audit/
+          path: |
+            artifacts/design-audit/
+            firstborn/.firstborn/evidence/forge-loop.json
           if-no-files-found: warn
           retention-days: 14
       - name: Upload teaching test diagnostics
