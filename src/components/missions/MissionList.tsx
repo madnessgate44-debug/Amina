@@ -47,7 +47,9 @@ export const MissionList: React.FC<MissionListProps> = ({ missions, onStartMissi
           <p className="text-xs text-slate-500 max-w-xs mx-auto mt-1">
             {isAr
               ? 'قم بتأكيد ملخص يومك المدرسي أو حدد وقتك لنقوم بجدولة مهامك تلقائياً.'
-              : 'Confirm your school day record or pick your study time to generate daily missions.'}
+              : language === 'fr'
+                ? 'Confirme ta journée d’école ou choisis ton temps d’étude pour préparer tes missions.'
+                : 'Confirm your school day record or pick your study time to generate daily missions.'}
           </p>
         </div>
       </div>
