@@ -65,8 +65,11 @@ The task is complete only when every identified in-scope conversation has been e
 ## OpenHands source — status update 2026-10-22
 
 The OpenHands source listed under "Source-by-source execution" has now been executed and is no longer pending:
-**24** OpenHands Cloud conversations were enumerated and exported verbatim (raw JSON plus readable transcripts),
+**25** OpenHands Cloud conversations were enumerated and exported verbatim (raw JSON plus readable transcripts),
 with an index, coverage report, gap report, and verification report. See `OPENHANDS_EXPORT_COMPLETION_2026-10-22.md`.
+A second pass at `2026-10-22T12:15:00Z` refreshed the export: one new conversation (`ab92584b`) and four
+settled ones were re-exported, taking the count from 24 to 25 and `VERBATIM_COMPLETE` from 20 to 24. The
+remaining `VERBATIM_PARTIAL` session (`8db63751`) is the export session itself, still running.
 
 Overall mission status remains **OPEN / NOT COMPLETE** because the ChatGPT source and other connected apps are still
 unexported. The OpenHands source itself is complete for the account that performed this export.
