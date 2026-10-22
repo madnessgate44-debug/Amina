@@ -270,7 +270,7 @@ export const CurriculumBrowser: React.FC = () => {
                     {isAr ? b.subjectNameAr : isFr && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                   </h3>
                   <p className="text-[9px] text-white/80 line-clamp-1">
-                    {isAr ? b.bookTitleAr : b.bookTitleEn}
+                    {isAr ? b.bookTitleAr : isFr && b.bookTitleFr ? b.bookTitleFr : b.bookTitleEn}
                   </p>
                 </div>
 
@@ -326,7 +326,7 @@ export const CurriculumBrowser: React.FC = () => {
                   {isAr ? selectedBookForDetail.subjectNameAr : isFr && selectedBookForDetail.subjectNameFr ? selectedBookForDetail.subjectNameFr : selectedBookForDetail.subjectNameEn}
                 </h3>
                 <p className="text-xs text-white/90">
-                  {isAr ? selectedBookForDetail.bookTitleAr : selectedBookForDetail.bookTitleEn}
+                  {isAr ? selectedBookForDetail.bookTitleAr : isFr && selectedBookForDetail.bookTitleFr ? selectedBookForDetail.bookTitleFr : selectedBookForDetail.bookTitleEn}
                 </p>
               </div>
             </div>
