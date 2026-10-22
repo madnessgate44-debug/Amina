@@ -1,14 +1,14 @@
 # Verification Report — OpenHands Chat-Hub Export
 
-**Generated (UTC):** `2026-10-22T10:28:59Z`
+**Generated (UTC):** `2026-10-22T12:15:00Z` (refresh; prior report `2026-10-22T10:28:59Z`)
 
 This report records validation evidence, not self-attested completion.
 
 ## 1. Enumeration evidence
 
 - Endpoint: `GET https://app.all-hands.dev/api/v1/app-conversations/search?limit=100`
-- Result: `24` items, no `next_page_id` (single page, so no truncation).
-- Cross-check: `GET /api/v1/app-conversations/count` returned `24`, matching the exported count.
+- Result: `25` items, no `next_page_id` (single page, so no truncation).
+- Cross-check: `GET /api/v1/app-conversations/count` returned `25`, matching the exported count.
 
 ## 2. Per-conversation retrieval evidence
 
@@ -18,13 +18,13 @@ Every conversation was fetched by following `next_page_id` until the API stopped
 
 | Check | Result |
 |---|---|
-| Conversations listed vs exported | 24 vs 24 — match |
-| `count` endpoint vs exported | 24 vs 24 — match |
-| Total events across exports | 32977 |
-| MessageEvents (user/assistant) | 314 / 193 |
-| Conversation ID set uniqueness | 24 unique IDs |
-| Transcript files present | 24 files in `transcripts/openhands-cloud/` |
-| Raw exports present | 24 files in `raw/openhands-cloud/` |
+| Conversations listed vs exported | 25 vs 25 — match |
+| `count` endpoint vs exported | 25 vs 25 — match |
+| Total events across exports | 36762 |
+| MessageEvents (user/assistant) | 319 / 196 |
+| Conversation ID set uniqueness | 25 unique IDs |
+| Transcript files present | 25 files in `transcripts/openhands-cloud/` |
+| Raw exports present | 25 files in `raw/openhands-cloud/` |
 
 ## 4. Redaction evidence
 

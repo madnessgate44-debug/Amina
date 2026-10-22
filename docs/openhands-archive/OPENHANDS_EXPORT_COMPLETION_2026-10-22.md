@@ -22,21 +22,27 @@ using the OpenHands Cloud REST API.
 
 | Metric | Value |
 |---|---:|
-| Conversations exported | 24 |
-| Amina-repository sessions | 7 |
+| Conversations exported | 25 |
+| Amina-repository sessions | 8 |
 | Sessions on other repositories | 17 |
-| Events exported | 32977 |
-| MessageEvents (user/assistant) | 314 / 193 |
-| Tool ActionEvents | 9573 |
-| `VERBATIM_COMPLETE` | 20 |
-| `VERBATIM_PARTIAL` (running at export) | 4 |
+| Events exported | 36762 |
+| MessageEvents (user/assistant) | 319 / 196 |
+| Tool ActionEvents | 10556 |
+| `VERBATIM_COMPLETE` | 24 |
+| `VERBATIM_PARTIAL` (running at export) | 1 |
 | Inaccessible | 0 |
+
+**Refresh note (2026-10-22T12:15:00Z):** a second pass re-ran the exporter. One new conversation
+(`ab92584b`, created 2026-10-22T11:02:35) was found and exported; four sessions that were
+`VERBATIM_PARTIAL` at the first export (`94cd4b33`, `296b0ce0`, `c315f0b0`, and the then-partial
+`8db63751` snapshot) have settled and were refreshed. `8db63751` is this export session and remains
+`VERBATIM_PARTIAL` while it runs. Counts above are the post-refresh totals.
 
 ## Honest boundaries
 
 - This closes the **OpenHands Cloud history for this account**. It does not close ChatGPT history, other
   OpenHands accounts, or other apps.
-- Four conversations were still executing when the export was taken and are labelled `VERBATIM_PARTIAL`.
+- One conversation (`8db63751`) was still executing at the refresh and is labelled `VERBATIM_PARTIAL`; the other 24 are `VERBATIM_COMPLETE`.
 - Attachment binary payloads are not part of the event stream; only attachment metadata is preserved.
 - Credentials are redacted in the readable render. The raw JSON is preserved exactly as the API returned it,
   which already masks live secrets as `**********`.

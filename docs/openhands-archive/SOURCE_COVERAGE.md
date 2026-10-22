@@ -1,6 +1,6 @@
 # Source Coverage — OpenHands Chat-Hub Export
 
-**Export timestamp (UTC):** `2026-10-22T10:28:59Z`
+**Export timestamp (UTC):** `2026-10-22T12:15:00Z` (refresh; prior export `2026-10-22T10:28:59Z`)
 
 ## Method
 
@@ -14,7 +14,7 @@
 
 | Source | Enumerable? | Exported? | Coverage | Notes |
 |---|---|---|---|---|
-| OpenHands Cloud (this account) | Yes — API | Yes | **24/24 conversations** | Complete enumeration; no further pages. |
+| OpenHands Cloud (this account) | Yes — API | Yes | **25/25 conversations** | Complete enumeration; no further pages. |
 | OpenHands Cloud (other accounts/orgs) | Not from this credential | No | 0 | Would need separate credentials/authorization. |
 | Local runtime session logs | N/A | No | — | The sandbox holds no prior-session logs; history lives in the cloud API. |
 | ChatGPT | No — no export tool exposed | No | 0 complete | Requires official ChatGPT account data export. |
@@ -23,13 +23,13 @@
 
 ## Counts
 
-- Conversations discovered: **24**
-- Conversations exported: **24**
-- Events exported: **32977**
-- MessageEvents exported: **507** (user 314 / assistant 193)
-- Tool ActionEvents exported: **9573**
-- `VERBATIM_COMPLETE`: **20**
-- `VERBATIM_PARTIAL` (still running at export): **4**
+- Conversations discovered: **25**
+- Conversations exported: **25**
+- Events exported: **36762**
+- MessageEvents exported: **515** (user 319 / assistant 196)
+- Tool ActionEvents exported: **10556**
+- `VERBATIM_COMPLETE`: **24**
+- `VERBATIM_PARTIAL` (still running at export): **1** (`8db63751`)
 - Inaccessible: **0** — every conversation in the list returned its event stream.
 
 ## Per-conversation verification
@@ -55,9 +55,10 @@
 | `8e7ac5344f0948fc8b9f0b68599647a0` | 200 | 2 | `f0d8bbfa4c8bfd85…` | 513925 | `VERBATIM_COMPLETE` |
 | `4c8d052277f44e8ba02c8131e4d42ba4` | 1225 | 32 | `02406edc7fe33da1…` | 4398583 | `VERBATIM_COMPLETE` |
 | `38a3b41f4302467197d375a026fe3c30` | 7625 | 87 | `25eda36d76e23411…` | 17340438 | `VERBATIM_COMPLETE` |
-| `94cd4b3331a74ac9b731965330ca5186` | 6964 | 13 | `5b7452c211e3fc00…` | 8473158 | `VERBATIM_PARTIAL` |
+| `94cd4b3331a74ac9b731965330ca5186` | 7365 | 14 | `1ec6edc6b952cec4…` | 9048454 | `VERBATIM_COMPLETE` |
 | `90d3f13ea700425681b643bc56c776ce` | 207 | 2 | `dcd14eeb493d5a57…` | 491960 | `VERBATIM_COMPLETE` |
 | `c315f0b0f03a4a0ba7751954f2ebf63a` | 638 | 2 | `965d47839380493e…` | 1236206 | `VERBATIM_COMPLETE` |
-| `296b0ce0a1f34183ac8244418ca253fd` | 424 | 1 | `a196e2c69932bfe6…` | 784735 | `VERBATIM_PARTIAL` |
-| `8db6375184834040bc49dabfae41e8ad` | 410 | 3 | `92e27cd39d6eb296…` | 1087687 | `VERBATIM_PARTIAL` |
+| `296b0ce0a1f34183ac8244418ca253fd` | 802 | 1 | `90b53cfbd359522a…` | 1225945 | `VERBATIM_COMPLETE` |
+| `8db6375184834040bc49dabfae41e8ad` | 1243 | 5 | `75f8e364e2df879f…` | 1451348 | `VERBATIM_PARTIAL` |
+| `ab92584bdf3b4f9ba3318a7088ea9891` | 838 | 2 | `384f14f995f3b8fb…` | 1077070 | `VERBATIM_COMPLETE` |
 
