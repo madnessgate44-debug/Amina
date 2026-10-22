@@ -28,3 +28,34 @@ jobs:
           name: teaching-test-diagnostics
           path: teaching-test-failure.txt
           if-no-files-found: ignore
+
+  rendered-browser-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install application dependencies
+        run: npm ci --legacy-peer-deps
+      - name: Build the production app
+        run: npm run build
+      - name: Install disposable browser test runner
+        run: |
+          npm install --no-save playwright
+          npx playwright install --with-deps chromium
+      - name: Exercise rendered app at phone and desktop viewports
+        run: node scripts/design-lab-browser-audit.mjs
+        env:
+          PORT: "4173"
+          NODE_ENV: production
+      - name: Upload screenshots and audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: amina-design-lab-browser-evidence
+          path: artifacts/design-audit/
+          if-no-files-found: warn
+          retention-days: 14
