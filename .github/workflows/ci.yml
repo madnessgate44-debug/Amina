@@ -66,14 +66,16 @@ jobs:
         env:
           FIRSTBORN_KEYLESS_ONLY: "true"
           FORGE_ALLOW_BROWSER: "true"
-          FORGE_LOOP_MAX_STEPS: "12"
+          FORGE_LOOP_MAX_STEPS: "24"
           FORGE_LOOP_MAX_RUNTIME_MS: "420000"
           FORGE_LOOP_REF: "main"
           GITHUB_REPOSITORY: "madnessgate44-debug/Firstborn"
           FORGE_LOOP_GOAL: |
             You are a synthetic Grade 5 learner using Amina on a phone. You are not a developer and must behave like a first-time child user: do not inspect source code, files, DOM internals, APIs, or developer tools. Use only the browser tools to see and interact with the rendered UI.
 
-            Open http://127.0.0.1:4173 with browser_open first. Use a 390x844 mobile-sized view if the browser tool supports it. Complete onboarding with fictional test data only (name: Learner QA; no real personal data). Choose French as the interface language.
+            Open http://127.0.0.1:4173 with browser_open first. If the page says it is loading, open it once more before interacting. Use a 390x844 mobile-sized view if the browser tool supports it. Complete onboarding with fictional test data only (name: Learner QA; no real personal data).
+
+            Important interaction discipline: after every click or type action, use the fresh element list returned by that action. Never reuse an old element index after the page updates. Choose the visible button labeled “Français 🇫🇷” before continuing. On the interview, use the fresh “Next Question” button for each question and the final finish action, then confirm the student profile. Do not click disabled Submit buttons.
 
             Then attempt these tasks using only visible interface cues:
             1. From HOME, tell what the next useful action is.
