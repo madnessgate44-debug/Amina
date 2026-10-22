@@ -10,7 +10,9 @@ A single public GitHub repository did not cover all required roles. This kit com
 2. **UI Check** — rendered-screen inventory, real screenshot evidence, state coverage, and measurable visual findings. The upstream MIT-licensed skill is copied to `.github/skills/ui-check/SKILL.md`; its license is preserved separately.
 3. **Humanish** — synthetic participants that can use a product through computer-use sessions and leave action traces/screenshots. This is the preferred participant runner only when its runtime is available. A no-key preview does not test Amina. Hosted desktop/API routes can cost money; no billable run is authorized by this setup.
 
-This is deliberately not a production dependency and does not alter Amina's runtime or package scripts.
+A Playwright-based rendered-browser audit now runs in the PR CI workflow using a disposable test install (not an Amina runtime dependency). It boots the production build with synthetic QA data, captures HOME / FEED / LIBRARY / NOUR and onboarding at phone size, checks the wider layout, and records Arabic RTL evidence. Screenshots and a machine-readable report are uploaded as the `amina-design-lab-browser-evidence` artifact. This is deterministic browser QA, not a model-driven synthetic participant and not real-child research.
+
+The application package dependencies and runtime scripts are unchanged.
 
 ## How the agents are used
 
@@ -21,7 +23,7 @@ This is deliberately not a production dependency and does not alter Amina's runt
 - `.github/skills/amina-design-lab/SKILL.md`: sequence and release gate.
 - `.github/skills/ui-check/SKILL.md`: full evidence-first visual audit procedure.
 
-Run the design lab with the repository's supported coding agent by asking it to follow `.github/skills/amina-design-lab/SKILL.md`. The presence of these files does not itself launch an agent or browser.
+The rendered-browser audit runs automatically on pull requests through `scripts/design-lab-browser-audit.mjs`; its CI artifact is the source of screenshots and viewport/text evidence. The repository-native agent roles still require a compatible coding agent to execute the research/critique synthesis. A browser run alone does not constitute a synthetic participant study.
 
 ## Humanish runtime decision
 
@@ -35,9 +37,9 @@ Because this repository is operated through GitHub and the owner works from a ph
 
 - [x] Inspected Amina's current `package.json` and project handoff.
 - [x] Selected and arranged role-specific design/research/critique/learner workflows.
-- [ ] Rendered browser walkthrough against a running Amina build.
-- [ ] Screenshot-backed duplicate-pattern and visual audit.
-- [ ] Synthetic learner run against Amina.
+- [x] Automated rendered browser walkthrough wired into PR CI; first execution pending.
+- [ ] Review first screenshot artifact and finish screenshot-backed duplicate-pattern / visual diagnosis.
+- [ ] Model-driven synthetic learner run against Amina (Humanish remains gated on supported runtime/provider availability).
 - [ ] Concept comparison and owner review.
 - [ ] Production implementation and regression verification.
 
