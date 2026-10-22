@@ -44,7 +44,7 @@ jobs:
         run: npm run build
       - name: Install disposable browser test runner
         run: |
-          npm install --no-save playwright
+          npm install --no-save --legacy-peer-deps playwright
           npx playwright install --with-deps chromium
       - name: Exercise rendered app at phone and desktop viewports
         run: node scripts/design-lab-browser-audit.mjs
