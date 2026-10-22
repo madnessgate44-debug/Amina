@@ -46,7 +46,8 @@ async function waitForServer() {
 
 async function capture(page, name, tab = 'onboarding') {
   const screenshot = `${outDir}/${name}.png`;
-  await page.screenshot({ path: screenshot, animations: 'disabled' });
+  console.log(`Capturing ${name}`);
+  await page.screenshot({ path: screenshot, animations: 'disabled', timeout: 10_000 });
   const state = await page.evaluate(() => ({
     viewportWidth: window.innerWidth,
     documentWidth: document.documentElement.scrollWidth,
@@ -68,13 +69,14 @@ async function capture(page, name, tab = 'onboarding') {
 }
 
 try {
-  server = spawn('npm', ['start'], {
+  // Spawn tsx directly (not through npm's shell wrapper) so cleanup cannot orphan the server child.
+  server = spawn('./node_modules/.bin/tsx', ['server.ts'], {
     env: { ...process.env, PORT: '4173', NODE_ENV: 'production' },
-    stdio: ['ignore', 'pipe', 'pipe'],
+    stdio: 'ignore',
+    detached: true,
   });
-  let serverOutput = '';
-  server.stdout.on('data', (chunk) => { serverOutput += chunk.toString(); });
-  server.stderr.on('data', (chunk) => { serverOutput += chunk.toString(); });
+  server.unref();
+  if (keepServer && server.pid) await writeFile('/tmp/amina-server.pid', String(server.pid));
   const health = await waitForServer();
   check('local app health endpoint responds', health.status === 'ok',
     `status=${health.status}; API key presence intentionally not recorded`);
@@ -192,16 +194,11 @@ try {
 } catch (error) {
   exitCode = 1;
   report.fatalError = error instanceof Error ? error.stack || error.message : String(error);
-  report.serverOutputTail = (server ? '' : '').slice(-1000);
+  report.serverOutputTail = 'Server output is captured by the workflow step when applicable.';
 } finally {
   if (browser) await browser.close().catch(() => {});
-  if (server && server.exitCode === null && !keepServer) {
-    server.kill('SIGTERM');
-    await Promise.race([
-      new Promise((resolve) => server.once('exit', resolve)),
-      delay(3000),
-    ]);
-    if (server.exitCode === null) server.kill('SIGKILL');
+  if (server?.pid && !keepServer) {
+    try { process.kill(-server.pid, 'SIGTERM'); } catch { /* already stopped */ }
   }
   report.finishedAt = new Date().toISOString();
   report.exitCode = exitCode;
