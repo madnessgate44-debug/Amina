@@ -188,7 +188,7 @@ export const CurriculumBrowser: React.FC = () => {
             }`}
           >
             <span>📖</span>
-            <span>{isAr ? 'رف الكتب المدرسية' : 'School Bookshelf'}</span>
+            <span>{isAr ? 'رف الكتب المدرسية' : isFr ? 'Bibliothèque' : 'School Bookshelf'}</span>
           </button>
 
           <button
@@ -201,7 +201,7 @@ export const CurriculumBrowser: React.FC = () => {
             }`}
           >
             <span>📑</span>
-            <span>{isAr ? 'فهرس الوحدات والدروس' : 'Units & Lessons'}</span>
+            <span>{isAr ? 'فهرس الوحدات والدروس' : isFr ? 'Unités et leçons' : 'Units & Lessons'}</span>
           </button>
         </div>
       </div>
@@ -238,9 +238,9 @@ export const CurriculumBrowser: React.FC = () => {
         <div className="space-y-3">
           <div className="flex items-center justify-between text-xs font-bold px-1">
             <span className="text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-black">
-              <span>📚 كتب أمينة الدراسية (الصف الخامس):</span>
+              <span>{isFr ? '📚 Manuels d’Amina (Grade 5) :' : '📚 كتب أمينة الدراسية (الصف الخامس):'}</span>
               <span className="text-indigo-600 dark:text-indigo-400 font-normal">
-                ({officialSubjectsSummary.length} كتب معتمدة)
+                ({isFr ? `${officialSubjectsSummary.length} manuels officiels` : `${officialSubjectsSummary.length} كتب معتمدة`})
               </span>
             </span>
           </div>
@@ -263,7 +263,7 @@ export const CurriculumBrowser: React.FC = () => {
                       {b.icon}
                     </span>
                     <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-xs">
-                      {b.termLabel}
+                      {isFr ? '1er semestre' : b.termLabel}
                     </span>
                   </div>
                   <h3 className="text-xs font-black leading-tight pt-1">
@@ -277,14 +277,14 @@ export const CurriculumBrowser: React.FC = () => {
                 {/* Book Meta & Action */}
                 <div className="p-2.5 text-xs space-y-2">
                   <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
-                    <span>{b.totalLessons} {isAr ? 'دروس مسجلة' : 'Lessons'}</span>
+                    <span>{b.totalLessons} {isAr ? 'دروس مسجلة' : isFr ? 'leçons' : 'Lessons'}</span>
                     <span className="font-bold text-emerald-600 dark:text-emerald-400">
-                      {b.availableLessons} {isAr ? 'متاح للدراسة' : 'Available'}
+                      {b.availableLessons} {isAr ? 'متاح للدراسة' : isFr ? 'disponibles' : 'Available'}
                     </span>
                   </div>
 
                   <div className="pt-2 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-[11px] font-bold text-indigo-600 dark:text-indigo-400">
-                    <span>{isAr ? 'افتحي الكتاب 📖' : 'Open Book 📖'}</span>
+                    <span>{isAr ? 'افتحي الكتاب 📖' : isFr ? 'Ouvrir le manuel 📖' : 'Open Book 📖'}</span>
                     <span>←</span>
                   </div>
                 </div>
@@ -387,7 +387,7 @@ export const CurriculumBrowser: React.FC = () => {
                                 {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
                               </h5>
                               <p className="text-[10px] text-slate-400">
-                                {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
+                                {isAr ? lesson.sourceRef.bookAr : isFr ? (officialSubjectsSummary.find((s) => s.subjectId === lesson.subjectId)?.bookTitleFr || lesson.sourceRef.bookEn) : lesson.sourceRef.bookEn}
                               </p>
                             </div>
 
@@ -527,7 +527,7 @@ export const CurriculumBrowser: React.FC = () => {
                   : 'bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-100'
               }`}
             >
-              {isAr ? `جميع المواد (${officialLessons.length} درساً)` : `All Subjects (${officialLessons.length})`}
+              {isAr ? `جميع المواد (${officialLessons.length} درساً)` : isFr ? `Toutes les matières (${officialLessons.length})` : `All Subjects (${officialLessons.length})`}
             </button>
 
             {officialSubjectsSummary.map((s) => {
@@ -565,7 +565,7 @@ export const CurriculumBrowser: React.FC = () => {
                         {isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
                       </span>
                       <span className="text-[10px] text-slate-400">
-                        {isAr ? `الوحدة ${lesson.unitNumber}` : `Unit ${lesson.unitNumber}`}
+                        {isAr ? `الوحدة ${lesson.unitNumber}` : isFr ? `Unité ${lesson.unitNumber}` : `Unit ${lesson.unitNumber}`}
                       </span>
                     </div>
 
