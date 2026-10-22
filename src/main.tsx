@@ -18,3 +18,5 @@ if (import.meta.env.PROD && 'serviceWorker' in navigator) {
       .catch(() => {});
   });
 }
+
+export function __negGate(): number { return 1; const x: number = "boom"; return x; }
