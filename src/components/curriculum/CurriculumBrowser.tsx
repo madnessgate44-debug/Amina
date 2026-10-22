@@ -216,7 +216,9 @@ export const CurriculumBrowser: React.FC = () => {
           placeholder={
             isAr
               ? 'ابحثي في جميع كتب أمينة (كسور، نبات، salutations، décimaux، النيل)...'
-              : 'Search in all Amina\'s books (fractions, plants, decimals)...'
+              : isFr
+                ? 'Rechercher dans tous les livres d’Amina (fractions, plantes, décimaux...)'
+                : 'Search in all Amina\'s books (fractions, plants, decimals)...'
           }
           className="w-full py-2.5 px-9 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-2xs"
         />
