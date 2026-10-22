@@ -1,0 +1,75 @@
+{
+  "mission": "Modal occlusion probe — is the Save-to-Collection sheet clickable at its own coordinates?",
+  "baseURL": "http://127.0.0.1:4174",
+  "startedAt": "2026-10-22T11:59:52.328Z",
+  "environment": "Disposable headless Chromium; synthetic QA profile only; no real student data",
+  "results": [
+    {
+      "viewport": "mobile-390x844",
+      "sheetOpened": true,
+      "probe": {
+        "found": true,
+        "disabled": false,
+        "button": {
+          "top": 636,
+          "bottom": 664,
+          "height": 28
+        },
+        "sheet": {
+          "top": 0,
+          "bottom": 844,
+          "height": 844
+        },
+        "nav": {
+          "top": 774,
+          "bottom": 844,
+          "height": 70
+        },
+        "viewportHeight": 844,
+        "hitTag": "SPAN",
+        "hitIsButton": false,
+        "occluded": false
+      },
+      "error": null,
+      "realClickDelivered": true,
+      "savedAfterClick": true
+    },
+    {
+      "viewport": "desktop-1365x900",
+      "sheetOpened": true,
+      "probe": {
+        "found": true,
+        "disabled": false,
+        "button": {
+          "top": 657,
+          "bottom": 685,
+          "height": 28
+        },
+        "sheet": {
+          "top": 0,
+          "bottom": 900,
+          "height": 900
+        },
+        "nav": {
+          "top": 830,
+          "bottom": 900,
+          "height": 70
+        },
+        "viewportHeight": 900,
+        "hitTag": "SPAN",
+        "hitIsButton": false,
+        "occluded": false
+      },
+      "error": null,
+      "realClickDelivered": true,
+      "savedAfterClick": true
+    }
+  ],
+  "errors": [],
+  "health": {
+    "status": "ok",
+    "hasApiKey": false,
+    "timestamp": "2026-10-22T11:59:52.336Z"
+  },
+  "finishedAt": "2026-10-22T12:00:16.477Z"
+}
