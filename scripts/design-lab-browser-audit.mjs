@@ -110,6 +110,9 @@ try {
     await page.locator('button').last().click();
     await delay(180);
   }
+  // The fifth interview screen has a separate finish action; click it to reach profile confirmation.
+  await page.locator('button').last().click();
+  await delay(250);
   await capture(page, '03-onboarding-profile-confirmation');
   const buttonCount = await page.locator('button').count();
   if (buttonCount < 2) throw new Error('Profile confirmation screen did not expose expected actions.');
@@ -167,6 +170,9 @@ try {
     await rtlPage.locator('button').last().click();
     await delay(120);
   }
+  // Finish the fifth question before selecting profile confirmation.
+  await rtlPage.locator('button').last().click();
+  await delay(200);
   const rtlButtonCount = await rtlPage.locator('button').count();
   await rtlPage.locator('button').nth(rtlButtonCount - 2).click();
   await rtlPage.locator('nav button').first().waitFor({ state: 'visible', timeout: 15_000 });
