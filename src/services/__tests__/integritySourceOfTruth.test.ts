@@ -604,6 +604,21 @@ async function runIntegrityTests() {
     const mathSummary = subjects.find((s) => s.subjectId === 'subj_math');
     assert(mathSummary?.subjectNameFr === 'Mathématiques',
       `E.4: mathematics renders as "Mathématiques" in French (got "${mathSummary?.subjectNameFr}")`);
+
+    // A locale that exists but is never selected, or is an untranslated copy of English,
+    // is worse than a missing one: the UI silently shows the wrong language.
+    const sections = (loc: string) => Object.keys((translations as Record<string, object>)[loc]).sort();
+    const enSections = sections('en');
+    for (const loc of locales) {
+      assert(JSON.stringify(sections(loc)) === JSON.stringify(enSections),
+        `G.5.${loc}: locale exposes the same sections as "en"`);
+    }
+    const enStrings = JSON.stringify(translations.en);
+    const frStrings = JSON.stringify(translations.fr);
+    assert(frStrings !== enStrings,
+      'G.6: the French locale carries real translations, not an English copy');
+    assert(/Inscription/.test(translations.fr.onboarding.step1Title),
+      `G.7: French onboarding title is localized (got "${translations.fr.onboarding.step1Title}")`);
   }
 
   console.log('\n=================================================================');
