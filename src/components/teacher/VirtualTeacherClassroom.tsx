@@ -1330,7 +1330,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </div>
 
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
-              {teacherContext.targetLesson.subjectNameAr}
+              {teacherContext.targetLesson?.subjectNameAr}
             </span>
           </div>
 
@@ -1695,7 +1695,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </div>
 
             <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
-              {teacherContext.targetLesson.subjectNameAr}
+              {teacherContext.targetLesson?.subjectNameAr}
             </span>
           </div>
 

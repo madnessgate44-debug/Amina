@@ -92,6 +92,12 @@ export function computeEvidenceWeights(params: {
     case 'reel_check':
       modalityWeight = 0.60;
       break;
+    case 'practice':
+      // Practice missions previously reached this switch as the runtime string
+      // 'practice' and fell through to the default. Keeping 1.0 preserves that
+      // behaviour now that the value is part of EvidenceModality.
+      modalityWeight = 1.0;
+      break;
   }
 
   // 5. Recency Weight (1.0 for new immediate evidence, decays for backfilled logs)

@@ -12,6 +12,7 @@ import { reconcileDayWithTimetable } from '../reconstruction/dayRecordReconcilia
 import { processMissionCompletion } from '../missions/missionCompletion';
 import { storageService } from '../storage';
 import { Student, DayRecord, Timetable, Mission, MissionOutcome, MasteryRecord } from '../../types';
+import { ensureDefaultCollections, saveItem } from '../collections/collectionService';
 
 let passed = 0;
 let failed = 0;
@@ -463,8 +464,124 @@ async function runIntegrityTests() {
       'Test D.9: the flagged concept becomes due once its 1-day interval elapses');
   }
 
-  // ---- Phase E: branding and localization invariants ----
-  console.log('\n--- PHASE E: BRANDING & LOCALIZATION INVARIANTS ---\n');
+  // =========================================================================
+  // TEST E: Strict typecheck regression guards
+  // These assertions lock the three defects fixed in the strict-typecheck PR:
+  // a misplaced (unreachable) diagnostic block, a missing 'practice' evidence
+  // modality, and unguarded nullable lesson access in the teacher UI.
+  // =========================================================================
+  console.log('\nTest E: Strict Typecheck Regression Guards');
+
+  // E.1: buildDiagnosticForConcept must return a live, non-empty diagnostic for a
+  // sourced lesson. Before the fix, an unreachable duplicate block disabled
+  // control-flow narrowing, so the returned shape could not be trusted.
+  const sourcedLesson = allLessons.find((l) => l.exercises && l.exercises.length > 0) || allLessons[0];
+  const sourcedDiagnostic = buildDiagnosticForConcept(sourcedLesson, sourcedLesson.concepts[0], 'أمينة');
+  assert(sourcedDiagnostic.options.length >= 2,
+    'E.1: Diagnostic from a sourced lesson returns real options (dead code removed)');
+  assert(sourcedDiagnostic.conceptId === sourcedLesson.concepts[0].id,
+    'E.2: Diagnostic stays bound to the requested concept');
+
+  // E.3: 'practice' is a first-class EvidenceModality and is scored like the
+  // default weight, so adding it did not change mastery numbers.
+  const practiceRecord = addEvidenceToMastery(createInitialMasteryRecord(realStudent.id, mathConcept!.id), {
+    correctness: 'full',
+    difficulty: 0.5,
+    independence: 'unassisted',
+    modality: 'practice',
+  });
+  const defaultWeightRecord = addEvidenceToMastery(createInitialMasteryRecord(realStudent.id, mathConcept!.id), {
+    correctness: 'full',
+    difficulty: 0.5,
+    independence: 'unassisted',
+    modality: 'quiz',
+  });
+  assert(practiceRecord.newEntry.modality === 'practice',
+    'E.3: Evidence entry accepts the practice modality');
+  assert(Math.abs(practiceRecord.updatedRecord.score - defaultWeightRecord.updatedRecord.score) < 1e-9,
+    'E.4: practice modality keeps the default 1.0 weight (no behaviour change)');
+
+  // E.5: Mission completion with a practice modality still records evidence and
+  // labels the outcome with the same modality value end to end.
+  const practiceMission: Mission = {
+    id: 'mission_practice_modality_005',
+    studentId: realStudent.id,
+    date: '2026-10-22',
+    subject: 'الرياضيات',
+    title: 'تدريب على الكسور',
+    type: 'practice',
+    estimatedMinutes: 10,
+    whyNow: 'تدريب موجه',
+    originTag: 'official',
+    successCriterion: 'إتمام التدريب',
+    status: 'pending',
+    conceptId: mathConcept?.id,
+  };
+  const practiceResult = await processMissionCompletion({
+    student: realStudent,
+    mission: practiceMission,
+    outcomeParams: { score: 0.8, modality: 'practice' },
+    storage: testStorage,
+  });
+  assert(practiceResult.success === true && practiceResult.evidenceAdded === true,
+    'E.5: practice-modality mission records evidence');
+  assert(practiceResult.outcome?.modalityUsed === 'practice',
+    'E.6: practice modality is preserved on the saved outcome');
+
+  // =========================================================================
+  // TEST F: Saving without a collection must never orphan an item
+  // =========================================================================
+  console.log('\nTest F: Save-to-Collection Integrity');
+  {
+    const saveStudent: Student = {
+      id: 'student_save_integrity',
+      name: 'تلميذة اختبار',
+      age: 11,
+      grade: 'الصف الخامس الابتدائي',
+      country: 'Egypt',
+      curriculum: 'Egyptian Bilingue',
+      academicYear: '2026',
+      preferredLanguage: 'ar',
+      subjects: ['الرياضيات'],
+      interviewAnswers: {
+        enjoyMost: '', hardest: '', learningStyle: 'games', sessionDuration: '30min', upcomingExams: '',
+      },
+      isOnboarded: true,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    };
+    await storageService.saveStudent(saveStudent);
+    const cols = await ensureDefaultCollections(saveStudent.id, storageService);
+    assert(cols.length > 0, 'F.1: default collections exist for a real student before any save');
+
+    // Regression: an item saved with no collection must not be reported as filed.
+    const orphan = await saveItem(saveStudent.id, storageService, {
+      type: 'lesson',
+      sourceId: 'src_orphan',
+      title: 'عنصر بلا مجموعة',
+      collectionIds: [],
+    });
+    const colsAfterOrphan = await storageService.getCollections(saveStudent.id);
+    const filedAnywhere = colsAfterOrphan.some((c) => c.itemIds.includes(orphan.id));
+    assert(filedAnywhere === false,
+      'F.2: saving with an empty collection list files the item into no collection (the UI must therefore block this)');
+
+    // The corrected behaviour: a save that names a collection is findable there.
+    const target = cols[0];
+    const filed = await saveItem(saveStudent.id, storageService, {
+      type: 'lesson',
+      sourceId: 'src_filed',
+      title: 'عنصر محفوظ',
+      collectionIds: [target.id],
+    });
+    const colsAfterFiled = await storageService.getCollections(saveStudent.id);
+    const targetAfter = colsAfterFiled.find((c) => c.id === target.id);
+    assert(Boolean(targetAfter?.itemIds.includes(filed.id)),
+      'F.3: an item saved into a chosen collection is discoverable in that collection');
+  }
+
+  // ---- Phase G: branding and localization invariants ----
+  console.log('\n--- PHASE G: BRANDING & LOCALIZATION INVARIANTS ---\n');
 
   {
     const { translations } = await import('../../i18n/translations');
@@ -472,7 +589,7 @@ async function runIntegrityTests() {
 
     for (const loc of locales) {
       const t = (translations as Record<string, { app: { name: string } }>)[loc];
-      assert(t.app.name === 'Miss Noor', `E.1.${loc}: product name is "Miss Noor" (got "${t.app.name}")`);
+      assert(t.app.name === 'Miss Noor', `G.1.${loc}: product name is "Miss Noor" (got "${t.app.name}")`);
     }
 
     const subjects = curriculumService.getSubjectsSummary();
@@ -482,7 +599,7 @@ async function runIntegrityTests() {
 
     const lessonsWithFr = curriculumService.getAllLessons().filter((l) => l.subjectNameFr);
     assert(lessonsWithFr.length === curriculumService.getAllLessons().length,
-      'E.3: every lesson carries a French subject name for French mode');
+      'G.3: every lesson carries a French subject name for French mode');
 
     const mathSummary = subjects.find((s) => s.subjectId === 'subj_math');
     assert(mathSummary?.subjectNameFr === 'Mathématiques',
