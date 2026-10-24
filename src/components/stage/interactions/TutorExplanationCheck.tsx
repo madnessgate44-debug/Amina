@@ -88,7 +88,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
             <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
               {isAr
                 ? 'نور معاكِ خطوة بخطوة.. اختاري اللي يناسبك بكل راحة وبدون أي ضغط:'
-                : 'Nour is right with you.. choose whatever feels comfortable:'}
+                : 'Noor is right with you.. choose whatever feels comfortable:'}
             </p>
           </div>
 
@@ -134,7 +134,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
               }`}
             >
               <MessageCircle className="w-3.5 h-3.5 text-slate-600 dark:text-slate-400" />
-              <span>{isAr ? 'اسألي نور بالصوت أو الكتابة 🎙️' : 'Ask Nour (Voice/Text) 🎙️'}</span>
+              <span>{isAr ? 'اسألي نور بالصوت أو الكتابة 🎙️' : 'Ask Noor (Voice/Text) 🎙️'}</span>
             </button>
           </div>
         </div>
@@ -223,7 +223,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
         <div className="space-y-2 p-3 rounded-2xl bg-slate-100 dark:bg-slate-800 border border-slate-300 dark:border-slate-700 animate-in zoom-in-95 duration-200">
           <div className="flex items-center justify-between">
             <span className="text-xs font-bold text-slate-800 dark:text-slate-100">
-              {isAr ? `اسألي نور أي سؤال يدور في ذهنك يا ${studentName}:` : `Ask Nour anything, ${studentName}:`}
+              {isAr ? `اسألي نور أي سؤال يدور في ذهنك يا ${studentName}:` : `Ask Noor anything, ${studentName}:`}
             </span>
             <button
               type="button"

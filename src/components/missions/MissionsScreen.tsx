@@ -14,7 +14,7 @@ export const MissionsScreen: React.FC = () => {
       <div className="flex items-end justify-between gap-3">
         <div>
           <h1 className="text-2xl font-black">{homeworkOnly ? (isAr ? 'الواجب' : 'Homework') : (isAr ? 'مهامي' : 'Missions')}</h1>
-          <p className="text-xs text-slate-500 mt-1">{isAr ? 'اختاري ما تحتاجينه الآن، ونور تقودك من هنا.' : 'Choose what you need now; Nour takes it from here.'}</p>
+          <p className="text-xs text-slate-500 mt-1">{isAr ? 'اختاري ما تحتاجينه الآن، ونور تقودك من هنا.' : 'Choose what you need now; Noor takes it from here.'}</p>
         </div>
         <button type="button" onClick={() => setHomeworkOnly((v) => !v)} className="px-3 py-2 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs font-black">
           {homeworkOnly ? (isAr ? 'كل المهام' : 'All missions') : (isAr ? 'الواجب فقط' : 'Homework only')}

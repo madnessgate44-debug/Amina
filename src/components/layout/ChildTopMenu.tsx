@@ -64,7 +64,7 @@ export const ChildTopMenu: React.FC = () => {
             </div>
 
             <div className="mt-8 p-4 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 text-xs text-indigo-900 dark:text-indigo-200">
-              {isAr ? 'نور موجودة في الرئيسية وفي كل درس. اختاري أي حاجة من هنا وقت ما تحتاجيها.' : 'Nour is available from Home and inside your lessons whenever you need her.'}
+              {isAr ? 'نور موجودة في الرئيسية وفي كل درس. اختاري أي حاجة من هنا وقت ما تحتاجيها.' : 'Noor is available from Home and inside your lessons whenever you need her.'}
             </div>
           </aside>
         </div>

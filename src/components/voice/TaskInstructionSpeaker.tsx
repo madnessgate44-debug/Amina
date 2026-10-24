@@ -101,7 +101,7 @@ export const TaskInstructionSpeaker: React.FC<TaskInstructionSpeakerProps> = ({
             <div className="flex items-center gap-1.5 text-[11px] font-black">
               <span className="text-indigo-900 dark:text-indigo-200 flex items-center gap-1">
                 <span>👩‍🏫</span>
-                <span>{isAr ? 'تعليمات المعلمة نور:' : "Miss Nour's Instructions:"}</span>
+                <span>{isAr ? 'تعليمات المعلمة نور:' : "Miss Noor's Instructions:"}</span>
               </span>
               {isSpeaking && (
                 <span className="text-[10px] bg-amber-400 text-amber-950 font-black px-2 py-0.2 rounded-full animate-pulse">

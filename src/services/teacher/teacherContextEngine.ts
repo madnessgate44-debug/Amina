@@ -1171,8 +1171,8 @@ export function buildTargetedIntervention(
   if (isFraction && (diagnosisType === 'misconception' || strategy === 'visual_model')) {
     return {
       headlineAr: `رسم توضيحي للمقام مع مس نور 🍕`,
-      headlineEn: `Visual Denominator Model with Miss Nour 🍕`,
-      headlineFr: `Modèle visuel du dénominateur avec Maîtresse Nour 🍕`,
+      headlineEn: `Visual Denominator Model with Miss Noor 🍕`,
+      headlineFr: `Modèle visuel du dénominateur avec Maîtresse Noor 🍕`,
       coreExplanationAr: `عارفة يا ${studentName}، في الأعداد العادية ٥ أكبر من ٣. لكن في الكسور، الرقم اللي تحت (المقام) بيعبر عن عدد القطع اللي بنقسم عليها الحاجه كلها! لو قسمنا نفس البيتزا على ٣ أصحاب، كل واحد هياخد شريحة كبيرة ومشبعة. لكن لو قسمنا نفس البيتزا على ٥ أصحاب، هنضطر نصغّر كل قطعة عشان تكفي الجميع!`,
       coreExplanationEn: `In regular whole numbers, 5 is larger than 3. But in fractions, the bottom number (denominator) represents how many slices we divide the whole into! Sharing a pizza among 3 gives each friend a big generous slice. Sharing among 5 forces us to cut much smaller pieces!`,
       coreExplanationFr: `En nombres entiers, 5 est plus grand que 3. Mais dans les fractions, le dénominateur indique en combien de parts on découpe ! Plus on partage entre amis, plus chaque part est petite !`,
@@ -1439,7 +1439,7 @@ export function analyzeStudentReasoning(
     category: 'unclear_reasoning',
     confidence: 'medium',
     explanationAr: 'التعليل غير واضح تماماً؛ سنختبر الفهم بمثال جديد وتوجيه لطيف لنتبين طريقة التفكير.',
-    explanationEn: 'Reasoning is ambiguous; Miss Nour will test understanding on a new guided example.',
+    explanationEn: 'Reasoning is ambiguous; Miss Noor will test understanding on a new guided example.',
     explanationFr: 'Raisonnement encore ambigu ; nous allons clarifier avec un nouvel exemple guidé.',
     recommendedPedagogicalAction: 'clarify_thinking_with_new_example',
   };
@@ -1740,14 +1740,14 @@ export function buildNormalizedTeacherContext(
     proactiveOpeningSpeech = isAr
       ? `أهلاً يا ${studentName}! أنا معلمتكِ نور 👩‍🏫 خطوتنا الدراسية الآن هي درس «${targetLesson.titleAr}» من ${targetLesson.sourceRef.bookAr}. يلا نكتشف مستوانا بسؤال تشخيصي سريع قبل الشرح!`
       : isFr
-      ? `Bienvenue ${studentName}! Je suis Maîtresse Nour 👩‍🏫 Notre étape actuelle est «${targetLesson.titleEn}». Commençons par un rapide diagnostic avant le tableau !`
-      : `Welcome, ${studentName}! I'm Miss Nour 👩‍🏫 Our current lesson is "${targetLesson.titleEn}" from ${targetLesson.sourceRef.bookEn}. Let's check where we stand with a quick diagnostic!`;
+      ? `Bienvenue ${studentName}! Je suis Maîtresse Noor 👩‍🏫 Notre étape actuelle est «${targetLesson.titleEn}». Commençons par un rapide diagnostic avant le tableau !`
+      : `Welcome, ${studentName}! I'm Miss Noor 👩‍🏫 Our current lesson is "${targetLesson.titleEn}" from ${targetLesson.sourceRef.bookEn}. Let's check where we stand with a quick diagnostic!`;
   } else {
     proactiveOpeningSpeech = isAr
       ? `أهلاً يا ${studentName}! أنا معلمتكِ نور 👩‍🏫 لم يتم تحديد درس حالياً من المنهج. تعالي نستكشف رف الكتب والمواد الدراسية لنبدأ!`
       : isFr
-      ? `Bienvenue ${studentName}! Je suis Maîtresse Nour 👩‍🏫 Aucune leçon n'est sélectionnée. Choisissons un livre pour commencer !`
-      : `Welcome ${studentName}! I'm Miss Nour 👩‍🏫 No lesson is currently selected. Let's explore your curriculum books to get started!`;
+      ? `Bienvenue ${studentName}! Je suis Maîtresse Noor 👩‍🏫 Aucune leçon n'est sélectionnée. Choisissons un livre pour commencer !`
+      : `Welcome ${studentName}! I'm Miss Noor 👩‍🏫 No lesson is currently selected. Let's explore your curriculum books to get started!`;
   }
 
   // 8. Generate Curriculum Diagnostic Question, Targeted Teaching, and Recheck Question

@@ -45,7 +45,7 @@ export const FeedScreen: React.FC = () => {
           kind: 'mission',
           id: `mission-${mission.id}`,
           mission,
-          purpose: isAr ? 'ده اللي محتاجاه النهارده' : 'A learning moment Nour chose for you',
+          purpose: isAr ? 'ده اللي محتاجاه النهارده' : 'A learning moment Noor chose for you',
         });
       });
 
@@ -73,7 +73,7 @@ export const FeedScreen: React.FC = () => {
         title: isAr ? found.concept.titleAr : found.concept.titleEn,
         subject: isAr ? found.lesson.subjectNameAr : found.lesson.subjectNameEn,
         lessonId: found.lesson.id,
-        purpose: isAr ? 'نور اختارت ده للمراجعة' : 'Nour picked this for a smart review',
+        purpose: isAr ? 'نور اختارت ده للمراجعة' : 'Noor picked this for a smart review',
       });
     });
 
@@ -95,7 +95,7 @@ export const FeedScreen: React.FC = () => {
           </div>
           <div className="flex items-center justify-center gap-2 text-amber-300 text-sm font-black mb-4">
             <Sparkles className="w-4 h-4" />
-            <span>{isAr ? 'نور دخلت معاكِ الحصة' : 'Nour is teaching you now'}</span>
+            <span>{isAr ? 'نور دخلت معاكِ الحصة' : 'Noor is teaching you now'}</span>
           </div>
           <div className="mx-auto max-w-sm rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/15 p-5 text-center">
             <p className="text-lg font-black leading-relaxed">
@@ -106,7 +106,7 @@ export const FeedScreen: React.FC = () => {
           </div>
           <div className="mt-6 flex items-center justify-center gap-2 text-slate-400 text-xs">
             <ArrowDown className="w-4 h-4 animate-bounce" />
-            <span>{isAr ? 'اسحبي لأعلى — نور هتكمّل معاكي خطوة بخطوة' : 'Swipe up — Nour will guide you step by step'}</span>
+            <span>{isAr ? 'اسحبي لأعلى — نور هتكمّل معاكي خطوة بخطوة' : 'Swipe up — Noor will guide you step by step'}</span>
           </div>
         </div>
       </section>
@@ -118,8 +118,8 @@ export const FeedScreen: React.FC = () => {
               <NourCharacter state="thinking" outfit="arabic" size="sm" />
             </div>
             <BookOpen className="w-8 h-8 text-indigo-300 mb-3" />
-            <h2 className="text-xl font-black">{isAr ? 'نور محتاجة تعرف درس النهارده' : 'Nour needs today’s school lesson first'}</h2>
-            <p className="text-sm text-slate-300 mt-2">{isAr ? 'افتحي الرئيسية وسجلي اللي حصل في المدرسة.' : 'Open Home and tell Nour what happened at school.'}</p>
+            <h2 className="text-xl font-black">{isAr ? 'نور محتاجة تعرف درس النهارده' : 'Noor needs today’s school lesson first'}</h2>
+            <p className="text-sm text-slate-300 mt-2">{isAr ? 'افتحي الرئيسية وسجلي اللي حصل في المدرسة.' : 'Open Home and tell Noor what happened at school.'}</p>
             <button onClick={() => setActiveTab('home')} className="mt-5 px-4 py-2.5 rounded-2xl bg-white text-slate-950 text-sm font-black">
               {isAr ? 'الصفحة الرئيسية' : 'Go Home'}
             </button>
@@ -139,7 +139,7 @@ export const FeedScreen: React.FC = () => {
                 <div className="mb-5 max-w-[68%] rounded-2xl rounded-bl-md bg-white text-slate-900 px-4 py-3 shadow-xl">
                   <div className="flex items-center gap-1.5 text-violet-600 text-[10px] font-black uppercase tracking-wider mb-1">
                     <MessageCircle className="w-3 h-3" />
-                    <span>{isAr ? 'نور' : 'Nour'}</span>
+                    <span>{isAr ? 'نور' : 'Noor'}</span>
                   </div>
                   <p className="text-sm font-bold leading-relaxed">
                     {card.kind === 'mission'
@@ -163,11 +163,11 @@ export const FeedScreen: React.FC = () => {
                   <div className="text-[11px] uppercase tracking-widest text-cyan-300 font-black mb-3">{card.purpose}</div>
                   <div className="text-xs text-slate-400">{card.subject}</div>
                   <h2 className="text-3xl font-black leading-tight mt-2">{card.title}</h2>
-                  <p className="text-slate-300 text-sm mt-3">{isAr ? 'نور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.' : 'Nour will teach, question you, listen to your reasoning, and adapt.'}</p>
+                  <p className="text-slate-300 text-sm mt-3">{isAr ? 'نور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.' : 'Noor will teach, question you, listen to your reasoning, and adapt.'}</p>
                   <div className="mt-6 flex items-center justify-between gap-3">
                     <SaveLikeButton sourceId={card.lessonId} type="lesson" title={card.title} subject={card.subject} />
                     <button onClick={() => setActiveLesson(card.lessonId)} className="flex-1 rounded-2xl bg-white text-slate-950 py-3 font-black flex items-center justify-center gap-2">
-                      <BookOpen className="w-4 h-4" /> {isAr ? 'اتعلمي مع نور' : 'Learn with Nour'}
+                      <BookOpen className="w-4 h-4" /> {isAr ? 'اتعلمي مع نور' : 'Learn with Noor'}
                     </button>
                   </div>
                 </div>

@@ -77,7 +77,7 @@ export const NarrationBar: React.FC<NarrationBarProps> = ({
           </span>
 
           <span className="text-[11px] font-black text-indigo-700 dark:text-indigo-400 flex items-center gap-1">
-            <span>{isAr ? 'نور يوجهك:' : 'Nour is speaking:'}</span>
+            <span>{isAr ? 'نور يوجهك:' : 'Noor is speaking:'}</span>
             {isSpeaking && (
               <span className="flex items-end gap-0.5 h-3 ml-1">
                 <span className="w-0.5 h-2 bg-indigo-500 rounded-full animate-[bounce_0.6s_infinite]" />
@@ -100,7 +100,7 @@ export const NarrationBar: React.FC<NarrationBarProps> = ({
             type="button"
             onClick={onReplayAudio}
             className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-indigo-50 hover:bg-indigo-100 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 text-[11px] font-bold transition-all shadow-2xs hover:scale-102 cursor-pointer"
-            title={isAr ? 'استمعي لصوت نور' : 'Play Nour Voice'}
+            title={isAr ? 'استمعي لصوت نور' : 'Play Noor Voice'}
           >
             <Volume2 className="w-3.5 h-3.5" />
             <span>{isAr ? 'صوت نور' : 'Voice'}</span>

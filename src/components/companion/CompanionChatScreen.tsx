@@ -576,7 +576,7 @@ export const CompanionChatScreen: React.FC = () => {
           <div className="flex items-center gap-1.5">
             <Sparkles className="w-3.5 h-3.5 text-amber-300" />
             <span className="text-xs font-black">
-              {isArabic ? 'المسرح التفاعلي مع نور 🎭' : 'The Interactive Stage with Nour 🎭'}
+              {isArabic ? 'المسرح التفاعلي مع نور 🎭' : 'The Interactive Stage with Noor 🎭'}
             </span>
           </div>
           <p className="text-[11px] text-indigo-200">

@@ -148,7 +148,7 @@ export const HomeScreen: React.FC = () => {
         <div className="flex items-center justify-between px-1">
           <span className="text-xs font-black text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
             <Sparkles className="w-4 h-4 text-amber-500 animate-pulse" />
-            <span>{isArabic ? 'ماذا أفعل الآن يا مس نور؟' : isFrench ? 'Que dois-je faire maintenant, Maîtresse Nour ?' : 'What Should I Do Now, Miss Nour?'}</span>
+            <span>{isArabic ? 'ماذا أفعل الآن يا مس نور؟' : isFrench ? 'Que dois-je faire maintenant, Maîtresse Noor ?' : 'What Should I Do Now, Miss Noor?'}</span>
           </span>
 
         </div>
@@ -190,7 +190,7 @@ export const HomeScreen: React.FC = () => {
               className="w-full py-3.5 px-4 rounded-2xl bg-slate-950 hover:bg-slate-900 active:scale-[0.99] text-amber-400 font-black text-xs sm:text-sm shadow-xl flex items-center justify-center gap-2 transition-all cursor-pointer"
             >
               <MessageCircle className="w-4 h-4" />
-              <span>{isArabic ? 'سجلي يومك مع نور صوتياً أو كتابةً 🎙️' : 'Report My Day with Nour (Voice/Text) 🎙️'}</span>
+              <span>{isArabic ? 'سجلي يومك مع نور صوتياً أو كتابةً 🎙️' : 'Report My Day with Noor (Voice/Text) 🎙️'}</span>
               {isArabic ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
             </button>
           </div>
@@ -272,7 +272,7 @@ export const HomeScreen: React.FC = () => {
                   setActiveTab('companion');
                 }}
                 className="px-3.5 py-3.5 rounded-2xl bg-white/15 hover:bg-white/20 text-white font-bold text-xs flex items-center justify-center transition-all cursor-pointer"
-                title={isArabic ? 'اسألي مس نور عن أي شيء' : 'Ask Miss Nour'}
+                title={isArabic ? 'اسألي مس نور عن أي شيء' : 'Ask Miss Noor'}
               >
                 <Bot className="w-4 h-4" />
               </button>
@@ -440,7 +440,7 @@ export const HomeScreen: React.FC = () => {
             <Bot className="w-5 h-5 text-white" />
           </div>
           <div className="text-left rtl:text-right">
-            <span className="block font-black text-sm">{isArabic ? 'تحدثي مع المعلمة نور 👩‍🏫' : 'Talk with Miss Nour 👩‍🏫'}</span>
+            <span className="block font-black text-sm">{isArabic ? 'تحدثي مع المعلمة نور 👩‍🏫' : 'Talk with Miss Noor 👩‍🏫'}</span>
             <span className="block text-[10px] text-indigo-100 font-normal mt-0.5">
               {isArabic ? 'اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت' : 'Ask her anything about lessons, voice or text'}
             </span>
