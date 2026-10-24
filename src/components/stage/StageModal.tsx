@@ -332,7 +332,7 @@ export const StageModal: React.FC<StageModalProps> = ({
                 className="text-[10px] text-indigo-600 dark:text-indigo-400 font-bold hover:underline flex items-center gap-1 shrink-0 ml-1"
               >
                 <HelpCircle className="w-3 h-3" />
-                <span>{isAr ? 'اسألي نور' : 'Ask Nour'}</span>
+                <span>{isAr ? 'اسألي نور' : 'Ask Noor'}</span>
               </button>
             </div>
 
@@ -397,7 +397,7 @@ export const StageModal: React.FC<StageModalProps> = ({
                   type="text"
                   value={customQuestionInput}
                   onChange={(e) => setCustomQuestionInput(e.target.value)}
-                  placeholder={isAr ? 'اسألي نور: يعني إيه...؟ أو ليه كانوا...؟' : 'Ask Nour anything about the lesson...'}
+                  placeholder={isAr ? 'اسألي نور: يعني إيه...؟ أو ليه كانوا...؟' : 'Ask Noor anything about the lesson...'}
                   className="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 text-xs bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
                   onKeyDown={(e) => {
                     if (e.key === 'Enter') handleSendCustomQuery();
@@ -533,7 +533,7 @@ export const StageModal: React.FC<StageModalProps> = ({
               onClick={() => handleNextBeat(true)}
               className="w-full py-2.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-xs shadow-xs transition-all flex items-center justify-between cursor-pointer"
             >
-              <span>{isAr ? 'فهمت الفكرة يا نور، لنكمل!' : 'Understood Nour, let’s continue!'}</span>
+              <span>{isAr ? 'فهمت الفكرة يا نور، لنكمل!' : 'Understood Noor, let’s continue!'}</span>
               {isAr ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
             </button>
           </div>
@@ -564,7 +564,7 @@ export const StageModal: React.FC<StageModalProps> = ({
               <h3 className="text-xs font-black tracking-tight flex items-center gap-1.5">
                 <span>{isAr ? sequence.lessonTitleAr : sequence.lessonTitleEn}</span>
                 <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-indigo-500/30 text-indigo-300 font-bold">
-                  {isAr ? `مع نور لـ ${studentName}` : `With Nour for ${studentName}`}
+                  {isAr ? `مع نور لـ ${studentName}` : `With Noor for ${studentName}`}
                 </span>
               </h3>
               <p className="text-[10px] text-slate-400 font-medium">
@@ -596,8 +596,8 @@ export const StageModal: React.FC<StageModalProps> = ({
               type="button"
               onClick={() => setShowChatFallback(!showChatFallback)}
               className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors cursor-pointer"
-              title={isAr ? 'محادثة مفتوحة مع نور' : 'Talk to Nour'}
-              aria-label={isAr ? 'محادثة مفتوحة مع نور' : 'Talk to Nour'}
+              title={isAr ? 'محادثة مفتوحة مع نور' : 'Talk to Noor'}
+              aria-label={isAr ? 'محادثة مفتوحة مع نور' : 'Talk to Noor'}
             >
               <MessageCircle className="w-4 h-4" />
             </button>
@@ -639,7 +639,7 @@ export const StageModal: React.FC<StageModalProps> = ({
             className="w-full bg-linear-to-r from-amber-500 via-amber-400 to-yellow-400 text-slate-950 font-black text-xs py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer shadow-md animate-pulse z-40"
           >
             <Volume2 className="w-4 h-4 animate-bounce" />
-            <span>{isAr ? 'اضغطي هنا لتشغيل صوت نور التفاعلي 🔊' : 'Tap here to enable Nour’s voice 🔊'}</span>
+            <span>{isAr ? 'اضغطي هنا لتشغيل صوت نور التفاعلي 🔊' : 'Tap here to enable Noor’s voice 🔊'}</span>
           </div>
         )}
 
@@ -686,7 +686,7 @@ export const StageModal: React.FC<StageModalProps> = ({
               <div className="flex items-center gap-2">
                 <MessageCircle className="w-4 h-4 text-indigo-600" />
                 <span className="text-xs font-bold text-slate-800 dark:text-slate-200">
-                  {isAr ? `محادثة مفتوحة مع نور يا ${studentName}` : `Talk to Nour, ${studentName}`}
+                  {isAr ? `محادثة مفتوحة مع نور يا ${studentName}` : `Talk to Noor, ${studentName}`}
                 </span>
               </div>
               <button
@@ -703,7 +703,7 @@ export const StageModal: React.FC<StageModalProps> = ({
               <div className="p-2.5 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-200 leading-relaxed">
                 {isAr
                   ? `أهلاً يا ${studentName}! أنا رفيقتكِ ومعلمتكِ نور. لو فيه أي سؤال في درس «${sequence.lessonTitleAr}» مش فاهماه أو سؤال يدور في ذهنكِ، احكيلي براحتك خالص!`
-                  : `Hi ${studentName}! I’m Nour. If anything in "${sequence.lessonTitleEn}" isn't clear or you have any curious thought, ask me freely!`}
+                  : `Hi ${studentName}! I’m Noor. If anything in "${sequence.lessonTitleEn}" isn't clear or you have any curious thought, ask me freely!`}
               </div>
 
               {chatMessages.map((msg, i) => (
@@ -730,7 +730,7 @@ export const StageModal: React.FC<StageModalProps> = ({
                 type="text"
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
-                placeholder={isAr ? 'اسألي نور أي سؤال...' : 'Ask Nour anything...'}
+                placeholder={isAr ? 'اسألي نور أي سؤال...' : 'Ask Noor anything...'}
                 className="flex-1 px-3 py-2 rounded-xl border border-slate-300 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs text-slate-900 dark:text-slate-100 focus:outline-hidden focus:ring-2 focus:ring-indigo-500"
               />
               <button

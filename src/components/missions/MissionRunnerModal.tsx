@@ -75,7 +75,7 @@ export const MissionRunnerModal: React.FC<MissionRunnerModalProps> = ({ mission,
       return (
         <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
           <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 p-6 text-center space-y-3">
-            <h3 className="text-lg font-black">{isAr ? 'نور محتاجة درس موثّق قبل ما نبدأ' : 'Nour needs a verified lesson before starting'}</h3>
+            <h3 className="text-lg font-black">{isAr ? 'نور محتاجة درس موثّق قبل ما نبدأ' : 'Noor needs a verified lesson before starting'}</h3>
             <p className="text-xs text-slate-500">{isAr ? 'المهمة دي لا تحتوي على درس صالح، لذلك لن نخمن أو نستبدل المحتوى.' : 'This mission has no valid lesson, so the app will not guess or substitute content.'}</p>
             <button type="button" onClick={onClose} className="px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-black">{isAr ? 'رجوع' : 'Go back'}</button>
           </div>

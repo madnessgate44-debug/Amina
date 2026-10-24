@@ -62,7 +62,7 @@ export const VoiceAnswerControl: React.FC<VoiceAnswerControlProps> = ({
               {isAr ? 'اضغط وتحدث بحرية...' : 'Tap and speak freely...'}
             </p>
             <p className="text-[10px] text-slate-500 dark:text-slate-400">
-              {isAr ? 'نور يستمع إليك بتركيز ويظهر كلماتك' : 'Nour listens and transcribes'}
+              {isAr ? 'نور يستمع إليك بتركيز ويظهر كلماتك' : 'Noor listens and transcribes'}
             </p>
           </div>
         </div>

@@ -212,7 +212,7 @@ export const TimetableScreen: React.FC = () => {
             <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
               {isArabic
                 ? 'المعلمة نور تعتمد حالياً على ما تسجلينه في سجل اليوم المدرسي. يمكنكِ إنشاء جدولك الآن أو استيراد نموذج لتعديله.'
-                : 'Miss Nour currently relies on your daily school reports. You can build your schedule now or load a sample template.'}
+                : 'Miss Noor currently relies on your daily school reports. You can build your schedule now or load a sample template.'}
             </p>
           </div>
           <div className="pt-2 flex flex-col sm:flex-row gap-2 max-w-xs mx-auto">

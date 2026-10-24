@@ -149,11 +149,11 @@ export class StageEngine {
       sourcePage: officialLesson.sourceRef.page || 1,
       nourState: 'celebrating',
       nourTextAr: `والآن يا أمينة يا بطلة، احكي لنور بأسلوبك الجميل: إيه أهم نقطة أو معلومة جديدة عرفتيها النهاردة من درس «${officialLesson.titleAr}»؟`,
-      nourTextEn: `Now Amina, tell Miss Nour in your own words: what was the most important takeaway from "${officialLesson.titleEn}"?`,
+      nourTextEn: `Now Amina, tell Miss Noor in your own words: what was the most important takeaway from "${officialLesson.titleEn}"?`,
       interactionPayload: {
         conceptTitle: officialLesson.titleAr,
         promptAr: 'احكي لنور فكرتك أو سجلي بصوتك...',
-        promptEn: 'Speak or type your explanation to Miss Nour...',
+        promptEn: 'Speak or type your explanation to Miss Noor...',
       },
     });
 

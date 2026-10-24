@@ -250,7 +250,7 @@ export const ICT_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
           'قارئات الشاشة تدعم استقلالية الطلاب من ضعاف البصر.',
         ],
         dailyLifeExampleAr: 'استخدام سماعة لاسلكية بالبلوتوث لسماع شرح المعلمة نور أثناء التدوين في كراستك.',
-        dailyLifeExampleEn: 'Listening to Miss Nour through Bluetooth headphones while taking notes.',
+        dailyLifeExampleEn: 'Listening to Miss Noor through Bluetooth headphones while taking notes.',
         storyAnalogyAr: 'إنترنت الأشياء كأن الأجهزة في المنزل تتحدث لغة واحدة تفهم بها رغباتك.',
         storyAnalogyEn: 'IoT is like home gadgets speaking a common language to help you effortlessly.',
         prerequisiteAr: 'معرفة مفهوم الاتصال اللاسلكي Wi-Fi.',

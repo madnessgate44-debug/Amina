@@ -161,7 +161,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                 : activeTab === 'vocab'
                 ? isAr
                   ? `اضغطي على أي كلمة تاريخية أو مصطلح علمي لتستمعي لنطقه وشرح معناه بصوت المعلمة نور.`
-                  : `Tap any vocabulary word to hear Miss Nour pronounce and explain its definition.`
+                  : `Tap any vocabulary word to hear Miss Noor pronounce and explain its definition.`
                 : isAr
                 ? `والآن مع التحدي والتمارين التفاعلية من كتاب الوزارة! اختاري الإجابة الصحيحة واستمعي للتشجيع!`
                 : `Now for textbook exercises! Select the correct answer and listen to feedback.`

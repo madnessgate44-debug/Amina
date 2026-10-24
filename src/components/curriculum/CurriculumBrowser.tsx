@@ -477,7 +477,7 @@ export const CurriculumBrowser: React.FC = () => {
                                   className="p-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-[10px] shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
                                 >
                                   <span>👩‍🏫</span>
-                                  <span>{isAr ? 'اشرحي لي يا مس نور' : 'Learn with Nour'}</span>
+                                  <span>{isAr ? 'اشرحي لي يا مس نور' : 'Learn with Noor'}</span>
                                 </button>
 
                                 <button
@@ -598,7 +598,7 @@ export const CurriculumBrowser: React.FC = () => {
                     onClick={() => setActiveTeachingLessonId(lesson.id)}
                     className="px-2.5 py-1 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black shadow-xs flex items-center gap-1"
                   >
-                    <span>👩‍🏫 {isAr ? 'اشرحي يا مس نور' : 'Teach with Nour'}</span>
+                    <span>👩‍🏫 {isAr ? 'اشرحي يا مس نور' : 'Teach with Noor'}</span>
                   </button>
                 </div>
               </div>

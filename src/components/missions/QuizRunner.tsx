@@ -280,7 +280,7 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
                   className="py-1.5 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-[11px] shadow-xs flex items-center gap-1.5 transition-all cursor-pointer"
                 >
                   <span>👩‍🏫</span>
-                  <span>{isAr ? 'اشرحي لي صوتياً مع مس نور' : 'Explain with Miss Nour'}</span>
+                  <span>{isAr ? 'اشرحي لي صوتياً مع مس نور' : 'Explain with Miss Noor'}</span>
                 </button>
               </div>
             )}

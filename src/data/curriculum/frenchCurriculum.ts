@@ -49,13 +49,13 @@ export const FRENCH_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
       'Poser des questions simples de présentation (Comment tu t\'appelles ? Quel âge as-tu ?).',
     ],
     readingText: `Dialogue en classe :
-Madame Nour : Bonjour les enfants ! Bienvenue en 5e primaire !
+Madame Noor : Bonjour les enfants ! Bienvenue en 5e primaire !
 Amina : Bonjour Madame !
-Madame Nour : Comment tu t'appelles ?
+Madame Noor : Comment tu t'appelles ?
 Amina : Je m'appelle Amina. Je suis égyptienne et j'ai 10 ans.
-Madame Nour : Enchantée, Amina ! Et toi, comment tu t'appelles ?
+Madame Noor : Enchantée, Amina ! Et toi, comment tu t'appelles ?
 Omar : Moi, c'est Omar. J'ai aussi 10 ans et j'aime beaucoup l'école !
-Madame Nour : Très bien les enfants. Ouvrez vos livres à la page 4 s'il vous plaît.`,
+Madame Noor : Très bien les enfants. Ouvrez vos livres à la page 4 s'il vous plaît.`,
     vocabulary: [
       { word: 'Bonjour', definition: 'تحية الصباح وتستخدم للترحيب نهاراً (Good morning / Hello).' },
       { word: 'Je m\'appelle...', definition: 'تعبير لذكر الاسم بمعنى: اسمي أو أدعى... (My name is...).' },
@@ -186,7 +186,7 @@ Voici ma famille !
 Mon père s'appelle Ahmed, il est ingénieur.
 Ma mère s'appelle Mariam, elle est médecin.
 J'ai un petit frère, il s'appelle Youssef, il a 6 ans.
-Et voici ma sœur Nour.
+Et voici ma sœur Noor.
 Nous habitons tous ensemble au Caire près du Nil. J'aime beaucoup ma famille !`,
     vocabulary: [
       { word: 'Le père / Mon père', definition: 'الأب / والدي (Father / My father).' },

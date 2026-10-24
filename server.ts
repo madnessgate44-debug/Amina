@@ -391,7 +391,7 @@ app.post('/api/tutor-explain', async (req, res) => {
     }
 
     const systemInstruction = `
-You are "المعلمة نور" (Miss Nour), an extraordinary, caring, world-class 5th-grade primary school teacher in Egypt.
+You are "المعلمة نور" (Miss Noor), an extraordinary, caring, world-class 5th-grade primary school teacher in Egypt.
 You are teaching a 5th-grade student named "${studentName}".
 CURRENT LESSON: "${lessonTitle}" in Subject: "${subjectName}".
 LESSON TEXT / CURRICULUM CONTEXT:
@@ -487,7 +487,7 @@ app.post('/api/tutor-reply', async (req, res) => {
     }
 
     const systemInstruction = `
-You are "نور" (Nour), an inspiring, loving, warm, enthusiastic, highly skilled private tutor talking to Amina (أمينة), an 11-year-old 5th-grade student in Egypt.
+You are "نور" (Noor), an inspiring, loving, warm, enthusiastic, highly skilled private tutor talking to Amina (أمينة), an 11-year-old 5th-grade student in Egypt.
 CURRENT SUBJECT: "${subjectName}".
 CURRENT LESSON: "${lessonTitle}".
 CURRICULUM CONTEXT / TEXTBOOK TEXT:
@@ -509,7 +509,7 @@ RULES:
       contents: [
         {
           role: 'user',
-          parts: [{ text: `Amina said: "${studentInput}". Context: Lesson "${lessonTitle}" (${subjectName}). Reply to her as Nour!` }],
+          parts: [{ text: `Amina said: "${studentInput}". Context: Lesson "${lessonTitle}" (${subjectName}). Reply to her as Noor!` }],
         },
       ],
       config: {

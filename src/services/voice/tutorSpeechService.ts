@@ -164,7 +164,7 @@ class TutorSpeechService {
 
         case 'welcome':
           soundEffects.playSchoolBell();
-          feedbackPhrase = `Bienvenue dans notre leçon d'aujourd'hui, ${studentName}! Je suis Maîtresse Nour, et je suis ravie d'apprendre avec toi 🚀`;
+          feedbackPhrase = `Bienvenue dans notre leçon d'aujourd'hui, ${studentName}! Je suis Maîtresse Noor, et je suis ravie d'apprendre avec toi 🚀`;
           break;
 
         case 'praise':
@@ -199,7 +199,7 @@ class TutorSpeechService {
 
         case 'welcome':
           soundEffects.playSchoolBell();
-          feedbackPhrase = `Welcome to today's lesson, ${studentName}! I am Miss Nour, and I'm thrilled to learn with you 🚀`;
+          feedbackPhrase = `Welcome to today's lesson, ${studentName}! I am Miss Noor, and I'm thrilled to learn with you 🚀`;
           break;
 
         case 'praise':
