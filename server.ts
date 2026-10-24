@@ -374,7 +374,7 @@ app.post('/api/tutor-explain', async (req, res) => {
       // Local pedagogic explanations fallback
       const fallbackExplanations: Record<string, string> = {
         full_hook_story: isArabic
-          ? `يا أهلاً يا ${studentName}! ${v.comeOn} أحكي لك سر مشوق عن درس «${lessonTitle}» في ${subjectName}. ${v.imagine} لو ${v.youAre} ${v.youWant === 'عايزة' ? 'عالمة' : 'عالم'} أو مستكشف صغير بتواجه لغز كبير؛ الدرس ده بيعلمنا إزاي نفكر بذكاء ونحل أصعب التحديات خطوة بخطوة. يلا نفتح عيوننا وتركيزنا ونبدأ المغامرة سوا!`
+          ? `يا أهلاً يا ${studentName}! ${v.comeOn} أحكي لك سر مشوق عن درس «${lessonTitle}» في ${subjectName}. ${v.imagine} لو ${v.youAre} ${addressFormWord(addressForm) === 'feminine' ? 'عالمة' : 'عالم'} أو مستكشف صغير بتواجه لغز كبير؛ الدرس ده بيعلمنا إزاي نفكر بذكاء ونحل أصعب التحديات خطوة بخطوة. يلا نفتح عيوننا وتركيزنا ونبدأ المغامرة سوا!`
           : isFrench
           ? `Bonjour ${studentName}! Laisse-moi te raconter une histoire passionnante sur la leçon «${lessonTitle}» en ${subjectName}. Imagine que tu sois une jeune chercheuse explorant une énigme fascinante. Cette leçon va nous donner les clés pour comprendre le monde qui nous entoure!`
           : `Hello ${studentName}! Let me tell you an exciting story about our lesson "${lessonTitle}" in ${subjectName}. Imagine you are a young explorer facing a great discovery. This lesson will show us how to think critically and solve big puzzles step by step!`,
@@ -532,7 +532,7 @@ RULES:
       },
     });
 
-    const reply = response.text || (isArabic ? `${v.listenToYou} يا ${studentName}، وضحت ${v.yourSuffix ? 'لك' + v.yourSuffix : 'لك'} الفكرة في «${lessonTitle}»؟` : `I hear you ${studentName}, does that make sense for "${lessonTitle}"?`);
+    const reply = response.text || (isArabic ? `${v.listenToYou} يا ${studentName}، وضحت لك${v.yourSuffix === 'كَ' ? 'َ' : ''} الفكرة في «${lessonTitle}»؟` : `I hear you ${studentName}, does that make sense for "${lessonTitle}"?`);
     res.json({ reply });
   } catch (error: any) {
     handleAiError('tutor-reply', error);
