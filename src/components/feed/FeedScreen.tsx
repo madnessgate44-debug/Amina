@@ -21,7 +21,7 @@ import { QuizRunner } from '../missions/QuizRunner';
 import { HomeworkRunner } from '../missions/HomeworkRunner';
 import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
 import { ReelCard } from './ReelCard';
-import { Play, BookOpen, Sparkles, ArrowDown, X, MessageCircle } from 'lucide-react';
+import { Play, BookOpen, Sparkles, ArrowDown, X, MessageCircle, Flame, Star } from 'lucide-react';
 
 type FeedCard =
   | { kind: 'lesson'; id: string; title: string; subject: string; lessonId: string; purpose: string }
@@ -39,6 +39,7 @@ export const FeedScreen: React.FC = () => {
     upcomingExams,
     recordEvidence,
     awardReelXp,
+    gamification,
     setActiveTab,
     startMission,
   } = useApp();
@@ -190,6 +191,18 @@ export const FeedScreen: React.FC = () => {
     return (
       <div className="h-[calc(100dvh-8.5rem)] overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white">
         <div className="sr-only" aria-live="polite">{announcement}</div>
+        {gamification && (
+          <div className="fixed top-2 start-3 end-3 z-20 flex items-center justify-between pointer-events-none">
+            <span className="flex items-center gap-1 text-[12px] font-black text-amber-300 bg-slate-950/70 px-2.5 py-1 rounded-full">
+              <Star className="w-3 h-3" /> {isAr ? 'مستوى' : 'Level'} {gamification.level}
+            </span>
+            <span className="flex items-center gap-1 text-[12px] font-black text-orange-300 bg-slate-950/70 px-2.5 py-1 rounded-full">
+              <Flame className="w-3 h-3" />
+              {gamification.streak.currentDays}
+              {gamification.streak.isPaused && (isAr ? ' (راحة)' : ' (rest)')}
+            </span>
+          </div>
+        )}
         <ReelCard
           key={currentReel.id}
           reel={currentReel}
