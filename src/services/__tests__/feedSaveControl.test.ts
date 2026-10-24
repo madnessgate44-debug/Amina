@@ -26,6 +26,7 @@ const test = (name: string, fn: () => void) => {
 };
 
 const reelCard = readFileSync(new URL('../../components/feed/ReelCard.tsx', import.meta.url), 'utf8');
+const saveModal = readFileSync(new URL('../../components/collections/SaveToCollectionModal.tsx', import.meta.url), 'utf8');
 const feedScreen = readFileSync(new URL('../../components/feed/FeedScreen.tsx', import.meta.url), 'utf8');
 
 test('1.1 ReelCard renders the shared SaveLikeButton', () => {
@@ -52,6 +53,15 @@ test('1.4 FeedScreen still delegates each card to ReelCard', () => {
 test('1.5 the feed does not render a bare bookmark icon it cannot wire up', () => {
   // A raw Bookmark icon in the feed would look saved-capable but do nothing.
   assert.ok(!/\bBookmark\b/.test(feedScreen), 'FeedScreen imports/renders Bookmark directly instead of SaveLikeButton');
+});
+
+test('1.6 the save sheet is exposed as a modal dialog', () => {
+  // The sheet is opened from inside a Feed card. Without an explicit dialog
+  // role, assistive tech and automation see a plain div and cannot detect that
+  // a modal opened. The browser probe could not find it for exactly this reason.
+  assert.ok(/role="dialog"/.test(saveModal), 'save sheet has no role="dialog"');
+  assert.ok(/aria-modal="true"/.test(saveModal), 'save sheet has no aria-modal="true"');
+  assert.ok(/aria-label=/.test(saveModal), 'save sheet has no accessible name');
 });
 
 console.log(`\nFEED SAVE-CONTROL SUITE SUMMARY: ${passed} PASSED, ${process.exitCode ? '1+' : 0} FAILED`);

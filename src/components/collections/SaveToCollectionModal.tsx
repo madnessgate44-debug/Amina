@@ -74,7 +74,12 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
   // descendants. Without the portal the sheet's footer lands under the sticky bottom nav
   // and a real tap on "Save Item" hits the nav instead of the button.
   return createPortal(
-    <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={isAr ? 'حفظ إلى المجموعات الخاصة' : 'Save to Collections'}
+      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4"
+    >
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
         <div className="p-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
