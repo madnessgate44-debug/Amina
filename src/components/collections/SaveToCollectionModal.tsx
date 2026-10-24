@@ -4,6 +4,7 @@
  */
 
 import React, { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useApp } from '../../context/AppContext';
 import { SavableType } from '../../types';
 import { Bookmark, Plus, X, Check, Heart, FileText } from 'lucide-react';
@@ -47,7 +48,10 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
     setShowAddColInput(false);
   };
 
+  const canSave = selectedColIds.length > 0;
+
   const handleSave = async () => {
+    if (!canSave) return;
     setIsSaving(true);
     try {
       await saveContent({
@@ -65,7 +69,11 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
     }
   };
 
-  return (
+  // Rendered through a portal: the sheet is opened from inside a Feed card that carries
+  // `backdrop-blur`, which makes that card the containing block for `position: fixed`
+  // descendants. Without the portal the sheet's footer lands under the sticky bottom nav
+  // and a real tap on "Save Item" hits the nav instead of the button.
+  return createPortal(
     <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
       <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl w-full max-w-md shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Header */}
@@ -194,15 +202,17 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
           </button>
           <button
             type="button"
-            disabled={isSaving}
+            disabled={isSaving || !canSave}
             onClick={handleSave}
-            className="py-1.5 px-4 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 shadow-sm flex items-center gap-1.5"
+            title={canSave ? undefined : (isAr ? 'اختاري مجموعة واحدة على الأقل' : 'Select at least one collection')}
+            className="py-1.5 px-4 rounded-xl text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 active:scale-98 shadow-sm flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Bookmark className="w-3.5 h-3.5" />
             <span>{isAr ? 'حفظ التغييرات' : 'Save Item'}</span>
           </button>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 };

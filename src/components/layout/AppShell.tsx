@@ -53,11 +53,11 @@ export const AppShell: React.FC = () => {
         {!showOnboarding && (
           <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-linear-to-br from-indigo-600 to-violet-600 text-white flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-2xl bg-linear-to-br from-[#615bff] to-[#26b8a8] text-white flex items-center justify-center shadow-md">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-sm font-black tracking-tight">Miss Nour</div>
+                <div className="text-sm font-black tracking-tight">{t.app.name}</div>
                 <div className="text-[10px] text-slate-500 dark:text-slate-400">
                   {student?.name || ''}
                 </div>

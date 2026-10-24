@@ -21,6 +21,7 @@ export interface SubjectCurriculumSummary {
   availableLessons: number;
   bookTitleAr: string;
   bookTitleEn: string;
+  bookTitleFr?: string;
   icon: string;
   color: string;
   bgGradient: string;
@@ -28,6 +29,41 @@ export interface SubjectCurriculumSummary {
   badgeAr: string;
   badgeEn: string;
 }
+
+/**
+ * French display names for subjects. Lessons that ship an explicit
+ * `subjectNameFr` keep it; these fill the gaps so French mode never falls
+ * back to an English subject label (ADF-008: search and labels must agree).
+ */
+const FRENCH_SUBJECT_NAMES: Record<string, string> = {
+  subj_arabic: 'Arabe',
+  subj_french: 'Français',
+  subj_math: 'Mathématiques',
+  subj_math_fr: 'Mathématiques',
+  subj_science: 'Sciences',
+  subj_science_fr: 'Sciences',
+  subj_social: 'Études sociales',
+  subj_social_studies: 'Études sociales',
+  subj_english: 'Anglais',
+  subj_ict: 'Informatique',
+  subj_islamic: 'Éducation islamique',
+  subj_calligraphy: 'Calligraphie arabe',
+};
+
+const FRENCH_BOOK_LABELS: Record<string, string> = {
+  subj_arabic: 'Manuel d’arabe',
+  subj_french: 'Manuel de français',
+  subj_math: 'Manuel de mathématiques',
+  subj_math_fr: 'Manuel de mathématiques',
+  subj_science: 'Manuel de sciences',
+  subj_science_fr: 'Manuel de sciences',
+  subj_social: 'Manuel d’études sociales',
+  subj_social_studies: 'Manuel d’études sociales',
+  subj_english: 'Manuel d’anglais',
+  subj_ict: 'Manuel d’informatique',
+  subj_islamic: 'Manuel d’éducation islamique',
+  subj_calligraphy: 'Manuel de calligraphie arabe',
+};
 
 export interface UnitCurriculumSummary {
   unitNumber: number;
@@ -141,9 +177,15 @@ export class CurriculumService {
   constructor() {
     this.lessons = OFFICIAL_CURRICULUM_LESSONS.map((lesson) => {
       const config = AMINA_CURRICULUM_CONTEXT.subjectConfigs[lesson.subjectId];
-      if (!config) return lesson;
-      return {
+      // The French subject name is filled unconditionally so French mode never
+      // falls back to an English label; the rest depends on a subject config.
+      const withFrenchName: OfficialCurriculumLesson = {
         ...lesson,
+        subjectNameFr: lesson.subjectNameFr || FRENCH_SUBJECT_NAMES[lesson.subjectId],
+      };
+      if (!config) return withFrenchName;
+      return {
+        ...withFrenchName,
         curriculumSource: config.curriculumSource,
         instructionLanguage: config.instructionLanguage,
         contentLanguage: config.contentLanguage,
@@ -249,11 +291,12 @@ export class CurriculumService {
           subjectId: l.subjectId,
           subjectNameAr: l.subjectNameAr,
           subjectNameEn: l.subjectNameEn,
-          subjectNameFr: l.subjectNameFr,
+          subjectNameFr: l.subjectNameFr || FRENCH_SUBJECT_NAMES[l.subjectId],
           totalLessons: 0,
           availableLessons: 0,
           bookTitleAr: l.sourceRef.bookAr,
           bookTitleEn: l.sourceRef.bookEn,
+          bookTitleFr: FRENCH_BOOK_LABELS[l.subjectId],
           icon: meta.icon,
           color: meta.color,
           bgGradient: meta.bgGradient,

@@ -6,7 +6,7 @@
 export const translations = {
   ar: {
     app: {
-      name: 'AI School Companion',
+      name: 'Miss Noor',
       title: 'الرفيق الدراسي الذكي',
       subtitle: 'نظام التشغيل الشخصي لحياتك الدراسية',
       demoBadge: 'منهج الصف الخامس 🇪🇬',
@@ -324,7 +324,7 @@ export const translations = {
   },
   en: {
     app: {
-      name: 'AI School Companion',
+      name: 'Miss Noor',
       title: 'AI School Companion',
       subtitle: 'Personal operating system for a student’s academic life',
       demoBadge: 'Grade 5 Official Curriculum 🇪🇬',
@@ -642,7 +642,7 @@ export const translations = {
   },
   fr: {
     app: {
-      name: 'AI School Companion',
+      name: 'Miss Noor',
       title: 'Compagnon Scolaire IA',
       subtitle: 'Système d’apprentissage personnel pour la réussite scolaire',
       demoBadge: 'Programme Officiel 5e Primaire 🇪🇬',

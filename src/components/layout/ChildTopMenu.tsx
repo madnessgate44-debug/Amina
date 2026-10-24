@@ -8,7 +8,7 @@ import { useApp } from '../../context/AppContext';
 import { BookOpen, ClipboardCheck, CheckCircle2, Heart, TrendingUp, User, Settings, Menu, X, Target } from 'lucide-react';
 
 export const ChildTopMenu: React.FC = () => {
-  const { language, setActiveTab } = useApp();
+  const { language, setActiveTab, t } = useApp();
   const [open, setOpen] = React.useState(false);
   const isAr = language === 'ar';
   const isFr = language === 'fr';
@@ -44,7 +44,7 @@ export const ChildTopMenu: React.FC = () => {
           >
             <div className="flex items-center justify-between mb-7">
               <div>
-                <div className="text-lg font-black text-slate-900 dark:text-white">Amina</div>
+                <div className="text-lg font-black text-slate-900 dark:text-white">{t.app.name}</div>
                 <div className="text-xs text-slate-500">{isAr ? 'عالمك الدراسي' : 'Your learning world'}</div>
               </div>
               <button onClick={() => setOpen(false)} className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800"><X className="w-5 h-5" /></button>

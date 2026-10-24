@@ -1046,7 +1046,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   };
 
   const t = useMemo(() => {
-    return settings.language === 'ar' ? translations.ar : translations.en;
+    return translations[settings.language] ?? translations.ar;
   }, [settings.language]);
 
   const value = useMemo(

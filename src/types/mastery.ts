@@ -11,7 +11,7 @@ export type EvidenceCorrectness = 'full' | 'partial' | 'wrong';
 
 export type EvidenceIndependence = 'unassisted' | 'hinted' | 'revealed';
 
-export type EvidenceModality = 'quiz' | 'game' | 'reel_check' | 'homework';
+export type EvidenceModality = 'quiz' | 'game' | 'reel_check' | 'homework' | 'practice';
 
 export interface WeightBreakdown {
   correctnessWeight: number;
