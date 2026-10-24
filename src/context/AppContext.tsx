@@ -125,7 +125,13 @@ interface AppContextValue {
       independence: EvidenceIndependence;
       modality: EvidenceModality;
       notes?: string;
-    }
+    },
+    /**
+     * Records against this student id instead of the current profile.
+     * Needed during onboarding, where evidence is written immediately after
+     * the profile is saved and the React `student` state has not flushed yet.
+     */
+    studentIdOverride?: string
   ) => Promise<MasteryRecord>;
   simulateDecayDays: (days: number) => Promise<void>;
   resetSimulatedDecay: () => Promise<void>;
@@ -499,9 +505,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       independence: EvidenceIndependence;
       modality: EvidenceModality;
       notes?: string;
-    }
+    },
+    studentIdOverride?: string
   ): Promise<MasteryRecord> => {
-    if (!student?.id) {
+    const studentId = studentIdOverride || student?.id;
+    if (!studentId) {
       console.warn('Cannot record evidence: no active student profile');
       return null as any;
     }
@@ -513,7 +521,6 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       return null as any;
     }
 
-    const studentId = student.id;
     const existing =
       masteryRecords[conceptId] || createInitialMasteryRecord(studentId, conceptId);
 

@@ -21,12 +21,14 @@ import {
   ParentAccount,
   StudentGamification,
   TeachingSession,
+  ExamCalendar,
 } from '../../types';
 import { IStorageService } from './IStorageService';
+import { migrateStudent } from './studentMigrations';
 import { localDateStr } from '../../utils/time';
 
 const DB_NAME = 'ai_school_companion_v2';
-const DB_VERSION = 7;
+const DB_VERSION = 8;
 
 const STORES = {
   STUDENT: 'student',
@@ -46,6 +48,7 @@ const STORES = {
   PARENT_ACCOUNTS: 'parent_accounts',
   GAMIFICATION: 'gamification',
   TEACHING_SESSIONS: 'teaching_sessions',
+  EXAM_CALENDARS: 'exam_calendars',
 } as const;
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -177,6 +180,9 @@ export class IndexedDBStorageService implements IStorageService {
           if (!db.objectStoreNames.contains(STORES.GAMIFICATION)) {
             db.createObjectStore(STORES.GAMIFICATION, { keyPath: 'studentId' });
           }
+          if (!db.objectStoreNames.contains(STORES.EXAM_CALENDARS)) {
+            db.createObjectStore(STORES.EXAM_CALENDARS, { keyPath: 'studentId' });
+          }
           if (!db.objectStoreNames.contains(STORES.TEACHING_SESSIONS)) {
             const tsStore = db.createObjectStore(STORES.TEACHING_SESSIONS, { keyPath: 'sessionId' });
             tsStore.createIndex('studentId', 'studentId', { unique: false });
@@ -204,7 +210,8 @@ export class IndexedDBStorageService implements IStorageService {
   async getStudent(): Promise<Student | null> {
     const db = await this.getDB();
     if (!db) {
-      return this.fallbackMemory.get(STORES.STUDENT) || null;
+      const raw = (this.fallbackMemory.get(STORES.STUDENT) as Student) || null;
+      return raw ? migrateStudent(raw) : null;
     }
 
     return new Promise((resolve) => {
@@ -215,16 +222,24 @@ export class IndexedDBStorageService implements IStorageService {
 
         request.onsuccess = () => {
           const results = request.result;
-          const student = results && results.length > 0 ? (results[0] as Student) : null;
-          if (student) this.saveToLocalStorage(STORES.STUDENT, student);
-          resolve(student || this.fallbackMemory.get(STORES.STUDENT) || null);
+          const raw = results && results.length > 0 ? (results[0] as Student) : null;
+          const fallback = (this.fallbackMemory.get(STORES.STUDENT) as Student) || null;
+          const source = raw || fallback;
+          if (!source) return resolve(null);
+          // Read path always migrates: stored profiles from older releases
+          // gain addressForm/onboarding defaults here, once, in one place.
+          const student = migrateStudent(source);
+          if (raw) this.saveToLocalStorage(STORES.STUDENT, student);
+          resolve(student);
         };
 
         request.onerror = () => {
-          resolve(this.fallbackMemory.get(STORES.STUDENT) || null);
+          const fallback = (this.fallbackMemory.get(STORES.STUDENT) as Student) || null;
+          resolve(fallback ? migrateStudent(fallback) : null);
         };
       } catch {
-        resolve(this.fallbackMemory.get(STORES.STUDENT) || null);
+        const fallback = (this.fallbackMemory.get(STORES.STUDENT) as Student) || null;
+        resolve(fallback ? migrateStudent(fallback) : null);
       }
     });
   }
@@ -1263,6 +1278,48 @@ export class IndexedDBStorageService implements IStorageService {
         const tx = db.transaction(STORES.GAMIFICATION, 'readwrite');
         const store = tx.objectStore(STORES.GAMIFICATION);
         store.put(data);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch {
+        resolve();
+      }
+    });
+  }
+
+  async getExamCalendar(studentId: string): Promise<ExamCalendar | null> {
+    const memoryCal: Record<string, ExamCalendar> = this.fallbackMemory.get(STORES.EXAM_CALENDARS) || {};
+    if (memoryCal[studentId]) return memoryCal[studentId];
+
+    const db = await this.getDB();
+    if (!db) return null;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.EXAM_CALENDARS, 'readonly');
+        const store = tx.objectStore(STORES.EXAM_CALENDARS);
+        const req = store.get(studentId);
+        req.onsuccess = () => resolve((req.result as ExamCalendar) || null);
+        req.onerror = () => resolve(null);
+      } catch {
+        resolve(null);
+      }
+    });
+  }
+
+  async saveExamCalendar(calendar: ExamCalendar): Promise<void> {
+    const memoryCal: Record<string, ExamCalendar> = this.fallbackMemory.get(STORES.EXAM_CALENDARS) || {};
+    memoryCal[calendar.studentId] = calendar;
+    this.fallbackMemory.set(STORES.EXAM_CALENDARS, memoryCal);
+    this.saveToLocalStorage(STORES.EXAM_CALENDARS, memoryCal);
+
+    const db = await this.getDB();
+    if (!db) return;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.EXAM_CALENDARS, 'readwrite');
+        const store = tx.objectStore(STORES.EXAM_CALENDARS);
+        store.put(calendar);
         tx.oncomplete = () => resolve();
         tx.onerror = () => resolve();
       } catch {

@@ -617,7 +617,10 @@ async function runIntegrityTests() {
     const frStrings = JSON.stringify(translations.fr);
     assert(frStrings !== enStrings,
       'G.6: the French locale carries real translations, not an English copy');
-    assert(/Inscription/.test(translations.fr.onboarding.step1Title),
+    // The onboarding was rewritten as a Noor-led flow; the French title must
+    // still be genuinely French (not an English copy) and must greet the child
+    // as Mademoiselle Noor.
+    assert(/Mademoiselle Noor/.test(translations.fr.onboarding.step1Title),
       `G.7: French onboarding title is localized (got "${translations.fr.onboarding.step1Title}")`);
   }
 
