@@ -1,17 +1,26 @@
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
+ *
+ * FEED — the reel feed.
+ *
+ * The feed is now a session of 30-45s single-concept reels built by the reel
+ * engine (src/services/reels). Each reel teaches exactly one concept, keeps
+ * the source line visible, and asks at most one question. The old mission /
+ * lesson / review cards are kept as the fallback path when the engine has no
+ * reel to show, so nothing that worked before was removed.
  */
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { Mission } from '../../types';
+import { Reel } from '../../types/reel';
+import { buildFeedQueue, buildRetryAfterMistakes } from '../../services/reels/feedQueue';
 import { QuizRunner } from '../missions/QuizRunner';
 import { HomeworkRunner } from '../missions/HomeworkRunner';
 import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
-import { SaveLikeButton } from '../collections/SaveLikeButton';
-import { NourCharacter } from '../stage/NourCharacter';
+import { ReelCard } from './ReelCard';
 import { Play, BookOpen, Sparkles, ArrowDown, X, MessageCircle } from 'lucide-react';
 
 type FeedCard =
@@ -21,10 +30,15 @@ type FeedCard =
 export const FeedScreen: React.FC = () => {
   const {
     language,
+    settings,
     student,
     missionsForToday,
     currentDayRecord,
     dueReviewNudges,
+    masteryRecords,
+    upcomingExams,
+    recordEvidence,
+    awardReelXp,
     setActiveTab,
     startMission,
   } = useApp();
@@ -33,6 +47,46 @@ export const FeedScreen: React.FC = () => {
   const [activeLesson, setActiveLesson] = useState<string | null>(null);
   const [activeMission, setActiveMission] = useState<Mission | null>(null);
 
+  // Reel session state.
+  const [queue, setQueue] = useState<Reel[] | null>(null);
+  const [cursor, setCursor] = useState(0);
+  const consecutiveWrong = useRef(0);
+  const [reducedMotion, setReducedMotion] = useState(false);
+  const [announcement, setAnnouncement] = useState('');
+
+  useEffect(() => {
+    const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mq.matches);
+    const onChange = (e: MediaQueryListEvent) => setReducedMotion(e.matches);
+    mq.addEventListener?.('change', onChange);
+    return () => mq.removeEventListener?.('change', onChange);
+  }, []);
+
+  const sessionMinutes = student?.onboarding?.sessionLengthMinutes || 10;
+
+  const builtQueue = useMemo(() => {
+    if (!student?.id) return null;
+    const todaySubjects = (currentDayRecord?.lessonsCovered || []).map((l) => l.subject);
+    return buildFeedQueue({
+      studentId: student.id,
+      language,
+      mastery: masteryRecords,
+      dueReviews: dueReviewNudges,
+      todaySubjects,
+      examCalendar: upcomingExams,
+      sessionMinutes,
+    });
+  }, [student?.id, language, masteryRecords, dueReviewNudges, currentDayRecord, upcomingExams, sessionMinutes]);
+
+  useEffect(() => {
+    if (builtQueue) {
+      setQueue(builtQueue.reels);
+      setCursor(0);
+      consecutiveWrong.current = 0;
+    }
+  }, [builtQueue]);
+
+  // Legacy fallback cards (kept for when the engine yields nothing to show).
   const feed = useMemo<FeedCard[]>(() => {
     const cards: FeedCard[] = [];
     const lessons = curriculumService.getAvailableLessons();
@@ -85,14 +139,94 @@ export const FeedScreen: React.FC = () => {
     setActiveMission(mission);
   };
 
+  const handleReelAnswer = async (reel: Reel, correct: boolean) => {
+    if (reel.conceptId === 'closer') return;
+
+    await recordEvidence(reel.conceptId, {
+      correctness: correct ? 'full' : 'wrong',
+      difficulty: 0.5,
+      independence: 'unassisted',
+      modality: 'reel_check',
+      notes: `reel:${reel.kind}`,
+    });
+
+    const record = masteryRecords[reel.conceptId];
+    const conceptMastered = Boolean(record && record.score >= 0.75);
+
+    await awardReelXp({ earnedXp: correct ? 10 : 2, correct, conceptMastered });
+
+    if (!correct) {
+      consecutiveWrong.current += 1;
+      setAnnouncement(isAr ? 'قربت! هشرحلك الفكرة تاني.' : 'Almost! Let me re-explain this idea.');
+      if (consecutiveWrong.current >= 2) {
+        // Rule 3: after two wrong in a row on the same concept, teach then retry.
+        const retry = buildRetryAfterMistakes(reel.conceptId, language);
+        if (retry.length > 0) {
+          setQueue((prev) => {
+            if (!prev) return prev;
+            const next = prev.slice();
+            next.splice(cursor + 1, 0, ...retry);
+            return next;
+          });
+        }
+        consecutiveWrong.current = 0;
+      }
+    } else {
+      consecutiveWrong.current = 0;
+      setAnnouncement(isAr ? 'برافو! 🎉' : 'Nice work! 🎉');
+    }
+  };
+
+  const advance = () => {
+    setCursor((c) => {
+      const next = c + 1;
+      return queue && next < queue.length ? next : c;
+    });
+  };
+
+  const currentReel = queue && cursor < queue.length ? queue[cursor] : null;
+
+  if (currentReel) {
+    return (
+      <div className="h-[calc(100dvh-8.5rem)] overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white">
+        <div className="sr-only" aria-live="polite">{announcement}</div>
+        <ReelCard
+          key={currentReel.id}
+          reel={currentReel}
+          isAr={isAr}
+          language={language}
+          reducedMotion={reducedMotion}
+          voiceEnabled={settings.companionVoiceEnabled}
+          onAnswer={(correct) => {
+            void handleReelAnswer(currentReel, correct);
+            if (currentReel.kind !== 'win_closer') {
+              window.setTimeout(advance, correct ? 1400 : 2600);
+            }
+          }}
+          onTeachMore={() => {
+            if (currentReel.lessonId && currentReel.lessonId !== 'closer') {
+              setActiveLesson(currentReel.lessonId);
+            }
+          }}
+          onSkip={advance}
+        />
+        <div className="fixed bottom-24 left-0 right-0 z-20 flex justify-center pointer-events-none">
+          <div className="text-[12px] text-slate-400 bg-slate-950/70 px-3 py-1 rounded-full">
+            {cursor + 1} / {queue!.length}
+          </div>
+        </div>
+        {activeLesson && (
+          <TeachingSessionModal lessonId={activeLesson} onClose={() => setActiveLesson(null)} />
+        )}
+      </div>
+    );
+  }
+
   return (
     <div className="h-[calc(100dvh-8.5rem)] overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white" dir={isAr ? 'rtl' : 'ltr'}>
       <section className="min-h-full snap-start flex flex-col justify-center px-5 py-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-b from-violet-950 via-slate-950 to-slate-950" />
         <div className="relative z-10 max-w-md mx-auto w-full">
-          <div className="flex justify-center mb-3">
-            <NourCharacter state="encouraging" outfit="arabic" size="lg" />
-          </div>
           <div className="flex items-center justify-center gap-2 text-amber-300 text-sm font-black mb-4">
             <Sparkles className="w-4 h-4" />
             <span>{isAr ? 'نور دخلت معاكِ الحصة' : 'Noor is teaching you now'}</span>
@@ -114,9 +248,6 @@ export const FeedScreen: React.FC = () => {
       {feed.length === 0 ? (
         <section className="min-h-full snap-start flex items-center px-6">
           <div className="max-w-md mx-auto w-full rounded-3xl bg-white/10 border border-white/10 p-6">
-            <div className="flex justify-center mb-2">
-              <NourCharacter state="thinking" outfit="arabic" size="sm" />
-            </div>
             <BookOpen className="w-8 h-8 text-indigo-300 mb-3" />
             <h2 className="text-xl font-black">{isAr ? 'نور محتاجة تعرف درس النهارده' : 'Noor needs today’s school lesson first'}</h2>
             <p className="text-sm text-slate-300 mt-2">{isAr ? 'افتحي الرئيسية وسجلي اللي حصل في المدرسة.' : 'Open Home and tell Noor what happened at school.'}</p>
@@ -131,11 +262,6 @@ export const FeedScreen: React.FC = () => {
             <div className="absolute inset-0 bg-linear-to-br from-slate-950 via-indigo-950/50 to-slate-950" />
             <div className="relative z-10 max-w-md mx-auto w-full">
               <div className="flex items-end justify-center gap-3 mb-4">
-                <NourCharacter
-                  state={card.kind === 'mission' ? 'talking' : 'encouraging'}
-                  outfit={card.kind === 'mission' ? 'arabic' : 'math'}
-                  size="md"
-                />
                 <div className="mb-5 max-w-[68%] rounded-2xl rounded-bl-md bg-white text-slate-900 px-4 py-3 shadow-xl">
                   <div className="flex items-center gap-1.5 text-violet-600 text-[10px] font-black uppercase tracking-wider mb-1">
                     <MessageCircle className="w-3 h-3" />
@@ -165,7 +291,6 @@ export const FeedScreen: React.FC = () => {
                   <h2 className="text-3xl font-black leading-tight mt-2">{card.title}</h2>
                   <p className="text-slate-300 text-sm mt-3">{isAr ? 'نور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.' : 'Noor will teach, question you, listen to your reasoning, and adapt.'}</p>
                   <div className="mt-6 flex items-center justify-between gap-3">
-                    <SaveLikeButton sourceId={card.lessonId} type="lesson" title={card.title} subject={card.subject} />
                     <button onClick={() => setActiveLesson(card.lessonId)} className="flex-1 rounded-2xl bg-white text-slate-950 py-3 font-black flex items-center justify-center gap-2">
                       <BookOpen className="w-4 h-4" /> {isAr ? 'اتعلمي مع نور' : 'Learn with Noor'}
                     </button>

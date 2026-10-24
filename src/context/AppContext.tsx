@@ -26,6 +26,8 @@ import {
   ParentAccount,
   ParentPreferences,
   StudentGamification,
+  ExamCalendar,
+  UpcomingExam,
   SpacedReviewSchedule,
   SpacedReviewSummary,
   SavableType,
@@ -59,7 +61,9 @@ import {
 import {
   getOrInitGamification,
   awardMissionGamification,
+  awardReelGamification,
 } from '../services/gamification/gamificationService';
+import { getUpcomingExams } from '../services/parent/examCalendarService';
 import { curriculumService } from '../services/curriculum/curriculumService';
 import { localDateStr } from '../utils/time';
 
@@ -196,6 +200,10 @@ interface AppContextValue {
   updateParentPrefs: (pin: string, newPrefs: Partial<ParentPreferences>) => Promise<boolean>;
   unlinkParent: (pin: string) => Promise<boolean>;
   gamification: StudentGamification | null;
+  examCalendar: ExamCalendar | null;
+  upcomingExams: UpcomingExam[];
+  saveExamCalendar: (calendar: ExamCalendar) => Promise<void>;
+  awardReelXp: (params: { earnedXp: number; correct: boolean; conceptMastered: boolean }) => Promise<void>;
   gentleCompanionNudge: string | null;
   dismissGentleNudge: () => void;
   selectedCurriculumLessonId: string | null;
@@ -253,6 +261,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [parentAccount, setParentAccount] = useState<ParentAccount | null>(null);
   const [isParentModeActive, setIsParentModeActive] = useState<boolean>(false);
   const [gamification, setGamification] = useState<StudentGamification | null>(null);
+  const [examCalendar, setExamCalendar] = useState<ExamCalendar | null>(null);
   const [gentleCompanionNudge, setGentleCompanionNudge] = useState<string | null>(null);
   const [missionRejectionCounts, setMissionRejectionCounts] = useState<Record<string, number>>({});
 
@@ -357,6 +366,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
           const userGamification = await getOrInitGamification(studentId, storageService);
           setGamification(userGamification);
+
+          const userExams = await storageService.getExamCalendar(studentId);
+          setExamCalendar(userExams);
         } else {
           // Genuinely empty installation: No student exists.
           // Do NOT create Amina automatically. Onboarding will be displayed.
@@ -369,6 +381,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setWeeklyReviews([]);
           setParentAccount(null);
           setGamification(null);
+          setExamCalendar(null);
         }
       } catch (err) {
         console.error('Failed to load initial data:', err);
@@ -396,6 +409,9 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     const userGamification = await getOrInitGamification(studentId, storageService);
     setGamification(userGamification);
+
+    const studentExams = await storageService.getExamCalendar(studentId);
+    setExamCalendar(studentExams);
 
     const todayDate = localDateStr();
     const planned = planDailyMissions({
@@ -855,6 +871,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     });
   }, [student, masteryRecords, settings.language]);
 
+  const upcomingExams = useMemo(() => {
+    if (!examCalendar) return [];
+    return getUpcomingExams(examCalendar.entries, new Date());
+  }, [examCalendar]);
+
   const dueReviewNudges = useMemo(() => {
     if (!student?.id) return [];
     return getOverdueReviewNudges(student.id, masteryRecords, {
@@ -863,6 +884,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   }, [student, masteryRecords, settings.language]);
 
   // Phase 7 Manual Review Trigger
+  const handleAwardReelXp = async (params: {
+    earnedXp: number;
+    correct: boolean;
+    conceptMastered: boolean;
+  }) => {
+    if (!student?.id) return;
+    const updated = await awardReelGamification(student.id, storageService, params);
+    setGamification(updated);
+  };
+
+  const handleSaveExamCalendar = async (calendar: ExamCalendar) => {
+    await storageService.saveExamCalendar(calendar);
+    setExamCalendar(calendar);
+  };
+
   const handleTriggerManualReview = (conceptId: string) => {
     if (!student?.id) return;
     const flatConcepts = curriculumService.getFlatConcepts();
@@ -1129,6 +1165,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       updateParentPrefs: handleUpdateParentPrefs,
       unlinkParent: handleUnlinkParent,
       gamification,
+      examCalendar,
+      upcomingExams,
+      saveExamCalendar: handleSaveExamCalendar,
+      awardReelXp: handleAwardReelXp,
       gentleCompanionNudge,
       dismissGentleNudge: () => setGentleCompanionNudge(null),
       selectedCurriculumLessonId,
@@ -1164,6 +1204,8 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
       parentAccount,
       isParentModeActive,
       gamification,
+      examCalendar,
+      upcomingExams,
       gentleCompanionNudge,
       selectedCurriculumLessonId,
       companionContext,
