@@ -3,6 +3,12 @@ import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { GoogleGenAI } from '@google/genai';
+import {
+  tutorArabicVoice,
+  resolveStudentName,
+  genderRuleLine,
+  addressFormWord,
+} from './src/services/i18n/serverTutorVoice';
 
 dotenv.config();
 
@@ -62,7 +68,10 @@ app.get('/api/health', (_req, res) => {
 // Chat API endpoint for Companion
 app.post('/api/chat', async (req, res) => {
   try {
-    const { messages = [], studentName = 'طالب', grade = 'Grade 5', language = 'ar', schoolBrainContext = null } = req.body;
+    const { messages = [], grade = 'Grade 5', language = 'ar', schoolBrainContext = null } = req.body;
+    const addressForm = req.body?.addressForm;
+    const studentName = resolveStudentName(req.body?.studentName, language);
+    const v = tutorArabicVoice(addressForm);
 
     const isArabic = language === 'ar';
     const lastUserMsg = (messages[messages.length - 1]?.content || '').trim();
@@ -96,15 +105,15 @@ app.post('/api/chat', async (req, res) => {
       let fallbackReply = '';
       if (isDontUnderstand) {
         fallbackReply = isArabic
-          ? `ولا يهمك خالص يا ${studentName}! عادي جداً متفهمش من أول مرة، دي خطوة طبيعية في التعلم. قولي إيه أكثر نقطة حسيتها ملخبطة وهنبسطها سوا خطوة بخطوة.`
+          ? `ولا يهمك خالص يا ${studentName}! عادي جداً متفهمش من أول مرة، دي خطوة طبيعية في التعلم. ${v.tellMe} إيه أكثر نقطة حسيتها ملخبطة وهنبسطها سوا خطوة بخطوة.`
           : `No worries at all, ${studentName}! It's completely normal not to understand right away. Tell me which part felt tricky, and we'll break it down step by step together.`;
       } else if (isExplainDifferently) {
         fallbackReply = isArabic
-          ? `حاضر يا ${studentName}! تعال نجرب مثال من حياتنا اليومية أو نشبه الموضوع بحاجة بنشوفها كل يوم. قولي تحب نبدأ من أول فكرة ولا من النص؟`
+          ? `حاضر يا ${studentName}! ${v.comeOn} نجرب مثال من حياتنا اليومية أو نشبه الموضوع بحاجة بنشوفها كل يوم. ${v.tellMe} تحب نبدأ من أول فكرة ولا من النص؟`
           : `Sure thing, ${studentName}! Let's look at this with a simple real-world analogy. Would you like to restart from the beginning or focus on the tricky part?`;
       } else if (isTestMe) {
         fallbackReply = isArabic
-          ? `فكرة ممتازة وتحدي حلو يا ${studentName}! جاهز لسؤال خفيف وسريع على اللي ذكرته؟ خد وقتك خالص وفكر على مهلك.`
+          ? `فكرة ممتازة وتحدي حلو يا ${studentName}! ${v.ready} لسؤال خفيف وسريع على اللي ذكرته؟ خد وقتك خالص وفكر على مهلك.`
           : `Awesome attitude and great challenge, ${studentName}! Ready for a quick, friendly question on what we discussed? Take your time!`;
       } else {
         fallbackReply = isArabic
@@ -351,10 +360,12 @@ app.post('/api/tutor-explain', async (req, res) => {
       lessonTitle = 'الدرس',
       subjectName = 'المادة',
       lessonText = '',
-      studentName = 'أمينة',
       language = 'ar',
       mode = 'full_hook_story',
     } = req.body;
+    const addressForm = req.body?.addressForm;
+    const studentName = resolveStudentName(req.body?.studentName, language);
+    const v = tutorArabicVoice(addressForm);
 
     const isArabic = language === 'ar';
     const isFrench = language === 'fr';
@@ -363,12 +374,12 @@ app.post('/api/tutor-explain', async (req, res) => {
       // Local pedagogic explanations fallback
       const fallbackExplanations: Record<string, string> = {
         full_hook_story: isArabic
-          ? `يا أهلاً يا ${studentName}! تعالي أحكي لك سر مشوق عن درس «${lessonTitle}» في ${subjectName}. تخيلي لو إنتي عالمة أو مستكشفة صغيرة بتواجه لغز كبير؛ الدرس ده بيعلمنا إزاي نفكر بذكاء ونحل أصعب التحديات خطوة بخطوة. يلا نفتح عيوننا وتركيزنا ونبدأ المغامرة سوا!`
+          ? `يا أهلاً يا ${studentName}! ${v.comeOn} أحكي لك سر مشوق عن درس «${lessonTitle}» في ${subjectName}. ${v.imagine} لو ${v.youAre} ${v.youWant === 'عايزة' ? 'عالمة' : 'عالم'} أو مستكشف صغير بتواجه لغز كبير؛ الدرس ده بيعلمنا إزاي نفكر بذكاء ونحل أصعب التحديات خطوة بخطوة. يلا نفتح عيوننا وتركيزنا ونبدأ المغامرة سوا!`
           : isFrench
           ? `Bonjour ${studentName}! Laisse-moi te raconter une histoire passionnante sur la leçon «${lessonTitle}» en ${subjectName}. Imagine que tu sois une jeune chercheuse explorant une énigme fascinante. Cette leçon va nous donner les clés pour comprendre le monde qui nous entoure!`
           : `Hello ${studentName}! Let me tell you an exciting story about our lesson "${lessonTitle}" in ${subjectName}. Imagine you are a young explorer facing a great discovery. This lesson will show us how to think critically and solve big puzzles step by step!`,
         core_concepts: isArabic
-          ? `ركزي معايا يا ${studentName} في أهم ثلاث نقاط في درس «${lessonTitle}»: أولاً: الفكرة المركزية اللي بيبني عليها كتاب الوزارة. ثانياً: المصطلحات الجديدة اللي بنقابلها. ثالثاً: القاعدة الأساسية اللي بتخلينا نحل أي تمرين بكل سهولة.`
+          ? `${v.focus} معايا يا ${studentName} في أهم ثلاث نقاط في درس «${lessonTitle}»: أولاً: الفكرة المركزية اللي بيبني عليها كتاب الوزارة. ثانياً: المصطلحات الجديدة اللي بنقابلها. ثالثاً: القاعدة الأساسية اللي بتخلينا نحل أي تمرين بكل سهولة.`
           : isFrench
           ? `Retiens bien ces points clés pour «${lessonTitle}», ${studentName}: D'abord, l'idée principale du manuel. Ensuite, les termes nouveaux indispensables. Enfin, la règle pratique pour résoudre tous les exercices.`
           : `Focus with me on the key ideas for "${lessonTitle}", ${studentName}: First, the main concept from the textbook. Second, our core vocabulary. Third, the practical rule to solve any practice problem with confidence.`,
@@ -401,12 +412,12 @@ TEACHING GOAL FOR MODE "${mode}":
 - If mode is "full_hook_story": Create an irresistible, captivating 3-4 sentence hook/story that makes an 11-year-old curious and excited to learn this specific lesson!
 - If mode is "core_concepts": Clearly break down the 2-3 essential concepts of "${lessonTitle}" using simple, engaging language and practical clarity suited for Grade 5.
 - If mode is "real_world_analogy": Give a vivid everyday real-world analogy (e.g. food, sports, nature, family) that makes the abstract concept immediately click.
-- If mode is "discussion_question": Ask Amina a gentle, thought-provoking question to test her understanding warmly.
-- If mode is "simplify": Amina found the lesson hard. Reassure her affectionately, and re-explain in ultra-simple, reassuring terms.
+- If mode is "discussion_question": Ask ${studentName} a gentle, thought-provoking question to test understanding warmly.
+- If mode is "simplify": ${studentName} found the lesson hard. Reassure warmly, and re-explain in ultra-simple, reassuring terms.
 
 STYLE & LANGUAGE:
-- If language is "ar": Use natural, warm, affectionate Egyptian Arabic (e.g. "يا حبيبتي يا أمينة", "شوفي يا ستي", "الموضوع ممتع جداً", "بصي معايا").
-- If language is "fr": Use warm, polite, enthusiastic French adapted for primary school students ("Chère Amina", "C'est très simple et passionnant!").
+- If language is "ar": Use natural, warm, affectionate Egyptian Arabic (e.g. "${v.address} يا ${studentName}", "${v.lookAt} يا ستي", "الموضوع ممتع جداً", "${v.look} معايا"). ${genderRuleLine(addressForm, language)}
+- If language is "fr": Use warm, polite, enthusiastic French adapted for primary school students ("Chère/ Cher ${studentName}", "C'est très simple et passionnant!"). The student is ${addressFormWord(addressForm)}.
 - If language is "en": Use warm, encouraging, engaging English suitable for 5th grade.
 - Keep output concise (max 4-5 sentences) so it reads beautifully and can be spoken out loud by the voice engine without lagging.
 `.trim();
@@ -430,10 +441,11 @@ STYLE & LANGUAGE:
   } catch (error: any) {
     handleAiError('tutor-explain', error);
     const isAr = req.body?.language !== 'en' && req.body?.language !== 'fr';
+    const fbName = resolveStudentName(req.body?.studentName, req.body?.language || 'ar');
     res.json({
       explanation: isAr
-        ? `أهلاً يا ${req.body?.studentName || 'أمينة'}! درس «${req.body?.lessonTitle || 'الدرس'}» من أهم الدروس في كتاب الوزارة، يلا نستكشفه سوا خطوة بخطوة!`
-        : `Welcome ${req.body?.studentName || 'Amina'}! This lesson is a key part of your textbook, let's explore it together!`,
+        ? `أهلاً يا ${fbName}! درس «${req.body?.lessonTitle || 'الدرس'}» من أهم الدروس في كتاب الوزارة، يلا نستكشفه سوا خطوة بخطوة!`
+        : `Welcome ${fbName}! This lesson is a key part of your textbook, let's explore it together!`,
       source: 'error_fallback',
     });
   }
@@ -447,9 +459,11 @@ app.post('/api/tutor-reply', async (req, res) => {
       currentBeatText = '',
       lessonTitle = 'الدرس',
       subjectName = 'المادة',
-      studentName = 'أمينة',
       language = 'ar',
     } = req.body;
+    const addressForm = req.body?.addressForm;
+    const studentName = resolveStudentName(req.body?.studentName, language);
+    const v = tutorArabicVoice(addressForm);
 
     const isArabic = language === 'ar';
     const isFrench = language === 'fr';
@@ -466,19 +480,19 @@ app.post('/api/tutor-reply', async (req, res) => {
           : `Great question, ${studentName}! In our lesson "${lessonTitle}", this key idea helps us understand the textbook concept clearly.`;
       } else if (lower.includes('ليه') || lower.includes('لماذا') || lower.includes('عشان ايه') || lower.includes('why') || lower.includes('pourquoi')) {
         contextualReply = isArabic
-          ? `ذكاء رائع منك يا ${studentName} إنك بتسألي عن السبب! في «${lessonTitle}»، ده بيحصل علشان يحقق التوازن والنتيجة الصحيحة اللي بندرسها في كتاب الوزارة.`
+          ? `ذكاء رائع منك يا ${studentName} إنك ${v.youAsk} عن السبب! في «${lessonTitle}»، ده بيحصل علشان يحقق التوازن والنتيجة الصحيحة اللي بندرسها في كتاب الوزارة.`
           : isFrench
           ? `Très bonne curiosité, ${studentName}! Dans «${lessonTitle}», cela s'explique par la règle fondamentale de notre cours.`
           : `Brilliant curiosity, ${studentName}! In "${lessonTitle}", this happens because of the core principle we are studying.`;
       } else if (lower.includes('مش فاهم') || lower.includes('مش فاهمة') || lower.includes("don't understand") || lower.includes('pas compris')) {
         contextualReply = isArabic
-          ? `ولا يهمك خالص يا حبيبتي يا ${studentName}! طبيعي جداً نحتاج نبسطها. تعالي نتخيل «${lessonTitle}» بمثال بسيط من بيتنا ويومنا: الفكرة ببساطة إننا بنمشي خطوة بخطوة عشان نوصل للحل.`
+          ? `ولا يهمك خالص ${v.address} يا ${studentName}! طبيعي جداً نحتاج نبسطها. ${v.comeOn} نتخيل «${lessonTitle}» بمثال بسيط من بيتنا ويومنا: الفكرة ببساطة إننا بنمشي خطوة بخطوة عشان نوصل للحل.`
           : isFrench
           ? `Ne t'inquiète pas du tout, ${studentName}! C'est tout à fait normal. Prenons un exemple tout simple de la vie de tous les jours pour «${lessonTitle}».`
           : `Don't worry at all, ${studentName}! It's totally normal to need a simpler look. Let's look at "${lessonTitle}" with a simple everyday example!`;
       } else {
         contextualReply = isArabic
-          ? `أنا سامعاكي ومركّزة معاكي جداً يا ${studentName}! في درسنا «${lessonTitle}»، كلامك ده بيقربنا أكتر من فهم الفكرة وتطبيقها في التمارين.`
+          ? `${v.listenToYou} جداً يا ${studentName}! في درسنا «${lessonTitle}»، كلامك ده بيقربنا أكتر من فهم الفكرة وتطبيقها في التمارين.`
           : isFrench
           ? `Je t'écoute attentivement, ${studentName}! Dans «${lessonTitle}», ton point de vue est super pertinent pour résoudre nos exercices.`
           : `I hear you loud and clear, ${studentName}! In "${lessonTitle}", your insight brings us closer to mastering the exercise!`;
@@ -487,7 +501,7 @@ app.post('/api/tutor-reply', async (req, res) => {
     }
 
     const systemInstruction = `
-You are "نور" (Noor), an inspiring, loving, warm, enthusiastic, highly skilled private tutor talking to Amina (أمينة), an 11-year-old 5th-grade student in Egypt.
+You are "نور" (Noor), an inspiring, loving, warm, enthusiastic, highly skilled private tutor talking to ${studentName}, an 11-year-old 5th-grade student in Egypt. You never claim to be human.
 CURRENT SUBJECT: "${subjectName}".
 CURRENT LESSON: "${lessonTitle}".
 CURRICULUM CONTEXT / TEXTBOOK TEXT:
@@ -497,11 +511,11 @@ RULES:
 1. Ground your answer in the ACTUAL lesson "${lessonTitle}" and "${subjectName}". Never give generic boilerplate.
 2. If student says they don't understand, reassure them warmly and give a concrete, memorable everyday analogy suited for an 11-year-old.
 3. Language:
-   - If language is "ar": Speak in warm, natural, friendly Egyptian Arabic (e.g. "يا حبيبتي يا أمينة", "بصي يا ستي", "الفكرة ببساطة", "تعالي نتخيلها سوا").
-   - If language is "fr": Speak in gentle, encouraging French for primary school ("Chère Amina, c'est très simple...").
+   - If language is "ar": Speak in warm, natural, friendly Egyptian Arabic (e.g. "${v.address} يا ${studentName}", "${v.look} يا ستي", "الفكرة ببساطة", "${v.comeOn} نتخيلها سوا"). ${genderRuleLine(addressForm, language)}
+   - If language is "fr": Speak in gentle, encouraging French for primary school ("Chère/ Cher ${studentName}, c'est très simple..."). The student is ${addressFormWord(addressForm)}.
    - If language is "en": Speak in clear, warm, enthusiastic English.
 4. Keep it concise (2-4 sentences max) so it can be read smoothly and spoken aloud without overwhelming the child.
-5. End with a friendly, gentle check for understanding (e.g. "وضحت كده يا بطلة ولا نجرب مثال تاني؟").
+5. End with a friendly, gentle check for understanding (e.g. "وضحت كده ${v.champion} ولا نجرب مثال تاني؟").
 `.trim();
 
     const response = await ai.models.generateContent({
@@ -509,7 +523,7 @@ RULES:
       contents: [
         {
           role: 'user',
-          parts: [{ text: `Amina said: "${studentInput}". Context: Lesson "${lessonTitle}" (${subjectName}). Reply to her as Noor!` }],
+          parts: [{ text: `${studentName} said: "${studentInput}". Context: Lesson "${lessonTitle}" (${subjectName}). Reply as Noor!` }],
         },
       ],
       config: {
@@ -518,15 +532,17 @@ RULES:
       },
     });
 
-    const reply = response.text || (isArabic ? `أنا سامعاكي يا ${studentName}، وضحت ليكي الفكرة في «${lessonTitle}»؟` : `I hear you ${studentName}, does that make sense for "${lessonTitle}"?`);
+    const reply = response.text || (isArabic ? `${v.listenToYou} يا ${studentName}، وضحت ${v.yourSuffix ? 'لك' + v.yourSuffix : 'لك'} الفكرة في «${lessonTitle}»؟` : `I hear you ${studentName}, does that make sense for "${lessonTitle}"?`);
     res.json({ reply });
   } catch (error: any) {
     handleAiError('tutor-reply', error);
     const isAr = req.body?.language !== 'en' && req.body?.language !== 'fr';
+    const fbVoice = tutorArabicVoice(req.body?.addressForm);
+    const fbName = resolveStudentName(req.body?.studentName, req.body?.language || 'ar');
     res.json({
       reply: isAr
-        ? `أنا معاكي يا ${req.body?.studentName || 'أمينة'} خطوة بخطوة! في درسنا «${req.body?.lessonTitle || 'الدرس'}»، أهم فكرة هي الفهم والتركيز في كتاب الوزارة.`
-        : `I'm right here with you, ${req.body?.studentName || 'Amina'}! In "${req.body?.lessonTitle || 'our lesson'}", the main point is to stay curious and focused.`,
+        ? `${fbVoice.listenToYou} يا ${fbName} خطوة بخطوة! في درسنا «${req.body?.lessonTitle || 'الدرس'}»، أهم فكرة هي الفهم والتركيز في كتاب الوزارة.`
+        : `I'm right here with you, ${fbName}! In "${req.body?.lessonTitle || 'our lesson'}", the main point is to stay curious and focused.`,
     });
   }
 });

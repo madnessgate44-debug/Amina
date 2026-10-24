@@ -22,7 +22,7 @@ interface TaskInstructionSpeakerProps {
 
 export const TaskInstructionSpeaker: React.FC<TaskInstructionSpeakerProps> = ({
   instructionText,
-  studentName = 'أمينة',
+  studentName = 'صديقي',
   autoSpeak = false,
   language = 'ar',
   encouragingFeedback = null,

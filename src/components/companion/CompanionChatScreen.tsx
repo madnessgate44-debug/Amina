@@ -400,6 +400,7 @@ export const CompanionChatScreen: React.FC = () => {
               content: m.content,
             })),
             studentName,
+            addressForm: student?.addressForm,
             grade: student?.grade || 'Grade 5',
             language,
             schoolBrainContext: {
