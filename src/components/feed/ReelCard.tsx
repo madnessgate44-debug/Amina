@@ -14,6 +14,7 @@ import { Reel } from '../../types/reel';
 import { NourState } from '../../types/stage';
 import { Language } from '../../types';
 import { NourCharacter } from '../stage/NourCharacter';
+import { SaveLikeButton } from '../collections/SaveLikeButton';
 import { voiceService } from '../../services/voice/voiceService';
 import { Sparkles, Check, X as XIcon, BookOpen, Volume2, VolumeX } from 'lucide-react';
 
@@ -157,6 +158,13 @@ export const ReelCard: React.FC<ReelCardProps> = ({
               <BookOpen className="w-3 h-3" />
               {reel.sourceLabel}
             </span>
+            <SaveLikeButton
+              sourceId={reel.id}
+              type="reel"
+              title={reel.hook}
+              subject={reel.subjectName}
+              snippet={reel.show}
+            />
             {voiceEnabled && (
               <button
                 type="button"
