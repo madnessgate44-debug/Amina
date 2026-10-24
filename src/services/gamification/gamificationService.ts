@@ -65,6 +65,36 @@ export const INITIAL_BADGES: AchievementBadge[] = [
     progressTarget: 3,
     progressCurrent: 0,
   },
+  {
+    id: 'badge_first_reel',
+    titleAr: 'أول فيديو تعليمي',
+    titleEn: 'First Reel',
+    descriptionAr: 'إكمال أول فيديو تعليمي قصير مع نور.',
+    descriptionEn: 'Completed your first learning reel with Noor.',
+    icon: 'PlayCircle',
+    progressTarget: 1,
+    progressCurrent: 0,
+  },
+  {
+    id: 'badge_streak_3',
+    titleAr: 'ثلاثة أيام متواصلة',
+    titleEn: 'Three-Day Streak',
+    descriptionAr: 'التعلّم ثلاثة أيام متتالية.',
+    descriptionEn: 'Learned three days in a row.',
+    icon: 'Flame',
+    progressTarget: 3,
+    progressCurrent: 0,
+  },
+  {
+    id: 'badge_concept_mastered',
+    titleAr: 'مفهوم متقن',
+    titleEn: 'Concept Mastered',
+    descriptionAr: 'إتقان مفهوم دراسي كامل بثقة.',
+    descriptionEn: 'Mastered one full curriculum concept.',
+    icon: 'Trophy',
+    progressTarget: 1,
+    progressCurrent: 0,
+  },
 ];
 
 /**
@@ -75,7 +105,18 @@ export async function getOrInitGamification(
   storage: IStorageService
 ): Promise<StudentGamification> {
   const existing = await storage.getGamification(studentId);
-  if (existing) return existing;
+  if (existing) {
+    // Merge badges added in later versions so an existing profile gains them
+    // without losing earned progress.
+    const knownIds = new Set(existing.badges.map((b) => b.id));
+    const missing = INITIAL_BADGES.filter((b) => !knownIds.has(b.id));
+    if (missing.length > 0) {
+      const merged = { ...existing, badges: [...existing.badges, ...missing] };
+      await storage.saveGamification(merged);
+      return merged;
+    }
+    return existing;
+  }
 
   const initial: StudentGamification = {
     studentId,
@@ -220,6 +261,53 @@ export async function awardMissionGamification(
     streak: newStreak,
     badges: updatedBadges,
     subjectMasteryPercentages,
+  };
+
+  await storage.saveGamification(updatedProfile);
+  return updatedProfile;
+}
+
+/**
+ * Awards XP for one completed reel and refreshes the reel-related badges.
+ * Kept separate from awardMissionGamification so the feed does not have to
+ * fabricate a Mission object.
+ */
+export async function awardReelGamification(
+  studentId: string,
+  storage: IStorageService,
+  params: {
+    earnedXp: number;
+    correct: boolean;
+    conceptMastered: boolean;
+  }
+): Promise<StudentGamification> {
+  const profile = await getOrInitGamification(studentId, storage);
+  const newXp = profile.xp + Math.max(0, Math.round(params.earnedXp));
+  const newLevel = Math.floor(newXp / 100) + 1;
+  const xpToNextLevel = newLevel * 100 - newXp;
+  const newStreak = updateForgivingStreak(profile.streak);
+
+  const updatedBadges = profile.badges.map((b) => {
+    let current = b.progressCurrent || 0;
+    if (b.id === 'badge_first_reel') current = 1;
+    if (b.id === 'badge_streak_3') current = newStreak.currentDays;
+    if (b.id === 'badge_concept_mastered') current = params.conceptMastered ? 1 : current;
+
+    const isUnlocked = current >= (b.progressTarget || 1);
+    return {
+      ...b,
+      progressCurrent: current,
+      unlockedAt: isUnlocked && !b.unlockedAt ? new Date().toISOString() : b.unlockedAt,
+    };
+  });
+
+  const updatedProfile: StudentGamification = {
+    ...profile,
+    xp: newXp,
+    level: newLevel,
+    xpToNextLevel,
+    streak: newStreak,
+    badges: updatedBadges,
   };
 
   await storage.saveGamification(updatedProfile);
