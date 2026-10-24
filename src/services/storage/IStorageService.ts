@@ -21,6 +21,7 @@ import {
   ParentAccount,
   StudentGamification,
   TeachingSession,
+  ExamCalendar,
 } from '../../types';
 
 export interface IStorageService {
@@ -248,6 +249,16 @@ export interface IStorageService {
    * Persists student gamification data.
    */
   saveGamification(data: StudentGamification): Promise<void>;
+
+  /**
+   * Retrieves the parent-entered exam calendar for a student.
+   */
+  getExamCalendar(studentId: string): Promise<ExamCalendar | null>;
+
+  /**
+   * Persists the parent-entered exam calendar for a student.
+   */
+  saveExamCalendar(calendar: ExamCalendar): Promise<void>;
 
   /**
    * Retrieves a teaching session by ID.
