@@ -14,6 +14,24 @@
 
 ---
 
+## 0. Product naming (owner-confirmed 2026-10-24)
+
+The owner has settled the naming, which resolves the branding question this audit raised:
+
+- **Product name: "Miss Noor."** The app is called Miss Noor.
+- **The teacher inside the app is also "Miss Noor."** One name covers both.
+- **"Amina" is NOT the product name.** Amina is the owner's daughter — the **ideal user** the app is
+  being built for. The repo is named `Amina` because it was built for her.
+
+At baseline (`main` @ `86c1e73`) the app had this **wrong in two ways**: `index.html` titled the
+product `Amina`, and the header called the teacher `Miss Nour` (misspelled). **PR #18 corrects both
+to "Miss Noor"** and was merged to `main` (squash `b5d2d1e`) on 2026-10-24.
+
+Consequence for other branches: **PR #7 changes the header to `"Amina"`** and must not be merged
+as-is — it would regress the corrected name. See §7 (D-5).
+
+---
+
 ## 1. Method and environment (what was actually run)
 
 | Activity | Command / route | Result |
@@ -258,14 +276,25 @@ are what this report uses.
 
 ## 7. Decision requests (owner judgment — not silently chosen)
 
-- **D-1 — Product name.** `main` shows **"Miss Noor"** in the app header and in `index.html`;
-  PR #7 changes the header to **"Amina"**. Which is canonical? I made no change to either.
+- **D-1 — Product name. RESOLVED by the owner on 2026-10-24.** The owner confirmed: the
+  **product name is "Miss Noor"**, and the **teacher is also "Miss Noor"**. "Amina" is **not** the
+  product name — it is the name of the owner's daughter, who is the **ideal user** the app is built
+  for. Consequences, now applied:
+  - `main` before the merge showed product `Amina` (wrong) and teacher `Miss Nour` (wrong spelling).
+  - **PR #18 sets both to "Miss Noor"** and was **merged to `main`** (squash, `b5d2d1e`). This
+    satisfies D-1.
+  - **PR #7 must not be merged as-is**: it changes the header to legacy `"Amina"`, which would
+    regress the corrected name. See D-5.
 - **D-2 — Full digital book reader (F-05).** Not implemented on any branch. Adopt it as scoped
   work, or record it as out of scope?
 - **D-3 — Production surface (F-06).** Is the intended production target Render (per `render.yaml`),
   or GitHub Pages? Pages is currently disabled and 404s, so no live deployment is verified.
-- **D-4 — Which strict-gate PR to land.** PR #18 is verified working and contains the gate, the
-  French fixes, the save fix, and the branding change; PR #11 and #12 are superseded drafts.
+- **D-4 — Which strict-gate PR to land.** RESOLVED: **PR #18** was merged. PR #11 remains an
+  overlapping draft; PR #12 is closed unmerged.
+- **D-5 — PR #7 (design lab toolkit) branding conflict.** PR #7 carries valuable work (design-lab
+  agents, skills, browser-audit harness, Feed/Library French branches) but its `AppShell.tsx` sets
+  the header to `"Amina"`, contradicting the owner's decision (D-1). It needs the branding reverted
+  to `"Miss Noor"` before it can land.
 
 ---
 
