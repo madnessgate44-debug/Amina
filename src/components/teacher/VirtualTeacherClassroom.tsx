@@ -196,7 +196,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
   } = useApp();
   const isArabic = language === 'ar';
   const isFrench = language === 'fr';
-  const studentName = student?.name || (isArabic ? 'أمينة' : 'Amina');
+  const studentName = student?.name || (isArabic ? 'صديقي' : 'friend');
+  const addressForm = student?.addressForm;
 
   // Currently Active Lesson from Ministry Curriculum
   const defaultLessonId = curriculumService.getAvailableLessons()[0]?.id || curriculumService.getAllLessons()[0]?.id || '';
@@ -851,6 +852,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
           subjectName: isArabic ? currentLesson.sourceRef.bookAr : currentLesson.sourceRef.bookEn,
           lessonText: currentLesson.readingText || currentLesson.objectives.join(' - '),
           studentName,
+          addressForm,
           language,
           mode,
         }),
@@ -982,6 +984,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
           lessonTitle: isArabic ? currentLesson.titleAr : currentLesson.titleEn,
           subjectName: isArabic ? currentLesson.sourceRef.bookAr : currentLesson.sourceRef.bookEn,
           studentName,
+          addressForm,
           language,
         }),
       });

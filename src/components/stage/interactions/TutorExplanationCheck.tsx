@@ -30,7 +30,7 @@ interface TutorExplanationCheckProps {
  * explains vocabulary, and listens to her spoken or typed questions.
  */
 export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
-  studentName = 'أمينة',
+  studentName = 'صديقي',
   conceptPrompt,
   simplifiedAnalogyAr,
   simplifiedAnalogyEn,

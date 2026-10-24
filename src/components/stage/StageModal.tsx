@@ -65,7 +65,7 @@ export const StageModal: React.FC<StageModalProps> = ({
 }) => {
   const { language, recordEvidence, showToast, student } = useApp();
   const isAr = language === 'ar';
-  const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
+  const studentName = student?.name || (isAr ? 'صديقي' : 'friend');
 
   const [sequence] = useState<StageLessonSequence>(() =>
     stageEngine.getSequenceForLesson(lessonId)
@@ -231,6 +231,8 @@ export const StageModal: React.FC<StageModalProps> = ({
         body: JSON.stringify({
           studentInput: query,
           currentBeatText: tutorSpokenText,
+          studentName,
+          addressForm: student?.addressForm,
           language: isAr ? 'ar' : 'en',
         }),
       });

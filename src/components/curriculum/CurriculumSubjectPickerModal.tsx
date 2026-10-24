@@ -91,7 +91,7 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
 }) => {
   const { language, student } = useApp();
   const isAr = language === 'ar';
-  const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
+  const studentName = student?.name || (isAr ? 'صديقي' : 'friend');
 
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>(initialSubjectId);
   const [searchQuery, setSearchQuery] = useState('');

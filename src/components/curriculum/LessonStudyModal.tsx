@@ -35,7 +35,7 @@ interface LessonStudyModalProps {
 export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onClose }) => {
   const { language, student } = useApp();
   const isAr = language === 'ar';
-  const studentName = student?.name || (isAr ? 'أمينة' : 'Amina');
+  const studentName = student?.name || (isAr ? 'صديقي' : 'friend');
 
   const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'exercises'>('explanation');
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
