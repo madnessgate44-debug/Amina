@@ -39,6 +39,8 @@ import {
   CheckCircle2,
   Heart,
   MessageCircle,
+  Star,
+  Flame,
 } from 'lucide-react';
 
 export const HomeScreen: React.FC = () => {
@@ -66,6 +68,8 @@ export const HomeScreen: React.FC = () => {
     gentleCompanionNudge,
     dismissGentleNudge,
     setCompanionContext,
+    gamification,
+    upcomingExams,
   } = useApp();
 
   const isArabic = language === 'ar';
@@ -92,6 +96,9 @@ export const HomeScreen: React.FC = () => {
   };
   const todayKey: SchoolDayKey | null = dayKeyMap[currentDayIndex] ?? null;
   const todaySchedule = todayKey ? timetable?.days.find((d) => d.day === todayKey) : undefined;
+
+  // Phase 5d: nearest parent-entered exam, if any. No dates are invented.
+  const nextExam = upcomingExams[0];
 
   const isPostSchool = getEffectiveTimeOfDay(settings) === 'after_school';
   const hasConfirmedDayRecord = Boolean(currentDayRecord && currentDayRecord.confirmed);
@@ -128,6 +135,20 @@ export const HomeScreen: React.FC = () => {
             </div>
           </div>
 
+          {gamification && (
+            <div className="flex items-center gap-2 text-[12px] font-black">
+              <span className="flex items-center gap-1 bg-black/25 px-2.5 py-1 rounded-full text-amber-300">
+                <Star className="w-3.5 h-3.5" />
+                {gamification.xp} XP
+              </span>
+              <span className="flex items-center gap-1 bg-black/25 px-2.5 py-1 rounded-full text-orange-300">
+                <Flame className="w-3.5 h-3.5" />
+                {gamification.streak.currentDays}
+                {gamification.streak.isPaused && (isArabic ? ' (راحة)' : ' (rest)')}
+              </span>
+            </div>
+          )}
+
           <div>
             <h1 className="text-xl font-black tracking-tight flex items-center gap-1.5">
               <span>{isFrench ? 'Bienvenue' : t.home.welcome} {studentName}!</span>
@@ -142,6 +163,55 @@ export const HomeScreen: React.FC = () => {
 
         </div>
       </div>
+
+      {/* Phase 5d: Today with Noor + parent-entered exam countdown */}
+      <section className="space-y-2">
+        <button
+          onClick={() => setActiveTab('feed')}
+          className="w-full rounded-3xl bg-linear-to-br from-violet-600 via-purple-700 to-indigo-800 text-white p-4 shadow-lg flex items-center gap-3 text-start"
+        >
+          <span className="p-2.5 rounded-2xl bg-white/15 shrink-0">
+            <Play className="w-5 h-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block text-base font-black">
+              {isArabic ? 'حصة النهارده مع نور' : isFrench ? 'La leçon du jour avec Noor' : 'Today with Noor'}
+            </span>
+            <span className="block text-[12px] text-indigo-200 mt-0.5">
+              {isArabic
+                ? 'دقايق قليلة، درس واحد، وسؤال واحد بس'
+                : isFrench ? 'Quelques minutes, une idée, une seule question' : 'A few minutes, one idea, one quick question'}
+            </span>
+          </span>
+          <ArrowRight className="w-5 h-5 shrink-0 rtl:rotate-180" />
+        </button>
+
+        {nextExam && (
+          <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3.5 flex items-center gap-3">
+            <span className="p-2 rounded-2xl bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 shrink-0">
+              <Calendar className="w-4 h-4" />
+            </span>
+            <div className="min-w-0 flex-1">
+              <div className="text-[11px] font-black text-slate-500 dark:text-slate-400">
+                {isArabic ? 'امتحان قريب' : isFrench ? 'Examen à venir' : 'Upcoming exam'}
+              </div>
+              <div className="text-sm font-black text-slate-900 dark:text-slate-100 truncate">
+                {nextExam.entry.topic || nextExam.entry.subjectId}
+              </div>
+            </div>
+            <div className="text-end shrink-0">
+              <div className="text-xl font-black text-rose-600 dark:text-rose-400 leading-none">{nextExam.daysUntil}</div>
+              <div className="text-[10px] font-bold text-slate-500">
+                {nextExam.daysUntil === 0
+                  ? (isArabic ? 'النهاردة' : isFrench ? "aujourd'hui" : 'today')
+                  : nextExam.daysUntil === 1
+                  ? (isArabic ? 'يوم' : isFrench ? 'jour' : 'day')
+                  : (isArabic ? 'يوم' : isFrench ? 'jours' : 'days')}
+              </div>
+            </div>
+          </div>
+        )}
+      </section>
 
       {/* 2. THE MAIN "WHAT SHOULD I DO NOW?" HERO SECTION */}
       <section className="space-y-2">
