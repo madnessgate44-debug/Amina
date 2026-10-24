@@ -343,3 +343,88 @@ are what this report uses.
   public tunnel URL in `/workspace/ops/tunnel-url.txt`.
 - CI: main run [38888767348](https://github.com/madnessgate44-debug/Amina/actions/runs/38888767348);
   PR #18 run 39891727291 (`success`).
+
+---
+
+## 12. Addendum — 2026-10-24 re-verification checkpoint
+
+This addendum records what changed **after** the original report was written. It exists because the
+R3 learner-flow harness was re-run instead of trusting the stored `learner-flow.json`, and that
+re-run found a regression the stored result had missed.
+
+**Baseline at this checkpoint:** `main` = `f61d3c9` (after PRs #26, #27, #28).
+
+### F-08 — FEED lost its save/like control (P1, functional regression) — **Found, fixed, verified**
+
+- **How it was found:** re-running `/workspace/ops/learner-flow.mjs` against the current build.
+  The stored `learner-flow.json` said **28 pass / 0 fail**, but that file was written *before* the
+  Phase 3 reel-engine merge (PR #25). Re-running produced **24 pass / 4 fail**, with
+  `T6 save/reopen :: no save control on FEED` in all four viewports. This is the concrete reason a
+  stored browser result is not evidence of current behaviour.
+- **Root cause (Verified by diff):** Phase 3 replaced `FeedScreen` and dropped the import the old
+  file had — `git show 322c014^:src/components/feed/FeedScreen.tsx | grep SaveLikeButton` → line 13.
+  After the rewrite, `grep -n "save\|Bookmark"` over `ReelCard.tsx` and `FeedScreen.tsx` returned
+  nothing. The reel is the primary FEED surface, so save-to-collection was unreachable from anywhere.
+- **Fix:** PR #28 renders the **shared** `SaveLikeButton` from `ReelCard` with `type="reel"`.
+  `'reel'` was already in the `SavableType` union, so no type or schema change was required and no
+  duplicate save mechanism was introduced.
+- **Verified after fix:** learner flow **28 pass / 0 fail / 0 blocked** (mobile-ar, desktop-ar,
+  mobile-fr, desktop-en), no console errors.
+- **Regression guard:** `src/services/__tests__/feedSaveControl.test.ts` (5 assertions, wired into
+  `npm test` as `test:feedsave`). It reads the real `SavableType` from source, so it also fails if
+  `'reel'` is ever removed from the union.
+
+### F-09 — Home had no feed entry point and showed no reward state (P2, usability) — **Fixed**
+
+- Home never surfaced XP or the forgiving streak, although `StudentGamification` carries both and
+  `AppContext` already exposed `gamification`. It also had no single obvious "start learning" action.
+- **Fix:** PR #27 adds a "Today with Noor" button that opens FEED, XP/streak chips in the header
+  (with the rest-day marker so a paused streak is not shown as broken), and an exam countdown card
+  rendered **only** from parent-entered exam entries.
+- **Verified:** browser probe `/workspace/ops/home-phase5d.mjs` — **10/10 pass** (mobile-ar RTL +
+  desktop-fr), 0 console errors; the button is asserted to actually reach a reel queue.
+
+### F-10 — Server tutor copy ignored the student's address form (P1, correctness) — **Fixed**
+
+- `server.ts` hardcoded feminine Egyptian-Arabic agreement and the name `أمينة`/`Amina` in prompts
+  **and** in the offline `catch` fallbacks, so a boy — or any child with a different name — was
+  addressed as a girl named Amina.
+- **Fix:** PR #26 adds `src/services/i18n/serverTutorVoice.ts` (`tutorArabicVoice`,
+  `resolveStudentName`, `genderRuleLine`); all three AI routes read `req.body.addressForm`, and the
+  clients now send it. Feminine remains the default, matching the existing `studentMigrations`
+  default of `'f'` for existing students.
+- **Verified:** `src/services/__tests__/serverTutorVoice.test.ts` (11 assertions) plus a live
+  degraded-mode probe — `addressForm=m` returns `تعال/تخيل/قول لي`, `f` returns `تعالي/تخيلي/قولي لي`,
+  and a missing name no longer yields `أمينة`.
+
+### F-06 — Deployment identity — **still NOT VERIFIED** (re-checked, unchanged conclusion)
+
+- `render.yaml` is the configured target, but `https://amina.onrender.com/api/health` → **404**.
+- `has_pages: false`; `/pages` → **404**; `madnessgate44-debug.github.io/Amina/` → **404**.
+- 22 `github-pages` deployments exist, newest `a0eda354` (2026-10-16), many commits behind `main`.
+- No reachable production URL exists, so no live deployed SHA can be verified. **No deployment was
+  performed.** This remains blocker B-1.
+
+### Gate results at `f61d3c9`
+
+`npm run lint` **0 errors** · `npm test` adaptive 39, integrity 86, gate 8, PR A 44, reels 23,
+voice 11, feedsave 5 — **all 0 failed** · `npm run build` passes ·
+`main` CI **success** — https://github.com/madnessgate44-debug/Amina/actions/runs/40082402192
+
+### Boundary compliance at this checkpoint
+
+- Did **not** merge PR #7 or #8; both remain open and untouched.
+- Did **not** deploy or change production.
+- Added **no** dependency to the app.
+- Did **not** modify curriculum content or the HOME/FEED/LIBRARY/NOUR structure.
+- The audit report remained separate from the typecheck-fix work; the product fixes are their own
+  small PRs (#26, #27, #28), each merged only after lint/tests/build/CI were green.
+
+### Corrected next-work list
+
+1. **B-1 (deployment)** — needs the real Render URL or an owner-confirmed production surface. Highest
+   outstanding risk, because no live SHA can currently be verified.
+2. **B-2 (`GEMINI_API_KEY`)** — the AI routes are only verified in degraded mode; exercising real
+   model output needs a spend/access decision.
+3. **D-2 (full digital book reader)** — owner product decision.
+4. **Arabic RTL depth** — direction verified; full layout quality still not exhaustively reviewed.
