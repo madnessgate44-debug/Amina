@@ -36,11 +36,20 @@ export const AppShell: React.FC = () => {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-4">
-        <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-lg animate-pulse mb-3">
-          <Bot className="w-7 h-7" />
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-4 text-center">
+        <div className="w-16 h-16 rounded-3xl bg-linear-to-br from-[#615bff] to-[#26b8a8] flex items-center justify-center text-white shadow-lg animate-pulse mb-4">
+          <Bot className="w-8 h-8" />
         </div>
-        <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">{t.common.loading}</p>
+        <p className="text-sm font-extrabold text-slate-700 dark:text-slate-200 mb-1">
+          {isArabic ? 'مس نور تستيقظ…' : language === 'fr' ? 'Mademoiselle Noor se réveille…' : 'Miss Noor is waking up…'}
+        </p>
+        <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">
+          {isArabic
+            ? 'التحميل الأول قد يستغرق لحظة'
+            : language === 'fr'
+            ? 'Le premier chargement peut prendre un instant'
+            : 'The first load can take a moment'}
+        </p>
       </div>
     );
   }

@@ -15,7 +15,8 @@
     "test:teaching": "tsx src/services/teaching/__tests__/teachingSession.test.ts",
     "test:integrity": "tsx src/services/__tests__/integritySourceOfTruth.test.ts",
     "test:gate": "tsx src/services/__tests__/strictTypecheckGate.test.ts",
-    "test:onboarding": "tsx src/services/__tests__/onboardingNoor.test.ts"
+    "test:onboarding": "tsx src/services/__tests__/onboardingNoor.test.ts",
+    "smoke": "node scripts/smoke.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

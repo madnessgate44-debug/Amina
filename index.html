@@ -26,7 +26,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=Tajawal:wght@400;500;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <!-- Cold-start placeholder: Render free plans can take 30-60s to wake.
+           This is replaced the moment React mounts. -->
+      <div id="boot-splash" style="min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;font-family:'Cairo',system-ui,sans-serif;background:#f8fafc;color:#334155;text-align:center;padding:24px;">
+        <div style="width:64px;height:64px;border-radius:20px;background:linear-gradient(135deg,#615bff,#26b8a8);display:flex;align-items:center;justify-content:center;font-size:30px;">&#128105;&#8205;&#127979;</div>
+        <div style="font-weight:800;font-size:17px;">مس نور تستيقظ…</div>
+        <div style="font-weight:600;font-size:13px;opacity:.7;">Miss Noor is waking up…</div>
+        <div style="font-size:12px;opacity:.6;">Le premier chargement peut prendre un instant.</div>
+      </div>
+    </div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
