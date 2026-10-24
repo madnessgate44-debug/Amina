@@ -84,6 +84,8 @@ unmerged before that recommendation was written. Corrected in §6 (C-05).
 
 ## 3. Requirement-to-evidence matrix
 
+*Status column re-verified against `main` at the 2026-10-24 checkpoint; see §12.*
+
 Status legend: **Implemented** (present and runtime-verified) · **PR-only** · **Partial** ·
 **Broken** · **Planned/Docs-only** · **Unverified** · **Blocked**.
 
@@ -99,16 +101,22 @@ Status legend: **Implemented** (present and runtime-verified) · **PR-only** · 
 | 8 | Curriculum / textbooks | `src/data/curriculum/*.ts`; integrity suite | Implemented |
 | 9 | Homework / photo correction | `server.ts /api/check-homework`; `HomeworkRunner.tsx` | Implemented (degrades honestly without key) |
 | 10 | Mastery / review | `masteryEngine.ts`; integrity 86/86 on PR #18 | Implemented |
-| 11 | Save / revisit | `SaveToCollectionModal.tsx`; guard present on PR #15 **and** PR #18 | **Fixed on PR-only branches** (F-01) |
+| 11 | Save / revisit | `SaveToCollectionModal.tsx`; F-01 guard merged; **F-08 regression found 2026-10-24 and fixed in PR #28** | Implemented (Verified) |
 | 12 | Voice (STT/TTS) | `voiceService.ts`; `server.ts /api/stt`, `/api/tts` | Observed-not-verified in-browser |
 | 13 | Persistence | IndexedDB `ai_school_companion_v2` + localStorage fallback | Implemented |
-| 14 | Branding | `AppShell.tsx:60` renders **`{t.app.name}` = "Miss Noor"** on `main`; PR #7 renders `"Amina"` | **Changed, not a defect** (see C-03) |
+| 14 | Branding | `AppShell.tsx:60` renders **`{t.app.name}` = "Miss Noor"** on `main`; PR #7 still renders `"Amina"` | Implemented (Verified) — PR #7 must not land as-is (D-5) |
 | 15 | Localization (EN/AR/FR) | `translations.ts` has `ar`/`en`/`fr`; **3/3 locale probe PASS** incl. French | **Implemented** (see C-04) |
 | 16 | Arabic RTL | locale probe: `document.dir === 'rtl'` for Arabic | Implemented (Verified) |
 | 17 | Mobile layout (390px) | journey + locale probe at 390×844; no horizontal overflow | Implemented |
 | 18 | Safety / privacy | No real student data in tests; synthetic profile only | Implemented (Observed-not-verified for full review) |
-| 19 | Production / deployment | 22 Pages deployments; **`has_pages:false`**; Pages URL **404**; `render.yaml` service unreachable | **Blocked / not verified** (F-06) |
-| 20 | Strict typecheck gate | `main` CI "Type check" = **success** while tsc emits **11 errors** (`continue-on-error: true`) | **Broken on `main`, fixed on PR #18** (F-04) |
+| 19 | Production / deployment | Re-checked 2026-10-24: `has_pages:false`; Pages URL **404**; `amina.onrender.com/api/health` **404**; 22 stale Pages deployments, newest `a0eda354` | **Blocked / not verified** (F-06 / B-1) |
+| 20 | Strict typecheck gate | `ci.yml` line 18 = `Type check (blocking)`, no `continue-on-error`; `tsconfig` `strict:true`; `npm run lint` **0 errors** | Implemented (Verified) — F-04 closed |
+
+| 21 | HOME — feed entry point & reward state | PR #27: "Today with Noor" button, XP/streak chips, exam countdown; `home-phase5d.mjs` **10/10** | Implemented (Verified) |
+| 22 | Server tutor address form (ar) | PR #26: `serverTutorVoice.ts`; `addressForm=m` → `تعال/تخيل/قول لي`, `f` → `تعالي/تخيلي/قولي لي`; 11 assertions | Implemented (Verified) |
+| 23 | FEED — save/like control | PR #28: `ReelCard` renders shared `SaveLikeButton` (`type="reel"`); learner flow **28/0**; `feedSaveControl.test.ts` 5/5 | Implemented (Verified) |
+
+*Rows 21-23 and the corrections to rows 11/14/19/20 were added in the 2026-10-24 addendum (§12).*
 
 ---
 
