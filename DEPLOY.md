@@ -77,6 +77,33 @@ how often that happens; set the repository variable it reads:
 gh variable set APP_URL --body "https://<username>-miss-noor.hf.space"
 ```
 
+### Blocker — free Docker Spaces now require a PRO subscription
+
+On 2026-10-25 an attempt to create the Space returned:
+
+```
+Error: Client error '402 Payment Required' for url 'https://huggingface.co/api/repos/create'
+Static Spaces are free for everyone, but hosting Gradio and Docker Spaces on free
+cpu-basic requires a PRO subscription. Subscribe at https://huggingface.co/pro
+```
+
+`hf spaces hardware` still lists `cpu-basic` at cost `free`, but the create call
+rejects Docker SDK on it. Static Spaces remain free, and they cannot run
+`server.ts`, so a static Space is not a substitute for this app.
+
+**Status: blocked, awaiting an owner decision.** Nothing was created and no
+payment method was entered. The options are:
+
+1. Add a PRO subscription to the `madnessgate47` Hugging Face account, then run
+   `node scripts/deploy-space.mjs --user madnessgate47`.
+2. Keep a free host that can run Node. The image is host-agnostic: the server
+   binds `0.0.0.0` and reads `PORT`, so any Node host or container platform
+   works without a rebuild.
+3. Deploy the container somewhere the owner already controls.
+
+Everything else in this file is already in place: the image builds, runs as UID
+1000, listens on 7860, and passes `scripts/smoke.mjs` 7/7 without a key.
+
 ## Docker (any other host)
 
 The same image runs anywhere. The server binds `0.0.0.0` and reads `PORT`, so
