@@ -4,13 +4,19 @@
  *
  * Client-side book import for "My Books".
  *
- * Everything here runs in the browser. An image is read into memory, downscaled
- * with a canvas so a phone photo does not blow up IndexedDB, and stored as a
- * data URL on the device. Nothing is uploaded, and no page image ever reaches a
- * server route, the network, or the repository.
+ * Everything here runs in the browser. A photographed page is read into memory,
+ * downscaled with a canvas so a phone photo does not blow up IndexedDB, and
+ * stored as a data URL on the device. An imported PDF is stored as its original
+ * Blob — one compact file instead of hundreds of base64 pages — and its pages
+ * are rendered on demand.
+ *
+ * Nothing is uploaded, and no book file or page image reaches the network or the
+ * repository. The only thing that may be sent is the single page being studied,
+ * via `pageContent.ts`.
  */
 
 import { BookPage, ImportedBook } from '../../types';
+import { isPdfFile, openPdf, PdfDocumentLike } from './pdfService';
 
 /** Longest edge, in pixels, a stored page image is allowed to keep. */
 export const MAX_PAGE_EDGE = 1600;
@@ -121,9 +127,52 @@ export async function buildImportedBook(params: {
     title: title.trim() || 'Untitled book',
     author: author?.trim() || undefined,
     subject: subject?.trim() || undefined,
+    kind: 'images',
     coverDataUrl: pages[0]?.dataUrl,
     pages,
+    pageCount: pages.length,
     createdAt: addedAt,
+  };
+}
+
+/**
+ * Builds an ImportedBook from a single PDF file.
+ *
+ * The PDF is kept whole as a Blob. Its page count is read once, here, so the
+ * reader can show "page 12 / 384" without re-parsing the file. No page is
+ * rendered or stored at import time: pages render on demand when studied, so
+ * importing a 400-page book is fast and costs one Blob.
+ */
+export async function buildPdfBook(params: {
+  studentId: string;
+  title: string;
+  author?: string;
+  subject?: string;
+  file: File;
+  makeId?: () => string;
+  now?: () => string;
+  /** Overridable for tests. */
+  openDocument?: (blob: Blob) => Promise<PdfDocumentLike>;
+}): Promise<ImportedBook> {
+  const { studentId, title, author, subject, file } = params;
+  const makeId = params.makeId ?? defaultId;
+  const now = params.now ?? (() => new Date().toISOString());
+
+  const doc = await (params.openDocument ?? openPdf)(file);
+  const pageCount = doc.numPages;
+  const createdAt = now();
+
+  return {
+    id: makeId(),
+    studentId,
+    title: title.trim() || file.name.replace(/\.pdf$/i, '') || 'Untitled book',
+    author: author?.trim() || undefined,
+    subject: subject?.trim() || undefined,
+    kind: 'pdf',
+    pdfBlob: file,
+    pages: [],
+    pageCount,
+    createdAt,
   };
 }
 
@@ -140,4 +189,9 @@ export function withProgress(book: ImportedBook, pageIndex: number, now = new Da
 /** True when the file looks like an image this importer can handle. */
 export function isSupportedImage(file: File): boolean {
   return /^image\/(jpeg|png|webp|gif|bmp|heic|heif)$/i.test(file.type) || /\.(jpe?g|png|webp|gif|bmp|heic|heif)$/i.test(file.name);
+}
+
+/** True when the file is a book this importer accepts: an image or a PDF. */
+export function isSupportedBookFile(file: File): boolean {
+  return isPdfFile(file) || isSupportedImage(file);
 }

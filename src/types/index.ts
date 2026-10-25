@@ -5,7 +5,7 @@
 
 import { HomeworkItem } from './homework';
 import { CurriculumTrack } from './curriculum';
-import { BookPage, ImportedBook, BookTrainingCard } from './myBooks';
+import { BookPage, ImportedBook, BookTrainingCard, BookKind, StudiedPageContent } from './myBooks';
 
 export type Language = 'ar' | 'en' | 'fr';
 
@@ -182,4 +182,4 @@ export type NavigationTab =
   | 'mybooks'
   | 'profile';
 
-export type { BookPage, ImportedBook, BookTrainingCard };
+export type { BookPage, ImportedBook, BookTrainingCard, BookKind, StudiedPageContent };

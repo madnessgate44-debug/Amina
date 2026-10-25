@@ -24,6 +24,7 @@ import {
   Activity,
   ChevronDown,
   ChevronUp,
+  BookOpen,
 } from 'lucide-react';
 import { DeveloperPanel } from './DeveloperPanel';
 
@@ -321,6 +322,19 @@ export const SettingsScreen: React.FC = () => {
         <p className="text-[11px] text-slate-500 dark:text-slate-400">
           {t.settings.storageEngine}
         </p>
+
+        {/* My Books — what is sent to the AI, and what never leaves the device. */}
+        <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-800 space-y-1">
+          <div className="flex items-center gap-1.5">
+            <BookOpen className="w-3.5 h-3.5 text-indigo-600" />
+            <span className="text-xs font-bold text-slate-900 dark:text-slate-100">
+              {t.settings.myBooksPrivacySection}
+            </span>
+          </div>
+          <p className="text-[11px] text-slate-500 dark:text-slate-400 leading-relaxed">
+            {t.settings.myBooksPrivacyNote}
+          </p>
+        </div>
 
         {student && (
           <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800/60 text-xs text-slate-600 dark:text-slate-300 flex items-center justify-between">
