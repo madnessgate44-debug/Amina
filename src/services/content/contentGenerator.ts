@@ -5,6 +5,9 @@
 
 import { FlatCurriculumConcept, Language } from '../../types';
 import { curriculumService } from '../curriculum/curriculumService';
+import { OfficialCurriculumLesson } from '../../types/teachingSession';
+import { mulberry32, shuffle } from '../onboarding/warmupService';
+import { hashSeed } from '../reels/seededRng';
 
 export interface ReelScene {
   phase: 'hook' | 'explanation' | 'example' | 'quick_check';
@@ -117,108 +120,178 @@ export function getReelForConcept(conceptId: string): LearningReelContent | null
         durationSeconds: 20,
       },
     ],
-    quickCheck: {
-      questionAr: `ما هو الأساس الرئيسي لتطبيق «${concept.nameAr}»؟`,
-      questionEn: `What is the cornerstone when applying "${concept.nameEn}"?`,
-      optionsAr: [
-        'تحديد العنصر الأول وفهم وظيفته بهدوء',
-        'حفظ الإجابة دون قراءة المسألة',
-        'تخمين أول خيار يظهر على الشاشة',
-      ],
-      optionsEn: [
-        'Identify the primary element and understand its function calmly',
-        'Memorize answers without reading',
-        'Randomly pick the first visible option',
-      ],
-      correctIndex: 0,
-      explanationAr: 'رائع جداً! فهم العنصر الأول وتحديد موضعه هو المفتاح العلمي الدقيق دائماً.',
-      explanationEn: 'Awesome! Identifying the primary element and its role is always the key.',
-    },
+    quickCheck: buildQuickCheck(conceptId),
   };
 }
 
 /**
- * Generates an adaptive sequence of quiz questions for a concept
- * based on current mastery level.
- * Never invents concepts outside demo curriculum.
+ * Real questions, drawn from the lesson's own textbook exercises.
+ *
+ * This replaces a generator that produced questions such as "Does the concept
+ * of X rely on structured comprehension rather than random memorization?" with
+ * the only sensible answer first. Those tested nothing about the subject, and
+ * 48 of the 54 answers in the raw curriculum data sit at option A, so a child
+ * could score full marks by always tapping the first choice. Options are now
+ * shuffled with a seed derived from the concept id: stable for a given concept,
+ * but no longer positionally predictable.
+ */
+interface RealQuestion {
+  prompt: string;
+  options: string[];
+  correctIndex: number;
+  page?: number | string;
+  book: string;
+}
+
+function lessonBook(lesson: OfficialCurriculumLesson): string {
+  return lesson.sourceRef?.bookAr || lesson.sourceRef?.book || '';
+}
+
+/**
+ * Turns textbook exercises into fair tap-one-answer questions. An exercise is
+ * skipped unless its expected answer appears exactly once among the options.
+ */
+export function realQuestionsForLesson(lessonId: string, seed: string): RealQuestion[] {
+  const lesson = curriculumService.getLessonById(lessonId);
+  if (!lesson) return [];
+  const rand = mulberry32(hashSeed(seed));
+  const book = lessonBook(lesson);
+  const out: RealQuestion[] = [];
+
+  for (const ex of lesson.exercises || []) {
+    if (ex.type !== 'multiple_choice') continue;
+    const opts = ex.options;
+    if (!opts || opts.length < 2) continue;
+    if (ex.expectedAnswer === undefined || ex.expectedAnswer === null) continue;
+
+    const expected = String(ex.expectedAnswer).trim();
+    if (opts.filter((o) => String(o).trim() === expected).length !== 1) continue;
+
+    const shuffled = shuffle(opts.map((o) => String(o)), rand);
+    const correctIndex = shuffled.findIndex((o) => o.trim() === expected);
+    if (correctIndex < 0) continue;
+
+    out.push({ prompt: ex.question, options: shuffled, correctIndex, page: ex.page, book });
+  }
+  return out;
+}
+
+/** A vocabulary question built from the lesson's own word list. */
+function vocabQuestionForLesson(lesson: OfficialCurriculumLesson, rand: () => number): RealQuestion | null {
+  const vocab = (lesson.vocabulary || []).filter((v) => v.word && v.definition);
+  if (vocab.length < 3) return null;
+
+  const target = vocab[0];
+  const others = vocab.filter((v) => v.word !== target.word).slice(0, 2);
+  if (others.length < 2) return null;
+
+  const options = shuffle([target.definition, ...others.map((o) => o.definition)], rand);
+  return {
+    prompt: `ما معنى كلمة «${target.word}»؟`,
+    options,
+    correctIndex: options.findIndex((o) => o === target.definition),
+    page: lesson.sourceRef?.page,
+    book: lessonBook(lesson),
+  };
+}
+
+/** Last resort: a true/false statement taken verbatim from a lesson objective. */
+function objectiveQuestionForLesson(lesson: OfficialCurriculumLesson, rand: () => number): RealQuestion | null {
+  const objective = (lesson.objectives || []).find((o) => o && o.trim());
+  if (!objective) return null;
+
+  const labels = shuffle(['صحيح', 'خطأ'], rand);
+  return {
+    prompt: `هل هذا هدف من أهداف درس «${lesson.titleAr}»؟ «${objective}»`,
+    options: labels,
+    correctIndex: labels.indexOf('صحيح'),
+    page: lesson.sourceRef?.page,
+    book: lessonBook(lesson),
+  };
+}
+
+/** Builds every real question available for a lesson, most authentic first. */
+export function realQuestionsForConcept(conceptId: string): RealQuestion[] {
+  const concept = curriculumService.getFlatConcepts().find((c) => c.id === conceptId);
+  if (!concept) return [];
+
+  const rand = mulberry32(hashSeed(conceptId));
+  const exercises = realQuestionsForLesson(concept.lessonId, conceptId);
+  if (exercises.length > 0) return exercises;
+
+  const lesson = curriculumService.getLessonById(concept.lessonId);
+  if (!lesson) return [];
+
+  const vocab = vocabQuestionForLesson(lesson, rand);
+  if (vocab) return [vocab];
+
+  const objective = objectiveQuestionForLesson(lesson, rand);
+  return objective ? [objective] : [];
+}
+
+function buildQuickCheck(conceptId: string): LearningReelContent['quickCheck'] {
+  const questions = realQuestionsForConcept(conceptId);
+  if (questions.length === 0) {
+    // Should not happen: every lesson carries exercises, vocabulary or objectives.
+    return {
+      questionAr: 'لم يتم العثور على سؤال من كتاب الوزارة لهذا المفهوم.',
+      questionEn: 'No textbook question was found for this concept.',
+      optionsAr: ['حسناً'],
+      optionsEn: ['OK'],
+      correctIndex: 0,
+      explanationAr: '',
+      explanationEn: '',
+    };
+  }
+
+  const q = questions[0];
+  const answer = q.options[q.correctIndex];
+  return {
+    questionAr: q.prompt,
+    questionEn: q.prompt,
+    optionsAr: q.options,
+    optionsEn: q.options,
+    correctIndex: q.correctIndex,
+    explanationAr: `الإجابة الصحيحة: «${answer}»${q.page ? ` (${q.book} ص. ${q.page})` : ''}.`,
+    explanationEn: `The correct answer: "${answer}"${q.page ? ` (${q.book} p. ${q.page})` : ''}.`,
+  };
+}
+
+/**
+ * Adaptive quiz questions for a concept, taken from that lesson's real textbook
+ * exercises. Returns an empty array when a concept has no usable question, which
+ * the UI already reports honestly rather than showing invented content.
  */
 export function getQuizQuestionsForConcept(
   conceptId: string,
   currentMasteryScore: number = 0.5
 ): QuizQuestion[] {
-  const flatConcepts = curriculumService.getFlatConcepts();
-  const concept = flatConcepts.find((c) => c.id === conceptId);
+  const concept = curriculumService.getFlatConcepts().find((c) => c.id === conceptId);
   if (!concept) return [];
 
-  const cNameAr = concept.nameAr;
-  const cNameEn = concept.nameEn;
+  const real = realQuestionsForConcept(conceptId);
+  if (real.length === 0) return [];
 
-  // Level 1: Easy check (0.2)
-  const q1: QuizQuestion = {
-    id: `q_${concept.id}_1`,
-    conceptId: concept.id,
-    type: 'true_false',
-    difficulty: 0.25,
-    promptAr: `هل مفهوم «${cNameAr}» يعتمد على الفهم والتحليل التدريجي بدلاً من الحفظ العشوائي؟`,
-    promptEn: `Does the concept of "${cNameEn}" rely on structured comprehension rather than random memorization?`,
-    optionsAr: ['صحيح (True)', 'خطأ (False)'],
-    optionsEn: ['True', 'False'],
-    correctAnswer: 0,
-    hintAr: 'فكر في طريقة معالجة المعطيات خطوة بخطوة.',
-    hintEn: 'Think about approaching clues step-by-step.',
-    explanationAr: 'صحيح تماماً! التعليم المتين ينطلق دائماً من الاستيعاب المنطقي المنظم.',
-    explanationEn: 'Exactly! Solid learning starts with structured, logical comprehension.',
-  };
+  // Difficulty rises across the questions so the adaptive label stays meaningful.
+  const tiers = [0.3, 0.55, 0.8];
 
-  // Level 2: Medium MCQ (0.5)
-  const q2: QuizQuestion = {
-    id: `q_${concept.id}_2`,
-    conceptId: concept.id,
-    type: 'mcq',
-    difficulty: 0.5,
-    promptAr: `أي مما يلي يعبر بدقة عن وظيفة أو تطبيق «${cNameAr}»؟`,
-    promptEn: `Which of the following accurately describes the role or application of "${cNameEn}"?`,
-    optionsAr: [
-      concept.descriptionAr,
-      'إلغاء جميع القواعد والتصرف دون أي نظام',
-      'تجاهل المعطيات والاعتماد على الحظ فقط',
-    ],
-    optionsEn: [
-      concept.descriptionEn,
-      'Ignoring all foundational rules entirely',
-      'Discarding data and relying strictly on luck',
-    ],
-    correctAnswer: 0,
-    hintAr: `راجع التعريف الأساسي: ${concept.descriptionAr.slice(0, 30)}...`,
-    hintEn: `Recall the definition: ${concept.descriptionEn.slice(0, 30)}...`,
-    explanationAr: 'إجابة ممتازة وموفقة! هذا هو التطبيق الدقيق للمفهوم كما تعلمناه.',
-    explanationEn: 'Excellent! That is the precise application of the concept.',
-  };
-
-  // Level 3: Challenging / Deep Check (0.85)
-  const q3: QuizQuestion = {
-    id: `q_${concept.id}_3`,
-    conceptId: concept.id,
-    type: 'mcq',
-    difficulty: 0.85,
-    promptAr: `إذا طلب منك زميلك تلخيص الفائدة الأساسية من «${cNameAr}» في جملة واحدة حاسمة، فماذا تقول؟`,
-    promptEn: `If a classmate asks you for the core takeaway of "${cNameEn}" in one decisive sentence, what would you say?`,
-    optionsAr: [
-      `تمكننا من بناء حلول دقيقة والربط بين الأجزاء بشكل منطقي سليم.`,
-      `لا توجد أي فائدة واقعية منها ويمكن الاستغناء عنها.`,
-      `تستخدم فقط لملء أوراق الاختبار دون تطبيق واقعي.`,
-    ],
-    optionsEn: [
-      `It enables us to formulate precise solutions and connect components logically.`,
-      `It has no real-world value and can be discarded.`,
-      `It only exists to fill test sheets without practical utility.`,
-    ],
-    correctAnswer: 0,
-    hintAr: 'ابحث عن الخيار الذي يبرز الربط المنطقي السليم.',
-    hintEn: 'Look for the choice highlighting coherent logical connections.',
-    explanationAr: 'رائع جداً وفهم عميق ينم عن استيعاب استثنائي للمفهوم!',
-    explanationEn: 'Wonderful! Deep insight showing solid mastery of the concept!',
-  };
-
-  return [q1, q2, q3];
+  return real.slice(0, 3).map((q, i) => {
+    const answer = q.options[q.correctIndex];
+    const pageRef = q.page ? ` ص. ${q.page}` : '';
+    return {
+      id: `q_${concept.id}_${i + 1}`,
+      conceptId: concept.id,
+      type: 'mcq' as const,
+      difficulty: tiers[i] ?? 0.6,
+      promptAr: q.prompt,
+      promptEn: q.prompt,
+      optionsAr: q.options,
+      optionsEn: q.options,
+      correctAnswer: q.correctIndex,
+      hintAr: `راجع ${q.book}${pageRef}.`,
+      hintEn: `Check ${q.book}${q.page ? ` p. ${q.page}` : ''}.`,
+      explanationAr: `الإجابة الصحيحة: «${answer}»${pageRef}.`,
+      explanationEn: `The correct answer: "${answer}"${q.page ? ` (p. ${q.page})` : ''}.`,
+    };
+  });
 }

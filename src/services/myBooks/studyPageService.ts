@@ -13,6 +13,7 @@
 import { ImportedBook } from '../../types';
 import { resolveStudiedPage } from './pageContent';
 import { PdfDocumentLike } from './pdfService';
+import { shrinkImageDataUrl } from '../upload/payloadLimits';
 
 export interface StudyPageCard {
   question: string;
@@ -75,7 +76,9 @@ export async function requestStudyPage(req: StudyPageRequest): Promise<StudyPage
     subject: req.book.subject,
   };
   if (content.text) body.pageText = content.text;
-  if (content.imageDataUrl) body.imageBase64 = content.imageDataUrl;
+  // A scanned page can be several MB; the host rejects bodies over ~4.5 MB, so
+  // shrink it on the device before sending.
+  if (content.imageDataUrl) body.imageBase64 = await shrinkImageDataUrl(content.imageDataUrl);
   if (req.question) body.question = req.question;
 
   const doFetch = req.fetchImpl ?? fetch;

@@ -1,29 +1,34 @@
 # Deploying Miss Noor
 
 Miss Noor is a Node app (Express + Vite). It serves the built frontend from
-`dist/` and the AI routes from `server.ts`. It runs **without** a `GEMINI_API_KEY`
-in a truthful degraded mode: lessons, curriculum, mastery, saving and the whole
-learner flow work; only the live AI text is replaced by local fallbacks.
+`dist/` and the AI routes from `server.ts`. It runs **without** a
+`GEMINI_API_KEY` in a truthful degraded mode: lessons, curriculum, mastery,
+saving and the whole learner flow work; only the live AI text is replaced by
+local fallbacks.
 
-**Production target: a free Hugging Face Docker Space.** There is no GitHub
-Action that deploys, and no deploy token is stored in this repository.
+**Production target: Vercel Hobby.** Free, no credit card required, and it fits
+a private family app. There is no GitHub Action that deploys, and no deploy
+token is stored in this repository.
 
-## Hugging Face Space (the supported target)
+## Why Vercel
 
-- Space: `miss-noor` — SDK **Docker**, hardware **CPU basic (free)**, **public**.
-- Live URL: `https://<username>-miss-noor.hf.space`
-- The Space listens on **7860** (`app_port` in the Space README frontmatter).
-- The container runs as **UID 1000** (`node`), which the base image already provides.
+The app's AI routes need `server.ts`, so a purely static host cannot run them.
+Vercel Hobby runs Node serverless functions for free.
 
-### Why a Space instead of a static host
+Two limits shaped the code and are already handled:
 
-The app's AI routes need `server.ts`. A static host cannot run them, so GitHub
-Pages is not a valid production target — `deploy-pages.yml` is manual-only and
-exists for previews of the built client only.
+| Limit | Value | How the app copes |
+|---|---|---|
+| Request body size | ~4.5 MB | Images are re-encoded to max 1600px JPEG on the device; recordings are capped at 30s. See `src/services/upload/payloadLimits.ts`. A rejected upload shows a friendly message, not an error. |
+| Function duration | 60s (`maxDuration` in `vercel.json`) | AI routes already use short timeouts and degrade gracefully. |
 
-### Environment variables
+Serverless also means no long-lived process, so two things deliberately do
+**not** exist here: the in-memory TTS cache (it is per-instance and simply
+misses, then regenerates) and a keep-warm cron (nothing to keep warm).
 
-Set these in the Space settings (**Settings → Variables and secrets**), never in
+## Environment variables
+
+Set these in **Vercel → Project → Settings → Environment Variables**, never in
 this repository:
 
 | Name | Required | Notes |
@@ -31,91 +36,33 @@ this repository:
 | `GEMINI_API_KEY` | No | Without it the app degrades gracefully. Add it to enable live AI text. |
 | `GEMINI_MODEL` | No | Defaults to the model named in `server.ts`. |
 
-### Deploying a build
+## Deploying
 
-Deployment is a push of a **staged copy** to the Space. The staging copy differs
-from the repository in exactly one file: it carries a Space `README.md` with
-YAML frontmatter (`sdk: docker`, `app_port: 7860`, `title: Miss Noor`). The
-repository's own files are never modified by staging.
+The repository is already configured. The owner runs these three steps once:
 
-```bash
-# 1. Authenticate once (device flow; prints a URL and a code)
-hf auth login
+1. Go to <https://vercel.com/new> and import `madnessgate44-debug/Amina`.
+2. In **Settings → Environment Variables**, add `GEMINI_API_KEY`.
+3. Press **Deploy**.
 
-# 2. Stage and push
-node scripts/deploy-space.mjs --user <username>
-```
+Vercel reads `vercel.json` automatically:
 
-`scripts/deploy-space.mjs` builds the staging directory under `.space-stage/`
-(git-ignored), writes the Space README, and pushes to
-`https://huggingface.co/spaces/<username>/miss-noor`. It reads the token from the
-`hf` CLI's own credential store, so no token is ever printed, logged, or written
-into this repository.
+- builds with `vite build`, serves `dist/`
+- routes `/api/*` to the serverless function in `api/index.ts`
+- routes everything else to `/index.html`
+- gives the function a 60-second `maxDuration`
 
-**Run it after every merge to `main`.** There is deliberately no GitHub Action
-doing this: a deploy token would have to live in GitHub.
+Every later push to `main` redeploys automatically.
 
-### Verifying a deploy
+## Verifying a deploy
 
 ```bash
-node scripts/smoke.mjs https://<username>-miss-noor.hf.space
+node scripts/smoke.mjs https://<your-project>.vercel.app
 ```
 
 This checks the shell, every asset referenced by `index.html`, `/api/health`,
 and that the AI routes answer gracefully without a key. It exits non-zero on a
 hard failure, so it can gate a deploy. If the live URL is red after a merge,
 revert the merge.
-
-### Cold starts
-
-A free Space sleeps when idle, so the first request can take 30–60 seconds.
-`index.html` shows a "Miss Noor is waking up…" splash until React mounts.
-`.github/workflows/keep-warm.yml` pings `/api/health` every 10 minutes to reduce
-how often that happens; set the repository variable it reads:
-
-```bash
-gh variable set APP_URL --body "https://<username>-miss-noor.hf.space"
-```
-
-### Blocker — free Docker Spaces now require a PRO subscription
-
-On 2026-10-25 an attempt to create the Space returned:
-
-```
-Error: Client error '402 Payment Required' for url 'https://huggingface.co/api/repos/create'
-Static Spaces are free for everyone, but hosting Gradio and Docker Spaces on free
-cpu-basic requires a PRO subscription. Subscribe at https://huggingface.co/pro
-```
-
-`hf spaces hardware` still lists `cpu-basic` at cost `free`, but the create call
-rejects Docker SDK on it. Static Spaces remain free, and they cannot run
-`server.ts`, so a static Space is not a substitute for this app.
-
-**Status: blocked, awaiting an owner decision.** Nothing was created and no
-payment method was entered. The options are:
-
-1. Add a PRO subscription to the `madnessgate47` Hugging Face account, then run
-   `node scripts/deploy-space.mjs --user madnessgate47`.
-2. Keep a free host that can run Node. The image is host-agnostic: the server
-   binds `0.0.0.0` and reads `PORT`, so any Node host or container platform
-   works without a rebuild.
-3. Deploy the container somewhere the owner already controls.
-
-Everything else in this file is already in place: the image builds, runs as UID
-1000, listens on 7860, and passes `scripts/smoke.mjs` 7/7 without a key.
-
-## Docker (any other host)
-
-The same image runs anywhere. The server binds `0.0.0.0` and reads `PORT`, so
-override the Space default of 7860 freely.
-
-```bash
-docker build -t miss-noor .
-docker run -p 3000:3000 -e GEMINI_API_KEY=... miss-noor
-# open http://localhost:3000
-```
-
-Without `-e GEMINI_API_KEY` the container still runs in degraded mode.
 
 ## Local
 
@@ -130,3 +77,6 @@ PORT=3000 npm start
 
 - The owner's printed books are never committed and never served from a route.
   Book import is client-side only; see `docs/SOURCES.md`.
+- The Dockerfile and the Hugging Face deploy script were removed on
+  2026-10-25: free Docker Spaces began returning `402 Payment Required`, and
+  Vercel Hobby needs no container.

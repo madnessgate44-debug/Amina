@@ -23,6 +23,11 @@ import {
 import { storageService } from '../../services/storage';
 import { voiceService } from '../../services/voice/voiceService';
 import { costLatencyService } from '../../services/telemetry/costLatencyService';
+import {
+  shrinkImageDataUrl,
+  payloadTooLargeMessage,
+  isPayloadTooLargeStatus,
+} from '../../services/upload/payloadLimits';
 import { Badge } from '../common/Badge';
 import {
   Camera,
@@ -378,10 +383,12 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
 
     setIsEvaluatingPhoto(true);
     try {
+      // Shrink on the device first: the host rejects bodies over ~4.5 MB.
+      const uploadDataUrl = await shrinkImageDataUrl(photoDataUrl);
       const { data } = await costLatencyService.instrumentedFetch<PhotoEvaluationResult>(
         '/api/check-homework',
         {
-          imageBase64: photoDataUrl,
+          imageBase64: uploadDataUrl,
           questionPrompt: currentQuestion.prompt,
           expectedAnswer: String(currentQuestion.correctAnswer),
           rubric: currentQuestion.explanation,
@@ -479,9 +486,15 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
       };
       setSubmission(updatedSub);
       await storageService.saveHomeworkSubmission(updatedSub);
-    } catch (err) {
+    } catch (err: any) {
       console.error('Photo check error:', err);
-      showToast(isAr ? 'تعذر الاتصال بفحص الصور خلال 15 ثانية، يمكنك المتابعة رقمياً' : 'Photo check timed out after 15s, you can continue digitally');
+      // A 413 means the photo was too big, not that the network failed. Say so
+      // in the learner's language instead of showing a timeout message.
+      if (isPayloadTooLargeStatus(Number(err?.status)) || /413/.test(String(err?.message || ''))) {
+        showToast(payloadTooLargeMessage(language));
+      } else {
+        showToast(isAr ? 'تعذر الاتصال بفحص الصور خلال 15 ثانية، يمكنك المتابعة رقمياً' : 'Photo check timed out after 15s, you can continue digitally');
+      }
     } finally {
       setIsEvaluatingPhoto(false);
     }

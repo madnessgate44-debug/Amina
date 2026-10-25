@@ -20,7 +20,7 @@ export interface TutorSpeechOptions {
 /**
  * Speech Synthesis Tutor Module
  * Handles automated and interactive voice narration of task instructions
- * and personalized encouraging feedback for the student (Amina).
+ * and personalized encouraging feedback for the student.
  */
 class TutorSpeechService {
   private isAutoSpeechEnabled: boolean = true;
@@ -129,7 +129,7 @@ class TutorSpeechService {
 
         case 'welcome':
           soundEffects.playSchoolBell();
-          feedbackPhrase = `أهلاً بكِ يا ${studentName} في درسنا اليوم! أنا المعلمة نور، ومتحمسة جداً نبدأ سوا 🚀`;
+          feedbackPhrase = `أهلاً بكِ يا ${studentName} في درسنا اليوم! أنا مس نور، ومتحمسة جداً نبدأ سوا 🚀`;
           break;
 
         case 'praise':
