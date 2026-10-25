@@ -1,4 +1,5 @@
-# MANUAL ONLY. GitHub Pages serves static files; the AI routes need server.ts (see render.yaml).
+# MANUAL ONLY. GitHub Pages serves static files; the AI routes need server.ts.
+# The supported deploy target is a Hugging Face Docker Space (see DEPLOY.md).
 # Do not use Pages as the main app.
 name: Deploy to GitHub Pages
 
