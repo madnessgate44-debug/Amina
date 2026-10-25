@@ -1426,7 +1426,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                   );
                 })()}
 
-                {/* Make Amina Explain Her Thinking */}
+                {/* Make the learner explain her thinking */}
                 <div className="p-3 rounded-2xl bg-amber-50 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-black text-amber-950 dark:text-amber-200 flex items-center gap-1.5">
@@ -1461,7 +1461,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                   {studentThinkingInput && (
                     <div className="p-2 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-amber-200 dark:border-amber-900 text-[11px] text-slate-700 dark:text-slate-300">
                       <span className="font-bold text-amber-900 dark:text-amber-300">
-                        {isArabic ? 'طريقة تفكير أمينة المسجلة:' : 'Amina\'s reasoning:'}{' '}
+                        {isArabic ? `طريقة تفكير ${studentName} المسجلة:` : `${studentName}'s reasoning:`}{' '}
                       </span>
                       <span>{studentThinkingInput}</span>
                     </div>
@@ -1616,7 +1616,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </p>
           </div>
 
-          {/* 4 Pedagogical Quick Help Action Buttons for Amina */}
+          {/* 4 pedagogical quick-help action buttons for the learner */}
           <div className="space-y-1.5 pt-1">
             <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 block">
               {isArabic ? '✨ اختاري ما يناسبكِ لتتعمقي أكثر مع مس نور:' : '✨ Ask Miss Noor to help you further:'}
@@ -1848,7 +1848,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     {/* DYNAMIC NEXT ACTIONS ACCORDING TO REAL OUTCOME */}
                     <div className="space-y-2 pt-1">
                       <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
-                        {isArabic ? '🚀 الخطوة التالية المقررة لأمينة:' : '🚀 Next Recommended Action for Amina:'}
+                        {isArabic ? `🚀 الخطوة التالية المقررة ل${studentName}:` : `🚀 Next Recommended Action for ${studentName}:`}
                       </span>
 
                       {/* If Mastered: Go to Home/Next Mission or Progress */}
@@ -2011,7 +2011,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               {/* NEXT ACTIONS ORCHESTRATION */}
               <div className="space-y-2 pt-1">
                 <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
-                  {isArabic ? '🚀 الخطوة التالية الموصى بها لأمينة:' : '🚀 Recommended Next Action for Amina:'}
+                  {isArabic ? `🚀 الخطوة التالية الموصى بها ل${studentName}:` : `🚀 Recommended Next Action for ${studentName}:`}
                 </span>
 
                 {/* Button 1: Return to Today's Next Mission */}
