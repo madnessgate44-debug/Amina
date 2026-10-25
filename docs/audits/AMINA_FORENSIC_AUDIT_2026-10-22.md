@@ -436,3 +436,59 @@ voice 11, feedsave 5 — **all 0 failed** · `npm run build` passes ·
    model output needs a spend/access decision.
 3. **D-2 (full digital book reader)** — owner product decision.
 4. **Arabic RTL depth** — direction verified; full layout quality still not exhaustively reviewed.
+
+---
+
+## 13. Addendum — 2026-10-25 deployment-identity re-check (R4)
+
+**Question (R4):** what is the configured deployment target, and does the deployed
+commit/version match `main`?
+
+**Answer: NOT VERIFIED — and specifically, no deployment exists.** This is an
+evidence-backed "not verified", not a guess.
+
+### The target changed since §4/F-06
+
+The earlier finding named Render (`render.yaml`). That is now stale: **PR #32
+(`feat(deploy): retarget deployment to a Hugging Face Docker Space`, merged
+2026-10-25T10:08:08Z, `5720dde`) replaced it**, and `render.yaml` no longer exists
+in the tree. The configured target is now a **Hugging Face Docker Space**.
+
+### What was checked, and what each check returned (Verified)
+
+| Check | Command / request | Result |
+|---|---|---|
+| Account identity | `hf auth whoami` | `user=madnessgate47 orgs=Gahiz` — the correct account |
+| Intended slug | `scripts/deploy-space.mjs` frontmatter | `sdk: docker`, `app_port: 7860`; slug `madnessgate47/miss-noor` |
+| Space creation | `hf repos create` (Docker, cpu-basic, public) | **HTTP 402 Payment Required** |
+| Does the Space exist? | `GET /api/spaces/madnessgate47/miss-noor` with the stored token | `{"error":"Repository not found"}` |
+| Public Space page | `GET https://huggingface.co/spaces/madnessgate47/miss-noor` | **HTTP 401** |
+| Direct Space host | `GET https://madnessgate47-miss-noor.hf.space/` | **HTTP 404** |
+| Repo SHA on `main` | `git rev-parse HEAD` | `236d9ae` |
+| Staging readiness | `node scripts/deploy-space.mjs --dry-run` | clean; `.env` excluded; no `node_modules` |
+
+### Why it is blocked (root cause, not a symptom)
+
+Docker Spaces on the free **cpu-basic** tier require a **PRO** subscription for
+this account: creation returns **402 Payment Required**. No Space was created, so
+there is **no deployed URL, no deployed SHA, and nothing to compare against
+`main`**.
+
+- **Deployed URL/service:** none exists (Verified).
+- **Deployed SHA/version:** none exists — nothing is deployed (Verified).
+- **Intended URL once unblocked:** `https://huggingface.co/spaces/madnessgate47/miss-noor` (not live).
+- **Single command when unblocked:** `node scripts/deploy-space.mjs`.
+
+### Boundary compliance for this addendum
+
+No production change was made and **nothing was deployed** (R4's boundary). The
+only actions were read-only probes plus one Space-creation attempt that the
+platform rejected. No owner judgment was silently taken: the PRO requirement is
+recorded as a decision request below.
+
+### Decision request (owner)
+
+1. **Upgrade the Hugging Face account to PRO** (unblocks Docker Spaces on
+   cpu-basic), **or** choose a different free host that can run `server.ts`, **or**
+   confirm a different target. Until one of these is chosen, R4 stays blocked and
+   no live URL can be posted.
