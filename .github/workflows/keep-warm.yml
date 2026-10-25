@@ -1,10 +1,10 @@
 # Keeps the deployed Miss Noor app warm.
 #
-# Render free plans sleep after ~15 minutes idle, so the first click can take
+# Free Spaces sleep after a period of inactivity, so the first click can take
 # 30-60s. This pings the health endpoint every 10 minutes to reduce that.
 #
 # Set the repository variable APP_URL to the deployed base URL, e.g.
-#   gh variable set APP_URL --body "https://amina.onrender.com"
+#   gh variable set APP_URL --body "https://<username>-miss-noor.hf.space"
 # If APP_URL is unset the job exits cleanly (it does not fail CI).
 #
 # Note: GitHub disables scheduled workflows in repos with no activity for 60
