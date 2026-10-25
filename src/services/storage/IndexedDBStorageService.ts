@@ -1431,6 +1431,11 @@ export class IndexedDBStorageService implements IStorageService {
 
   // --- MY BOOKS ---
   // Page images are device-local. Nothing here uploads or transmits them.
+  //
+  // Unlike the other stores, books are NOT mirrored into localStorage: a
+  // single photographed page exceeds the ~5 MB localStorage quota, and a
+  // failed write there would throw. IndexedDB is the only store for books;
+  // the in-memory map still covers engines where IndexedDB is unavailable.
 
   async getImportedBooks(studentId: string): Promise<ImportedBook[]> {
     const memoryBooks: Record<string, ImportedBook> = this.fallbackMemory.get(STORES.IMPORTED_BOOKS) || {};
