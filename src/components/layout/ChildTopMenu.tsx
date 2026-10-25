@@ -14,7 +14,8 @@ export const ChildTopMenu: React.FC = () => {
   const isFr = language === 'fr';
 
   const items = [
-    { id: 'learn' as const, label: isAr ? 'كتبي والمنهج' : isFr ? 'Mes livres & programme' : 'My Books & Curriculum', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'mybooks' as const, label: isAr ? 'كتبي' : isFr ? 'Mes livres' : 'My Books', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'learn' as const, label: isAr ? 'المنهج الدراسي' : isFr ? 'Programme' : 'Curriculum', icon: <BookOpen className="w-4 h-4" /> },
     { id: 'missions' as const, label: isAr ? 'مهامي' : 'Missions', icon: <Target className="w-4 h-4" /> },
     { id: 'homework' as const, label: isAr ? 'الواجب' : 'Homework', icon: <ClipboardCheck className="w-4 h-4" /> },
     { id: 'review' as const, label: isAr ? 'مراجعة' : 'Review', icon: <CheckCircle2 className="w-4 h-4" /> },

@@ -22,13 +22,15 @@ import {
   StudentGamification,
   TeachingSession,
   ExamCalendar,
+  ImportedBook,
+  BookTrainingCard,
 } from '../../types';
 import { IStorageService } from './IStorageService';
 import { migrateStudent } from './studentMigrations';
 import { localDateStr } from '../../utils/time';
 
 const DB_NAME = 'ai_school_companion_v2';
-const DB_VERSION = 8;
+const DB_VERSION = 9;
 
 const STORES = {
   STUDENT: 'student',
@@ -49,6 +51,8 @@ const STORES = {
   GAMIFICATION: 'gamification',
   TEACHING_SESSIONS: 'teaching_sessions',
   EXAM_CALENDARS: 'exam_calendars',
+  IMPORTED_BOOKS: 'imported_books',
+  BOOK_TRAINING_CARDS: 'book_training_cards',
 } as const;
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -187,6 +191,15 @@ export class IndexedDBStorageService implements IStorageService {
             const tsStore = db.createObjectStore(STORES.TEACHING_SESSIONS, { keyPath: 'sessionId' });
             tsStore.createIndex('studentId', 'studentId', { unique: false });
             tsStore.createIndex('lessonId', 'lessonId', { unique: false });
+          }
+          if (!db.objectStoreNames.contains(STORES.IMPORTED_BOOKS)) {
+            const ibStore = db.createObjectStore(STORES.IMPORTED_BOOKS, { keyPath: 'id' });
+            ibStore.createIndex('studentId', 'studentId', { unique: false });
+          }
+          if (!db.objectStoreNames.contains(STORES.BOOK_TRAINING_CARDS)) {
+            const btcStore = db.createObjectStore(STORES.BOOK_TRAINING_CARDS, { keyPath: 'id' });
+            btcStore.createIndex('studentId', 'studentId', { unique: false });
+            btcStore.createIndex('bookId', 'bookId', { unique: false });
           }
         };
 
@@ -1416,6 +1429,154 @@ export class IndexedDBStorageService implements IStorageService {
     });
   }
 
+  // --- MY BOOKS ---
+  // Page images are device-local. Nothing here uploads or transmits them.
+
+  async getImportedBooks(studentId: string): Promise<ImportedBook[]> {
+    const memoryBooks: Record<string, ImportedBook> = this.fallbackMemory.get(STORES.IMPORTED_BOOKS) || {};
+    const fallbackList = Object.values(memoryBooks).filter((b) => b.studentId === studentId);
+
+    const db = await this.getDB();
+    if (!db) return fallbackList;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.IMPORTED_BOOKS, 'readonly');
+        const store = tx.objectStore(STORES.IMPORTED_BOOKS);
+        const req = store.getAll();
+        req.onsuccess = () => {
+          const all = (req.result as ImportedBook[]) || [];
+          const filtered = all.filter((b) => b.studentId === studentId);
+          resolve(filtered.length > 0 ? filtered : fallbackList);
+        };
+        req.onerror = () => resolve(fallbackList);
+      } catch {
+        resolve(fallbackList);
+      }
+    });
+  }
+
+  async saveImportedBook(book: ImportedBook): Promise<void> {
+    const memoryBooks: Record<string, ImportedBook> = this.fallbackMemory.get(STORES.IMPORTED_BOOKS) || {};
+    memoryBooks[book.id] = book;
+    this.fallbackMemory.set(STORES.IMPORTED_BOOKS, memoryBooks);
+
+    const db = await this.getDB();
+    if (!db) return;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.IMPORTED_BOOKS, 'readwrite');
+        const store = tx.objectStore(STORES.IMPORTED_BOOKS);
+        store.put(book);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch {
+        resolve();
+      }
+    });
+  }
+
+  async deleteImportedBook(bookId: string): Promise<void> {
+    const memoryBooks: Record<string, ImportedBook> = this.fallbackMemory.get(STORES.IMPORTED_BOOKS) || {};
+    delete memoryBooks[bookId];
+    this.fallbackMemory.set(STORES.IMPORTED_BOOKS, memoryBooks);
+
+    // A book's training cards are meaningless once the book is gone. The
+    // fallback store needs the same cleanup as IndexedDB.
+    const memoryCards: Record<string, BookTrainingCard> = this.fallbackMemory.get(STORES.BOOK_TRAINING_CARDS) || {};
+    for (const id of Object.keys(memoryCards)) {
+      if (memoryCards[id].bookId === bookId) delete memoryCards[id];
+    }
+    this.fallbackMemory.set(STORES.BOOK_TRAINING_CARDS, memoryCards);
+
+    const db = await this.getDB();
+    if (!db) return;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction([STORES.IMPORTED_BOOKS, STORES.BOOK_TRAINING_CARDS], 'readwrite');
+        tx.objectStore(STORES.IMPORTED_BOOKS).delete(bookId);
+        // A book's training cards are meaningless once the book is gone.
+        const cardStore = tx.objectStore(STORES.BOOK_TRAINING_CARDS);
+        const allCards = cardStore.getAll();
+        allCards.onsuccess = () => {
+          for (const card of (allCards.result as BookTrainingCard[]) || []) {
+            if (card.bookId === bookId) cardStore.delete(card.id);
+          }
+        };
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch {
+        resolve();
+      }
+    });
+  }
+
+  async getBookTrainingCards(studentId: string): Promise<BookTrainingCard[]> {
+    const memoryCards: Record<string, BookTrainingCard> = this.fallbackMemory.get(STORES.BOOK_TRAINING_CARDS) || {};
+    const fallbackList = Object.values(memoryCards).filter((c) => c.studentId === studentId);
+
+    const db = await this.getDB();
+    if (!db) return fallbackList;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.BOOK_TRAINING_CARDS, 'readonly');
+        const store = tx.objectStore(STORES.BOOK_TRAINING_CARDS);
+        const req = store.getAll();
+        req.onsuccess = () => {
+          const all = (req.result as BookTrainingCard[]) || [];
+          const filtered = all.filter((c) => c.studentId === studentId);
+          resolve(filtered.length > 0 ? filtered : fallbackList);
+        };
+        req.onerror = () => resolve(fallbackList);
+      } catch {
+        resolve(fallbackList);
+      }
+    });
+  }
+
+  async saveBookTrainingCard(card: BookTrainingCard): Promise<void> {
+    const memoryCards: Record<string, BookTrainingCard> = this.fallbackMemory.get(STORES.BOOK_TRAINING_CARDS) || {};
+    memoryCards[card.id] = card;
+    this.fallbackMemory.set(STORES.BOOK_TRAINING_CARDS, memoryCards);
+
+    const db = await this.getDB();
+    if (!db) return;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.BOOK_TRAINING_CARDS, 'readwrite');
+        tx.objectStore(STORES.BOOK_TRAINING_CARDS).put(card);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch {
+        resolve();
+      }
+    });
+  }
+
+  async deleteBookTrainingCard(cardId: string): Promise<void> {
+    const memoryCards: Record<string, BookTrainingCard> = this.fallbackMemory.get(STORES.BOOK_TRAINING_CARDS) || {};
+    delete memoryCards[cardId];
+    this.fallbackMemory.set(STORES.BOOK_TRAINING_CARDS, memoryCards);
+
+    const db = await this.getDB();
+    if (!db) return;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.BOOK_TRAINING_CARDS, 'readwrite');
+        tx.objectStore(STORES.BOOK_TRAINING_CARDS).delete(cardId);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch {
+        resolve();
+      }
+    });
+  }
+
   async exportAllData(studentId: string): Promise<string> {
     const today = localDateStr();
     const [
@@ -1433,6 +1594,8 @@ export class IndexedDBStorageService implements IStorageService {
       parentAccount,
       gamification,
       teachingSessions,
+      importedBooks,
+      bookTrainingCards,
     ] = await Promise.all([
       this.getStudent(),
       this.getTimetable(studentId),
@@ -1448,6 +1611,8 @@ export class IndexedDBStorageService implements IStorageService {
       this.getParentAccount(studentId),
       this.getGamification(studentId),
       this.getTeachingSessionsForStudent(studentId),
+      this.getImportedBooks(studentId),
+      this.getBookTrainingCards(studentId),
     ]);
 
     const exportPayload = {
@@ -1455,7 +1620,7 @@ export class IndexedDBStorageService implements IStorageService {
         exportedAt: new Date().toISOString(),
         appName: 'AI School Companion',
         version: 'Phase 9 - The Teaching Session (The Real Tutor)',
-        schemaVersion: 9,
+        schemaVersion: 10,
       },
       student,
       timetable,
@@ -1472,6 +1637,20 @@ export class IndexedDBStorageService implements IStorageService {
       parentAccount: parentAccount ? { ...parentAccount, pin: '****' } : null,
       gamification,
       teachingSessions,
+      // Imported books are exported as metadata only. Page images stay on the
+      // device and are deliberately omitted, so an export never carries the
+      // learner's scanned book content.
+      importedBooks: importedBooks.map((b) => ({
+        id: b.id,
+        title: b.title,
+        author: b.author,
+        subject: b.subject,
+        pageCount: b.pages.length,
+        createdAt: b.createdAt,
+        lastPageIndex: b.lastPageIndex,
+        imagesOmitted: true,
+      })),
+      bookTrainingCards,
     };
 
     return JSON.stringify(exportPayload, null, 2);
@@ -1524,6 +1703,8 @@ export class IndexedDBStorageService implements IStorageService {
             STORES.PARENT_ACCOUNTS,
             STORES.GAMIFICATION,
             STORES.TEACHING_SESSIONS,
+            STORES.IMPORTED_BOOKS,
+            STORES.BOOK_TRAINING_CARDS,
           ],
           'readwrite'
         );
