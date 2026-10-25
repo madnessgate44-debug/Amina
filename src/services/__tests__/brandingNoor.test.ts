@@ -111,5 +111,22 @@ for (const file of componentFiles) {
 }
 assert(productHits.length > 0, '3.1 the product name Miss Noor appears in the UI');
 
+// --- 4. Static brand surfaces carry no legacy name ----------------------
+// The component scan above cannot see plain HTML, which is how `public/404.html`
+// kept a stale "Amina" title long after the app itself was renamed.
+const staticSurfaces = ['index.html', 'public/404.html'];
+for (const rel of staticSurfaces) {
+  let text: string;
+  try {
+    text = readFileSync(join(process.cwd(), rel), 'utf8');
+  } catch {
+    continue;
+  }
+  assert(
+    !/\bAmina\b/.test(text),
+    `4.${staticSurfaces.indexOf(rel) + 1} ${rel} carries no legacy name`
+  );
+}
+
 console.log(`\nBRANDING SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
