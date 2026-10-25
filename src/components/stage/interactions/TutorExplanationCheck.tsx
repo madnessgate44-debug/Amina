@@ -25,7 +25,7 @@ interface TutorExplanationCheckProps {
 
 /**
  * TutorExplanationCheck (Sub-Phase 11.3 & 11.7)
- * Acts exactly like a real human tutor sitting beside Amina:
+ * Acts exactly like a real human tutor sitting beside the learner:
  * Asks if she understood, offers everyday analogies if she didn't,
  * explains vocabulary, and listens to her spoken or typed questions.
  */
@@ -74,7 +74,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
       className="w-full h-full flex flex-col justify-center max-w-lg mx-auto p-2"
       dir={isAr ? 'rtl' : 'ltr'}
     >
-      {/* 1. INITIAL PROMPT: Asking Amina if she understood */}
+      {/* 1. INITIAL PROMPT: Asking the learner if she understood */}
       {activeMode === 'prompt' && (
         <div className="space-y-2.5 animate-in fade-in duration-200">
           <div className="text-center px-1">
@@ -82,7 +82,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
               <span>
                 {isAr
                   ? `يا ${studentName}، هل حسّيتي إنك فهمتي الفكرة دي كويس؟`
-                  : `Amina, do you feel like you understood this concept?`}
+                  : `${studentName}, do you feel like you understood this concept?`}
               </span>
             </p>
             <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
@@ -170,7 +170,7 @@ export const TutorExplanationCheck: React.FC<TutorExplanationCheckProps> = ({
 
           <div className="pt-1 flex items-center justify-between gap-2 border-t border-amber-200 dark:border-amber-800">
             <span className="text-[11px] font-bold text-slate-600 dark:text-slate-300">
-              {isAr ? 'ها يا أمينة، كده وضحت الفكرة؟' : 'Is it clear now, Amina?'}
+              {isAr ? `ها يا ${studentName}، كده وضحت الفكرة؟` : `Is it clear now, ${studentName}?`}
             </span>
             <button
               type="button"

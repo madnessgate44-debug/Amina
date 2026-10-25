@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "test": "npm run test:adaptive && npm run test:teaching && npm run test:integrity && npm run test:gate && npm run test:onboarding && npm run test:reels && npm run test:voice && npm run test:feedsave && npm run test:mybooks && npm run test:exam",
+    "test": "npm run test:adaptive && npm run test:teaching && npm run test:integrity && npm run test:gate && npm run test:onboarding && npm run test:reels && npm run test:voice && npm run test:feedsave && npm run test:mybooks && npm run test:exam && npm run test:branding",
     "test:adaptive": "tsx src/services/teacher/__tests__/adaptiveLoop.test.ts",
     "test:teaching": "tsx src/services/teaching/__tests__/teachingSession.test.ts",
     "test:integrity": "tsx src/services/__tests__/integritySourceOfTruth.test.ts",
@@ -21,7 +21,8 @@
     "test:voice": "tsx src/services/__tests__/serverTutorVoice.test.ts",
     "test:feedsave": "tsx src/services/__tests__/feedSaveControl.test.ts",
     "test:mybooks": "tsx src/services/__tests__/myBooks.test.ts",
-    "test:exam": "tsx src/services/exam/__tests__/examEngine.test.ts"
+    "test:exam": "tsx src/services/exam/__tests__/examEngine.test.ts",
+    "test:branding": "tsx src/services/__tests__/brandingNoor.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
