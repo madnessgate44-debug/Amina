@@ -22,6 +22,8 @@ import {
   StudentGamification,
   TeachingSession,
   ExamCalendar,
+  ImportedBook,
+  BookTrainingCard,
 } from '../../types';
 
 export interface IStorageService {
@@ -294,4 +296,37 @@ export interface IStorageService {
    * Completely purges all stored data (profile, timetable, chats, settings, mastery records).
    */
   clearAllData(): Promise<void>;
+
+  // --- My Books ---------------------------------------------------------
+  // Page images are device-local. These methods never send them anywhere.
+
+  /**
+   * Retrieves every imported book for a student.
+   */
+  getImportedBooks(studentId: string): Promise<ImportedBook[]>;
+
+  /**
+   * Persists an imported book (including its page images).
+   */
+  saveImportedBook(book: ImportedBook): Promise<void>;
+
+  /**
+   * Deletes an imported book.
+   */
+  deleteImportedBook(bookId: string): Promise<void>;
+
+  /**
+   * Retrieves the training cards a student made from their books.
+   */
+  getBookTrainingCards(studentId: string): Promise<BookTrainingCard[]>;
+
+  /**
+   * Persists a training card.
+   */
+  saveBookTrainingCard(card: BookTrainingCard): Promise<void>;
+
+  /**
+   * Deletes a training card.
+   */
+  deleteBookTrainingCard(cardId: string): Promise<void>;
 }

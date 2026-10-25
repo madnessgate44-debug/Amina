@@ -16,6 +16,7 @@ import { ProgressScreen } from '../progress/ProgressScreen';
 import { ProfileScreen } from '../profile/ProfileScreen';
 import { MissionsScreen } from '../missions/MissionsScreen';
 import { CollectionsScreen } from '../collections/CollectionsScreen';
+import { MyBooksScreen } from '../myBooks/MyBooksScreen';
 import { OnboardingFlow } from '../onboarding/OnboardingFlow';
 import { FeedScreen } from '../feed/FeedScreen';
 import { VirtualTeacherClassroom } from '../teacher/VirtualTeacherClassroom';
@@ -96,6 +97,7 @@ export const AppShell: React.FC = () => {
               {activeTab === 'missions' && <MissionsScreen />}
               {activeTab === 'homework' && <MissionsScreen />}
               {activeTab === 'collections' && <CollectionsScreen />}
+              {activeTab === 'mybooks' && <MyBooksScreen />}
               {activeTab === 'review' && <ReviewScreen />}
               {activeTab === 'progress' && <ProgressScreen />}
               {activeTab === 'timetable' && <TimetableScreen />}
