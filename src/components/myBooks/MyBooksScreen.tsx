@@ -5,10 +5,10 @@
  * "My Books" — the learner's own imported books.
  *
  * Privacy contract this screen keeps:
- *  - Page images are read, downscaled, and stored entirely on the device.
- *  - No page image is uploaded, posted to a route, or committed to the repo.
- *  - "Ask Noor" and "Train me" send only text the learner types, plus the book
- *    title, subject, and page number.
+ *  - A PDF and page photos are read and stored entirely on the device.
+ *  - No book file or page image is uploaded at import time, or committed.
+ *  - "Ask Noor" and "Train me" send only the page being studied: its extracted
+ *    text when it has a text layer, otherwise that one page's image.
  */
 
 import React, { useEffect, useState } from 'react';
@@ -19,6 +19,11 @@ import { ImportedBook } from '../../types';
 import { ImportBookSheet } from './ImportBookSheet';
 import { BookReader } from './BookReader';
 import { BookOpen, Plus, Trash2 } from 'lucide-react';
+
+/** Pages in a book, whether it is a PDF (page count) or page photos. */
+function pageCountOf(book: ImportedBook): number {
+  return book.kind === 'pdf' ? book.pageCount : book.pages.length;
+}
 
 export const MyBooksScreen: React.FC = () => {
   const { language, student } = useApp();
@@ -70,8 +75,8 @@ export const MyBooksScreen: React.FC = () => {
           <h1 className="text-2xl font-black">{isAr ? 'كتبي' : isFr ? 'Mes livres' : 'My Books'}</h1>
           <p className="text-xs text-slate-500 mt-1">
             {isAr
-              ? 'صوّري صفحات كتابك وذاكري منها. الصور تفضل على جهازك ومش بتترفع لأي مكان.'
-              : 'Photograph your book pages and study from them. The pictures stay on your device and are never uploaded.'}
+              ? 'ضيفي كتبك (PDF أو صور) وذاكري منها. الكتاب بيفضل على جهازك ومش بيتترفع لأي مكان.'
+              : 'Add your books — a PDF or page photos — and study from them. The book stays on your device and is never uploaded.'}
           </p>
         </div>
         <button
@@ -104,7 +109,8 @@ export const MyBooksScreen: React.FC = () => {
                 <div className="p-3">
                   <h3 className="text-sm font-black line-clamp-2">{book.title}</h3>
                   <p className="text-[11px] text-slate-500 mt-1">
-                    {book.pages.length} {isAr ? 'صفحة' : book.pages.length === 1 ? 'page' : 'pages'}
+                    {book.kind === 'pdf' ? 'PDF · ' : ''}
+                    {pageCountOf(book)} {isAr ? 'صفحة' : pageCountOf(book) === 1 ? 'page' : 'pages'}
                     {book.lastPageIndex ? ` · ${isAr ? 'وصلتِ لصفحة' : 'on page'} ${book.lastPageIndex}` : ''}
                   </p>
                 </div>
