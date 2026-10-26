@@ -13,7 +13,11 @@
  * Synthetic QA profile only. No real child or student data.
  *
  * Usage:  node scripts/ui-audit.mjs [baseUrl]
- * Env:    AMINA_BASE_URL, AMINA_OUT_DIR, PLAYWRIGHT_MODULE
+ * Env:    AMINA_BASE_URL, AMINA_OUT_DIR, PLAYWRIGHT_MODULE,
+ *         AMINA_VIEWPORT (mobile|desktop), AMINA_LOCALE (ar-EG|fr-FR|en-GB)
+ *
+ * The viewport and locale are configurable so the same walk can be replayed at
+ * 390px and 1365px and in Arabic RTL, French and English (R3 breadth evidence).
  */
 
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -21,16 +25,38 @@ import { setTimeout as delay } from 'node:timers/promises';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const baseURL = process.argv[2] || process.env.AMINA_BASE_URL || 'http://127.0.0.1:12000';
-const outDir = process.env.AMINA_OUT_DIR || 'artifacts/ui-audit';
+
+const VIEWPORTS = {
+  mobile: { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 3 },
+  desktop: { width: 1365, height: 900, isMobile: false, hasTouch: false, deviceScaleFactor: 1 },
+};
+const viewportKey = process.env.AMINA_VIEWPORT || 'mobile';
+const viewport = VIEWPORTS[viewportKey] || VIEWPORTS.mobile;
+
+// The app's language is chosen by an on-screen button, not the browser locale.
+const LOCALES = {
+  'ar-EG': { button: /العربية/, label: 'ar', gender: /بنت|ولد/ },
+  'fr-FR': { button: /Français/, label: 'fr', gender: /Fille|Garçon/ },
+  'en-GB': { button: /English/, label: 'en', gender: /Girl|Boy/ },
+};
+const locale = process.env.AMINA_LOCALE || 'ar-EG';
+const localeChoice = LOCALES[locale] || LOCALES['ar-EG'];
+
+// The canonical phone-Arabic walk keeps its documented path; every other
+// viewport/locale combination gets its own subdirectory.
+const isCanonical = viewportKey === 'mobile' && localeChoice.label === 'ar';
+const outDir =
+  process.env.AMINA_OUT_DIR ||
+  (isCanonical ? 'artifacts/ui-audit' : `artifacts/ui-audit/${viewportKey}-${localeChoice.label}`);
 await mkdir(outDir, { recursive: true });
 
-const PHONE = { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 3 };
-
 const report = {
-  mission: 'Phone-viewport UI audit (miss-noor-design skill, step 1)',
+  mission: 'UI audit (miss-noor-design skill, step 1)',
   baseURL,
   startedAt: new Date().toISOString(),
-  viewport: PHONE,
+  viewport,
+  viewportKey,
+  locale,
   environment: 'Disposable headless Chromium; synthetic QA profile only; no real student data',
   screens: [],
   consoleErrors: [],
@@ -132,8 +158,8 @@ async function capture(page, name, extra = {}) {
 async function completeStepOne(page) {
   await page.locator('input[type="text"]').first().waitFor({ state: 'visible', timeout: 20_000 });
   await page.locator('input[type="text"]').first().fill('Learner QA');
-  await page.getByRole('button', { name: /العربية/ }).first().click().catch(() => {});
-  await page.getByRole('button', { name: /بنت|ولد/ }).first().click().catch(() => {});
+  await page.getByRole('button', { name: localeChoice.button }).first().click().catch(() => {});
+  await page.getByRole('button', { name: localeChoice.gender }).first().click().catch(() => {});
   await page.getByRole('button', { name: /^10$/ }).first().click().catch(() => {});
   await delay(300);
 }
@@ -157,11 +183,11 @@ async function onboard(page, { captureSteps = [] } = {}) {
   await completeStepOne(page);
   if (captureSteps.includes(1)) await capture(page, '01-onboarding-step1');
 
-  await tapButton(page, /التالي|Continue|Suivant/);
+  await tapButton(page, /التالي|Next|Suivant/);
   await delay(900);
   if (captureSteps.includes(2)) await capture(page, '02-onboarding-step2-books');
 
-  await tapButton(page, /كمّل|Continue|Suivant/);
+  await tapButton(page, /كمّل|Continue|Continuer/);
   await delay(900);
   if (captureSteps.includes(3)) await capture(page, '03-onboarding-step3-quiz');
 
@@ -171,7 +197,7 @@ async function onboard(page, { captureSteps = [] } = {}) {
       const btns = Array.from(document.querySelectorAll('button')).filter(
         (b) => b.offsetWidth > 0 && !b.disabled && b.closest('nav') === null
       );
-      const skip = /^(رجوع|Back|Retour|اضغط لتسمع)$/;
+      const skip = /^(رجوع|Back|Retour|اضغط لتسمع|Tap to hear|Appuie pour écouter)$/;
       const option = btns.find((b) => !skip.test((b.innerText || '').trim()) && (b.innerText || '').trim());
       if (!option) return false;
       option.click();
@@ -180,7 +206,7 @@ async function onboard(page, { captureSteps = [] } = {}) {
     if (!advanced) break;
     await delay(500);
     // After answering, the advance button appears.
-    await tapButton(page, /السؤال التالي|كمّل|Continue|Suivant/);
+    await tapButton(page, /السؤال التالي|Next question|Question suivante|كمّل|Continue|Continuer/);
     await delay(600);
   }
 
@@ -192,14 +218,15 @@ async function onboard(page, { captureSteps = [] } = {}) {
     const btns = Array.from(document.querySelectorAll('button')).filter(
       (b) => b.offsetWidth > 0 && !b.disabled
     );
-    const subject = btns.find((b) => (b.innerText || '').trim().length > 1 && !/رجوع|Back|Retour/.test(b.innerText));
+    const skip = /^(رجوع|Back|Retour|اضغط لتسمع|Tap to hear|Appuie pour écouter|.*min)$/;
+    const subject = btns.find((b) => (b.innerText || '').trim().length > 1 && !skip.test(b.innerText.trim()));
     if (subject) subject.click();
   });
   await delay(300);
   // A session length keeps the preference step honest, then finish.
-  await tapButton(page, /دقايق|دقيقة|min/);
+  await tapButton(page, /دقايق|دقيقة|min/i);
   await delay(300);
-  await tapButton(page, /يلا نبدأ|ابدأ|Start|Commencer|Finish|حفظ/);
+  await tapButton(page, /يلا نبدأ|Let us start|Commençons|Start|Finish|حفظ/);
   await delay(2500);
 
   const nav = page.locator('nav button').first();
@@ -209,11 +236,11 @@ async function onboard(page, { captureSteps = [] } = {}) {
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium' });
 const context = await browser.newContext({
-  viewport: { width: PHONE.width, height: PHONE.height },
-  isMobile: PHONE.isMobile,
-  hasTouch: PHONE.hasTouch,
-  deviceScaleFactor: PHONE.deviceScaleFactor,
-  locale: 'ar-EG',
+  viewport: { width: viewport.width, height: viewport.height },
+  isMobile: viewport.isMobile,
+  hasTouch: viewport.hasTouch,
+  deviceScaleFactor: viewport.deviceScaleFactor,
+  locale,
 });
 const page = await context.newPage();
 page.on('console', (m) => {
@@ -242,7 +269,9 @@ try {
   }
 
   // 9. A lesson / stage screen, if one is reachable from the current screen.
-  const startLesson = page.getByRole('button', { name: /ابدأ|Start|Study|تعلّم|تعلم|درس/ }).first();
+  const startLesson = page
+    .getByRole('button', { name: /ابدأ|تغيير الدرس|درس|Start|Switch|Study|Learn|Changer|Commencer|Leçon/ })
+    .first();
   if (await startLesson.count()) {
     await startLesson.click().catch(() => {});
     await delay(1800);

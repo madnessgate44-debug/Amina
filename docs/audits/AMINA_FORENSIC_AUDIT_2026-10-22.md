@@ -559,3 +559,152 @@ PR #44 was merged to `main` — not by a deploy command.
 1. If the app should be reachable without a Vercel login, disable Deployment
    Protection on the production alias. Otherwise no action is needed and R4 stands
    **VERIFIED**.
+
+---
+
+## 15. Addendum — 2026-10-26 R3 breadth matrix and F-11 library tap-target fix
+
+**Baseline at this checkpoint:** `main` = `ea1fd887` (after PR #45). Production
+alias `amina-nine-sepia.vercel.app` runs `ea1fd887`.
+**Session scope:** R3 breadth (desktop 1365px, French, Arabic RTL) plus a new
+F2-family finding. No production UI redesign, no curriculum edit, no dependency
+added, no deployment.
+
+### R3 breadth — the walk now runs at desktop width and in all three languages (Verified)
+
+The R3 section (§5) previously recorded a limitation: "desktop 1365px / French /
+Arabic-RTL layout walk still to run for full breadth." That gap is now closed.
+
+`scripts/ui-audit.mjs` is now parameterised by `AMINA_VIEWPORT` (`mobile` 390×844 /
+`desktop` 1365×900) and `AMINA_LOCALE` (`ar-EG` / `fr-FR` / `en-GB`), so the same
+ten-screen walk replays in every combination. Its button selectors were completed
+for all three languages — a French/English run previously stalled at onboarding
+step 4 because the speech-bubble "listen" button (`Appuie pour écouter` /
+`Tap to hear`) was not in the answer-skip list and was clicked as if it were a
+warm-up answer.
+
+Command (identical for each cell, run against the real production build on
+`http://127.0.0.1:12000`):
+
+```bash
+PLAYWRIGHT_MODULE=/tmp/ops/pw.mjs AMINA_VIEWPORT=<mobile|desktop> AMINA_LOCALE=<ar-EG|fr-FR|en-GB> \
+  node scripts/ui-audit.mjs http://127.0.0.1:12000
+```
+
+| Cell | Screens | Min tap | Text < 12px | H-overflow | `dir` | Console errors |
+|---|---:|---:|---:|---:|---|---:|
+| mobile 390 / ar-EG | 10 | 44px | 0 | 0px | `rtl` | 0 |
+| desktop 1365 / ar-EG | 10 | 44px | 0 | 0px | `rtl` | 0 |
+| mobile 390 / fr-FR | 10 | 44px | 0 | 0px | `ltr` | 0 |
+| desktop 1365 / fr-FR | 10 | 44px | 0 | 0px | `ltr` | 0 |
+| mobile 390 / en-GB | 10 | 44px | 0 | 0px | `ltr` | 0 |
+| desktop 1365 / en-GB | 10 | 44px | 0 | 0px | `ltr` | 0 |
+
+Machine-readable evidence: `artifacts/ui-audit/report.json` (mobile ar, the
+canonical cell) and `artifacts/ui-audit/{mobile,desktop}-{fr,en}/report.json`
+plus `artifacts/ui-audit/desktop-ar/report.json`. Every cell captured all ten
+screens — onboarding 1–4, HOME, FEED, LIBRARY, NOUR, a lesson, and a full-page
+HOME — with zero console errors.
+
+### F-11 — LIBRARY view-switch buttons missed the 44px floor (P2, usability) — **Found, fixed, verified**
+
+The phone audit (§ `docs/design/UI_AUDIT_PHONE_2026-10-26.md`, F2) recorded
+"44px on all ten screens". Re-running the walk at desktop width and in French
+and English shows that was **true only for the Arabic phone cell**: the two
+LIBRARY view-mode buttons (`رف الكتب المدرسية` / `فهرس الوحدات والدروس`) measured
+**32px tall** in every other cell.
+
+- **Root cause (Verified by measurement):** the buttons are
+  `py-2 … text-xs` with no `min-h` (`CurriculumBrowser.tsx`, the
+  "View Mode Switcher" block). The Arabic labels wrap to two lines at 390px, which
+  lifted the control to ~44px by accident; a single-line label (Arabic at desktop
+  width, and French/English everywhere) leaves the box at 32px. The F2 fix pass
+  covered the classroom, HOME, FEED and the subject picker, but not this control.
+- **Measured before → after** (`getBoundingClientRect().height` on the live build):
+
+  | Cell | Before | After |
+  |---|---:|---:|
+  | mobile 390 / ar-EG | 44px (wrapped by chance) | 44px |
+  | desktop 1365 / ar-EG | **32px** | 44px |
+  | mobile 390 / fr-FR | **32px** | 44px |
+  | desktop 1365 / fr-FR | **32px** | 44px |
+
+- **Fix:** add `min-h-[44px]` to both buttons. Behaviour-preserving: no handler,
+  label or layout-order change; the two-line Arabic phone case is unchanged.
+- **Regression guard:** `src/services/__tests__/phoneUiAccessibility.test.ts`
+  gains a `library` entry in the F2 table, so the suite now fails if this control
+  loses its floor. Suite count moved 27 → **28 passed, 0 failed**.
+- **Verified after fix:** the six-cell matrix above reports **44px minimum on
+  every cell**, `tsc --noEmit` clean, `npm test` **447 passed / 0 failed**, build
+  exit 0.
+
+### F-12 — FEED headline falls back to English in French (P3, observed) — **decision request**
+
+In the French walk the first FEED card headline rendered
+`"Performing Wudu attentively and praying Dhuhr on time during study breaks."`
+(English) rather than French. **Cause (Verified in source):**
+`src/services/reels/reelGenerator.ts:139` maps the French hook to the English
+curriculum field —
+`pickLang({ ar: concept.dailyLifeExampleAr, en: concept.dailyLifeExampleEn, fr: concept.dailyLifeExampleEn })`
+— and **no `dailyLifeExampleFr` field exists in any curriculum file**
+(`grep -rc dailyLifeExampleFr src/data/curriculum/*.ts` → none). The surrounding
+reel chrome (mistake/quiz/teach/session hooks) is properly localised, so this is
+a **content-data gap**, not a code defect.
+
+- **Not changed.** Translating curriculum text is inside the
+  "do not modify curriculum content" boundary (R5), so this is recorded as a
+  decision request, not silently fixed. Options: add French `dailyLifeExampleFr`
+  content per concept (curriculum work), or accept the English fallback in FEED.
+
+### R4 — production reachability, and a correction to §14 (Verified)
+
+§14 concluded R4 **VERIFIED** but recorded one limitation: "an unauthenticated
+end-to-end fetch of the running app is blocked by Vercel SSO." That is only true
+of the `*-forge-fe22.vercel.app` host. The project's **primary production alias is
+public**:
+
+| Probe | Result |
+|---|---|
+| `GET https://amina-nine-sepia.vercel.app/` | **HTTP 200**, `<title>Miss Noor — AI School Companion</title>` |
+| `GET …/api/health` | **200** `{"status":"ok","hasApiKey":true,…}` |
+| `node scripts/smoke.mjs https://amina-nine-sepia.vercel.app` | **7 passed, 0 failed** |
+| `GET https://amina-forge-fe22.vercel.app/` | **HTTP 302** → `vercel.com/sso-api` (branch alias only) |
+| Vercel API, production deployment | `dpl_4hEgWaXMuGXjYTEUMNBrdW6J5RWZ`, `READY`, SHA `ea1fd887`, ref `main` |
+| Vercel API, alias resolution | `amina-nine-sepia.vercel.app` → `dpl_4hEgWaXMuGXjYTEUMNBrdW6J5RWZ` |
+
+**R4 conclusion:** deployed SHA **`ea1fd887` = `main`**, and the live app answers
+unauthenticated with a working API. The smoke run exercises the shell, every asset
+referenced by `index.html`, `/api/health`, and the AI routes (`/api/tutor-explain`,
+`/api/tutor-reply` → 200; `/api/chat` → 400 route-mounted). The §14 SSO
+limitation applied to the branch alias, not the production alias.
+
+### Method and limitations
+
+- Every browser cell used a **synthetic QA profile** ("Learner QA"); **no real
+  child or student data** was used.
+- The walk is scripted. It is **not** proof that a real child completed every
+  task; it is proof that the ten screens render and are reachable in each
+  viewport/locale with no console error and no sub-44px control.
+- Two screenshots in each non-canonical cell were captured during the run but only
+  the JSON reports are committed, to keep the diff small; the PNGs regenerate with
+  one command.
+- F-12 is observed in the French walk; the English and Arabic FEED headlines are
+  correct.
+
+### Boundary compliance for this addendum
+
+- Did **not** merge PR #7 or #8; both remain open and untouched.
+- Did **not** deploy or change production.
+- Added **no** dependency to the app; audit tooling (`playwright-core`) lives
+  outside the repository.
+- Did **not** modify curriculum content or the HOME/FEED/LIBRARY/NOUR structure.
+- The only source change is the F-11 `min-h-[44px]` on two LIBRARY buttons plus
+  its regression guard; the audit harness change is additive.
+
+### Decision requests (owner)
+
+1. **F-12** — add French `dailyLifeExampleFr` curriculum content, or accept the
+   English FEED fallback in French?
+2. **`ictCurriculum.ts` "المعلمة نور"** — still open from the phone audit (F4);
+   one curriculum-data string, left untouched under R5.
+3. **F6 (FEED headline density)** — unchanged; still an owner judgment call.

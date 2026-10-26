@@ -181,7 +181,7 @@ export const CurriculumBrowser: React.FC = () => {
               setActiveViewMode('bookshelf');
               setSelectedBookForDetail(null);
             }}
-            className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`min-h-[44px] py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               activeViewMode === 'bookshelf'
                 ? 'bg-amber-400 text-slate-950 shadow-sm'
                 : 'bg-white/10 text-white hover:bg-white/15'
@@ -194,7 +194,7 @@ export const CurriculumBrowser: React.FC = () => {
           <button
             type="button"
             onClick={() => setActiveViewMode('units')}
-            className={`py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+            className={`min-h-[44px] py-2 px-3 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
               activeViewMode === 'units'
                 ? 'bg-amber-400 text-slate-950 shadow-sm'
                 : 'bg-white/10 text-white hover:bg-white/15'

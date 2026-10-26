@@ -148,6 +148,16 @@ text items per screen. All ten screens now clear the 44px floor with no
 horizontal overflow and no console errors. The full phone UI accessibility
 suite (`npm run test:phoneui`) guards these floors in CI.
 
+**Correction (2026-10-26, R3 breadth).** The "44px on all ten screens" result
+held for this Arabic-phone cell only. Re-running the same walk at desktop width
+and in French/English showed the two LIBRARY view-switch buttons
+(`رف الكتب المدرسية` / `فهرس الوحدات والدروس`) measured **32px** whenever their
+label fits on one line — which the Arabic phone cell hides because its labels
+wrap to two lines. Fixed with `min-h-[44px]` on both buttons
+(`CurriculumBrowser.tsx`) and guarded by the `library` entry in
+`phoneUiAccessibility.test.ts`. See `docs/audits/AMINA_FORENSIC_AUDIT_2026-10-22.md`
+§15 (F-11) for the before/after matrix.
+
 ## Boundaries respected
 
 Read-only audit. No production UI was changed, no curriculum content touched, no
@@ -165,6 +175,7 @@ F1–F5 are fixed in `openhands/remove-stage-and-ux-fixes` and guarded by
    not changed.
 2. **`ictCurriculum.ts:252`** — one curriculum-data string still says
    "المعلمة نور". Left as-is to respect the no-curriculum-edits boundary.
-3. Re-run the harness at desktop (1365px), French and Arabic RTL once those
-   locales are exercised in the same walk, to extend this evidence beyond the
-   Arabic phone profile.
+3. **Done (2026-10-26).** The harness now runs at desktop (1365px) and in
+   French and Arabic RTL via `AMINA_VIEWPORT` / `AMINA_LOCALE`; see
+   `docs/audits/AMINA_FORENSIC_AUDIT_2026-10-22.md` §15 for the six-cell matrix.
+   The desktop/French run surfaced F-11 (LIBRARY tap target), now fixed.

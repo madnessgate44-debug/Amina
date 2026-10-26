@@ -1,0 +1,401 @@
+{
+  "mission": "UI audit (miss-noor-design skill, step 1)",
+  "baseURL": "http://127.0.0.1:12000",
+  "startedAt": "2026-10-26T10:26:05.565Z",
+  "viewport": {
+    "width": 1365,
+    "height": 900,
+    "isMobile": false,
+    "hasTouch": false,
+    "deviceScaleFactor": 1
+  },
+  "viewportKey": "desktop",
+  "locale": "ar-EG",
+  "environment": "Disposable headless Chromium; synthetic QA profile only; no real student data",
+  "screens": [
+    {
+      "name": "01-onboarding-step1",
+      "screenshot": "artifacts/ui-audit/desktop-ar/01-onboarding-step1.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "أهلاً! أنا مس نور 👩‍🏫"
+      ],
+      "buttons": [
+        "اضغط لتسمع",
+        "العربية 🇪🇬",
+        "English 🇬🇧",
+        "Français 🇫🇷",
+        "👧 بنت",
+        "👦 ولد",
+        "9",
+        "10",
+        "11",
+        "12",
+        "التالي"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 244
+    },
+    {
+      "name": "02-onboarding-step2-books",
+      "screenshot": "artifacts/ui-audit/desktop-ar/02-onboarding-step2-books.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "أنا جاهزة أدرسك 📚"
+      ],
+      "buttons": [
+        "اضغط لتسمع",
+        "رجوع",
+        "كمّل"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 382
+    },
+    {
+      "name": "03-onboarding-step3-quiz",
+      "screenshot": "artifacts/ui-audit/desktop-ar/03-onboarding-step3-quiz.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "أسئلة سريعة 🌟"
+      ],
+      "buttons": [
+        "اضغط لتسمع",
+        "ليلة الإسراء والمعراج",
+        "يوم فتح مكة",
+        "غزوة بدر",
+        "يوم عرفة"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 148
+    },
+    {
+      "name": "04-onboarding-step4-preferences",
+      "screenshot": "artifacts/ui-audit/desktop-ar/04-onboarding-step4-preferences.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "آخر حاجة 😊"
+      ],
+      "buttons": [
+        "اضغط لتسمع",
+        "📖 اللغة العربية",
+        "🥐 اللغة الفرنسية",
+        "📐 الرياضيات",
+        "🔬 العلوم",
+        "📚 الدراسات الاجتماعية",
+        "🇬🇧 اللغة الإنجليزية",
+        "💻 تكنولوجيا المعلومات والاتصالات",
+        "🕌 التربية الدينية الإسلامية",
+        "✒️ الخط العربي",
+        "🎮 ألعاب",
+        "🎬 فيديوهات",
+        "❓ أسئلة",
+        "💬 كلام وشرح",
+        "٥ دقايق",
+        "١٠ دقايق",
+        "٢٠ دقيقة",
+        "رجوع",
+        "يلا نبدأ! ✨"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 455
+    },
+    {
+      "name": "05-home",
+      "screenshot": "artifacts/ui-audit/desktop-ar/05-home.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "أهلاً بك يا Learner QA! 👋",
+        "لا توجد مهام مجدولة بعد",
+        "مدرستي — كتبي المدرسية"
+      ],
+      "buttons": [
+        "حصة النهارده مع نور دقايق قليلة، درس واحد، وسؤال واحد بس",
+        "تصفح الرف كاملاً ←",
+        "تحدثي مع مس نور 👩‍🏫 اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "navButtons": [
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1379
+    },
+    {
+      "name": "06-feed",
+      "screenshot": "artifacts/ui-audit/desktop-ar/06-feed.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "الوضوء بهدوء وإتقان وأداء صلاة الظهر في وقتها أثناء استراحة المذاكرة."
+      ],
+      "buttons": [
+        "ليلة الإسراء والمعراج",
+        "يوم فتح مكة",
+        "غزوة بدر",
+        "يوم عرفة",
+        "علّمني أكتر",
+        "تخطّي",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "navButtons": [
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 397
+    },
+    {
+      "name": "07-library",
+      "screenshot": "artifacts/ui-audit/desktop-ar/07-library.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "مدرستي — الكتب والمناهج",
+        "اللغة العربية",
+        "اللغة الفرنسية",
+        "الرياضيات",
+        "العلوم",
+        "الدراسات الاجتماعية",
+        "اللغة الإنجليزية",
+        "تكنولوجيا المعلومات والاتصالات",
+        "التربية الدينية الإسلامية",
+        "الخط العربي"
+      ],
+      "buttons": [
+        "📖 رف الكتب المدرسية",
+        "📑 فهرس الوحدات والدروس",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "navButtons": [
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1344
+    },
+    {
+      "name": "08-nour",
+      "screenshot": "artifacts/ui-audit/desktop-ar/08-nour.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "فصل مس نور",
+        "«قصة الاستماع: «أنا أستطيع»»",
+        "«قصة الاستماع: «أنا أستطيع»»",
+        "محطة التشخيص الاستكشافي"
+      ],
+      "buttons": [
+        "صوت",
+        "📚 تغيير الدرس",
+        "كتاب الوزارة 📖",
+        "عربي 📜",
+        "رياضيات 📐",
+        "علوم 🔬",
+        "إنجليزي 🇬🇧",
+        "دراسات 🧭",
+        "دين 🕌",
+        "🩺 1. التشخيص",
+        "👩‍🏫 2. الشرح الموجه",
+        "🎯 3. فحص الإتقان",
+        "⭐ 4. تمارين الوزارة",
+        "💬 5. اسألي نور",
+        "أن الفشل في خطوة لا يعني العجز، بل حافز لتنظيم الوقت والمحاولة بإصرار",
+        "أن يبتعد عن أي مهمة صعبة حتى لا يحصل على تقدير ضعيف مرة أخرى",
+        "أن الاعتماد الكامل على الآخرين دون أي جهد ذاتي هو الحل الوحيد للنجاح",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "navButtons": [
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1335
+    },
+    {
+      "name": "09-lesson-start",
+      "screenshot": "artifacts/ui-audit/desktop-ar/09-lesson-start.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "فصل مس نور",
+        "«قصة الاستماع: «أنا أستطيع»»",
+        "«قصة الاستماع: «أنا أستطيع»»",
+        "محطة التشخيص الاستكشافي",
+        "مناهج وكتب الصف الخامس الابتدائي المنهج الرسمي"
+      ],
+      "buttons": [
+        "صوت",
+        "📚 تغيير الدرس",
+        "كتاب الوزارة 📖",
+        "عربي 📜",
+        "رياضيات 📐",
+        "علوم 🔬",
+        "إنجليزي 🇬🇧",
+        "دراسات 🧭",
+        "دين 🕌",
+        "🩺 1. التشخيص",
+        "👩‍🏫 2. الشرح الموجه",
+        "🎯 3. فحص الإتقان",
+        "⭐ 4. تمارين الوزارة",
+        "💬 5. اسألي نور",
+        "أن الفشل في خطوة لا يعني العجز، بل حافز لتنظيم الوقت والمحاولة بإصرار",
+        "أن يبتعد عن أي مهمة صعبة حتى لا يحصل على تقدير ضعيف مرة أخرى",
+        "أن الاعتماد الكامل على الآخرين دون أي جهد ذاتي هو الحل الوحيد للنجاح",
+        "📖 اللغة العربية 5",
+        "📚 اللغة الفرنسية 3",
+        "📐 الرياضيات 3",
+        "🔬 العلوم 2",
+        "🌍 الدراسات الاجتماعية 3",
+        "🇬🇧 اللغة الإنجليزية 2",
+        "💻 تكنولوجيا المعلومات والاتصالات 12",
+        "🕌 التربية الدينية الإسلامية 2",
+        "✒️ الخط العربي 1",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "إغلاق",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "navButtons": [
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 2987
+    },
+    {
+      "name": "10-home-fullpage",
+      "screenshot": "artifacts/ui-audit/desktop-ar/10-home-fullpage.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "rtl",
+      "lang": "ar",
+      "headings": [
+        "فصل مس نور",
+        "«قصة الاستماع: «أنا أستطيع»»",
+        "«قصة الاستماع: «أنا أستطيع»»",
+        "محطة التشخيص الاستكشافي",
+        "مناهج وكتب الصف الخامس الابتدائي المنهج الرسمي"
+      ],
+      "buttons": [
+        "صوت",
+        "📚 تغيير الدرس",
+        "كتاب الوزارة 📖",
+        "عربي 📜",
+        "رياضيات 📐",
+        "علوم 🔬",
+        "إنجليزي 🇬🇧",
+        "دراسات 🧭",
+        "دين 🕌",
+        "🩺 1. التشخيص",
+        "👩‍🏫 2. الشرح الموجه",
+        "🎯 3. فحص الإتقان",
+        "⭐ 4. تمارين الوزارة",
+        "💬 5. اسألي نور",
+        "أن الفشل في خطوة لا يعني العجز، بل حافز لتنظيم الوقت والمحاولة بإصرار",
+        "أن يبتعد عن أي مهمة صعبة حتى لا يحصل على تقدير ضعيف مرة أخرى",
+        "أن الاعتماد الكامل على الآخرين دون أي جهد ذاتي هو الحل الوحيد للنجاح",
+        "📖 اللغة العربية 5",
+        "📚 اللغة الفرنسية 3",
+        "📐 الرياضيات 3",
+        "🔬 العلوم 2",
+        "🌍 الدراسات الاجتماعية 3",
+        "🇬🇧 اللغة الإنجليزية 2",
+        "💻 تكنولوجيا المعلومات والاتصالات 12",
+        "🕌 التربية الدينية الإسلامية 2",
+        "✒️ الخط العربي 1",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "اختر هذا الدرس",
+        "إغلاق",
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "navButtons": [
+        "الرئيسية",
+        "الموجز",
+        "المكتبة",
+        "نور"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 2987,
+      "fullPage": true
+    }
+  ],
+  "consoleErrors": [],
+  "notes": [],
+  "health": {
+    "status": "ok",
+    "hasApiKey": false,
+    "timestamp": "2026-10-26T10:26:05.893Z"
+  }
+}

@@ -1,7 +1,7 @@
 {
-  "mission": "Phone-viewport UI audit (miss-noor-design skill, step 1)",
+  "mission": "UI audit (miss-noor-design skill, step 1)",
   "baseURL": "http://127.0.0.1:12000",
-  "startedAt": "2026-10-26T09:53:16.256Z",
+  "startedAt": "2026-10-26T10:25:12.529Z",
   "viewport": {
     "width": 390,
     "height": 844,
@@ -9,6 +9,8 @@
     "hasTouch": true,
     "deviceScaleFactor": 3
   },
+  "viewportKey": "mobile",
+  "locale": "ar-EG",
   "environment": "Disposable headless Chromium; synthetic QA profile only; no real student data",
   "screens": [
     {
@@ -394,6 +396,6 @@
   "health": {
     "status": "ok",
     "hasApiKey": false,
-    "timestamp": "2026-10-26T09:53:16.657Z"
+    "timestamp": "2026-10-26T10:25:12.859Z"
   }
 }
