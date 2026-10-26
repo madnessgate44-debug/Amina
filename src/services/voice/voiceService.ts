@@ -35,6 +35,8 @@ export type STTStatus = 'idle' | 'listening' | 'processing' | 'error';
 class VoiceService {
   private recognition: any = null;
   private currentAudioElement: HTMLAudioElement | null = null;
+  private pendingPlaybackResolve: ((ok: boolean) => void) | null = null;
+  private playbackGeneration = 0;
   private mediaRecorder: MediaRecorder | null = null;
   private audioChunks: Blob[] = [];
   private mediaStream: MediaStream | null = null;
@@ -142,6 +144,16 @@ class VoiceService {
       } catch (err) {
         console.warn('Audio pause error:', err);
       }
+    }
+
+    // Settle any in-flight speakWithGeminiTTS promise. Without this, a superseded
+    // call kept its own <audio> element alive and its onended handler could fire
+    // later, restarting audio the user had already cancelled.
+    this.playbackGeneration += 1;
+    if (this.pendingPlaybackResolve) {
+      const resolve = this.pendingPlaybackResolve;
+      this.pendingPlaybackResolve = null;
+      resolve(false);
     }
   }
 
@@ -479,8 +491,24 @@ class VoiceService {
     // Unlock audio on playback attempt
     this.unlockAudio();
 
+    // Every speak() supersedes whatever came before it. Capture the token so an
+    // older call that is still awaiting /api/tts cannot start a second, parallel
+    // <audio> element once its response lands.
+    const generation = this.playbackGeneration;
+
     // 1. Try Premier Studio-Grade Gemini TTS first for natural, human teacher voice
-    const geminiSuccess = await this.speakWithGeminiTTS(cleanText, language, onStart, onEnd, onError);
+    const geminiSuccess = await this.speakWithGeminiTTS(
+      cleanText,
+      language,
+      generation,
+      onStart,
+      onEnd,
+      onError
+    );
+    // A newer speak() (or cancelSpeech) took over while we awaited: stay silent.
+    if (generation !== this.playbackGeneration) {
+      return;
+    }
     if (geminiSuccess) {
       return;
     }
@@ -593,6 +621,7 @@ class VoiceService {
   private async speakWithGeminiTTS(
     text: string,
     language: Language,
+    generation: number,
     onStart?: () => void,
     onEnd?: () => void,
     onError?: (err: any) => void
@@ -621,28 +650,49 @@ class VoiceService {
         this.clientTtsCache.set(cacheKey, audioBase64!);
       }
 
+      // The fetch may have taken a while. If a newer speak() started in the
+      // meantime, drop this result instead of playing it over the new one.
+      if (generation !== this.playbackGeneration) {
+        return true;
+      }
+
       const audioUrl = `data:audio/wav;base64,${audioBase64}`;
       const audio = new Audio(audioUrl);
       this.currentAudioElement = audio;
 
       return new Promise<boolean>((resolve) => {
-        audio.onplay = () => onStart?.();
+        const settle = (ok: boolean) => {
+          if (this.pendingPlaybackResolve === settle) {
+            this.pendingPlaybackResolve = null;
+          }
+          if (this.currentAudioElement === audio) {
+            this.currentAudioElement = null;
+          }
+          resolve(ok);
+        };
+        this.pendingPlaybackResolve = settle;
+
+        const isStale = () => generation !== this.playbackGeneration;
+
+        audio.onplay = () => {
+          if (isStale()) return;
+          onStart?.();
+        };
         audio.onended = () => {
-          this.currentAudioElement = null;
+          if (isStale()) return settle(false);
           onEnd?.();
-          resolve(true);
+          settle(true);
         };
         audio.onerror = (e) => {
-          this.currentAudioElement = null;
+          if (isStale()) return settle(false);
           onError?.(e);
           onEnd?.();
-          resolve(false);
+          settle(false);
         };
 
         audio.play().catch((err) => {
           console.warn('Audio play autoplay restriction:', err);
-          this.currentAudioElement = null;
-          resolve(false);
+          settle(false);
         });
       });
     } catch (e) {
