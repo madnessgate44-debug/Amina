@@ -114,7 +114,9 @@ test('4.2 the server only listens when not on Vercel', () => {
 
 test('4.3 the Vercel function entry re-exports the app', () => {
   const entry = readFileSync(new URL('../../../api/index.ts', import.meta.url), 'utf8');
-  assert.ok(entry.includes("from '../server'"), 'api/index.ts does not import server.ts');
+  // The .js extension is required: Vercel runs the emitted file as ESM, where an
+  // extensionless specifier throws ERR_MODULE_NOT_FOUND. See vercelEntryResolution.
+  assert.ok(entry.includes("from '../server.js'"), 'api/index.ts does not import server.ts');
   assert.ok(entry.includes('export default app'), 'api/index.ts does not export the app');
 });
 
