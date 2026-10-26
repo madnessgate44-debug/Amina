@@ -12,6 +12,7 @@ import {
   NourState,
 } from '../../types/stage';
 import { stageEngine } from '../../services/stage/stageEngine';
+import { personalizeNoorText } from '../../services/stage/personalizeNoorText';
 import { voiceService } from '../../services/voice/voiceService';
 import { storageService } from '../../services/storage';
 import { StageSceneCanvas } from './StageSceneCanvas';
@@ -114,9 +115,11 @@ export const StageModal: React.FC<StageModalProps> = ({
   useEffect(() => {
     if (!currentBeat) return;
 
-    let baseText = isAr ? currentBeat.nourTextAr : currentBeat.nourTextEn;
-    // Personalize with Amina's name
-    baseText = baseText.replace(/أمينة/g, studentName).replace(/Amina/g, studentName);
+    // Personalize the legacy name baked into the older beat scripts.
+    const baseText = personalizeNoorText(
+      isAr ? currentBeat.nourTextAr : currentBeat.nourTextEn,
+      student?.name
+    );
 
     setTutorSpokenText(baseText);
     setIsAskingClarification(false);
@@ -502,7 +505,10 @@ export const StageModal: React.FC<StageModalProps> = ({
       case 'child_speak_answer':
         return (
           <VoiceAnswerControl
-            promptText={isAr ? currentBeat.nourTextAr : currentBeat.nourTextEn}
+            promptText={personalizeNoorText(
+              isAr ? currentBeat.nourTextAr : currentBeat.nourTextEn,
+              student?.name
+            )}
             onAnswerSubmit={(text) => {
               setHasStartedAudio(true);
               handleNextBeat(true);

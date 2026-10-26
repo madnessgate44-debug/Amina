@@ -16,7 +16,10 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = Number(process.env.PORT) || 3000;
 
-app.use(express.json({ limit: '15mb' }));
+// Vercel rejects bodies over ~4.5 MB before this code runs, so the server limit
+// matches the platform ceiling and clients shrink uploads first. See
+// src/services/upload/payloadLimits.ts.
+app.use(express.json({ limit: '4mb' }));
 
 // Initialize GoogleGenAI
 const apiKey = process.env.GEMINI_API_KEY;
@@ -1006,21 +1009,29 @@ CRITICAL RULES:
   }
 });
 
-// Dev vs Prod server setup
-if (process.env.NODE_ENV !== 'production') {
-  const { createServer: createViteServer } = await import('vite');
-  const vite = await createViteServer({
-    server: { middlewareMode: true },
-    appType: 'spa',
-  });
-  app.use(vite.middlewares);
-} else {
-  app.use(express.static(path.resolve(__dirname, 'dist')));
-  app.get('*', (_req, res) => {
-    res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+// Vercel runs this file as a function: it serves the built assets itself and
+// must not open a listening socket. Everywhere else (local, Docker, any Node
+// host) the Express server also serves the client and starts listening.
+const isServerless = Boolean(process.env.VERCEL);
+
+if (!isServerless) {
+  if (process.env.NODE_ENV !== 'production') {
+    const { createServer: createViteServer } = await import('vite');
+    const vite = await createViteServer({
+      server: { middlewareMode: true },
+      appType: 'spa',
+    });
+    app.use(vite.middlewares);
+  } else {
+    app.use(express.static(path.resolve(__dirname, 'dist')));
+    app.get('*', (_req, res) => {
+      res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
+    });
+  }
+
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`AI School Companion Server running on http://0.0.0.0:${PORT}`);
   });
 }
 
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`AI School Companion Server running on http://0.0.0.0:${PORT}`);
-});
+export default app;

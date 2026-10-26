@@ -4,6 +4,8 @@
  */
 
 import { Language, MicPermissionState } from '../../types';
+import { pickBestVoice, hasVoiceForLanguage } from './voiceSelection';
+import { MAX_AUDIO_MS } from '../upload/payloadLimits';
 
 // Web Speech API interfaces
 interface SpeechRecognitionEvent extends Event {
@@ -68,6 +70,15 @@ class VoiceService {
   public isSpeechSynthesisSupported(): boolean {
     if (typeof window === 'undefined') return false;
     return Boolean('speechSynthesis' in window);
+  }
+
+  /**
+   * Whether the device can actually pronounce this language. Used by the UI to
+   * warn instead of pretending the tutor is speaking when it cannot.
+   */
+  public hasVoiceFor(language: Language): boolean {
+    if (!this.isSpeechSynthesisSupported()) return false;
+    return hasVoiceForLanguage(window.speechSynthesis.getVoices(), language);
   }
 
   /**
@@ -183,6 +194,17 @@ class VoiceService {
 
           recorder.start(100);
           recorderActive = true;
+          // Cap the recording: the host rejects large bodies, and a 30s clip is
+          // already far longer than a spoken answer needs.
+          window.setTimeout(() => {
+            if (this.mediaRecorder && this.mediaRecorder.state !== 'inactive') {
+              try {
+                this.mediaRecorder.stop();
+              } catch {
+                // already stopped
+              }
+            }
+          }, MAX_AUDIO_MS);
         } catch (mediaErr) {
           console.warn('Could not initialize parallel MediaRecorder:', mediaErr);
         }
@@ -384,7 +406,11 @@ class VoiceService {
       });
 
       if (!resp.ok) {
-        throw new Error('STT server response not ok');
+        // 413 means the clip was too large for the host. Carry the status so the
+        // caller can show a friendly message instead of a raw error.
+        const err: any = new Error(`STT server response not ok (HTTP ${resp.status})`);
+        err.status = resp.status;
+        throw err;
       }
 
       const data = await resp.json();
@@ -498,60 +524,65 @@ class VoiceService {
         utterance.lang = 'en-US';
       }
 
-      const assignBestVoice = () => {
-        const voices = window.speechSynthesis.getVoices();
-        if (voices.length > 0) {
-          let bestVoice: SpeechSynthesisVoice | undefined;
+      let settled = false;
+      let timer: number | undefined;
 
-          if (language === 'ar') {
-            bestVoice =
-              voices.find((v) => v.lang === 'ar-EG' || v.lang.includes('EG')) ||
-              voices.find((v) => v.lang.startsWith('ar'));
-          } else if (language === 'fr') {
-            bestVoice =
-              voices.find((v) => v.lang.startsWith('fr') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Thomas'))) ||
-              voices.find((v) => v.lang.startsWith('fr'));
-          } else {
-            bestVoice =
-              voices.find((v) => v.lang.startsWith('en') && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Samantha'))) ||
-              voices.find((v) => v.lang.startsWith('en'));
-          }
-
-          if (bestVoice) {
-            utterance.voice = bestVoice;
-          }
-        }
-      };
-
-      assignBestVoice();
-      if (window.speechSynthesis.getVoices().length === 0) {
-        window.speechSynthesis.onvoiceschanged = () => assignBestVoice();
-      }
-
-      utterance.onstart = () => {
-        onStart?.();
-      };
-
-      utterance.onend = () => {
+      const finish = () => {
+        if (settled) return;
+        settled = true;
+        if (timer !== undefined) window.clearTimeout(timer);
+        window.speechSynthesis.onvoiceschanged = null;
         onEnd?.();
         resolve();
       };
 
+      const assignBestVoice = (): boolean => {
+        const best = pickBestVoice(window.speechSynthesis.getVoices(), language);
+        if (best) {
+          utterance.voice = best as SpeechSynthesisVoice;
+          utterance.lang = best.lang;
+        }
+        return Boolean(best);
+      };
+
+      utterance.onstart = () => onStart?.();
+      utterance.onend = () => finish();
       utterance.onerror = (e) => {
-        if (e.error !== 'canceled' && e.error !== 'interrupted') {
-          onError?.(e);
-        }
-        onEnd?.();
-        resolve();
+        if (e.error !== 'canceled' && e.error !== 'interrupted') onError?.(e);
+        finish();
       };
 
-      try {
-        window.speechSynthesis.resume();
-        window.speechSynthesis.speak(utterance);
-      } catch (err) {
-        onError?.(err);
-        onEnd?.();
-        resolve();
+      const start = () => {
+        if (settled) return;
+        try {
+          window.speechSynthesis.resume();
+          window.speechSynthesis.speak(utterance);
+        } catch (err) {
+          onError?.(err);
+          finish();
+        }
+      };
+
+      // Voices load asynchronously on most browsers: the first call after a cold
+      // start usually returns an empty list. Wait for them rather than speaking
+      // the line in the wrong language, which is what made the voice sound broken.
+      if (assignBestVoice()) {
+        start();
+      } else {
+        window.speechSynthesis.onvoiceschanged = () => {
+          if (assignBestVoice()) start();
+        };
+        timer = window.setTimeout(() => {
+          if (settled) return;
+          if (assignBestVoice()) {
+            start();
+            return;
+          }
+          // No voice for this language exists: say so instead of reading Arabic
+          // aloud with an English voice.
+          onError?.(new Error('no_voice_for_language'));
+          finish();
+        }, 1500);
       }
     });
   }
