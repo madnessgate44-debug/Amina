@@ -5,7 +5,7 @@ triggers:
 - sandbox
 - restart
 - port
-- 502
+- "502"
 - serve
 - nohup
 ---
