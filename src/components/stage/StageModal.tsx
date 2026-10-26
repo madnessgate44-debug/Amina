@@ -133,7 +133,11 @@ export const StageModal: React.FC<StageModalProps> = ({
     return () => {
       voiceService.cancelSpeech();
     };
-  }, [currentBeat?.id, hasStartedAudio, isMuted, isAr, studentName]);
+    // hasStartedAudio/isMuted/isAr are read inside but must NOT retrigger this
+    // effect: doing so replayed the beat from the start every time audio was
+    // unlocked, which is what made the voice overlap with itself.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentBeat?.id, studentName]);
 
   const handleNextBeat = async (childSuccess: boolean = true) => {
     voiceService.cancelSpeech();
@@ -554,9 +558,9 @@ export const StageModal: React.FC<StageModalProps> = ({
       className="fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-0 sm:p-3 overflow-hidden select-none"
       dir={isAr ? 'rtl' : 'ltr'}
       onClick={() => {
-        // Unlock browser audio context on any modal click
+        // Unlock browser audio context on any modal click. The beat effect above
+        // owns playback once audio has started, so only speak on the first tap.
         if (!hasStartedAudio) {
-          setHasStartedAudio(true);
           playTutorSpeech(tutorSpokenText);
         }
       }}
