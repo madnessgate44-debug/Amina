@@ -160,6 +160,7 @@ test('3.2 with no name the legacy name never leaks to the screen', () => {
   const out = personalizeNoorText('يا أمينة و Amina', '');
   assert.ok(!out.includes('أمينة'), 'Arabic legacy name leaked');
   assert.ok(!out.includes('Amina'), 'Latin legacy name leaked');
+  assert.ok(out.includes('صديقتي'), 'fallback should address the learner in the feminine');
 });
 
 test('3.3 the Arabic welcome line calls the teacher "مس نور"', () => {
