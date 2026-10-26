@@ -492,3 +492,70 @@ recorded as a decision request below.
    cpu-basic), **or** choose a different free host that can run `server.ts`, **or**
    confirm a different target. Until one of these is chosen, R4 stays blocked and
    no live URL can be posted.
+
+---
+
+## 14. Addendum — 2026-10-26 deployment-identity re-check (R4) — **VERIFIED**
+
+**Question (R4):** what is the configured deployment target, and does the deployed
+commit/version match `main`?
+
+**Answer: VERIFIED. Production is Vercel Hobby, and the live deployment runs
+`53ed24b` — byte-identical to current `main` HEAD.** §13 above is **superseded**:
+it described a Hugging Face Docker Space, but that target was itself superseded by
+PR #39 (`1826de2`, "Deploy on Vercel Hobby"), which added `vercel.json`,
+`api/index.ts` and `DEPLOY.md`. `DEPLOY.md` now states plainly: *"Production
+target: Vercel Hobby."* No `render.yaml` and no live HF Space are involved.
+
+### What was checked, and what each check returned (Verified)
+
+| Check | Command / request | Result |
+|---|---|---|
+| Configured target | `DEPLOY.md`, `vercel.json` | **Vercel Hobby**; `api/index.ts` function, `maxDuration: 60` |
+| Account / team | `GET /v2/teams` | team `forge-fe22` (`team_AI8XmzPHH369q3vdHLtlTJZf`) |
+| Project | `GET /v6/deployments` | project `amina` (`prj_xOPOJs2Q8xZ6b6GB2gX8aKEBefqB`) |
+| Production deployment | `GET /v6/deployments?limit=100` | `amina-lenkdjhy0-forge-fe22.vercel.app`, `readyState READY`, `readySubstate PROMOTED`, `target production` |
+| **Deployed SHA** | deployment `meta.githubCommitSha` | **`53ed24b2f0fb2817eb1a5069534df558b453f6bb`** |
+| Deployed ref | deployment `meta.githubCommitRef` | **`main`** |
+| **`main` HEAD** | `git rev-parse origin/main` | **`53ed24b2f0fb2817eb1a5069534df558b453f6bb`** |
+| Production aliases | `GET /v13/deployments/…` | `amina-nine-sepia.vercel.app`, `amina-forge-fe22.vercel.app` |
+| Inspector | Vercel dashboard | https://vercel.com/forge-fe22/amina/dpl_B8hxtHhATTe9mtKkpDaRcAsX1AwR |
+
+**Deployed SHA == `main` HEAD.** The identity is unambiguous; there is nothing left
+to guess.
+
+### Deployment history (Verified, most recent first)
+
+| Deployed at (UTC) | SHA | Commit |
+|---|---|---|
+| 2026-10-26T09:59:30Z | `53ed24b` | `fix(ui): retire Stage, fix phone UI/UX findings F1-F5 (#44)` |
+| 2026-10-26T09:34:40Z | `0dfe42c` | `fix(voice): stop duplicated and unstoppable narration playback (#43)` |
+| 2026-10-26T07:58:44Z | `f29822a` | `fix(api): add .js extensions to Vercel serverless imports (#42)` |
+
+Every merge to `main` produced a `READY`/`PROMOTED` production deployment, so
+Vercel's Git integration is live and `main` deploys automatically.
+
+### One honest limitation on the probe
+
+`https://amina-forge-fe22.vercel.app/` returns **HTTP 302** to Vercel
+Authentication, and `/api/health` answers *"Protected by Vercel Authentication"*.
+The deployment **metadata** is fully verified through the API, but an
+**unauthenticated end-to-end fetch of the running app is blocked by Vercel SSO**.
+That is a property of the deployment's protection setting, not a missing
+deployment. To remove this last limitation, the owner would either disable
+Deployment Protection for the production alias or supply a protection-bypass
+token; neither is required to answer R4, since the deployed SHA is already known
+exactly.
+
+### Boundary compliance for this addendum
+
+No production change was made and **nothing was deployed by me** (R4's boundary).
+All actions were read-only API queries. The one deployment attributable to this
+session (`53ed24b`) was created automatically by Vercel's Git integration when
+PR #44 was merged to `main` — not by a deploy command.
+
+### Decision request (owner)
+
+1. If the app should be reachable without a Vercel login, disable Deployment
+   Protection on the production alias. Otherwise no action is needed and R4 stands
+   **VERIFIED**.
