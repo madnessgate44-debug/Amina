@@ -139,11 +139,11 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
             <div>
               <h3 className="text-sm font-black text-white flex items-center gap-1.5">
                 <span>{title || (isAr ? 'مناهج وكتب الصف الخامس الابتدائي' : 'Grade 5 Curriculum & Books')}</span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-amber-400 text-slate-950">
+                <span className="px-2 py-0.5 rounded-full text-xs font-bold bg-amber-400 text-slate-950">
                   {isAr ? 'المنهج الرسمي' : 'Official'}
                 </span>
               </h3>
-              <p className="text-[11px] text-indigo-200">
+              <p className="text-xs text-indigo-200">
                 {isAr ? `اختاري المادة والدرس الذي تريدين دراسته يا ${studentName}` : `Choose a subject and lesson to study, ${studentName}`}
               </p>
             </div>
@@ -152,7 +152,7 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
           <button
             type="button"
             onClick={onClose}
-            className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-white/10 hover:bg-white/20 text-white transition-all cursor-pointer"
             aria-label="Close"
           >
             <X className="w-5 h-5" />
@@ -198,7 +198,7 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
                   key={sub.subjectId}
                   type="button"
                   onClick={() => setSelectedSubjectId(sub.subjectId)}
-                  className={`px-3 py-1.5 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
+                  className={`min-h-[44px] px-3 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
                     isSelected
                       ? 'bg-indigo-600 text-white shadow-sm'
                       : 'bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200'
@@ -207,7 +207,7 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
                   <span>{meta.icon}</span>
                   <span>{isAr ? sub.subjectNameAr : sub.subjectNameEn}</span>
                   <span
-                    className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                    className={`text-xs px-1.5 py-0.2 rounded-full font-mono ${
                       isSelected
                         ? 'bg-white/20 text-white'
                         : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-400'
@@ -264,13 +264,13 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
                           {isAr ? activeSub.bookTitleAr : activeSub.bookTitleEn}
                         </h4>
                       </div>
-                      <p className="text-[10px] text-white/80">
+                      <p className="text-xs text-white/80">
                         {isAr
                           ? `كتاب الوزارة المعتمد • الصف الخامس • ${activeSub.availableLessons} درساً رسمياً`
                           : `Ministry Textbook • Grade 5 • ${activeSub.availableLessons} official lessons`}
                       </p>
                     </div>
-                    <span className="px-2.5 py-1 rounded-xl bg-white/20 backdrop-blur-xs text-[10px] font-black">
+                    <span className="px-2.5 py-1 rounded-xl bg-white/20 backdrop-blur-xs text-xs font-black">
                       {isAr ? 'الترم الأول' : 'Term 1'}
                     </span>
                   </div>
@@ -305,13 +305,13 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
 
         {/* Footer */}
         <div className="p-3 bg-slate-50 dark:bg-slate-800/80 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs shrink-0">
-          <span className="text-[11px] font-bold text-slate-500">
+          <span className="text-xs font-bold text-slate-500">
             {isAr ? 'مناهج وزارة التربية والتعليم المصرية — موثقة بالكامل' : 'Egyptian Ministry of Education — Fully Verified'}
           </span>
           <button
             type="button"
             onClick={onClose}
-            className="px-3.5 py-1.5 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold hover:bg-slate-300 cursor-pointer"
+            className="min-h-[44px] px-3.5 rounded-xl bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-slate-200 font-bold hover:bg-slate-300 cursor-pointer"
           >
             {isAr ? 'إغلاق' : 'Close'}
           </button>
@@ -337,11 +337,11 @@ const LessonCard: React.FC<{
             <span className="text-xs font-black text-slate-900 dark:text-slate-100 group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
               {isAr ? lesson.titleAr : lesson.titleEn}
             </span>
-            <span className="text-[9px] font-bold px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
+            <span className="text-xs font-bold px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300">
               {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
             </span>
           </div>
-          <p className="text-[10px] text-slate-500 dark:text-slate-400 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
             {isAr ? lesson.unitNameAr : lesson.unitNameEn}
           </p>
         </div>
@@ -352,7 +352,7 @@ const LessonCard: React.FC<{
             e.stopPropagation();
             onSelect();
           }}
-          className="py-1 px-2.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 group-hover:bg-indigo-600 group-hover:text-white font-black text-[10px] transition-all shrink-0 flex items-center gap-1"
+          className="min-h-[44px] px-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 group-hover:bg-indigo-600 group-hover:text-white font-black text-xs transition-all shrink-0 flex items-center gap-1"
         >
           <span>{isAr ? 'اختر هذا الدرس' : 'Select'}</span>
           <ChevronLeft className="w-3 h-3 rtl:block ltr:hidden" />
@@ -362,7 +362,7 @@ const LessonCard: React.FC<{
 
       {/* Objectives / Summary Snippet */}
       {lesson.objectives && lesson.objectives.length > 0 && (
-        <p className="text-[10px] text-slate-600 dark:text-slate-400 line-clamp-1 bg-slate-50 dark:bg-slate-900/60 p-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
+        <p className="text-xs text-slate-600 dark:text-slate-400 line-clamp-1 bg-slate-50 dark:bg-slate-900/60 p-1.5 rounded-lg border border-slate-100 dark:border-slate-800">
           🎯 {lesson.objectives[0]}
         </p>
       )}
@@ -373,7 +373,7 @@ const LessonCard: React.FC<{
           {lesson.vocabulary.slice(0, 3).map((v, i) => (
             <span
               key={i}
-              className="text-[9px] font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700/50 px-1.5 py-0.5 rounded-md"
+              className="text-xs font-semibold text-slate-500 dark:text-slate-400 bg-slate-100 dark:bg-slate-700/50 px-1.5 py-0.5 rounded-md"
             >
               {v.word}
             </span>

@@ -33,7 +33,7 @@ export const BottomNav: React.FC = () => {
               className={`flex flex-col items-center justify-center py-2 rounded-2xl transition-all cursor-pointer ${isActive ? 'text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60' : 'text-slate-500 dark:text-slate-400'}`}
             >
               {item.icon}
-              <span className="text-[10px] font-black tracking-tight mt-1">{item.label}</span>
+              <span className="text-xs font-black tracking-tight mt-1">{item.label}</span>
             </button>
           );
         })}

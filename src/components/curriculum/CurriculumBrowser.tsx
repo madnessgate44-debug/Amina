@@ -160,7 +160,7 @@ export const CurriculumBrowser: React.FC = () => {
                 <h2 className="text-base font-black text-white">
                   {isAr ? 'مدرستي — الكتب والمناهج' : isFr ? 'Mon École — Manuels' : 'My School — Books'}
                 </h2>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-400 text-slate-950 shadow-xs">
+                <span className="px-2 py-0.5 rounded-full text-xs font-black bg-emerald-400 text-slate-950 shadow-xs">
                   {isAr ? 'المنهج المعتمد 🇪🇬' : 'Official Curriculum'}
                 </span>
               </div>
@@ -260,28 +260,28 @@ export const CurriculumBrowser: React.FC = () => {
                     <span className="text-2xl group-hover:scale-110 transition-transform">
                       {b.icon}
                     </span>
-                    <span className="text-[9px] font-black px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-xs">
+                    <span className="text-xs font-black px-1.5 py-0.5 rounded-full bg-white/20 backdrop-blur-xs">
                       {b.termLabel}
                     </span>
                   </div>
                   <h3 className="text-xs font-black leading-tight pt-1">
                     {isAr ? b.subjectNameAr : isFr && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                   </h3>
-                  <p className="text-[9px] text-white/80 line-clamp-1">
+                  <p className="text-xs text-white/80 line-clamp-1">
                     {isAr ? b.bookTitleAr : isFr && b.bookTitleFr ? b.bookTitleFr : b.bookTitleEn}
                   </p>
                 </div>
 
                 {/* Book Meta & Action */}
                 <div className="p-2.5 text-xs space-y-2">
-                  <div className="flex items-center justify-between text-[10px] text-slate-500 dark:text-slate-400">
+                  <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
                     <span>{b.totalLessons} {isAr ? 'دروس مسجلة' : 'Lessons'}</span>
                     <span className="font-bold text-emerald-600 dark:text-emerald-400">
                       {b.availableLessons} {isAr ? 'متاح للدراسة' : 'Available'}
                     </span>
                   </div>
 
-                  <div className="pt-2 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-[11px] font-bold text-indigo-600 dark:text-indigo-400">
+                  <div className="pt-2 border-t border-slate-100 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-indigo-600 dark:text-indigo-400">
                     <span>{isAr ? 'افتحي الكتاب 📖' : 'Open Book 📖'}</span>
                     <span>←</span>
                   </div>
@@ -308,10 +308,10 @@ export const CurriculumBrowser: React.FC = () => {
               </button>
 
               <div className="flex items-center gap-1.5">
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-white/20 text-white">
+                <span className="px-2 py-0.5 rounded-full text-xs font-black bg-white/20 text-white">
                   {selectedBookForDetail.termLabel}
                 </span>
-                <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-emerald-400 text-slate-950">
+                <span className="px-2 py-0.5 rounded-full text-xs font-black bg-emerald-400 text-slate-950">
                   {isAr ? 'كتاب رسمي معتمد' : 'Official Ministry Book'}
                 </span>
               </div>
@@ -348,7 +348,7 @@ export const CurriculumBrowser: React.FC = () => {
                         {isAr ? u.unitNameAr : isFr && u.unitNameFr ? u.unitNameFr : u.unitNameEn}
                       </h4>
                     </div>
-                    <span className="text-[10px] text-slate-400 font-bold">
+                    <span className="text-xs text-slate-400 font-bold">
                       {u.lessons.length} {isAr ? 'دروس' : 'lessons'}
                     </span>
                   </div>
@@ -367,15 +367,15 @@ export const CurriculumBrowser: React.FC = () => {
                           <div className="flex items-start justify-between gap-2">
                             <div className="flex-1 space-y-0.5">
                               <div className="flex items-center gap-1.5 flex-wrap">
-                                <span className="text-[10px] font-bold px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                                <span className="text-xs font-bold px-1.5 py-0.2 rounded bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
                                   {isAr ? `الدرس ${lesson.lessonNumber}` : `Lesson ${lesson.lessonNumber}`}
                                 </span>
                                 {lesson.contentStatus === 'pending_materials' ? (
-                                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-amber-50 text-amber-800 border border-amber-200">
+                                  <span className="text-xs font-bold px-1.5 py-0.2 rounded bg-amber-50 text-amber-800 border border-amber-200">
                                     ⏳ {isAr ? 'قيد رفع مواد الوزارة' : 'Materials Pending'}
                                   </span>
                                 ) : (
-                                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
+                                  <span className="text-xs font-bold px-1.5 py-0.2 rounded bg-emerald-50 text-emerald-800 border border-emerald-200">
                                     ✓ {isAr ? 'كامل التمارين والأهداف' : 'Complete'}
                                   </span>
                                 )}
@@ -384,7 +384,7 @@ export const CurriculumBrowser: React.FC = () => {
                               <h5 className="text-xs font-black text-slate-900 dark:text-slate-100 pt-0.5">
                                 {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
                               </h5>
-                              <p className="text-[10px] text-slate-400">
+                              <p className="text-xs text-slate-400">
                                 {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
                               </p>
                             </div>
@@ -413,11 +413,11 @@ export const CurriculumBrowser: React.FC = () => {
                             <div className="pt-2 border-t border-slate-100 dark:border-slate-700/60 space-y-3">
                               {/* Learning Objectives */}
                               {lesson.objectives && lesson.objectives.length > 0 && (
-                                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-750 text-[11px] space-y-1">
-                                  <span className="font-bold text-slate-700 dark:text-slate-300 block text-[10px]">
+                                <div className="p-2.5 rounded-xl bg-slate-50 dark:bg-slate-750 text-xs space-y-1">
+                                  <span className="font-bold text-slate-700 dark:text-slate-300 block text-xs">
                                     🎯 {isAr ? 'أهداف التعلم الوزارية:' : 'Learning Objectives:'}
                                   </span>
-                                  <ul className="list-disc list-inside space-y-0.5 text-slate-600 dark:text-slate-400 text-[10px]">
+                                  <ul className="list-disc list-inside space-y-0.5 text-slate-600 dark:text-slate-400 text-xs">
                                     {lesson.objectives.map((obj, oIdx) => (
                                       <li key={oIdx}>{obj}</li>
                                     ))}
@@ -427,11 +427,11 @@ export const CurriculumBrowser: React.FC = () => {
 
                               {/* Reading Text Preview if available */}
                               {lesson.readingText && (
-                                <div className="p-2.5 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 text-[11px] space-y-1 text-right rtl:text-right">
-                                  <span className="font-bold text-indigo-950 dark:text-indigo-200 block text-[10px]">
+                                <div className="p-2.5 rounded-xl bg-indigo-50/50 dark:bg-indigo-950/30 border border-indigo-100 dark:border-indigo-900/40 text-xs space-y-1 text-right rtl:text-right">
+                                  <span className="font-bold text-indigo-950 dark:text-indigo-200 block text-xs">
                                     📖 {isAr ? 'نص الدرس من كتاب الوزارة:' : 'Textbook Passage:'}
                                   </span>
-                                  <p className="text-[10px] text-slate-700 dark:text-slate-300 leading-relaxed line-clamp-3">
+                                  <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed line-clamp-3">
                                     {lesson.readingText}
                                   </p>
                                 </div>
@@ -440,7 +440,7 @@ export const CurriculumBrowser: React.FC = () => {
                               {/* Supplementary Learning Resources (Clearly marked as supplementary, NOT official) */}
                               {lesson.supplementaryResources && lesson.supplementaryResources.length > 0 && (
                                 <div className="p-2.5 rounded-xl bg-amber-50/60 dark:bg-amber-950/30 border border-amber-200/80 dark:border-amber-900/40 space-y-1.5">
-                                  <span className="text-[10px] font-bold text-amber-900 dark:text-amber-200 flex items-center gap-1">
+                                  <span className="text-xs font-bold text-amber-900 dark:text-amber-200 flex items-center gap-1">
                                     <span>📘</span>
                                     <span>{isAr ? 'مصادر خارجية داعمة (تمارين وإثراء):' : 'Supplementary Learning Resources:'}</span>
                                   </span>
@@ -448,7 +448,7 @@ export const CurriculumBrowser: React.FC = () => {
                                     {lesson.supplementaryResources.map((supp) => (
                                       <div
                                         key={supp.id}
-                                        className="flex items-center justify-between text-[10px] text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 p-1.5 rounded-lg border border-amber-100 dark:border-amber-900"
+                                        className="flex items-center justify-between text-xs text-slate-600 dark:text-slate-300 bg-white dark:bg-slate-800 p-1.5 rounded-lg border border-amber-100 dark:border-amber-900"
                                       >
                                         <div className="flex items-center gap-1.5">
                                           <Badge variant="demo">{supp.sourceType === 'al_adwaa' ? 'الأضواء' : 'سلاح التلميذ'}</Badge>
@@ -474,7 +474,7 @@ export const CurriculumBrowser: React.FC = () => {
                                     });
                                     setActiveTab('companion');
                                   }}
-                                  className="p-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-[10px] shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
+                                  className="p-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 text-slate-950 font-black text-xs shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
                                 >
                                   <span>👩‍🏫</span>
                                   <span>{isAr ? 'اشرحي لي يا مس نور' : 'Learn with Noor'}</span>
@@ -483,7 +483,7 @@ export const CurriculumBrowser: React.FC = () => {
                                 <button
                                   type="button"
                                   onClick={() => handleLaunchPracticeQuiz(lesson)}
-                                  className="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-[10px] shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
+                                  className="p-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-black text-xs shadow-xs flex items-center justify-center gap-1 transition-all cursor-pointer"
                                 >
                                   <span>🎯</span>
                                   <span>{isAr ? 'تدريبات واختبار' : 'Practice Quiz'}</span>
@@ -492,7 +492,7 @@ export const CurriculumBrowser: React.FC = () => {
                                 <button
                                   type="button"
                                   onClick={() => handleLaunchHomework(lesson)}
-                                  className="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-800 dark:text-slate-200 font-black text-[10px] border border-slate-200 dark:border-slate-600 flex items-center justify-center gap-1 transition-all cursor-pointer"
+                                  className="p-2 rounded-xl bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 text-slate-800 dark:text-slate-200 font-black text-xs border border-slate-200 dark:border-slate-600 flex items-center justify-center gap-1 transition-all cursor-pointer"
                                 >
                                   <span>✍️</span>
                                   <span>{isAr ? 'حل الواجب' : 'Homework'}</span>
@@ -559,10 +559,10 @@ export const CurriculumBrowser: React.FC = () => {
                 <div className="flex items-start justify-between gap-2">
                   <div className="flex-1 space-y-0.5">
                     <div className="flex items-center gap-1.5">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
+                      <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
                         {isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
                       </span>
-                      <span className="text-[10px] text-slate-400">
+                      <span className="text-xs text-slate-400">
                         {isAr ? `الوحدة ${lesson.unitNumber}` : `Unit ${lesson.unitNumber}`}
                       </span>
                     </div>
@@ -570,7 +570,7 @@ export const CurriculumBrowser: React.FC = () => {
                     <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 pt-0.5">
                       {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
                     </h4>
-                    <p className="text-[10px] text-slate-400">
+                    <p className="text-xs text-slate-400">
                       {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
                     </p>
                   </div>
@@ -596,7 +596,7 @@ export const CurriculumBrowser: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => setActiveTeachingLessonId(lesson.id)}
-                    className="px-2.5 py-1 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-[10px] font-black shadow-xs flex items-center gap-1"
+                    className="px-2.5 py-1 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 text-slate-950 text-xs font-black shadow-xs flex items-center gap-1"
                   >
                     <span>👩‍🏫 {isAr ? 'اشرحي يا مس نور' : 'Teach with Noor'}</span>
                   </button>

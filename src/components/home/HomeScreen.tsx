@@ -14,7 +14,6 @@ import { ConfirmedDayRecordCard } from '../dayRecord/ConfirmedDayRecordCard';
 import { WelcomeHomeCard } from '../dayRecord/WelcomeHomeCard';
 import { MissionRunnerModal } from '../missions/MissionRunnerModal';
 import { MissionList } from '../missions/MissionList';
-import { StageModal } from '../stage/StageModal';
 import { DailyReviewModal } from './DailyReviewModal';
 import { Badge } from '../common/Badge';
 import { getEffectiveTimeOfDay, localTimeStr } from '../../utils/time';
@@ -78,9 +77,6 @@ export const HomeScreen: React.FC = () => {
   const [showReconstructionModal, setShowReconstructionModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
   const [selectedDuration, setSelectedDuration] = useState<number>(45);
-  const [isStageOpen, setIsStageOpen] = useState(false);
-  const defaultStageLessonId = curriculumService.getAvailableLessons()[0]?.id || curriculumService.getAllLessons()[0]?.id || '';
-  const [activeStageLessonId, setActiveStageLessonId] = useState<string>(defaultStageLessonId);
 
   const studentName = student?.name || '';
   const gradeLabel = student?.grade || (isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary 🇪🇬');
@@ -125,7 +121,7 @@ export const HomeScreen: React.FC = () => {
               <span className="text-xs bg-white/20 backdrop-blur-xs px-2.5 py-0.5 rounded-full font-bold">
                 {t.app.title}
               </span>
-              <span className="text-[10px] font-black px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 shadow-xs">
+              <span className="text-xs font-black px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 shadow-xs">
                 {gradeLabel}
               </span>
             </div>
@@ -192,7 +188,7 @@ export const HomeScreen: React.FC = () => {
               <Calendar className="w-4 h-4" />
             </span>
             <div className="min-w-0 flex-1">
-              <div className="text-[11px] font-black text-slate-500 dark:text-slate-400">
+              <div className="text-xs font-black text-slate-500 dark:text-slate-400">
                 {isArabic ? 'امتحان قريب' : isFrench ? 'Examen à venir' : 'Upcoming exam'}
               </div>
               <div className="text-sm font-black text-slate-900 dark:text-slate-100 truncate">
@@ -201,7 +197,7 @@ export const HomeScreen: React.FC = () => {
             </div>
             <div className="text-end shrink-0">
               <div className="text-xl font-black text-rose-600 dark:text-rose-400 leading-none">{nextExam.daysUntil}</div>
-              <div className="text-[10px] font-bold text-slate-500">
+              <div className="text-xs font-bold text-slate-500">
                 {nextExam.daysUntil === 0
                   ? (isArabic ? 'النهاردة' : isFrench ? "aujourd'hui" : 'today')
                   : nextExam.daysUntil === 1
@@ -232,7 +228,7 @@ export const HomeScreen: React.FC = () => {
                   <NourCharacter state="excited" outfit="arabic" size="sm" />
                 </div>
                 <div>
-                  <span className="text-[10px] font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-950 text-white">
+                  <span className="text-xs font-black uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-950 text-white">
                     {isArabic ? 'الخطوة الأولى والأهم' : isFrench ? 'Action prioritaire' : 'Top Priority Action'}
                   </span>
                   <h2 className="text-base sm:text-lg font-black text-slate-950 mt-1">
@@ -250,7 +246,7 @@ export const HomeScreen: React.FC = () => {
               </p>
             </div>
 
-            <p className="text-[11px] text-slate-950/80 font-medium">
+            <p className="text-xs text-slate-950/80 font-medium">
               💡 {isArabic ? 'السبب: عشان أفهم يومك وأجهز لك خطة مذاكرة ذكية مخصصة ليكي توفر وقتك.' : 'Why: So I can build your personalized study plan and save your time.'}
             </p>
 
@@ -273,18 +269,18 @@ export const HomeScreen: React.FC = () => {
 
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-amber-400 text-slate-950 shadow-xs">
+                <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-400 text-slate-950 shadow-xs">
                   {nextPendingMission.type === 'homework'
                     ? (isArabic ? '✍️ واجب اليوم' : isFrench ? '✍️ Devoirs du jour' : "✍️ Today's homework")
                     : nextPendingMission.type === 'understand_lesson'
                     ? (isArabic ? '👩‍🏫 شرح درس' : isFrench ? '👩‍🏫 Explication de leçon' : '👩‍🏫 Lesson explanation')
                     : (isArabic ? '🎯 تطبيق وتدريب' : isFrench ? '🎯 Pratique et entraînement' : '🎯 Practice and drill')}
                 </span>
-                <span className="text-[10px] font-bold text-indigo-200">
+                <span className="text-xs font-bold text-indigo-200">
                   {nextPendingMission.subject}
                 </span>
               </div>
-              <div className="flex items-center gap-1 text-[11px] font-bold text-amber-300">
+              <div className="flex items-center gap-1 text-xs font-bold text-amber-300">
                 <Clock className="w-3.5 h-3.5" />
                 <span>{nextPendingMission.estimatedMinutes} {isArabic ? 'دقيقة' : 'min'}</span>
               </div>
@@ -299,7 +295,7 @@ export const HomeScreen: React.FC = () => {
                 <h3 className="text-sm sm:text-base font-black text-white leading-tight">
                   {nextPendingMission.title}
                 </h3>
-                <p className="text-[11px] text-indigo-200 leading-snug">
+                <p className="text-xs text-indigo-200 leading-snug">
                   {nextPendingMission.whyNow ? (
                     <span>💡 {isArabic ? 'لماذا الآن؟ ' : 'Why now? '}{nextPendingMission.whyNow}</span>
                   ) : (
@@ -413,7 +409,7 @@ export const HomeScreen: React.FC = () => {
 
           <button
             onClick={() => regenerateMissionsForToday(selectedDuration)}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-all"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-all"
             title={isArabic ? 'إعادة جدولة المهام' : 'Re-plan missions'}
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -436,7 +432,7 @@ export const HomeScreen: React.FC = () => {
               <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
                 {isArabic ? 'مدرستي — كتبي المدرسية' : isFrench ? 'Mon école — Manuels' : 'My School — Textbooks'}
               </h3>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-xs text-slate-400">
                 {isArabic ? 'جميع كتب وزارة التربية والتعليم الرسمية والداعمة' : 'All official & supplementary curriculum books'}
               </p>
             </div>
@@ -445,7 +441,7 @@ export const HomeScreen: React.FC = () => {
           <button
             type="button"
             onClick={() => setActiveTab('learn')}
-            className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
+            className="min-h-[44px] px-1 text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline flex items-center gap-1"
           >
             <span>{isArabic ? 'تصفح الرف كاملاً' : 'View Shelf'}</span>
             <span>←</span>
@@ -463,19 +459,19 @@ export const HomeScreen: React.FC = () => {
               <div className="space-y-1">
                 <div className="flex items-center justify-between">
                   <span className="text-2xl group-hover:scale-110 transition-transform">{b.icon}</span>
-                  <span className="text-[9px] font-bold px-1.5 py-0.2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-2xs">
+                  <span className="text-xs font-bold px-1.5 py-0.2 rounded-full bg-white dark:bg-slate-800 text-slate-600 dark:text-slate-300 shadow-2xs">
                     {b.availableLessons} {isArabic ? 'دروس' : isFrench ? 'leçons' : 'lessons'}
                   </span>
                 </div>
                 <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 truncate pt-1">
                   {isArabic ? b.subjectNameAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                 </h4>
-                <p className="text-[9px] text-slate-400 truncate">
+                <p className="text-xs text-slate-400 truncate">
                   {isArabic ? b.bookTitleAr : isFrench && b.bookTitleFr ? b.bookTitleFr : b.bookTitleEn}
                 </p>
               </div>
 
-              <div className="pt-2 mt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-[10px] font-bold text-indigo-600 dark:text-indigo-400">
+              <div className="pt-2 mt-2 border-t border-slate-200/60 dark:border-slate-700/60 flex items-center justify-between text-xs font-bold text-indigo-600 dark:text-indigo-400">
                 <span>{isArabic ? 'افتحي الكتاب' : 'Open'}</span>
                 <span>←</span>
               </div>
@@ -510,8 +506,8 @@ export const HomeScreen: React.FC = () => {
             <Bot className="w-5 h-5 text-white" />
           </div>
           <div className="text-left rtl:text-right">
-            <span className="block font-black text-sm">{isArabic ? 'تحدثي مع المعلمة نور 👩‍🏫' : 'Talk with Miss Noor 👩‍🏫'}</span>
-            <span className="block text-[10px] text-indigo-100 font-normal mt-0.5">
+            <span className="block font-black text-sm">{isArabic ? 'تحدثي مع مس نور 👩‍🏫' : 'Talk with Miss Noor 👩‍🏫'}</span>
+            <span className="block text-xs text-indigo-100 font-normal mt-0.5">
               {isArabic ? 'اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت' : 'Ask her anything about lessons, voice or text'}
             </span>
           </div>
@@ -546,13 +542,6 @@ export const HomeScreen: React.FC = () => {
         <DailyReviewModal
           review={currentDailyReview}
           onClose={() => closeDailyReview()}
-        />
-      )}
-
-      {isStageOpen && (
-        <StageModal
-          lessonId={activeStageLessonId}
-          onClose={() => setIsStageOpen(false)}
         />
       )}
     </div>

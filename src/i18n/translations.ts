@@ -35,6 +35,7 @@ export const translations = {
       addressBoy: 'ولد',
       ageLabel: 'عندك كام سنة؟',
       next: 'التالي',
+      step1Hint: 'اكتب اسمك واختار بنت أو ولد وسنّك عشان نبدأ',
       speakHint: 'اضغط لتسمع',
 
       step2Title: 'أنا جاهزة أدرسك 📚',
@@ -344,6 +345,7 @@ export const translations = {
       addressBoy: 'Boy',
       ageLabel: 'How old are you?',
       next: 'Next',
+      step1Hint: 'Add your name, choose girl or boy, and pick your age to continue',
       speakHint: 'Tap to hear',
 
       step2Title: 'I am ready to teach you 📚',
@@ -653,6 +655,7 @@ export const translations = {
       addressBoy: 'Garçon',
       ageLabel: 'Quel âge as-tu ?',
       next: 'Suivant',
+      step1Hint: 'Ajoute ton nom, choisis fille ou garçon, et ton âge pour continuer',
       speakHint: 'Appuie pour écouter',
 
       step2Title: 'Je suis prête à t’enseigner 📚',

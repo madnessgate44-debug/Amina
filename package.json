@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "test": "npm run test:adaptive && npm run test:teaching && npm run test:integrity && npm run test:gate && npm run test:onboarding && npm run test:reels && npm run test:voice && npm run test:stagevoice && npm run test:feedsave && npm run test:mybooks && npm run test:exam && npm run test:branding && npm run test:appvoice && npm run test:payload && npm run test:vercelentry",
+    "test": "npm run test:adaptive && npm run test:teaching && npm run test:integrity && npm run test:gate && npm run test:onboarding && npm run test:reels && npm run test:voice && npm run test:stagevoice && npm run test:feedsave && npm run test:mybooks && npm run test:exam && npm run test:branding && npm run test:appvoice && npm run test:payload && npm run test:vercelentry && npm run test:phoneui",
     "test:adaptive": "tsx src/services/teacher/__tests__/adaptiveLoop.test.ts",
     "test:teaching": "tsx src/services/teaching/__tests__/teachingSession.test.ts",
     "test:integrity": "tsx src/services/__tests__/integritySourceOfTruth.test.ts",
@@ -26,6 +26,7 @@
     "test:payload": "tsx src/services/__tests__/payloadLimits.test.ts",
     "test:appvoice": "tsx src/services/__tests__/voiceAndQuestions.test.ts",
     "test:vercelentry": "tsx src/services/__tests__/vercelEntryResolution.test.ts",
+    "test:phoneui": "tsx src/services/__tests__/phoneUiAccessibility.test.ts",
     "test:stagevoice": "tsx src/services/__tests__/stageVoiceLifecycle.test.ts"
   },
   "dependencies": {

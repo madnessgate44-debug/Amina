@@ -10,7 +10,6 @@ import { NourState, SubjectOutfit } from '../../types/stage';
 import { voiceService } from '../../services/voice/voiceService';
 import { tutorSpeechService } from '../../services/voice/tutorSpeechService';
 import { soundEffects } from '../../services/sound/soundEffects';
-import { StageModal } from '../stage/StageModal';
 import { LessonStudyModal } from '../curriculum/LessonStudyModal';
 import {
   CurriculumSubjectPickerModal,
@@ -27,7 +26,6 @@ import {
   Star,
   BookOpen,
   Award,
-  Play,
   RotateCcw,
   CheckCircle2,
   XCircle,
@@ -331,7 +329,6 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
   // Modals
   const [isPickerOpen, setIsPickerOpen] = useState(false);
-  const [isFullStageOpen, setIsFullStageOpen] = useState(false);
   const [isStudyModalOpen, setIsStudyModalOpen] = useState(false);
 
   // Custom Ask / Interaction Input
@@ -824,7 +821,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const handleVoiceTest = () => {
     soundEffects.playPop();
     const testPhrase = isArabic
-      ? `صوت المعلمة نور يعمل بأعلى جودة يا ${studentName}! أنا جاهزة لشرح أي درس في كتب الوزارة!`
+      ? `صوت مس نور يعمل بأعلى جودة يا ${studentName}! أنا جاهزة لشرح أي درس في كتب الوزارة!`
       : isFrench
       ? `La voix de Maîtresse Noor fonctionne parfaitement, ${studentName}! Je suis prête à t'expliquer toute la leçon!`
       : `Miss Noor's voice is crystal clear, ${studentName}! I am ready to teach any lesson from your textbooks!`;
@@ -1023,13 +1020,13 @@ export const VirtualTeacherClassroom: React.FC = () => {
           <div>
             <div className="flex items-center gap-1.5">
               <h2 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
-                {isArabic ? 'فصل المعلمة نور' : isFrench ? 'Classe de Maîtresse Noor' : "Miss Noor's Classroom"}
+                {isArabic ? 'فصل مس نور' : isFrench ? 'Classe de Maîtresse Noor' : "Miss Noor's Classroom"}
               </h2>
-              <span className="px-1.5 py-0.2 rounded-md text-[9px] font-black bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
+              <span className="px-1.5 py-0.5 rounded-md text-xs font-black bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800">
                 {isArabic ? 'الصف الخامس' : 'Grade 5'}
               </span>
             </div>
-            <p className="text-[10px] text-slate-500 dark:text-slate-400">
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               {isArabic ? 'شرح ذكي • صوت حقيقي • كتاب الوزارة' : 'Smart Voice Tutor • Ministry Textbooks'}
             </p>
           </div>
@@ -1041,11 +1038,11 @@ export const VirtualTeacherClassroom: React.FC = () => {
           <button
             type="button"
             onClick={handleVoiceTest}
-            className="px-2 py-1 rounded-xl bg-linear-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-[10px] shadow-xs transition-all active:scale-95 flex items-center gap-1 cursor-pointer"
-            title={isArabic ? 'اختبار صوت المعلمة نور' : "Test Miss Noor's Voice"}
+            className="min-h-[44px] px-2.5 rounded-xl bg-linear-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white font-black text-xs shadow-xs transition-all active:scale-95 flex items-center gap-1 cursor-pointer"
+            title={isArabic ? 'اختبار صوت مس نور' : "Test Miss Noor's Voice"}
           >
             <Headphones className="w-3 h-3" />
-            <span className="hidden xs:inline">{isArabic ? 'صوت' : 'Audio'}</span>
+            <span>{isArabic ? 'صوت' : 'Audio'}</span>
           </button>
 
           {/* Star Jar */}
@@ -1061,7 +1058,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
           <button
             type="button"
             onClick={handleRingBell}
-            className="p-1.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 transition-all active:scale-95 cursor-pointer"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 transition-all active:scale-95 cursor-pointer"
             title={isArabic ? 'دق جرس الحصة 🔔' : 'Ring School Bell'}
           >
             <Bell className="w-3.5 h-3.5" />
@@ -1071,7 +1068,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
           <button
             type="button"
             onClick={handleToggleSound}
-            className={`p-1.5 rounded-xl transition-all cursor-pointer ${
+            className={`min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl transition-all cursor-pointer ${
               soundEnabled
                 ? 'bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200'
                 : 'bg-rose-100 dark:bg-rose-950 text-rose-600'
@@ -1089,7 +1086,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             {subjectMeta.icon}
           </span>
           <div className="min-w-0">
-            <span className="text-[9px] font-bold text-indigo-200 block truncate">
+            <span className="text-xs font-bold text-indigo-200 block truncate">
               {currentLesson.sourceRef.bookAr} • ص. {currentLesson.sourceRef.page || 1}
             </span>
             <h3 className="text-xs sm:text-sm font-black truncate">
@@ -1101,7 +1098,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
         <button
           type="button"
           onClick={() => setIsPickerOpen(true)}
-          className="shrink-0 py-1.5 px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[11px] shadow-xs transition-all active:scale-95 cursor-pointer flex items-center gap-1"
+          className="shrink-0 min-h-[44px] px-3 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-xs transition-all active:scale-95 cursor-pointer flex items-center gap-1"
         >
           <span>📚</span>
           <span>{isArabic ? 'تغيير الدرس' : isFrench ? 'Changer' : 'Switch'}</span>
@@ -1123,7 +1120,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             <div className="flex-1">
               <p className="text-xs sm:text-sm font-bold leading-relaxed">{teacherSpeech}</p>
               {isSpeaking && (
-                <div className="flex items-center gap-1.5 mt-1.5 text-[10px] text-indigo-600 dark:text-indigo-400 font-bold">
+                <div className="flex items-center gap-1.5 mt-1.5 text-xs text-indigo-600 dark:text-indigo-400 font-bold">
                   <span className="flex items-center gap-0.5">
                     <span className="w-1 h-2 bg-indigo-600 dark:bg-indigo-400 animate-pulse rounded-full" />
                     <span className="w-1 h-3.5 bg-indigo-600 dark:bg-indigo-400 animate-pulse delay-75 rounded-full" />
@@ -1147,7 +1144,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => speakText(teacherSpeech, 'talking')}
-                  className="p-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 transition-transform active:scale-95 cursor-pointer"
+                  className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl bg-indigo-50 hover:bg-indigo-100 dark:bg-slate-700 text-indigo-600 dark:text-indigo-300 transition-transform active:scale-95 cursor-pointer"
                   title={isArabic ? 'استمعي لمس نور مجدداً' : 'Replay Voice'}
                 >
                   <RotateCcw className="w-3.5 h-3.5" />
@@ -1176,21 +1173,21 @@ export const VirtualTeacherClassroom: React.FC = () => {
               />
               {/* Sound waves when speaking */}
               {isSpeaking && (
-                <div className="absolute -top-2 right-1 flex items-center gap-0.5 bg-amber-400 text-amber-950 px-2 py-0.5 rounded-full text-[9px] font-black shadow-xs animate-bounce">
+                <div className="absolute -top-2 right-1 flex items-center gap-0.5 bg-amber-400 text-amber-950 px-2 py-0.5 rounded-full text-xs font-black shadow-xs animate-bounce">
                   <span>صوت</span>
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-950 animate-ping" />
                 </div>
               )}
             </div>
-            <span className="text-[10px] font-black text-amber-300 mt-1 bg-black/50 px-2.5 py-0.5 rounded-full border border-amber-300/30">
-              {isArabic ? 'المعلمة نور 🌟' : 'Miss Noor 🌟'}
+            <span className="text-xs font-black text-amber-300 mt-1 bg-black/50 px-2.5 py-0.5 rounded-full border border-amber-300/30">
+              {isArabic ? 'مس نور 🌟' : 'Miss Noor 🌟'}
             </span>
           </div>
 
           {/* Interactive Pedagogical Chalkboard */}
           <div className="flex-1 bg-emerald-950/95 border-4 border-amber-800 rounded-2xl p-2.5 sm:p-3 shadow-inner text-emerald-100 flex flex-col justify-between min-h-[210px] relative overflow-hidden">
             {/* Wooden Chalkboard Frame Details */}
-            <div className="flex items-center justify-between border-b border-emerald-800/80 pb-1.5 mb-2 text-[10px] font-bold">
+            <div className="flex items-center justify-between border-b border-emerald-800/80 pb-1.5 mb-2 text-xs font-bold">
               <span className="text-amber-300 flex items-center gap-1 font-mono">
                 <span>📝 سبورة الدرس:</span>
                 <span className="truncate max-w-[130px]">{currentLesson.sourceRef.bookAr}</span>
@@ -1203,7 +1200,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               <h3 className="text-xs font-black text-amber-200">
                 «{isArabic ? currentLesson.titleAr : currentLesson.titleEn}»
               </h3>
-              <p className="text-[11px] text-emerald-200/90 leading-relaxed font-medium line-clamp-3">
+              <p className="text-xs text-emerald-200/90 leading-relaxed font-medium line-clamp-3">
                 {currentLesson.readingText
                   ? currentLesson.readingText.slice(0, 180) + '...'
                   : currentLesson.objectives[0] || 'درس مقرر من كتب وزارة التربية والتعليم المصرية.'}
@@ -1211,26 +1208,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </div>
 
             {/* Chalkboard Quick Action Buttons */}
-            <div className="grid grid-cols-2 gap-1.5 pt-2 mt-auto border-t border-emerald-800/60">
-              <button
-                type="button"
-                onClick={() => {
-                  soundEffects.playPop();
-                  setIsFullStageOpen(true);
-                }}
-                className="py-1.5 px-2 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-[11px] shadow-xs transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer"
-              >
-                <Play className="w-3 h-3 fill-current" />
-                <span>{isArabic ? 'المسرح الحي 🎭' : 'Live Stage 🎭'}</span>
-              </button>
-
+            <div className="grid grid-cols-1 gap-1.5 pt-2 mt-auto border-t border-emerald-800/60">
               <button
                 type="button"
                 onClick={() => {
                   soundEffects.playPop();
                   setIsStudyModalOpen(true);
                 }}
-                className="py-1.5 px-2 rounded-xl bg-white/20 hover:bg-white/30 text-white font-black text-[11px] border border-white/20 transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer"
+                className="min-h-[44px] px-2 rounded-xl bg-white/20 hover:bg-white/30 text-white font-black text-xs border border-white/20 transition-all flex items-center justify-center gap-1 active:scale-95 cursor-pointer"
               >
                 <BookOpen className="w-3 h-3" />
                 <span>{isArabic ? 'كتاب الوزارة 📖' : 'Textbook 📖'}</span>
@@ -1240,8 +1225,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
         </div>
 
         {/* Teacher Outfit Wardrobe Chips */}
-        <div className="mt-3 pt-2 border-t border-indigo-800/60 flex items-center justify-between text-[11px] text-indigo-200 flex-wrap gap-1">
-          <span className="flex items-center gap-1 font-bold text-amber-300 text-[10px]">
+        <div className="mt-3 pt-2 border-t border-indigo-800/60 flex items-center justify-between text-xs text-indigo-200 flex-wrap gap-1">
+          <span className="flex items-center gap-1 font-bold text-amber-300 text-xs">
             <Shirt className="w-3 h-3" />
             <span>{isArabic ? 'زي المعلمة:' : "Outfit:"}</span>
           </span>
@@ -1265,7 +1250,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     : `Switched outfit for ${outfit.label}! Ready, ${studentName}?`;
                   speakText(msg, 'excited');
                 }}
-                className={`px-2 py-0.5 rounded-lg text-[10px] font-bold transition-all cursor-pointer ${
+                className={`min-h-[44px] px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
                   currentOutfit === outfit.id
                     ? 'bg-amber-400 text-slate-950 shadow-xs'
                     : 'bg-white/10 hover:bg-white/20 text-indigo-100'
@@ -1303,7 +1288,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               }`}
             >
               <span className="text-base">{tab.icon}</span>
-              <span className="text-[9px] sm:text-[10px] leading-tight truncate">
+              <span className="text-xs sm:text-xs leading-tight truncate">
                 {isArabic ? tab.labelAr : tab.labelEn}
               </span>
             </button>
@@ -1324,7 +1309,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
                   {isArabic ? 'محطة التشخيص الاستكشافي' : 'Exploratory Diagnostic Station'}
                 </h3>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {isArabic
                     ? 'نفحص استيعابك أولاً لتحديد الأسلوب الأنسب للشرح'
                     : 'Diagnosing understanding before detailed explanation'}
@@ -1332,7 +1317,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               </div>
             </div>
 
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
               {teacherContext.targetLesson?.subjectNameAr}
             </span>
           </div>
@@ -1341,12 +1326,12 @@ export const VirtualTeacherClassroom: React.FC = () => {
           <div className="p-2.5 rounded-2xl bg-indigo-50/70 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 flex items-center justify-between gap-2 text-xs">
             <div className="flex items-center gap-2 min-w-0">
               <span className="text-base shrink-0">🏫</span>
-              <span className="text-[11px] font-bold text-indigo-950 dark:text-indigo-200 truncate">
+              <span className="text-xs font-bold text-indigo-950 dark:text-indigo-200 truncate">
                 {teacherContext.recommendedReason}
               </span>
             </div>
             {teacherContext.masteryState && (
-              <span className="shrink-0 px-2 py-0.5 rounded-full text-[10px] font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
+              <span className="shrink-0 px-2 py-0.5 rounded-full text-xs font-bold bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700">
                 {teacherContext.masteryState.compositeLabel}
               </span>
             )}
@@ -1355,7 +1340,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
           {/* Diagnostic Question Card */}
           <div className="space-y-3">
             <div className="p-3 rounded-2xl bg-amber-500/10 dark:bg-amber-950/30 border border-amber-300 dark:border-amber-800 space-y-1">
-              <span className="text-[10px] font-black text-amber-800 dark:text-amber-300 block">
+              <span className="text-xs font-black text-amber-800 dark:text-amber-300 block">
                 {isArabic ? 'سؤال استكشافي من مس نور:' : 'Diagnostic Question from Miss Noor:'}
               </span>
               <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
@@ -1417,7 +1402,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800 space-y-1.5">
                       <div className="flex items-center gap-1.5 text-xs font-black text-indigo-900 dark:text-indigo-200">
                         <Lightbulb className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
-                        <span>{isArabic ? 'تشخيص المعلمة نور الأولي 💡' : 'Miss Noor\'s Initial Diagnosis 💡'}</span>
+                        <span>{isArabic ? 'تشخيص مس نور الأولي 💡' : 'Miss Noor\'s Initial Diagnosis 💡'}</span>
                       </div>
                       <p className="text-xs text-indigo-900 dark:text-indigo-200 leading-relaxed font-medium">
                         {isArabic ? opt.diagnosisExplanationAr : isFrench ? opt.diagnosisExplanationFr : opt.diagnosisExplanationEn}
@@ -1459,7 +1444,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                   </div>
 
                   {studentThinkingInput && (
-                    <div className="p-2 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-amber-200 dark:border-amber-900 text-[11px] text-slate-700 dark:text-slate-300">
+                    <div className="p-2 rounded-xl bg-white/70 dark:bg-slate-800/70 border border-amber-200 dark:border-amber-900 text-xs text-slate-700 dark:text-slate-300">
                       <span className="font-bold text-amber-900 dark:text-amber-300">
                         {isArabic ? `طريقة تفكير ${studentName} المسجلة:` : `${studentName}'s reasoning:`}{' '}
                       </span>
@@ -1486,16 +1471,16 @@ export const VirtualTeacherClassroom: React.FC = () => {
                         <span>🔍</span>
                         <span>{isArabic ? 'تصنيف طريقة التفكير:' : 'Reasoning Classification:'}</span>
                       </span>
-                      <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-purple-200/80 dark:bg-purple-900 text-purple-950 dark:text-purple-100">
+                      <span className="px-2 py-0.5 rounded-full text-xs font-black bg-purple-200/80 dark:bg-purple-900 text-purple-950 dark:text-purple-100">
                         {getReasoningLabel(reasoningAnalysis.category, language)}
                       </span>
                     </div>
                     <p className="text-xs text-purple-900 dark:text-purple-200 leading-relaxed font-medium">
                       {isArabic ? reasoningAnalysis.explanationAr : reasoningAnalysis.explanationEn}
                     </p>
-                    <div className="pt-1 flex items-center gap-1.5 text-[11px] text-purple-800 dark:text-purple-300 font-bold">
+                    <div className="pt-1 flex items-center gap-1.5 text-xs text-purple-800 dark:text-purple-300 font-bold">
                       <span>🎯 {isArabic ? 'استراتيجية مس نور المقررة:' : 'Miss Noor\'s Chosen Strategy:'}</span>
-                      <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-black text-[10px]">
+                      <span className="px-2 py-0.5 rounded-full bg-indigo-600 text-white font-black text-xs">
                         {getStrategyLabel(chosenTeachingStrategy, language)}
                       </span>
                     </div>
@@ -1531,14 +1516,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
               <span className="font-bold text-indigo-900 dark:text-indigo-200 truncate">
                 {isArabic ? 'استراتيجية مس نور الموجهة:' : 'Miss Noor\'s Targeted Strategy:'}
               </span>
-              <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-indigo-600 text-white shrink-0">
+              <span className="px-2 py-0.5 rounded-full text-xs font-black bg-indigo-600 text-white shrink-0">
                 {getStrategyLabel(chosenTeachingStrategy, language)}
               </span>
             </div>
             <button
               type="button"
               onClick={() => setActiveStation('diagnostic')}
-              className="text-[10px] font-bold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0 cursor-pointer"
+              className="text-xs font-bold text-indigo-600 dark:text-indigo-400 hover:underline shrink-0 cursor-pointer"
             >
               {isArabic ? 'إعادة التشخيص 🩺' : 'Re-diagnose 🩺'}
             </button>
@@ -1557,7 +1542,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                   <button
                     type="button"
                     onClick={() => speakText(targeted.coreExplanationAr, 'talking')}
-                    className="px-2.5 py-1 rounded-xl bg-indigo-600 text-white font-bold text-[10px] flex items-center gap-1 shadow-xs cursor-pointer active:scale-95"
+                    className="px-2.5 py-1 rounded-xl bg-indigo-600 text-white font-bold text-xs flex items-center gap-1 shadow-xs cursor-pointer active:scale-95"
                   >
                     <Volume2 className="w-3.5 h-3.5" />
                     <span>{isArabic ? 'استمعي' : 'Listen'}</span>
@@ -1583,7 +1568,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
           })()}
 
           {/* Sub-tabs for the general textbook explanation: Hook Story | Core Blackboard | Real Analogy | Discussion */}
-          <div className="flex items-center gap-1 border-b border-slate-100 dark:border-slate-700 pb-2 overflow-x-auto text-[11px] font-bold">
+          <div className="flex items-center gap-1 border-b border-slate-100 dark:border-slate-700 pb-2 overflow-x-auto text-xs font-bold">
             {[
               { id: 'hook', labelAr: 'القصة والمقدمة 🌟', labelEn: 'The Hook 🌟' },
               { id: 'chalkboard', labelAr: 'الشرح والسبورة 📝', labelEn: 'Blackboard 📝' },
@@ -1618,7 +1603,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
           {/* 4 pedagogical quick-help action buttons for the learner */}
           <div className="space-y-1.5 pt-1">
-            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 block">
+            <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block">
               {isArabic ? '✨ اختاري ما يناسبكِ لتتعمقي أكثر مع مس نور:' : '✨ Ask Miss Noor to help you further:'}
             </span>
             <div className="grid grid-cols-2 gap-2">
@@ -1626,7 +1611,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 type="button"
                 disabled={customExplanationLoading}
                 onClick={() => handleRequestTutorMode('simplify')}
-                className="p-2 rounded-xl bg-slate-50 hover:bg-amber-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-[11px] font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+                className="p-2 rounded-xl bg-slate-50 hover:bg-amber-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
               >
                 <span>💡</span>
                 <span className="truncate">{isArabic ? 'مش فاهمة.. بسطيها لي!' : 'Simplify this for me!'}</span>
@@ -1636,7 +1621,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 type="button"
                 disabled={customExplanationLoading}
                 onClick={() => handleRequestTutorMode('real_world_analogy')}
-                className="p-2 rounded-xl bg-slate-50 hover:bg-emerald-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-[11px] font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+                className="p-2 rounded-xl bg-slate-50 hover:bg-emerald-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
               >
                 <span>🍕</span>
                 <span className="truncate">{isArabic ? 'مثال من حياتنا اليومية' : 'Everyday life example'}</span>
@@ -1646,7 +1631,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 type="button"
                 disabled={customExplanationLoading}
                 onClick={() => handleRequestTutorMode('core_concepts')}
-                className="p-2 rounded-xl bg-slate-50 hover:bg-indigo-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-[11px] font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+                className="p-2 rounded-xl bg-slate-50 hover:bg-indigo-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
               >
                 <span>📝</span>
                 <span className="truncate">{isArabic ? 'أهم سؤال في الامتحان' : 'Key exam question'}</span>
@@ -1656,7 +1641,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 type="button"
                 disabled={customExplanationLoading}
                 onClick={handleStartRecheck}
-                className="p-2 rounded-xl bg-slate-50 hover:bg-purple-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-[11px] font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
+                className="p-2 rounded-xl bg-slate-50 hover:bg-purple-50 dark:bg-slate-700/60 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-600 text-slate-800 dark:text-slate-200 text-xs font-bold text-right rtl:text-right ltr:text-left transition-all flex items-center gap-1.5 cursor-pointer active:scale-95"
               >
                 <span>🎯</span>
                 <span className="truncate">{isArabic ? 'التحقق بمثال جديد' : 'Re-Check Example'}</span>
@@ -1689,7 +1674,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
                   {isArabic ? 'محطة فحص الإتقان بمثال جديد' : 'Mastery Verification Station'}
                 </h3>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {isArabic
                     ? 'مثال تطبيقي جديد للتأكد من زوال اللبس وترسيخ المفهوم'
                     : 'Testing the same concept on a new example to verify understanding'}
@@ -1697,7 +1682,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               </div>
             </div>
 
-            <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
+            <span className="px-2.5 py-0.5 rounded-full text-xs font-black bg-indigo-100 dark:bg-indigo-950 text-indigo-900 dark:text-indigo-300">
               {teacherContext.targetLesson?.subjectNameAr}
             </span>
           </div>
@@ -1708,7 +1693,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             return (
               <div className="space-y-3">
                 <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-slate-750 border border-indigo-200 dark:border-slate-700 space-y-1">
-                  <span className="text-[10px] font-black text-indigo-700 dark:text-indigo-300 block">
+                  <span className="text-xs font-black text-indigo-700 dark:text-indigo-300 block">
                     {isArabic ? 'سؤال التحقق بمثال جديد من مس نور:' : 'Re-Check Question from Miss Noor:'}
                   </span>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
@@ -1817,7 +1802,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                                 ? (isArabic ? `ألف مبروك يا ${studentName}! تم إتقان المفهوم بنجاح 🌟` : `Congratulations ${studentName}! Concept Mastered 🌟`)
                                 : sessionOutcome === 'almost'
                                 ? (isArabic ? `قريبة جداً من الإتقان التام يا ${studentName}! ⭐` : `Almost Mastered ${studentName}! ⭐`)
-                                : (isArabic ? `قرار المعلمة نور التربوي لمتابعة التعلم 💡` : `Miss Noor's Pedagogical Decision 💡`)}
+                                : (isArabic ? `قرار مس نور التربوي لمتابعة التعلم 💡` : `Miss Noor's Pedagogical Decision 💡`)}
                             </h4>
                             <p className="text-xs text-slate-600 dark:text-slate-300 mt-1 leading-relaxed">
                               {sessionOutcomeRationale}
@@ -1825,7 +1810,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                           </div>
 
                           {/* Spaced Review Scheduler Indicator */}
-                          <div className="p-2 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-[11px] font-bold text-indigo-900 dark:text-indigo-200 flex items-center justify-center gap-1.5">
+                          <div className="p-2 rounded-xl bg-indigo-50/80 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-xs font-bold text-indigo-900 dark:text-indigo-200 flex items-center justify-center gap-1.5">
                             <span>📅</span>
                             <span>
                               {isArabic
@@ -1836,7 +1821,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
                           {/* Mission Complete Feedback */}
                           {missionDoneNotification && (
-                            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-[11px] font-bold text-emerald-800 dark:text-emerald-200 flex items-center justify-center gap-1.5">
+                            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-xs font-bold text-emerald-800 dark:text-emerald-200 flex items-center justify-center gap-1.5">
                               <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                               <span>{isArabic ? 'تم إنجاز المهمة اليومية وحصد نقاط الخبرة (XP) بنجاح!' : 'Daily mission completed & XP awarded!'}</span>
                             </div>
@@ -1847,7 +1832,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
                     {/* DYNAMIC NEXT ACTIONS ACCORDING TO REAL OUTCOME */}
                     <div className="space-y-2 pt-1">
-                      <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
+                      <span className="text-xs font-black text-slate-700 dark:text-slate-300 block">
                         {isArabic ? `🚀 الخطوة التالية المقررة ل${studentName}:` : `🚀 Next Recommended Action for ${studentName}:`}
                       </span>
 
@@ -1957,7 +1942,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
                   {isArabic ? 'فحص الاستيعاب وتحدي النجوم' : 'Comprehension Check & Stars'}
                 </h3>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {isQuizCompleted
                     ? (isArabic ? 'اكتمل فحص الاستيعاب بنجاح 🎯' : 'Check Completed Successfully 🎯')
                     : (isArabic
@@ -2001,7 +1986,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
                 {/* Mission Complete Feedback */}
                 {missionDoneNotification && (
-                  <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-[11px] font-bold text-indigo-800 dark:text-indigo-200 flex items-center justify-center gap-1.5">
+                  <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 text-xs font-bold text-indigo-800 dark:text-indigo-200 flex items-center justify-center gap-1.5">
                     <Sparkles className="w-3.5 h-3.5 text-amber-500" />
                     <span>{isArabic ? 'تم إنجاز المهمة اليومية وحصد نقاط الخبرة (XP) بنجاح!' : 'Daily mission completed & XP awarded!'}</span>
                   </div>
@@ -2010,7 +1995,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
               {/* NEXT ACTIONS ORCHESTRATION */}
               <div className="space-y-2 pt-1">
-                <span className="text-[11px] font-black text-slate-700 dark:text-slate-300 block">
+                <span className="text-xs font-black text-slate-700 dark:text-slate-300 block">
                   {isArabic ? `🚀 الخطوة التالية الموصى بها ل${studentName}:` : `🚀 Recommended Next Action for ${studentName}:`}
                 </span>
 
@@ -2076,7 +2061,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             quizQuestions[currentQuizIndex] && (
               <div className="space-y-3 pt-1">
                 <div className="p-3 rounded-2xl bg-indigo-50 dark:bg-slate-750 border border-indigo-100 dark:border-slate-700">
-                  <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 block mb-1">
+                  <span className="text-xs font-black text-indigo-600 dark:text-indigo-400 block mb-1">
                     {isArabic ? 'السؤال:' : 'Question:'}
                   </span>
                   <h4 className="text-xs sm:text-sm font-bold text-slate-900 dark:text-slate-100 leading-relaxed">
@@ -2221,7 +2206,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
                   {isArabic ? 'المفردات والمصطلحات الرسمية' : 'Textbook Vocabulary'}
                 </h3>
-                <p className="text-[10px] text-slate-500 dark:text-slate-400">
+                <p className="text-xs text-slate-500 dark:text-slate-400">
                   {isArabic ? 'اضغطي على أي بطاقة لتسمعي النطق والمعنى من مس نور' : 'Tap any card to hear pronunciation'}
                 </p>
               </div>
@@ -2261,7 +2246,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     <h4 className="text-xs font-black text-slate-900 dark:text-slate-100">
                       {card.word}
                     </h4>
-                    <p className="text-[10px] text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">
+                    <p className="text-xs text-slate-600 dark:text-slate-300 mt-0.5 leading-relaxed">
                       {isArabic ? card.meaningAr : isFrench ? card.meaningFr : card.meaningEn}
                     </p>
                   </div>
@@ -2279,16 +2264,16 @@ export const VirtualTeacherClassroom: React.FC = () => {
             <span className="text-xl">💬</span>
             <div>
               <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
-                {isArabic ? 'اسألي المعلمة نور عن أي شيء في الدرس' : 'Ask Miss Noor Anything'}
+                {isArabic ? 'اسألي مس نور عن أي شيء في الدرس' : 'Ask Miss Noor Anything'}
               </h3>
-              <p className="text-[10px] text-slate-500 dark:text-slate-400">
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 {isArabic ? 'اكتبي أو تحدثي بصوتك ومس نور ستجيبك بالشرح الصوتي!' : 'Type or speak your question aloud'}
               </p>
             </div>
           </div>
 
           {/* Quick Prompt Chips */}
-          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-[10px] font-bold">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 text-xs font-bold">
             {[
               isArabic ? 'مش فاهمة الفقرة الأولى' : "I don't understand the first paragraph",
               isArabic ? 'اشرحي لي بطريقة تانية' : 'Explain differently',
@@ -2350,14 +2335,6 @@ export const VirtualTeacherClassroom: React.FC = () => {
         onSelectLesson={handleSelectLesson}
         initialSubjectId={currentLesson.subjectId}
       />
-
-      {/* STAGE MODAL (THE STAGE LIVE INTERACTIVE EXPERIENCE) */}
-      {isFullStageOpen && (
-        <StageModal
-          lessonId={currentLesson.id}
-          onClose={() => setIsFullStageOpen(false)}
-        />
-      )}
 
       {/* LESSON STUDY TEXTBOOK MODAL */}
       {isStudyModalOpen && (

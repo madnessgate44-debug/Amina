@@ -10,7 +10,7 @@
  * quietly come back.
  */
 
-import { readFileSync, readdirSync, statSync } from 'fs';
+import { readFileSync, readdirSync, statSync, existsSync } from 'fs';
 import { join } from 'path';
 
 let passed = 0;
@@ -73,22 +73,16 @@ assert(
 );
 
 // --- 2. The two known defects stay fixed --------------------------------
-const tutorCheck = readFileSync(
+// The retired Stage ("Live Theater") carried the comprehension prompt. It has
+// been removed in favour of the feed, so assert the surface is really gone
+// rather than silently dropping the coverage.
+for (const retired of [
+  join(componentsRoot, 'stage', 'StageModal.tsx'),
+  join(componentsRoot, 'stage', 'StageSceneCanvas.tsx'),
   join(componentsRoot, 'stage', 'interactions', 'TutorExplanationCheck.tsx'),
-  'utf8'
-);
-assert(
-  tutorCheck.includes('${studentName}, do you feel like you understood this concept?'),
-  '2.1 the English comprehension prompt uses the learner\'s real name'
-);
-assert(
-  tutorCheck.includes('Is it clear now, ${studentName}?'),
-  '2.2 the English clarity prompt uses the learner\'s real name'
-);
-assert(
-  !/Amina/.test(tutorCheck.replace(/^\s*\*.*$/gm, '').replace(/\/\/.*$/gm, '')),
-  '2.3 the tutor check has no leftover hardcoded name'
-);
+]) {
+  assert(!existsSync(retired), `2.0 retired Stage file is gone: ${retired.replace(process.cwd() + '/', '')}`);
+}
 
 const classroom = readFileSync(
   join(componentsRoot, 'teacher', 'VirtualTeacherClassroom.tsx'),
