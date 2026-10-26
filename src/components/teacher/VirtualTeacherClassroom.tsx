@@ -3,12 +3,17 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { useApp } from '../../context/AppContext';
 import { NourCharacter } from '../stage/NourCharacter';
 import { NourState, SubjectOutfit } from '../../types/stage';
 import { voiceService } from '../../services/voice/voiceService';
 import { tutorSpeechService } from '../../services/voice/tutorSpeechService';
+import { buildTeachingNarration } from '../../services/voice/lessonNarration';
+import {
+  buildLessonExplanations,
+  buildLessonGreeting,
+} from '../../services/teaching/lessonExplanations';
 import { soundEffects } from '../../services/sound/soundEffects';
 import { LessonStudyModal } from '../curriculum/LessonStudyModal';
 import {
@@ -415,43 +420,17 @@ export const VirtualTeacherClassroom: React.FC = () => {
     ];
   }, [currentLesson]);
 
-  // Pre-generate rich default explanation segments for the active lesson
-  const currentLessonExplanations = useMemo(() => {
-    const title = isArabic ? currentLesson.titleAr : currentLesson.titleEn;
-    const book = isArabic ? currentLesson.sourceRef.bookAr : currentLesson.sourceRef.bookEn;
-    const textSnippet = currentLesson.readingText ? currentLesson.readingText.slice(0, 300) : currentLesson.objectives.join(' — ');
-
-    return {
-      hook:
-        dynamicExplanations[`${currentLesson.id}_hook`] ||
-        (isArabic
-          ? `عارفة يا ${studentName}، ورا درس «${title}» سر ممتع جداً! تخيلي لو واجهتي موقف في حياتك ومحتاجة تفهمي إزاي تتصرفي بذكاء؛ الدرس ده في ${book} بيعلمنا القاعدة الذهبية اللي هتخليكي متميزة وتفهمي اللي بيدور حواليكي بسهولة!`
-          : isFrench
-          ? `Sais-tu ${studentName}, derrière la leçon «${title}», il y a une énigme captivante! Ce chapitre du manuel ${book} nous montre concrètement comment observer et résoudre des défis avec brio!`
-          : `Did you know, ${studentName}, there is a fascinating secret behind "${title}"? This lesson from ${book} teaches us the golden principle to solve problems and understand our world with confidence!`),
-      chalkboard:
-        dynamicExplanations[`${currentLesson.id}_core`] ||
-        (isArabic
-          ? `بصي معايا على السبورة يا ${studentName}: المحور الأساسي لدرسنا هو: ${textSnippet}. أهم حاجة ترتبي أفكارك: قراءة نص الدرس بهدوء، فهم معنى الكلمات الجديدة، وتطبيق القاعدة خطوة بخطوة في تمارين الوزارة.`
-          : isFrench
-          ? `Regarde le tableau avec moi, ${studentName}: Le point central est: ${textSnippet}. L'essentiel est de lire posément et d'appliquer la règle méthodiquement dans les exercices du manuel.`
-          : `Look at the blackboard with me, ${studentName}: The core topic is: ${textSnippet}. The key is to break down the concept into simple steps and apply it to each practice exercise.`),
-      analogy:
-        dynamicExplanations[`${currentLesson.id}_analogy`] ||
-        (isArabic
-          ? `تعالي نشبه درس «${title}» بمثال من بيتنا ويومنا يا ${studentName}! تخيلي لو بنلعب لعبة تركيب مكعبات أو بنقسم حاجة حلوة مع أصحابنا؛ كل جزء لازم يتحط في مكانه بالظبط عشان الرسمة تطلع مظبوطة، وده بالظبط نفس منطق درس النهاردة!`
-          : isFrench
-          ? `Comparons «${title}» à la vie de tous les jours, ${studentName}! Comme lorsqu'on assemble des briques de jeu ou qu'on partage un goûter: chaque élément a sa place précise pour que tout fonctionne à merveille!`
-          : `Let's relate "${title}" to everyday life, ${studentName}! Just like fitting puzzle pieces together or sharing a favorite snack with friends, each step has its exact place so everything works smoothly!`),
-      discussion:
-        dynamicExplanations[`${currentLesson.id}_discussion`] ||
-        (isArabic
-          ? `يا ترى يا ${studentName}، لو سألتك: إيه أكتر فكرة لفتت نظرك في درس «${title}»؟ وإزاي نقدر نطبقها في حياتنا النهاردة؟ قولي لي رأيك بالصوت أو بالكتابة!`
-          : isFrench
-          ? `À ton avis ${studentName}, quel est le détail le plus marquant dans «${title}»? Dis-le-moi à haute voix ou écris-le!`
-          : `What do you think, ${studentName}: what was the most interesting part of "${title}"? Share your thought by voice or typing!`),
-    };
-  }, [currentLesson, isArabic, isFrench, studentName, dynamicExplanations]);
+  // Explanation segments for the active lesson (shared, unit-tested builder).
+  const currentLessonExplanations = useMemo(
+    () =>
+      buildLessonExplanations(currentLesson, {
+        isArabic,
+        isFrench,
+        studentName,
+        dynamicExplanations,
+      }),
+    [currentLesson, isArabic, isFrench, studentName, dynamicExplanations]
+  );
 
   // Speak Teacher text aloud using the Premier Gemini TTS pipeline
   const speakText = (text: string, state: NourState = 'talking') => {
@@ -475,8 +454,54 @@ export const VirtualTeacherClassroom: React.FC = () => {
     );
   };
 
+  const narrationToken = useRef(0);
+  const [isNarrating, setIsNarrating] = useState(false);
+
   const handleStopSpeaking = () => {
     voiceService.cancelSpeech();
+    narrationToken.current += 1;
+    setIsNarrating(false);
+    setIsSpeaking(false);
+    setNourState('idle');
+  };
+
+  // Speaking the whole explanation, one utterance at a time.
+  //
+  // The bubble only ever voiced its own one-line text, so the child met the quiz
+  // having heard nothing of the lesson body. This plays the explanation segments
+  // in teaching order. Each utterance is awaited so two voices never overlap, and
+  // a token guards against a newer action (cancel, new lesson, new question)
+  // being talked over by an older queue.
+  const speakLessonNarration = useCallback(
+    async (segments: { hook: string; chalkboard: string; analogy: string }) => {
+      const queue = buildTeachingNarration(segments);
+      if (queue.length === 0) return;
+
+      const token = ++narrationToken.current;
+      setIsNarrating(true);
+      setNourState('talking');
+
+      for (const chunk of queue) {
+        if (token !== narrationToken.current) break;
+        setTeacherSpeech(chunk);
+        setIsSpeaking(true);
+        await voiceService.speak(chunk, language);
+        if (token !== narrationToken.current) break;
+      }
+
+      if (token === narrationToken.current) {
+        setIsNarrating(false);
+        setIsSpeaking(false);
+        setNourState('idle');
+      }
+    },
+    [language]
+  );
+
+  const handleStopNarration = () => {
+    narrationToken.current += 1;
+    voiceService.cancelSpeech();
+    setIsNarrating(false);
     setIsSpeaking(false);
     setNourState('idle');
   };
@@ -508,15 +533,30 @@ export const VirtualTeacherClassroom: React.FC = () => {
     setSessionOutcomeRationale('');
     setSessionReviewInterval(7);
     setSessionEvidenceRecorded(false);
-    setActiveStation('diagnostic');
+    // Teaching comes before questioning. Opening on the diagnostic question made
+    // the child face a quiz before being taught anything; start on the lesson
+    // board so Miss Noor explains first, then the questions follow.
+    setActiveStation('chalkboard');
 
-    const greeting = isArabic
-      ? `أهلاً يا ${studentName}! فتحنا درس «${lesson.titleAr}» من ${lesson.sourceRef.bookAr}! أنا مستعدة لشرح كل فكرة وحل التمارين معاكي!`
-      : isFrench
-      ? `Bienvenue ${studentName}! Nous avons ouvert la leçon «${lesson.titleEn}». Prête à apprendre et réussir ensemble!`
-      : `Welcome ${studentName}! We opened "${lesson.titleEn}" from ${lesson.sourceRef.bookEn}! Let's master this lesson together!`;
+    // Build the explanation from the lesson being opened, not from state, which
+    // has not re-rendered yet. Then speak the greeting and the whole lesson body
+    // so the child is taught before any question is asked.
+    const lessonExplanations = buildLessonExplanations(lesson, {
+      isArabic,
+      isFrench,
+      studentName,
+      dynamicExplanations,
+    });
+    const greeting = buildLessonGreeting(lesson, { isArabic, isFrench, studentName });
 
-    speakText(greeting, 'excited');
+    void (async () => {
+      setTeacherSpeech(greeting);
+      setNourState('excited');
+      setIsSpeaking(true);
+      voiceService.unlockAudio();
+      await voiceService.speak(greeting, language);
+      await speakLessonNarration(lessonExplanations);
+    })();
   };
 
   // Diagnostic Question Selection (DIAGNOSE BEFORE TEACHING)
@@ -1266,8 +1306,8 @@ export const VirtualTeacherClassroom: React.FC = () => {
       {/* 4. MAIN CLASSROOM STATIONS SELECTOR TABS */}
       <div className="grid grid-cols-5 gap-1 p-1 bg-slate-200/80 dark:bg-slate-800/90 rounded-2xl">
         {[
-          { id: 'diagnostic', labelAr: '1. التشخيص', labelEn: '1. Diagnosis', icon: '🩺' },
-          { id: 'chalkboard', labelAr: '2. الشرح الموجه', labelEn: '2. Teaching', icon: '👩‍🏫' },
+          { id: 'chalkboard', labelAr: '1. الشرح الموجه', labelEn: '1. Teaching', icon: '👩‍🏫' },
+          { id: 'diagnostic', labelAr: '2. التشخيص', labelEn: '2. Diagnosis', icon: '🩺' },
           { id: 'recheck', labelAr: '3. فحص الإتقان', labelEn: '3. Re-Check', icon: '🎯' },
           { id: 'quiz', labelAr: '4. تمارين الوزارة', labelEn: '4. Exercises', icon: '⭐' },
           { id: 'ask', labelAr: '5. اسألي نور', labelEn: '5. Ask Noor', icon: '💬' },
@@ -1599,6 +1639,32 @@ export const VirtualTeacherClassroom: React.FC = () => {
             <p className="text-xs font-medium text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-wrap">
               {currentLessonExplanations[explanationSubTab]}
             </p>
+            {/* Replay the whole lesson in Miss Noor's voice: hook, board, analogy. */}
+            <div className="pt-1">
+              {isNarrating ? (
+                <button
+                  type="button"
+                  onClick={handleStopNarration}
+                  className="w-full min-h-[44px] py-2 px-3 rounded-xl bg-rose-100 hover:bg-rose-200 dark:bg-rose-950 text-rose-700 dark:text-rose-300 text-xs font-black flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                >
+                  <Square className="w-3.5 h-3.5 fill-current" />
+                  <span>{isArabic ? 'إيقاف الشرح' : 'Stop the explanation'}</span>
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => speakLessonNarration(currentLessonExplanations)}
+                  className="w-full min-h-[44px] py-2 px-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-black flex items-center justify-center gap-1.5 cursor-pointer active:scale-95"
+                >
+                  <Headphones className="w-3.5 h-3.5" />
+                  <span>
+                    {isArabic
+                      ? 'اسمعي شرح الدرس كله بصوت مس نور 🎧'
+                      : 'Listen to the whole lesson in Miss Noor\'s voice 🎧'}
+                  </span>
+                </button>
+              )}
+            </div>
           </div>
 
           {/* 4 pedagogical quick-help action buttons for the learner */}

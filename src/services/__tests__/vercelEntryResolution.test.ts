@@ -89,9 +89,12 @@ test('2.1 Node can actually load the emitted Vercel entry', () => {
   const outDir = mkdtempSync(path.join(repoRoot, '.tmp-vercel-entry-'));
   try {
     buildSync({
-      entryPoints: ['api/index.ts', 'server.ts', 'src/services/i18n/serverTutorVoice.ts'].map(
-        (f) => path.join(repoRoot, f)
-      ),
+      entryPoints: [
+        'api/index.ts',
+        'server.ts',
+        'src/services/i18n/serverTutorVoice.ts',
+        'src/services/voice/tutorVoice.ts',
+      ].map((f) => path.join(repoRoot, f)),
       outdir: outDir,
       outbase: repoRoot,
       platform: 'node',
