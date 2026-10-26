@@ -9,6 +9,7 @@ import {
   genderRuleLine,
   addressFormWord,
 } from './src/services/i18n/serverTutorVoice.js';
+import { tutorVoiceFor } from './src/services/voice/tutorVoice.js';
 
 dotenv.config();
 
@@ -307,7 +308,7 @@ app.post('/api/tts', async (req, res) => {
     }
 
     try {
-      const voiceName = langKey === 'ar' ? 'Puck' : langKey === 'fr' ? 'Kore' : 'Kore';
+      const voiceName = tutorVoiceFor(langKey);
       const response = await ai.models.generateContent({
         model: 'gemini-3.8-flash-lite-tts',
         contents: [
