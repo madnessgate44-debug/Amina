@@ -8,7 +8,7 @@ import {
   resolveStudentName,
   genderRuleLine,
   addressFormWord,
-} from './src/services/i18n/serverTutorVoice';
+} from './src/services/i18n/serverTutorVoice.js';
 
 dotenv.config();
 
