@@ -1,7 +1,7 @@
 {
   "mission": "Phone-viewport UI audit (miss-noor-design skill, step 1)",
   "baseURL": "http://127.0.0.1:12000",
-  "startedAt": "2026-10-26T07:20:56.974Z",
+  "startedAt": "2026-10-26T09:53:16.256Z",
   "viewport": {
     "width": 390,
     "height": 844,
@@ -17,7 +17,9 @@
       "title": "Miss Noor — AI School Companion",
       "dir": "rtl",
       "lang": "ar",
-      "headings": [],
+      "headings": [
+        "أهلاً! أنا مس نور 👩‍🏫"
+      ],
       "buttons": [
         "اضغط لتسمع",
         "العربية 🇪🇬",
@@ -35,7 +37,7 @@
       "overflowXPx": 0,
       "smallestTapPx": 44,
       "tinyText": [],
-      "bodyTextLength": 220
+      "bodyTextLength": 244
     },
     {
       "name": "02-onboarding-step2-books",
@@ -43,7 +45,9 @@
       "title": "Miss Noor — AI School Companion",
       "dir": "rtl",
       "lang": "ar",
-      "headings": [],
+      "headings": [
+        "أنا جاهزة أدرسك 📚"
+      ],
       "buttons": [
         "اضغط لتسمع",
         "رجوع",
@@ -53,7 +57,7 @@
       "overflowXPx": 0,
       "smallestTapPx": 44,
       "tinyText": [],
-      "bodyTextLength": 363
+      "bodyTextLength": 382
     },
     {
       "name": "03-onboarding-step3-quiz",
@@ -61,7 +65,9 @@
       "title": "Miss Noor — AI School Companion",
       "dir": "rtl",
       "lang": "ar",
-      "headings": [],
+      "headings": [
+        "أسئلة سريعة 🌟"
+      ],
       "buttons": [
         "اضغط لتسمع",
         "ليلة الإسراء والمعراج",
@@ -73,7 +79,7 @@
       "overflowXPx": 0,
       "smallestTapPx": 44,
       "tinyText": [],
-      "bodyTextLength": 133
+      "bodyTextLength": 148
     },
     {
       "name": "04-onboarding-step4-preferences",
@@ -81,7 +87,9 @@
       "title": "Miss Noor — AI School Companion",
       "dir": "rtl",
       "lang": "ar",
-      "headings": [],
+      "headings": [
+        "آخر حاجة 😊"
+      ],
       "buttons": [
         "اضغط لتسمع",
         "📖 اللغة العربية",
@@ -107,7 +115,7 @@
       "overflowXPx": 0,
       "smallestTapPx": 44,
       "tinyText": [],
-      "bodyTextLength": 443
+      "bodyTextLength": 455
     },
     {
       "name": "05-home",
@@ -123,7 +131,7 @@
       "buttons": [
         "حصة النهارده مع نور دقايق قليلة، درس واحد، وسؤال واحد بس",
         "تصفح الرف كاملاً ←",
-        "تحدثي مع المعلمة نور 👩‍🏫 اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت",
+        "تحدثي مع مس نور 👩‍🏫 اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت",
         "الرئيسية",
         "الموجز",
         "المكتبة",
@@ -136,18 +144,9 @@
         "نور"
       ],
       "overflowXPx": 0,
-      "smallestTapPx": 26,
-      "tinyText": [
-        "Learner QA",
-        "الصف الخامس الابتدائي (Grade 5)",
-        "جميع كتب وزارة التربية والتعليم الرسمية والداعمة",
-        "5 دروس",
-        "اللغة العربية — تواصل ص. 6-11",
-        "افتحي الكتاب",
-        "3 دروس",
-        "كتاب الوزارة للغة الفرنسية ص. 4-9"
-      ],
-      "bodyTextLength": 1384
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1379
     },
     {
       "name": "06-feed",
@@ -177,13 +176,8 @@
         "نور"
       ],
       "overflowXPx": 0,
-      "smallestTapPx": 26,
-      "tinyText": [
-        "Learner QA",
-        "الرئيسية",
-        "الموجز",
-        "المكتبة"
-      ],
+      "smallestTapPx": 44,
+      "tinyText": [],
       "bodyTextLength": 397
     },
     {
@@ -219,17 +213,8 @@
         "نور"
       ],
       "overflowXPx": 0,
-      "smallestTapPx": 40,
-      "tinyText": [
-        "Learner QA",
-        "المنهج المعتمد 🇪🇬",
-        "الفصل الدراسي الأول",
-        "اللغة العربية — تواصل ص. 6-11",
-        "5 دروس مسجلة",
-        "5 متاح للدراسة",
-        "افتحي الكتاب 📖",
-        "1er Semestre"
-      ],
+      "smallestTapPx": 44,
+      "tinyText": [],
       "bodyTextLength": 1344
     },
     {
@@ -239,14 +224,14 @@
       "dir": "rtl",
       "lang": "ar",
       "headings": [
-        "فصل المعلمة نور",
+        "فصل مس نور",
         "«قصة الاستماع: «أنا أستطيع»»",
         "«قصة الاستماع: «أنا أستطيع»»",
         "محطة التشخيص الاستكشافي"
       ],
       "buttons": [
+        "صوت",
         "📚 تغيير الدرس",
-        "المسرح الحي 🎭",
         "كتاب الوزارة 📖",
         "عربي 📜",
         "رياضيات 📐",
@@ -274,18 +259,9 @@
         "نور"
       ],
       "overflowXPx": 0,
-      "smallestTapPx": 19,
-      "tinyText": [
-        "Learner QA",
-        "الصف الخامس",
-        "شرح ذكي • صوت حقيقي • كتاب الوزارة",
-        "اللغة العربية — تواصل ص. 6-11 • ص. 6",
-        "تغيير الدرس",
-        "المعلمة نور 🌟",
-        "📝 سبورة الدرس:",
-        "اللغة العربية — تواصل ص. 6-11"
-      ],
-      "bodyTextLength": 1356
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1335
     },
     {
       "name": "09-lesson-start",
@@ -294,15 +270,15 @@
       "dir": "rtl",
       "lang": "ar",
       "headings": [
-        "فصل المعلمة نور",
+        "فصل مس نور",
         "«قصة الاستماع: «أنا أستطيع»»",
         "«قصة الاستماع: «أنا أستطيع»»",
         "محطة التشخيص الاستكشافي",
         "مناهج وكتب الصف الخامس الابتدائي المنهج الرسمي"
       ],
       "buttons": [
+        "صوت",
         "📚 تغيير الدرس",
-        "المسرح الحي 🎭",
         "كتاب الوزارة 📖",
         "عربي 📜",
         "رياضيات 📐",
@@ -345,18 +321,9 @@
         "نور"
       ],
       "overflowXPx": 0,
-      "smallestTapPx": 19,
-      "tinyText": [
-        "Learner QA",
-        "الصف الخامس",
-        "شرح ذكي • صوت حقيقي • كتاب الوزارة",
-        "اللغة العربية — تواصل ص. 6-11 • ص. 6",
-        "تغيير الدرس",
-        "المعلمة نور 🌟",
-        "📝 سبورة الدرس:",
-        "اللغة العربية — تواصل ص. 6-11"
-      ],
-      "bodyTextLength": 3008
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 2987
     },
     {
       "name": "10-home-fullpage",
@@ -365,15 +332,15 @@
       "dir": "rtl",
       "lang": "ar",
       "headings": [
-        "فصل المعلمة نور",
+        "فصل مس نور",
         "«قصة الاستماع: «أنا أستطيع»»",
         "«قصة الاستماع: «أنا أستطيع»»",
         "محطة التشخيص الاستكشافي",
         "مناهج وكتب الصف الخامس الابتدائي المنهج الرسمي"
       ],
       "buttons": [
+        "صوت",
         "📚 تغيير الدرس",
-        "المسرح الحي 🎭",
         "كتاب الوزارة 📖",
         "عربي 📜",
         "رياضيات 📐",
@@ -416,18 +383,9 @@
         "نور"
       ],
       "overflowXPx": 0,
-      "smallestTapPx": 19,
-      "tinyText": [
-        "Learner QA",
-        "الصف الخامس",
-        "شرح ذكي • صوت حقيقي • كتاب الوزارة",
-        "اللغة العربية — تواصل ص. 6-11 • ص. 6",
-        "تغيير الدرس",
-        "المعلمة نور 🌟",
-        "📝 سبورة الدرس:",
-        "اللغة العربية — تواصل ص. 6-11"
-      ],
-      "bodyTextLength": 3008,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 2987,
       "fullPage": true
     }
   ],
@@ -436,6 +394,6 @@
   "health": {
     "status": "ok",
     "hasApiKey": false,
-    "timestamp": "2026-10-26T07:20:57.347Z"
+    "timestamp": "2026-10-26T09:53:16.657Z"
   }
 }

@@ -31,7 +31,7 @@ export const ChildTopMenu: React.FC = () => {
         type="button"
         onClick={() => setOpen(true)}
         aria-label={isAr ? 'القائمة' : 'Menu'}
-        className="p-2.5 rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
+        className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-2xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200"
       >
         <Menu className="w-5 h-5" />
       </button>

@@ -53,6 +53,7 @@ export const OnboardingFlow: React.FC = () => {
   const [name, setName] = useState('');
   const [addressForm, setAddressForm] = useState<AddressForm | null>(null);
   const [age, setAge] = useState<number | null>(null);
+  const canContinueStep1 = Boolean(name.trim() && addressForm && age !== null);
 
   // Rebuild warm-up questions when the language changes so prompts follow it.
   const warmupQuestions = useMemo<WarmupQuestion[]>(
@@ -188,6 +189,15 @@ export const OnboardingFlow: React.FC = () => {
   return (
     <div className="flex flex-col min-h-[85vh] p-4 sm:p-6 max-w-lg mx-auto w-full">
       <div className="mb-5">
+        <h1 className="text-lg font-black text-slate-900 dark:text-slate-100 mb-2">
+          {step === 1
+            ? t.onboarding.step1Title
+            : step === 2
+            ? t.onboarding.step2Title
+            : step === 3
+            ? t.onboarding.step3Title
+            : t.onboarding.step4Title}
+        </h1>
         <div className="flex items-center justify-between text-xs font-medium text-slate-500 mb-2">
           <span>
             {isArabic ? `الخطوة ${step} من 4` : isFrench ? `Étape ${step} sur 4` : `Step ${step} of 4`}
@@ -302,15 +312,26 @@ export const OnboardingFlow: React.FC = () => {
             </div>
           </div>
 
-          <button
-            type="button"
-            disabled={!name.trim() || !addressForm || age === null}
-            onClick={() => setStep(2)}
-            className="w-full min-h-[48px] py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-base shadow-md flex items-center justify-center gap-2 transition-all"
-          >
-            <span>{t.onboarding.next}</span>
-            <FwdIcon className="w-4 h-4" />
-          </button>
+          <div className="space-y-2">
+            <button
+              type="button"
+              disabled={!canContinueStep1}
+              onClick={() => setStep(2)}
+              className="w-full min-h-[48px] py-3.5 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold text-base shadow-md flex items-center justify-center gap-2 transition-all"
+            >
+              <span>{t.onboarding.next}</span>
+              <FwdIcon className="w-4 h-4" />
+            </button>
+            {!canContinueStep1 && (
+              <p
+                role="status"
+                aria-live="polite"
+                className="text-center text-xs font-semibold text-slate-500 dark:text-slate-400"
+              >
+                {t.onboarding.step1Hint}
+              </p>
+            )}
+          </div>
         </div>
       )}
 

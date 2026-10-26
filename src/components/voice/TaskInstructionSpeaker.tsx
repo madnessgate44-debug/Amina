@@ -91,8 +91,8 @@ export const TaskInstructionSpeaker: React.FC<TaskInstructionSpeakerProps> = ({
                 ? 'bg-amber-400 text-amber-950 shadow-md animate-pulse'
                 : 'bg-indigo-600 hover:bg-indigo-700 text-white shadow-xs'
             }`}
-            title={isSpeaking ? (isAr ? 'إيقاف الصوت' : 'Stop Voice') : isAr ? 'استمعي لتعليمات المعلمة نور' : 'Listen to instructions'}
-            aria-label={isAr ? 'استمعي لتعليمات المعلمة نور' : 'Listen to instructions'}
+            title={isSpeaking ? (isAr ? 'إيقاف الصوت' : 'Stop Voice') : isAr ? 'استمعي لتعليمات مس نور' : 'Listen to instructions'}
+            aria-label={isAr ? 'استمعي لتعليمات مس نور' : 'Listen to instructions'}
           >
             <Volume2 className={`w-4 h-4 ${isSpeaking ? 'animate-bounce' : ''}`} />
           </button>
@@ -101,7 +101,7 @@ export const TaskInstructionSpeaker: React.FC<TaskInstructionSpeakerProps> = ({
             <div className="flex items-center gap-1.5 text-[11px] font-black">
               <span className="text-indigo-900 dark:text-indigo-200 flex items-center gap-1">
                 <span>👩‍🏫</span>
-                <span>{isAr ? 'تعليمات المعلمة نور:' : "Miss Noor's Instructions:"}</span>
+                <span>{isAr ? 'تعليمات مس نور:' : "Miss Noor's Instructions:"}</span>
               </span>
               {isSpeaking && (
                 <span className="text-[10px] bg-amber-400 text-amber-950 font-black px-2 py-0.2 rounded-full animate-pulse">

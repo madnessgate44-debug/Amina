@@ -9,7 +9,6 @@ import { Mission, TutorModality, TutorResponse } from '../../types';
 import { QuizRunner } from './QuizRunner';
 import { HomeworkRunner } from './HomeworkRunner';
 import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
-import { StageModal } from '../stage/StageModal';
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { advanceTutorEscalation, resetTutorState } from '../../services/tutor/tutorEngine';
 import { Badge } from '../common/Badge';
@@ -69,7 +68,9 @@ export const MissionRunnerModal: React.FC<MissionRunnerModalProps> = ({ mission,
     await skipMission(mission.id, 'User skipped from runner');
   };
 
-  // Sub-Phase 9.5: "understand_lesson" mission opens Teaching Session directly. The session IS the mission.
+  // Sub-Phase 9.5: "understand_lesson" missions previously opened the Teaching
+  // Stage. The Stage has been retired in favour of the feed, so these missions
+  // now route into the classroom, which owns the real teaching session.
   if (mission.type === 'understand_lesson') {
     if (!mission.lessonId || !curriculumService.getLessonById(mission.lessonId)) {
       return (
@@ -84,11 +85,17 @@ export const MissionRunnerModal: React.FC<MissionRunnerModalProps> = ({ mission,
     }
 
     return (
-      <StageModal
-        lessonId={mission.lessonId}
-        onClose={onClose}
-        onSessionComplete={() => handleCompleteMission(1.0)}
-      />
+      <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4">
+        <div className="w-full max-w-sm rounded-3xl bg-white dark:bg-slate-900 p-6 text-center space-y-3">
+          <h3 className="text-lg font-black">{isAr ? 'الدرس جاهز في الفصل' : 'Your lesson is ready in the classroom'}</h3>
+          <p className="text-xs text-slate-500">
+            {isAr
+              ? 'افتحي «نور» من الشريط السفلي لتكملي الدرس مع مس نور.'
+              : 'Open NOUR from the bottom bar to continue the lesson with Miss Noor.'}
+          </p>
+          <button type="button" onClick={onClose} className="px-4 py-2.5 rounded-xl bg-slate-900 text-white text-xs font-black">{isAr ? 'تمام' : 'Got it'}</button>
+        </div>
+      </div>
     );
   }
 

@@ -51,7 +51,10 @@ export const SaveLikeButton: React.FC<SaveLikeButtonProps> = ({
   };
 
   const iconClass = size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4';
-  const btnClass = size === 'sm' ? 'p-1.5 rounded-lg text-xs' : 'p-2 rounded-xl text-sm';
+  const btnClass =
+    size === 'sm'
+      ? 'min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-xs'
+      : 'min-h-[44px] min-w-[44px] flex items-center justify-center rounded-xl text-sm';
 
   return (
     <>

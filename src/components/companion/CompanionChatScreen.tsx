@@ -13,7 +13,6 @@ import { isEscalationTrigger, advanceTutorEscalation } from '../../services/tuto
 import { Badge } from '../common/Badge';
 import { DayRecordFlowModal } from '../dayRecord/DayRecordFlowModal';
 import { DailyReviewModal } from '../home/DailyReviewModal';
-import { StageModal } from '../stage/StageModal';
 import { VoiceInputControl } from '../voice/VoiceInputControl';
 import { VoiceSpeakButton } from '../voice/VoiceSpeakButton';
 import { costLatencyService } from '../../services/telemetry/costLatencyService';
@@ -175,7 +174,6 @@ export const CompanionChatScreen: React.FC = () => {
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showReconstructModal, setShowReconstructModal] = useState(false);
   const [showClearConfirmModal, setShowClearConfirmModal] = useState(false);
-  const [showStage, setShowStage] = useState(false);
 
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const flaggedRef = useRef<Set<string>>(new Set());
@@ -571,31 +569,6 @@ export const CompanionChatScreen: React.FC = () => {
         <span>{t.companion.systemRoleDescription}</span>
       </div>
 
-      {/* PHASE 11: Direct Link to The Stage with Nour */}
-      <div className="mx-3.5 my-2 p-3 rounded-2xl bg-linear-to-r from-indigo-950 via-indigo-900 to-purple-950 text-white flex items-center justify-between shadow-md border border-indigo-400/30">
-        <div className="space-y-0.5 text-right rtl:text-right ltr:text-left flex-1">
-          <div className="flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-amber-300" />
-            <span className="text-xs font-black">
-              {isArabic ? 'المسرح التفاعلي مع نور 🎭' : 'The Interactive Stage with Noor 🎭'}
-            </span>
-          </div>
-          <p className="text-[11px] text-indigo-200">
-            {isArabic
-              ? 'جرّبي تجربة المعلم الناطق والمتحرك بالصوت واللمس لدرس «لم أوت ماء النهر»!'
-              : 'Try the voice-first animated tutor lesson for "River Nile Oath"!'}
-          </p>
-        </div>
-
-        <button
-          type="button"
-          onClick={() => setShowStage(true)}
-          className="px-3.5 py-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-xs transition-all shrink-0 hover:scale-102 cursor-pointer"
-        >
-          {isArabic ? 'افتح المسرح 🎬' : 'Open Stage 🎬'}
-        </button>
-      </div>
-
       {/* Messages Scroll Area */}
       <div className="flex-1 overflow-y-auto p-3.5 space-y-3.5">
         {messages.map((msg) => {
@@ -718,14 +691,6 @@ export const CompanionChatScreen: React.FC = () => {
         <DailyReviewModal
           review={currentDailyReview}
           onClose={closeDailyReview}
-        />
-      )}
-
-      {/* PHASE 11: The Stage Modal */}
-      {showStage && (
-        <StageModal
-          lessonId="off_ar_u1_l2"
-          onClose={() => setShowStage(false)}
         />
       )}
     </div>

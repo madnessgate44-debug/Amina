@@ -9,7 +9,6 @@ import { useApp } from '../../context/AppContext';
 import { TaskInstructionSpeaker } from '../voice/TaskInstructionSpeaker';
 import { tutorSpeechService, EncouragementType } from '../../services/voice/tutorSpeechService';
 import { soundEffects } from '../../services/sound/soundEffects';
-import { StageModal } from '../stage/StageModal';
 import {
   X,
   BookOpen,
@@ -18,7 +17,6 @@ import {
   Volume2,
   CheckCircle2,
   XCircle,
-  Play,
   RotateCcw,
   Award,
   Layers,
@@ -44,8 +42,6 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
     type: EncouragementType;
     customNote?: string;
   } | null>(null);
-
-  const [isFullStageOpen, setIsFullStageOpen] = useState(false);
 
   // Announce lesson entrance on mount
   useEffect(() => {
@@ -128,19 +124,6 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
           <div className="flex items-center gap-1.5">
             <button
               type="button"
-              onClick={() => {
-                soundEffects.playPop();
-                setIsFullStageOpen(true);
-              }}
-              className="px-3 py-1.5 rounded-xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs shadow-xs transition-all active:scale-95 flex items-center gap-1 cursor-pointer"
-              title={isAr ? 'افتح المسرح التفاعلي' : 'Open Stage'}
-            >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span className="hidden sm:inline">{isAr ? 'المسرح التفاعلي' : 'The Stage'}</span>
-            </button>
-
-            <button
-              type="button"
               onClick={onClose}
               className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
               title={isAr ? 'إغلاق' : 'Close'}
@@ -160,7 +143,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   : `${studentName}, read the lesson text and explore concepts with real-world examples.`
                 : activeTab === 'vocab'
                 ? isAr
-                  ? `اضغطي على أي كلمة تاريخية أو مصطلح علمي لتستمعي لنطقه وشرح معناه بصوت المعلمة نور.`
+                  ? `اضغطي على أي كلمة تاريخية أو مصطلح علمي لتستمعي لنطقه وشرح معناه بصوت مس نور.`
                   : `Tap any vocabulary word to hear Miss Noor pronounce and explain its definition.`
                 : isAr
                 ? `والآن مع التحدي والتمارين التفاعلية من كتاب الوزارة! اختاري الإجابة الصحيحة واستمعي للتشجيع!`
@@ -383,7 +366,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             <div className="space-y-4 animate-in fade-in duration-200">
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 {isAr
-                  ? 'تمارين وتدريبات مطابقة تماماً لأسئلة كتاب الوزارة. كل إجابة صحيحة تمنحك نجماً وتشجيعاً من المعلمة نور!'
+                  ? 'تمارين وتدريبات مطابقة تماماً لأسئلة كتاب الوزارة. كل إجابة صحيحة تمنحك نجماً وتشجيعاً من مس نور!'
                   : 'Interactive exercises directly from the Ministry textbook. Answer each question to receive audio feedback!'}
               </p>
 
@@ -502,18 +485,6 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
           <div className="flex items-center gap-2">
             <button
               type="button"
-              onClick={() => {
-                soundEffects.playPop();
-                setIsFullStageOpen(true);
-              }}
-              className="px-4 py-2 rounded-xl bg-linear-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black text-xs shadow-sm flex items-center gap-1.5 cursor-pointer active:scale-95"
-            >
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span>{isAr ? 'ادخلي المسرح مع مس نور 🎬' : 'Enter Stage 🎬'}</span>
-            </button>
-
-            <button
-              type="button"
               onClick={onClose}
               className="px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-slate-200 font-bold text-xs cursor-pointer"
             >
@@ -522,14 +493,6 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
           </div>
         </div>
       </div>
-
-      {/* Embedded Full Stage Modal */}
-      {isFullStageOpen && (
-        <StageModal
-          lessonId={lesson.id}
-          onClose={() => setIsFullStageOpen(false)}
-        />
-      )}
     </div>
   );
 };
