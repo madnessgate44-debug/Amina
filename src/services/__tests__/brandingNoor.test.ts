@@ -72,6 +72,28 @@ assert(
   }`
 );
 
+// --- 1b. No JSX *text node* carries the legacy name ----------------------
+// Check 1.2 only sees quoted/backticked strings, so it missed a heading that
+// was written as plain JSX text: <span>📚 كتب أمينة الدراسية …</span>. That is
+// still a user-facing string, so scan JSX text between `>` and `<` too.
+const jsxTextHits: string[] = [];
+for (const file of componentFiles) {
+  const lines = readFileSync(file, 'utf8').split('\n');
+  lines.forEach((line, i) => {
+    if (!isCodeLine(line)) return;
+    const withoutComments = line.replace(/\/\/.*$/, '').replace(/\/\*.*?\*\//g, '');
+    if (/>[^<>{}]*(?:\bAmina\b|أمينة)[^<>{}]*</.test(withoutComments)) {
+      jsxTextHits.push(`${file.replace(process.cwd() + '/', '')}:${i + 1}: ${line.trim()}`);
+    }
+  });
+}
+assert(
+  jsxTextHits.length === 0,
+  `1.3 no component renders the legacy name as JSX text${
+    jsxTextHits.length ? '\n      ' + jsxTextHits.join('\n      ') : ''
+  }`
+);
+
 // --- 2. The two known defects stay fixed --------------------------------
 // The retired Stage ("Live Theater") carried the comprehension prompt. It has
 // been removed in favour of the feed, so assert the surface is really gone
