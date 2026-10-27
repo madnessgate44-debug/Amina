@@ -321,26 +321,110 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
     titleFr: 'Multiplier les décimaux par 10, 100 et 1000',
     originTag: 'official',
     language: 'fr',
-    isAvailable: false,
-    contentStatus: 'pending_materials',
+    isAvailable: true,
+    contentStatus: 'available',
     sourceRef: {
       book: 'كتاب الماث بالفرنسية — الصف الخامس الابتدائي — الفصل الدراسي الأول',
-      bookAr: 'كتاب الوزارة Mathématiques ص. 45-50 (قيد الرفع)',
-      bookEn: 'Ministry Mathématiques Techbook pp. 45-50 (Pending Upload)',
+      bookAr: 'كتاب الوزارة Mathématiques ص. 45-50',
+      bookEn: 'Ministry Mathématiques Techbook pp. 45-50',
       grade: 'الصف الخامس',
       term: 'الفصل الدراسي الأول',
       unit: 'Unité 3',
       lesson: 'Leçon 1',
       page: 45,
-      isAvailable: false,
+      isAvailable: true,
     },
     objectives: [
       'Multiplier un nombre décimal par 10, 100 et 1000 en déplaçant la virgule vers la droite.',
+      'Compléter avec des zéros quand le décalage dépasse le nombre de chiffres après la virgule.',
+      'Appliquer la multiplication par une puissance de 10 à des situations de la vie courante.',
     ],
-    readingText: null, // Cleanly marked as pending official ministry scan!
-    vocabulary: [],
-    exercises: [],
-    concepts: [],
-    supplementaryResources: [],
+    readingText: `Multiplier un nombre décimal par 10, 100 ou 1000 :
+Quand on multiplie un nombre décimal par une puissance de 10, on ne calcule pas chiffre par chiffre :
+on décale simplement la virgule vers la DROITE.
+- × 10 : la virgule se décale d'UN rang vers la droite. Exemple : 3,45 × 10 = 34,5.
+- × 100 : la virgule se décale de DEUX rangs. Exemple : 3,45 × 100 = 345.
+- × 1000 : la virgule se décale de TROIS rangs. Exemple : 3,45 × 1000 = 3450.
+Astuce importante :
+Si les chiffres après la virgule ne suffisent plus, on ajoute des zéros à la fin du nombre.
+Exemple : 0,7 × 1000. On décale la virgule de trois rangs : 0,7 → 7 → 70 → 700. Donc 0,7 × 1000 = 700.
+Rappel : multiplier par 10 rend le nombre 10 fois plus grand, par 100 cent fois plus grand, par 1000 mille fois plus grand.`,
+    vocabulary: [
+      { word: 'Puissance de 10 (قوى العدد 10)', definition: 'Un nombre comme 10, 100 ou 1000 obtenu en multipliant 10 par lui-même.' },
+      { word: 'Décaler la virgule (تحريك الفاصلة العشرية)', definition: 'Déplacer la virgule d\'un, deux ou trois rangs vers la droite.' },
+      { word: 'Virgule décimale (الفاصلة العشرية)', definition: 'Le signe qui sépare la partie entière de la partie décimale.' },
+    ],
+    exercises: [
+      {
+        type: 'multiple_choice',
+        question: 'Combien vaut 2,5 × 10 ?',
+        options: ['25', '0,25', '250', '2,05'],
+        expectedAnswer: '25',
+        page: 46,
+      },
+      {
+        type: 'multiple_choice',
+        question: 'Combien vaut 0,7 × 1000 ?',
+        options: ['700', '70', '7', '0,007'],
+        expectedAnswer: '700',
+        page: 48,
+      },
+      {
+        type: 'qa',
+        question: 'Calcule : 4,36 × 100',
+        expectedAnswer: '436',
+        page: 49,
+      },
+    ],
+    concepts: [
+      {
+        id: 'conc_mathfr_u3_l1_puissance10',
+        conceptNumber: 1,
+        titleAr: 'ضرب الأعداد العشرية في قوى العدد 10',
+        titleEn: 'Multiplying Decimals by Powers of 10',
+        sourceText: 'Multiplier par 10, 100 ou 1000 décale la virgule vers la droite d\'un, deux ou trois rangs.',
+        keyPoints: [
+          '× 10 : un rang vers la droite (3,45 × 10 = 34,5).',
+          '× 100 : deux rangs (3,45 × 100 = 345).',
+          '× 1000 : trois rangs (3,45 × 1000 = 3450).',
+        ],
+        dailyLifeExampleAr: 'إذا كان سعر الدفتر 3,45 جنيهات وأردنا شراء 100 دفتر، نضرب 3,45 × 100 = 345 جنيهاً.',
+        dailyLifeExampleEn: 'If a notebook costs 3.45 pounds, buying 100 notebooks costs 3.45 × 100 = 345 pounds.',
+        storyAnalogyAr: 'مثل تحريك المؤشر على مسطرة: كل ضربة في 10 تحرّك الفاصلة خطوة واحدة لليمين.',
+        storyAnalogyEn: 'Like moving a slider on a ruler: every ×10 shifts the comma one step to the right.',
+        prerequisiteAr: 'القيمة المكانية للأعداد العشرية والضرب في 10.',
+        prerequisiteEn: 'Decimal place value and multiplication by 10.',
+      },
+      {
+        id: 'conc_mathfr_u3_l1_zero_ajoute',
+        conceptNumber: 2,
+        titleAr: 'إضافة الأصفار عند انتهاء أرقام الفاصلة',
+        titleEn: 'Adding Zeros When the Digits Run Out',
+        sourceText: 'Quand le décalage dépasse le nombre de chiffres après la virgule, on complète avec des zéros.',
+        keyPoints: [
+          '0,7 × 1000 : la virgule se décale de trois rangs et on ajoute les zéros manquants → 700.',
+          'Le nombre de chiffres significatifs ne change pas : seule la position de la virgule bouge.',
+        ],
+        dailyLifeExampleAr: 'وزن كيس السكر 0,7 كجم؛ فإذا كان لدينا 1000 كيس يصبح الوزن 0,7 × 1000 = 700 كجم.',
+        dailyLifeExampleEn: 'A 0.7 kg bag of sugar: 1000 bags weigh 0.7 × 1000 = 700 kg.',
+        storyAnalogyAr: 'مثل صف من المقاعد: إذا انتهت المقاعد نضيف مقاعد جديدة (أصفاراً) في نهاية الصف.',
+        storyAnalogyEn: 'Like a row of seats: when it is full we add new seats (zeros) at the end.',
+        prerequisiteAr: 'ضرب الأعداد العشرية في 10.',
+        prerequisiteEn: 'Multiplying decimals by 10.',
+      },
+    ],
+    supplementaryResources: [
+      {
+        id: 'supp_mathfr_selah_puissance10',
+        sourceType: 'selah_el_telmeez',
+        sourceNameAr: 'سلاح التلميذ — ضرب الكسور العشرية في 10 و100 و1000',
+        sourceNameEn: 'Selah El-Telmeez Decimals × Powers of 10',
+        unit: 'Unité 3',
+        lesson: 'Multiplier par 10, 100 et 1000',
+        page: 52,
+        notes: 'تدريبات على تحريك الفاصلة العشرية وإضافة الأصفار مع مسائل من الحياة اليومية.',
+        isAvailable: true,
+      },
+    ],
   },
 ];

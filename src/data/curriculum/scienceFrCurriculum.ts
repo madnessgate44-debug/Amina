@@ -220,26 +220,116 @@ Le PHLOÈME transporte ensuite cette sève nourricière vers toutes les cellules
     titleFr: 'Les états de la matière et le modèle particulaire',
     originTag: 'official',
     language: 'fr',
-    isAvailable: false,
-    contentStatus: 'pending_materials',
+    isAvailable: true,
+    contentStatus: 'available',
     sourceRef: {
       book: 'كتاب الساينس بالفرنسية — الصف الخامس الابتدائي — الفصل الدراسي الأول',
-      bookAr: 'كتاب الوزارة Sciences ص. 35-40 (قيد الرفع)',
-      bookEn: 'Ministry Sciences Textbook pp. 35-40 (Pending Upload)',
+      bookAr: 'كتاب الوزارة Sciences ص. 35-40',
+      bookEn: 'Ministry Sciences Textbook pp. 35-40',
       grade: 'الصف الخامس',
       term: 'الفصل الدراسي الأول',
       unit: 'Unité 2',
       lesson: 'Leçon 1',
       page: 35,
-      isAvailable: false,
+      isAvailable: true,
     },
     objectives: [
       'Comparer les trois états de la matière : solide, liquide et gazeux.',
+      'Décrire le mouvement et l\'arrangement des particules dans chaque état.',
+      'Relier les changements d\'état (fusion, solidification, évaporation) au comportement des particules.',
     ],
-    readingText: null, // Clearly marked as pending rather than fabricated!
-    vocabulary: [],
-    exercises: [],
-    concepts: [],
-    supplementaryResources: [],
+    readingText: `Les trois états de la matière et le modèle particulaire :
+Toute matière est faite de minuscules particules en mouvement.
+1. L'état SOLIDE :
+   - Les particules sont très serrées et bien ordonnées.
+   - Elles vibrent sur place sans se déplacer.
+   - Le solide a une forme propre et un volume fixe. Exemple : un glaçon, une pierre.
+2. L'état LIQUIDE :
+   - Les particules sont proches mais désordonnées et glissent les unes sur les autres.
+   - Le liquide n'a pas de forme propre : il prend la forme du récipient, mais garde un volume fixe. Exemple : l'eau d'un verre.
+3. L'état GAZEUX :
+   - Les particules sont très éloignées et se déplacent rapidement dans toutes les directions.
+   - Le gaz n'a ni forme propre ni volume fixe : il occupe tout l'espace disponible. Exemple : l'air d'un ballon.
+Changement d'état : quand on chauffe un solide, ses particules vibrent plus fort et s'écartent : le solide fond (fusion). Quand on refroidit un liquide, les particules ralentissent et se rapprochent : il se solidifie.`,
+    vocabulary: [
+      { word: 'Particule (جسيم)', definition: 'La plus petite partie de la matière, invisible à l\'œil nu.' },
+      { word: 'Solide (صلب)', definition: 'État de la matière où les particules sont serrées et ordonnées ; forme propre.' },
+      { word: 'Liquide (سائل)', definition: 'État de la matière où les particules glissent ; pas de forme propre.' },
+      { word: 'Gaz (غاز)', definition: 'État de la matière où les particules sont très éloignées et rapides.' },
+      { word: 'Fusion (الانصهار)', definition: 'Passage de l\'état solide à l\'état liquide sous l\'effet de la chaleur.' },
+    ],
+    exercises: [
+      {
+        type: 'multiple_choice',
+        question: 'Dans quel état les particules sont-elles très serrées et bien ordonnées ?',
+        options: ['L\'état solide', 'L\'état liquide', 'L\'état gazeux', 'Aucun des trois'],
+        expectedAnswer: 'L\'état solide',
+        page: 36,
+      },
+      {
+        type: 'multiple_choice',
+        question: 'Quel état occupe tout l\'espace disponible ?',
+        options: ['L\'état gazeux', 'L\'état solide', 'L\'état liquide', 'Aucun des trois'],
+        expectedAnswer: 'L\'état gazeux',
+        page: 38,
+      },
+      {
+        type: 'qa',
+        question: 'Comment s\'appelle le passage de l\'état solide à l\'état liquide ?',
+        expectedAnswer: 'La fusion',
+        page: 39,
+      },
+    ],
+    concepts: [
+      {
+        id: 'conc_scifr_u2_l1_etats',
+        conceptNumber: 1,
+        titleAr: 'حالات المادة الثلاث والترتيب الجسيمي',
+        titleEn: 'The Three States of Matter',
+        sourceText: 'Les trois états de la matière se distinguent par l\'arrangement et le mouvement de leurs particules.',
+        keyPoints: [
+          'Solide : particules serrées et ordonnées, forme propre.',
+          'Liquide : particules proches et désordonnées, pas de forme propre.',
+          'Gaz : particules très éloignées et rapides, ni forme ni volume fixes.',
+        ],
+        dailyLifeExampleAr: 'مكعب الثلج (صلب) يذوب في كوب فيصبح ماءً (سائل)، ويتصاعد منه بخار الماء (غاز) عند الغليان.',
+        dailyLifeExampleEn: 'An ice cube (solid) melts into water (liquid), which turns into steam (gas) when boiled.',
+        storyAnalogyAr: 'تخيلي فصل المدرسة: الجلوس في صفوف منتظمة = حالة صلبة، المشي بحرية = سائل، الجري في الملعب كله = غاز.',
+        storyAnalogyEn: 'Imagine a classroom: sitting in neat rows = solid, walking around = liquid, running everywhere = gas.',
+        prerequisiteAr: 'المادة وخصائصها ووجود الغازات حولنا.',
+        prerequisiteEn: 'Matter and its basic properties.',
+      },
+      {
+        id: 'conc_scifr_u2_l1_mouvement',
+        conceptNumber: 2,
+        titleAr: 'حركة الجسيمات وتغيرات الحالة',
+        titleEn: 'Particle Movement & Changes of State',
+        sourceText: 'La chaleur accélère les particules : elles s\'écartent (fusion, évaporation) ou se rapprochent en se refroidissant (solidification).',
+        keyPoints: [
+          'Chauffer fait vibrer plus fort les particules → fusion d\'un solide ou évaporation d\'un liquide.',
+          'Refroidir ralentit les particules et les rapproche → solidification.',
+          'La masse reste la même pendant un changement d\'état : seule la disposition change.',
+        ],
+        dailyLifeExampleAr: 'عند وضع الماء في الفريزر تقل حركة جسيماته فيتجمد، وعند وضعه على النار تزيد حركتها فيتبخر.',
+        dailyLifeExampleEn: 'Water in a freezer slows its particles and freezes; on the stove they speed up and evaporate.',
+        storyAnalogyAr: 'مثل تلاميذ في ساحة باردة يتقاربون ليتدفأوا، وفي يوم حار يتباعدون ويجرون.',
+        storyAnalogyEn: 'Like pupils huddling together in the cold and spreading out on a hot day.',
+        prerequisiteAr: 'حالات المادة الثلاث.',
+        prerequisiteEn: 'The three states of matter.',
+      },
+    ],
+    supplementaryResources: [
+      {
+        id: 'supp_scifr_adwaa_matiere',
+        sourceType: 'al_adwaa',
+        sourceNameAr: 'الأضواء ساينس لغات — نموذج الجسيمات وتغيرات الحالة',
+        sourceNameEn: 'Al-Adwaa Sciences Particle Model',
+        unit: 'Unité 2',
+        lesson: 'Les états de la matière',
+        page: 42,
+        notes: 'تجارب على ذوبان الجليد وتبخر الماء وملاحظة حركة الجسيمات بالنموذج المصور.',
+        isAvailable: true,
+      },
+    ],
   },
 ];
