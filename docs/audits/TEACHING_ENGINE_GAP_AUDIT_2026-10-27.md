@@ -93,26 +93,42 @@ The research's proposed skills map onto existing code far more than onto empty s
 
 ## 4. Gaps, ranked by severity
 
-### 4.1 The French track has lessons but no concept data — **high**
+### 4.1 CORRECTED — two lessons are empty stubs, and the French-language subjects are thin — **high**
 
-This is the most serious content finding, and it directly affects the actual student
-(Grade 5, École Girard, **French track**).
+> **Correction notice (2026-10-27, same day).** An earlier version of this section claimed the
+> French track had "11 lessons and 0 concept records". **That claim was wrong** and has been
+> withdrawn. It came from a `grep` pattern that only matched concept ids ending in `_c<digit>`
+> (e.g. `off_math_u1_l1_c1`), which silently missed the French ids that use a descriptive suffix
+> (e.g. `conc_fr_u1_l1_salutations`). Counting by hand was replaced with counting through the
+> loader, `getAminaFlatConcepts()`, which is what the app actually uses. The real numbers are
+> below. This is a reminder that a `grep` count is not a measurement of behaviour.
 
-| Curriculum file | Lessons | Concepts | Exercises |
+The engine loads **36 lessons and 35 concepts** **[V]**, measured by calling
+`getAminaFlatConcepts()` rather than by counting source lines.
+
+| Subject | Lessons | Concepts | Lessons with 0 concepts |
 |---|---|---|---|
-| `frenchCurriculum.ts` | 4 | **0** | 3 |
-| `mathFrCurriculum.ts` | 4 | **0** | 3 |
-| `scienceFrCurriculum.ts` | 3 | **0** | 2 |
-| *(comparison)* `mathCurriculum.ts` | 12 | 12 | — |
-| *(comparison)* `ictCurriculum.ts` | 12 | 12 | — |
+| Arabic Language | 5 | 5 | 0 |
+| French Language | 4 | 5 | 0 |
+| Mathematics (taught in French) | 4 | 3 | **1** |
+| Science (taught in French) | 3 | 2 | **1** |
+| Social Studies | 3 | 3 | 0 |
+| English (Connect 5) | 2 | 2 | 0 |
+| ICT | 12 | 12 | 0 |
+| Islamic Studies | 2 | 2 | 0 |
+| Arabic Calligraphy | 1 | 1 | 0 |
 
-**11 French-track lessons carry zero concept records** **[V]**. Concept records are what the
-engine uses for mastery, review scheduling and misconception diagnosis. Lessons without concepts
-can be opened and read, but they cannot enter the mastery/review loop at all.
+The real finding is narrower but still a defect:
 
-Totals for context: 51 lessons, 40 concepts, 80 multiple-choice exercises across 11 subjects
-**[V]**. So roughly a fifth of all lessons are structurally outside the adaptive system — and
-they are disproportionately the ones this student needs.
+**Two lessons are empty stubs.** `Mathematics — "Multiplying Decimals by Powers of 10"` and
+`Science — "States of Matter & Particle Movement"` have **no** concepts, **no** `readingText`,
+**no** vocabulary and **no** exercises **[V]**. They render as openable lessons with nothing
+inside. These two, not eleven, are the lessons that cannot enter the mastery loop.
+
+**The French-language subjects are the thinnest.** Mathematics carries 3 concepts across 4
+lessons and Science 2 across 3, while ICT carries 12 across 12 **[V]**. Since this student is on
+the French track, that unevenness matters even though it is not the total absence I first
+reported.
 
 ### 4.2 Misconceptions are hardcoded, not data-driven — **high**
 
@@ -196,6 +212,38 @@ this is an inference from call-site count, not a proven negative.
 correctness, no misconception-resolution rate, no independent-recheck success. The research's
 P1 "measure learning and experience quality" has no existing home in the codebase.
 
+### 4.9 The interaction is press-driven, not conversational — **high**
+
+The owner's core complaint is that Miss Noor "is not interactive and is not explaining anything",
+and that the child "has to press stuff". I checked whether that is accurate, and it is —
+with one important nuance.
+
+**What exists** **[V]**:
+
+- Speech output works. `voiceService.speak()` is called from the classroom, the feed, the
+  companion chat and the homework runner.
+- Speech input works. `voiceService.startListening()` uses the Web Speech API, and
+  `VoiceInputControl` is mounted in three places in `VirtualTeacherClassroom.tsx`
+  (lines ~1479, ~1833, ~2364) plus `TeachingSessionModal.tsx` and `HomeworkRunner.tsx`.
+- The classroom already narrates its greeting and its feedback (`speakText(greeting)`,
+  `speakText(praise, 'celebrating')`, `speakText(diagSpeech, 'encouraging')`).
+
+So the ingredients are present. **The missing piece is the loop.** Every voice interaction is
+**press-to-talk, then press-to-submit**. `VoiceInputControl` takes an `onTranscriptConfirmed`
+callback — the child must speak, then confirm, then wait for the next prompt. There is no
+auto-listen after Miss Noor finishes speaking, no barge-in, and no continuous turn-taking. A grep
+for `autoListen`, `handsFree`, `continuous` or `onSpeakEnd` in the classroom returns **nothing**
+**[V]**.
+
+That is exactly what the owner described, and it is a **high**-severity finding: a five-year-old
+on a tablet will not sustain a lesson that requires a button press for every turn. The gap is not
+"voice is missing" — it is "the conversation is not hands-free", which is a much smaller and more
+tractable fix than adding voice from scratch.
+
+I did **not** verify the end-to-end feel in a browser this session, so the *severity* here rests
+on the code structure, not on watching a child use it. Marked **[H]** where it goes beyond the
+structural fact.
+
 ### 4.8 Live AI reliability — **medium, already documented**
 
 The functional audit on PR #49 records upstream 503 "high demand" and free-tier 429
@@ -278,20 +326,21 @@ The minimal fix for G4 is to raise those two `text-slate-400` occurrences to `te
 
 This is the ordering I would defend; each step is scoped to be verifiable.
 
-1. **Make the French track teachable (unblocks everything).** Add concept records for the 11
-   French-track lessons so they can enter the mastery and review loops. Without this, no amount
-   of skill architecture helps the actual student. *Evidence required:* concept count per French
-   lesson goes from 0 to ≥1, and a French lesson completes a mastery + review cycle.
+1. **Make the two stub lessons real.** `Mathematics — "Multiplying Decimals by Powers of 10"` and
+   `Science — "States of Matter & Particle Movement"` have no concepts, no reading text, no
+   vocabulary and no exercises. They are the only lessons that cannot enter the mastery loop.
+   *Evidence required:* both lessons gain concepts, reading text and exercises, and the count of
+   zero-concept lessons loaded by `getAminaFlatConcepts()` is 0.
 
-2. **Make misconception data first-class.** Add `misconception` and distractor fields to the
-   curriculum model; extend `evaluateStudentAnswer` to return a misconception identifier instead
-   of only `correctness`. Then a wrong answer can drive `adjust` with a targeted explanation.
-   *Evidence required:* a wrong answer on a lesson *without* a hardcoded diagnosis block produces
-   a specific, content-sourced explanation. That is the acceptance test that currently fails.
+2. **Make the conversation hands-free.** This is the owner's headline complaint and the highest
+   product-value item on this list. Add auto-listen after Miss Noor stops speaking, and a visible
+   way to interrupt her. The pieces already exist — `voiceService.speak`/`startListening` and
+   `VoiceInputControl` — so this is a loop, not a rebuild. *Evidence required:* a learner can
+   complete a full lesson turn-taking cycle by voice alone, without touching the screen.
 
-3. **Fix the legacy name in curriculum content.** The French reading passage names the child
-   "Amina". This is child-visible and wrong. *Evidence required:* no user-facing curriculum text
-   contains the legacy name; extend the PR #49 guard to scan `src/data/`.
+3. **Deepen the French-language subjects.** Mathematics has 3 concepts across 4 lessons and
+   Science 2 across 3, against ICT's 12 across 12. *Evidence required:* each French-track lesson
+   carries at least one concept with a prerequisite and a daily-life example.
 
 4. **Separate Homework from Missions**, or delete one. *Evidence required:* the two nav entries
    render different components with different, documented purposes.
@@ -306,8 +355,11 @@ This is the ordering I would defend; each step is scoped to be verifiable.
 7. **Add learning telemetry** alongside the existing cost/latency telemetry. *Evidence required:*
    next-question correctness and independent-recheck success are recorded per session.
 
-Only after steps 1–3 should the specialist-skill architecture be built, because those three
-determine whether the skills have trustworthy curriculum and diagnosis to work from.
+Step 2 (hands-free conversation) is the one the owner will feel immediately. Step 3 of the
+original list — making misconception data first-class — remains correct and is not dropped; it
+belongs with the skill work, because a misconception field is only useful once a skill consumes
+it. The specialist-skill architecture should be built after steps 1–3, so the skills have
+trustworthy curriculum and a working conversation to sit inside.
 
 ---
 
