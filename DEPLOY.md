@@ -20,7 +20,7 @@ Two limits shaped the code and are already handled:
 | Limit | Value | How the app copes |
 |---|---|---|
 | Request body size | ~4.5 MB | Images are re-encoded to max 1600px JPEG on the device; recordings are capped at 30s. See `src/services/upload/payloadLimits.ts`. A rejected upload shows a friendly message, not an error. |
-| Function duration | 60s (`maxDuration` in `vercel.json`) | AI routes already use short timeouts and degrade gracefully. |
+| Function duration | 60s (`maxDuration` in `vercel.json`) | AI calls are bounded by `src/services/ai/requestBudget.ts` (20s timeout, 1 attempt) so a slow upstream cannot outlive the limit; the route catch then serves its local fallback. |
 
 Serverless also means no long-lived process, so two things deliberately do
 **not** exist here: the in-memory TTS cache (it is per-instance and simply

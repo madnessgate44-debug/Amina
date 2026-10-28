@@ -50,11 +50,25 @@ const sourceFor = (specifier: string, fromFile: string): string => {
   return `${base}.ts`;
 };
 
-const SERVER_CHAIN = ['api/index.ts', 'server.ts'];
+/** Every .ts file reachable from the server entry by relative imports. */
+const serverChain = (): string[] => {
+  const seen = new Set<string>();
+  const queue = ['api/index.ts'];
+  while (queue.length) {
+    const file = queue.shift()!;
+    if (seen.has(file)) continue;
+    seen.add(file);
+    for (const spec of relativeImports(file)) {
+      const target = path.relative(repoRoot, sourceFor(spec, file));
+      if (!seen.has(target)) queue.push(target);
+    }
+  }
+  return [...seen];
+};
 
 test('1.1 every relative import on the server path ends in .js', () => {
   const offenders: string[] = [];
-  for (const file of SERVER_CHAIN) {
+  for (const file of serverChain()) {
     for (const spec of relativeImports(file)) {
       if (!spec.endsWith('.js')) offenders.push(`${file} -> ${spec}`);
     }
@@ -67,7 +81,7 @@ test('1.1 every relative import on the server path ends in .js', () => {
 });
 
 test('1.2 each .js specifier points at a real .ts source file', () => {
-  for (const file of SERVER_CHAIN) {
+  for (const file of serverChain()) {
     for (const spec of relativeImports(file)) {
       const target = sourceFor(spec, file);
       assert.ok(existsSync(target), `${file} imports ${spec} but ${target} does not exist`);
@@ -76,7 +90,8 @@ test('1.2 each .js specifier points at a real .ts source file', () => {
 });
 
 test('1.3 the server chain reaches no further extensionless imports', () => {
-  // Follow the chain one more hop: serverTutorVoice is imported by server.ts.
+  // Superseded by 1.1/1.2, which now walk the whole chain transitively. Kept as
+  // an explicit assertion on the leaf the original failure was reported against.
   const leaf = 'src/services/i18n/serverTutorVoice.ts';
   assert.ok(existsSync(path.join(repoRoot, leaf)), `${leaf} is missing`);
   for (const spec of relativeImports(leaf)) {
@@ -89,12 +104,7 @@ test('2.1 Node can actually load the emitted Vercel entry', () => {
   const outDir = mkdtempSync(path.join(repoRoot, '.tmp-vercel-entry-'));
   try {
     buildSync({
-      entryPoints: [
-        'api/index.ts',
-        'server.ts',
-        'src/services/i18n/serverTutorVoice.ts',
-        'src/services/voice/tutorVoice.ts',
-      ].map((f) => path.join(repoRoot, f)),
+      entryPoints: serverChain().map((f) => path.join(repoRoot, f)),
       outdir: outDir,
       outbase: repoRoot,
       platform: 'node',
