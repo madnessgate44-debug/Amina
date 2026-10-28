@@ -36,7 +36,14 @@ export interface HandsFreeState {
 
 export const MAX_FAILED_CAPTURES = 2;
 
-export const initialHandsFreeState = (enabled = false): HandsFreeState => ({
+/**
+ * Hands-free is the default: a learner who never touches the screen still gets
+ * a spoken turn, which is the whole point of the mode. The press-to-talk path
+ * is not removed — turning hands-free off restores it exactly.
+ */
+export const HANDS_FREE_DEFAULT: boolean = true;
+
+export const initialHandsFreeState = (enabled: boolean = HANDS_FREE_DEFAULT): HandsFreeState => ({
   enabled,
   phase: 'idle',
   failedCaptures: 0,

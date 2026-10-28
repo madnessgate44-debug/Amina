@@ -14,6 +14,7 @@ import {
   shouldSpeak,
   listeningPrompt,
   MAX_FAILED_CAPTURES,
+  HANDS_FREE_DEFAULT,
   type HandsFreeState,
 } from '../voice/handsFreeLoop';
 
@@ -33,12 +34,15 @@ const check = (name: string, condition: boolean) => {
 const run = (...events: Parameters<typeof reduceHandsFree>[1][]): HandsFreeState =>
   events.reduce(reduceHandsFree, initialHandsFreeState(true));
 
-// 1. Off by default: nothing changes until the learner opts in.
+// 1. Hands-free is the default, and an explicit opt-out is still respected.
 {
+  const byDefault = initialHandsFreeState();
+  check('1.1 hands-free is on by default', HANDS_FREE_DEFAULT === true && byDefault.enabled === true);
+  check('1.2 the default loop is still idle until a turn starts', byDefault.phase === 'idle');
   const off = initialHandsFreeState(false);
-  check('1.1 hands-free is off by default', off.enabled === false && off.phase === 'idle');
-  check('1.2 an off loop never opens the microphone', shouldListen(off) === false);
-  check('1.3 an off loop never speaks', shouldSpeak(off) === false);
+  check('1.3 an explicit opt-out still turns hands-free off', off.enabled === false && off.phase === 'idle');
+  check('1.4 an off loop never opens the microphone', shouldListen(off) === false);
+  check('1.5 an off loop never speaks', shouldSpeak(off) === false);
 }
 
 // 2. Enabling starts the tutor, and the microphone stays shut while it speaks.
@@ -153,6 +157,16 @@ const run = (...events: Parameters<typeof reduceHandsFree>[1][]): HandsFreeState
   );
   check('12.1 a new tutor turn clears the failure count', s.failedCaptures === 0);
   check('12.2 the loop is listening again', shouldListen(s) === true);
+}
+
+// 13. Interrupt (barge-in): the learner can speak while the tutor is talking.
+{
+  const speaking = reduceHandsFree(initialHandsFreeState(true), { type: 'tutor_turn_added' });
+  check('13.1 the tutor is speaking before the interrupt', shouldSpeak(speaking) === true);
+  const interrupted = reduceHandsFree(speaking, { type: 'student_answered' });
+  check('13.2 an interrupt while the tutor speaks silences the tutor', shouldSpeak(interrupted) === false);
+  check('13.3 the interrupt hands the turn to thinking', interrupted.phase === 'thinking');
+  check('13.4 the microphone is not open at the same time as the tutor', shouldListen(interrupted) === false);
 }
 
 console.log(`\nHANDS-FREE LOOP SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
