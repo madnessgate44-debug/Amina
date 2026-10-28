@@ -10,6 +10,7 @@ import {
   addressFormWord,
 } from './src/services/i18n/serverTutorVoice.js';
 import { tutorVoiceFor } from './src/services/voice/tutorVoice.js';
+import { AI_HTTP_OPTIONS } from './src/services/ai/requestBudget.js';
 
 dotenv.config();
 
@@ -31,6 +32,10 @@ const ai = apiKey
         headers: {
           'User-Agent': 'aistudio-build',
         },
+        // Bounded time and a single attempt: the SDK default is 5 attempts with
+        // backoff and no timeout, which outlives Vercel's 60s limit and shows the
+        // child a platform error instead of the route's local fallback.
+        ...AI_HTTP_OPTIONS,
       },
     })
   : null;
