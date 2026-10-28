@@ -101,6 +101,21 @@ Dans le nombre 4,725 :
         storyAnalogyEn: 'Imagine dividing bread into 1000 tiny crumbs, each is a millième.',
         prerequisiteAr: 'الأعداد الصحيحة والأجزاء من عشرة.',
         prerequisiteEn: 'Whole numbers and tenths.',
+        misconceptions: [
+          {
+            id: 'mis_place_value_shift',
+            trigger: '0,04',
+            explanation: 'Vous avez pris le chiffre 4 comme des centièmes alors que sa position décide de sa valeur.',
+            remediation: 'Comptez les rangs après la virgule : dixième, centième, millième. Ici le 4 est au troisième rang, donc 0,004.',
+          },
+          {
+            id: 'mis_ignore_virgule',
+            trigger: '4',
+            explanation: 'Vous avez lu le chiffre tout seul, sans regarder sa position après la virgule.',
+            remediation: 'La virgule donne sa valeur au chiffre : 4 unités vaut 4, mais 4 millièmes vaut 0,004.',
+          },
+        ],
+        distractors: ['0,4|mis_place_value_shift', '4|mis_ignore_virgule'],
       },
     ],
     supplementaryResources: [

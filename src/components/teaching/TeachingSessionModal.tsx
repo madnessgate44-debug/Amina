@@ -9,6 +9,7 @@ import { TeachingSession, TutorTurn, OfficialCurriculumLesson } from '../../type
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { teachingSessionEngine } from '../../services/teaching/teachingSession';
 import { storageService } from '../../services/storage';
+import { recordLearningSignal } from '../../services/telemetry/learningSignals';
 import { VisualRenderer } from '../../services/visuals/visualRenderer';
 import { voiceService } from '../../services/voice/voiceService';
 import { VoiceInputControl } from '../voice/VoiceInputControl';
@@ -171,6 +172,20 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
           independence: result.masteryUpdate.independence,
           modality: result.masteryUpdate.modality,
           notes: `Teaching Session: ${lesson.titleAr} (Concept ${session.currentConceptIndex + 1})`,
+        });
+      }
+
+      // Learning signals: did the teaching land, not just did the API respond.
+      const activeConcept = lesson.concepts[session.currentConceptIndex];
+      if (activeConcept) {
+        const namedMisconception = result.newTutorTurn.skillId === 'diagnose-misconception';
+        recordLearningSignal({
+          conceptId: activeConcept.id,
+          nextQuestionCorrect: result.masteryUpdate?.correctness === 'full',
+          misconceptionResolved: namedMisconception
+            ? result.session.currentStep === 'explain_back' || result.session.currentStep === 'celebrate'
+            : false,
+          independentRecheckPassed: result.masteryUpdate?.independence === 'unassisted',
         });
       }
 

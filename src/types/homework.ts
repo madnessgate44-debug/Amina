@@ -4,6 +4,7 @@
  */
 
 import { EvidenceIndependence } from './mastery';
+import { ConceptMisconception } from './teachingSession';
 
 export type HomeworkQuestionType =
   | 'multiple_choice'
@@ -41,6 +42,10 @@ export interface HomeworkQuestion {
   workedStep: string; // Attempt 2 wrong: partial approach / first step
   explanation: string; // Attempt 3 wrong or reveal: complete answer & explanation
   difficulty?: number;
+  // Misconception metadata: lets a wrong answer name what the learner got wrong.
+  misconceptions?: ConceptMisconception[];
+  /** Wrong options that indicate a specific misunderstanding, encoded "value|mis_id". */
+  distractors?: string[];
 }
 
 export type HomeworkItemStatus = 'pending' | 'in_progress' | 'completed';
