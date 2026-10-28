@@ -80,6 +80,7 @@ const tapTargets: Array<[string, string, string]> = [
   ['layout', 'src/components/layout/ChildTopMenu.tsx', 'the top menu button'],
   ['feed', 'src/components/collections/SaveLikeButton.tsx', 'the like/save icon buttons'],
   ['picker', 'src/components/curriculum/CurriculumSubjectPickerModal.tsx', 'the subject chips'],
+  ['library', 'src/components/curriculum/CurriculumBrowser.tsx', 'the bookshelf/units view toggle'],
 ];
 for (const [name, file, label] of tapTargets) {
   const text = src(file);

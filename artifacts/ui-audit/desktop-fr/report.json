@@ -1,0 +1,310 @@
+{
+  "mission": "UI audit (miss-noor-design skill, step 1)",
+  "baseURL": "http://127.0.0.1:12001",
+  "startedAt": "2026-10-28T02:30:59.801Z",
+  "profile": "desktop-fr",
+  "viewport": {
+    "width": 1365,
+    "height": 900,
+    "isMobile": false,
+    "hasTouch": false,
+    "deviceScaleFactor": 2
+  },
+  "locale": "fr-FR",
+  "environment": "Disposable headless Chromium; synthetic QA profile only; no real student data",
+  "screens": [
+    {
+      "name": "01-onboarding-step1",
+      "screenshot": "artifacts/ui-audit/desktop-fr/01-onboarding-step1.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Salut ! Je suis Mademoiselle Noor 👩‍🏫"
+      ],
+      "buttons": [
+        "Appuie pour écouter",
+        "العربية 🇪🇬",
+        "English 🇬🇧",
+        "Français 🇫🇷",
+        "👧 Fille",
+        "👦 Garçon",
+        "9",
+        "10",
+        "11",
+        "12",
+        "Suivant"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 332
+    },
+    {
+      "name": "02-onboarding-step2-books",
+      "screenshot": "artifacts/ui-audit/desktop-fr/02-onboarding-step2-books.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Je suis prête à t’enseigner 📚"
+      ],
+      "buttons": [
+        "Appuie pour écouter",
+        "Retour",
+        "Continuer"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 449
+    },
+    {
+      "name": "03-onboarding-step3-quiz",
+      "screenshot": "artifacts/ui-audit/desktop-fr/03-onboarding-step3-quiz.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Trois questions rapides 🌟"
+      ],
+      "buttons": [
+        "Appuie pour écouter",
+        "ليلة الإسراء والمعراج",
+        "يوم فتح مكة",
+        "غزوة بدر",
+        "يوم عرفة"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 173
+    },
+    {
+      "name": "04-onboarding-step4-preferences",
+      "screenshot": "artifacts/ui-audit/desktop-fr/04-onboarding-step4-preferences.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Une dernière chose 😊"
+      ],
+      "buttons": [
+        "Appuie pour écouter",
+        "📖 Arabe",
+        "📐 Mathématiques",
+        "🔬 Sciences",
+        "🥐 Français",
+        "📚 Études sociales",
+        "🇬🇧 Anglais",
+        "💻 Informatique",
+        "🕌 Éducation islamique",
+        "✒️ Calligraphie arabe",
+        "🎮 Jeux",
+        "🎬 Vidéos",
+        "❓ Questions",
+        "💬 Discussion",
+        "5 min",
+        "10 min",
+        "20 min",
+        "Retour",
+        "Commençons ! ✨"
+      ],
+      "navButtons": [],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 502
+    },
+    {
+      "name": "05-home",
+      "screenshot": "artifacts/ui-audit/desktop-fr/05-home.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Bienvenue Learner QA! 👋",
+        "No missions planned yet",
+        "Mon école — Manuels"
+      ],
+      "buttons": [
+        "La leçon du jour avec Noor Quelques minutes, une idée, une seule question",
+        "View Shelf ←",
+        "Talk with Miss Noor 👩‍🏫 Ask her anything about lessons, voice or text",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "navButtons": [
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1179
+    },
+    {
+      "name": "06-feed",
+      "screenshot": "artifacts/ui-audit/desktop-fr/06-feed.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Performing Wudu attentively and praying Dhuhr on time during study breaks."
+      ],
+      "buttons": [
+        "ليلة الإسراء والمعراج",
+        "يوم فتح مكة",
+        "غزوة بدر",
+        "يوم عرفة",
+        "Explique-moi plus",
+        "Passer",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "navButtons": [
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 438
+    },
+    {
+      "name": "07-library",
+      "screenshot": "artifacts/ui-audit/desktop-fr/07-library.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Mon École — Manuels",
+        "Arabe",
+        "Mathématiques",
+        "Sciences",
+        "Français",
+        "Études sociales",
+        "Anglais",
+        "Informatique",
+        "Éducation islamique",
+        "Calligraphie arabe"
+      ],
+      "buttons": [
+        "📖 School Bookshelf",
+        "📑 Units & Lessons",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "navButtons": [
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1096
+    },
+    {
+      "name": "08-nour",
+      "screenshot": "artifacts/ui-audit/desktop-fr/08-nour.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Classe de Maîtresse Noor",
+        "«Listening Story: \"I Can\"»",
+        "«Listening Story: \"I Can\"»",
+        "Exploratory Diagnostic Station"
+      ],
+      "buttons": [
+        "Audio",
+        "📚 Changer",
+        "Textbook 📖",
+        "عربي 📜",
+        "رياضيات 📐",
+        "علوم 🔬",
+        "إنجليزي 🇬🇧",
+        "دراسات 🧭",
+        "دين 🕌",
+        "👩‍🏫 1. Teaching",
+        "🩺 2. Diagnosis",
+        "🎯 3. Re-Check",
+        "⭐ 4. Exercises",
+        "💬 5. Ask Noor",
+        "L’échec n’est pas une fatalité mais une motivation à persévérer",
+        "Éviter toute tâche difficile pour ne plus échouer",
+        "Compter entièrement sur les autres sans effort personnel",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "navButtons": [
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1268
+    },
+    {
+      "name": "10-home-fullpage",
+      "screenshot": "artifacts/ui-audit/desktop-fr/10-home-fullpage.png",
+      "title": "Miss Noor — AI School Companion",
+      "dir": "ltr",
+      "lang": "fr",
+      "headings": [
+        "Bienvenue Learner QA! 👋",
+        "No missions planned yet",
+        "Mon école — Manuels"
+      ],
+      "buttons": [
+        "La leçon du jour avec Noor Quelques minutes, une idée, une seule question",
+        "View Shelf ←",
+        "Talk with Miss Noor 👩‍🏫 Ask her anything about lessons, voice or text",
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "navButtons": [
+        "Accueil",
+        "Fil",
+        "Bibliothèque",
+        "Noor"
+      ],
+      "overflowXPx": 0,
+      "smallestTapPx": 44,
+      "tinyText": [],
+      "bodyTextLength": 1152,
+      "fullPage": true
+    }
+  ],
+  "consoleErrors": [],
+  "notes": [
+    "No lesson-start button found on the reachable screens."
+  ],
+  "health": {
+    "status": "ok",
+    "hasApiKey": false,
+    "timestamp": "2026-10-28T02:30:59.923Z"
+  }
+}
