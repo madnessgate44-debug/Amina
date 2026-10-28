@@ -55,9 +55,10 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
   const [isProcessing, setIsProcessing] = useState(false);
   const [showVisualPanel, setShowVisualPanel] = useState(true);
 
-  // Hands-free conversation. Off until the learner turns it on, so the existing
-  // press-driven flow is unchanged for anyone who prefers it.
-  const [handsFree, setHandsFree] = useState<HandsFreeState>(() => initialHandsFreeState(false));
+  // Hands-free conversation is on by default, so Miss Noor speaks each turn and
+  // reopens the microphone on her own. The header toggle turns it off and
+  // restores the press-driven flow for anyone who prefers it.
+  const [handsFree, setHandsFree] = useState<HandsFreeState>(() => initialHandsFreeState());
 
   const dispatchHandsFree = (event: Parameters<typeof reduceHandsFree>[1]) =>
     setHandsFree((prev) => reduceHandsFree(prev, event));
