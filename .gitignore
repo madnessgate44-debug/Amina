@@ -8,3 +8,8 @@ coverage/
 !.env.example
 .openhands/
 .space-stage/
+
+# Multi-profile UI audit screenshots are large (~3-4 MB per profile) and fully
+# regenerable with `npm run audit:ui`. The small report.json files ARE tracked,
+# because they carry the measurements. See docs/design/UI_AUDIT_MULTI_PROFILE_2026-10-28.md.
+artifacts/ui-audit/*/*.png

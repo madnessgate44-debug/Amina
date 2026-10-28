@@ -27,6 +27,7 @@
     "test:appvoice": "tsx src/services/__tests__/voiceAndQuestions.test.ts",
     "test:vercelentry": "tsx src/services/__tests__/vercelEntryResolution.test.ts",
     "test:phoneui": "tsx src/services/__tests__/phoneUiAccessibility.test.ts",
+    "audit:ui": "node scripts/ui-audit.mjs",
     "test:noorvoice": "tsx src/services/__tests__/noorVoiceAndTeaching.test.ts",
     "test:curriculumregistry": "tsx src/services/__tests__/curriculumRegistry.test.ts",
     "test:stagevoice": "tsx src/services/__tests__/stageVoiceLifecycle.test.ts",

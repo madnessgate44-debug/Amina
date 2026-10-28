@@ -21,21 +21,63 @@ import { setTimeout as delay } from 'node:timers/promises';
 const { chromium } = await import(process.env.PLAYWRIGHT_MODULE || 'playwright');
 
 const baseURL = process.argv[2] || process.env.AMINA_BASE_URL || 'http://127.0.0.1:12000';
-const outDir = process.env.AMINA_OUT_DIR || 'artifacts/ui-audit';
-await mkdir(outDir, { recursive: true });
 
 const PHONE = { width: 390, height: 844, isMobile: true, hasTouch: true, deviceScaleFactor: 3 };
+const DESKTOP = { width: 1365, height: 900, isMobile: false, hasTouch: false, deviceScaleFactor: 2 };
 
-const report = {
-  mission: 'Phone-viewport UI audit (miss-noor-design skill, step 1)',
+/**
+ * Evidence profiles. The audit originally covered the Arabic phone only; the
+ * same walk is now run at desktop width and in French, which is what the audit's
+ * own "recommended next work" asked for. Each profile writes its own directory.
+ */
+const PROFILES = {
+  'phone-ar': { viewport: PHONE, locale: 'ar-EG', language: /العربية/, dir: 'rtl' },
+  'desktop-ar': { viewport: DESKTOP, locale: 'ar-EG', language: /العربية/, dir: 'rtl' },
+  'phone-fr': { viewport: PHONE, locale: 'fr-FR', language: /Français|Francais/, dir: 'ltr' },
+  'desktop-fr': { viewport: DESKTOP, locale: 'fr-FR', language: /Français|Francais/, dir: 'ltr' },
+  'desktop-en': { viewport: DESKTOP, locale: 'en-GB', language: /English/, dir: 'ltr' },
+};
+
+const requestedProfiles = (process.env.AMINA_PROFILES || 'phone-ar')
+  .split(',')
+  .map((s) => s.trim())
+  .filter(Boolean);
+
+const unknownProfiles = requestedProfiles.filter((p) => !PROFILES[p]);
+if (unknownProfiles.length) {
+  throw new Error(`unknown profile(s): ${unknownProfiles.join(', ')}. Known: ${Object.keys(PROFILES).join(', ')}`);
+}
+
+let outDir = process.env.AMINA_OUT_DIR || 'artifacts/ui-audit';
+let profile = PROFILES[requestedProfiles[0]];
+
+let report = {
+  mission: 'UI audit (miss-noor-design skill, step 1)',
   baseURL,
   startedAt: new Date().toISOString(),
-  viewport: PHONE,
+  profile: requestedProfiles[0],
+  viewport: profile.viewport,
   environment: 'Disposable headless Chromium; synthetic QA profile only; no real student data',
   screens: [],
   consoleErrors: [],
   notes: [],
 };
+
+function freshReport(profileName) {
+  const p = PROFILES[profileName];
+  return {
+    mission: 'UI audit (miss-noor-design skill, step 1)',
+    baseURL,
+    startedAt: new Date().toISOString(),
+    profile: profileName,
+    viewport: p.viewport,
+    locale: p.locale,
+    environment: 'Disposable headless Chromium; synthetic QA profile only; no real student data',
+    screens: [],
+    consoleErrors: [],
+    notes: [],
+  };
+}
 
 async function waitForServer() {
   const deadline = Date.now() + 60_000;
@@ -129,11 +171,13 @@ async function capture(page, name, extra = {}) {
 }
 
 /** Step 1 needs name + address form + age before Next enables. */
-async function completeStepOne(page) {
+async function completeStepOne(page, languagePattern) {
   await page.locator('input[type="text"]').first().waitFor({ state: 'visible', timeout: 20_000 });
   await page.locator('input[type="text"]').first().fill('Learner QA');
-  await page.getByRole('button', { name: /العربية/ }).first().click().catch(() => {});
-  await page.getByRole('button', { name: /بنت|ولد/ }).first().click().catch(() => {});
+  if (languagePattern) {
+    await page.getByRole('button', { name: languagePattern }).first().click().catch(() => {});
+  }
+  await page.getByRole('button', { name: /بنت|ولد|Fille|Garçon|Girl|Boy/ }).first().click().catch(() => {});
   await page.getByRole('button', { name: /^10$/ }).first().click().catch(() => {});
   await delay(300);
 }
@@ -152,16 +196,16 @@ async function tapButton(page, pattern) {
  * Walks onboarding end to end with a synthetic learner.
  * S1 details -> S2 books -> S3 three warm-up questions -> S4 preferences -> HOME.
  */
-async function onboard(page, { captureSteps = [] } = {}) {
+async function onboard(page, { captureSteps = [], languagePattern } = {}) {
   await page.goto(baseURL, { waitUntil: 'domcontentloaded' });
-  await completeStepOne(page);
+  await completeStepOne(page, languagePattern);
   if (captureSteps.includes(1)) await capture(page, '01-onboarding-step1');
 
-  await tapButton(page, /التالي|Continue|Suivant/);
+  await tapButton(page, /التالي|Next|Suivant/);
   await delay(900);
   if (captureSteps.includes(2)) await capture(page, '02-onboarding-step2-books');
 
-  await tapButton(page, /كمّل|Continue|Suivant/);
+  await tapButton(page, /كمّل|Continue|Continuer|Suivant/);
   await delay(900);
   if (captureSteps.includes(3)) await capture(page, '03-onboarding-step3-quiz');
 
@@ -171,7 +215,10 @@ async function onboard(page, { captureSteps = [] } = {}) {
       const btns = Array.from(document.querySelectorAll('button')).filter(
         (b) => b.offsetWidth > 0 && !b.disabled && b.closest('nav') === null
       );
-      const skip = /^(رجوع|Back|Retour|اضغط لتسمع)$/;
+      // "Tap to hear" / "Appuie pour écouter" is the read-aloud control, not an
+      // answer. Missing it from this list made the English and French walks
+      // click it and stall on the quiz instead of picking an option.
+      const skip = /^(رجوع|Back|Retour|اضغط لتسمع|Tap to hear|Appuie pour écouter)$/;
       const option = btns.find((b) => !skip.test((b.innerText || '').trim()) && (b.innerText || '').trim());
       if (!option) return false;
       option.click();
@@ -180,7 +227,7 @@ async function onboard(page, { captureSteps = [] } = {}) {
     if (!advanced) break;
     await delay(500);
     // After answering, the advance button appears.
-    await tapButton(page, /السؤال التالي|كمّل|Continue|Suivant/);
+    await tapButton(page, /السؤال التالي|كمّل|Question suivante|Next question|Continue/);
     await delay(600);
   }
 
@@ -199,7 +246,7 @@ async function onboard(page, { captureSteps = [] } = {}) {
   // A session length keeps the preference step honest, then finish.
   await tapButton(page, /دقايق|دقيقة|min/);
   await delay(300);
-  await tapButton(page, /يلا نبدأ|ابدأ|Start|Commencer|Finish|حفظ/);
+  await tapButton(page, /يلا نبدأ|Let us start|Commençons|ابدأ|Start|Commencer/);
   await delay(2500);
 
   const nav = page.locator('nav button').first();
@@ -208,64 +255,78 @@ async function onboard(page, { captureSteps = [] } = {}) {
 }
 
 const browser = await chromium.launch({ executablePath: process.env.CHROMIUM_PATH || '/usr/bin/chromium' });
-const context = await browser.newContext({
-  viewport: { width: PHONE.width, height: PHONE.height },
-  isMobile: PHONE.isMobile,
-  hasTouch: PHONE.hasTouch,
-  deviceScaleFactor: PHONE.deviceScaleFactor,
-  locale: 'ar-EG',
-});
-const page = await context.newPage();
-page.on('console', (m) => {
-  if (m.type() === 'error') report.consoleErrors.push(m.text().slice(0, 300));
-});
-page.on('pageerror', (e) => report.consoleErrors.push(`pageerror: ${String(e).slice(0, 300)}`));
 
-try {
-  report.health = await waitForServer();
-  console.log(`Server healthy: ${JSON.stringify(report.health)}`);
+for (const profileName of requestedProfiles) {
+  profile = PROFILES[profileName];
+  report = freshReport(profileName);
+  outDir = process.env.AMINA_OUT_DIR
+    ? `${process.env.AMINA_OUT_DIR}/${profileName}`
+    : `artifacts/ui-audit/${profileName}`;
+  await mkdir(outDir, { recursive: true });
 
-  // 1-4. Onboarding, every step.
-  await onboard(page, { captureSteps: [1, 2, 3, 4] });
+  const context = await browser.newContext({
+    viewport: { width: profile.viewport.width, height: profile.viewport.height },
+    isMobile: profile.viewport.isMobile,
+    hasTouch: profile.viewport.hasTouch,
+    deviceScaleFactor: profile.viewport.deviceScaleFactor,
+    locale: profile.locale,
+  });
+  const page = await context.newPage();
+  page.on('console', (m) => {
+    if (m.type() === 'error') report.consoleErrors.push(m.text().slice(0, 300));
+  });
+  page.on('pageerror', (e) => report.consoleErrors.push(`pageerror: ${String(e).slice(0, 300)}`));
 
-  // 5. HOME.
-  await capture(page, '05-home');
+  console.log(`\n=== profile ${profileName} @ ${profile.viewport.width}x${profile.viewport.height} (${profile.locale}) ===`);
 
-  // 6-8. The other three nav destinations.
-  const nav = page.locator('nav button');
-  const navCount = await nav.count();
-  const names = ['06-feed', '07-library', '08-nour'];
-  for (let i = 1; i < Math.min(navCount, 4); i += 1) {
-    await nav.nth(i).click();
-    await delay(1400);
-    await capture(page, names[i - 1] || `nav-${i}`);
+  try {
+    report.health = await waitForServer();
+    console.log(`Server healthy: ${JSON.stringify(report.health)}`);
+
+    // 1-4. Onboarding, every step.
+    await onboard(page, { captureSteps: [1, 2, 3, 4], languagePattern: profile.language });
+
+    // 5. HOME.
+    await capture(page, '05-home');
+
+    // 6-8. The other three nav destinations.
+    const nav = page.locator('nav button');
+    const navCount = await nav.count();
+    const names = ['06-feed', '07-library', '08-nour'];
+    for (let i = 1; i < Math.min(navCount, 4); i += 1) {
+      await nav.nth(i).click();
+      await delay(1400);
+      await capture(page, names[i - 1] || `nav-${i}`);
+    }
+
+    // 9. A lesson / stage screen, if one is reachable from the current screen.
+    const startLesson = page.getByRole('button', { name: /ابدأ|Start|Study|تعلّم|تعلم|درس|Commencer|Étudier/ }).first();
+    if (await startLesson.count()) {
+      await startLesson.click().catch(() => {});
+      await delay(1800);
+      await capture(page, '09-lesson-start');
+    } else {
+      report.notes.push('No lesson-start button found on the reachable screens.');
+    }
+
+    // 8. Full-page capture of HOME, to see how far the scroll goes.
+    await page.locator('nav button').first().click().catch(() => {});
+    await delay(1000);
+    const home = await describe(page);
+    const fullFile = await shot(page, '10-home-fullpage', { full: true });
+    report.screens.push({ name: '10-home-fullpage', screenshot: fullFile, ...home, fullPage: true });
+    console.log('  captured 10-home-fullpage');
+  } catch (error) {
+    report.fatal = String(error);
+    console.error('audit error:', error);
+  } finally {
+    await writeFile(`${outDir}/report.json`, JSON.stringify(report, null, 2));
+    await context.close();
   }
 
-  // 9. A lesson / stage screen, if one is reachable from the current screen.
-  const startLesson = page.getByRole('button', { name: /ابدأ|Start|Study|تعلّم|تعلم|درس/ }).first();
-  if (await startLesson.count()) {
-    await startLesson.click().catch(() => {});
-    await delay(1800);
-    await capture(page, '09-lesson-start');
-  } else {
-    report.notes.push('No lesson-start button found on the reachable screens.');
-  }
-
-  // 8. Full-page capture of HOME, to see how far the scroll goes.
-  await page.locator('nav button').first().click().catch(() => {});
-  await delay(1000);
-  const home = await describe(page);
-  const fullFile = await shot(page, '10-home-fullpage', { full: true });
-  report.screens.push({ name: '10-home-fullpage', screenshot: fullFile, ...home, fullPage: true });
-  console.log('  captured 10-home-fullpage');
-} catch (error) {
-  report.fatal = String(error);
-  console.error('audit error:', error);
-} finally {
-  await writeFile(`${outDir}/report.json`, JSON.stringify(report, null, 2));
-  await browser.close();
+  console.log(`Screens captured: ${report.screens.length}`);
+  console.log(`Console errors: ${report.consoleErrors.length}`);
+  console.log(`Report: ${outDir}/report.json`);
 }
 
-console.log(`\nScreens captured: ${report.screens.length}`);
-console.log(`Console errors: ${report.consoleErrors.length}`);
-console.log(`Report: ${outDir}/report.json`);
+await browser.close();
