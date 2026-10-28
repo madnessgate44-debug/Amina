@@ -24,6 +24,16 @@ interface VoiceInputControlProps {
   onFallbackToText?: () => void;
   className?: string;
   buttonSize?: 'sm' | 'md' | 'lg';
+  /**
+   * Hands-free turn taking. When true, the control opens the microphone by
+   * itself whenever `listenSignal` changes, and uses a clear transcript without
+   * waiting for a tap. The student can still stop it at any time.
+   */
+  handsFree?: boolean;
+  /** Increment this to ask the control to start listening. */
+  listenSignal?: number;
+  /** Reports a transcript that was too noisy or empty to use. */
+  onTranscriptUnusable?: () => void;
 }
 
 export const VoiceInputControl: React.FC<VoiceInputControlProps> = ({
@@ -31,6 +41,9 @@ export const VoiceInputControl: React.FC<VoiceInputControlProps> = ({
   onFallbackToText,
   className = '',
   buttonSize = 'md',
+  handsFree = false,
+  listenSignal = 0,
+  onTranscriptUnusable,
 }) => {
   const { t, language, settings, updateMicPermission } = useApp();
   const isArabic = language === 'ar';
@@ -69,7 +82,19 @@ export const VoiceInputControl: React.FC<VoiceInputControlProps> = ({
       if (result.isNoisyOrEmpty || !result.transcript.trim()) {
         setIsNoisyOrEmpty(true);
         setDraftTranscript('');
-        setShowReviewModal(true);
+        if (handsFree) {
+          // In a conversation, a missed turn should not demand a tap. Report it
+          // and let the loop reopen the microphone.
+          onTranscriptUnusable?.();
+        } else {
+          setShowReviewModal(true);
+        }
+      } else if (handsFree) {
+        // A clear transcript goes straight through: the point of hands-free is
+        // that the learner never has to press anything to answer.
+        setDraftTranscript('');
+        setInterimText('');
+        onTranscriptConfirmed(result.transcript.trim());
       } else {
         setDraftTranscript(result.transcript);
         setIsNoisyOrEmpty(false);
@@ -82,8 +107,31 @@ export const VoiceInputControl: React.FC<VoiceInputControlProps> = ({
         updateMicPermission('denied');
       }
       setStatus('idle');
+      // A capture that threw would otherwise leave the loop waiting forever.
+      if (handsFree) onTranscriptUnusable?.();
     }
   };
+
+  /**
+   * Hands-free: open the microphone whenever the caller asks for the next turn.
+   * The signal is a counter rather than a boolean so that two consecutive turns
+   * are distinct events and the second one still fires.
+   */
+  useEffect(() => {
+    if (!handsFree || listenSignal === 0) return;
+    if (isMicDenied || settings.micPermissionStatus === 'denied') return;
+    let cancelled = false;
+    // Yield a frame first, so the tutor's last audio has fully stopped before
+    // the microphone opens and the learner's first word is not clipped.
+    const id = setTimeout(() => {
+      if (!cancelled) startVoiceRecording();
+    }, 300);
+    return () => {
+      cancelled = true;
+      clearTimeout(id);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [handsFree, listenSignal]);
 
   const stopVoiceRecording = () => {
     if (isRecording) {
