@@ -10,8 +10,14 @@ import { curriculumService } from '../../services/curriculum/curriculumService';
 import { teachingSessionEngine } from '../../services/teaching/teachingSession';
 import { storageService } from '../../services/storage';
 import { VisualRenderer } from '../../services/visuals/visualRenderer';
+import { voiceService } from '../../services/voice/voiceService';
 import { VoiceInputControl } from '../voice/VoiceInputControl';
 import { VoiceSpeakButton } from '../voice/VoiceSpeakButton';
+import {
+  initialHandsFreeState,
+  reduceHandsFree,
+  type HandsFreeState,
+} from '../../services/voice/handsFreeLoop';
 import { Badge } from '../common/Badge';
 import {
   X,
@@ -25,6 +31,8 @@ import {
   HelpCircle,
   PauseCircle,
   Lightbulb,
+  Mic,
+  MicOff,
 } from 'lucide-react';
 
 interface TeachingSessionModalProps {
@@ -38,7 +46,7 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
   onClose,
   onSessionComplete,
 }) => {
-  const { language, student, recordEvidence, showToast } = useApp();
+  const { language, student, settings, recordEvidence, showToast } = useApp();
   const isAr = language === 'ar';
 
   const [lesson, setLesson] = useState<OfficialCurriculumLesson | null>(null);
@@ -46,6 +54,28 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
   const [inputText, setInputText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showVisualPanel, setShowVisualPanel] = useState(true);
+
+  // Hands-free conversation. Off until the learner turns it on, so the existing
+  // press-driven flow is unchanged for anyone who prefers it.
+  const [handsFree, setHandsFree] = useState<HandsFreeState>(() => initialHandsFreeState(false));
+
+  const dispatchHandsFree = (event: Parameters<typeof reduceHandsFree>[1]) =>
+    setHandsFree((prev) => reduceHandsFree(prev, event));
+
+  /** Read a tutor turn aloud, then hand the turn to the learner. */
+  const speakTutorTurn = (text: string) => {
+    if (!settings.companionVoiceEnabled || !text.trim()) {
+      dispatchHandsFree({ type: 'speech_failed' });
+      return;
+    }
+    voiceService.speak(
+      text,
+      language,
+      undefined,
+      () => dispatchHandsFree({ type: 'speech_finished' }),
+      () => dispatchHandsFree({ type: 'speech_failed' }),
+    );
+  };
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -82,6 +112,29 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [session?.turnHistory.length]);
 
+  /**
+   * Hands-free: read each new tutor turn aloud, then open the microphone once
+   * the voice has stopped. Guarded by the turn id so a re-render cannot make the
+   * tutor repeat itself, and skipped while the tutor is already speaking.
+   */
+  const lastSpokenTurnRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (!handsFree.enabled || !session) return;
+    const lastTurn = session.turnHistory[session.turnHistory.length - 1];
+    if (!lastTurn || lastTurn.role !== 'tutor') return;
+    const turnKey = lastTurn.id || `${session.turnHistory.length}`;
+    if (lastSpokenTurnRef.current === turnKey) return;
+    lastSpokenTurnRef.current = turnKey;
+    dispatchHandsFree({ type: 'tutor_turn_added' });
+    speakTutorTurn(lastTurn.text);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.turnHistory.length, handsFree.enabled]);
+
+  // Stop any speech when the session closes, so a voice never outlives the modal.
+  useEffect(() => {
+    return () => voiceService.cancelSpeech();
+  }, []);
+
   if (!lesson || !session) {
     return null;
   }
@@ -95,6 +148,9 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
 
     setInputText('');
     setIsProcessing(true);
+    // Answering hands the turn back to the tutor, which will speak and then
+    // reopen the microphone.
+    dispatchHandsFree({ type: 'student_answered' });
 
     try {
       const result = teachingSessionEngine.advanceSession({
@@ -194,6 +250,36 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
           </div>
 
           <div className="flex items-center gap-1 sm:gap-2">
+            {/* Hands-free toggle: Miss Noor talks and listens on her own. */}
+            <button
+              type="button"
+              onClick={() => {
+                const next = !handsFree.enabled;
+                if (!next) voiceService.cancelSpeech();
+                dispatchHandsFree({ type: 'toggle', enabled: next });
+              }}
+              aria-pressed={handsFree.enabled}
+              title={
+                handsFree.enabled
+                  ? isAr
+                    ? 'إيقاف الوضع الصوتي المستمر'
+                    : 'Turn off hands-free conversation'
+                  : isAr
+                    ? 'تشغيل الوضع الصوتي المستمر'
+                    : 'Start hands-free conversation'
+              }
+              className={`flex items-center gap-1 px-2.5 py-1 rounded-xl text-[11px] font-bold border transition-all ${
+                handsFree.enabled
+                  ? 'bg-emerald-600 border-emerald-600 text-white'
+                  : 'bg-white dark:bg-slate-900 border-slate-300 dark:border-slate-700 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800'
+              }`}
+            >
+              {handsFree.enabled ? <Mic className="w-3.5 h-3.5" /> : <MicOff className="w-3.5 h-3.5" />}
+              <span className="hidden sm:inline">
+                {isAr ? 'محادثة حرة' : 'Hands-free'}
+              </span>
+            </button>
+
             {/* Step / Concept Progress indicator */}
             <div className="text-right rtl:text-left text-[11px] font-bold text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/60 px-2.5 py-1 rounded-xl border border-indigo-200 dark:border-indigo-800">
               {isAr
@@ -341,6 +427,9 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
           >
             <VoiceInputControl
               buttonSize="md"
+              handsFree={handsFree.enabled}
+              listenSignal={handsFree.listenToken}
+              onTranscriptUnusable={() => dispatchHandsFree({ type: 'transcript_empty' })}
               onTranscriptConfirmed={(text) => handleSendResponse(text, true)}
               onFallbackToText={() => inputRef.current?.focus()}
             />
