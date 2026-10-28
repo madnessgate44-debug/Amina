@@ -1,12 +1,13 @@
 # Miss Noor — Multi-profile UI audit (desktop, French, English)
 
 **Date:** 2026-10-28
-**Baseline commit:** `15d268c` (`main`, after PR #55 merged)
+**Baseline commit:** `15d268c` (`main`, after PR #55 merged); re-run on `0c10f3f`
+(after PR #56) with the sixth cell added.
 **Method:** `AMINA_PROFILES=... node scripts/ui-audit.mjs` — real built app, headless
-Chromium, five profiles in one run. Synthetic learner ("Learner QA"). No real child
+Chromium, six profiles in one run. Synthetic learner ("Learner QA"). No real child
 or student data.
-**Screens captured:** 10 (Arabic phone/desktop), 9 (French phone/desktop, English
-desktop) per profile, plus a `report.json` per profile.
+**Screens captured:** 10 (Arabic phone/desktop), 9 (French and English phone/desktop)
+per profile, plus a `report.json` per profile.
 **Console errors:** 0 in every profile.
 
 This continues the phone audit (`UI_AUDIT_PHONE_2026-10-26.md`), whose
@@ -18,7 +19,7 @@ width, in French and in English. It is an observation record, not a redesign.
 ```bash
 npm run build
 PORT=12001 NODE_ENV=production npx tsx server.ts &
-AMINA_PROFILES=phone-ar,desktop-ar,phone-fr,desktop-fr,desktop-en \
+AMINA_PROFILES=phone-ar,desktop-ar,phone-fr,desktop-fr,phone-en,desktop-en \
   node scripts/ui-audit.mjs http://127.0.0.1:12001
 ```
 
@@ -32,6 +33,7 @@ is unchanged when the variable is unset.
 | `desktop-ar` | 1365×900 | ar-EG |
 | `phone-fr` | 390×844 | fr-FR |
 | `desktop-fr` | 1365×900 | fr-FR |
+| `phone-en` | 390×844 | en-GB |
 | `desktop-en` | 1365×900 | en-GB |
 
 ## Result
@@ -42,11 +44,16 @@ is unchanged when the variable is unset.
 | `desktop-ar` | 10 | 0 | 44px | 0px | 0 |
 | `phone-fr` | 9 | 0 | 44px | 0px | 0 |
 | `desktop-fr` | 9 | 0 | 44px | 0px | 0 |
+| `phone-en` | 9 | 0 | 44px | 0px | 0 |
 | `desktop-en` | 9 | 0 | 44px | 0px | 0 |
 
 The French and English profiles reach 9 screens rather than 10: the lesson-start
 screen is not reachable from the nav in those locales within the walk, so the
 harness records that in `notes` instead of inventing a pass. Arabic reaches all 10.
+
+The `phone-en` cell was added on `0c10f3f` to close the mobile + English gap; the
+other five cells were re-run in the same command so the whole matrix reflects one
+build.
 
 ## Findings
 

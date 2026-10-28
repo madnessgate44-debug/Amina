@@ -1,7 +1,7 @@
 {
   "mission": "UI audit (miss-noor-design skill, step 1)",
-  "baseURL": "http://127.0.0.1:12001",
-  "startedAt": "2026-10-28T02:31:19.001Z",
+  "baseURL": "http://127.0.0.1:12000",
+  "startedAt": "2026-10-28T02:55:33.215Z",
   "profile": "desktop-en",
   "viewport": {
     "width": 1365,
@@ -305,6 +305,6 @@
   "health": {
     "status": "ok",
     "hasApiKey": false,
-    "timestamp": "2026-10-28T02:31:19.114Z"
+    "timestamp": "2026-10-28T02:55:33.322Z"
   }
 }

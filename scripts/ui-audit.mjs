@@ -35,6 +35,7 @@ const PROFILES = {
   'desktop-ar': { viewport: DESKTOP, locale: 'ar-EG', language: /العربية/, dir: 'rtl' },
   'phone-fr': { viewport: PHONE, locale: 'fr-FR', language: /Français|Francais/, dir: 'ltr' },
   'desktop-fr': { viewport: DESKTOP, locale: 'fr-FR', language: /Français|Francais/, dir: 'ltr' },
+  'phone-en': { viewport: PHONE, locale: 'en-GB', language: /English/, dir: 'ltr' },
   'desktop-en': { viewport: DESKTOP, locale: 'en-GB', language: /English/, dir: 'ltr' },
 };
 
