@@ -451,6 +451,38 @@ export function normalizeStudentText(raw?: string): string {
 }
 
 /**
+ * Maps a wrong answer to a known misconception id, when the question carries
+ * misconception metadata. The curriculum is the source of truth; a wrong answer
+ * outside the curated cases simply yields no id.
+ */
+function diagnoseWrongAnswer(
+  question: HomeworkQuestion,
+  studentAnswer: any
+): { misconceptionId?: string } {
+  const answer = normalizeStudentText(String(studentAnswer));
+  if (!answer) return {};
+
+  // A distractor that names its misconception: "value|mis_id".
+  if (Array.isArray(question.distractors)) {
+    for (const d of question.distractors) {
+      const [value, id] = String(d).split('|');
+      if (id && normalizeStudentText(value) === answer) return { misconceptionId: id.trim() };
+    }
+  }
+
+  // A misconception whose trigger is what the learner actually wrote.
+  if (Array.isArray(question.misconceptions)) {
+    for (const m of question.misconceptions) {
+      if (m.trigger && normalizeStudentText(m.trigger) === answer) {
+        return { misconceptionId: m.id };
+      }
+    }
+  }
+
+  return {};
+}
+
+/**
  * Evaluates student answer for a digital homework question.
  */
 export function evaluateStudentAnswer(
@@ -460,6 +492,7 @@ export function evaluateStudentAnswer(
   isCorrect: boolean;
   correctness: 'full' | 'partial' | 'wrong';
   feedback?: string;
+  misconceptionId?: string;
 } {
   if (studentAnswer === undefined || studentAnswer === null || studentAnswer === '') {
     return { isCorrect: false, correctness: 'wrong' };
@@ -468,7 +501,8 @@ export function evaluateStudentAnswer(
   switch (question.type) {
     case 'multiple_choice': {
       const isMatch = String(studentAnswer).trim() === String(question.correctAnswer).trim();
-      return { isCorrect: isMatch, correctness: isMatch ? 'full' : 'wrong' };
+      if (isMatch) return { isCorrect: true, correctness: 'full' };
+      return { isCorrect: false, correctness: 'wrong', ...diagnoseWrongAnswer(question, studentAnswer) };
     }
 
     case 'short_answer':
@@ -489,8 +523,10 @@ export function evaluateStudentAnswer(
         normStudent.includes(normTarget) ||
         normTarget.includes(normStudent);
 
-      return { isCorrect: isMatch, correctness: isMatch ? 'full' : 'wrong' };
+      if (isMatch) return { isCorrect: true, correctness: 'full' };
+      return { isCorrect: false, correctness: 'wrong', ...diagnoseWrongAnswer(question, studentAnswer) };
     }
+
 
     case 'matching': {
       // studentAnswer is an array of right strings matched in order of matchingPairs

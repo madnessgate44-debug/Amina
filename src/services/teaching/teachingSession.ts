@@ -13,6 +13,7 @@ import {
   StructuredVisualData,
 } from '../../types/teachingSession';
 import { curriculumService } from '../curriculum/curriculumService';
+import { selectTeachingSkill } from './skills/selectTeachingSkill';
 
 const DIACRITICS = /[\u064B-\u065F\u0670\u0640]/g;
 
@@ -268,6 +269,7 @@ export class TeachingSessionEngine {
     let visualData: StructuredVisualData | undefined;
     let masteryUpdate: AdvanceSessionResult['masteryUpdate'] | undefined;
     let isSessionCompleted = false;
+    let activeSkillId: string | undefined;
 
     switch (session.currentStep) {
       case 'greet': {
@@ -323,7 +325,9 @@ export class TeachingSessionEngine {
           const escalation = this.getEscalationResponse(attempt, currentConcept, lesson, effectiveLang);
           modalityUsed = escalation.modality;
           visualData = escalation.visualData;
-          replyText = escalation.text;
+          const diagnosed = this.applyTeachingSkill(studentInput, currentConcept, session.currentAttemptCount, effectiveLang);
+          activeSkillId = diagnosed.skillId;
+          replyText = diagnosed.prefix + escalation.text;
         }
         break;
       }
@@ -355,7 +359,9 @@ export class TeachingSessionEngine {
           const escalation = this.getEscalationResponse(attempt, currentConcept, lesson, effectiveLang);
           modalityUsed = escalation.modality;
           visualData = escalation.visualData;
-          replyText = escalation.text;
+          const diagnosed = this.applyTeachingSkill(studentInput, currentConcept, session.currentAttemptCount, effectiveLang);
+          activeSkillId = diagnosed.skillId;
+          replyText = diagnosed.prefix + escalation.text;
         }
         break;
       }
@@ -507,6 +513,7 @@ export class TeachingSessionEngine {
       modalityUsed,
       visualData,
       isExplainBack: nextStep === 'explain_back',
+      skillId: activeSkillId,
       timestamp: new Date().toISOString(),
     };
 
@@ -530,6 +537,37 @@ export class TeachingSessionEngine {
       shouldTriggerVisual: Boolean(visualData),
       isSessionCompleted,
     };
+  }
+
+  /**
+   * Asks the teaching-skill coordinator what to do this turn and renders the
+   * skill's instruction as a short, spoken prefix. The escalation ladder still
+   * owns the body of the turn; the skill names *why* the learner is stuck.
+   */
+  private applyTeachingSkill(
+    studentInput: string,
+    concept: CurriculumLessonConcept,
+    attemptCount: number,
+    lang: 'ar' | 'en' | 'fr' = 'ar'
+  ): { skillId: string; prefix: string } {
+    const skill = selectTeachingSkill({
+      concept,
+      studentInput: studentInput || '',
+      attemptCount,
+    });
+
+    let prefix = '';
+    if (skill.intent === 'name_misconception' && skill.misconception) {
+      const lead =
+        lang === 'fr'
+          ? 'Avant de continuer, clarifions un point important :'
+          : lang === 'en'
+          ? 'Before we continue, let us clear up one important point:'
+          : 'قبل ما نكمل، خلينا نوضح نقطة مهمة:';
+      prefix = `${lead} ${skill.misconception.explanation}\n${skill.misconception.remediation}\n\n`;
+    }
+
+    return { skillId: skill.skillId, prefix };
   }
 
   private evaluateExplainBack(

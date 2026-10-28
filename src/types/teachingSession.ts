@@ -51,6 +51,22 @@ export interface CurriculumExercise {
   page?: number | string;
 }
 
+/**
+ * A known way a learner gets this concept wrong, written as curriculum data
+ * rather than a hardcoded branch in the engine. When a wrong answer matches a
+ * `trigger`, the tutor can name the misunderstanding and clear it instead of
+ * only saying "try again".
+ */
+export interface ConceptMisconception {
+  id: string;
+  /** Student phrasing that signals this misconception (matched after normalization). */
+  trigger: string;
+  /** What the learner has wrong, in the lesson language. */
+  explanation: string;
+  /** The reframing that clears the misunderstanding. */
+  remediation: string;
+}
+
 export interface CurriculumLessonConcept {
   id: string;
   conceptNumber: number;
@@ -66,6 +82,10 @@ export interface CurriculumLessonConcept {
   prerequisiteEn: string;
   visualType?: StructuredVisualType;
   visualPrompt?: string;
+  /** Known wrong answers, each with a remediation. Optional; older lessons omit it. */
+  misconceptions?: ConceptMisconception[];
+  /** Wrong options that indicate a specific misunderstanding. Optional. */
+  distractors?: string[];
 }
 
 export interface SupplementaryResource {
@@ -138,6 +158,8 @@ export interface TutorTurn {
   text: string;
   audioText?: string;
   modalityUsed?: TeachingModality;
+  /** The teaching skill that produced this turn, when one drove it. */
+  skillId?: string;
   visualData?: StructuredVisualData;
   sourceRef?: SourceRef;
   isExplainBack?: boolean;
