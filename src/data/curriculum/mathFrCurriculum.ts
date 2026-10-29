@@ -203,6 +203,21 @@ Dans le nombre 4,725 :
         storyAnalogyEn: 'Like a race: look at full meters first, then centimeters.',
         prerequisiteAr: 'القيمة المكانية للأعداد العشرية.',
         prerequisiteEn: 'Decimals place value.',
+        misconceptions: [
+          {
+            id: 'mis_longer_is_bigger',
+            trigger: '<',
+            explanation: 'Vous avez cru que 6,05 est plus grand que 6,5 parce qu\'il a plus de chiffres après la virgule.',
+            remediation: 'Égalisez les longueurs avec un zéro : 6,5 = 6,50. On compare ensuite rang par rang : 50 centièmes > 5 centièmes, donc 6,5 > 6,05.',
+          },
+          {
+            id: 'mis_ignore_zero_padding',
+            trigger: '=',
+            explanation: 'Vous avez lu 6,5 et 6,05 comme s\'ils étaient égaux.',
+            remediation: 'Un zéro à la fin ne change pas la valeur (6,50 = 6,5), mais un zéro au milieu si : 6,05 vaut 6 unités et 5 centièmes, pas 6 unités et 5 dixièmes.',
+          },
+        ],
+        distractors: ['<|mis_longer_is_bigger', '=|mis_ignore_zero_padding'],
       },
     ],
     supplementaryResources: [
@@ -300,6 +315,21 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
         storyAnalogyEn: 'Like exchanging a 100-pound note for two 50-pound notes: the value remains identical.',
         prerequisiteAr: 'جدول الضرب وقسمة الأعداد الصحيحة.',
         prerequisiteEn: 'Multiplication tables and integer division.',
+        misconceptions: [
+          {
+            id: 'mis_add_not_multiply',
+            trigger: '3/4',
+            explanation: 'Vous avez ajouté 1 au numérateur et 2 au dénominateur (2/3 → 3/4) au lieu de multiplier les deux par le même nombre.',
+            remediation: 'La règle d\'or : on multiplie (ou divise) le haut ET le bas par le MÊME nombre. 2/3 × 2/2 = 4/6, jamais 3/4.',
+          },
+          {
+            id: 'mis_scale_one_part',
+            trigger: '2/6',
+            explanation: 'Vous avez multiplié seulement le dénominateur (3 → 6) et laissé le numérateur tel quel.',
+            remediation: 'Changez toujours les deux parties : 2/3 = (2 × 2)/(3 × 2) = 4/6. Si seul le bas change, la valeur change.',
+          },
+        ],
+        distractors: ['3/4|mis_add_not_multiply', '2/6|mis_scale_one_part'],
       },
     ],
     supplementaryResources: [
@@ -409,6 +439,21 @@ Rappel : multiplier par 10 rend le nombre 10 fois plus grand, par 100 cent fois 
         storyAnalogyEn: 'Like moving a slider on a ruler: every ×10 shifts the comma one step to the right.',
         prerequisiteAr: 'القيمة المكانية للأعداد العشرية والضرب في 10.',
         prerequisiteEn: 'Decimal place value and multiplication by 10.',
+        misconceptions: [
+          {
+            id: 'mis_shift_left',
+            trigger: '0,25',
+            explanation: 'Vous avez déplacé la virgule vers la GAUCHE (2,5 → 0,25), ce qui divise par 10 au lieu de multiplier.',
+            remediation: 'Multiplier par 10 rend le nombre plus grand : la virgule part vers la DROITE. 2,5 × 10 = 25, pas 0,25.',
+          },
+          {
+            id: 'mis_shift_wrong_count',
+            trigger: '250',
+            explanation: 'Vous avez décalé la virgule de deux rangs pour une multiplication par 10.',
+            remediation: 'Comptez les zéros du multiplicateur : × 10 = un seul zéro, donc un seul rang. 2,5 × 10 = 25.',
+          },
+        ],
+        distractors: ['0,25|mis_shift_left', '250|mis_shift_wrong_count'],
       },
       {
         id: 'conc_mathfr_u3_l1_zero_ajoute',
@@ -426,6 +471,21 @@ Rappel : multiplier par 10 rend le nombre 10 fois plus grand, par 100 cent fois 
         storyAnalogyEn: 'Like a row of seats: when it is full we add new seats (zeros) at the end.',
         prerequisiteAr: 'ضرب الأعداد العشرية في 10.',
         prerequisiteEn: 'Multiplying decimals by 10.',
+        misconceptions: [
+          {
+            id: 'mis_zero_place_kept',
+            trigger: '7',
+            explanation: 'Vous vous êtes arrêté au chiffre 7 sans ajouter les zéros manquants après avoir épuisé les chiffres décimaux.',
+            remediation: 'Continuez à décaler : 0,7 × 1000 → 7 → 70 → 700. Quand les chiffres manquent, complétez avec des zéros.',
+          },
+          {
+            id: 'mis_shift_direction',
+            trigger: '0,007',
+            explanation: 'Vous avez déplacé la virgule vers la gauche, ce qui divise par 1000 au lieu de multiplier.',
+            remediation: 'Une multiplication agrandit le nombre : la virgule va vers la DROITE. 0,7 × 1000 = 700.',
+          },
+        ],
+        distractors: ['7|mis_zero_place_kept', '0,007|mis_shift_direction'],
       },
     ],
     supplementaryResources: [
