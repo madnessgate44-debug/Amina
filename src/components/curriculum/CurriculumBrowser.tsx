@@ -236,7 +236,7 @@ export const CurriculumBrowser: React.FC = () => {
         <div className="space-y-3">
           <div className="flex items-center justify-between text-xs font-bold px-1">
             <span className="text-slate-800 dark:text-slate-200 flex items-center gap-1.5 font-black">
-              <span>📚 كتب أمينة الدراسية (الصف الخامس):</span>
+              <span>📚 كتب مس نور الدراسية (الصف الخامس):</span>
               <span className="text-indigo-600 dark:text-indigo-400 font-normal">
                 ({officialSubjectsSummary.length} كتب معتمدة)
               </span>
