@@ -30,7 +30,7 @@ if (!apiKey) {
 const ai = new GoogleGenAI({ apiKey });
 const force = process.argv.includes('--force');
 
-/** The three fixed slots, with the instruction that produces each one. */
+/** The three fixed slots, described to the model in one request. */
 const SLOTS = [
   {
     slot: 'intro' as const,
@@ -65,7 +65,16 @@ function curriculumText(concept: CurriculumLessonConcept, lesson: OfficialCurric
 
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
-async function generate(slot: string, instruction: string, text: string, conceptTitle: string): Promise<string> {
+/**
+ * Asks for all three fixed lines in ONE request.
+ *
+ * The free tier allows only 20 requests per model per day, and the curriculum
+ * has 54 concepts. One request per concept (54) fits inside a day's budget;
+ * one per slot (162) does not. So the model returns JSON with the three fields.
+ */
+async function generateAll(text: string, conceptTitle: string): Promise<{ intro: string; explanation: string; check: string }> {
+  const slotBrief = SLOTS.map((s, i) => `${i + 1}. "${s.slot}": ${s.instruction}`).join('\n');
+
   const systemInstruction = `
 You are "مس نور" (Miss Noor), a warm, patient, world-class Grade-5 teacher in Egypt, speaking to a 10-11 year old.
 Speak natural, warm Egyptian Arabic. Never claim to be human.
@@ -73,28 +82,34 @@ Speak natural, warm Egyptian Arabic. Never claim to be human.
 CURRICULUM (ground every word in this; never invent facts):
 """${text.slice(0, 1400)}"""
 
-YOUR TASK: ${instruction}
+YOUR TASK: write THREE short pieces for the concept "${conceptTitle}".
+${slotBrief}
 
 RULES:
 1. Stay strictly on the concept "${conceptTitle}".
 2. Be concrete and warm. Never use generic boilerplate.
-3. 2 to 4 short sentences. It will be read aloud, so keep it smooth.
+3. Each piece is 2 to 4 short sentences. They will be read aloud, so keep them smooth.
+
+Reply with ONLY this JSON, no other text:
+{"intro": "...", "explanation": "...", "check": "..."}
 `.trim();
 
   let lastError: unknown;
-  // The free tier is rate limited per model per minute, so a burst of calls gets
-  // 429s. Retry with backoff before giving up on a slot.
   for (let attempt = 0; attempt < 4; attempt++) {
-    if (attempt > 0) await sleep(2000 * Math.pow(2, attempt));
+    if (attempt > 0) await sleep(3000 * Math.pow(2, attempt));
     for (const model of DEFAULT_TEXT_MODELS) {
       try {
         const r = await ai.models.generateContent({
           model,
-          contents: [{ role: 'user', parts: [{ text: 'اكتب النص المطلوب الآن.' }] }],
-          config: { systemInstruction, temperature: 0.6 },
+          contents: [{ role: 'user', parts: [{ text: 'اكتب النص المطلوب الآن بصيغة JSON.' }] }],
+          config: { systemInstruction, temperature: 0.6, responseMimeType: 'application/json' },
         });
-        const out = (r.text || '').trim();
-        if (out) return out;
+        const raw = (r.text || '').trim();
+        if (!raw) continue;
+        const parsed = JSON.parse(raw);
+        if (parsed.intro && parsed.explanation && parsed.check) {
+          return { intro: String(parsed.intro), explanation: String(parsed.explanation), check: String(parsed.check) };
+        }
       } catch (err) {
         lastError = err;
       }
@@ -144,13 +159,11 @@ async function main() {
   const CONCURRENCY = 2;
 
   const results = await pool(jobs, CONCURRENCY, async (job) => {
-    const entry = { intro: '', explanation: '', check: '' };
-    for (const { slot, instruction } of SLOTS) {
-      try {
-        entry[slot] = await generate(slot, instruction, job.text, job.conceptTitle);
-      } catch {
-        failed++;
-      }
+    let entry = { intro: '', explanation: '', check: '' };
+    try {
+      entry = await generateAll(job.text, job.conceptTitle);
+    } catch {
+      failed++;
     }
     done++;
     if (done % 5 === 0) console.log(`  progress ${done}/${jobs.length}`);
