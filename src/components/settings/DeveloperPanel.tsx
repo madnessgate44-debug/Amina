@@ -27,6 +27,7 @@ import {
   Sparkles,
 } from 'lucide-react';
 import { localDateStr } from '../../utils/time';
+import { PRIMARY_TEXT_MODEL } from '../../services/ai/geminiModel';
 
 interface DeveloperPanelProps {
   language: Language;
@@ -77,7 +78,7 @@ export const DeveloperPanel: React.FC<DeveloperPanelProps> = ({ language }) => {
 
       costLatencyService.recordCall({
         endpoint: '/api/chat',
-        model: 'gemini-3.8-flash',
+        model: PRIMARY_TEXT_MODEL,
         tokensIn,
         tokensOut,
         latencyMs,

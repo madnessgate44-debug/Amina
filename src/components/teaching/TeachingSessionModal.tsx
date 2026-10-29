@@ -8,6 +8,7 @@ import { useApp } from '../../context/AppContext';
 import { TeachingSession, TutorTurn, OfficialCurriculumLesson } from '../../types/teachingSession';
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { teachingSessionEngine } from '../../services/teaching/teachingSession';
+import { generateTeachingLine } from '../../services/teaching/generateTeachingLine';
 import { storageService } from '../../services/storage';
 import { recordLearningSignal } from '../../services/telemetry/learningSignals';
 import { VisualRenderer } from '../../services/visuals/visualRenderer';
@@ -162,8 +163,30 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
         language: isAr ? 'ar' : 'en',
       });
 
-      setSession(result.session);
-      await storageService.saveTeachingSession(result.session);
+      // The engine decides the pedagogy and writes its own grounded line. Ask the
+      // model for the actual teaching words, and keep the engine line if it cannot
+      // answer. The engine remains the source of truth for step and mastery.
+      const engineTurn = result.newTutorTurn;
+      const activeConceptForTurn = lesson.concepts[session.currentConceptIndex] || lesson.concepts[0];
+      const spokenTurn = await generateTeachingLine({
+        engineTurn,
+        studentInput: toSend,
+        concept: activeConceptForTurn,
+        lesson,
+        studentName: student?.name || '',
+        addressForm: student?.addressForm || 'f',
+        language: isAr ? 'ar' : 'en',
+      });
+
+      const nextSession: TeachingSession = {
+        ...result.session,
+        turnHistory: result.session.turnHistory.map((t) =>
+          t.id === engineTurn.id ? { ...t, text: spokenTurn } : t
+        ),
+      };
+
+      setSession(nextSession);
+      await storageService.saveTeachingSession(nextSession);
 
       // Record mastery if generated (invisible to student in-session)
       if (result.masteryUpdate) {
