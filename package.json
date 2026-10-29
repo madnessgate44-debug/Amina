@@ -16,6 +16,7 @@
     "test:integrity": "tsx src/services/__tests__/integritySourceOfTruth.test.ts",
     "test:gate": "tsx src/services/__tests__/strictTypecheckGate.test.ts",
     "test:onboarding": "tsx src/services/__tests__/onboardingNoor.test.ts",
+    "generate:noor-lines": "tsx scripts/generate-noor-lines.ts",
     "smoke": "node scripts/smoke.mjs",
     "test:reels": "tsx src/services/__tests__/reels.test.ts",
     "test:voice": "tsx src/services/__tests__/serverTutorVoice.test.ts",
