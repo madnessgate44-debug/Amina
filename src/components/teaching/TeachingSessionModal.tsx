@@ -104,8 +104,33 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
         language: isAr ? 'ar' : 'en',
       });
 
-      setSession(initializedSession);
-      await storageService.saveTeachingSession(initializedSession);
+      // Generate the opening line too, so the child's first impression is the
+      // real teacher speaking, not a template. The engine's greeting is kept if
+      // the model cannot answer.
+      const openingTurn = initializedSession.turnHistory[initializedSession.turnHistory.length - 1];
+      const openingConcept =
+        foundLesson.concepts[initializedSession.currentConceptIndex] || foundLesson.concepts[0];
+      let readySession = initializedSession;
+      if (openingTurn && openingTurn.role === 'tutor') {
+        const openingLine = await generateTeachingLine({
+          engineTurn: openingTurn,
+          studentInput: '',
+          concept: openingConcept,
+          lesson: foundLesson,
+          studentName: student?.name || '',
+          addressForm: student?.addressForm || 'f',
+          language: isAr ? 'ar' : 'en',
+        });
+        readySession = {
+          ...initializedSession,
+          turnHistory: initializedSession.turnHistory.map((t) =>
+            t.id === openingTurn.id ? { ...t, text: openingLine } : t
+          ),
+        };
+      }
+
+      setSession(readySession);
+      await storageService.saveTeachingSession(readySession);
     }
 
     init();
