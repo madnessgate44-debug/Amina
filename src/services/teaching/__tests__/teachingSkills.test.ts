@@ -130,6 +130,31 @@ const concept: CurriculumLessonConcept = {
   const lesson = curriculumService.getLessonById('off_mathfr_u1_l1_decimaux');
   const shipped = lesson?.concepts?.[0]?.misconceptions?.length || 0;
   check('5.1 the anchor lesson carries real misconceptions', shipped >= 1);
+
+  const mathFrLessonIds = [
+    'off_mathfr_u1_l1_decimaux',
+    'off_mathfr_u1_l2_comparer',
+    'off_mathfr_u2_l1_fractions',
+    'off_mathfr_u3_l1_division',
+  ];
+  const covered = mathFrLessonIds.filter((id) => {
+    const l = curriculumService.getLessonById(id);
+    return (l?.concepts || []).some((c) => (c.misconceptions?.length || 0) > 0);
+  });
+  check('5.2 every French-math lesson carries misconception data', covered.length === mathFrLessonIds.length);
+
+  const allDistractorsResolve = mathFrLessonIds.every((id) => {
+    const l = curriculumService.getLessonById(id);
+    const ids = new Set<string>();
+    (l?.concepts || []).forEach((c) => (c.misconceptions || []).forEach((m) => ids.add(m.id)));
+    return (l?.concepts || []).every((c) =>
+      (c.distractors || []).every((d) => {
+        const [, misId] = String(d).split('|');
+        return !!misId && ids.has(misId);
+      })
+    );
+  });
+  check('5.3 every distractor points at a misconception declared in the same lesson', allDistractorsResolve);
 }
 
 console.log(`\nTEACHING SKILLS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
