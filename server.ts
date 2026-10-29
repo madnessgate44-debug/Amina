@@ -11,6 +11,7 @@ import {
 } from './src/services/i18n/serverTutorVoice.js';
 import { tutorVoiceFor } from './src/services/voice/tutorVoice.js';
 import { AI_HTTP_OPTIONS } from './src/services/ai/requestBudget.js';
+import { generateContentWithFallback, GEMINI_TTS_MODEL } from './src/services/ai/geminiModel.js';
 
 dotenv.config();
 
@@ -187,9 +188,8 @@ ${contextJson}
       return res.status(400).json({ error: 'No messages', degraded: true });
     }
 
-    // Generate response using SDK default model
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    // Walk the model chain; a gated model falls through instead of failing the turn.
+    const response = await generateContentWithFallback(ai, {
       contents,
       config: {
         systemInstruction,
@@ -235,8 +235,7 @@ app.post('/api/stt', async (req, res) => {
       ? 'استمع إلى التسجيل الصوتي المرفق وقم بتفريغه نصياً بدقة كما نطق الطالب باللغة العربية (اللهجة المصرية أو الفصحى). أرجع فقط النص الدقيق بدون أي مقدمات أو تحيات أو إضافات.'
       : 'Listen to the audio recording and transcribe it accurately as spoken. Return only the exact transcription without any commentary.';
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await generateContentWithFallback(ai, {
       contents: [
         {
           role: 'user',
@@ -314,8 +313,8 @@ app.post('/api/tts', async (req, res) => {
 
     try {
       const voiceName = tutorVoiceFor(langKey);
-      const response = await ai.models.generateContent({
-        model: 'gemini-3.8-flash-lite-tts',
+      const response = await generateContentWithFallback(ai, {
+        model: GEMINI_TTS_MODEL,
         contents: [
           {
             role: 'user',
@@ -431,8 +430,7 @@ STYLE & LANGUAGE:
 - Keep output concise (max 4-5 sentences) so it reads beautifully and can be spoken out loud by the voice engine without lagging.
 `.trim();
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await generateContentWithFallback(ai, {
       contents: [
         {
           role: 'user',
@@ -527,8 +525,7 @@ RULES:
 5. End with a friendly, gentle check for understanding (e.g. "وضحت كده ${v.champion} ولا نجرب مثال تاني؟").
 `.trim();
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await generateContentWithFallback(ai, {
       contents: [
         {
           role: 'user',
@@ -553,6 +550,97 @@ RULES:
         ? `${fbVoice.listenToYou} يا ${fbName} خطوة بخطوة! في درسنا «${req.body?.lessonTitle || 'الدرس'}»، أهم فكرة هي الفهم والتركيز في كتاب الوزارة.`
         : `I'm right here with you, ${fbName}! In "${req.body?.lessonTitle || 'our lesson'}", the main point is to stay curious and focused.`,
     });
+  }
+});
+
+/**
+ * Teaching-turn endpoint.
+ *
+ * The teaching session's dialogue is generated here, not scripted. The session
+ * engine still owns the pedagogy (which step comes next, whether the answer is
+ * sound, what mastery evidence to record), but the words the child hears come
+ * from the model, grounded in the real curriculum text for the lesson.
+ *
+ * The caller supplies the deterministic engine line as `fallbackLine`, so a
+ * model outage degrades to a real curriculum-grounded sentence, never silence.
+ */
+app.post('/api/teach-turn', async (req, res) => {
+  const {
+    studentInput = '',
+    lessonTitle = 'الدرس',
+    subjectName = 'المادة',
+    conceptTitle = '',
+    lessonText = '',
+    step = 'teach',
+    language = 'ar',
+  } = req.body || {};
+  const studentName = resolveStudentName(req.body?.studentName, language);
+  const addressForm = req.body?.addressForm;
+  const v = tutorArabicVoice(addressForm);
+  const isArabic = language === 'ar';
+  const isFrench = language === 'fr';
+
+  // The engine's own line, used verbatim when the model cannot answer.
+  const fallbackLine =
+    typeof req.body?.fallbackLine === 'string' && req.body.fallbackLine.trim()
+      ? req.body.fallbackLine
+      : isArabic
+      ? `تعالي نكمّل درس «${lessonTitle}» خطوة بخطوة يا ${studentName}.`
+      : `Let's keep going with "${lessonTitle}", ${studentName}.`;
+
+  if (!ai || Date.now() < globalQuotaCooldownUntil) {
+    return res.json({ text: fallbackLine, source: 'engine_fallback', degraded: true });
+  }
+
+  const stepGoal: Record<string, string> = {
+    greet: 'Welcome the child warmly and say what you will learn together today.',
+    warmup: 'Ask one light warm-up question that connects the child\'s own life to the lesson.',
+    teach: 'Teach the ONE concept below. Explain it in plain words a 10-year-old follows. Use a short everyday example. Do not just read the textbook out loud.',
+    ask: 'Ask the child to explain the concept back in their own words.',
+    adjust: 'The child did not understand. Re-teach the SAME concept a simpler way, with a different, concrete everyday example. Do not repeat your last wording.',
+    explain_back: 'React to the child\'s own explanation: say specifically what they got right, then gently name anything missing.',
+    celebrate: 'Praise the child concretely for what they understood, and say what comes next.',
+    close: 'Close the session warmly and say what you will do together next time.',
+  };
+
+  const systemInstruction = `
+You are "مس نور" (Miss Noor), a warm, patient, world-class Grade-5 teacher in Egypt.
+You are talking with ${studentName}, a 10-11 year old child. You never claim to be human.
+
+LESSON: "${lessonTitle}" — SUBJECT: "${subjectName}".
+CURRENT CONCEPT: "${conceptTitle}".
+REAL CURRICULUM TEXT (ground every answer in this, never invent facts):
+"""${String(lessonText || 'Grade 5 Egyptian Ministry curriculum.').slice(0, 1200)}"""
+
+YOUR JOB THIS TURN (step = "${step}"): ${stepGoal[step] || stepGoal.teach}
+
+RULES:
+1. Stay on this concept. Never give generic boilerplate.
+2. Be concrete: use one small, everyday example a child in Egypt recognises.
+3. ${isArabic ? `Speak natural, warm Egyptian Arabic, addressing the child as "${v.address} يا ${studentName}".` : isFrench ? `Speak warm, simple French suitable for primary school.` : 'Speak clear, warm, simple English.'}
+4. 2 to 4 short sentences. It will be read aloud, so keep it smooth.
+5. ${step === 'ask' || step === 'warmup' ? 'End with one clear question for the child.' : 'End with a short, gentle check that the child is with you.'}
+`.trim();
+
+  try {
+    const response = await generateContentWithFallback(ai, {
+      contents: [
+        {
+          role: 'user',
+          parts: [
+            {
+              text: `${studentName} said: "${String(studentInput).slice(0, 600) || '(nothing yet)'}". Reply as Miss Noor for step "${step}".`,
+            },
+          ],
+        },
+      ],
+      config: { systemInstruction, temperature: 0.7 },
+    });
+    const text = (response.text || '').trim();
+    return res.json({ text: text || fallbackLine, source: text ? 'gemini' : 'engine_fallback' });
+  } catch (error: any) {
+    handleAiError('teach-turn', error);
+    return res.json({ text: fallbackLine, source: 'engine_fallback', degraded: true });
   }
 });
 
@@ -654,8 +742,7 @@ YOUR TASK:
           : ''),
     });
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await generateContentWithFallback(ai, {
       contents: [{ role: 'user', parts }],
       config: {
         systemInstruction,
@@ -805,8 +892,7 @@ YOUR TASK:
           : `Explain page ${pageNumber} to the student.`,
     });
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await generateContentWithFallback(ai, {
       contents: [{ role: 'user', parts }],
       config: {
         systemInstruction,
@@ -979,8 +1065,7 @@ CRITICAL RULES:
 }
 `.trim();
 
-    const response = await ai.models.generateContent({
-      model: process.env.GEMINI_MODEL || 'gemini-3.8-flash',
+    const response = await generateContentWithFallback(ai, {
       contents: [{ role: 'user', parts: [{ text: trimmedInput }] }],
       config: {
         systemInstruction,

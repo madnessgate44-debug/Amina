@@ -1,4 +1,5 @@
 import { localDateStr } from '../../utils/time';
+import { PRIMARY_TEXT_MODEL } from '../ai/geminiModel';
 /**
  * @license
  * SPDX-License-Identifier: Apache-2.0
@@ -141,7 +142,7 @@ class CostLatencyService {
       timestamp: new Date().toISOString(),
       date: today,
       endpoint: params.endpoint,
-      model: params.model || 'gemini-3.8-flash',
+      model: params.model || PRIMARY_TEXT_MODEL,
       tokensIn: params.tokensIn,
       tokensOut: params.tokensOut,
       costUsd,
@@ -308,7 +309,7 @@ class CostLatencyService {
 
       const metric = this.recordCall({
         endpoint,
-        model: options.model || data.model || 'gemini-3.8-flash',
+        model: options.model || data.model || PRIMARY_TEXT_MODEL,
         tokensIn,
         tokensOut,
         latencyMs,
