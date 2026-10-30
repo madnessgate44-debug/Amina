@@ -9,7 +9,7 @@
  * when the user prefers reduced motion.
  */
 
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Reel } from '../../types/reel';
 import { NourState } from '../../types/stage';
 import { Language } from '../../types';
@@ -29,6 +29,13 @@ interface ReelCardProps {
   onAnswer: (correct: boolean) => void;
   onTeachMore: () => void;
   onSkip: () => void;
+  /**
+   * Fired once Noor has finished speaking her reaction (or, when voice is off,
+   * once the reaction text has been shown). The feed advances on this signal
+   * instead of a fixed timer, so a longer explanation is never cut off and a
+   * short one never leaves the child waiting in silence.
+   */
+  onReactionSpoken?: () => void;
 }
 
 const REASON_LABEL: Record<string, { ar: string; en: string; fr: string }> = {
@@ -49,10 +56,16 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   onAnswer,
   onTeachMore,
   onSkip,
+  onReactionSpoken,
 }) => {
   const [chosen, setChosen] = useState<number | null>(null);
   const [xpPop, setXpPop] = useState(false);
   const [muted, setMuted] = useState(false);
+  // Guard so the advance signal fires exactly once per answered reel.
+  const advancedRef = useRef(false);
+  // Always call the latest parent callback without re-running the speech effect.
+  const onReactionSpokenRef = useRef(onReactionSpoken);
+  onReactionSpokenRef.current = onReactionSpoken;
   // The live reaction to the child's answer, once it arrives.
   const [reaction, setReaction] = useState<string | null>(null);
   const [namedMisconception, setNamedMisconception] = useState(false);
@@ -104,13 +117,36 @@ export const ReelCard: React.FC<ReelCardProps> = ({
       .finally(() => setIsReacting(false));
   };
 
-  // Speak Noor's reaction once it arrives, so the child hears the answer back
-  // instead of only reading it. This is the second half of the turn: the reel
-  // prompt is spoken on appear (above), and the reaction is spoken on answer.
+  // Speak Noor's reaction once it arrives, then hand control back to the feed on
+  // speech-end instead of a fixed timer (owner ask: advance "after she stops
+  // speaking"). The same signal is the hook for voice turn-taking in the feed.
   useEffect(() => {
-    if (!voiceEnabled || muted) return;
     if (!reaction) return;
-    void voiceService.speak(reaction, language);
+    if (advancedRef.current) return;
+
+    const fireAdvance = () => {
+      if (advancedRef.current) return;
+      advancedRef.current = true;
+      onReactionSpokenRef.current?.();
+    };
+
+    if (!voiceEnabled || muted) {
+      // No audio: hold the reaction long enough to read, then move on.
+      const readMs = Math.min(6000, 1400 + reaction.length * 45);
+      const t = window.setTimeout(fireAdvance, readMs);
+      return () => window.clearTimeout(t);
+    }
+
+    let settled = false;
+    const onSpoken = () => {
+      if (settled) return;
+      settled = true;
+      fireAdvance();
+    };
+    void voiceService.speak(reaction, language, undefined, onSpoken, onSpoken);
+    // Safety net: if the engine never reports end, still advance.
+    const t = window.setTimeout(onSpoken, 12000);
+    return () => window.clearTimeout(t);
   }, [reaction, voiceEnabled, muted, language]);
 
   const noorState: NourState = chosen === null

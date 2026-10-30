@@ -89,12 +89,35 @@ assert(
 
 // --- R-F2 Noor speaks the reaction (spoken turn, not a static card) -------
 assert(
-  /voiceService\.speak\(reaction, language\)/.test(reelCard),
+  /voiceService\.speak\(reaction, language, undefined, onSpoken, onSpoken\)/.test(reelCard),
   'the reel speaks Noor\'s reaction after the child answers'
 );
 assert(
   /if \(!reaction\) return;/.test(reelCard),
   'the reaction is not spoken until it has arrived'
+);
+
+// --- R-F4 advance on speech end, not a fixed timer ------------------------
+assert(
+  !/setTimeout\(advance/.test(feedScreen),
+  'the feed no longer advances on a fixed setTimeout(advance, ...) timer'
+);
+assert(
+  /onReactionSpoken/.test(feedScreen) && /advance\(\)/.test(feedScreen),
+  'the feed advances when the reel reports Noor has finished speaking'
+);
+assert(
+  /onReactionSpoken\?: \(\) => void;/.test(reelCard),
+  'the reel exposes an onReactionSpoken signal to the feed'
+);
+assert(
+  /onReactionSpokenRef\.current\?\.\(\)/.test(reelCard),
+  'the reel fires the speech-end signal exactly once per answered reel'
+);
+assert(
+  /voiceService\.speak\(reaction, language, undefined, onSpoken, onSpoken\)/.test(reelCard) &&
+    /const t = window\.setTimeout\(onSpoken, 12000\)/.test(reelCard),
+  'the speech-end signal has a safety net so a silent engine cannot wedge the feed'
 );
 
 console.log(`\nIMMERSIVE FEED SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);

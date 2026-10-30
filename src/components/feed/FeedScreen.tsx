@@ -212,9 +212,9 @@ export const FeedScreen: React.FC = () => {
           voiceEnabled={settings.companionVoiceEnabled}
           onAnswer={(correct) => {
             void handleReelAnswer(currentReel, correct);
-            if (currentReel.kind !== 'win_closer') {
-              window.setTimeout(advance, correct ? 1400 : 2600);
-            }
+          }}
+          onReactionSpoken={() => {
+            if (currentReel.kind !== 'win_closer') advance();
           }}
           onTeachMore={() => {
             if (currentReel.lessonId && currentReel.lessonId !== 'closer') {
