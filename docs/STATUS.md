@@ -36,14 +36,15 @@ of "Log".
 - **Live proof:** live `assets/index-Ww6y43H2.js` SHA-256 `3aa6681d0ab8be00f3c95e31b6dc3a235b3696a79022f4f0af470fafeed52329`
   **identical** to the local build of `main` [V]. Playwright at 390x844 ar-EG on
   https://amina-nine-sepia.vercel.app: `docScrollH` 844 == viewport 844, `docScrolls:false`,
-  scroller 844, section 844, nav floats as an overlay (`navTop` 773, `navH` 71) [V].
+  scroller 844, section 844, nav floats as an overlay (`navTop` 773, `navH` 71), and the header is
+  **not rendered at all** (`headerVisible:false`, `headerH:0`) so the reel owns the full viewport [V].
   Before the fix the same probe reported `docScrollH` 1013 [V].
 - **Suite:** `tsc --noEmit` exit 0; `npm test` all suites pass (immersiveFeed 23/23 after adding 4
   source assertions, R-F1.5); `npm run build` exit 0; CI `verify` + `Check execution policy files`
   success on `0c44c87` [V].
 - **Next (owner's asks, unchanged):**
-  1. Feed media is still 0/0/0/0 (img/video/audio/canvas counts). A canvas now draws (PR #76), but the
-     reel still has no *media elements* — decide whether to count the canvas or add real media.
+  1. Reel media counts are **0/0/0/1** (img/video/audio/canvas) [V] — the canvas from PR #76 draws, but
+     there is still no img/video/audio. Decide whether to count the canvas or add real media.
   2. Voice turn-taking in the feed — `handsFreeLoop.ts` is wired only into `TeachingSessionModal.tsx`.
      `onReactionSpoken` remains the hand-back point.
   3. Arabic misconception content — all 10 curriculum misconceptions are French-only.
