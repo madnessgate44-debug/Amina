@@ -133,6 +133,9 @@ export function buildReelsForConcept(
     originTag: lesson.originTag,
     language: lang,
     reason: opts.reason,
+    // Carried through so the reel's visual honours the type the curriculum
+    // declares for this concept instead of always defaulting to a diagram.
+    visualType: concept.visualType,
   } as const;
 
   const hookLine = nonEmpty(

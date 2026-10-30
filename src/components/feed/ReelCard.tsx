@@ -17,6 +17,7 @@ import { NourCharacter } from '../stage/NourCharacter';
 import { SaveLikeButton } from '../collections/SaveLikeButton';
 import { voiceService } from '../../services/voice/voiceService';
 import { resolveReelResponse } from '../../services/reels/reelResponse';
+import { ReelVisual } from './ReelVisual';
 import { Sparkles, Check, X as XIcon, BookOpen, Volume2, VolumeX } from 'lucide-react';
 
 interface ReelCardProps {
@@ -203,6 +204,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
           {reel.show && reel.show !== reel.hook && (
             <p className="text-[14px] text-slate-300 mt-2 leading-relaxed">{reel.show}</p>
           )}
+          <ReelVisual reel={reel} isAr={isAr} reducedMotion={reducedMotion} />
 
           {reel.options && reel.options.length > 0 && (
             <div className="mt-4 space-y-2.5">
