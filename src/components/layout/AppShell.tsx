@@ -63,8 +63,8 @@ export const AppShell: React.FC = () => {
   const isImmersive = !showOnboarding && activeTab === 'feed';
 
   return (
-    <div className="min-h-screen bg-slate-100 dark:bg-slate-950 flex flex-col items-center text-slate-900 dark:text-slate-100">
-      <div className="w-full max-w-md md:max-w-lg min-h-screen bg-slate-50 dark:bg-slate-900 border-x border-slate-200/80 dark:border-slate-800 shadow-2xl flex flex-col relative">
+    <div className={`min-h-screen bg-slate-100 dark:bg-slate-950 flex flex-col items-center text-slate-900 dark:text-slate-100${isImmersive ? ' h-screen overflow-hidden' : ''}`}>
+      <div className={`w-full max-w-md md:max-w-lg min-h-screen bg-slate-50 dark:bg-slate-900 border-x border-slate-200/80 dark:border-slate-800 shadow-2xl flex flex-col relative${isImmersive ? ' h-screen' : ''}`}>
         {!showOnboarding && !isImmersive && (
           <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2.5">

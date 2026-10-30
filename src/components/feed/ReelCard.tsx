@@ -161,7 +161,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
 
   return (
     <section
-      className="min-h-full snap-start flex items-center px-4 pt-6 pb-24 relative overflow-hidden"
+      className="h-full snap-start flex items-center px-4 pt-6 pb-24 relative overflow-hidden"
       dir={isAr ? 'rtl' : 'ltr'}
     >
       <div className="absolute inset-0 bg-linear-to-br from-slate-950 via-indigo-950/50 to-slate-950" />

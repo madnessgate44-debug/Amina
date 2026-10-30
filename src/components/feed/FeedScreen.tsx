@@ -189,7 +189,7 @@ export const FeedScreen: React.FC = () => {
 
   if (currentReel) {
     return (
-      <div className="flex-1 min-h-0 overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white">
+      <div className="flex-1 min-h-0 overflow-y-auto snap-y snap-mandatory h-full bg-slate-950 text-white">
         <div className="sr-only" aria-live="polite">{announcement}</div>
         {gamification && (
           <div className="fixed top-2 start-3 end-3 z-20 flex items-center justify-between pointer-events-none">
