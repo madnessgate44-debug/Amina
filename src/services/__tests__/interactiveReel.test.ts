@@ -107,6 +107,38 @@ async function main() {
     check('5.1 two different wrong answers get different diagnoses', other.text !== wrongResult.text);
   }
 
+  // --- Language guard: a French diagnosis must never be injected into Arabic. ---
+  // Build the reel the way the app would for an Arabic child, then answer wrong.
+  const arReels = buildReelsForConcept(lesson, conceptWithMis, 'ar');
+  const arQuestion = arReels.find((r) => r.options && r.options.length > 1)!;
+  const arWrong = arQuestion.options!.find((o) => !o.isCorrect)!;
+  const arabicResult = await resolveReelResponse({
+    reel: arQuestion,
+    answerText: arWrong.text,
+    correct: false,
+    language: 'ar',
+    studentName: 'سارة',
+  });
+  const hasLatin = /[A-Za-zÀ-ÿ]{4,}/.test(arabicResult.text);
+  check('6.1 a French misconception is not injected into an Arabic reply', !hasLatin,
+    `got: ${arabicResult.text.slice(0, 60)}`);
+  check('6.2 the mismatched diagnosis is not reported as named', arabicResult.namedMisconception === false);
+  check('6.3 the child still gets a reaction in their own language', /[\u0600-\u06FF]/.test(arabicResult.text));
+  check('6.4 the mismatched path is honest about being degraded', arabicResult.degraded === true);
+
+  // The same concept answered in French still gets the full diagnosis.
+  const frReels = buildReelsForConcept(lesson, conceptWithMis, 'fr');
+  const frQuestion = frReels.find((r) => r.options && r.options.length > 1)!;
+  const frWrong = frQuestion.options!.find((o) => !o.isCorrect)!;
+  const frenchResult = await resolveReelResponse({
+    reel: frQuestion,
+    answerText: frWrong.text,
+    correct: false,
+    language: 'fr',
+  });
+  check('6.5 a French child still gets the stored diagnosis',
+    frenchResult.source === 'misconception' && frenchResult.namedMisconception === true);
+
   console.log(`\nINTERACTIVE REEL SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED\n`);
   process.exit(failed > 0 ? 1 : 0);
 }

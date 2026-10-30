@@ -55,6 +55,22 @@ function misconceptionForAnswer(reel: Reel, answerText: string) {
   return matchMisconception(answerText, found.concept.misconceptions);
 }
 
+/**
+ * True when `text` is written in the language the child is reading.
+ *
+ * Misconception text is authored per curriculum track and is not translated, so
+ * a French-track entry can be served to a child reading Arabic. Injecting it
+ * anyway would put a French sentence in the middle of Noor's Arabic — worse
+ * than saying less. When the script does not match, the caller falls through to
+ * the model, which can explain in the child's own language.
+ */
+function speaksLanguage(text: string, language: Language): boolean {
+  const hasArabic = /[\u0600-\u06FF]/.test(text);
+  const hasLatin = /[A-Za-zÀ-ÿ]/.test(text);
+  if (language === 'ar') return hasArabic;
+  return hasLatin;
+}
+
 export async function resolveReelResponse(
   params: ResolveReelResponseParams
 ): Promise<ReelResponseResult> {
@@ -64,14 +80,19 @@ export async function resolveReelResponse(
     return { text: reel.reactionCorrect, namedMisconception: false, degraded: false, source: 'reel_line' };
   }
 
-  // Wrong answer: the engine diagnoses first, at zero quota.
+  // Wrong answer: the engine diagnoses first, at zero quota — but only when the
+  // stored diagnosis is in the language the child is reading. Otherwise fall
+  // through to the model rather than mixing a French sentence into Arabic.
   const misconception = misconceptionForAnswer(reel, answerText);
   if (misconception) {
-    const named =
-      language === 'ar'
-        ? `لأ يا ${studentName || 'بطل'}، خلّينا نفهم إيه اللي حصل. ${misconception.explanation} ${misconception.remediation}`
-        : `${misconception.explanation} ${misconception.remediation}`;
-    return { text: named, namedMisconception: true, degraded: false, source: 'misconception' };
+    const diagnosis = `${misconception.explanation} ${misconception.remediation}`.trim();
+    if (speaksLanguage(diagnosis, language)) {
+      const named =
+        language === 'ar'
+          ? `لأ يا ${studentName || 'بطل'}، خلّينا نفهم إيه اللي حصل. ${diagnosis}`
+          : diagnosis;
+      return { text: named, namedMisconception: true, degraded: false, source: 'misconception' };
+    }
   }
 
   if (forceOffline) {
