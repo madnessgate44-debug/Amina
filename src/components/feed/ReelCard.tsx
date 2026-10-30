@@ -104,6 +104,15 @@ export const ReelCard: React.FC<ReelCardProps> = ({
       .finally(() => setIsReacting(false));
   };
 
+  // Speak Noor's reaction once it arrives, so the child hears the answer back
+  // instead of only reading it. This is the second half of the turn: the reel
+  // prompt is spoken on appear (above), and the reaction is spoken on answer.
+  useEffect(() => {
+    if (!voiceEnabled || muted) return;
+    if (!reaction) return;
+    void voiceService.speak(reaction, language);
+  }, [reaction, voiceEnabled, muted, language]);
+
   const noorState: NourState = chosen === null
     ? 'talking'
     : chosen === correctIndex
