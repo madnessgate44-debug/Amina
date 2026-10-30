@@ -24,6 +24,36 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-30 (run 3) — the FEED reel is now exactly one viewport tall
+- **Shipped:** PR #78, squash merge `a4bbf029a78ca9a7145a4efb4333d640585acb0d`. The immersive feed
+  shell was `min-h-screen` — a *minimum*, so the app column grew to the reel's content height
+  (**1013px** in an 844px viewport) and the **document** scrolled instead of the reel. ~20% of every
+  reel sat below the fold. Fix: shell `h-screen overflow-hidden`, app column `h-screen`, reel
+  scroller `+ h-full`, `ReelCard` slide `min-h-full` -> `h-full`. `h-full` on the slide now resolves
+  against the `h-full` scroller, which resolves against the `h-screen` column, so the **viewport**
+  sets the slide height. This is a *second*, separate cause from the earlier header/nav fix.
+- **Deploy:** Vercel production `dpl_6FFx3oUFUL5mRwDxJPYUDwZoaJq5` READY for `a4bbf029` [V].
+- **Live proof:** live `assets/index-Ww6y43H2.js` SHA-256 `3aa6681d0ab8be00f3c95e31b6dc3a235b3696a79022f4f0af470fafeed52329`
+  **identical** to the local build of `main` [V]. Playwright at 390x844 ar-EG on
+  https://amina-nine-sepia.vercel.app: `docScrollH` 844 == viewport 844, `docScrolls:false`,
+  scroller 844, section 844, nav floats as an overlay (`navTop` 773, `navH` 71) [V].
+  Before the fix the same probe reported `docScrollH` 1013 [V].
+- **Suite:** `tsc --noEmit` exit 0; `npm test` all suites pass (immersiveFeed 23/23 after adding 4
+  source assertions, R-F1.5); `npm run build` exit 0; CI `verify` + `Check execution policy files`
+  success on `0c44c87` [V].
+- **Next (owner's asks, unchanged):**
+  1. Feed media is still 0/0/0/0 (img/video/audio/canvas counts). A canvas now draws (PR #76), but the
+     reel still has no *media elements* — decide whether to count the canvas or add real media.
+  2. Voice turn-taking in the feed — `handsFreeLoop.ts` is wired only into `TeachingSessionModal.tsx`.
+     `onReactionSpoken` remains the hand-back point.
+  3. Arabic misconception content — all 10 curriculum misconceptions are French-only.
+  4. Make misconception-bearing reels reachable — `buildFeedQueue` never selects `conc_mathfr_*`.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+- **Guard trap hit this run:** `POST /repos/.../pulls` returned **HTTP 500** (and GraphQL `gh pr create`
+  a generic error) for ~4 minutes right after the branch push, then succeeded once. A throwaway probe
+  branch proved the credentials and payload were fine, so it was transient. Retry; do not conclude
+  "no permission".
+
 ### 2026-10-30 (run 2) — feed advances on speech-end, not a fixed timer
 - **Shipped:** the reel no longer advances on a fixed clock. It used
   `setTimeout(advance, correct ? 1400 : 2600)`, which cut a long explanation off mid-sentence and
