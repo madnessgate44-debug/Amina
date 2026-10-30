@@ -87,5 +87,15 @@ assert(
   'the reel card reserves bottom space so the overlay nav does not cover content'
 );
 
+// --- R-F2 Noor speaks the reaction (spoken turn, not a static card) -------
+assert(
+  /voiceService\.speak\(reaction, language\)/.test(reelCard),
+  'the reel speaks Noor\'s reaction after the child answers'
+);
+assert(
+  /if \(!reaction\) return;/.test(reelCard),
+  'the reaction is not spoken until it has arrived'
+);
+
 console.log(`\nIMMERSIVE FEED SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
