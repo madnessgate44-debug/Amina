@@ -19,16 +19,44 @@ import { resolve } from 'node:path';
 import { GoogleGenAI } from '@google/genai';
 import { curriculumService } from '../src/services/curriculum/curriculumService.js';
 import { PRE_GENERATED_NOOR_LINES } from '../src/data/curriculum/preGeneratedNoorLines.js';
-import { DEFAULT_TEXT_MODELS } from '../src/services/ai/geminiModel.js';
 import type { OfficialCurriculumLesson, CurriculumLessonConcept } from '../src/types/teachingSession.js';
 
-const apiKey = process.env.GEMINI_API_KEY || process.env.OHGeminiAPI;
-if (!apiKey) {
+// A second key is used when the first is out of daily quota. Each key gets its
+// own free-tier allowance, so a spare key doubles the number of lines one run
+// can produce.
+const apiKeys = [process.env.GEMINI_API_KEY, process.env.OHGeminiAPI, process.env.OHGeminiAPI2].filter(
+  (k): k is string => Boolean(k)
+);
+if (apiKeys.length === 0) {
   console.error('BLOCKED: set GEMINI_API_KEY (or OHGeminiAPI) to generate lines.');
   process.exit(1);
 }
-const ai = new GoogleGenAI({ apiKey });
 const force = process.argv.includes('--force');
+
+/** Models that already answered 429 today; skipped for the rest of the run. */
+const exhaustedModels = new Set<string>();
+
+/** Tries each configured key in turn, so one exhausted key does not stop a run. */
+function clientFor(index: number) {
+  return new GoogleGenAI({ apiKey: apiKeys[index % apiKeys.length] });
+}
+
+/**
+ * Models used for generation, most capable first.
+ *
+ * The app's user-facing chain is deliberately short; generation is a batch job
+ * and can range wider. Free-tier quota is counted per model per day, so a
+ * longer list both improves the wording and multiplies the daily budget.
+ */
+const GENERATION_MODELS = [
+  'gemini-3.6-flash',
+  'gemini-3.5-flash',
+  'gemini-3.7-flash',
+  'gemini-3-flash-preview',
+  'gemini-3.5-flash-lite',
+  'gemini-3.1-flash-lite',
+  'gemini-flash-lite-latest',
+];
 
 /** The three fixed slots, described to the model in one request. */
 const SLOTS = [
@@ -95,9 +123,14 @@ Reply with ONLY this JSON, no other text:
 `.trim();
 
   let lastError: unknown;
-  for (let attempt = 0; attempt < 4; attempt++) {
-    if (attempt > 0) await sleep(3000 * Math.pow(2, attempt));
-    for (const model of DEFAULT_TEXT_MODELS) {
+  for (let attempt = 0; attempt < 5; attempt++) {
+    if (attempt > 0) await sleep(1500 * attempt);
+    // Rotate keys across attempts so an exhausted key is not retried forever.
+    const ai = clientFor(attempt);
+    for (const model of GENERATION_MODELS) {
+      // A model that answered 429 is out for the whole day; skip it from now on
+      // instead of spending the rest of the run retrying it.
+      if (exhaustedModels.has(model)) continue;
       try {
         const r = await ai.models.generateContent({
           model,
@@ -112,6 +145,7 @@ Reply with ONLY this JSON, no other text:
         }
       } catch (err) {
         lastError = err;
+        if ((err as { status?: number })?.status === 429) exhaustedModels.add(model);
       }
     }
   }
