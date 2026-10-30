@@ -16,6 +16,7 @@ import { Language } from '../../types';
 import { NourCharacter } from '../stage/NourCharacter';
 import { SaveLikeButton } from '../collections/SaveLikeButton';
 import { voiceService } from '../../services/voice/voiceService';
+import { resolveReelResponse } from '../../services/reels/reelResponse';
 import { Sparkles, Check, X as XIcon, BookOpen, Volume2, VolumeX } from 'lucide-react';
 
 interface ReelCardProps {
@@ -52,6 +53,11 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   const [chosen, setChosen] = useState<number | null>(null);
   const [xpPop, setXpPop] = useState(false);
   const [muted, setMuted] = useState(false);
+  // The live reaction to the child's answer, once it arrives.
+  const [reaction, setReaction] = useState<string | null>(null);
+  const [namedMisconception, setNamedMisconception] = useState(false);
+  const [offlineTeacher, setOfflineTeacher] = useState(false);
+  const [isReacting, setIsReacting] = useState(false);
 
   // Narrate the reel as it appears, unless voice is off or muted.
   useEffect(() => {
@@ -74,6 +80,28 @@ export const ReelCard: React.FC<ReelCardProps> = ({
       if (!reducedMotion) window.setTimeout(() => setXpPop(false), 1200);
     }
     onAnswer(correct);
+
+    // React to the answer the child actually gave. A correct answer reuses the
+    // reel's praise line; a wrong one is diagnosed against curriculum
+    // misconceptions first, and only then asks the model.
+    const answerText = reel.options?.[index]?.text || '';
+    setIsReacting(true);
+    void resolveReelResponse({
+      reel,
+      answerText,
+      correct,
+      language,
+    })
+      .then((result) => {
+        setReaction(result.text);
+        setNamedMisconception(result.namedMisconception);
+        setOfflineTeacher(result.degraded);
+      })
+      .catch(() => {
+        setReaction(reel.reactionWrong);
+        setOfflineTeacher(true);
+      })
+      .finally(() => setIsReacting(false));
   };
 
   const noorState: NourState = chosen === null
@@ -82,7 +110,8 @@ export const ReelCard: React.FC<ReelCardProps> = ({
     ? 'celebrating'
     : 'gentle_correct';
 
-  const reaction = chosen === null ? reel.noorLine : chosen === correctIndex ? reel.reactionCorrect : reel.reactionWrong;
+  // Until the reaction arrives, keep showing Noor's own line.
+  const shownReaction = reaction ?? (chosen === null ? reel.noorLine : reel.reactionWrong);
 
   return (
     <section
@@ -104,7 +133,19 @@ export const ReelCard: React.FC<ReelCardProps> = ({
                 <Sparkles className="w-3 h-3" />
                 <span>{isAr ? 'نور' : 'Noor'}</span>
               </div>
-              <p className="text-[15px] font-bold leading-relaxed">{reaction}</p>
+              <p className="text-[15px] font-bold leading-relaxed">
+                {isReacting && chosen !== null ? (isAr ? '…' : '…') : shownReaction}
+              </p>
+              {namedMisconception && (
+                <div className="mt-2 inline-block text-[11px] font-black text-violet-700 bg-violet-100 px-2 py-0.5 rounded-lg">
+                  {isAr ? '🔍 عرفنا الغلطة' : '🔍 Misconception named'}
+                </div>
+              )}
+              {offlineTeacher && (
+                <div className="mt-2 inline-block text-[11px] font-black text-amber-800 bg-amber-100 px-2 py-0.5 rounded-lg">
+                  {isAr ? '🎒 معلمة بدون إنترنت' : '🎒 Offline teacher'}
+                </div>
+              )}
             </div>
           </div>
         </div>

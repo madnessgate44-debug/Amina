@@ -13,3 +13,6 @@ coverage/
 # regenerable with `npm run audit:ui`. The small report.json files ARE tracked,
 # because they carry the measurements. See docs/design/UI_AUDIT_MULTI_PROFILE_2026-10-28.md.
 artifacts/ui-audit/*/*.png
+
+# Scratch space for one-off probes and generated logs
+tmpgen/

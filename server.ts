@@ -44,6 +44,26 @@ const ai = apiKey
 // Quota & Rate Limit Protection (Circuit breaker for 429 RESOURCE_EXHAUSTED)
 let globalQuotaCooldownUntil = 0;
 
+/**
+ * Replies already written for the same (lesson, concept, step, answer).
+ *
+ * A serverless instance reuses this across requests, so a repeated answer — a
+ * child tapping the same wrong option, or two children in a class hitting the
+ * same lesson — costs no model call. Bounded so an instance cannot grow without
+ * limit. Best effort by design: a cold instance starts empty and simply calls
+ * the model.
+ */
+const replyCache = new Map<string, string>();
+const REPLY_CACHE_MAX = 500;
+
+function cacheReply(key: string, text: string) {
+  if (replyCache.size >= REPLY_CACHE_MAX) {
+    const oldest = replyCache.keys().next().value;
+    if (oldest !== undefined) replyCache.delete(oldest);
+  }
+  replyCache.set(key, text);
+}
+
 function isQuotaExhaustedError(err: any): boolean {
   if (!err) return false;
   const status = err.status || err.code;
@@ -573,6 +593,9 @@ app.post('/api/teach-turn', async (req, res) => {
     lessonText = '',
     step = 'teach',
     language = 'ar',
+    lessonId = '',
+    conceptIndex = 0,
+    history = [],
   } = req.body || {};
   const studentName = resolveStudentName(req.body?.studentName, language);
   const addressForm = req.body?.addressForm;
@@ -588,9 +611,28 @@ app.post('/api/teach-turn', async (req, res) => {
       ? `تعالي نكمّل درس «${lessonTitle}» خطوة بخطوة يا ${studentName}.`
       : `Let's keep going with "${lessonTitle}", ${studentName}.`;
 
+  // Free-form turns must react to what THIS child said, so they are cached by
+  // (lesson, concept, step, answer). A repeat of the same answer is then free.
+  const cacheKey =
+    lessonId && studentInput
+      ? `${language}:${lessonId}:${conceptIndex}:${step}:${String(studentInput).trim().toLowerCase().slice(0, 120)}`
+      : '';
+  if (cacheKey && replyCache.has(cacheKey)) {
+    return res.json({ text: replyCache.get(cacheKey), source: 'cache' });
+  }
+
   if (!ai || Date.now() < globalQuotaCooldownUntil) {
     return res.json({ text: fallbackLine, source: 'engine_fallback', degraded: true });
   }
+
+  // The last few turns, so a free-form reply can follow the conversation.
+  const recentHistory = Array.isArray(history)
+    ? history
+        .slice(-6)
+        .filter((h: any) => h && typeof h.text === 'string')
+        .map((h: any) => `${h.role === 'student' ? studentName : 'مس نور'}: ${String(h.text).slice(0, 300)}`)
+        .join('\n')
+    : '';
 
   const stepGoal: Record<string, string> = {
     greet: 'Welcome the child warmly and say what you will learn together today.',
@@ -613,13 +655,13 @@ REAL CURRICULUM TEXT (ground every answer in this, never invent facts):
 """${String(lessonText || 'Grade 5 Egyptian Ministry curriculum.').slice(0, 1200)}"""
 
 YOUR JOB THIS TURN (step = "${step}"): ${stepGoal[step] || stepGoal.teach}
-
+${recentHistory ? `\nTHE CONVERSATION SO FAR (oldest first):\n"""\n${recentHistory}\n"""\n` : ''}
 RULES:
 1. Stay on this concept. Never give generic boilerplate.
 2. Be concrete: use one small, everyday example a child in Egypt recognises.
 3. ${isArabic ? `Speak natural, warm Egyptian Arabic, addressing the child as "${v.address} يا ${studentName}".` : isFrench ? `Speak warm, simple French suitable for primary school.` : 'Speak clear, warm, simple English.'}
 4. 2 to 4 short sentences. It will be read aloud, so keep it smooth.
-5. ${step === 'ask' || step === 'warmup' ? 'End with one clear question for the child.' : 'End with a short, gentle check that the child is with you.'}
+5. ${step === 'adjust' || step === 'explain_back' ? `React to what ${studentName} ACTUALLY said above. Name the specific thing they got right or wrong. Never give a generic "good try".` : step === 'ask' || step === 'warmup' ? 'End with one clear question for the child.' : 'End with a short, gentle check that the child is with you.'}
 `.trim();
 
   try {
@@ -637,6 +679,7 @@ RULES:
       config: { systemInstruction, temperature: 0.7 },
     });
     const text = (response.text || '').trim();
+    if (text && cacheKey) cacheReply(cacheKey, text);
     return res.json({ text: text || fallbackLine, source: text ? 'gemini' : 'engine_fallback' });
   } catch (error: any) {
     handleAiError('teach-turn', error);

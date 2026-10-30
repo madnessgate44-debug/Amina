@@ -56,6 +56,9 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
   const [inputText, setInputText] = useState('');
   const [isProcessing, setIsProcessing] = useState(false);
   const [showVisualPanel, setShowVisualPanel] = useState(true);
+  // True when the live model could not answer and a stored line was served, so
+  // the UI can say the teacher is offline instead of silently showing a template.
+  const [teacherOffline, setTeacherOffline] = useState(false);
 
   // Hands-free conversation is on by default, so Miss Noor speaks each turn and
   // reopens the microphone on her own. The header toggle turns it off and
@@ -112,19 +115,22 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
         foundLesson.concepts[initializedSession.currentConceptIndex] || foundLesson.concepts[0];
       let readySession = initializedSession;
       if (openingTurn && openingTurn.role === 'tutor') {
-        const openingLine = await generateTeachingLine({
+        const openingResult = await generateTeachingLine({
           engineTurn: openingTurn,
           studentInput: '',
           concept: openingConcept,
+          conceptIndex: initializedSession.currentConceptIndex,
           lesson: foundLesson,
           studentName: student?.name || '',
           addressForm: student?.addressForm || 'f',
           language: isAr ? 'ar' : 'en',
+          history: initializedSession.turnHistory,
         });
+        setTeacherOffline(openingResult.degraded);
         readySession = {
           ...initializedSession,
           turnHistory: initializedSession.turnHistory.map((t) =>
-            t.id === openingTurn.id ? { ...t, text: openingLine } : t
+            t.id === openingTurn.id ? { ...t, text: openingResult.text } : t
           ),
         };
       }
@@ -193,15 +199,19 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
       // answer. The engine remains the source of truth for step and mastery.
       const engineTurn = result.newTutorTurn;
       const activeConceptForTurn = lesson.concepts[session.currentConceptIndex] || lesson.concepts[0];
-      const spokenTurn = await generateTeachingLine({
+      const spokenResult = await generateTeachingLine({
         engineTurn,
         studentInput: toSend,
         concept: activeConceptForTurn,
+        conceptIndex: session.currentConceptIndex,
         lesson,
         studentName: student?.name || '',
         addressForm: student?.addressForm || 'f',
         language: isAr ? 'ar' : 'en',
+        history: result.session.turnHistory,
       });
+      setTeacherOffline(spokenResult.degraded);
+      const spokenTurn = spokenResult.text;
 
       const nextSession: TeachingSession = {
         ...result.session,
@@ -350,6 +360,22 @@ export const TeachingSessionModal: React.FC<TeachingSessionModalProps> = ({
                 ? `المفهوم ${session.currentConceptIndex + 1} من ${session.totalConcepts}`
                 : `Concept ${session.currentConceptIndex + 1} of ${session.totalConcepts}`}
             </div>
+
+            {/* Offline teacher marker: the live model could not answer, so a
+                stored curriculum line is being served. Shown, never hidden. */}
+            {teacherOffline && (
+              <div
+                role="status"
+                title={
+                  isAr
+                    ? 'مس نور تعمل الآن من الدروس المحفوظة لأن الاتصال بالمعلم الذكي غير متاح.'
+                    : 'Miss Noor is teaching from the saved lessons because the live model is unavailable.'
+                }
+                className="text-right rtl:text-left text-[10px] font-bold text-amber-800 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/60 px-2 py-1 rounded-xl border border-amber-200 dark:border-amber-800"
+              >
+                {isAr ? '🎒 معلمة بدون إنترنت' : '🎒 Offline teacher'}
+              </div>
+            )}
 
             <button
               onClick={handlePauseSession}
