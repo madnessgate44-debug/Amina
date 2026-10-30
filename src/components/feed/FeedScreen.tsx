@@ -189,7 +189,7 @@ export const FeedScreen: React.FC = () => {
 
   if (currentReel) {
     return (
-      <div className="h-[calc(100dvh-8.5rem)] overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white">
+      <div className="flex-1 min-h-0 overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white">
         <div className="sr-only" aria-live="polite">{announcement}</div>
         {gamification && (
           <div className="fixed top-2 start-3 end-3 z-20 flex items-center justify-between pointer-events-none">
@@ -236,7 +236,7 @@ export const FeedScreen: React.FC = () => {
   }
 
   return (
-    <div className="h-[calc(100dvh-8.5rem)] overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="flex-1 min-h-0 overflow-y-auto snap-y snap-mandatory bg-slate-950 text-white" dir={isAr ? 'rtl' : 'ltr'}>
       <section className="min-h-full snap-start flex flex-col justify-center px-5 py-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-linear-to-b from-violet-950 via-slate-950 to-slate-950" />
         <div className="relative z-10 max-w-md mx-auto w-full">
