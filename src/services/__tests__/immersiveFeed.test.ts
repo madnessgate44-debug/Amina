@@ -87,6 +87,24 @@ assert(
   'the reel card reserves bottom space so the overlay nav does not cover content'
 );
 
+// --- R-F1.5 the reel slide is exactly one viewport tall -------------------
+assert(
+  /isImmersive \? ' h-screen overflow-hidden' : ''/.test(appShell),
+  'the immersive shell is clamped to the viewport height (h-screen overflow-hidden)'
+);
+assert(
+  /isImmersive \? ' h-screen' : ''/.test(appShell),
+  'the immersive app column is clamped to the viewport height'
+);
+assert(
+  /h-full bg-slate-950 text-white/.test(feedScreen),
+  'the reel scroller is h-full so the viewport, not the content, sets the slide height'
+);
+assert(
+  /className="h-full snap-start flex items-center px-4 pt-6 pb-24/.test(reelCard),
+  'the reel section is h-full so a tall reel cannot push the slide below the fold'
+);
+
 // --- R-F2 Noor speaks the reaction (spoken turn, not a static card) -------
 assert(
   /voiceService\.speak\(reaction, language, undefined, onSpoken, onSpoken\)/.test(reelCard),
