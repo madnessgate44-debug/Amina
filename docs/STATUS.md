@@ -24,6 +24,41 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-30 (run 2) — feed advances on speech-end, not a fixed timer
+- **Shipped:** the reel no longer advances on a fixed clock. It used
+  `setTimeout(advance, correct ? 1400 : 2600)`, which cut a long explanation off mid-sentence and
+  left the child staring at a frozen card after a short one. `ReelCard` now fires an
+  `onReactionSpoken` signal when Noor's reaction finishes playing, and `FeedScreen` advances on it.
+  PR #74, merge `6ea0134` (squash), deployed to production.
+- **Deploy:** Vercel production `dpl_EptEZ6QoA3rzhzW13b9TMMAbkXtM` READY for `6ea0134`, aliased to
+  https://amina-nine-sepia.vercel.app. Live bundle `index-Bi4JnUMP.js` SHA-256
+  `5c8b4efe…e49d9c` == local build of `main` [V].
+- **Live proof [V]:** Playwright at 390x844 ar-EG on the live site, stubbing `window.Audio` to a
+  working 2500ms clip (headless has no audio device, so real `onended` never fires). Reaction audio
+  started at 240ms; the reel counter advanced `1 / 16 -> 2 / 16` at **2750ms** — ~10ms after
+  speech-end. The old timers (1400/2600ms) would have fired earlier; `/setTimeout\([^,]*,\s*1400/`
+  is absent from the served bundle [V].
+- **How the advance actually reaches the child [V]:** `voiceService.speak` prefers Gemini TTS via
+  `/api/tts` and plays a real `<audio>` element; only when that is unavailable does it fall back to
+  `speechSynthesis`. `onEnd` is wired to both the `audio.onended` and the utterance `onend`, so the
+  signal is honest on either path. In a headless browser the audio element never ends — that is why
+  a bare speechSynthesis stub shows no advance; it is a harness artifact, not an app defect.
+- **Guard:** the signal fires exactly once per answered reel (ref-guarded), with a read-time hold when
+  voice is muted and a 12s safety net so a silent engine cannot wedge the feed.
+- **Suite:** `tsc --noEmit` 0; `npm test` all pass (immersiveFeed 19/19, noorPreGeneratedLines pass);
+  `npm run build` exit 0; CI `verify` green on `6ea0134` [V].
+- **Next:**
+  1. Feed full-screen + media: the reel still occupies ~84% of the viewport (header 65px + nav 71px
+     always visible) and reel media count is 0/0/0/0. The speech-end signal just added is the hook for
+     the next piece.
+  2. Voice turn-taking in the feed — `handsFreeLoop.ts` is still wired only into
+     `TeachingSessionModal.tsx`. `onReactionSpoken` is the hand-back point to build on.
+  3. Arabic misconception content — all 10 curriculum misconceptions are French-only, so an Arabic
+     child gets a model answer instead of a real diagnosis (`speaksLanguage` guard now blocks the
+     wrong-language injection).
+  4. Make misconception-bearing reels reachable — `buildFeedQueue` never selects `conc_mathfr_*`.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search available.
+
 ### 2026-10-30 — live teacher loop shipped to production
 - **Shipped:** the live teacher loop is merged to `main` (PR #68, merge `c6656c9`) and deployed.
   The reel now asks, reacts to the answer, records mastery evidence and awards XP, and labels the
