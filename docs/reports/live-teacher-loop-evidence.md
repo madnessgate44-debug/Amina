@@ -46,10 +46,10 @@ built from `conc_fr_u2_l1_articles_indefinis`, `off_sci_u1_l2_c1`,
 
 ## Two real defects found while capturing this
 
-### D-1: misconception text is French, even for an Arabic child
+### D-1: misconception text is French, even for an Arabic child — FIXED
 
 All 10 misconception entries in the curriculum are written in French, and the
-Arabic branch of `resolveReelResponse` injects them verbatim:
+Arabic branch of `resolveReelResponse` injected them verbatim:
 
 ```ts
 const named = language === 'ar'
@@ -65,9 +65,14 @@ Measured across the whole curriculum:
 | Latin (French) only | **10** |
 | Mixed | 0 |
 
-So every named-misconception reply mixes Arabic scaffolding with French
-explanation. A child reading Arabic gets a French sentence in the middle of it.
-This is a content gap, not a code defect — but the code makes it visible.
+So every named-misconception reply mixed Arabic scaffolding with a French
+explanation. A child reading Arabic got a French sentence in the middle of it.
+
+Fixed on this branch: the deterministic diagnosis is still tried first, but only
+when the stored text is in the language the child is reading. On a script
+mismatch the turn falls through to the model, which can explain in the child's
+own language, and is marked `degraded` rather than pretending. The remaining
+gap is the **content** one — the 10 misconceptions still need Arabic copies.
 
 ### D-2: the misconception path is unreachable in the feed
 
