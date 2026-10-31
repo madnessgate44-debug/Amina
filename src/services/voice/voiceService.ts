@@ -474,7 +474,8 @@ class VoiceService {
     language: Language,
     onStart?: () => void,
     onEnd?: () => void,
-    onError?: (err: any) => void
+    onError?: (err: any) => void,
+    element?: HTMLAudioElement
   ): Promise<void> {
     this.cancelSpeech();
 
@@ -503,7 +504,8 @@ class VoiceService {
       generation,
       onStart,
       onEnd,
-      onError
+      onError,
+      element
     );
     // A newer speak() (or cancelSpeech) took over while we awaited: stay silent.
     if (generation !== this.playbackGeneration) {
@@ -624,7 +626,8 @@ class VoiceService {
     generation: number,
     onStart?: () => void,
     onEnd?: () => void,
-    onError?: (err: any) => void
+    onError?: (err: any) => void,
+    element?: HTMLAudioElement
   ): Promise<boolean> {
     try {
       const cacheKey = `${language}:${text}`;
@@ -657,7 +660,10 @@ class VoiceService {
       }
 
       const audioUrl = `data:audio/wav;base64,${audioBase64}`;
-      const audio = new Audio(audioUrl);
+      // Reuse the caller's element when given (so the reel can show and replay
+      // the real audio), otherwise play through a throwaway one.
+      const audio = element || new Audio();
+      audio.src = audioUrl;
       this.currentAudioElement = audio;
 
       return new Promise<boolean>((resolve) => {

@@ -25,6 +25,32 @@ import { Reel } from '../../types/reel';
 import { Language } from '../../types';
 import { curriculumService } from '../curriculum/curriculumService';
 import { matchMisconception } from '../teaching/skills/teachingSkills';
+import { normalizeText } from '../teaching/teachingSession';
+
+/**
+ * Match a spoken transcript against the reel's own options.
+ *
+ * Speech-to-text returns free-form words, not a verbatim option ("شمال" for the
+ * option "الرقم 5"). Grading that as wrong would mis-name a misconception the
+ * child never held, so a transcript only counts as an answer when it actually
+ * matches an option. Returns the option index, or null to mean "not understood".
+ */
+export function matchSpokenOption(transcript: string, options?: { text: string }[]): number | null {
+  if (!options || options.length === 0) return null;
+  const said = normalizeText(transcript);
+  if (!said) return null;
+  // Whole-option match first: the exact phrase, or the option as a word group.
+  for (let i = 0; i < options.length; i++) {
+    const opt = normalizeText(options[i].text);
+    if (opt && (said === opt || ` ${said} `.includes(` ${opt} `))) return i;
+  }
+  // Looser containment only for options long enough to be unambiguous.
+  for (let i = 0; i < options.length; i++) {
+    const opt = normalizeText(options[i].text);
+    if (opt && opt.length > 3 && (opt.includes(said) || said.includes(opt))) return i;
+  }
+  return null;
+}
 
 export interface ReelResponseResult {
   /** What Miss Noor says after the answer. */

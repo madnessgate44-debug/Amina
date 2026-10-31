@@ -14,7 +14,7 @@
  */
 
 import { buildReelsForConcept } from '../reels/reelGenerator';
-import { resolveReelResponse } from '../reels/reelResponse';
+import { resolveReelResponse, matchSpokenOption } from '../reels/reelResponse';
 import { curriculumService } from '../curriculum/curriculumService';
 import { Reel } from '../../types/reel';
 
@@ -143,6 +143,35 @@ async function main() {
   });
   check('6.5 a French child still gets the stored diagnosis',
     frenchResult.source === 'misconception' && frenchResult.namedMisconception === true);
+
+  // --- Spoken answer (owner ask #2: voice turn-taking in the feed) ----------
+  // The child answers out loud. The transcript is free-form, so it must be
+  // matched against the reel's own options before it is graded.
+  const options = questionReel.options!;
+  const wrongIdx = options.findIndex((o) => !o.isCorrect);
+  const correctIdx = options.findIndex((o) => o.isCorrect);
+
+  check('7.1 an exact spoken option resolves to that option',
+    matchSpokenOption(options[wrongIdx].text, options) === wrongIdx);
+  check('7.2 a spoken correct option resolves to the correct one',
+    matchSpokenOption(options[correctIdx].text, options) === correctIdx);
+  check('7.3 speech with surrounding words still resolves',
+    matchSpokenOption(`أعتقد إن الإجابة هي ${options[correctIdx].text}`, options) === correctIdx);
+  check('7.4 an unrelated transcript is not treated as an answer',
+    matchSpokenOption('مش عارفة خالص', options) === null);
+  check('7.5 an empty transcript is not an answer', matchSpokenOption('   ', options) === null);
+  check('7.6 a reel with no options never resolves a spoken answer',
+    matchSpokenOption('أي كلام', undefined) === null);
+
+  // A spoken wrong answer takes the same diagnosis path as a tap.
+  const spokenWrong = await resolveReelResponse({
+    reel: { ...questionReel, conceptId: conceptWithMis.id } as Reel,
+    answerText: options[wrongIdx].text,
+    correct: false,
+    language: 'fr',
+  });
+  check('7.7 a spoken wrong answer reaches the same diagnosis as a tap',
+    spokenWrong.source === wrongResult.source && spokenWrong.namedMisconception === wrongResult.namedMisconception);
 
   console.log(`\nINTERACTIVE REEL SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED\n`);
   process.exit(failed > 0 ? 1 : 0);

@@ -16,7 +16,13 @@ import { Language } from '../../types';
 import { NourCharacter } from '../stage/NourCharacter';
 import { SaveLikeButton } from '../collections/SaveLikeButton';
 import { voiceService } from '../../services/voice/voiceService';
-import { resolveReelResponse } from '../../services/reels/reelResponse';
+import {
+  HandsFreeState,
+  initialHandsFreeState,
+  reduceHandsFree,
+} from '../../services/voice/handsFreeLoop';
+import { VoiceInputControl } from '../voice/VoiceInputControl';
+import { resolveReelResponse, matchSpokenOption } from '../../services/reels/reelResponse';
 import { ReelVisual } from './ReelVisual';
 import { Sparkles, Check, X as XIcon, BookOpen, Volume2, VolumeX } from 'lucide-react';
 
@@ -30,6 +36,8 @@ interface ReelCardProps {
   onAnswer: (correct: boolean) => void;
   onTeachMore: () => void;
   onSkip: () => void;
+  /** Enables the spoken turn: after Noor speaks, the microphone opens by itself. */
+  handsFreeEnabled?: boolean;
   /**
    * Fired once Noor has finished speaking her reaction (or, when voice is off,
    * once the reaction text has been shown). The feed advances on this signal
@@ -57,6 +65,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   onAnswer,
   onTeachMore,
   onSkip,
+  handsFreeEnabled = false,
   onReactionSpoken,
 }) => {
   const [chosen, setChosen] = useState<number | null>(null);
@@ -73,13 +82,55 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   const [offlineTeacher, setOfflineTeacher] = useState(false);
   const [isReacting, setIsReacting] = useState(false);
 
-  // Narrate the reel as it appears, unless voice is off or muted.
+  // Hands-free turn taking: the microphone opens on its own once Noor has
+  // stopped speaking, so a young learner can answer without finding a button.
+  // Same state machine the teaching modal uses, so the two cannot drift.
+  const [handsFree, setHandsFree] = useState<HandsFreeState>(() => initialHandsFreeState());
+  const handsFreeOn = handsFreeEnabled && voiceEnabled && !muted && handsFree.enabled;
+  const dispatchHandsFree = (event: Parameters<typeof reduceHandsFree>[1]) =>
+    setHandsFree((prev) => reduceHandsFree(prev, event));
+
+  // Noor's narration is a real audio element, not just a hidden player: the
+  // child can replay her line, and the reel genuinely carries audio media.
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [hasAudio, setHasAudio] = useState(false);
+  const markAudio = () => setHasAudio(true);
+
+  // Narrate the reel as it appears, unless voice is off or muted. When the reel
+  // asks a question and hands-free is on, the turn passes to the child only once
+  // Noor has finished speaking — the microphone must never cut her off. The
+  // ReelCard is keyed by reel id in the feed, so each question starts fresh.
   useEffect(() => {
     if (!voiceEnabled || muted) return;
     const spoken = `${reel.noorLine}`;
-    void voiceService.speak(spoken, language);
+    if (handsFreeOn && reel.options?.length) {
+      dispatchHandsFree({ type: 'tutor_turn_added' });
+      let settled = false;
+      const handOver = () => {
+        if (settled) return;
+        settled = true;
+        dispatchHandsFree({ type: 'speech_finished' });
+      };
+      void voiceService.speak(spoken, language, markAudio, handOver, handOver, audioRef.current ?? undefined);
+      // Safety net: if the engine never reports end, still open the microphone.
+      const t = window.setTimeout(handOver, 9000);
+      return () => {
+        window.clearTimeout(t);
+        voiceService.cancelSpeech();
+      };
+    }
+    void voiceService.speak(spoken, language, markAudio, undefined, undefined, audioRef.current ?? undefined);
     return () => voiceService.cancelSpeech();
-  }, [reel.id, voiceEnabled, muted, language, reel.noorLine]);
+  }, [reel.id, voiceEnabled, muted, language, reel.noorLine, handsFreeOn, reel.options?.length]);
+
+  /**
+   * Match what the child said against the reel's own options before it counts as
+   * a spoken answer. A free-form transcript ("شمال") must not be graded as
+   * wrong just because it is not a verbatim option ("الرقم 5"), and Noor should
+   * never name a misconception for an answer the child did not give.
+   */
+  const resolveSpokenAnswer = (transcript: string): number | null =>
+    matchSpokenOption(transcript, reel.options);
 
   const reason = reel.reason ? REASON_LABEL[reel.reason] : null;
   const reasonText = reason ? (isAr ? reason.ar : reel.language === 'fr' ? reason.fr : reason.en) : '';
@@ -144,11 +195,29 @@ export const ReelCard: React.FC<ReelCardProps> = ({
       settled = true;
       fireAdvance();
     };
-    void voiceService.speak(reaction, language, undefined, onSpoken, onSpoken);
+    void voiceService.speak(reaction, language, markAudio, onSpoken, onSpoken, audioRef.current ?? undefined);
     // Safety net: if the engine never reports end, still advance.
     const t = window.setTimeout(onSpoken, 12000);
     return () => window.clearTimeout(t);
   }, [reaction, voiceEnabled, muted, language]);
+
+  // The reel asks a question: the microphone opens only after Noor has finished
+  // speaking (see the narration effect above), so there is no timer here. The
+  // card is keyed by reel id in the feed, so each question starts with a fresh
+  // turn state.
+
+  // A spoken answer resolves through the same path as a tap, so the diagnosis,
+  // the quota rules and the feed's evidence stay identical.
+  const handleSpokenAnswer = (transcript: string) => {
+    if (chosen !== null) return;
+    const index = resolveSpokenAnswer(transcript);
+    if (index === null) {
+      dispatchHandsFree({ type: 'transcript_empty' });
+      return;
+    }
+    dispatchHandsFree({ type: 'student_answered' });
+    handlePick(index);
+  };
 
   const noorState: NourState = chosen === null
     ? 'talking'
@@ -206,6 +275,16 @@ export const ReelCard: React.FC<ReelCardProps> = ({
           )}
           <ReelVisual reel={reel} isAr={isAr} reducedMotion={reducedMotion} />
 
+          {/* Noor's spoken line as real audio media. Hidden unless the tutor
+              produced audio, so it never shows a dead player. */}
+          <audio
+            ref={audioRef}
+            controls={hasAudio}
+            preload="none"
+            className={hasAudio ? 'mt-3 w-full h-9' : 'hidden'}
+            aria-label={isAr ? 'صوت مس نور' : 'Miss Noor audio'}
+          />
+
           {reel.options && reel.options.length > 0 && (
             <div className="mt-4 space-y-2.5">
               {reel.options.map((opt, i) => {
@@ -238,6 +317,33 @@ export const ReelCard: React.FC<ReelCardProps> = ({
           {chosen !== null && chosen === correctIndex && xpPop && (
             <div className={`mt-3 text-center text-emerald-300 font-black text-[16px] ${reducedMotion ? '' : 'animate-bounce'}`}>
               +XP ✨
+            </div>
+          )}
+
+          {/* Spoken turn: answer out loud, no button press needed. The same
+              control is the fallback when the mic cannot open on its own. */}
+          {reel.options && reel.options.length > 0 && chosen === null && voiceEnabled && (
+            <div className="mt-4 flex items-center gap-3">
+              <VoiceInputControl
+                buttonSize="md"
+                handsFree={handsFreeOn}
+                listenSignal={handsFree.listenToken}
+                onTranscriptConfirmed={handleSpokenAnswer}
+                onTranscriptUnusable={() => dispatchHandsFree({ type: 'transcript_empty' })}
+              />
+              <span className="text-[13px] text-slate-300">
+                {handsFreeOn
+                  ? isAr
+                    ? 'قولي إجابتك بصوتك — أنا سامعاك'
+                    : reel.language === 'fr'
+                    ? 'Dis ta réponse à voix haute — je t’écoute'
+                    : 'Say your answer out loud — I am listening'
+                  : isAr
+                  ? 'أو اضغطي المايك وقولي إجابتك'
+                  : reel.language === 'fr'
+                  ? 'Ou appuie sur le micro et réponds'
+                  : 'Or tap the mic and say your answer'}
+              </span>
             </div>
           )}
 

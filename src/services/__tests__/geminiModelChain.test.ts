@@ -19,6 +19,7 @@ import { dirname, join } from 'node:path';
 import {
   DEFAULT_TEXT_MODELS,
   GEMINI_TTS_MODEL,
+  TTS_MODELS,
   PRIMARY_TEXT_MODEL,
   resolveTextModelChain,
   isModelUnavailable,
@@ -78,8 +79,10 @@ test('quota and outage errors fall through; real errors do not', () => {
 });
 
 test('the TTS model stays a specialised constant', () => {
-  assert.ok(serverSource.includes('model: GEMINI_TTS_MODEL,'), 'TTS must use the shared constant');
+  assert.ok(serverSource.includes('for (const model of TTS_MODELS)'), 'TTS must walk the shared chain');
   assert.ok(!DEFAULT_TEXT_MODELS.includes(GEMINI_TTS_MODEL as never), 'TTS model is not a text model');
+  assert.ok(TTS_MODELS.length >= 2, 'a single TTS model silently drops Miss Noor to browser speech');
+  assert.ok(!TTS_MODELS.includes('gemini-3.8-flash-lite-tts' as never), 'the removed, non-existent model must not return');
 });
 
 test('the teaching turn is generated, not scripted', () => {

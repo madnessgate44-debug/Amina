@@ -17,6 +17,7 @@ import { pickBestVoice, hasVoiceForLanguage, VoiceLike } from '../voice/voiceSel
 import { getQuizQuestionsForConcept, getReelForConcept, realQuestionsForConcept } from '../content/contentGenerator';
 import { personalizeNoorText } from '../stage/personalizeNoorText';
 import { curriculumService } from '../curriculum/curriculumService';
+import { pcmBase64ToWavBase64 } from '../voice/pcmToWav';
 
 let passed = 0;
 const test = (name: string, fn: () => void) => {
@@ -167,6 +168,33 @@ test('3.3 the Arabic welcome line calls the teacher "مس نور"', () => {
   const src = readFileSync(new URL('../voice/tutorSpeechService.ts', import.meta.url), 'utf8');
   assert.ok(src.includes('أنا مس نور'), 'teacher name is not "مس نور"');
   assert.ok(!src.includes('أنا المعلمة نور'), 'wrong teacher name "المعلمة نور" still present');
+});
+
+// 4. Gemini TTS returns headerless PCM; it must be wrapped as WAV, or the
+// browser decodes it as a broken WAV and the child hears a click, not speech.
+test('4.1 PCM is wrapped in a valid RIFF/WAVE header', () => {
+  const pcm = Buffer.from([1, 2, 3, 4, 5, 6, 7, 8]);
+  const wav = pcmBase64ToWavBase64(pcm.toString('base64'), 24000);
+  const buf = Buffer.from(wav, 'base64');
+  assert.equal(buf.toString('ascii', 0, 4), 'RIFF');
+  assert.equal(buf.toString('ascii', 8, 12), 'WAVE');
+  assert.equal(buf.toString('ascii', 12, 16), 'fmt ');
+  assert.equal(buf.readUInt16LE(20), 1, 'audio format must be PCM');
+  assert.equal(buf.readUInt32LE(24), 24000, 'sample rate must match the model output');
+  assert.equal(buf.readUInt16LE(34), 16, 'bits per sample');
+  assert.equal(buf.toString('ascii', 36, 40), 'data');
+  assert.equal(buf.readUInt32LE(40), pcm.length, 'data chunk size must match the PCM length');
+  assert.equal(buf.length, 44 + pcm.length, 'header is 44 bytes and PCM is appended unchanged');
+});
+
+test('4.2 an empty payload is passed through untouched', () => {
+  assert.equal(pcmBase64ToWavBase64('', 24000), '');
+});
+
+test('4.3 the TTS route no longer serves raw PCM under an audio/wav label', () => {
+  const src = readFileSync(new URL('../../../server.ts', import.meta.url), 'utf8');
+  assert.ok(src.includes('pcmBase64ToWavBase64('), 'server.ts must wrap PCM before caching');
+  assert.ok(src.includes('TTS_SAMPLE_RATE'), 'server.ts must use the shared sample rate');
 });
 
 console.log(`\nVOICE + QUESTIONS SUITE SUMMARY: ${passed} PASSED, ${process.exitCode ? '1+' : 0} FAILED`);
