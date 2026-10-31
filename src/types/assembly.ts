@@ -238,6 +238,56 @@ export type AskResult =
   | QuickExplanation
   | LessonProductionJob;
 
+// ─── 6. Presenting and assessing an experience ───────────────────────────────
+
+/**
+ * A phase made render-ready for the UI: always present (in order), so the
+ * interface renders a fixed structure instead of guessing which movement came
+ * back from the assembler.
+ */
+export interface PresentedPhase {
+  phase: ExperiencePhase;
+  purpose: string;
+  lines: ExperienceLine[];
+  options?: { text: string; isCorrect: boolean }[];
+}
+
+/** The render-ready view of a `TeachingExperience`. */
+export interface ExperiencePresentation {
+  title: string;
+  phases: PresentedPhase[];
+  media: EducationalMediaItem[];
+  conceptId: string | null;
+  lessonId: string | null;
+  usedGeneration: boolean;
+  pendingGeneration: AssetRole[];
+  reuseRatio: number;
+}
+
+/** The outcome of assessing one practice answer. */
+export interface AssessmentResult {
+  outcome: 'correct' | 'wrong';
+  correctness: 'full' | 'partial' | 'wrong';
+  feedback: string;
+  /** The concept remediation, when a wrong answer matched a known misconception. */
+  remediation?: string;
+  /** The concept this is evidence for, or null when the ask matched no concept. */
+  conceptId: string | null;
+  modality: 'practice' | 'verification';
+  /** 0..1 */
+  score: number;
+  correctOptionIndex?: number;
+}
+
+/** The outcome of an "explain it back" verification. */
+export interface VerificationAssessment {
+  quality: 'sound' | 'partial' | 'guessing' | 'unclear';
+  correctness: 'full' | 'partial' | 'wrong';
+  feedback: string;
+  score: number;
+  conceptId: string | null;
+}
+
 /** Context the engine may use to adapt the "next learning step". */
 export interface AssemblyContext {
   studentName?: string;

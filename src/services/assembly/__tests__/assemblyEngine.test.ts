@@ -13,6 +13,12 @@
 
 import { understandAsk, matchConcept, detectLanguage, classifyIntent } from '../teachingNeed';
 import { resolveAssets } from '../assetResolver';
+import {
+  presentExperience,
+  assessPractice,
+  assessVerification,
+  recommendNextStep,
+} from '../experiencePresenter';
 import { assembleExperience, assembleQuickExplanation } from '../contentAssembler';
 import { createJob, pumpJob, runJobToCompletion, isJobSettled } from '../productionJobs';
 import { handleAsk } from '../assemblyEngine';
@@ -198,6 +204,48 @@ async function main() {
 
   // ── 11. The engine reads real curriculum, not a stub ──────────────────────
   check('the curriculum actually contains the matched concept', !!curriculumService.getConceptById('off_sci_u1_l1_c1'));
+
+  // ── 12. Presenting the WHOLE experience (not two text blobs) ──────────────
+  const fullExp = assembleExperience(sciAsk, resolveAssets(sciAsk));
+  const presented = presentExperience(fullExp);
+  check('the presentation carries all four movements in order', presented.phases.map((p) => p.phase).join(',') === 'dialogue,practice,verification,next_step');
+  check('the presentation names the matched concept', presented.conceptId === 'off_sci_u1_l1_c1', String(presented.conceptId));
+  check('the teach movement has at least one line', (presented.phases.find((p) => p.phase === 'dialogue')?.lines.length || 0) >= 1);
+  check('the practice movement carries answerable options', (presented.phases.find((p) => p.phase === 'practice')?.options?.length || 0) >= 2);
+
+  // ── 13. Assessment of real answers (deterministic, model-free) ────────────
+  const practicePhase = fullExp.phases.find((p) => p.phase === 'practice');
+  const correctIdx = (practicePhase?.options || []).findIndex((o) => o.isCorrect);
+  const wrongIdx = (practicePhase?.options || []).findIndex((o) => !o.isCorrect);
+  check('the practice question has exactly one correct option', (practicePhase?.options || []).filter((o) => o.isCorrect).length === 1);
+
+  const correctResult = assessPractice(fullExp, correctIdx);
+  check('a correct practice answer is assessed as correct with full evidence', !!correctResult && correctResult.outcome === 'correct' && correctResult.correctness === 'full', JSON.stringify(correctResult));
+  check('the correct assessment names the concept for evidence', correctResult?.conceptId === 'off_sci_u1_l1_c1');
+
+  const wrongResult = wrongIdx >= 0 ? assessPractice(fullExp, wrongIdx) : null;
+  check('a wrong practice answer is assessed as wrong (no mastery claimed)', !!wrongResult && wrongResult.outcome === 'wrong' && wrongResult.correctness === 'wrong');
+
+  const noPractice = assessPractice({ ...fullExp, phases: fullExp.phases.filter((p) => p.phase !== 'practice') }, 0);
+  check('an experience with no practice question records no assessment', noPractice === null);
+
+  // ── 14. Verification of understanding from the child's own words ──────────
+  const concept = curriculumService.getConceptById('off_sci_u1_l1_c1')!.concept;
+  const soundAnswer = `${concept.keyPoints[0] || ''} ${concept.keyPoints[1] || ''}`.trim();
+  const soundVerify = assessVerification(fullExp, soundAnswer);
+  check('a key-point answer verifies as sound', soundVerify.quality === 'sound' && soundVerify.correctness === 'full', `${soundVerify.quality} ${soundVerify.score}`);
+
+  const guessing = assessVerification(fullExp, 'مش عارفة بصراحة');
+  check('a "I do not know" answer is flagged as guessing, not mastered', guessing.quality === 'guessing' && guessing.correctness === 'wrong');
+  const empty = assessVerification(fullExp, '');
+  check('an empty verification answer is unclear, not mastered', empty.quality === 'unclear' && empty.correctness === 'wrong');
+
+  // ── 15. The next step adapts to the verification outcome ──────────────────
+  const nextSound = recommendNextStep(fullExp, soundVerify);
+  const nextGuessing = recommendNextStep(fullExp, guessing);
+  check('a verified child is advanced to the next step', nextSound.advance === true && nextSound.text.length > 0);
+  check('a guessing child is not advanced', nextGuessing.advance === false && nextGuessing.text.length > 0);
+  check('the two next-step recommendations differ with the evidence', nextSound.text !== nextGuessing.text);
 
   console.log(`\n  assembly: ${passed} passed, ${failed} failed`);
   if (failed > 0) process.exit(1);
