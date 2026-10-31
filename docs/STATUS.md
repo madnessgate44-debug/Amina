@@ -24,6 +24,35 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-31 (run 2) — asks #1 and #2 done: real Noor audio in the reel + feed voice turn-taking
+- **Shipped #1 (reel media) + #2 (voice turn-taking), PR #85, squash merge `a307801`.** Root cause of
+  `0/0/0/1`: `GEMINI_TTS_MODEL` was `gemini-3.8-flash-lite-tts`, a name that **does not exist** on the
+  live model list (60 models listed; the TTS ones are `gemini-3.1-flash-tts-preview`,
+  `gemini-2.5-flash-preview-tts`, `gemini-2.5-pro-preview-tts`). Every `/api/tts` call 404'd, the
+  route silently returned `useBrowserSpeech:true`, and Miss Noor spoke with the robotic browser
+  voice — no real audio anywhere. Second defect: the model returns **headerless PCM**
+  (`audio/l16; rate=24000`), but it was served under an `audio/wav` label, so the browser decoded it
+  as a broken WAV (a silent click).
+- **Fix:** walk a real TTS chain (first model that returns audio wins) and wrap the PCM in a RIFF/WAVE
+  header (`src/services/voice/pcmToWav.ts`, 44-byte header + PCM). `voiceService.speak()` now accepts
+  an optional `<audio>` element, and `ReelCard` mounts a real, replayable `<audio controls>` for
+  Noor's line — the reel's genuine audio media.
+- **Ask #2 (R-F3):** the reel's narration already drove the shared `handsFreeLoop` state machine; the
+  hand-over on speech end, `matchSpokenOption`, and barge-in are all in this PR. The tap path is
+  unchanged.
+- **Live proof [V]:** production READY for `a307801`, aliased to https://amina-nine-sepia.vercel.app.
+  Live bundle `index-N29CkSI1.js` SHA-256 `0746a085…da0e` == local build of `main`. Live
+  `POST /api/tts` → `{success:true, mimeType:"audio/wav"}`, 126764 bytes, `RIFF`/`WAVE`, PCM, 24000 Hz.
+  Playwright 390x844 ar-EG on the live site: reel `<audio>` present, `controls:true`, `duration:7.2`,
+  not hidden, mic control present, **0 console errors**.
+- **Suite [V]:** `tsc --noEmit` 0; `npm test` all suites green (immersiveFeed 32, handsFreeLoop 37,
+  voiceAndQuestions 18 incl. 3 new PCM→WAV checks, reelVisual 21, …); `npm run build` exit 0; CI
+  `verify` + OS Compliance green on `5d9247a` (PR head).
+- **Asks #3 and #4** were already shipped on `main` via #82/#83 — nothing further needed.
+- **Next:** none outstanding from the owner's four asks. PR #8 (OpenHands conversation archive,
+  docs/data only) remains open by standing rule — do not merge.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-10-31 — asks #3 and #4 done: misconception reels reachable + Arabic diagnosis
 - **Shipped #4 (reachability), PR #82, squash merge `da5a194`.** The four misconception-bearing
   maths lessons are the **last four** Mathematics lessons in file order (`off_mathfr_u1_l1_decimaux`
