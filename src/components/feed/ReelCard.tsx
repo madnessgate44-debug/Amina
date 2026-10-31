@@ -90,6 +90,12 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   const dispatchHandsFree = (event: Parameters<typeof reduceHandsFree>[1]) =>
     setHandsFree((prev) => reduceHandsFree(prev, event));
 
+  // Noor's narration is a real audio element, not just a hidden player: the
+  // child can replay her line, and the reel genuinely carries audio media.
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const [hasAudio, setHasAudio] = useState(false);
+  const markAudio = () => setHasAudio(true);
+
   // Narrate the reel as it appears, unless voice is off or muted. When the reel
   // asks a question and hands-free is on, the turn passes to the child only once
   // Noor has finished speaking — the microphone must never cut her off. The
@@ -105,7 +111,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         settled = true;
         dispatchHandsFree({ type: 'speech_finished' });
       };
-      void voiceService.speak(spoken, language, undefined, handOver, handOver);
+      void voiceService.speak(spoken, language, markAudio, handOver, handOver, audioRef.current ?? undefined);
       // Safety net: if the engine never reports end, still open the microphone.
       const t = window.setTimeout(handOver, 9000);
       return () => {
@@ -113,7 +119,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         voiceService.cancelSpeech();
       };
     }
-    void voiceService.speak(spoken, language);
+    void voiceService.speak(spoken, language, markAudio, undefined, undefined, audioRef.current ?? undefined);
     return () => voiceService.cancelSpeech();
   }, [reel.id, voiceEnabled, muted, language, reel.noorLine, handsFreeOn, reel.options?.length]);
 
@@ -189,7 +195,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
       settled = true;
       fireAdvance();
     };
-    void voiceService.speak(reaction, language, undefined, onSpoken, onSpoken);
+    void voiceService.speak(reaction, language, markAudio, onSpoken, onSpoken, audioRef.current ?? undefined);
     // Safety net: if the engine never reports end, still advance.
     const t = window.setTimeout(onSpoken, 12000);
     return () => window.clearTimeout(t);
@@ -268,6 +274,16 @@ export const ReelCard: React.FC<ReelCardProps> = ({
             <p className="text-[14px] text-slate-300 mt-2 leading-relaxed">{reel.show}</p>
           )}
           <ReelVisual reel={reel} isAr={isAr} reducedMotion={reducedMotion} />
+
+          {/* Noor's spoken line as real audio media. Hidden unless the tutor
+              produced audio, so it never shows a dead player. */}
+          <audio
+            ref={audioRef}
+            controls={hasAudio}
+            preload="none"
+            className={hasAudio ? 'mt-3 w-full h-9' : 'hidden'}
+            aria-label={isAr ? 'صوت مس نور' : 'Miss Noor audio'}
+          />
 
           {reel.options && reel.options.length > 0 && (
             <div className="mt-4 space-y-2.5">

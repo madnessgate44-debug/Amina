@@ -11,7 +11,8 @@ import {
 } from './src/services/i18n/serverTutorVoice.js';
 import { tutorVoiceFor } from './src/services/voice/tutorVoice.js';
 import { AI_HTTP_OPTIONS } from './src/services/ai/requestBudget.js';
-import { generateContentWithFallback, GEMINI_TTS_MODEL } from './src/services/ai/geminiModel.js';
+import { generateContentWithFallback, TTS_MODELS, TTS_SAMPLE_RATE } from './src/services/ai/geminiModel.js';
+import { pcmBase64ToWavBase64 } from './src/services/voice/pcmToWav.js';
 
 dotenv.config();
 
@@ -333,33 +334,53 @@ app.post('/api/tts', async (req, res) => {
 
     try {
       const voiceName = tutorVoiceFor(langKey);
-      const response = await generateContentWithFallback(ai, {
-        model: GEMINI_TTS_MODEL,
-        contents: [
-          {
-            role: 'user',
-            parts: [{ text: cleanText }],
-          },
-        ],
-        config: {
-          responseModalities: ['AUDIO'],
-          speechConfig: {
-            voiceConfig: {
-              prebuiltVoiceConfig: { voiceName },
+      // Walk the TTS chain: the first model that returns audio wins. A missing
+      // or gated model must not silently drop Miss Noor's voice to the robotic
+      // browser fallback.
+      let base64Audio: string | undefined;
+      let lastErr: unknown;
+      for (const model of TTS_MODELS) {
+        try {
+          const response = await generateContentWithFallback(ai, {
+            model,
+            contents: [
+              {
+                role: 'user',
+                parts: [{ text: cleanText }],
+              },
+            ],
+            config: {
+              responseModalities: ['AUDIO'],
+              speechConfig: {
+                voiceConfig: {
+                  prebuiltVoiceConfig: { voiceName },
+                },
+              },
             },
-          },
-        },
-      });
+          });
 
-      const base64Audio = response.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;
+          const inline = response.candidates?.[0]?.content?.parts?.find((p) => p.inlineData)?.inlineData;
+          if (inline?.data) {
+            base64Audio = inline.data;
+            break;
+          }
+        } catch (err) {
+          lastErr = err;
+          console.warn('Gemini TTS model failed:', model, (err as any)?.message || err);
+        }
+      }
+
       if (base64Audio) {
-        ttsCache.set(cacheKey, base64Audio);
+        // The model returns headerless PCM; wrap it so the browser can play it.
+        const wav = pcmBase64ToWavBase64(base64Audio, TTS_SAMPLE_RATE);
+        ttsCache.set(cacheKey, wav);
         return res.json({
           success: true,
-          audioBase64: base64Audio,
+          audioBase64: wav,
           mimeType: 'audio/wav',
         });
       }
+      if (lastErr) console.warn('Gemini TTS generation issue:', (lastErr as any)?.message || lastErr);
     } catch (genErr: any) {
       console.warn('Gemini TTS generation issue:', genErr?.message || genErr);
     }

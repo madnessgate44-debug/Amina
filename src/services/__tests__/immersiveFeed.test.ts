@@ -107,7 +107,7 @@ assert(
 
 // --- R-F2 Noor speaks the reaction (spoken turn, not a static card) -------
 assert(
-  /voiceService\.speak\(reaction, language, undefined, onSpoken, onSpoken\)/.test(reelCard),
+  /voiceService\.speak\(reaction, language, markAudio, onSpoken, onSpoken, audioRef\.current \?\? undefined\)/.test(reelCard),
   'the reel speaks Noor\'s reaction after the child answers'
 );
 assert(
@@ -133,7 +133,7 @@ assert(
   'the reel fires the speech-end signal exactly once per answered reel'
 );
 assert(
-  /voiceService\.speak\(reaction, language, undefined, onSpoken, onSpoken\)/.test(reelCard) &&
+  /voiceService\.speak\(reaction, language, markAudio, onSpoken, onSpoken, audioRef\.current \?\? undefined\)/.test(reelCard) &&
     /const t = window\.setTimeout\(onSpoken, 12000\)/.test(reelCard),
   'the speech-end signal has a safety net so a silent engine cannot wedge the feed'
 );
@@ -162,6 +162,20 @@ assert(
 assert(
   /handsFree=\{handsFreeOn\}/.test(reelCard) && /listenSignal=\{handsFree\.listenToken\}/.test(reelCard),
   'the reel passes the hands-free flag and listen signal to the microphone control'
+);
+
+// --- R-F5 Noor's line is real audio media (owner ask #1) ------------------
+assert(
+  /<audio/.test(reelCard) && /ref=\{audioRef\}/.test(reelCard),
+  'the reel mounts a real audio element for Noor\'s spoken line'
+);
+assert(
+  /controls=\{hasAudio\}/.test(reelCard) && /hasAudio \? 'mt-3/.test(reelCard),
+  'the audio player is shown only once real audio exists'
+);
+assert(
+  /audioRef\.current \?\? undefined\)/.test(reelCard),
+  'the reel routes its speech through the visible audio element'
 );
 
 console.log(`\nIMMERSIVE FEED SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);

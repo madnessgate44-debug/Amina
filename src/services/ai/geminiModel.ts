@@ -42,8 +42,27 @@ export const PRIMARY_TEXT_MODEL = DEFAULT_TEXT_MODELS[0];
 /** Speech-to-text uses a text-capable model. */
 export const DEFAULT_STT_MODEL = 'gemini-3.8-flash';
 
-/** Text-to-speech model. Specialised, so it is used alone (no chain). */
-export const GEMINI_TTS_MODEL = 'gemini-3.8-flash-lite-tts';
+/**
+ * Text-to-speech model chain. Speech models are specialised, so the text chain
+ * above never applies. Ordered: the newest verified TTS model first, then older
+ * ones that still answer on the same key.
+ *
+ * Why a chain: the previous single name (`gemini-3.8-flash-lite-tts`) does not
+ * exist on the live model list (verified 2026-10-30). Every TTS call 404'd,
+ * `/api/tts` silently returned `useBrowserSpeech:true`, and Miss Noor's voice
+ * was the robotic browser one with no real audio for the reel to show.
+ */
+export const TTS_MODELS = [
+  'gemini-3.1-flash-tts-preview',
+  'gemini-2.5-flash-preview-tts',
+  'gemini-2.5-pro-preview-tts',
+] as const;
+
+/** The first TTS model tried. */
+export const GEMINI_TTS_MODEL = TTS_MODELS[0];
+
+/** Sample rate (Hz) of the mono 16-bit PCM the TTS models return. */
+export const TTS_SAMPLE_RATE = 24000;
 
 /** `GEMINI_MODEL` (when set) is tried first, then the defaults, de-duplicated. */
 export function resolveTextModelChain(): string[] {
