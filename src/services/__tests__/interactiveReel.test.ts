@@ -34,7 +34,12 @@ function check(name: string, condition: boolean, detail?: string) {
 /** The French-maths lesson that carries real misconception data. */
 function lessonWithMisconceptions() {
   const lessons = curriculumService.getAllLessons();
-  return lessons.find((l) => l.concepts.some((c) => (c.misconceptions?.length ?? 0) > 0));
+  // This suite exercises the French diagnosis path and the cross-language guard
+  // (a French diagnosis must not be injected into an Arabic reply), so it needs
+  // a lesson whose misconception text is French, not merely the first one found.
+  return lessons.find((l) =>
+    l.concepts.some((c) => (c.misconceptions ?? []).some((m) => /[A-Za-zÀ-ÿ]/.test(m.explanation)))
+  );
 }
 
 async function main() {
