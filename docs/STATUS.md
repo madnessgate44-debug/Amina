@@ -24,6 +24,31 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-31 (run 5b) — durable lesson jobs with real progress + resume (G7 closed)
+- **Outcome:** the one remaining unit from the mission is done. A long lesson request is now a
+  DURABLE job: it is persisted after every stage and, if the page is reloaded or the sandbox restarts
+  mid-lesson, the child is offered a resume that continues from the stage it reached instead of
+  losing the work. A real stage progress bar replaces the frozen screen. The engine already modelled
+  staged jobs; this wires the persistent store the run-5 note said was missing.
+- **Storage:** new `lesson_jobs` object store (DB version 9 → 10) with
+  `getLessonJob` / `getLessonJobsForStudent` / `saveLessonJob` / `deleteLessonJob` on
+  `IStorageService` and `IndexedDBStorageService`; new `PersistedLessonJob` type (job + `studentId`).
+- **New module `src/services/assembly/jobService.ts`:** `runPersistentJob()` saves the job after every
+  `pumpJob()` stage and reports progress; `startPersistentJob()` does the same from a need;
+  `findResumableJob()` returns the newest still-running job for a student; `resumePersistedJob()`
+  continues a job from where it stopped; `stageLabel()` localises stage names (ar/en/fr).
+- **UI (`VirtualTeacherClassroom.tsx`):** the ask path now creates the job, then runs it with
+  `runPersistentJob` (350 ms per stage so progress is visible), rendering a stage list + progress bar.
+  On mount the classroom looks for an interrupted job and shows a resume banner.
+- **Suite [V]:** `tsc --noEmit` exit 0; new `test:jobs` (`jobPersistence`) **19/19**; full `npm test`
+  exit 0, 0 failures; `npm run build` exit 0.
+- **Live proof [V]:** local production server + Playwright (chromium 155, 390×844, ar-EG). Asking
+  "عايزة درس كامل عن البناء الضوئي" showed the stage progress UI ("بجهّز الدرس", "بجمع المادة المعتمدة",
+  "برتّب الدرس", "بتأكد من الدرس", 100%), then the full TEACH · PRACTICE · VERIFY · NEXT STEP loop in
+  Arabic; **0 console errors**. A seeded running job survived a `reload()`, the resume banner appeared
+  ("أكمّلي الدرس"), and resuming rendered the complete lesson. [V]
+- **Blockers:** none.
+
 ### 2026-10-31 (run 5) — complete adaptive teaching experience rendered + assessed
 - **Outcome:** the NOUR ask station now renders the WHOLE assembled experience (TEACH · PRACTICE ·
   VERIFY · NEXT STEP), makes practice and verification interactive, and records verified outcomes
@@ -67,9 +92,8 @@ of "Log".
   advanced next step), **0 console errors** [V].
 - **Gap report:** `docs/reports/ADAPTIVE_TEACHING_GAP_MATRIX_2026-10-31.md` (requirements / evidence /
   gap matrix, AC1–AC17 with PASS/FAIL/BLOCKED and the one recorded out-of-scope item).
-- **Next:** durable server-side lesson jobs with cross-session resume + a real progress UI (the
-  engine already models staged jobs; wiring a persistent store is the next unit). PR #8 stays open by
-  standing rule — do not merge.
+- **Next:** ~~durable server-side lesson jobs with cross-session resume + a real progress UI~~ — done
+  in run 5b (see above). PR #8 stays open by standing rule — do not merge.
 - **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
 
 ### 2026-10-31 (run 4) — assembly engine false match fixed, verified live

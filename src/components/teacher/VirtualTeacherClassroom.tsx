@@ -26,6 +26,11 @@ import { VoiceInputControl } from '../voice/VoiceInputControl';
 import { handleAsk } from '../../services/assembly/assemblyEngine';
 import { RoleGenerator } from '../../services/assembly/productionJobs';
 import {
+  runPersistentJob,
+  findResumableJob,
+  stageLabel,
+} from '../../services/assembly/jobService';
+import {
   presentExperience,
   assessPractice,
   assessVerification,
@@ -34,6 +39,7 @@ import {
 import {
   AssessmentResult,
   ExperiencePresentation,
+  LessonProductionJob,
   TeachingExperience,
   VerificationAssessment,
 } from '../../types/assembly';
@@ -49,6 +55,8 @@ import {
   RotateCcw,
   CheckCircle2,
   XCircle,
+  Loader2,
+  Circle,
   Lightbulb,
   Shirt,
   Send,
@@ -367,6 +375,10 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const [practiceResult, setPracticeResult] = useState<AssessmentResult | null>(null);
   const [verificationResult, setVerificationResult] = useState<VerificationAssessment | null>(null);
   const [verificationInput, setVerificationInput] = useState('');
+  // Live progress of a long lesson job, so the child sees real stages instead of
+  // a frozen screen. Kept in a ref too so a resume can update it.
+  const [askJob, setAskJob] = useState<LessonProductionJob | null>(null);
+  const [resumableJob, setResumableJob] = useState<LessonProductionJob | null>(null);
   const [customExplanationLoading, setCustomExplanationLoading] = useState(false);
 
   // Dynamic explanation content state
@@ -1030,29 +1042,11 @@ export const VirtualTeacherClassroom: React.FC = () => {
   };
 
   /**
-   * Content-assembly ask path. Instead of always calling a model, the engine
-   * first understands the ask and reuses approved material (curriculum text,
-   * approved media, the lesson's own exercises and misconceptions). Only a role
-   * with no approved source is generated, and only a lesson-sized request
-   * becomes a staged production job. A quick question is answered immediately.
+   * The generator is called ONLY for roles with no approved source. It reuses
+   * the existing tutor-explain route, so the server holds the model key.
    */
-  const handleAskWithAssembly = async () => {
-    const q = askInput.trim();
-    if (!q) return;
-
-    soundEffects.playPop();
-    setIsAnswering(true);
-    setAskInput('');
-    setAskExperience(null);
-    askExperienceRef.current = null;
-    setPracticeResult(null);
-    setVerificationResult(null);
-    setVerificationInput('');
-    setNourState('thinking');
-
-    // The generator is called ONLY for roles with no approved source. It reuses
-    // the existing tutor-explain route, so the server holds the model key.
-    const generator: RoleGenerator = async (role, brief, anchors) => {
+  const askGenerator: RoleGenerator = useCallback(
+    async (role, brief, anchors) => {
       try {
         const resp = await fetch('/api/tutor-explain', {
           method: 'POST',
@@ -1072,45 +1066,128 @@ export const VirtualTeacherClassroom: React.FC = () => {
       } catch {
         return null;
       }
-    };
+    },
+    [currentLesson, isArabic, language, studentName, addressForm]
+  );
+
+  /**
+   * Turn a finished job's experience into the rendered answer. Shared by the
+   * ask path and the resume path so both show the same full experience.
+   */
+  const renderJobExperience = useCallback((job: LessonProductionJob) => {
+    if (job.status === 'complete' && job.experience) {
+      const presented = presentExperience(job.experience);
+      askExperienceRef.current = job.experience;
+      setAskExperience(presented);
+      const teach = presented.phases
+        .find((p) => p.phase === 'dialogue')
+        ?.lines.map((l) => l.text)
+        .join(' ');
+      setAskAnswer({
+        text: teach || (isArabic ? `جاهزة أشرحلك يا ${studentName}!` : `Ready to teach you, ${studentName}!`),
+        source: job.experience.resolution.reused[0]?.reuseKey || 'assembly_engine',
+        media: presented.media[0] || null,
+        kind: 'lesson',
+      });
+      if (teach) speakText(teach, 'talking');
+    } else {
+      const line = isArabic
+        ? `سؤال حلو يا ${studentName}! محتاجة أجهّز الدرس شوية، اسأليني تاني.`
+        : `Great question, ${studentName}! Let me prepare that lesson and ask me again.`;
+      setAskAnswer({ text: line, source: 'assembly_engine', media: null, kind: 'quick' });
+      speakText(line, 'talking');
+    }
+  }, [isArabic, studentName]);
+
+  /**
+   * Content-assembly ask path. Instead of always calling a model, the engine
+   * first understands the ask and reuses approved material (curriculum text,
+   * approved media, the lesson's own exercises and misconceptions). Only a role
+   * with no approved source is generated, and only a lesson-sized request
+   * becomes a staged production job. A quick question is answered immediately;
+   * a lesson request is run as a DURABLE job whose progress is persisted and
+   * shown stage by stage.
+   */
+  const handleAskWithAssembly = async () => {
+    const q = askInput.trim();
+    if (!q) return;
+
+    soundEffects.playPop();
+    setIsAnswering(true);
+    setAskInput('');
+    setAskExperience(null);
+    askExperienceRef.current = null;
+    setPracticeResult(null);
+    setVerificationResult(null);
+    setVerificationInput('');
+    setAskJob(null);
+    setResumableJob(null);
+    setNourState('thinking');
 
     try {
       const result = await handleAsk(q, {
         channel: 'typed',
         language,
         studentName,
-        generator,
-        runToCompletion: true,
       });
 
       if (result.kind === 'quick_explanation') {
         const line = result.text || (isArabic ? `أنا سامعاكي يا ${studentName}!` : `I hear you, ${studentName}!`);
         setAskAnswer({ text: line, source: result.source, media: result.media || null, kind: 'quick' });
         speakText(line, 'talking');
-      } else if (result.status === 'complete' && result.experience) {
-        // Render the WHOLE assembled experience: teach, practice, verification
-        // and the next step — not just the dialogue and next-step lines.
-        const presented = presentExperience(result.experience);
-        askExperienceRef.current = result.experience;
-        setAskExperience(presented);
-        const teach = presented.phases
-          .find((p) => p.phase === 'dialogue')
-          ?.lines.map((l) => l.text)
-          .join(' ');
-        setAskAnswer({
-          text: teach || (isArabic ? `جاهزة أشرحلك يا ${studentName}!` : `Ready to teach you, ${studentName}!`),
-          source: result.experience.resolution.reused[0]?.reuseKey || 'assembly_engine',
-          media: presented.media[0] || null,
-          kind: 'lesson',
-        });
-        if (teach) speakText(teach, 'talking');
-      } else {
-        const line = isArabic
-          ? `سؤال حلو يا ${studentName}! محتاجة أجهّز الدرس شوية، اسأليني تاني.`
-          : `Great question, ${studentName}! Let me prepare that lesson and ask me again.`;
-        setAskAnswer({ text: line, source: 'assembly_engine', media: null, kind: 'quick' });
-        speakText(line, 'talking');
+        setIsAnswering(false);
+        return;
       }
+
+      // A lesson request: run it as a durable job, showing real stage progress.
+      setAskJob(result);
+      const settled = await runPersistentJob(result, {
+        studentId: student?.id || 'local',
+        generator: askGenerator,
+        stageDelayMs: 350,
+        onProgress: (job) => setAskJob({ ...job }),
+      });
+      setAskJob(settled);
+      renderJobExperience(settled);
+    } finally {
+      setIsAnswering(false);
+    }
+  };
+
+  // On mount, look for a lesson job that was interrupted by a reload/restart so
+  // the child is offered a resume instead of losing the work silently.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const job = await findResumableJob(student?.id || 'local');
+        if (!cancelled && job) setResumableJob(job);
+      } catch {
+        /* resume is best-effort; a failure must never block the classroom */
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [student?.id]);
+
+  /** Resume an interrupted lesson job from the stage it reached. */
+  const handleResumeJob = async () => {
+    if (!resumableJob) return;
+    const job = resumableJob;
+    setResumableJob(null);
+    setIsAnswering(true);
+    setAskJob(job);
+    setNourState('thinking');
+    try {
+      const settled = await runPersistentJob(job, {
+        studentId: student?.id || 'local',
+        generator: askGenerator,
+        stageDelayMs: 350,
+        onProgress: (j) => setAskJob({ ...j }),
+      });
+      setAskJob(settled);
+      renderJobExperience(settled);
     } finally {
       setIsAnswering(false);
     }
@@ -2513,6 +2590,76 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 <Send className="w-4 h-4" />
               </button>
             </div>
+
+            {/* A lesson job interrupted by a reload: offer to resume it. */}
+            {resumableJob && !askJob && (
+              <div
+                className="mt-2 rounded-2xl border border-amber-200 dark:border-amber-800 bg-amber-50/80 dark:bg-amber-950/40 p-3 space-y-2"
+                dir={isArabic ? 'rtl' : 'ltr'}
+              >
+                <p className="text-xs text-slate-800 dark:text-slate-200">
+                  {isArabic
+                    ? 'في درس كنت بجهّزه واتقطع. أكمّله؟'
+                    : 'You had a lesson being prepared that got interrupted. Finish it?'}
+                </p>
+                <button
+                  type="button"
+                  onClick={handleResumeJob}
+                  className="px-3 py-1.5 rounded-xl bg-amber-600 hover:bg-amber-500 text-white font-bold text-xs transition-all active:scale-95 cursor-pointer"
+                >
+                  {isArabic ? 'أكمّلي الدرس' : 'Resume lesson'}
+                </button>
+              </div>
+            )}
+
+            {/* Real stage progress while a lesson job runs. */}
+            {askJob && (
+              <div
+                className="mt-2 rounded-2xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/60 p-3 space-y-2"
+                dir={isArabic ? 'rtl' : 'ltr'}
+              >
+                <div className="flex items-center justify-between text-xs font-bold text-slate-700 dark:text-slate-200">
+                  <span className="flex items-center gap-1.5">
+                    <Loader2 className="w-3 h-3 animate-spin" />
+                    {askJob.status === 'complete'
+                      ? (isArabic ? 'الدرس جاهز' : 'Lesson ready')
+                      : askJob.status === 'failed'
+                        ? (isArabic ? 'تعذّر تجهيز الدرس' : 'Could not prepare the lesson')
+                        : (isArabic ? 'بجهّز الدرس...' : 'Preparing the lesson...')}
+                  </span>
+                  <span>{Math.round(askJob.progress * 100)}%</span>
+                </div>
+                <div className="h-1.5 w-full rounded-full bg-slate-200 dark:bg-slate-700 overflow-hidden">
+                  <div
+                    className="h-full rounded-full bg-indigo-500 transition-all"
+                    style={{ width: `${Math.round(askJob.progress * 100)}%` }}
+                  />
+                </div>
+                <ul className="space-y-0.5">
+                  {askJob.stages.map((s) => (
+                    <li
+                      key={s.name}
+                      className={`flex items-center gap-1.5 text-xs ${
+                        s.status === 'done'
+                          ? 'text-emerald-600 dark:text-emerald-400'
+                          : s.status === 'active'
+                            ? 'text-indigo-600 dark:text-indigo-300 font-bold'
+                            : 'text-slate-400 dark:text-slate-500'
+                      }`}
+                    >
+                      {s.status === 'done' ? (
+                        <CheckCircle2 className="w-3 h-3 shrink-0" />
+                      ) : s.status === 'active' ? (
+                        <Loader2 className="w-3 h-3 shrink-0 animate-spin" />
+                      ) : (
+                        <Circle className="w-3 h-3 shrink-0" />
+                      )}
+                      {stageLabel(s.name, language)}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
 
             {askAnswer && (
               <div

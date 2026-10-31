@@ -25,12 +25,13 @@ import {
   ImportedBook,
   BookTrainingCard,
 } from '../../types';
+import { PersistedLessonJob } from '../../types/assembly';
 import { IStorageService } from './IStorageService';
 import { migrateStudent } from './studentMigrations';
 import { localDateStr } from '../../utils/time';
 
 const DB_NAME = 'ai_school_companion_v2';
-const DB_VERSION = 9;
+const DB_VERSION = 10;
 
 const STORES = {
   STUDENT: 'student',
@@ -53,6 +54,7 @@ const STORES = {
   EXAM_CALENDARS: 'exam_calendars',
   IMPORTED_BOOKS: 'imported_books',
   BOOK_TRAINING_CARDS: 'book_training_cards',
+  LESSON_JOBS: 'lesson_jobs',
 } as const;
 
 const DEFAULT_SETTINGS: AppSettings = {
@@ -200,6 +202,11 @@ export class IndexedDBStorageService implements IStorageService {
             const btcStore = db.createObjectStore(STORES.BOOK_TRAINING_CARDS, { keyPath: 'id' });
             btcStore.createIndex('studentId', 'studentId', { unique: false });
             btcStore.createIndex('bookId', 'bookId', { unique: false });
+          }
+          if (!db.objectStoreNames.contains(STORES.LESSON_JOBS)) {
+            const ljStore = db.createObjectStore(STORES.LESSON_JOBS, { keyPath: 'id' });
+            ljStore.createIndex('studentId', 'studentId', { unique: false });
+            ljStore.createIndex('status', 'status', { unique: false });
           }
         };
 
@@ -1574,6 +1581,90 @@ export class IndexedDBStorageService implements IStorageService {
       try {
         const tx = db.transaction(STORES.BOOK_TRAINING_CARDS, 'readwrite');
         tx.objectStore(STORES.BOOK_TRAINING_CARDS).delete(cardId);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch {
+        resolve();
+      }
+    });
+  }
+
+  async getLessonJob(jobId: string): Promise<PersistedLessonJob | null> {
+    const memoryJobs: Record<string, PersistedLessonJob> = this.fallbackMemory.get(STORES.LESSON_JOBS) || {};
+    if (memoryJobs[jobId]) return memoryJobs[jobId];
+
+    const db = await this.getDB();
+    if (!db) return null;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.LESSON_JOBS, 'readonly');
+        const req = tx.objectStore(STORES.LESSON_JOBS).get(jobId);
+        req.onsuccess = () => resolve(req.result || null);
+        req.onerror = () => resolve(null);
+      } catch {
+        resolve(null);
+      }
+    });
+  }
+
+  async getLessonJobsForStudent(studentId: string): Promise<PersistedLessonJob[]> {
+    const memoryJobs: Record<string, PersistedLessonJob> = this.fallbackMemory.get(STORES.LESSON_JOBS) || {};
+    const inMem = Object.values(memoryJobs).filter((j) => j.studentId === studentId);
+
+    const db = await this.getDB();
+    if (!db) return inMem;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.LESSON_JOBS, 'readonly');
+        const idx = tx.objectStore(STORES.LESSON_JOBS).index('studentId');
+        const req = idx.getAll(studentId);
+        req.onsuccess = () => {
+          const results = (req.result || []) as PersistedLessonJob[];
+          resolve(results.length > 0 ? results : inMem);
+        };
+        req.onerror = () => resolve(inMem);
+      } catch {
+        resolve(inMem);
+      }
+    });
+  }
+
+  async saveLessonJob(job: PersistedLessonJob): Promise<void> {
+    const memoryJobs: Record<string, PersistedLessonJob> = this.fallbackMemory.get(STORES.LESSON_JOBS) || {};
+    memoryJobs[job.id] = job;
+    this.fallbackMemory.set(STORES.LESSON_JOBS, memoryJobs);
+    this.saveToLocalStorage(STORES.LESSON_JOBS, memoryJobs);
+
+    const db = await this.getDB();
+    if (!db) return;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.LESSON_JOBS, 'readwrite');
+        tx.objectStore(STORES.LESSON_JOBS).put(job);
+        tx.oncomplete = () => resolve();
+        tx.onerror = () => resolve();
+      } catch {
+        resolve();
+      }
+    });
+  }
+
+  async deleteLessonJob(jobId: string): Promise<void> {
+    const memoryJobs: Record<string, PersistedLessonJob> = this.fallbackMemory.get(STORES.LESSON_JOBS) || {};
+    delete memoryJobs[jobId];
+    this.fallbackMemory.set(STORES.LESSON_JOBS, memoryJobs);
+    this.saveToLocalStorage(STORES.LESSON_JOBS, memoryJobs);
+
+    const db = await this.getDB();
+    if (!db) return;
+
+    return new Promise((resolve) => {
+      try {
+        const tx = db.transaction(STORES.LESSON_JOBS, 'readwrite');
+        tx.objectStore(STORES.LESSON_JOBS).delete(jobId);
         tx.oncomplete = () => resolve();
         tx.onerror = () => resolve();
       } catch {

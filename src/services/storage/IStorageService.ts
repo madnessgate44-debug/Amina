@@ -25,6 +25,7 @@ import {
   ImportedBook,
   BookTrainingCard,
 } from '../../types';
+import { PersistedLessonJob } from '../../types/assembly';
 
 export interface IStorageService {
   /**
@@ -329,4 +330,26 @@ export interface IStorageService {
    * Deletes a training card.
    */
   deleteBookTrainingCard(cardId: string): Promise<void>;
+
+  // --- Lesson-production jobs (adaptive teaching, G7) --------------------
+
+  /**
+   * Retrieves a persisted lesson-production job by ID.
+   */
+  getLessonJob(jobId: string): Promise<PersistedLessonJob | null>;
+
+  /**
+   * Retrieves every persisted lesson-production job for a student, newest first.
+   */
+  getLessonJobsForStudent(studentId: string): Promise<PersistedLessonJob[]>;
+
+  /**
+   * Persists a lesson-production job so it survives a reload/restart.
+   */
+  saveLessonJob(job: PersistedLessonJob): Promise<void>;
+
+  /**
+   * Deletes a lesson-production job.
+   */
+  deleteLessonJob(jobId: string): Promise<void>;
 }
