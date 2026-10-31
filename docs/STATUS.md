@@ -58,6 +58,13 @@ of "Log".
   the verification prompt → "ممتاز! شرحك يدل إنك فهمتِ الفكرة فعلاً. 🌟", and an advanced next step.
   **0 console errors.** A quick question ("اشرحي لي البناء الضوئي في النبات") still returns an
   immediate answer (no job), as intended.
+- **Deploy [V]:** merged as squash `07e0255` (PR #92, CI + OS Compliance green on the merge commit).
+  Vercel production READY for `07e0255`; live bundle `assets/index-s8XvUtmp.js` SHA-256
+  `6f557fa02b8954df8731178d17db678792b25c578925cfda7c11b27cbef9c295` **identical** to the local
+  build of `main` [V]. `/api/health` 200 `{status:ok, hasApiKey:true}`; `scripts/smoke.mjs` 7/7 [V].
+  Playwright drive of **https://amina-nine-sepia.vercel.app** reproduced the whole loop in Arabic
+  (practice → "إجابة صحيحة! 🎉", verification → "ممتاز! شرحك يدل إنك فهمتِ الفكرة فعلاً. 🌟",
+  advanced next step), **0 console errors** [V].
 - **Gap report:** `docs/reports/ADAPTIVE_TEACHING_GAP_MATRIX_2026-10-31.md` (requirements / evidence /
   gap matrix, AC1–AC17 with PASS/FAIL/BLOCKED and the one recorded out-of-scope item).
 - **Next:** durable server-side lesson jobs with cross-session resume + a real progress UI (the
