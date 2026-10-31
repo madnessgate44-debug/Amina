@@ -106,6 +106,40 @@ export function exerciseToOptions(exercise: CurriculumExercise): ReelOption[] | 
   return options.map((o) => ({ text: String(o), isCorrect: String(o).trim() === expected }));
 }
 
+/**
+ * Which script a question is written in, by dominant character count. Some
+ * lessons (e.g. the bilingual maths book) mix Arabic and French exercises in
+ * one file, so a question can be in a different language than the child reads.
+ */
+function scriptOf(text: string): 'ar' | 'latin' | 'other' {
+  const ar = (text.match(/[\u0600-\u06FF]/g) || []).length;
+  const latin = (text.match(/[A-Za-zÀ-ÿ]/g) || []).length;
+  if (ar > latin) return 'ar';
+  if (latin > ar) return 'latin';
+  return 'other';
+}
+
+/** The script the child reads in: Arabic for ar, Latin for en/fr. */
+function wantedScript(lang: Language): 'ar' | 'latin' {
+  return lang === 'ar' ? 'ar' : 'latin';
+}
+
+/**
+ * Orders exercises so the ones written in the child's language come first.
+ * It is a stable reordering only — no exercise is dropped and none is
+ * fabricated, so a lesson with no matching-language exercise still works.
+ */
+function preferExercisesInLanguage(
+  usable: Array<{ ex: CurriculumExercise; options: ReelOption[] }>,
+  lang: Language
+): Array<{ ex: CurriculumExercise; options: ReelOption[] }> {
+  const want = wantedScript(lang);
+  return usable
+    .map((item, i) => ({ item, i, score: scriptOf(item.ex.question || '') === want ? 0 : 1 }))
+    .sort((a, b) => a.score - b.score || a.i - b.i)
+    .map((x) => x.item);
+}
+
 /** Deterministic id so tests and React keys are stable. */
 function reelId(lessonId: string, conceptId: string, kind: ReelKind, index: number): string {
   return `${lessonId}__${conceptId}__${kind}__${index}`;
@@ -146,10 +180,14 @@ export function buildReelsForConcept(
   const sourceText = nonEmpty(concept.sourceText);
   const keyPoint = concept.keyPoints && concept.keyPoints.length ? concept.keyPoints[0] : '';
 
-  // Collect question-capable exercises once, in curriculum order.
-  const usableExercises = lesson.exercises
-    .map((ex) => ({ ex, options: exerciseToOptions(ex) }))
-    .filter((x): x is { ex: CurriculumExercise; options: ReelOption[] } => x.options !== null);
+  // Collect question-capable exercises once, ordered so the child's own
+  // language comes first (a bilingual lesson can mix Arabic and French).
+  const usableExercises = preferExercisesInLanguage(
+    lesson.exercises
+      .map((ex) => ({ ex, options: exerciseToOptions(ex) }))
+      .filter((x): x is { ex: CurriculumExercise; options: ReelOption[] } => x.options !== null),
+    lang
+  );
 
   const vocab = lesson.vocabulary && lesson.vocabulary.length ? lesson.vocabulary[0] : null;
 
