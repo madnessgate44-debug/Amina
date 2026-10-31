@@ -24,6 +24,37 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-31 (run 3) — real educational media bound to concepts, rendered in the feed
+- **Shipped the current focus (bind real media to concepts and render it in the feed), PR #87,
+  merge `8a30451`.** The feed previously showed only a canvas drawing derived from each reel's own
+  words. Added a reusable media system in three layers: contract (`src/types/media.ts`:
+  `EducationalMediaItem` with localized title/purpose/alt, numbered `legend`, normalised `hotspots`,
+  narration, provenance, review state), catalog (`src/data/media/mediaCatalog.ts`, 4 items bound to
+  science photosynthesis, maths decimal number line, French greetings), and renderer
+  (`src/components/feed/ReelMedia.tsx`, wired into `ReelCard.tsx`; real media first, canvas only as
+  fallback). Production pipeline committed: `scripts/build-media.sh` (rsvg-convert + ffmpeg),
+  `build_animation_frames.py`, `build-narration.py`; sources in `media-src/`, built assets in
+  `public/media/`.
+- **Assets are real:** authored SVG diagrams (no words baked in — numeric callouts only; wording is
+  localized HTML, asserted by a test), an H.264 animation, and 3 real Gemini-TTS narration MP3s
+  (`gemini-3.1-flash-tts-preview`). Image-generation models on the key are free-tier blocked
+  (HTTP 429, limit 0), so no generated photos; the catalog supports `kind:'photograph'` for later.
+- **Live proof [V]:** production READY for `8a30451`, aliased to https://amina-nine-sepia.vercel.app.
+  Every media asset returns 200 with the right MIME on the live host (`/media/science/photosynthesis.svg`
+  image/svg+xml 5557B, `…_animation.mp4` video/mp4 54981B, 3 audio/mpeg MP3s). Playwright 390x844
+  ar-EG on the live site: the science reel renders the 960x600 SVG with **7 hotspots at 44x44** and a
+  6-entry bilingual legend; the next reel plays the **video**; maths and French render their diagrams
+  and narration; tapping hotspot #2 flips `aria-pressed` to `true`; **0 console errors** across the
+  walk. `scripts/smoke.mjs` on production: **7 passed, 0 failed**.
+- **Suite [V]:** `tsc --noEmit` 0; `npm test` all suites green incl. the new `test:media` (14 checks);
+  `npm run build` exit 0; CI `verify` + OS Compliance green on the PR head. UI audit `phone-ar`:
+  `smallestTapPx 44`, `overflowXPx 0`, `tinyText []`, 0 console errors on all 10 screens.
+- **a11y fix [V]:** the audit surfaced a pre-existing 40x40 voice-control button
+  (`VoiceInputControl.tsx` `md` size); raised to 44x44, restoring the app's own tap floor.
+- **Next:** none outstanding from the owner's four asks. The media contract is reusable — a new
+  lesson is one SVG, one narration line and one catalog entry. PR #8 stays open by standing rule.
+- **Blockers:** none.
+
 ### 2026-10-31 (run 2) — asks #1 and #2 done: real Noor audio in the reel + feed voice turn-taking
 - **Shipped #1 (reel media) + #2 (voice turn-taking), PR #85, squash merge `a307801`.** Root cause of
   `0/0/0/1`: `GEMINI_TTS_MODEL` was `gemini-3.8-flash-lite-tts`, a name that **does not exist** on the
