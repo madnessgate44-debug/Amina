@@ -16,3 +16,4 @@ artifacts/ui-audit/*/*.png
 
 # Scratch space for one-off probes and generated logs
 tmpgen/
+.tmp/
