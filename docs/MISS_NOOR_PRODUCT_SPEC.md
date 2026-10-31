@@ -809,3 +809,164 @@ Historical OpenHands/ChatGPT conversation archives are useful provenance but may
 ## 26. Change log
 
 - **2026-10-31:** Consolidated owner requirements from current conversations, recovered prior product decisions, repository source-of-truth documentation, current repository tree and dated teaching/media verification reports. Added the full ecosystem positioning, multi-grade/multi-curriculum scope, official curriculum context, request-to-teaching architecture, reuse-first content assembly, learner profile/memory, Feed and parent-approved discovery, school-branded product, parent/teacher connection, implementation evidence distinctions and acceptance criteria.
+
+
+---
+
+# 27. Recovered ChatGPT conversation decisions — consolidated addendum (2026-10-31)
+
+**Purpose:** This section incorporates decisions recovered from earlier ChatGPT conversations, not merely the latest repository snapshot. It corrects omissions and makes the chronology and priority of owner decisions explicit. Conversation retrieval returns relevant excerpts and summaries rather than a guaranteed complete export of every historical message; this section must not be described as a verbatim archive.
+
+## 27.1 October 21 — original experience direction
+
+The October 21 discussion established the core learner experience:
+
+- The app must not open like a conventional school administration dashboard.
+- Miss Noor should be visibly present as an elegant, reassuring, engaging teacher/companion. The character should feel like a real person who welcomes and guides the learner, not a static logo or generic chatbot avatar.
+- On opening, Miss Noor greets Amina, asks **“What do we have today?”**, explains the day's learning/session plan and estimated duration, asks whether the learner has remarks or anything to add, and then begins the learning experience.
+- The student journey is conversational and teacher-led, with subject-by-subject learning.
+- The visual interaction model borrows the immediacy and vertical discovery pattern of Instagram/TikTok Reels, but the content and purpose are educational.
+- Reels may be teaching, games, information, memorization, questions, interactive cards and other learning formats.
+- Books, homework and utility tabs should be discoverable through dropdown/contextual navigation rather than dominate the first screen.
+- The Library must include the applicable full curriculum, government textbook PDFs and school materials. Where official PDFs are used, preserve the official book itself and provide a table of contents/index that links into lessons. Miss Noor can teach a selected lesson.
+- The initial priority in that discussion was the student–teacher loop. Parent reporting and institutional features were later expanded as additional product/commercial requirements; they must not displace the student experience.
+
+## 27.2 October 22 — product naming and functional scope
+
+- The owner explicitly corrected the product name to **Miss Noor**. Earlier names and “Amina” references are historical project/learner identifiers, not the product brand.
+- The product scope was organized around HOME, FEED, LIBRARY and the Miss Noor teacher experience.
+- The wider requirement set included timetable/daily plan, curriculum and books, contextual teaching, homework/photo correction, voice, gamification, reviews, persistence, parent access, localization, accessibility and future school licensing.
+- Treat the October 22 audit as a historical requirements record, not proof every listed requirement was implemented.
+
+## 27.3 October 27–29 — teacher agent, not prompt wrapper
+
+The later teacher-agent discussions sharpened the architecture:
+
+- Miss Noor must be a real teaching agent using app capabilities/tools and structured skills, not merely a prompt that generates a lesson or a chat completion.
+- The teaching cycle is: **curriculum objective → assess learner → choose strategy/tools → interactive teaching → answer-specific adaptation → transfer check → persist evidence/mastery → next activity.**
+- The five existing named skills are a starting foundation, not a complete teacher capability set.
+- Additional teacher capabilities identified in the earlier analysis include:
+  - Lesson planner and preparation.
+  - Diagnostic assessment.
+  - Learner differentiation and personalization.
+  - Misconception diagnosis.
+  - Remediation and alternative explanation.
+  - Formative and summative assessment.
+  - Grounded visual selection/creation.
+  - Handwriting and submitted-work interpretation.
+  - Revision and spaced retrieval.
+  - Motivation and engagement.
+  - Session orchestration and lesson closure.
+  - Source-aware material retrieval and preparation.
+- The owner specifically prioritized what Claude-style teacher workflows can contribute: preparation of lessons, finding and grounding teaching materials, choosing methods, adapting to the learner and actually teaching. The comparison with ChatGPT and Gemini was intended to identify capabilities Miss Noor should embody, not to copy provider branding or depend on a single model vendor.
+- A source-aware teacher must be able to explain where lesson material came from and distinguish official curriculum content, school/teacher resources, supplementary sources and generated material.
+- The important missing capability identified in the prior analysis was not simply “more skills”; it was an end-to-end closed loop with reliable source retrieval, lesson preparation, answer-specific diagnosis, intervention, independent verification and persistent learner-model updates.
+
+## 27.4 October 31 — no textbook prerequisite and dynamic media assembly
+
+The owner clarified the student request flow:
+
+1. Amina (or any learner) asks a question, pastes text, shares a lesson or submits material.
+2. Miss Noor determines what the learner needs to understand.
+3. Miss Noor prepares a suitable teaching experience even if no textbook or lesson has been selected.
+4. The experience follows **TEACH · ASSESS · ADAPT**, including dialogue, practice, verification and the next learning step.
+5. The engine should not create every asset from scratch on every request. It should reuse approved suitable material, generate missing assets and assemble the experience dynamically.
+
+The product must distinguish:
+- A short immediate explanation that can be answered directly.
+- A larger teaching task that requires preparation/assembly and may take longer.
+
+The student-facing experience is the product. A functioning backend, API, assembly engine or job record is not sufficient if the learner cannot see and complete the actual teaching, practice, assessment, feedback and adaptation.
+
+## 27.5 Feed as a learning destination and a controlled alternative to social media
+
+The Feed is intended to give the student a compelling place to go both when studying and when taking a break. It is not merely a queue of curriculum flashcards.
+
+It should combine:
+- Curriculum-aligned teaching reels.
+- Revision and spaced-retrieval reels.
+- Games, challenges and interactive questions.
+- Interesting information and discovery.
+- Out-of-curriculum interest reels.
+- Student interaction and follow-up dialogue with Miss Noor.
+- Voice responses and feedback where supported.
+- Save, like/favourite and collections.
+
+The intended user benefit is that a child can move from a study activity into an engaging, age-appropriate discovery/entertainment stream without switching to an unrestricted social-media feed. The product should aim to replace some of the child's TikTok/Instagram use by making the alternative engaging, relevant and interactive.
+
+**Out-of-curriculum content governance is explicit:**
+- Parents approve interests and boundaries.
+- Miss Noor selects/curates the actual content within those approvals.
+- The system should not become an open, unmoderated user-generated social network.
+- The student can ask Miss Noor about a reel, learn more, answer questions or turn curiosity into a learning experience.
+- Do not imply that parent approval alone guarantees safety; content sourcing, moderation, age suitability and controls are also required.
+
+## 27.6 School and commercial ecosystem expansion
+
+Later product/investor discussions explicitly broadened the scope beyond an individual student app:
+
+- Miss Noor is a complete system/ecosystem, not only “a personal AI teacher for every student.”
+- The same underlying teaching platform can be customized and branded for a private school, whether national or international.
+- A school-branded deployment can use that school's identity, curriculum, grade structure, language, approved materials and learning context.
+- The system should connect school teachers to their students' learning context and evidence, within permissions.
+- Teachers should be able to contribute learning objectives, assignments and approved resources, review progress and misconceptions, and identify where human intervention is useful.
+- Parents should receive meaningful reports on learning progress, strengths, gaps and recommended support.
+- These institutional relationships are a distinct product and commercial pipeline alongside direct-to-family access.
+- The school product must be designed as a coherent ecosystem, not a white-label skin over an unrelated consumer app.
+- The original student-first product remains the foundation. School, teacher and parent capabilities extend and connect to it; they must not turn the student interface into a dashboard.
+
+## 27.7 Investor and presentation direction recovered from the same project discussions
+
+These are presentation requirements, not additional software features:
+
+- Describe Miss Noor as a complete learning ecosystem and explain what it actually does before presenting market slogans.
+- Explain the full student journey first, then explain the system architecture and continuous teaching loop.
+- Explain every architecture box in plain language: what it is, what it receives, what it does and what it outputs.
+- Explicitly show how the system works across grades, school systems, curricula and instructional languages (including Arabic, English and French).
+- Show the Miss Noor character and realistic app-screen concepts; the character and interface need to be visually imagined, not described only in prose.
+- Show how the Feed serves learning, discovery and controlled entertainment, and why its learning-first design is a better child-oriented alternative to generic short-form social feeds.
+- Present the school-branded product, teacher connection and parent reporting as part of the whole system.
+- The investor document should be professionally designed, visual, coherent and sellable—not a text-heavy technical report or a loose collection of boxes.
+- Do not repeatedly undermine the pitch with “only a concept / not ready” disclaimers. At the same time, never fabricate customers, contracts, traction, proven outcomes or capabilities that are not evidenced.
+
+## 27.8 Corrections to the first consolidated specification's implementation-status language
+
+The first version of this specification summarized dated repository reports. That summary must not be mistaken for a fresh independent verification of the current live app.
+
+In particular, the October 31 ChatGPT audit discussion reported a gap between backend foundations and the actual learner-facing experience:
+- The assembly/teaching engine and reuse/generation pipeline existed as foundations.
+- The current UI integration was still reported as incomplete: the teaching experience was difficult to access/hidden in the classroom, work could run synchronously to completion, and only dialogue/next-step content was being rendered in the audited path rather than the full interactive teaching experience.
+- The audit also reported that textbook/current-lesson context still leaked into a flow that was supposed to accept arbitrary questions and pasted text.
+- Full practice, assessment, feedback, adaptation and progress continuity needed to be verified in the actual user journey, not inferred from service-level code or a report about another baseline.
+- The October 29 discussion also identified a passive Feed, incomplete useful visuals, cross-subject misconception coverage, French localization, accessibility and real child validation as gaps at that point.
+
+Therefore:
+1. Treat the dated October 31 adaptive teaching report's positive claims as baseline-specific evidence only.
+2. Do not state that the current deployed student journey completes TEACH·ASSESS·ADAPT until a current end-to-end browser test proves it.
+3. Keep service/backend capability and student-visible capability as separate evidence categories.
+4. Reconcile report commit SHAs with current main and deployed SHAs before changing implementation statuses.
+5. Do not let a test of a service or component substitute for a complete learner scenario.
+
+## 27.9 Conversation-derived priority order
+
+The intended product priority is:
+
+1. **Student teaching experience:** Miss Noor's presence, natural conversation, need diagnosis, teaching, interaction, feedback and verification.
+2. **Curriculum and source intelligence:** official material, school context, all-grade/curriculum/language architecture and reliable retrieval.
+3. **Teaching agent and content/media orchestration:** specialist skills, reuse-first asset assembly, real media and adaptive teaching.
+4. **Feed:** curriculum learning plus engaging, parent-governed discovery and entertainment.
+5. **Library and learning continuity:** official books, indexes, lessons, saved items, notes, review and mastery.
+6. **Parent experience:** controls and understandable evidence-based reporting.
+7. **School ecosystem:** branded institutional deployments, teacher workflows and school/parent/student connection.
+
+This ordering preserves the original student-first intent while including the later explicit expansion into a full school and family ecosystem.
+
+## 27.10 Conversation retrieval provenance and remaining archive limitation
+
+Recovered conversation context includes dated decisions from October 21, October 22, October 29 and October 31, 2026. The available conversation-retrieval system returns relevant conversation memories/excerpts and summaries; it does not expose a guaranteed complete, line-by-line export of every historical chat in this session. The repository also contains historical project archives, but those have previously been described as partial.
+
+This file therefore consolidates the decisions that were recoverable, but must not claim to be a complete verbatim transcript archive. If a complete transcript export or additional historical project chat becomes available, reconcile it against this specification, preserve chronology, resolve contradictions by latest explicit owner decision, and append dated amendments rather than silently deleting history.
+
+## 27.11 Updated change log
+
+- **2026-10-31 (conversation recovery):** Added earlier ChatGPT decisions from October 21–31, including the original Noor-led conversational opening, student-first experience, full official textbook/PDF Library, Reels as games/information/teaching/memorization, teacher-agent capability requirements, source-aware lesson preparation, arbitrary student input without textbook selection, reuse-first media assembly, controlled out-of-curriculum discovery, parent-approved interests, school-branded institutional system, teacher connections, parent reports, investor presentation requirements, and corrections separating backend evidence from the actual student-facing experience.
