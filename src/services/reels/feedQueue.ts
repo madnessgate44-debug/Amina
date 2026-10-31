@@ -94,6 +94,36 @@ function firstSureWin(pools: Reel[][], lang: Language): Reel | undefined {
   return undefined;
 }
 
+/**
+ * Rotates a list left by `n`, wrapping. A session only consumes the first few
+ * reels of a pool, so without rotation the tail of a subject (e.g. the four
+ * misconception-bearing maths lessons, last in file order) is never reached.
+ * Rotating by the day index makes the whole subject reachable over sessions.
+ */
+function rotateBy<T>(arr: T[], n: number): T[] {
+  if (arr.length === 0) return arr;
+  const k = ((n % arr.length) + arr.length) % arr.length;
+  return arr.slice(k).concat(arr.slice(0, k));
+}
+
+/**
+ * Round-robins several reel lists into one, taking the first reel of each list,
+ * then the second of each, and so on. Each lesson yields ~6 reels, but a
+ * session consumes only a handful, so plain concatenation would show one lesson
+ * in depth and never reach the rest of the subject. Interleaving gives breadth
+ * first, which is what makes every lesson (and its misconception reels) reachable.
+ */
+function interleave<T>(lists: T[][]): T[] {
+  const out: T[] = [];
+  const max = lists.reduce((m, l) => Math.max(m, l.length), 0);
+  for (let i = 0; i < max; i++) {
+    for (const list of lists) {
+      if (i < list.length) out.push(list[i]);
+    }
+  }
+  return out;
+}
+
 export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const lang = input.language;
   const now = input.now || new Date();
@@ -116,12 +146,16 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const lessons = curriculumService.getAvailableLessons();
   const subjectSet = new Set((input.todaySubjects || []).map((s) => s.toLowerCase()));
   const lessonIdSet = new Set(input.todayLessonIds || []);
-  const todayLessons = lessons.filter(
+  const matchedToday = lessons.filter(
     (l) =>
       lessonIdSet.has(l.id) ||
       subjectSet.has(l.subjectNameEn.toLowerCase()) ||
       subjectSet.has(l.subjectNameAr.toLowerCase())
   );
+  // Rotate the day's lessons by the day index so the tail of a long subject
+  // (where the misconception-bearing maths lessons live) is reached over days.
+  const dayIndex = Math.floor(now.getTime() / 86_400_000);
+  const todayLessons = rotateBy(matchedToday, dayIndex);
   for (const lesson of todayLessons) {
     todayPool.push(...reelsForLesson(lesson, lang, 'today_lesson'));
   }
@@ -130,7 +164,7 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const examPool: Reel[] = [];
   for (const exam of input.examCalendar || []) {
     const subjectLessons = lessons.filter((l) => l.subjectId === exam.entry.subjectId);
-    for (const lesson of subjectLessons) {
+    for (const lesson of rotateBy(subjectLessons, dayIndex)) {
       examPool.push(...reelsForLesson(lesson, lang, 'exam_topic'));
     }
   }
