@@ -208,6 +208,7 @@ function run() {
   // ---- 5. Retry after mistakes (rule 3) ----
   const retry = buildRetryAfterMistakes(lessons[0].concepts[0].id, 'ar');
   assert(retry.length >= 1, `5.1: a retry plan exists for a real concept (${retry.length} reels)`);
+
   assert(retry.every((r) => r.conceptId === lessons[0].concepts[0].id), '5.2: retry reels target the same concept');
 
   // ---- 6. Source labels ----
@@ -221,6 +222,20 @@ function run() {
     (r: Reel) => r.hook && r.show && r.noorLine && r.reactionCorrect && r.reactionWrong && r.subjectName
   );
   assert(uiFieldsOk, '7.1: every queued reel has the fields the UI renders');
+
+  // ---- 8. A bilingual lesson serves questions in the child's language ----
+  // off_math_u1_l1 mixes Arabic and French exercises in one file. The reel the
+  // child sees must be written in their own script, not the other track's.
+  const mixed = curriculumService.getLessonById('off_math_u1_l1');
+  assert(Boolean(mixed), '8.0: the bilingual maths lesson exists');
+  const arabicChars = (s: string) => (s.match(/[\u0600-\u06FF]/g) || []).length;
+  const latinChars = (s: string) => (s.match(/[A-Za-zÀ-ÿ]/g) || []).length;
+  if (mixed) {
+    const arQ = buildReelsForConcept(mixed, mixed.concepts[0], 'ar').find((r) => r.options)?.hook || '';
+    const frQ = buildReelsForConcept(mixed, mixed.concepts[0], 'fr').find((r) => r.options)?.hook || '';
+    assert(arabicChars(arQ) > latinChars(arQ), `8.1: an Arabic learner gets an Arabic-script question (${arQ.slice(0, 28)})`);
+    assert(latinChars(frQ) > arabicChars(frQ), `8.2: a French learner gets a Latin-script question (${frQ.slice(0, 28)})`);
+  }
 
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
