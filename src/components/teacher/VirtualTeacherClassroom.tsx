@@ -23,6 +23,9 @@ import {
 import { curriculumService } from '../../services/curriculum/curriculumService';
 import { OfficialCurriculumLesson } from '../../types/teachingSession';
 import { VoiceInputControl } from '../voice/VoiceInputControl';
+import { handleAsk } from '../../services/assembly/assemblyEngine';
+import { RoleGenerator } from '../../services/assembly/productionJobs';
+import { EducationalMediaItem } from '../../types/media';
 import {
   Sparkles,
   Volume2,
@@ -339,6 +342,12 @@ export const VirtualTeacherClassroom: React.FC = () => {
   // Custom Ask / Interaction Input
   const [askInput, setAskInput] = useState('');
   const [isAnswering, setIsAnswering] = useState(false);
+  const [askAnswer, setAskAnswer] = useState<{
+    text: string;
+    source: string;
+    media: EducationalMediaItem | null;
+    kind: 'quick' | 'lesson';
+  } | null>(null);
   const [customExplanationLoading, setCustomExplanationLoading] = useState(false);
 
   // Dynamic explanation content state
@@ -1001,8 +1010,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
     speakText(text, 'talking');
   };
 
-  // Ask Teacher question handler
-  const handleAskQuestion = async () => {
+  /**
+   * Content-assembly ask path. Instead of always calling a model, the engine
+   * first understands the ask and reuses approved material (curriculum text,
+   * approved media, the lesson's own exercises and misconceptions). Only a role
+   * with no approved source is generated, and only a lesson-sized request
+   * becomes a staged production job. A quick question is answered immediately.
+   */
+  const handleAskWithAssembly = async () => {
     const q = askInput.trim();
     if (!q) return;
 
@@ -1011,29 +1026,64 @@ export const VirtualTeacherClassroom: React.FC = () => {
     setAskInput('');
     setNourState('thinking');
 
+    // The generator is called ONLY for roles with no approved source. It reuses
+    // the existing tutor-explain route, so the server holds the model key.
+    const generator: RoleGenerator = async (role, brief, anchors) => {
+      try {
+        const resp = await fetch('/api/tutor-explain', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            lessonTitle: isArabic ? currentLesson.titleAr : currentLesson.titleEn,
+            subjectName: isArabic ? currentLesson.sourceRef.bookAr : currentLesson.sourceRef.bookEn,
+            lessonText: `${brief[isArabic ? 'ar' : 'en']} ${anchors.join(' ')}`,
+            language,
+            mode: role === 'analogy' ? 'real_world_analogy' : role === 'verification' ? 'discussion_question' : 'core_concepts',
+            studentName,
+            addressForm,
+          }),
+        });
+        const data = await resp.json();
+        return data.explanation || data.reply || null;
+      } catch {
+        return null;
+      }
+    };
+
     try {
-      const resp = await fetch('/api/tutor-reply', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          studentInput: q,
-          currentBeatText: currentLesson.readingText || currentLesson.objectives.join(' - '),
-          lessonTitle: isArabic ? currentLesson.titleAr : currentLesson.titleEn,
-          subjectName: isArabic ? currentLesson.sourceRef.bookAr : currentLesson.sourceRef.bookEn,
-          studentName,
-          addressForm,
-          language,
-        }),
+      const result = await handleAsk(q, {
+        channel: 'typed',
+        language,
+        studentName,
+        generator,
+        runToCompletion: true,
       });
 
-      const data = await resp.json();
-      const answer = data.reply || (isArabic ? `أنا سامعاكي ومركّزة معاكي يا ${studentName}!` : `I hear you loud and clear, ${studentName}!`);
-      speakText(answer, 'talking');
-    } catch {
-      const fallback = isArabic
-        ? `سؤال ذكي جداً يا ${studentName}! في درسنا «${currentLesson.titleAr}»، أهم نقطة هي: ${currentLesson.objectives[0] || 'التركيز والتعلم المستمر'}.`
-        : `Great question, ${studentName}! In our lesson "${currentLesson.titleEn}", the core idea is: ${currentLesson.objectives[0] || 'Keep exploring'}.`;
-      speakText(fallback, 'talking');
+      if (result.kind === 'quick_explanation') {
+        const line = result.text || (isArabic ? `أنا سامعاكي يا ${studentName}!` : `I hear you, ${studentName}!`);
+        setAskAnswer({ text: line, source: result.source, media: result.media || null, kind: 'quick' });
+        speakText(line, 'talking');
+      } else if (result.status === 'complete' && result.experience) {
+        const exp = result.experience;
+        const dialogue = exp.phases.find((p) => p.phase === 'dialogue');
+        const nextStep = exp.phases.find((p) => p.phase === 'next_step');
+        const line = [dialogue?.lines.map((l) => l.text).join(' '), nextStep?.lines.map((l) => l.text).join(' ')]
+          .filter(Boolean)
+          .join(' ');
+        setAskAnswer({
+          text: line || (isArabic ? `جاهزة أشرحلك يا ${studentName}!` : `Ready to teach you, ${studentName}!`),
+          source: exp.resolution.reused[0]?.reuseKey || 'assembly_engine',
+          media: exp.media[0] || null,
+          kind: 'lesson',
+        });
+        speakText(line, 'talking');
+      } else {
+        const line = isArabic
+          ? `سؤال حلو يا ${studentName}! محتاجة أجهّز الدرس شوية، اسأليني تاني.`
+          : `Great question, ${studentName}! Let me prepare that lesson and ask me again.`;
+        setAskAnswer({ text: line, source: 'assembly_engine', media: null, kind: 'quick' });
+        speakText(line, 'talking');
+      }
     } finally {
       setIsAnswering(false);
     }
@@ -2372,7 +2422,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 type="text"
                 value={askInput}
                 onChange={(e) => setAskInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleAskQuestion()}
+                onKeyDown={(e) => e.key === 'Enter' && handleAskWithAssembly()}
                 placeholder={
                   isArabic
                     ? 'اكتبي سؤالك لمس نور هنا...'
@@ -2384,12 +2434,40 @@ export const VirtualTeacherClassroom: React.FC = () => {
               <button
                 type="button"
                 disabled={!askInput.trim() || isAnswering}
-                onClick={handleAskQuestion}
+                onClick={handleAskWithAssembly}
                 className="p-2.5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white font-bold text-xs shadow-md transition-all active:scale-95 cursor-pointer flex items-center justify-center shrink-0"
               >
                 <Send className="w-4 h-4" />
               </button>
             </div>
+
+            {askAnswer && (
+              <div
+                className="mt-2 rounded-2xl border border-indigo-200 dark:border-indigo-800 bg-indigo-50/70 dark:bg-indigo-950/40 p-3 space-y-2"
+                dir={isArabic ? 'rtl' : 'ltr'}
+              >
+                <div className="flex items-center gap-1.5 text-xs font-bold text-indigo-700 dark:text-indigo-300">
+                  <Sparkles className="w-3 h-3" />
+                  {askAnswer.kind === 'quick'
+                    ? (isArabic ? 'إجابة فورية من مادة معتمدة' : 'Immediate answer from approved material')
+                    : (isArabic ? 'درس مجمّع من المادة المعتمدة' : 'Lesson assembled from approved material')}
+                </div>
+                <p className="text-xs leading-relaxed text-slate-800 dark:text-slate-200 whitespace-pre-line">
+                  {askAnswer.text}
+                </p>
+                {askAnswer.media?.src && (
+                  <img
+                    src={askAnswer.media.src}
+                    alt={askAnswer.media.alt?.[isArabic ? 'ar' : 'en'] || askAnswer.media.title?.[isArabic ? 'ar' : 'en'] || ''}
+                    className="w-full max-h-48 object-contain rounded-xl bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900"
+                  />
+                )}
+                <div className="text-xs text-slate-500 dark:text-slate-400">
+                  {isArabic ? 'المصدر: ' : 'Source: '}
+                  {askAnswer.source}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
