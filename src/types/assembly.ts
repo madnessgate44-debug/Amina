@@ -197,6 +197,14 @@ export interface LessonProductionJob {
   updatedAt: string;
 }
 
+/**
+ * A lesson job as it is persisted: the job itself plus the student it belongs
+ * to, so a running job can be found again after a restart and resumed.
+ */
+export interface PersistedLessonJob extends LessonProductionJob {
+  studentId: string;
+}
+
 // ─── 4. The assembled teaching experience ────────────────────────────────────
 
 /** The four movements of a lesson: teach, assess, adapt. */

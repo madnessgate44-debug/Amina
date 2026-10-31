@@ -38,7 +38,7 @@ Evidence tags: [V] verified by tool output, [I] inference, [U] unknown, [B] bloc
 | G4 | Reuse approved assets | `resolveAssets` reuse-first, `reuseKey` | none | AC4 [V] |
 | G5 | Generate missing assets | `RoleGenerator` fills only `missing` roles | none | AC5 [V] |
 | G6 | Quick question → immediate answer | `assembleQuickExplanation` | none | AC6 [V] |
-| G7 | Long request → real persistent async job | `productionJobs.ts` exists, but the UI calls `handleAsk(..., runToCompletion:true)` synchronously — no persistence, no progress shown | **Long jobs run synchronously; no progress UI** | AC7, AC8 |
+| G7 | Long request → real persistent async job | **Closed (run 5b):** `jobService.ts` persists the job after every stage (`lesson_jobs` store, DB v10); UI runs it with `runPersistentJob` and shows a real stage progress bar; `findResumableJob` offers resume after a reload | none | AC7, AC8 [V] |
 | G8 | UI renders the COMPLETE experience | `handleAskWithAssembly` concatenates only `dialogue` + `next_step` lines into one text blob; drops practice, verification, misconception, and all media but the first | **Phases dropped** | AC9 |
 | G9 | Interactive practice + dialogue | practice options are assembled but never rendered/answerable | **Practice not interactive** | AC10 |
 | G10 | Assessment of real responses | engine has no per-answer assessor for an assembled experience | **No assessment** | AC11 |
@@ -86,8 +86,8 @@ mastery system:
 | AC4 | Approved material is reused first | PASS | `adaptiveScenarios` F: `reuseRatio > 0.5`, every reuse keeps provenance |
 | AC5 | Only missing assets are generated | PASS | `assemblyEngine` + `adaptiveScenarios` F: `missing` roles only |
 | AC6 | A quick question gets an immediate answer | PASS | `adaptiveScenarios` A; live ask returned immediate Arabic answer |
-| AC7 | A long request runs as a staged job | PASS (in-session) | `adaptiveScenarios` E: 5 named stages, progress 0→1 |
-| AC8 | Long-job progress is visible across a restart | BLOCKED (out of scope) | durable store not wired — recorded as next backlog item |
+| AC7 | A long request runs as a staged job | PASS | `adaptiveScenarios` E: 5 named stages, progress 0→1; live stage progress bar |
+| AC8 | Long-job progress is visible across a restart | PASS (run 5b) | `jobPersistence` 19/19: save→read-back, `findResumableJob`, resume to complete; live: seeded running job survived `reload()`, resume banner shown, resumed to a full lesson |
 | AC9 | UI renders the COMPLETE experience | PASS | live: TEACH + PRACTICE + VERIFY + NEXT STEP all rendered |
 | AC10 | Practice is interactive | PASS | live: options clicked → "إجابة صحيحة! 🎉" |
 | AC11 | Real responses are assessed | PASS | `adaptiveScenarios` C/G; `assessPractice`/`assessVerification` |
