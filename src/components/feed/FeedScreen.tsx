@@ -210,6 +210,7 @@ export const FeedScreen: React.FC = () => {
           language={language}
           reducedMotion={reducedMotion}
           voiceEnabled={settings.companionVoiceEnabled}
+          handsFreeEnabled={settings.companionVoiceEnabled}
           onAnswer={(correct) => {
             void handleReelAnswer(currentReel, correct);
           }}

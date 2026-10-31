@@ -138,5 +138,31 @@ assert(
   'the speech-end signal has a safety net so a silent engine cannot wedge the feed'
 );
 
+// --- R-F3 voice turn-taking in the feed (owner ask #2) --------------------
+assert(
+  /handsFreeEnabled/.test(feedScreen) && /handsFreeEnabled=\{settings\.companionVoiceEnabled\}/.test(feedScreen),
+  'the feed enables the spoken turn from the companion-voice setting'
+);
+assert(
+  /VoiceInputControl/.test(reelCard),
+  'the reel mounts the microphone control'
+);
+assert(
+  /reduceHandsFree/.test(reelCard) && /tutor_turn_added/.test(reelCard) && /speech_finished/.test(reelCard),
+  'the reel drives the shared hands-free state machine'
+);
+assert(
+  /if \(settled\) return;/.test(reelCard) && /dispatchHandsFree\(\{ type: 'speech_finished' \}\)/.test(reelCard),
+  'the microphone opens only after Noor has finished speaking (no mid-sentence cutoff)'
+);
+assert(
+  /matchSpokenOption\(transcript, reel\.options\)/.test(reelCard),
+  'a spoken answer is matched against the reel options before it is graded'
+);
+assert(
+  /handsFree=\{handsFreeOn\}/.test(reelCard) && /listenSignal=\{handsFree\.listenToken\}/.test(reelCard),
+  'the reel passes the hands-free flag and listen signal to the microphone control'
+);
+
 console.log(`\nIMMERSIVE FEED SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
