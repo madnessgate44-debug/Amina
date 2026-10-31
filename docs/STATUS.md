@@ -24,6 +24,47 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-31 (run 5) — complete adaptive teaching experience rendered + assessed
+- **Outcome:** the NOUR ask station now renders the WHOLE assembled experience (TEACH · PRACTICE ·
+  VERIFY · NEXT STEP), makes practice and verification interactive, and records verified outcomes
+  through the existing mastery system — instead of concatenating two text blobs. The mission's
+  Phase 6 gap ("extracts only dialogue and next_step") is closed.
+- **New module `src/services/assembly/experiencePresenter.ts`:** `presentExperience()` makes every
+  phase render-ready; `assessPractice()` grades a chosen option (with the concept's recorded
+  remediation when the child picks a wrong option); `assessVerification()` scores an "explain it
+  back" answer by key-point overlap; `recommendNextStep()` adapts the next step to that evidence.
+  All pure and model-free.
+- **UI (`VirtualTeacherClassroom.tsx`):** the ask path stores the presented experience, renders the
+  practice question as answerable buttons, renders the verification input, and shows a next step that
+  follows the verification result. Practice/verification answers call `recordEvidence` **only when
+  the ask matched a real curriculum concept**, so no mastery is claimed without evidence.
+- **Three real defects found while testing on the live site and fixed:**
+  1. **Arabic ask borrowed the French curriculum track.** `matchConcept` ignored the lesson language,
+     so "عايزة درس كامل عن البناء الضوئي" matched `conc_scifr_u1_l1_photosynthese` and rendered French
+     practice options to an Arabic child. Fix: a language-mismatched lesson is demoted (×0.5); a
+     matching-language lesson wins. Regression tests added.
+  2. **Long pastes failed to match.** Confidence was `overlap / askSize`, so a 15-word paragraph that
+     shared 4 concept words scored 0.19 (< 0.2 floor) and matched nothing. Fix: confidence saturates
+     on the overlap count (`min(1, overlap/4)`), so a long paste is not penalised for being long.
+  3. **French was misdetected as English.** A French-only accented letter now decides `fr`
+     ("explique la photosynthèse" → `fr`).
+- **Suite [V]:** `tsc --noEmit` exit 0; `npm test` all suites green — assembly **53/53** (+15 new),
+  new `adaptiveScenarios` **27/27** (mission Phase 9 cases A–H), 39 suites total 0 failed;
+  `npm run build` exit 0.
+- **Live proof [V]:** local production server (`PORT=12000 NODE_ENV=production tsx server.ts`) driven
+  with Playwright (chromium 155): completed onboarding, opened NOUR → "اسألي نور", asked
+  "عايزة درس كامل عن البناء الضوئي". Rendered in **Arabic** from `off_sci_u1_l1_c1.sourceText`:
+  TEACH lines, a practice question with answerable options → "إجابة صحيحة! 🎉 فهمتِ الفكرة كويس.",
+  the verification prompt → "ممتاز! شرحك يدل إنك فهمتِ الفكرة فعلاً. 🌟", and an advanced next step.
+  **0 console errors.** A quick question ("اشرحي لي البناء الضوئي في النبات") still returns an
+  immediate answer (no job), as intended.
+- **Gap report:** `docs/reports/ADAPTIVE_TEACHING_GAP_MATRIX_2026-10-31.md` (requirements / evidence /
+  gap matrix, AC1–AC17 with PASS/FAIL/BLOCKED and the one recorded out-of-scope item).
+- **Next:** durable server-side lesson jobs with cross-session resume + a real progress UI (the
+  engine already models staged jobs; wiring a persistent store is the next unit). PR #8 stays open by
+  standing rule — do not merge.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-10-31 (run 4) — assembly engine false match fixed, verified live
 - **Shipped the content-assembly engine (PR #89, merge `58ff639`) then fixed a live-found defect
   (PR #90, squash merge `6c6c370`).** The engine understands an ask, reuses approved material

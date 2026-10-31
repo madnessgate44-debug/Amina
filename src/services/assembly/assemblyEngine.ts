@@ -105,3 +105,10 @@ export { understandAsk } from './teachingNeed';
 export { resolveAssets } from './assetResolver';
 export { assembleExperience, assembleQuickExplanation } from './contentAssembler';
 export { createJob, pumpJob, runJobToCompletion, isJobSettled } from './productionJobs';
+export {
+  presentExperience,
+  assessPractice,
+  assessVerification,
+  hasPracticeQuestion,
+  recommendNextStep,
+} from './experiencePresenter';

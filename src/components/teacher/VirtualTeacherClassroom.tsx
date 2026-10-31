@@ -25,6 +25,18 @@ import { OfficialCurriculumLesson } from '../../types/teachingSession';
 import { VoiceInputControl } from '../voice/VoiceInputControl';
 import { handleAsk } from '../../services/assembly/assemblyEngine';
 import { RoleGenerator } from '../../services/assembly/productionJobs';
+import {
+  presentExperience,
+  assessPractice,
+  assessVerification,
+  recommendNextStep,
+} from '../../services/assembly/experiencePresenter';
+import {
+  AssessmentResult,
+  ExperiencePresentation,
+  TeachingExperience,
+  VerificationAssessment,
+} from '../../types/assembly';
 import { EducationalMediaItem } from '../../types/media';
 import {
   Sparkles,
@@ -348,6 +360,13 @@ export const VirtualTeacherClassroom: React.FC = () => {
     media: EducationalMediaItem | null;
     kind: 'quick' | 'lesson';
   } | null>(null);
+  // The full assembled experience, when the ask produced one, so every phase is
+  // rendered rather than only the dialogue and next-step lines.
+  const [askExperience, setAskExperience] = useState<ExperiencePresentation | null>(null);
+  const askExperienceRef = useRef<TeachingExperience | null>(null);
+  const [practiceResult, setPracticeResult] = useState<AssessmentResult | null>(null);
+  const [verificationResult, setVerificationResult] = useState<VerificationAssessment | null>(null);
+  const [verificationInput, setVerificationInput] = useState('');
   const [customExplanationLoading, setCustomExplanationLoading] = useState(false);
 
   // Dynamic explanation content state
@@ -1024,6 +1043,11 @@ export const VirtualTeacherClassroom: React.FC = () => {
     soundEffects.playPop();
     setIsAnswering(true);
     setAskInput('');
+    setAskExperience(null);
+    askExperienceRef.current = null;
+    setPracticeResult(null);
+    setVerificationResult(null);
+    setVerificationInput('');
     setNourState('thinking');
 
     // The generator is called ONLY for roles with no approved source. It reuses
@@ -1064,19 +1088,22 @@ export const VirtualTeacherClassroom: React.FC = () => {
         setAskAnswer({ text: line, source: result.source, media: result.media || null, kind: 'quick' });
         speakText(line, 'talking');
       } else if (result.status === 'complete' && result.experience) {
-        const exp = result.experience;
-        const dialogue = exp.phases.find((p) => p.phase === 'dialogue');
-        const nextStep = exp.phases.find((p) => p.phase === 'next_step');
-        const line = [dialogue?.lines.map((l) => l.text).join(' '), nextStep?.lines.map((l) => l.text).join(' ')]
-          .filter(Boolean)
+        // Render the WHOLE assembled experience: teach, practice, verification
+        // and the next step — not just the dialogue and next-step lines.
+        const presented = presentExperience(result.experience);
+        askExperienceRef.current = result.experience;
+        setAskExperience(presented);
+        const teach = presented.phases
+          .find((p) => p.phase === 'dialogue')
+          ?.lines.map((l) => l.text)
           .join(' ');
         setAskAnswer({
-          text: line || (isArabic ? `جاهزة أشرحلك يا ${studentName}!` : `Ready to teach you, ${studentName}!`),
-          source: exp.resolution.reused[0]?.reuseKey || 'assembly_engine',
-          media: exp.media[0] || null,
+          text: teach || (isArabic ? `جاهزة أشرحلك يا ${studentName}!` : `Ready to teach you, ${studentName}!`),
+          source: result.experience.resolution.reused[0]?.reuseKey || 'assembly_engine',
+          media: presented.media[0] || null,
           kind: 'lesson',
         });
-        speakText(line, 'talking');
+        if (teach) speakText(teach, 'talking');
       } else {
         const line = isArabic
           ? `سؤال حلو يا ${studentName}! محتاجة أجهّز الدرس شوية، اسأليني تاني.`
@@ -1086,6 +1113,52 @@ export const VirtualTeacherClassroom: React.FC = () => {
       }
     } finally {
       setIsAnswering(false);
+    }
+  };
+
+  /**
+   * Assess a practice answer from the assembled experience and record it as
+   * mastery evidence — but only when the ask matched a real curriculum concept,
+   * so no mastery is ever claimed without a concept to attach it to.
+   */
+  const handleAnswerPractice = async (optionIndex: number) => {
+    const exp = askExperienceRef.current;
+    if (!exp || practiceResult) return;
+    const result = assessPractice(exp, optionIndex);
+    if (!result) return;
+    setPracticeResult(result);
+    speakText(result.feedback, 'talking');
+    if (result.conceptId) {
+      await recordEvidence(result.conceptId, {
+        correctness: result.correctness,
+        difficulty: 0.5,
+        independence: 'unassisted',
+        modality: 'practice',
+        notes: 'assembly experience practice',
+      });
+    }
+  };
+
+  /**
+   * Assess the "explain it back" answer and, when the concept is verified as
+   * understood, record that evidence. A partial or unclear answer records a
+   * partial/wrong signal rather than a pass.
+   */
+  const handleSubmitVerification = async () => {
+    const exp = askExperienceRef.current;
+    const text = verificationInput.trim();
+    if (!exp || !text || verificationResult) return;
+    const result = assessVerification(exp, text);
+    setVerificationResult(result);
+    speakText(result.feedback, 'talking');
+    if (result.conceptId) {
+      await recordEvidence(result.conceptId, {
+        correctness: result.correctness,
+        difficulty: 0.6,
+        independence: 'unassisted',
+        modality: 'practice',
+        notes: 'assembly experience explain-back',
+      });
     }
   };
 
@@ -2462,6 +2535,104 @@ export const VirtualTeacherClassroom: React.FC = () => {
                     className="w-full max-h-48 object-contain rounded-xl bg-white dark:bg-slate-900 border border-indigo-100 dark:border-indigo-900"
                   />
                 )}
+
+                {/* PRACTICE: an answerable question from approved material. */}
+                {askExperience && (() => {
+                  const practice = askExperience.phases.find((p) => p.phase === 'practice');
+                  if (!practice?.options?.length) return null;
+                  return (
+                    <div className="pt-1 space-y-1.5 border-t border-indigo-200/60 dark:border-indigo-800/60">
+                      <div className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                        {isArabic ? '🎯 تدريب سريع' : '🎯 Quick practice'}
+                      </div>
+                      {practice.lines.map((l, i) => (
+                        <p key={i} className="text-xs text-slate-800 dark:text-slate-200">{l.text}</p>
+                      ))}
+                      <div className="space-y-1">
+                        {practice.options.map((o, i) => {
+                          const chosen = practiceResult?.correctOptionIndex === i;
+                          const isRight = practiceResult && o.isCorrect;
+                          return (
+                            <button
+                              key={i}
+                              type="button"
+                              disabled={!!practiceResult}
+                              onClick={() => handleAnswerPractice(i)}
+                              className={`w-full text-start text-xs px-2.5 py-1.5 rounded-xl border transition-all ${
+                                isRight
+                                  ? 'bg-emerald-100 border-emerald-300 text-emerald-800'
+                                  : chosen
+                                  ? 'bg-rose-100 border-rose-300 text-rose-800'
+                                  : 'bg-white dark:bg-slate-800 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200'
+                              } ${practiceResult ? '' : 'hover:bg-slate-50 cursor-pointer'}`}
+                            >
+                              {o.text}
+                            </button>
+                          );
+                        })}
+                      </div>
+                      {practiceResult && (
+                        <div className="text-xs rounded-xl p-2 bg-white/70 dark:bg-slate-900/60 text-slate-800 dark:text-slate-200 space-y-1">
+                          <p>{practiceResult.feedback}</p>
+                          {practiceResult.remediation && (
+                            <p className="text-slate-600 dark:text-slate-300">{practiceResult.remediation}</p>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
+                {/* VERIFICATION: explain it back, assessed against key points. */}
+                {askExperience?.phases.some((p) => p.phase === 'verification' && p.lines.length) && (
+                  <div className="pt-1 space-y-1.5 border-t border-indigo-200/60 dark:border-indigo-800/60">
+                    <div className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                      {isArabic ? '🩺 نتأكد إنك فهمتِ' : '🩺 Check your understanding'}
+                    </div>
+                    {askExperience.phases
+                      .find((p) => p.phase === 'verification')
+                      ?.lines.map((l, i) => (
+                        <p key={i} className="text-xs text-slate-800 dark:text-slate-200">{l.text}</p>
+                      ))}
+                    <div className="flex items-center gap-1.5">
+                      <input
+                        type="text"
+                        value={verificationInput}
+                        onChange={(e) => setVerificationInput(e.target.value)}
+                        onKeyDown={(e) => e.key === 'Enter' && handleSubmitVerification()}
+                        disabled={!!verificationResult}
+                        placeholder={isArabic ? 'اشرحي لي بأسلوبك...' : 'Explain it in your own words...'}
+                        className="flex-1 px-2.5 py-1.5 rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs text-slate-900 dark:text-slate-100"
+                      />
+                      <button
+                        type="button"
+                        disabled={!verificationInput.trim() || !!verificationResult}
+                        onClick={handleSubmitVerification}
+                        className="px-2.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 disabled:opacity-50 text-white text-xs font-bold"
+                      >
+                        {isArabic ? 'تحقق' : 'Check'}
+                      </button>
+                    </div>
+                    {verificationResult && (
+                      <p className="text-xs rounded-xl p-2 bg-white/70 dark:bg-slate-900/60 text-slate-800 dark:text-slate-200">
+                        {verificationResult.feedback}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                {/* NEXT STEP: adapted to the verification outcome. */}
+                {askExperience?.phases.some((p) => p.phase === 'next_step' && p.lines.length) && (
+                  <div className="pt-1 space-y-1 border-t border-indigo-200/60 dark:border-indigo-800/60">
+                    <div className="text-xs font-bold text-slate-700 dark:text-slate-200">
+                      {isArabic ? '➡️ الخطوة التالية' : '➡️ Next step'}
+                    </div>
+                    <p className="text-xs text-slate-800 dark:text-slate-200">
+                      {recommendNextStep(askExperienceRef.current as TeachingExperience, verificationResult).text}
+                    </p>
+                  </div>
+                )}
+
                 <div className="text-xs text-slate-500 dark:text-slate-400">
                   {isArabic ? 'المصدر: ' : 'Source: '}
                   {askAnswer.source}

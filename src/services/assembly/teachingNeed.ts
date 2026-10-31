@@ -45,10 +45,12 @@ export function detectLanguage(text: string): Language {
   const latin = (text.match(/[A-Za-zÀ-ÿ]/g) || []).length;
   if (ar > 0 && ar >= latin) return 'ar';
   if (latin > 0 && latin > ar) {
-    // A short, deliberate French/English cue decides between the two.
+    // A French-only accented letter is decisive: English does not use them.
+    if (/[éèêëàâôûùçîïœ]/.test(text)) return 'fr';
+    // Otherwise a short, deliberate French/English cue decides between the two.
     const n = ` ${normalizeText(text)} `;
-    const fr = ['pourquoi', 'comment', 'salut', 'bonjour', 'merci', 'lecon', 'cest', 'quest'];
-    if (fr.some((w) => n.includes(w))) return 'fr';
+    const fr = ['pourquoi', 'comment', 'salut', 'bonjour', 'merci', 'lecon', 'cest', 'quest', 'explique', 'expliquer', 'avec', 'dans', 'pour'];
+    if (fr.some((w) => n.includes(` ${w} `) || n.includes(`${w} `))) return 'fr';
     return 'en';
   }
   return 'ar';
@@ -84,7 +86,10 @@ export function classifyIntent(text: string): AskIntent {
  * Find the curriculum concept an ask is about, by token overlap against the
  * concept titles and key points. Returns the best match above a floor, or null.
  */
-export function matchConcept(text: string): {
+export function matchConcept(
+  text: string,
+  language?: Language
+): {
   lessonId: string;
   conceptId: string;
   subjectId: string;
@@ -94,6 +99,7 @@ export function matchConcept(text: string): {
 } | null {
   const ask = new Set(topicTokensOf(text));
   if (ask.size === 0) return null;
+  const askLang = language || detectLanguage(text);
 
   let best: ReturnType<typeof matchConcept> = null;
   for (const lesson of curriculumService.getAllLessons()) {
@@ -110,12 +116,26 @@ export function matchConcept(text: string): {
       // Weight the title much more than the body, so "photosynthesis" wins over
       // a concept that merely mentions the word once.
       const titleHit = topicTokensOf(`${concept.titleAr} ${concept.titleEn}`).some((t) => ask.has(t));
-      // One generic word in the body ("works", "explain") is not evidence: a
-      // concept only matches when the title is hit or at least two content
-      // words overlap. Otherwise an off-curriculum ask silently borrows an
-      // unrelated lesson.
-      if (!titleHit && overlap < 2) continue;
-      const confidence = Math.min(1, (overlap / ask.size) * (titleHit ? 1 : 0.7));
+      // A concept matches only when the ask and the concept genuinely share
+      // material. Two content words is decisive. A single shared word is only
+      // accepted when it is a title word AND the ask is essentially that word
+      // (so a one-word topic like "الإنترنت" matches, but "why does ice float
+      // on water" does not borrow a lesson that merely says "water").
+      const decisive = overlap >= 2;
+      const singleTitleMatch = titleHit && overlap >= 1 && overlap / ask.size >= 0.5;
+      if (!decisive && !singleTitleMatch) continue;
+      // Confidence saturates on the number of shared content words (four is
+      // already a strong match), so a long paste is not penalised just for
+      // being long. A title hit is worth more than a body-only overlap.
+      let confidence = Math.min(1, overlap / 4) * (titleHit ? 1 : 0.8);
+      // A French lesson must not answer an Arabic or English ask (and vice
+      // versa): a matching-language lesson wins, a mismatched one is demoted.
+      const lessonLang = lesson.language || 'ar';
+      if (askLang === 'fr') {
+        if (lessonLang !== 'fr') confidence *= 0.5;
+      } else if (lessonLang === 'fr') {
+        confidence *= 0.5;
+      }
       if (confidence > 0.2 && (!best || confidence > best.confidence)) {
         best = {
           lessonId: lesson.id,
@@ -142,7 +162,7 @@ export function understandAsk(
   const raw = (rawAsk || '').trim();
   const language = opts.language || detectLanguage(raw);
   const intent = classifyIntent(raw);
-  const match = matchConcept(raw);
+  const match = matchConcept(raw, language);
   const needsCurriculumSelection = !match;
 
   const matchReason = match
