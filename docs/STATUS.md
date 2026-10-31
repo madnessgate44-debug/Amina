@@ -24,6 +24,35 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-31 (run 4) — assembly engine false match fixed, verified live
+- **Shipped the content-assembly engine (PR #89, merge `58ff639`) then fixed a live-found defect
+  (PR #90, squash merge `6c6c370`).** The engine understands an ask, reuses approved material
+  first, and only generates what is missing. Testing it on the live site surfaced a real bug: an
+  off-curriculum ask like "اشرحي لي كيف يعمل محرك السيارة" (how does a car engine work) silently
+  borrowed the ICT lesson "الفرق بين الإنترنت العام والإنترانت المغلقة", because the single body
+  word `يعمل` ("works") cleared the 0.2 confidence floor in `matchConcept`.
+- **Fix:** a concept now matches only when the **title** is hit or **>=2** content words overlap,
+  and common generic verbs (`يعمل`, `تعمل`, `يشتغل`, `معنى`, `تعريف` …) are stop words. Verified:
+  `matchConcept('…محرك السيارة')` -> `null`; `matchConcept('…يعمل الإنترنت')` -> the ICT concept
+  (a genuine title word still resolves). Regression tests cover both.
+- **Deploy:** Vercel production READY for `6c6c370`, aliased to https://amina-nine-sepia.vercel.app
+  [V]. Live bundle `assets/index-DpD9ukHm.js` SHA-256
+  `e65415607eae414005819d807f69ebd933ef97b658a23d95c82ec53a0819112d` **identical** to the local
+  build of `main` [V]. `/api/health` 200 `{status:ok, hasApiKey:true}`.
+- **Live proof [V]:** `scripts/smoke.mjs` on production **7 passed, 0 failed**. Playwright drive of
+  the live site: an off-curriculum ask escalated to a staged lesson job and returned a real
+  assembled answer (kind `lesson`, source "generated explanation") from the approved lesson, instead
+  of borrowing an unrelated ICT lesson; a curriculum ask ("البناء الضوئي في النبات") returned an
+  immediate answer from approved material plus a reused photosynthesis diagram
+  (`/media/science/photosynthesis.svg`, source `off_sci_u1_l1_c1.sourceText`).
+- **Suite [V]:** `tsc --noEmit` exit 0; `npm test` all suites green (assembly 38/38 after +2
+  regression checks, 39 suites total 0 failed); `npm run build` exit 0; CI `verify` + OS Compliance
+  green on `6c6c370`.
+- **Inbox:** the Openhands loop repo (`madnessgate44-debug/Openhands`) is idle — inbox seq 3 ==
+  `last_seq 3`, all backlog items (BL-1..BL-4) done. Nothing to do there.
+- **Next:** none outstanding. PR #8 stays open by standing rule — do not merge.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-10-31 (run 3) — real educational media bound to concepts, rendered in the feed
 - **Shipped the current focus (bind real media to concepts and render it in the feed), PR #87,
   merge `8a30451`.** The feed previously showed only a canvas drawing derived from each reel's own
