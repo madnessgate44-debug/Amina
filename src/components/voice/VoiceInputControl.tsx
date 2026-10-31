@@ -211,7 +211,9 @@ export const VoiceInputControl: React.FC<VoiceInputControlProps> = ({
 
   const buttonSizeClasses = {
     sm: 'w-8 h-8 rounded-lg text-xs',
-    md: 'w-10 h-10 rounded-xl text-sm',
+    // 44px: the same tap floor the rest of the learner UI uses. A 40px control
+    // is hard for a 10-year-old to hit on a phone.
+    md: 'w-11 h-11 rounded-xl text-sm',
     lg: 'w-12 h-12 rounded-2xl text-base',
   }[buttonSize];
 

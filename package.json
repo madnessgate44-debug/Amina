@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "clean": "rm -rf dist",
     "lint": "tsc --noEmit",
-    "test": "npm run test:adaptive && npm run test:teaching && npm run test:integrity && npm run test:gate && npm run test:onboarding && npm run test:reels && npm run test:voice && npm run test:stagevoice && npm run test:feedsave && npm run test:mybooks && npm run test:exam && npm run test:branding && npm run test:appvoice && npm run test:payload && npm run test:vercelentry && npm run test:phoneui && npm run test:noorvoice && npm run test:curriculumregistry && npm run test:handsfree && npm run test:aibudget && npm run test:teachingskills && npm run test:teachingskillloop && npm run test:interactivereel && npm run test:reelvisual && npm run test:noorpregen && npm run test:learningsignals && npm run test:immersivefeed",
+    "test": "npm run test:adaptive && npm run test:teaching && npm run test:integrity && npm run test:gate && npm run test:onboarding && npm run test:reels && npm run test:voice && npm run test:stagevoice && npm run test:feedsave && npm run test:mybooks && npm run test:exam && npm run test:branding && npm run test:appvoice && npm run test:payload && npm run test:vercelentry && npm run test:phoneui && npm run test:noorvoice && npm run test:curriculumregistry && npm run test:handsfree && npm run test:aibudget && npm run test:teachingskills && npm run test:teachingskillloop && npm run test:interactivereel && npm run test:reelvisual && npm run test:noorpregen && npm run test:learningsignals && npm run test:immersivefeed && npm run test:media",
     "test:adaptive": "tsx src/services/teacher/__tests__/adaptiveLoop.test.ts",
     "test:teaching": "tsx src/services/teaching/__tests__/teachingSession.test.ts",
     "test:integrity": "tsx src/services/__tests__/integritySourceOfTruth.test.ts",
@@ -40,7 +40,8 @@
     "test:interactivereel": "tsx src/services/__tests__/interactiveReel.test.ts",
     "test:noorpregen": "tsx src/data/curriculum/__tests__/noorPreGeneratedLines.test.ts",
     "test:learningsignals": "tsx src/services/telemetry/__tests__/learningSignals.test.ts",
-    "test:immersivefeed": "tsx src/services/__tests__/immersiveFeed.test.ts"
+    "test:immersivefeed": "tsx src/services/__tests__/immersiveFeed.test.ts",
+    "test:media": "tsx src/services/__tests__/educationalMedia.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",

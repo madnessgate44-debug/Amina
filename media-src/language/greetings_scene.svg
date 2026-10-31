@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  A greetings exchange — off_fr_u1_l1_salutations (Les salutations).
+  Text-free scene: two children greeting each other. The actual French phrases
+  (Bonjour / Salut / Au revoir) are rendered as localized HTML around the
+  image and spoken by Miss Noor, so the words are never baked in.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#eef2ff"/>
+      <stop offset="1" stop-color="#fce7f3"/>
+    </linearGradient>
+    <linearGradient id="bubble" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#f1f5f9"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="960" height="600" fill="url(#bg2)"/>
+
+  <!-- ground -->
+  <path d="M0,470 Q480,430 960,470 L960,600 L0,600 Z" fill="#c7d2fe" opacity="0.55"/>
+
+  <!-- Child A (left) -->
+  <g transform="translate(250,0)">
+    <circle cx="0" cy="300" r="62" fill="#fbbf24"/>
+    <path d="M-62,290 A62,62 0 0 1 62,290 L62,262 A62,62 0 0 0 -62,262 Z" fill="#92400e"/>
+    <circle cx="-22" cy="300" r="7" fill="#1e293b"/>
+    <circle cx="22" cy="300" r="7" fill="#1e293b"/>
+    <path d="M-18,326 Q0,342 18,326" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M-70,380 Q0,352 70,380 L86,560 L-86,560 Z" fill="#615bff"/>
+    <!-- waving arm -->
+    <path d="M60,400 Q110,360 118,300" stroke="#615bff" stroke-width="26" fill="none" stroke-linecap="round"/>
+    <circle cx="120" cy="292" r="18" fill="#fbbf24"/>
+  </g>
+
+  <!-- Child B (right) -->
+  <g transform="translate(710,0)">
+    <circle cx="0" cy="300" r="62" fill="#fde68a"/>
+    <path d="M-62,296 A62,62 0 0 1 62,296 L70,286 A70,70 0 0 0 -70,286 Z" fill="#7c2d12"/>
+    <circle cx="-22" cy="300" r="7" fill="#1e293b"/>
+    <circle cx="22" cy="300" r="7" fill="#1e293b"/>
+    <path d="M-18,326 Q0,342 18,326" stroke="#1e293b" stroke-width="5" fill="none" stroke-linecap="round"/>
+    <path d="M-70,380 Q0,352 70,380 L86,560 L-86,560 Z" fill="#0ea5e9"/>
+    <path d="M-60,400 Q-110,360 -118,300" stroke="#0ea5e9" stroke-width="26" fill="none" stroke-linecap="round"/>
+    <circle cx="-120" cy="292" r="18" fill="#fde68a"/>
+  </g>
+
+  <!-- Speech bubble A (speaker 1) -->
+  <g>
+    <path d="M120,150 h240 a24,24 0 0 1 24,24 v70 a24,24 0 0 1 -24,24 h-150 l-40,34 v-34 h-50 a24,24 0 0 1 -24,-24 v-70 a24,24 0 0 1 24,-24 z"
+          fill="url(#bubble)" stroke="#615bff" stroke-width="5"/>
+    <circle cx="150" cy="210" r="11" fill="#615bff"/>
+    <circle cx="190" cy="210" r="11" fill="#615bff" opacity="0.7"/>
+    <circle cx="230" cy="210" r="11" fill="#615bff" opacity="0.4"/>
+  </g>
+
+  <!-- Speech bubble B (speaker 2) -->
+  <g>
+    <path d="M600,150 h240 a24,24 0 0 1 24,24 v70 a24,24 0 0 1 -24,24 h-50 v34 l-40,-34 h-150 a24,24 0 0 1 -24,-24 v-70 a24,24 0 0 1 24,-24 z"
+          fill="url(#bubble)" stroke="#0ea5e9" stroke-width="5"/>
+    <circle cx="630" cy="210" r="11" fill="#0ea5e9"/>
+    <circle cx="670" cy="210" r="11" fill="#0ea5e9" opacity="0.7"/>
+    <circle cx="710" cy="210" r="11" fill="#0ea5e9" opacity="0.4"/>
+  </g>
+</svg>

@@ -24,6 +24,9 @@ import {
 import { VoiceInputControl } from '../voice/VoiceInputControl';
 import { resolveReelResponse, matchSpokenOption } from '../../services/reels/reelResponse';
 import { ReelVisual } from './ReelVisual';
+import { ReelMedia } from './ReelMedia';
+import { mediaForConcept } from '../../data/media/mediaCatalog';
+import { EducationalMediaItem } from '../../types/media';
 import { Sparkles, Check, X as XIcon, BookOpen, Volume2, VolumeX } from 'lucide-react';
 
 interface ReelCardProps {
@@ -81,6 +84,16 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   const [namedMisconception, setNamedMisconception] = useState(false);
   const [offlineTeacher, setOfflineTeacher] = useState(false);
   const [isReacting, setIsReacting] = useState(false);
+
+  // The educational media this reel should show, if any. Real media wins over
+  // the text-derived canvas: a curriculum illustration, animation or narration
+  // teaches better than a schematic drawn from the reel's own words. Reels with
+  // no catalogued media keep the canvas visual, so nothing regresses.
+  const mediaItem: EducationalMediaItem | null = React.useMemo(() => {
+    const items = mediaForConcept(reel.lessonId, reel.conceptId);
+    if (items.length === 0) return null;
+    return items.find((m) => m.reelKind === reel.kind) || items[0];
+  }, [reel.lessonId, reel.conceptId, reel.kind]);
 
   // Hands-free turn taking: the microphone opens on its own once Noor has
   // stopped speaking, so a young learner can answer without finding a button.
@@ -273,7 +286,16 @@ export const ReelCard: React.FC<ReelCardProps> = ({
           {reel.show && reel.show !== reel.hook && (
             <p className="text-[14px] text-slate-300 mt-2 leading-relaxed">{reel.show}</p>
           )}
-          <ReelVisual reel={reel} isAr={isAr} reducedMotion={reducedMotion} />
+          {mediaItem ? (
+            <ReelMedia
+              item={mediaItem}
+              language={language}
+              isAr={isAr}
+              reducedMotion={reducedMotion}
+            />
+          ) : (
+            <ReelVisual reel={reel} isAr={isAr} reducedMotion={reducedMotion} />
+          )}
 
           {/* Noor's spoken line as real audio media. Hidden unless the tutor
               produced audio, so it never shows a dead player. */}
