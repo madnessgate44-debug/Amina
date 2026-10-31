@@ -60,6 +60,7 @@ export function topicTokensOf(text: string): string[] {
     [
       'ايه', 'إيه', 'يعني', 'ليه', 'لماذا', 'كيف', 'ازاي', 'إزاي', 'هل', 'ماذا', 'هو', 'هي',
       'وضح', 'وضحي', 'اشرح', 'اشرحي', 'من', 'في', 'على', 'عن', 'الى', 'مع', 'يا', 'مس',
+      'يعمل', 'تعمل', 'يشتغل', 'تشتغل', 'معنى', 'تعريف', 'يعني', 'ايه', 'ازاى',
       'what', 'why', 'how', 'is', 'are', 'the', 'and', 'explain', 'tell', 'me', 'about', 'a', 'an',
       'pourquoi', 'comment', 'explique', 'est', 'que', 'qui', 'le', 'la', 'les', 'un', 'une', 'de',
     ].map(normalizeText)
@@ -109,6 +110,11 @@ export function matchConcept(text: string): {
       // Weight the title much more than the body, so "photosynthesis" wins over
       // a concept that merely mentions the word once.
       const titleHit = topicTokensOf(`${concept.titleAr} ${concept.titleEn}`).some((t) => ask.has(t));
+      // One generic word in the body ("works", "explain") is not evidence: a
+      // concept only matches when the title is hit or at least two content
+      // words overlap. Otherwise an off-curriculum ask silently borrows an
+      // unrelated lesson.
+      if (!titleHit && overlap < 2) continue;
       const confidence = Math.min(1, (overlap / ask.size) * (titleHit ? 1 : 0.7));
       if (confidence > 0.2 && (!best || confidence > best.confidence)) {
         best = {

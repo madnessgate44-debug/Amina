@@ -57,6 +57,20 @@ async function main() {
     offTopic.matchReason
   );
 
+  // A single generic verb ("works") must not borrow an unrelated lesson.
+  const genericVerb = understandAsk('اشرحي لي كيف يعمل محرك السيارة');
+  check(
+    'a generic verb alone does not match a concept',
+    genericVerb.matched === null && genericVerb.needsCurriculumSelection === true,
+    JSON.stringify(genericVerb.matched)
+  );
+  const internetAsk = understandAsk('اشرحي لي كيف يعمل الإنترنت');
+  check(
+    'a genuine title word still matches after the generic-verb guard',
+    internetAsk.matched?.conceptId === 'off_ict_u1_l2_c1',
+    internetAsk.matched?.conceptId
+  );
+
   // ── 3. Intent classification ──────────────────────────────────────────────
   check('a question cue reads as a quick question', classifyIntent('اشرحي البناء الضوئي') === 'quick_question');
   check('a lesson cue reads as a lesson request', classifyIntent('عايزة درس كامل عن البناء الضوئي') === 'lesson_request');
