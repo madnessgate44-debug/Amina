@@ -157,5 +157,52 @@ const concept: CurriculumLessonConcept = {
   check('5.3 every distractor points at a misconception declared in the same lesson', allDistractorsResolve);
 }
 
+// 6. Arabic misconception content ships too (ask #3), and numeric triggers
+//    match the exact option, never the correct answer.
+{
+  const arLessons = [
+    'off_math_u1_l1',
+    'off_math_u1_l2',
+    'off_math_u1_l4',
+    'off_math_u1_l5',
+    'off_math_u2_l5',
+  ];
+  const allCovered = arLessons.every((id) => {
+    const l = curriculumService.getLessonById(id);
+    return (l?.concepts || []).some((c) => (c.misconceptions?.length || 0) > 0);
+  });
+  check('6.1 the Arabic maths lessons carry misconception data', allCovered);
+
+  let allResolve = true;
+  let wrongsDistinct = true;
+  for (const id of arLessons) {
+    const l = curriculumService.getLessonById(id);
+    for (const c of l?.concepts || []) {
+      const ids = new Set<string>();
+      (c.misconceptions || []).forEach((m) => ids.add(m.id));
+      for (const d of c.distractors || []) {
+        const [value, misId] = String(d).split('|');
+        if (!misId || !ids.has(misId)) allResolve = false;
+        const matched = matchMisconception(value, c.misconceptions);
+        if (matched?.id !== misId) allResolve = false;
+      }
+      // Two different wrong options must not collapse to one diagnosis.
+      const wrongOptions = (c.distractors || []).map((d) => String(d).split('|')[0]);
+      const diagnosed = new Set(wrongOptions.map((w) => matchMisconception(w, c.misconceptions)?.id));
+      if (diagnosed.size !== wrongOptions.length) wrongsDistinct = false;
+    }
+  }
+  check('6.2 every Arabic distractor names its own misconception', allResolve);
+  check('6.3 distinct wrong options get distinct diagnoses', wrongsDistinct);
+
+  // The correct answer must never be diagnosed as a misconception.
+  const anchor = curriculumService.getLessonById('off_math_u2_l5');
+  const gcdConcept = anchor?.concepts[0];
+  check(
+    '6.4 the correct answer is not mistaken for a misconception',
+    matchMisconception('4', gcdConcept?.misconceptions) === undefined
+  );
+}
+
 console.log(`\nTEACHING SKILLS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);

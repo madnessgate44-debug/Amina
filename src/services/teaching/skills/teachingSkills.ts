@@ -34,6 +34,12 @@ export function matchMisconception(
     let score = 0;
     if (` ${answer} `.includes(` ${trigger} `)) {
       score = 1;
+    } else if (/\d/.test(trigger)) {
+      // A trigger that names a number must match as a whole. Normalisation drops
+      // the decimal separator and every token of one character, so "0,04" and
+      // "0,004" both reduce to two numbers differing by a rank, and the options
+      // "8" and "7" reduce to the same stem. Token overlap would confuse them.
+      continue;
     } else {
       const triggerWords = trigger.split(' ').filter((w) => w.length > 2);
       if (triggerWords.length === 0) continue;
