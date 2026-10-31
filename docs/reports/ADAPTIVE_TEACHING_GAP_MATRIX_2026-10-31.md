@@ -95,7 +95,7 @@ mastery system:
 | AC13 | Strategy adapts to results | PASS | `adaptiveScenarios` ADAPT: sound answer advances the next step |
 | AC14 | A next learning step is given | PASS | live: advanced next step shown after verification |
 | AC15 | Existing functionality preserved | PASS | `npm test` 39 suites, 0 failed; `tsc --noEmit` exit 0 |
-| AC16 | Deployed from the intended commit | PENDING | awaits merge + Vercel deploy (authorization) |
+| AC16 | Deployed from the intended commit | PASS | merged `07e0255`; Vercel production READY; live bundle SHA-256 == local build of `main`; live Playwright drive 0 errors |
 | AC17 | Browser verification | PASS | Playwright drive, 0 console errors |
 
 Two defects were found by AC17 and fixed before closing (see STATUS.md run 5):
