@@ -237,6 +237,32 @@ function run() {
     assert(latinChars(frQ) > arabicChars(frQ), `8.2: a French learner gets a Latin-script question (${frQ.slice(0, 28)})`);
   }
 
+  // ---- 9. Misconception-bearing lessons are reachable ----
+  // They are the LAST four maths lessons in file order, so a fixed pool showed
+  // only the first lesson forever and never reached them. Rotation by day must
+  // surface every one of them across a fortnight of sessions.
+  const misLessons = ['off_mathfr_u1_l1_decimaux', 'off_mathfr_u1_l2_comparer', 'off_mathfr_u2_l1_fractions', 'off_mathfr_u3_l1_division'];
+  const reached = new Set<string>();
+  for (let d = 0; d < 16; d++) {
+    const dayNow = new Date(Date.UTC(2026, 9, 20 + d, 12, 0, 0));
+    const q = buildFeedQueue({
+      studentId: 'stu_test',
+      language: 'fr',
+      mastery,
+      dueReviews: [],
+      todaySubjects: ['Mathematics'],
+      examCalendar: [],
+      now: dayNow,
+      sessionMinutes: 20,
+    });
+    for (const r of q.reels) reached.add(r.lessonId);
+  }
+  const misReached = misLessons.filter((id) => reached.has(id));
+  assert(
+    misReached.length === misLessons.length,
+    `9.1: all ${misLessons.length} misconception lessons become reachable (got ${misReached.length}: ${misReached.join(',')})`
+  );
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');
