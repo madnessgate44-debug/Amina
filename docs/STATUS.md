@@ -24,6 +24,35 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-10-31 — asks #3 and #4 done: misconception reels reachable + Arabic diagnosis
+- **Shipped #4 (reachability), PR #82, squash merge `da5a194`.** The four misconception-bearing
+  maths lessons are the **last four** Mathematics lessons in file order (`off_mathfr_u1_l1_decimaux`
+  … `off_mathfr_u3_l1_division`, idx 12-15 of 16). `buildFeedQueue()` concatenated every matching
+  lesson's reels in file order, and a session consumes only a handful of reels, so the tail was never
+  reached. Measured before: **0 of 4** misconception lessons in a 20-minute French queue. Fix: rotate
+  the day's matched lessons by the day index before building the pool (also the exam pool). Over 16
+  simulated days **4/4** become reachable; rotation is deterministic per date, so the queue stays
+  reproducible.
+- **Shipped #3 (Arabic content), PR #83, squash merge `83f6ad3`.** All 10 misconceptions lived in
+  `mathFrCurriculum.ts` (French only); `speaksLanguage` correctly refused to inject French into an
+  Arabic reply, so an Arabic child got a model answer, not a diagnosis. Added Arabic misconception
+  data (explanation + remediation) to the five Arabic maths concepts with numeric options: place
+  value `off_math_u1_l1`, ×10 shift `off_math_u1_l2`, comparing `off_math_u1_l4`, rounding
+  `off_math_u1_l5`, GCF `off_math_u2_l5`, each with `distractors` pointing at its own id.
+- **Matcher fix:** a trigger naming a number now matches only as a whole phrase. `normalizeText`
+  drops the decimal separator and every one-character token, so `0,04`/`0,004` collapsed and `8`/`7`
+  reduced to the same stem — token overlap mis-diagnosed a different digit as the same misconception.
+  The correct answer is never diagnosed (asserted for all five).
+- **Suite:** teachingSkills 24/24 (was 20, new section 6), interactiveReel 19/19 (now picks the
+  French-misconception lesson explicitly, so adding Arabic data first cannot silently retarget it),
+  reels 27/27 (was 26, new section 9), tsc 0, `npm test` all green, build 0, OS PASS [V].
+- **Next (owner's asks, remaining):**
+  1. Reel media counts are **0/0/0/1** (img/video/audio/canvas) [V] — decide whether to count the
+     canvas or add real img/video/audio.
+  2. Voice turn-taking in the feed — `handsFreeLoop.ts` is wired only into `TeachingSessionModal.tsx`.
+     `onReactionSpoken` remains the hand-back point.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-10-30 (run 3) — the FEED reel is now exactly one viewport tall
 - **Shipped:** PR #78, squash merge `a4bbf029a78ca9a7145a4efb4333d640585acb0d`. The immersive feed
   shell was `min-h-screen` — a *minimum*, so the app column grew to the reel's content height
