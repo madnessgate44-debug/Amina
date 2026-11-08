@@ -263,6 +263,33 @@ function run() {
     `9.1: all ${misLessons.length} misconception lessons become reachable (got ${misReached.length}: ${misReached.join(',')})`
   );
 
+  // ---- 10. A session has breadth: it does not run one lesson 6 reels deep ----
+  // Each lesson yields ~6 reels. Plain concatenation showed the first lesson for
+  // the whole session (measured: 6 reels of one lesson back-to-back). The pools
+  // are interleaved across lessons, so consecutive reels alternate lessons.
+  for (const lang of LANGS) {
+    const q = buildFeedQueue({
+      studentId: 'stu_breadth',
+      language: lang,
+      mastery,
+      dueReviews: [],
+      todaySubjects: [],
+      examCalendar: [],
+      now,
+      sessionMinutes: 15,
+    });
+    const body = q.reels.filter((r) => r.conceptId !== 'closer');
+    let longestRun = 0;
+    let run = 0;
+    for (let i = 0; i < body.length; i++) {
+      run = i > 0 && body[i].lessonId === body[i - 1].lessonId ? run + 1 : 1;
+      if (run > longestRun) longestRun = run;
+    }
+    const distinct = new Set(body.map((r) => r.lessonId)).size;
+    assert(longestRun <= 2, `10.1 [${lang}]: no lesson runs more than twice in a row (longest ${longestRun})`);
+    assert(distinct >= 2, `10.2 [${lang}]: a session covers more than one lesson (${distinct})`);
+  }
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');
