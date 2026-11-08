@@ -16,6 +16,7 @@
 import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept, isValidReel, sourceLabelFor, buildWinCloser } from '../reels/reelGenerator';
 import { buildFeedQueue, buildRetryAfterMistakes } from '../reels/feedQueue';
+import { matchMisconception } from '../teaching/skills/teachingSkills';
 import { createSeededRng, hashSeed } from '../reels/seededRng';
 import { Language } from '../../types';
 import { Reel } from '../../types/reel';
@@ -288,6 +289,90 @@ function run() {
     const distinct = new Set(body.map((r) => r.lessonId)).size;
     assert(longestRun <= 2, `10.1 [${lang}]: no lesson runs more than twice in a row (longest ${longestRun})`);
     assert(distinct >= 2, `10.2 [${lang}]: a session covers more than one lesson (${distinct})`);
+  }
+
+  // ---- 11. The diagnosis path is reachable in EVERY session (R6) ----
+  // The deterministic diagnosis (name the misconception, then clear it) is the
+  // most teacher-like behaviour in the app, but it only fires when a reel
+  // carries an option a stored misconception can name. Before the diagnosis
+  // pool those concepts were reached by seed luck only (measured: an Arabic
+  // child got 0 in a whole session). Now every session must carry at least one
+  // reel whose wrong option a stored misconception can name, in the child's
+  // own language.
+  const misconceptionByConcept = new Map<string, NonNullable<typeof lessons[number]['concepts'][number]['misconceptions']>>();
+  for (const lesson of lessons) {
+    for (const concept of lesson.concepts) {
+      if (concept.misconceptions?.length) misconceptionByConcept.set(concept.id, concept.misconceptions);
+    }
+  }
+  assert(misconceptionByConcept.size > 0, `11.0: curriculum carries misconception data (${misconceptionByConcept.size} concepts)`);
+
+  for (const lang of LANGS) {
+    for (const minutes of [5, 10, 20, 45]) {
+      const q = buildFeedQueue({
+        studentId: `stu_diag_${lang}_${minutes}`,
+        language: lang,
+        mastery,
+        dueReviews: [],
+        todaySubjects: [],
+        examCalendar: [],
+        now,
+        sessionMinutes: minutes,
+      });
+      const diagnosable = q.reels.filter((r) => {
+        const ms = misconceptionByConcept.get(r.conceptId);
+        if (!ms) return false;
+        return Boolean(r.options?.some((o) => !o.isCorrect && matchMisconception(o.text, ms)));
+      });
+      assert(
+        diagnosable.length >= 1,
+        `11.1 [${lang} ${minutes}min]: the session carries a diagnosable misconception reel (${diagnosable.length})`
+      );
+    }
+  }
+
+  // ---- 12. The diagnosis pool does not break the queue invariants ----
+  // Inserting the guaranteed diagnosis reel must not repeat a kind, must not
+  // run one lesson more than twice in a row, and must stay deterministic.
+  for (const lang of LANGS) {
+    const q = buildFeedQueue({
+      studentId: 'stu_diag_inv',
+      language: lang,
+      mastery,
+      dueReviews: [],
+      todaySubjects: [],
+      examCalendar: [],
+      now,
+      sessionMinutes: 20,
+    });
+    const body = q.reels.filter((r) => r.conceptId !== 'closer');
+    let longestRun = 0;
+    let run = 0;
+    for (let i = 0; i < body.length; i++) {
+      run = i > 0 && body[i].lessonId === body[i - 1].lessonId ? run + 1 : 1;
+      if (run > longestRun) longestRun = run;
+    }
+    assert(longestRun <= 2, `12.1 [${lang}]: diagnosis insertion keeps lesson runs <= 2 (longest ${longestRun})`);
+    let backToBack = 0;
+    for (let i = 1; i < q.reels.length; i++) {
+      if (q.reels[i].kind === q.reels[i - 1].kind) backToBack++;
+    }
+    assert(backToBack === 0, `12.2 [${lang}]: diagnosis insertion keeps no repeat kind back-to-back (${backToBack})`);
+
+    const q2 = buildFeedQueue({
+      studentId: 'stu_diag_inv',
+      language: lang,
+      mastery,
+      dueReviews: [],
+      todaySubjects: [],
+      examCalendar: [],
+      now,
+      sessionMinutes: 20,
+    });
+    assert(
+      JSON.stringify(q.reels.map((r) => r.id)) === JSON.stringify(q2.reels.map((r) => r.id)),
+      `12.3 [${lang}]: the queue with the diagnosis reel stays deterministic`
+    );
   }
 
   console.log('\n=================================================================');

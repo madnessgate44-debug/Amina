@@ -90,7 +90,7 @@ function misconceptionForAnswer(reel: Reel, answerText: string) {
  * than saying less. When the script does not match, the caller falls through to
  * the model, which can explain in the child's own language.
  */
-function speaksLanguage(text: string, language: Language): boolean {
+export function speaksLanguage(text: string, language: Language): boolean {
   const hasArabic = /[\u0600-\u06FF]/.test(text);
   const hasLatin = /[A-Za-zÀ-ÿ]/.test(text);
   if (language === 'ar') return hasArabic;
