@@ -35,7 +35,7 @@ export interface SubjectCurriculumSummary {
  * `subjectNameFr` keep it; these fill the gaps so French mode never falls
  * back to an English subject label (ADF-008: search and labels must agree).
  */
-const FRENCH_SUBJECT_NAMES: Record<string, string> = {
+export const FRENCH_SUBJECT_NAMES: Record<string, string> = {
   subj_arabic: 'Arabe',
   subj_french: 'Français',
   subj_math: 'Mathématiques',
