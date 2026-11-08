@@ -24,6 +24,38 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-08 (run 6) — feed session now covers more than one lesson (breadth defect fixed)
+- **State first:** `main` was `8163815`; the four owner asks (feed full-screen + spoken reel,
+  voice turn-taking, Arabic misconceptions, misconception reels reachable) are **all shipped and
+  live** [V]. Live bundle `index-CClNrBuS.js` SHA-256 `d817f697…080d` == local build of `main` [V].
+  Open PRs: #97 (draft, parallel-session parent-summary fix, CI green) and #8 (archive, never merge).
+- **Defect found by measurement (not in any doc):** every curriculum lesson yields ~6 reels and
+  `buildFeedQueue` **concatenated** each lesson's reels in file order, so a 16-reel session showed
+  one lesson six times in a row. Measured on `main`: `sessionMinutes:45` → 3 lessons, runs
+  `off_ict_u1_l3 x6 / off_ict_u1_l6 x6 / off_ict_u2_l2 x6`. On the live app the first four reels
+  were all `off_ar_u1_l1_ana_astatee`. The `interleave()` helper written **for exactly this** was
+  never called (`grep interleave` = definition only).
+- **Fix (PR #98, squash merge `3b515e96`):** interleave each pool across its lessons (review, today,
+  exam, curiosity, refill), and change the no-repeat-kind rule to **defer** a same-kind candidate
+  instead of dropping it — without that, interleaving put equal kinds adjacent and the session shrank
+  19 → 7 reels. After: lessons rotate, longest lesson run 2, count unchanged at 19.
+- **Regression test:** `reels.test.ts` 10.1/10.2 assert no lesson runs more than twice in a row and
+  a session covers more than one lesson, in ar/en/fr.
+- **Suite [V]:** `npx tsc --noEmit` exit 0; `npm test` all suites 0 failed (reels **33**); `npm run
+  build` exit 0; CI `verify` success on `fac08f4`.
+- **Deploy [V]:** Vercel production **READY** for `3b515e96` (`amina-h73rsmxfu-forge-fe22`). Live
+  `assets/index-A1800IlL.js` SHA-256 `65e8b2dc277b595a8683f89ec390425d66ce885c949bbf59896cf49d7694da84`
+  **identical** to the local build of `main` @ `3b515e96`. `scripts/smoke.mjs` on production **7/0**.
+- **Live proof [V]:** Playwright 390×844 ar-EG on the live site, stepping the feed — the first 8
+  reels span **4 distinct lessons** (Arabic ethics → French articles `off_fr_u2_l1_classe` → maths
+  decimals `off_math_u2_l1` → Arabic vocabulary); **0 console errors**.
+- **Next:** PR #97 (draft) is a parallel session's real fix with CI green — if that session does not
+  land it, review and merge it (verify its head SHA first). Remaining known items: R7 (per-session
+  learning signals in the feed — `learningSignals.ts` is wired only into `TeachingSessionModal`),
+  G10 (legacy "Amina" in French curriculum *content*), R13 (`dailyLifeExampleFr`), R8/R9 (brand
+  tokens / two contrast failures).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-10-31 (run 5b) — durable lesson jobs with real progress + resume (G7 closed)
 - **Outcome:** the one remaining unit from the mission is done. A long lesson request is now a
   DURABLE job: it is persisted after every stage and, if the page is reloaded or the sandbox restarts
