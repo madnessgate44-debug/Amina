@@ -127,6 +127,35 @@ for (const file of componentFiles) {
 }
 assert(productHits.length > 0, '3.1 the product name Miss Noor appears in the UI');
 
+// --- 3b. Shipped curriculum and teacher content carry no legacy name -----
+// The component scan above only reads src/components, so the legacy name lived
+// on inside curriculum lessons and teacher diagnostics that ship to the child.
+// Scan the content and service trees the same way, ignoring comments.
+const contentRoots = [join(process.cwd(), 'src', 'data'), join(process.cwd(), 'src', 'services')];
+const contentFiles = contentRoots.flatMap((root) => (existsSync(root) ? walk(root) : []));
+assert(contentFiles.length > 0, '3b.1 the curriculum and service trees were found and read');
+
+const contentNameHits: string[] = [];
+for (const file of contentFiles) {
+  const lines = readFileSync(file, 'utf8').split('\n');
+  lines.forEach((line, i) => {
+    if (!isCodeLine(line)) return;
+    // A quoted/backticked shipped string, or JSX text, containing the legacy name.
+    if (
+      /['"`][^'"`]*\bAmina\b[^'"`]*['"`]/.test(line) ||
+      /['"`][^'"`]*أمينة[^'"`]*['"`]/.test(line)
+    ) {
+      contentNameHits.push(`${file.replace(process.cwd() + '/', '')}:${i + 1}: ${line.trim()}`);
+    }
+  });
+}
+assert(
+  contentNameHits.length === 0,
+  `3b.2 no shipped curriculum or teacher string hardcodes the legacy learner name${
+    contentNameHits.length ? '\n      ' + contentNameHits.join('\n      ') : ''
+  }`
+);
+
 // --- 4. Static brand surfaces carry no legacy name ----------------------
 // The component scan above cannot see plain HTML, which is how `public/404.html`
 // kept a stale "Amina" title long after the app itself was renamed.
