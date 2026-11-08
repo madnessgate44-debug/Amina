@@ -26,6 +26,8 @@ import { SpacedReviewSchedule } from '../../types/spacedReview';
 import { UpcomingExam } from '../../types/examCalendar';
 import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept, buildWinCloser, sourceLabelFor } from './reelGenerator';
+import { matchMisconception } from '../teaching/skills/teachingSkills';
+import { speaksLanguage } from './reelResponse';
 import { createSeededRng } from './seededRng';
 
 export interface FeedQueueInput {
@@ -191,6 +193,35 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   }
   const refillPool = interleave(refillLists);
 
+  // ---- diagnosis pool: misconception-bearing concepts (R6) ----
+  // The deterministic diagnosis path is the most teacher-like behaviour in the
+  // app, but it only fires when a reel carries an option the curriculum's
+  // `misconceptions` can name. Those concepts live in the maths lessons, which
+  // the 40/30/20/10 pools reached only by seed luck (measured: an Arabic child
+  // got 0 of them in a whole session). This pool guarantees at least one such
+  // reel is queued, in the child's own language: the stored diagnosis is only
+  // served when its script matches the child's, so a concept whose entries are
+  // all the other script would degrade to the model and is not offered here.
+  const diagnosisLists: Reel[][] = [];
+  for (const lesson of lessons) {
+    for (const concept of lesson.concepts) {
+      if (!concept.misconceptions || concept.misconceptions.length === 0) continue;
+      const servable = concept.misconceptions.some((m) =>
+        speaksLanguage(`${m.explanation} ${m.remediation}`.trim(), lang)
+      );
+      if (!servable) continue;
+      const reels = buildReelsForConcept(lesson, concept, lang, { reason: 'diagnosis' });
+      // Keep only reels whose wrong options a stored misconception can name, so
+      // the diagnosis path is genuinely reachable, not merely theoretically so.
+      const diagnosable = reels.filter(
+        (r) =>
+          r.options?.some((o) => !o.isCorrect && matchMisconception(o.text, concept.misconceptions))
+      );
+      if (diagnosable.length) diagnosisLists.push(diagnosable);
+    }
+  }
+  const diagnosisPool = interleave(rotateBy(diagnosisLists, dayIndex));
+
   const quota = {
     due_review: Math.round(targetCount * 0.4),
     today_lesson: Math.round(targetCount * 0.3),
@@ -204,16 +235,18 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
     exam_topic: examPool,
     curiosity: curiosityPool,
     refill: refillPool,
+    diagnosis: diagnosisPool,
     closer: [],
   };
 
-  const cursors: Record<string, number> = { due_review: 0, today_lesson: 0, exam_topic: 0, curiosity: 0, refill: 0 };
+  const cursors: Record<string, number> = { due_review: 0, today_lesson: 0, exam_topic: 0, curiosity: 0, refill: 0, diagnosis: 0 };
   const composition: Record<ReelReason, number> = {
     due_review: 0,
     today_lesson: 0,
     exam_topic: 0,
     curiosity: 0,
     refill: 0,
+    diagnosis: 0,
     closer: 0,
   };
 
@@ -223,7 +256,7 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   // Same-kind candidates are deferred, not discarded: a pool interleaved across
   // lessons puts equal kinds next to each other, and dropping them there would
   // shrink the session instead of just reordering it.
-  const pending: Record<string, Reel[]> = { due_review: [], today_lesson: [], exam_topic: [], curiosity: [], refill: [] };
+  const pending: Record<string, Reel[]> = { due_review: [], today_lesson: [], exam_topic: [], curiosity: [], refill: [], diagnosis: [] };
 
   const takeFrom = (reason: ReelReason): Reel | undefined => {
     const last = chosen[chosen.length - 1];
@@ -286,6 +319,29 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
     if (at > 0) {
       const [reel] = chosen.splice(at, 1);
       chosen.unshift(reel);
+    }
+  }
+
+  // Rule 6: guarantee the diagnosis path is reachable. A session must contain at
+  // least one reel whose wrong option a stored misconception can name, or the
+  // most teacher-like behaviour in the app is never met by the child. The reel is
+  // slotted where it repeats neither the neighbouring kind (rule 2) nor the
+  // neighbouring lesson (breadth), and never duplicates a reel already queued.
+  if (!chosen.some((r) => r.reason === 'diagnosis')) {
+    const candidate = diagnosisPool.find((r) => !chosen.some((c) => c.id === r.id));
+    if (candidate) {
+      const fits = (i: number, strictLesson: boolean): boolean => {
+        const prev = i > 0 ? chosen[i - 1] : undefined;
+        const next = i < chosen.length ? chosen[i] : undefined;
+        if (prev?.kind === candidate.kind || next?.kind === candidate.kind) return false;
+        if (strictLesson && (prev?.lessonId === candidate.lessonId || next?.lessonId === candidate.lessonId)) return false;
+        return true;
+      };
+      let at = chosen.findIndex((_, i) => i >= 1 && fits(i, true));
+      if (at < 0) at = chosen.findIndex((_, i) => i >= 1 && fits(i, false));
+      if (at < 0) at = chosen.length;
+      chosen.splice(at, 0, candidate);
+      composition.diagnosis++;
     }
   }
 

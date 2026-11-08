@@ -23,7 +23,14 @@ export type ReelKind =
   | 'win_closer';
 
 /** Why this reel is in the queue. Drives the small label on the card. */
-export type ReelReason = 'due_review' | 'today_lesson' | 'exam_topic' | 'curiosity' | 'refill' | 'closer';
+export type ReelReason =
+  | 'due_review'
+  | 'today_lesson'
+  | 'exam_topic'
+  | 'curiosity'
+  | 'refill'
+  | 'diagnosis'
+  | 'closer';
 
 export interface ReelOption {
   text: string;

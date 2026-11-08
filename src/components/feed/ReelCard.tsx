@@ -56,6 +56,7 @@ const REASON_LABEL: Record<string, { ar: string; en: string; fr: string }> = {
   exam_topic: { ar: 'مهم للامتحان', en: 'Exam focus', fr: 'Pour l’examen' },
   curiosity: { ar: 'حاجة جديدة', en: 'Something new', fr: 'Une découverte' },
   refill: { ar: 'نقوّي الأساس', en: 'Build the basics', fr: 'Renforcer les bases' },
+  diagnosis: { ar: 'نلاقي الغلطة', en: 'Find the mix-up', fr: 'Trouver l’erreur' },
   closer: { ar: 'خلصنا!', en: 'All done!', fr: 'Terminé !' },
 };
 
