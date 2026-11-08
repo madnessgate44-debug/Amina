@@ -134,15 +134,16 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const targetCount = Math.max(4, Math.round((input.sessionMinutes * 60) / perReel));
 
   // ---- pool 1: due review ----
-  const reviewPool: Reel[] = [];
+  const reviewLists: Reel[][] = [];
   for (const review of input.dueReviews) {
     const found = curriculumService.getConceptById(review.conceptId);
     if (!found) continue;
-    reviewPool.push(...buildReelsForConcept(found.lesson, found.concept, lang, { reason: 'due_review' }));
+    reviewLists.push(buildReelsForConcept(found.lesson, found.concept, lang, { reason: 'due_review' }));
   }
+  const reviewPool = interleave(reviewLists);
 
   // ---- pool 2: today's school lessons ----
-  const todayPool: Reel[] = [];
+  const todayLists: Reel[][] = [];
   const lessons = curriculumService.getAvailableLessons();
   const subjectSet = new Set((input.todaySubjects || []).map((s) => s.toLowerCase()));
   const lessonIdSet = new Set(input.todayLessonIds || []);
@@ -157,34 +158,38 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const dayIndex = Math.floor(now.getTime() / 86_400_000);
   const todayLessons = rotateBy(matchedToday, dayIndex);
   for (const lesson of todayLessons) {
-    todayPool.push(...reelsForLesson(lesson, lang, 'today_lesson'));
+    todayLists.push(reelsForLesson(lesson, lang, 'today_lesson'));
   }
+  const todayPool = interleave(todayLists);
 
   // ---- pool 3: exam topics ----
-  const examPool: Reel[] = [];
+  const examLists: Reel[][] = [];
   for (const exam of input.examCalendar || []) {
     const subjectLessons = lessons.filter((l) => l.subjectId === exam.entry.subjectId);
     for (const lesson of rotateBy(subjectLessons, dayIndex)) {
-      examPool.push(...reelsForLesson(lesson, lang, 'exam_topic'));
+      examLists.push(reelsForLesson(lesson, lang, 'exam_topic'));
     }
   }
+  const examPool = interleave(examLists);
 
   // ---- pool 4: curiosity wildcard (deterministic pick from remaining) ----
-  const curiosityPool: Reel[] = [];
+  const curiosityLists: Reel[][] = [];
   const usedLessonIds = new Set([...todayLessons.map((l) => l.id), ...(input.examCalendar || []).flatMap((e) => lessons.filter((l) => l.subjectId === e.entry.subjectId).map((l) => l.id))]);
   const wildcardLessons = lessons.filter((l) => !usedLessonIds.has(l.id));
   const shuffledWild = rng.shuffle(wildcardLessons);
   for (const lesson of shuffledWild.slice(0, 3)) {
-    curiosityPool.push(...reelsForLesson(lesson, lang, 'curiosity'));
+    curiosityLists.push(reelsForLesson(lesson, lang, 'curiosity'));
   }
+  const curiosityPool = interleave(curiosityLists);
 
   // ---- refill pool: mastery gaps (never dead-end) ----
-  const refillPool: Reel[] = [];
+  const refillLists: Reel[][] = [];
   for (const conceptId of lowestMasteryConceptIds(input.mastery, 8)) {
     const found = curriculumService.getConceptById(conceptId);
     if (!found) continue;
-    refillPool.push(...buildReelsForConcept(found.lesson, found.concept, lang, { reason: 'refill' }));
+    refillLists.push(buildReelsForConcept(found.lesson, found.concept, lang, { reason: 'refill' }));
   }
+  const refillPool = interleave(refillLists);
 
   const quota = {
     due_review: Math.round(targetCount * 0.4),
@@ -215,12 +220,24 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const chosen: Reel[] = [];
   const order: ReelReason[] = ['due_review', 'today_lesson', 'exam_topic', 'curiosity'];
 
+  // Same-kind candidates are deferred, not discarded: a pool interleaved across
+  // lessons puts equal kinds next to each other, and dropping them there would
+  // shrink the session instead of just reordering it.
+  const pending: Record<string, Reel[]> = { due_review: [], today_lesson: [], exam_topic: [], curiosity: [], refill: [] };
+
   const takeFrom = (reason: ReelReason): Reel | undefined => {
+    const last = chosen[chosen.length - 1];
+    const deferred = pending[reason];
+    for (let i = 0; i < deferred.length; i++) {
+      if (!last || last.kind !== deferred[i].kind) return deferred.splice(i, 1)[0];
+    }
     const pool = poolByReason[reason];
     while (cursors[reason] < pool.length) {
       const candidate = pool[cursors[reason]++];
-      const last = chosen[chosen.length - 1];
-      if (last && last.kind === candidate.kind) continue; // rule 2: no repeat kind
+      if (last && last.kind === candidate.kind) {
+        deferred.push(candidate); // rule 2: no repeat kind — retry after another kind
+        continue;
+      }
       return candidate;
     }
     return undefined;
