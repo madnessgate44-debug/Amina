@@ -24,6 +24,7 @@ of "Log".
 
 ## Log (newest first)
 
+
 ### 2026-11-08 (run 6) — feed session now covers more than one lesson (breadth defect fixed)
 - **State first:** `main` was `8163815`; the four owner asks (feed full-screen + spoken reel,
   voice turn-taking, Arabic misconceptions, misconception reels reachable) are **all shipped and
@@ -55,6 +56,38 @@ of "Log".
   G10 (legacy "Amina" in French curriculum *content*), R13 (`dailyLifeExampleFr`), R8/R9 (brand
   tokens / two contrast failures).
 - **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
+### 2026-11-08 (run 6b) — legacy name "Amina" removed from shipped curriculum + teacher text (R11)
+- **Outcome:** the legacy project name "Amina" no longer appears in shipped curriculum or teacher
+  text. It had been shipping inside the French lessons, pre-generated Noor lines, and teacher
+  diagnostics. Owner rule: "Amina" must not appear in shipped UI or curriculum text.
+- **Measured before:** live bundle `index-CClNrBuS.js` (== `main` HEAD `8163815`) contained **43**
+  `Amina` and **12** `أمينة` strings [V].
+- **Fix:** example learner name → `Sara`/`سارة` in `frenchCurriculum.ts` and
+  `preGeneratedNoorLines.ts`; teacher diagnostics use the neutral example `Sara` or the real
+  `${studentName}` where the helper receives it; `aminaCurriculumConfig.ts` `studentName: 'Sara'`.
+  Extended `brandingNoor.test.ts` to scan `src/data` + `src/services` (it only scanned
+  `src/components` before), so the name cannot quietly return.
+- **Shipped:** PR #99 merged to `main` as **`57f8643`** [V].
+- **Deploy:** Vercel production READY for `57f8643` (`amina-3en0s10w9-forge-fe22`) [V].
+- **Prove live:** live `https://amina-nine-sepia.vercel.app/assets/index-D9yJTdK6.js` SHA-256
+  `4dfd57c8…e050` == local build of `main` (`4dfd57c8…e050`) [V]. Live bundle: `Amina` 43→8
+  (all 8 are internal `getAmina*` method identifiers, zero string literals), `أمينة` 12→0 [V].
+  Playwright drive of the LIVE site, Library → اللغة الفرنسية → الدرس 1: the lesson renders
+  "Je m'appelle Sara" and "Sara : Bonjour Madame !", and `body.innerText` contains no "Amina" [V].
+- **Suite:** `npx tsc --noEmit` 0; `npm test` all pass (BRANDING now 13 passed incl. new 3b.1/3b.2);
+  `npm run build` exit 0; CI `verify` green on `f7d442d` [V].
+- **Next:**
+  1. Feed feel — the live reel now occupies 100% of the viewport and carries audio+canvas, so the
+     "84% / 0/0/0/0 media" claim in older notes is stale; verify what, if anything, still feels
+     static by driving the live feed, not by reading old notes.
+  2. Voice turn-taking in the feed — confirm `handsFreeLoop.ts` is actually reached from the feed
+     (not only `TeachingSessionModal.tsx`) on current `main`.
+  3. Arabic misconception content — still French-only; an Arabic child gets a model answer.
+  4. Optional: rename the internal `getAmina*` methods / `aminaCurriculumConfig.ts` filename
+     (mechanical, not user-visible; deferred in PR #99).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search available.
+ (docs(status): record run 6 — legacy name removed from shipped content (#99))
 
 ### 2026-10-31 (run 5b) — durable lesson jobs with real progress + resume (G7 closed)
 - **Outcome:** the one remaining unit from the mission is done. A long lesson request is now a
