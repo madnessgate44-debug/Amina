@@ -24,6 +24,51 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-08 (run 7) — the diagnosis path is now reachable from the feed, in Arabic (R6 / owner ask d)
+- **State first:** `main` was `056b61a`; the four owner asks (feed full-screen + spoken reel,
+  voice turn-taking, Arabic misconceptions, misconception reels reachable) are all shipped [V]
+  except (d). Open PRs: #97 (draft, parallel session's parent-summary fix, CI green) and #8
+  (archive, never merge).
+- **Defect found by measurement (not in any doc):** `buildFeedQueue` reached the
+  misconception-bearing concepts by **seed luck only**. Measured on `main` with a scripted queue
+  dump: an **Arabic** child got **0** misconception-bearing reels in a whole session
+  (5/10/20/30/45 min all 0); only `en`/`fr` sometimes got them. So the deterministic diagnosis —
+  the most teacher-like behaviour in the app — was unreachable for the primary user (owner ask d).
+  The diagnosis path itself works when reached: probe on `off_math_u1_l1_c1` (ar) →
+  `namedMisconception=true source=misconception degraded=false`, Arabic text [V].
+- **Fix (PR #103, squash merge `3ff7c1af`):** a new **diagnosis pool** in `buildFeedQueue` holds
+  only concepts that (a) carry misconception data, (b) whose stored text is in the child's own
+  script (`speaksLanguage`, now exported), and (c) whose reels carry a wrong option a stored
+  misconception can name (`matchMisconception`). One such reel is **guaranteed per session**,
+  slotted so it repeats neither the neighbouring kind (rule 2) nor the neighbouring lesson
+  (breadth), never the first slot, never a duplicate id. New `ReelReason: 'diagnosis'` + a card
+  label (ar نلاقي الغلطة / en Find the mix-up / fr Trouver l'erreur).
+- **Measured after:** every session in ar/en/fr at 5/10/20/45 min now carries ≥1 diagnosable
+  misconception reel (ar 5min=1, 45min=3); lesson runs ≤2, no repeat kind, deterministic.
+- **Regression test:** `reels.test.ts` §11 (diagnosable reel present in every session, 3 langs ×
+  4 lengths) and §12 (insertion keeps lesson runs ≤2, no repeat kind, deterministic).
+- **Suite [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0, all suites pass (reels **55**);
+  `npm run build` exit 0; CI `verify` success on `3ff7c1af`.
+- **Deploy [V]:** Vercel production **READY** for `3ff7c1af` (`amina-jn1qemx0k-forge-fe22`). Live
+  `assets/index-5VlqCXzs.js` SHA-256 `e516aed5e6843e71016eb9cd8a965e14052b661cbd5e1b524304de1f052e05d8`
+  **identical** to the local build of `main` @ `3ff7c1af`; bundle name changed from the previous
+  live `index-D9yJTdK6.js` [V].
+- **Live proof [V]:** Playwright 390×844 ar-EG on the live site. Immersive feed measured
+  **844/844px, no header, media audio=1 canvas=1, 0 console errors**. Stepping the feed reached a
+  `نلاقي الغلطة` reel (concept `off_math_u1_l1_c1`); clicking the wrong option "الرقم 7" produced
+  the Arabic diagnosis **"لأ يا بطل، خلّينا نفهم إيه اللي حصل. اخترتِ الرقم 7، وهو في خانة الأجزاء
+  من مئة، لا خانة الأجزاء من ألف…"** with the **🔍 عرفنا الغلطة** badge, `offline=false`,
+  **0 console errors** — the deterministic diagnosis now fires in Arabic from the feed [V].
+- **Next:**
+  1. PR #97 (draft) — parallel session's real fix with CI green; if that session does not land it,
+     review and merge it (verify its head SHA first).
+  2. Remaining carried items: R7 (per-session learning signals in the feed — `learningSignals.ts`
+     wired only into `TeachingSessionModal`), R13 (`dailyLifeExampleFr`), R8/R9 (brand tokens /
+     two contrast failures), G10 residual internal `getAmina*` identifiers (not user-visible).
+  3. Consider extending the diagnosis pool to non-maths subjects (only maths carries misconception
+     data today) — content work, not code.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 
 ### 2026-11-08 (run 6) — feed session now covers more than one lesson (breadth defect fixed)
 - **State first:** `main` was `8163815`; the four owner asks (feed full-screen + spoken reel,
