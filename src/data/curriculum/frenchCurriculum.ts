@@ -45,15 +45,15 @@ export const FRENCH_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     },
     objectives: [
       'Saluer poliment selon le moment de la journée (Bonjour, Bonsoir, Bonne nuit).',
-      'Se présenter et dire son prénom et son âge (Je m\'appelle Amina, j\'ai 10 ans).',
+      'Se présenter et dire son prénom et son âge (Je m\'appelle Sara, j\'ai 10 ans).',
       'Poser des questions simples de présentation (Comment tu t\'appelles ? Quel âge as-tu ?).',
     ],
     readingText: `Dialogue en classe :
 Madame Noor : Bonjour les enfants ! Bienvenue en 5e primaire !
-Amina : Bonjour Madame !
+Sara : Bonjour Madame !
 Madame Noor : Comment tu t'appelles ?
-Amina : Je m'appelle Amina. Je suis égyptienne et j'ai 10 ans.
-Madame Noor : Enchantée, Amina ! Et toi, comment tu t'appelles ?
+Sara : Je m'appelle Sara. Je suis égyptienne et j'ai 10 ans.
+Madame Noor : Enchantée, Sara ! Et toi, comment tu t'appelles ?
 Omar : Moi, c'est Omar. J'ai aussi 10 ans et j'aime beaucoup l'école !
 Madame Noor : Très bien les enfants. Ouvrez vos livres à la page 4 s'il vous plaît.`,
     vocabulary: [
@@ -72,7 +72,7 @@ Madame Noor : Très bien les enfants. Ouvrez vos livres à la page 4 s'il vous p
       },
       {
         type: 'fill_blank',
-        question: 'Complète : Je __________ Amina.',
+        question: 'Complète : Je __________ Sara.',
         options: ['m\'appelle', 'est', 'as', 'avons'],
         expectedAnswer: 'm\'appelle',
         page: 7,
@@ -96,8 +96,8 @@ Madame Noor : Très bien les enfants. Ouvrez vos livres à la page 4 s'il vous p
           'Salut تقال كتحية غير رسمية بين الأصدقاء والزملاء.',
           'Au revoir تقال عند المغادرة والوداع.',
         ],
-        dailyLifeExampleAr: 'عندما تقابل أمينة زملاءها صباحاً في حوش المدرسة تقول: Bonjour ! وعندما تودعهم تقول: Au revoir !',
-        dailyLifeExampleEn: 'When Amina meets friends in the morning she says Bonjour, and when leaving she says Au revoir.',
+        dailyLifeExampleAr: 'عندما تقابل سارة زملاءها صباحاً في حوش المدرسة تقول: Bonjour ! وعندما تودعهم تقول: Au revoir !',
+        dailyLifeExampleEn: 'When Sara meets friends in the morning she says Bonjour, and when leaving she says Au revoir.',
         storyAnalogyAr: 'التحيات مثل مفاتيح القلوب السحرية؛ كل وقت له مفتاحه المناسب.',
         storyAnalogyEn: 'Greetings are like magic keys; each time of day has its own key.',
         prerequisiteAr: 'معرفة حروف الأبجدية الفرنسية ونطقها.',
@@ -113,8 +113,8 @@ Madame Noor : Très bien les enfants. Ouvrez vos livres à la page 4 s'il vous p
           'مع الضمير Je نستخدم m\'appelle مع علامة النبرة الصوتية.',
           'مع الضمير Tu نستخدم t\'appelles مع حرف s في النهاية.',
         ],
-        dailyLifeExampleAr: 'Je m\'appelle Amina. Tu t\'appelles Omar.',
-        dailyLifeExampleEn: 'Je m\'appelle Amina. Tu t\'appelles Omar.',
+        dailyLifeExampleAr: 'Je m\'appelle Sara. Tu t\'appelles Omar.',
+        dailyLifeExampleEn: 'Je m\'appelle Sara. Tu t\'appelles Omar.',
         storyAnalogyAr: 'جملة "Je m\'appelle" تشبه بطاقتك التعريفية الملونة التي تقدمها للملأ.',
         storyAnalogyEn: 'Je m\'appelle is like presenting your colorful student ID card.',
         prerequisiteAr: 'الضمائر الشخصية (Je, Tu).',
@@ -181,7 +181,7 @@ Madame Noor : Très bien les enfants. Ouvrez vos livres à la page 4 s'il vous p
       'Employer les adjectifs possessifs : mon, ma, mes.',
       'Décrire sa famille en quelques phrases simples.',
     ],
-    readingText: `Amina présente sa famille :
+    readingText: `Sara présente sa famille :
 Voici ma famille !
 Mon père s'appelle Ahmed, il est ingénieur.
 Ma mère s'appelle Mariam, elle est médecin.
@@ -275,7 +275,7 @@ Nous habitons tous ensemble au Caire près du Nil. J'aime beaucoup ma famille !`
       'Demander ce que c\'est : "Qu\'est-ce que c\'est ?" et répondre : "C\'est un / une..."',
     ],
     readingText: `Dans mon cartable :
-Amina prépare son cartable pour l'école :
+Sara prépare son cartable pour l'école :
 - Dans mon cartable, il y a un livre de français et un livre de mathématiques.
 - J'ai aussi deux cahiers et une belle trousse rouge.
 - Dans ma trousse, il y a des stylos bleus, un crayon, une gomme blanche et une règle.

@@ -8,7 +8,7 @@
 import { StudentCurriculumContext, SubjectCurriculumConfig } from '../types/curriculum';
 
 export const AMINA_CURRICULUM_CONTEXT: StudentCurriculumContext = {
-  studentName: 'Amina',
+  studentName: 'Sara',
   school: 'École Girard',
   location: 'Alexandria, Egypt',
   grade: 'Grade 5',
