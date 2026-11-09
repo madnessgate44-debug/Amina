@@ -28,6 +28,53 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-09 (run 13) — Arabic ICT misconception content: the last big diagnosis gap
+- **State first:** `main` was `26d288f` (run 12's merge, #115); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0 (all suites 0 failed), `npm run build` exit 0. The four owner asks (a)–(d)
+  are shipped and live [V]; measured this run on the live app at 390×844 ar-EG: feed full-screen
+  (`docScrollH` 844 == viewport 844), `<audio>`+`<canvas>` present, reel counter advancing, **0 console errors**.
+- **Gap found by counting, not guessing [V]:** owner ask (c) was still open for every subject except
+  Maths and Science. Across all 54 concepts: **13 had misconception data, 11 genuinely diagnosable**.
+  ICT was the largest remaining gap: **all 12 ICT concepts are Arabic-taught and had ZERO
+  misconception data**, so every wrong ICT answer fell through to the model. (Islamic 2, Social 3,
+  Arabic 5, Calligraphy 1, French 5, English 2 concepts also still lack data.)
+- **What shipped (PR #116, squash `ce95ec5`):**
+  - `ictCurriculum.ts` — Arabic `misconceptions` (explanation + remediation) for **all 12 ICT
+    concepts**, each `trigger` set to the **exact wrong-option text** of its own exercises, plus
+    `distractors` (`value|mis_id`) pointing at the concept's own misconception.
+  - `teachingSkills.test.ts` — new **section 7** (7.1–7.4) locking: every ICT concept covered, every
+    distractor resolves to its own misconception, distinct wrong options get distinct diagnoses, and
+    a correct ICT answer is never diagnosed.
+- **Traps handled (measured, not assumed):** the matcher's numeric-trigger rule and its 0.5
+  token-overlap path bite here. `=A8*B8` / `=A8-B8` / `=A8/B8` / correct `=A8+B8` all normalise to
+  `a8 b8`, so Excel-formula options **cannot** be told apart — authoring them would mis-diagnose the
+  **correct** answer. l6 uses one distinctive trigger (`دولار`). A generic shared word (`علامة`)
+  0.5-overlapped the sibling `علامة الدولار $` option, so l4 triggers were tightened to `الشباك` /
+  `النسبة`. Independent verifier over the ICT set: **0** unresolved distractors, **0** collapsed
+  diagnoses, **0** false diagnoses across 75 wrong options, **0** correct answers diagnosed.
+- **Measured after [V]:** concepts with misconception data **13 → 25 / 54**; genuinely diagnosable
+  **11 → 23 / 54**; ICT **0/12 → 12/12** concepts produce an Arabic diagnosable reel.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed; TEACHING SKILLS
+  **28** PASSED / 0 FAILED; REELS 126; IMMERSIVE FEED 43); `npm run build` exit 0;
+  `git diff --check` clean; CI `verify` **success** on `f92b2ee`.
+- **Deploy + live proof [V]:** Vercel production for `ce95ec5` (`dpl_FYpXs45r7PkKKsNjFvuu`) reached
+  **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-BsEDtQ49.js` SHA-256
+  `0b62e6bcc880185d8723ebb25cc4fad7cc36d75351e76bc967ec65627c33c388` **==** local build of `main`
+  @ `ce95ec5`; the live bundle contains the new ICT ids and Arabic text.
+- **Live proof (Playwright 390×844, ar-EG) [V]:** seeded a day record with `ICT` as today's subject,
+  opened the feed, clicked the wrong ICT option **لوحة المفاتيح**; Noor answered with the **named
+  diagnosis** and the `🔍 عرفنا الغلطة` badge: «لأ يا بطل، خلّينا نفهم إيه اللي حصل. لوحة المفاتيح جهاز
+  إدخال، ولا تحفظ نسخة احتياطية. الجهاز المناسب للنسخ الاحتياطي الآمن هو القرص الصلب الخارجي (External
+  HDD).» **0 console errors**. Before this run the same tap produced the generic «قربت! هشرحلك الفكرة تاني.»
+- **Next:**
+  1. More Arabic misconception content (owner ask c) — remaining Arabic-taught subjects: **Islamic
+     Studies (2)**, **Social Studies (3)**, **Arabic Language (5)**, **Calligraphy (1)**. Same recipe
+     as ICT: exact-option triggers, own-concept distractors, avoid digit/generic-word triggers.
+  2. Media richness (owner ask a): only 3 of 54 concepts carry catalogued media.
+  3. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-09 (run 12) — the FEED no longer sits still on a narration reel
 - **State first:** `main` was `6d55b70`; the only open PR was **#8** (archive, never merge).
   Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (all suites),
