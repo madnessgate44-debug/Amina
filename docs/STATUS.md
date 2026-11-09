@@ -24,6 +24,46 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-09 (run 8) — the parent weekly summary no longer fabricates activity (F-02, PR #97)
+- **State first:** `main` was `9b5ec25`. Open PRs: **#97** (draft, parallel session's parent-summary
+  honesty fix, head `8595eba`, CI green, idle ~16h) and **#8** (archive, never merge). Baseline gate
+  on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (39 suites, 0 failed).
+- **What shipped:** merged **PR #97** (squash `1ee5d7d5006d2eee21f2f36c5d89c51c6fdd80bc`). The
+  Parent Weekly Summary used to fabricate activity: a brand-new child with no logged lessons showed
+  **"4 lessons"** (a hard-coded `demo baseline`), an empty attention list got a canned praise
+  sentence pushed in as if it were a subject, achievements got canned praise, and every
+  non-maths/non-Arabic subject was mislabelled **"Science"** (French mode fell back to English).
+  Now: zero means zero, empty means empty, and a subject keeps its real name from the curriculum
+  record in ar/en/fr (`subjectLabel` reads `subjectNameAr/En` + the newly exported
+  `FRENCH_SUBJECT_NAMES`).
+- **Gate on the PR branch [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0, all 39 suites pass
+  (new `parentWeeklySummary` suite 9/9); `npm run build` exit 0; CI `verify` + `Check execution
+  policy files` **success** on the merge commit `1ee5d7d`.
+- **Deploy [V]:** Vercel production **READY** for `1ee5d7d5`
+  (`amina-6einmz12g-forge-fe22`), aliased to https://amina-nine-sepia.vercel.app.
+- **Prove live [V]:** live `assets/index-BZRf_yl1.js` SHA-256
+  `e1f458f1f9f6d98fc8384e2d3c9c236964efeb44755230f9222d9f344e96b8dc` **identical** to the local build
+  of `main` @ `1ee5d7d`. The removed fabricated strings (`demo baseline`, `All subjects are on track
+  smoothly`, `تسير بانتظام واستقرار`, `Consistent engagement and positive start`) are **0** in the
+  live bundle (and 0 in the local build).
+- **Live proof [V]:** Playwright 390×844 ar-EG on the live site. Seeded a fresh student (no day
+  records) + a linked parent account, entered the PIN, opened the parent dashboard: it renders
+  **"دروس مسجلة 0"** (0 lessons logged — not 4) and the fake "جميع المواد تسير بانتظام" praise is
+  **absent** (`fabricated:false`); **0 console errors**.
+- **Carried forward (unchanged):** R7 (per-session learning signals in the feed —
+  `learningSignals.ts` is wired only into `TeachingSessionModal`, not the feed); R13
+  (`dailyLifeExampleFr`); R8/R9 (brand tokens / two contrast failures); G10 residual internal
+  `getAmina*` identifiers (not user-visible). The four original owner asks (a)–(d) are all shipped
+  and live [V].
+- **Note:** the feed already measured **844/844px full-screen, media audio=1 canvas=1, hands-free
+  voice turn-taking wired via `handsFreeLoop`** on the live site this run — the older "84% / 0 media
+  / no voice in feed" notes are stale.
+- **Next:**
+  1. **R7** — record `nextQuestionCorrect` / `misconceptionResolved` / `independentRecheckPassed`
+     from the feed's reel loop (reuse `learningSignals.ts`), the last open item from the audit plan.
+  2. R13 (`dailyLifeExampleFr`), R8/R9 (brand tokens / contrast), G10 residual identifiers.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-08 (run 7) — the diagnosis path is now reachable from the feed, in Arabic (R6 / owner ask d)
 - **State first:** `main` was `056b61a`; the four owner asks (feed full-screen + spoken reel,
   voice turn-taking, Arabic misconceptions, misconception reels reachable) are all shipped [V]
