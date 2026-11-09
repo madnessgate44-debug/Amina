@@ -28,6 +28,56 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-09 (run 12) — the FEED no longer sits still on a narration reel
+- **State first:** `main` was `6d55b70`; the only open PR was **#8** (archive, never merge).
+  Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (all suites),
+  `npm run build` exit 0. Live bundle at session start `index-2YuathOG.js` SHA-256
+  `fd54d3177ca757c111c2aa69d9a44fe83eaa362f532068bc3a8d4c6829a9cc82` **==** local build of
+  `main` @ `6d55b70` [V]. The four original owner asks (a)–(d) remain shipped and live [V].
+- **Defect found by measuring the live app (not in any doc) [V]:** a reel that asks **no
+  question** never advanced. `story_analogy`, `vocab_flash` and `teach_card` carry no `options`,
+  and the ONLY advance path was the spoken reaction to an answer (`onReactionSpoken`). So on the
+  live app at 390×844 ar-EG the reel counter sat still forever: measured `2 / 17` unchanged after
+  14s of no interaction; the question reel correctly waited (`1 / 17` after 12s). This is owner
+  ask (a): *"it must not be static."*
+- **What shipped (PR #113, squash `541a6605`):**
+  - `ReelCard.tsx` — the narration effect now distinguishes a question reel from a narration reel
+    (`const asksQuestion = Boolean(reel.options?.length)`). A narration reel calls `fireAdvance()`
+    when Noor stops speaking (the same `onEnd` the audio element already reported), with a read
+    delay when voice is off and a 12s safety net when the speech engine is silent. A question reel
+    still waits for the child. Both advance paths (spoken reaction, narration end) now funnel
+    through ONE guarded `fireAdvance()` helper, so a reel can never advance twice.
+  - `immersiveFeed.test.ts` — new **R-F6** section: 4 assertions locking the narration/question
+    split and the single guarded advance helper.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites; IMMERSIVE FEED **43**
+  PASSED / 0 FAILED; REELS 63/0); `npm run build` exit 0; `git diff --check` clean; CI `verify`
+  **success** on `8b35d417`.
+- **Deploy + live proof [V]:** Vercel production for `541a6605`
+  (`dpl_ApK9t8QbGm6QWU1oWkVZSNpjThB4`) reached **READY**; live
+  `https://amina-nine-sepia.vercel.app/assets/index-CkM4Nf1p.js` SHA-256
+  `5620c9c3ef68eadbe6fb2abe45a51f0900e71839bd4a72cc06c0c4e5313939c3` **==** local build of `main`
+  @ `541a6605`; bundle name changed from the previous live `index-2YuathOG.js`.
+- **Live proof (Playwright 390×844, ar-EG) [V]:** with no interaction, **3/3 narration reels
+  advanced** (4→5, 6→7, 11→12) and **2/2 question reels waited** (1/17 unchanged); **0 console
+  errors**.
+- **Next:**
+  1. **Arabic misconception content (owner ask c).** Measurement this run: only Mathematics has
+     misconception data — `mathCurriculum.ts` (5 lessons, Arabic) + `mathFrCurriculum.ts`
+     (5 lessons, French); **0** in Science / ICT / Social Studies / Islamic / Arabic / English /
+     Calligraphy. So 10 Arabic maths concepts are diagnosable, but every other subject still
+     degrades to the model. This is the biggest remaining owner ask; it is a content task
+     (author `misconceptions` for the other subjects).
+  2. **Diagnosability (owner ask d).** The R6 diagnosis pool now guarantees a diagnosable reel in
+     every session (measured: ar 1, en 1, fr 1 per 15/9/9-reel session). To widen it, the
+     misconception triggers must match the reel's own option text: `matchMisconception` drops any
+     trigger containing a digit unless it matches as a whole token, so e.g. `off_math_u1_l1`
+     options `الرقم 8/7/0` do not match its `mis_ar_pv_*` triggers. Only 2 maths concepts currently
+     produce a genuinely diagnosable reel.
+  3. Media richness (owner ask a): only **3 of 53** concepts carry catalogued media (2 images + 1
+     video), so most reels show the canvas visual, not a photo/video.
+  4. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-09 (run 11) — the FEED no longer shows a reel in a script the child cannot read
 - **State first:** `main` was `4ad091b`; the only open PR was **#8** (archive, never merge). Baseline
   gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (all suites), `npm run build`
