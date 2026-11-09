@@ -276,12 +276,12 @@ export const ReelCard: React.FC<ReelCardProps> = ({
               </p>
               {namedMisconception && (
                 <div className="mt-2 inline-block text-[11px] font-black text-violet-700 bg-violet-100 px-2 py-0.5 rounded-lg">
-                  {isAr ? '🔍 عرفنا الغلطة' : '🔍 Misconception named'}
+                  {isAr ? '🔍 عرفنا الغلطة' : reel.language === 'fr' ? '🔍 Erreur identifiée' : '🔍 Misconception named'}
                 </div>
               )}
               {offlineTeacher && (
                 <div className="mt-2 inline-block text-[11px] font-black text-amber-800 bg-amber-100 px-2 py-0.5 rounded-lg">
-                  {isAr ? '🎒 معلمة بدون إنترنت' : '🎒 Offline teacher'}
+                  {isAr ? '🎒 معلمة بدون إنترنت' : reel.language === 'fr' ? '🎒 Maîtresse hors ligne' : '🎒 Offline teacher'}
                 </div>
               )}
             </div>

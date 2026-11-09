@@ -11,6 +11,7 @@ import {
 import { FlatCurriculumConcept } from '../../types/curriculum';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { AMINA_CURRICULUM_CONTEXT } from '../../data/aminaCurriculumConfig';
+import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
 
 export interface SubjectCurriculumSummary {
   subjectId: string;
@@ -182,6 +183,17 @@ export class CurriculumService {
       const withFrenchName: OfficialCurriculumLesson = {
         ...lesson,
         subjectNameFr: lesson.subjectNameFr || FRENCH_SUBJECT_NAMES[lesson.subjectId],
+        concepts: lesson.concepts.map((concept) => {
+          const fr = FRENCH_TRACK_CONTENT[concept.id];
+          if (!fr) return concept;
+          return {
+            ...concept,
+            titleFr: concept.titleFr || fr.titleFr,
+            sourceTextFr: concept.sourceTextFr || fr.sourceTextFr,
+            dailyLifeExampleFr: concept.dailyLifeExampleFr || fr.dailyLifeExampleFr,
+            storyAnalogyFr: concept.storyAnalogyFr || fr.storyAnalogyFr,
+          };
+        }),
       };
       if (!config) return withFrenchName;
       return {

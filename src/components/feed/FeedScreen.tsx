@@ -135,7 +135,7 @@ export const FeedScreen: React.FC = () => {
           kind: 'mission',
           id: `mission-${mission.id}`,
           mission,
-          purpose: isAr ? 'ده اللي محتاجاه النهارده' : 'A learning moment Noor chose for you',
+          purpose: isAr ? 'ده اللي محتاجاه النهارده' : isFr ? 'Un moment d\'apprentissage choisi pour toi' : 'A learning moment Noor chose for you',
         });
       });
 
@@ -148,9 +148,9 @@ export const FeedScreen: React.FC = () => {
           kind: 'lesson',
           id: `lesson-${lesson.id}`,
           title: isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn,
-          subject: isAr ? lesson.subjectNameAr : lesson.subjectNameEn,
+          subject: isAr ? lesson.subjectNameAr : isFr && lesson.subjectNameFr ? lesson.subjectNameFr : lesson.subjectNameEn,
           lessonId: lesson.id,
-          purpose: isAr ? 'درس حقيقي من منهجك' : 'A real lesson from your curriculum',
+          purpose: isAr ? 'درس حقيقي من منهجك' : isFr ? 'Une vraie leçon de ton programme' : 'A real lesson from your curriculum',
         });
       });
 
@@ -160,10 +160,10 @@ export const FeedScreen: React.FC = () => {
       cards.push({
         kind: 'lesson',
         id: `review-${review.conceptId}`,
-        title: isAr ? found.concept.titleAr : found.concept.titleEn,
-        subject: isAr ? found.lesson.subjectNameAr : found.lesson.subjectNameEn,
+        title: isAr ? found.concept.titleAr : isFr && found.concept.titleFr ? found.concept.titleFr : found.concept.titleEn,
+        subject: isAr ? found.lesson.subjectNameAr : isFr && found.lesson.subjectNameFr ? found.lesson.subjectNameFr : found.lesson.subjectNameEn,
         lessonId: found.lesson.id,
-        purpose: isAr ? 'نور اختارت ده للمراجعة' : 'Noor picked this for a smart review',
+        purpose: isAr ? 'نور اختارت ده للمراجعة' : isFr ? 'Noor a choisi ceci pour une bonne révision' : 'Noor picked this for a smart review',
       });
     });
 
@@ -193,7 +193,7 @@ export const FeedScreen: React.FC = () => {
 
     if (!correct) {
       consecutiveWrong.current += 1;
-      setAnnouncement(isAr ? 'قربت! هشرحلك الفكرة تاني.' : 'Almost! Let me re-explain this idea.');
+      setAnnouncement(isAr ? 'قربت! هشرحلك الفكرة تاني.' : isFr ? 'Tu y es presque ! Je t\'explique encore une fois.' : 'Almost! Let me re-explain this idea.');
       if (consecutiveWrong.current >= 2) {
         // Rule 3: after two wrong in a row on the same concept, teach then retry.
         const retry = buildRetryAfterMistakes(reel.conceptId, language);
@@ -209,7 +209,7 @@ export const FeedScreen: React.FC = () => {
       }
     } else {
       consecutiveWrong.current = 0;
-      setAnnouncement(isAr ? 'برافو! 🎉' : 'Nice work! 🎉');
+      setAnnouncement(isAr ? 'برافو! 🎉' : isFr ? 'Bravo ! 🎉' : 'Nice work! 🎉');
     }
   };
 
@@ -244,12 +244,12 @@ export const FeedScreen: React.FC = () => {
         {gamification && (
           <div className="fixed top-2 start-3 end-3 z-20 flex items-center justify-between pointer-events-none">
             <span className="flex items-center gap-1 text-[12px] font-black text-amber-300 bg-slate-950/70 px-2.5 py-1 rounded-full">
-              <Star className="w-3 h-3" /> {isAr ? 'مستوى' : 'Level'} {gamification.level}
+              <Star className="w-3 h-3" /> {isAr ? 'مستوى' : isFr ? 'Niveau' : 'Level'} {gamification.level}
             </span>
             <span className="flex items-center gap-1 text-[12px] font-black text-orange-300 bg-slate-950/70 px-2.5 py-1 rounded-full">
               <Flame className="w-3 h-3" />
               {gamification.streak.currentDays}
-              {gamification.streak.isPaused && (isAr ? ' (راحة)' : ' (rest)')}
+              {gamification.streak.isPaused && (isAr ? ' (راحة)' : isFr ? ' (repos)' : ' (rest)')}
             </span>
           </div>
         )}
@@ -296,18 +296,20 @@ export const FeedScreen: React.FC = () => {
         <div className="relative z-10 max-w-md mx-auto w-full">
           <div className="flex items-center justify-center gap-2 text-amber-300 text-sm font-black mb-4">
             <Sparkles className="w-4 h-4" />
-            <span>{isAr ? 'نور دخلت معاكِ الحصة' : 'Noor is teaching you now'}</span>
+            <span>{isAr ? 'نور دخلت معاكِ الحصة' : isFr ? 'Noor t\'accompagne dans la leçon' : 'Noor is teaching you now'}</span>
           </div>
           <div className="mx-auto max-w-sm rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/15 p-5 text-center">
             <p className="text-lg font-black leading-relaxed">
               {isAr
                 ? `"يلا يا ${student?.name || ''} — هوريكي حاجة، وبعدها عايزة أشوفك بتفكري إزاي."`
+                : isFr
+                ? `« Allez ${student?.name || ''} — je te montre quelque chose, puis je veux voir comment tu réfléchis. »`
                 : `“Come on, ${student?.name || ''}. Watch what I’m showing you, then show me how you think.”`}
             </p>
           </div>
           <div className="mt-6 flex items-center justify-center gap-2 text-slate-400 text-xs">
             <ArrowDown className="w-4 h-4 animate-bounce" />
-            <span>{isAr ? 'اسحبي لأعلى — نور هتكمّل معاكي خطوة بخطوة' : 'Swipe up — Noor will guide you step by step'}</span>
+            <span>{isAr ? 'اسحبي لأعلى — نور هتكمّل معاكي خطوة بخطوة' : isFr ? 'Glisse vers le haut — Noor t\'accompagne pas à pas' : 'Swipe up — Noor will guide you step by step'}</span>
           </div>
         </div>
       </section>
@@ -316,10 +318,10 @@ export const FeedScreen: React.FC = () => {
         <section className="min-h-full snap-start flex items-center px-6">
           <div className="max-w-md mx-auto w-full rounded-3xl bg-white/10 border border-white/10 p-6">
             <BookOpen className="w-8 h-8 text-indigo-300 mb-3" />
-            <h2 className="text-xl font-black">{isAr ? 'نور محتاجة تعرف درس النهارده' : 'Noor needs today’s school lesson first'}</h2>
-            <p className="text-sm text-slate-300 mt-2">{isAr ? 'افتحي الرئيسية وسجلي اللي حصل في المدرسة.' : 'Open Home and tell Noor what happened at school.'}</p>
+            <h2 className="text-xl font-black">{isAr ? 'نور محتاجة تعرف درس النهارده' : isFr ? 'Noor a besoin de la leçon du jour' : 'Noor needs today’s school lesson first'}</h2>
+            <p className="text-sm text-slate-300 mt-2">{isAr ? 'افتحي الرئيسية وسجلي اللي حصل في المدرسة.' : isFr ? 'Ouvre l\'Accueil et dis à Noor ce qui s\'est passé à l\'école.' : 'Open Home and tell Noor what happened at school.'}</p>
             <button onClick={() => setActiveTab('home')} className="mt-5 px-4 py-2.5 rounded-2xl bg-white text-slate-950 text-sm font-black">
-              {isAr ? 'الصفحة الرئيسية' : 'Go Home'}
+              {isAr ? 'الصفحة الرئيسية' : isFr ? 'Accueil' : 'Go Home'}
             </button>
           </div>
         </section>
@@ -336,8 +338,8 @@ export const FeedScreen: React.FC = () => {
                   </div>
                   <p className="text-sm font-bold leading-relaxed">
                     {card.kind === 'mission'
-                      ? (isAr ? 'تعالي نجرب دي. بعد كده هسألك إنتِ فكرتي إزاي.' : 'Let’s try this. Then I’ll ask you how you thought about it.')
-                      : (isAr ? 'أنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.' : 'I want to teach this with you, not just show you the page.')}
+                      ? (isAr ? 'تعالي نجرب دي. بعد كده هسألك إنتِ فكرتي إزاي.' : isFr ? 'Essayons ceci. Ensuite je te demanderai comment tu as réfléchi.' : 'Let’s try this. Then I’ll ask you how you thought about it.')
+                      : (isAr ? 'أنا عايزة أشرحلك الدرس ده بطريقتنا، مش مجرد تقريه.' : isFr ? 'Je veux t\'expliquer cette leçon à notre façon, pas seulement te la montrer.' : 'I want to teach this with you, not just show you the page.')}
                   </p>
                 </div>
               </div>
@@ -348,7 +350,7 @@ export const FeedScreen: React.FC = () => {
                   <h2 className="text-3xl font-black leading-tight">{card.mission.title}</h2>
                   <p className="text-slate-300 text-sm mt-3">{card.mission.whyNow}</p>
                   <button onClick={() => runMission(card.mission)} className="mt-7 w-full rounded-2xl bg-white text-slate-950 py-3 font-black flex items-center justify-center gap-2">
-                    <Play className="w-4 h-4" /> {isAr ? 'يلا نبدأ' : 'Let’s learn'}
+                    <Play className="w-4 h-4" /> {isAr ? 'يلا نبدأ' : isFr ? 'Commençons' : 'Let’s learn'}
                   </button>
                 </div>
               ) : (
@@ -356,10 +358,10 @@ export const FeedScreen: React.FC = () => {
                   <div className="text-[11px] uppercase tracking-widest text-cyan-300 font-black mb-3">{card.purpose}</div>
                   <div className="text-xs text-slate-400">{card.subject}</div>
                   <h2 className="text-3xl font-black leading-tight mt-2">{card.title}</h2>
-                  <p className="text-slate-300 text-sm mt-3">{isAr ? 'نور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.' : 'Noor will teach, question you, listen to your reasoning, and adapt.'}</p>
+                  <p className="text-slate-300 text-sm mt-3">{isAr ? 'نور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.' : isFr ? 'Noor va t\'accompagner, te questionner, écouter ton raisonnement et adapter l\'explication.' : 'Noor will teach, question you, listen to your reasoning, and adapt.'}</p>
                   <div className="mt-6 flex items-center justify-between gap-3">
                     <button onClick={() => setActiveLesson(card.lessonId)} className="flex-1 rounded-2xl bg-white text-slate-950 py-3 font-black flex items-center justify-center gap-2">
-                      <BookOpen className="w-4 h-4" /> {isAr ? 'اتعلمي مع نور' : 'Learn with Noor'}
+                      <BookOpen className="w-4 h-4" /> {isAr ? 'اتعلمي مع نور' : isFr ? 'Apprendre avec Noor' : 'Learn with Noor'}
                     </button>
                   </div>
                 </div>

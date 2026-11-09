@@ -375,6 +375,61 @@ function run() {
     );
   }
 
+  // ---- 13. A French child's feed speaks French, not English ----
+  // The Girard French-section child reads maths, science and French in French.
+  // Before the French overlay the reel engine mapped `fr` onto the English
+  // fields, so their feed taught English text. Every French-instructed concept
+  // must now resolve to French content, and the French feed must not leak
+  // English teaching sentences.
+  const frInstructed = lessons.filter((l) => l.instructionLanguage === 'fr');
+  assert(frInstructed.length > 0, `13.0: French-instructed lessons exist (${frInstructed.length})`);
+  let conceptsWithFrench = 0;
+  for (const lesson of frInstructed) {
+    for (const concept of lesson.concepts) {
+      if (concept.dailyLifeExampleFr && concept.storyAnalogyFr && concept.titleFr) conceptsWithFrench++;
+    }
+  }
+  assert(
+    conceptsWithFrench === frInstructed.reduce((n, l) => n + l.concepts.length, 0),
+    `13.1: every French-instructed concept carries French content (${conceptsWithFrench})`
+  );
+  // The unavailable French lesson is not in the feed, but its concept still
+  // needs French content so enabling it later cannot ship English.
+  const allFrInstructed = curriculumService.getAllLessons().filter((l) => l.instructionLanguage === 'fr');
+  let allFrWithFrench = 0;
+  for (const lesson of allFrInstructed) {
+    for (const concept of lesson.concepts) {
+      if (concept.dailyLifeExampleFr && concept.storyAnalogyFr && concept.titleFr) allFrWithFrench++;
+    }
+  }
+  assert(
+    allFrWithFrench === allFrInstructed.reduce((n, l) => n + l.concepts.length, 0),
+    `13.1b: every registered French-instructed concept carries French content (${allFrWithFrench})`
+  );
+  // "on" is a French word as well as an English one, so it is excluded here;
+  // these are unambiguous English function words.
+  const englishWords = /\b(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|notebook|pounds)\b/i;
+  const frFeed = buildFeedQueue({
+    studentId: 'stu_fr_leak',
+    language: 'fr',
+    mastery,
+    dueReviews: [],
+    todaySubjects: ['Mathematics', 'Science', 'French'],
+    examCalendar: [],
+    now,
+    sessionMinutes: 20,
+  });
+  const frTrackReels = frFeed.reels.filter((r) => {
+    const lesson = lessons.find((l) => l.id === r.lessonId);
+    return lesson?.instructionLanguage === 'fr';
+  });
+  assert(frTrackReels.length > 0, `13.2: the French feed reaches French-instructed lessons (${frTrackReels.length})`);
+  const leaking = frTrackReels.filter((r) => englishWords.test(`${r.hook} ${r.noorLine} ${r.show || ''}`));
+  assert(
+    leaking.length === 0,
+    `13.3: no French-instructed reel leaks English text (${leaking.length} of ${frTrackReels.length})`
+  );
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');

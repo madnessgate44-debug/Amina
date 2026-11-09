@@ -80,6 +80,17 @@ export interface CurriculumLessonConcept {
   storyAnalogyEn: string;
   prerequisiteAr: string;
   prerequisiteEn: string;
+  /**
+   * French rendering, present for concepts taught in French (the Girard
+   * French-section child reads French for maths, science and French). Optional:
+   * concepts whose instruction language is Arabic omit it, and the French reel
+   * falls back to the English field rather than showing nothing.
+   */
+  titleFr?: string;
+  sourceTextFr?: string;
+  dailyLifeExampleFr?: string;
+  storyAnalogyFr?: string;
+  prerequisiteFr?: string;
   visualType?: StructuredVisualType;
   visualPrompt?: string;
   /** Known wrong answers, each with a remediation. Optional; older lessons omit it. */
