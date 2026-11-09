@@ -37,6 +37,12 @@ interface ReelCardProps {
   /** Mirrors settings.companionVoiceEnabled. */
   voiceEnabled: boolean;
   onAnswer: (correct: boolean) => void;
+  /**
+   * Fired once the answer has been resolved (the diagnosis has arrived). The
+   * feed uses this to record the per-session learning signal, which needs the
+   * named-misconception flag that only the resolution knows.
+   */
+  onAnswerOutcome?: (outcome: { correct: boolean; namedMisconception: boolean }) => void;
   onTeachMore: () => void;
   onSkip: () => void;
   /** Enables the spoken turn: after Noor speaks, the microphone opens by itself. */
@@ -67,6 +73,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   reducedMotion,
   voiceEnabled,
   onAnswer,
+  onAnswerOutcome,
   onTeachMore,
   onSkip,
   handsFreeEnabled = false,
@@ -175,10 +182,12 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         setReaction(result.text);
         setNamedMisconception(result.namedMisconception);
         setOfflineTeacher(result.degraded);
+        onAnswerOutcome?.({ correct, namedMisconception: result.namedMisconception });
       })
       .catch(() => {
         setReaction(reel.reactionWrong);
         setOfflineTeacher(true);
+        onAnswerOutcome?.({ correct, namedMisconception: false });
       })
       .finally(() => setIsReacting(false));
   };
