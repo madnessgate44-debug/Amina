@@ -67,7 +67,7 @@ function lessonTitle(lesson: OfficialCurriculumLesson, lang: Language): string {
 
 function conceptTitle(concept: CurriculumLessonConcept, lang: Language): string {
   if (lang === 'ar') return concept.titleAr;
-  if (lang === 'fr') return concept.titleEn;
+  if (lang === 'fr') return concept.titleFr || concept.titleEn;
   return concept.titleEn;
 }
 
@@ -173,11 +173,11 @@ export function buildReelsForConcept(
   } as const;
 
   const hookLine = nonEmpty(
-    pickLang({ ar: concept.dailyLifeExampleAr, en: concept.dailyLifeExampleEn, fr: concept.dailyLifeExampleEn }, lang),
+    pickLang({ ar: concept.dailyLifeExampleAr, en: concept.dailyLifeExampleEn, fr: concept.dailyLifeExampleFr || concept.dailyLifeExampleEn }, lang),
     conceptTitle(concept, lang)
   );
-  const analogy = pickLang({ ar: concept.storyAnalogyAr, en: concept.storyAnalogyEn, fr: concept.storyAnalogyEn }, lang);
-  const sourceText = nonEmpty(concept.sourceText);
+  const analogy = pickLang({ ar: concept.storyAnalogyAr, en: concept.storyAnalogyEn, fr: concept.storyAnalogyFr || concept.storyAnalogyEn }, lang);
+  const sourceText = nonEmpty(lang === 'fr' ? concept.sourceTextFr : undefined, concept.sourceText);
   const keyPoint = concept.keyPoints && concept.keyPoints.length ? concept.keyPoints[0] : '';
 
   // Collect question-capable exercises once, ordered so the child's own

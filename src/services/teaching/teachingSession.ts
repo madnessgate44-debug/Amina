@@ -643,7 +643,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'source_explanation',
           text: isFr
-            ? `Pas de souci ! Regardons cela directement à partir du texte de ton manuel (${lesson.sourceRef.bookEn}) :\n"${concept.sourceText}"\n\nEn clair : ${concept.keyPoints[0]}. Est-ce plus compréhensible ainsi ?`
+            ? `Pas de souci ! Regardons cela directement à partir du texte de ton manuel (${lesson.sourceRef.bookEn}) :\n"${concept.sourceTextFr || concept.sourceText}"\n\nEn clair : ${concept.keyPoints[0]}. Est-ce plus compréhensible ainsi ?`
             : isAr
             ? `لا بأس يا بطل، دعنا ننظر إليها من زاوية أوضح من نص الكتاب المدرسي (${lesson.sourceRef.bookAr}):\n"${concept.sourceText}"\n\nالمقصود هنا ببساطة: ${concept.keyPoints[0]}. هل يبدو هذا أوضح؟`
             : `No problem at all! Let's examine it straight from the textbook text (${lesson.sourceRef.bookEn}):\n"${concept.sourceText}"\n\nSimply put: ${concept.keyPoints[0]}. Does that make more sense?`,
@@ -654,7 +654,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'daily_life_example',
           text: isFr
-            ? `Prenons un exemple de la vie quotidienne :\n${concept.dailyLifeExampleEn}\n\nTu vois ? C'est exactement ce que signifie «${concept.titleEn}». Qu'en penses-tu ?`
+            ? `Prenons un exemple de la vie quotidienne :\n${concept.dailyLifeExampleFr || concept.dailyLifeExampleEn}\n\nTu vois ? C'est exactement ce que signifie «${concept.titleFr || concept.titleEn}». Qu'en penses-tu ?`
             : isAr
             ? `دعنا نأخذ مثالاً من حياتك اليومية:\n${concept.dailyLifeExampleAr}\n\nأرأيت؟ هذا بالضبط ما يقصده درس «${concept.titleAr}». ما رأيك في هذا المثال؟`
             : `Let's connect this to real daily life:\n${concept.dailyLifeExampleEn}\n\nSee? That is exactly what "${concept.titleEn}" is talking about. How does that sound?`,
@@ -665,7 +665,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'story_analogy',
           text: isFr
-            ? `Imagine cette petite histoire et cette comparaison :\n${concept.storyAnalogyEn}\n\nArrives-tu à visualiser la scène ? C'est ainsi que cela fonctionne en réalité !`
+            ? `Imagine cette petite histoire et cette comparaison :\n${concept.storyAnalogyFr || concept.storyAnalogyEn}\n\nArrives-tu à visualiser la scène ? C'est ainsi que cela fonctionne en réalité !`
             : isAr
             ? `تخيل معي هذه القصة الصغيرة والتشبيه الممتع:\n${concept.storyAnalogyAr}\n\nهل تخيلت الموقف؟ هكذا تماماً تعمل هذه الفكرة في الواقع!`
             : `Picture this vivid little story and analogy:\n${concept.storyAnalogyEn}\n\nCan you picture that scene? That is precisely how this idea works!`,
@@ -689,7 +689,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'break_prerequisite',
           text: isFr
-            ? `Décomposons cela en une étape préparatoire plus simple :\n${concept.prerequisiteEn}\n\nUne fois ce socle bien compris, la suite devient facile. Est-ce clair pour toi ?`
+            ? `Décomposons cela en une étape préparatoire plus simple :\n${concept.prerequisiteFr || concept.prerequisiteEn}\n\nUne fois ce socle bien compris, la suite devient facile. Est-ce clair pour toi ?`
             : isAr
             ? `تعال نبسط المسألة أكثر ونفهم الخطوة التمهيدية الأولى:\n${concept.prerequisiteAr}\n\nإذا ضبطنا هذه النقطة البسيطة، ستجد كل ما يليها سهلاً للغاية. هل هذه النقطة الأساسية واضحة لديك؟`
             : `Let's break this down into a simpler prerequisite building block:\n${concept.prerequisiteEn}\n\nOnce we anchor this foundational piece, the rest clicks easily. Does this make sense to you?`,
