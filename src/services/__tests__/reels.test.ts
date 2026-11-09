@@ -17,6 +17,7 @@ import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept, isValidReel, sourceLabelFor, buildWinCloser } from '../reels/reelGenerator';
 import { buildFeedQueue, buildRetryAfterMistakes } from '../reels/feedQueue';
 import { matchMisconception } from '../teaching/skills/teachingSkills';
+import { speaksLanguage } from '../reels/reelResponse';
 import { createSeededRng, hashSeed } from '../reels/seededRng';
 import { Language } from '../../types';
 import { Reel } from '../../types/reel';
@@ -463,6 +464,58 @@ function run() {
       wrongScript.length === 0,
       `14.1 [${lang}]: no queued reel is in the wrong script (${wrongScript.length})`
     );
+  }
+
+  // ---- 15. Arabic misconception content reaches more than maths ----
+  // The deterministic diagnosis (name the misconception, then clear it) used to
+  // fire only in maths: the 10 stored entries all lived in maths lessons, so an
+  // Arabic child practising Science had no stored diagnosis and every wrong
+  // answer fell through to the model. The three Arabic Science lessons now carry
+  // Arabic misconception data, and each wrong option maps to its own diagnosis.
+  const sciLessons = ['off_sci_u1_l1_plant_needs', 'off_sci_u1_l2_ecosystem', 'off_sci_u1_l3_coral_bleaching'];
+  for (const id of sciLessons) {
+    const lesson = curriculumService.getLessonById(id);
+    assert(Boolean(lesson), `15.0: lesson ${id} resolves`);
+    for (const concept of lesson?.concepts || []) {
+      assert(
+        (concept.misconceptions?.length || 0) > 0,
+        `15.1 [${id}]: the concept carries misconception data (${concept.misconceptions?.length || 0})`
+      );
+      const ms = concept.misconceptions || [];
+      for (const m of ms) {
+        assert(
+          speaksLanguage(`${m.explanation} ${m.remediation}`, 'ar'),
+          `15.2 [${m.id}]: the diagnosis is Arabic, servable to an Arabic child`
+        );
+      }
+      const reels = buildReelsForConcept(lesson!, concept, 'ar', { reason: 'diagnosis' });
+      const diagnosable = reels.filter((r) =>
+        r.options?.some((o) => !o.isCorrect && matchMisconception(o.text, ms))
+      );
+      assert(diagnosable.length > 0, `15.3 [${concept.id}]: an Arabic diagnosable reel exists (${diagnosable.length})`);
+      for (const r of reels) {
+        if (!r.options) continue;
+        const wrongs = r.options.filter((o) => !o.isCorrect);
+        const diagnosed = new Set(wrongs.map((o) => matchMisconception(o.text, ms)?.id));
+        assert(
+          diagnosed.size === wrongs.length,
+          `15.4 [${r.kind}]: distinct wrong options get distinct diagnoses (${diagnosed.size}/${wrongs.length})`
+        );
+        for (const o of r.options.filter((x) => x.isCorrect)) {
+          assert(
+            matchMisconception(o.text, ms) === undefined,
+            `15.5 [${r.kind}]: the correct answer is never diagnosed as a misconception`
+          );
+        }
+      }
+      for (const d of concept.distractors || []) {
+        const [value, misId] = String(d).split('|');
+        assert(
+          matchMisconception(value, ms)?.id === misId,
+          `15.6 [${value}]: the distractor resolves to its declared misconception (${misId})`
+        );
+      }
+    }
   }
 
   console.log('\n=================================================================');
