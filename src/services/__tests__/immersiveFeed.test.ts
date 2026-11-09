@@ -138,6 +138,28 @@ assert(
   'the speech-end signal has a safety net so a silent engine cannot wedge the feed'
 );
 
+// --- a narration reel must not be static (owner ask: it must not be static) -
+// The narration reels (teach_card, story_analogy, vocab_flash) carry no options,
+// so before this fix nothing ever advanced them: the feed sat on the reel
+// forever. Measured live: the counter was unchanged after 12s of no interaction.
+assert(
+  /const asksQuestion = Boolean\(reel\.options\?\.length\)/.test(reelCard),
+  'the reel tells a question reel apart from a narration reel'
+);
+assert(
+  /if \(!asksQuestion\) fireAdvance\(\)/.test(reelCard),
+  'a narration reel advances the moment Noor stops speaking'
+);
+assert(
+  /if \(!asksQuestion\) \{[\s\S]{0,220}window\.setTimeout\(fireAdvance, readMs\)/.test(reelCard),
+  'a narration reel with no voice still advances after a read delay'
+);
+assert(
+  /const fireAdvance = \(\) => \{[\s\S]{0,140}advancedRef\.current = true;/.test(reelCard) &&
+    /onReactionSpokenRef\.current\?\.\(\)/.test(reelCard),
+  'every advance funnels through one guarded helper so it can never fire twice'
+);
+
 // --- R-F3 voice turn-taking in the feed (owner ask #2) --------------------
 assert(
   /handsFreeEnabled/.test(feedScreen) && /handsFreeEnabled=\{settings\.companionVoiceEnabled\}/.test(feedScreen),
