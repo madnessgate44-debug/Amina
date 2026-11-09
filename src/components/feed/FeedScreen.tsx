@@ -60,6 +60,13 @@ export const FeedScreen: React.FC = () => {
   // Per-concept session state for the learning signals, reset when the queue is
   // rebuilt. Kept in a ref so a reel answer never re-renders the whole feed.
   const feedSignalState = useRef<Map<string, FeedConceptState>>(new Map());
+  // The session the cursor currently belongs to. The queue rebuilds after every
+  // answer, so the cursor is only rewound when the SESSION changes — otherwise
+  // the child is bounced back to reel 1 on each tap.
+  const activeSessionRef = useRef<string | null>(null);
+  // Latest cursor, read by the queue effect without making it a dependency.
+  const cursorRef = useRef(0);
+  cursorRef.current = cursor;
   const [reducedMotion, setReducedMotion] = useState(false);
   const [announcement, setAnnouncement] = useState('');
 
@@ -72,6 +79,11 @@ export const FeedScreen: React.FC = () => {
   }, []);
 
   const sessionMinutes = student?.onboarding?.sessionLengthMinutes || 10;
+  // A feed session is identified by who is reading and in which language, NOT by
+  // the queue contents. The queue rebuilds after every answer (recordEvidence
+  // updates masteryRecords), so keying session state on the queue would reset the
+  // child's progress and learning signals on every tap.
+  const sessionKey = `${student?.id ?? ''}|${language}|${sessionMinutes}`;
 
   const builtQueue = useMemo(() => {
     if (!student?.id) return null;
@@ -88,13 +100,27 @@ export const FeedScreen: React.FC = () => {
   }, [student?.id, language, masteryRecords, dueReviewNudges, currentDayRecord, upcomingExams, sessionMinutes]);
 
   useEffect(() => {
-    if (builtQueue) {
-      setQueue(builtQueue.reels);
+    if (!builtQueue) return;
+    const sessionChanged = activeSessionRef.current !== sessionKey;
+    activeSessionRef.current = sessionKey;
+    setQueue(builtQueue.reels);
+    if (sessionChanged) {
+      // A new session starts at the top; a rebuild inside one keeps the place.
       setCursor(0);
       consecutiveWrong.current = 0;
-      feedSignalState.current = new Map();
+      return;
     }
-  }, [builtQueue]);
+    // Keep the child on the same reel across a rebuild (clamped to the new length).
+    setCursor(Math.min(cursorRef.current, Math.max(0, builtQueue.reels.length - 1)));
+  }, [builtQueue, sessionKey]);
+
+  // The per-concept signal state spans a whole session, so it must survive a
+  // queue rebuild — and the queue DOES rebuild after every answer, because
+  // recordEvidence updates masteryRecords. Reset it only when the session
+  // identity changes (a different child, language or session length).
+  useEffect(() => {
+    feedSignalState.current = new Map();
+  }, [sessionKey]);
 
   // Legacy fallback cards (kept for when the engine yields nothing to show).
   const feed = useMemo<FeedCard[]>(() => {

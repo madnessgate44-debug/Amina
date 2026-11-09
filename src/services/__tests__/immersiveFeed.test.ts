@@ -178,5 +178,41 @@ assert(
   'the reel routes its speech through the visible audio element'
 );
 
+// --- R7 the feed records learning signals from the reel loop --------------
+assert(
+  /recordLearningSignal\(outcome\)/.test(feedScreen),
+  'the feed records a per-session learning signal from the reel loop'
+);
+assert(
+  /onAnswerOutcome=\{\(\{ correct, namedMisconception \}\)/.test(feedScreen),
+  'the feed passes the resolved answer outcome to the reel'
+);
+assert(
+  /onAnswerOutcome\?\.\(\{ correct, namedMisconception: result\.namedMisconception \}\)/.test(reelCard),
+  'the reel reports the named-misconception flag once the diagnosis resolves'
+);
+
+// --- the feed session survives the per-answer queue rebuild ---------------
+// recordEvidence updates masteryRecords, which is a builtQueue dependency, so
+// the queue rebuilds after EVERY answer. The cursor and the per-concept signal
+// state must not be rewound by that rebuild, or the child is bounced to reel 1
+// and `independentRecheckPassed` can never become true.
+assert(
+  /const sessionChanged = activeSessionRef\.current !== sessionKey/.test(feedScreen),
+  'the feed distinguishes a new session from a mid-session queue rebuild'
+);
+assert(
+  /setCursor\(Math\.min\(cursorRef\.current, Math\.max\(0, builtQueue\.reels\.length - 1\)\)\)/.test(feedScreen),
+  'a mid-session rebuild keeps the child on the same reel'
+);
+assert(
+  /feedSignalState\.current = new Map\(\);[\s\S]{0,80}\}, \[sessionKey\]\)/.test(feedScreen),
+  'the per-concept signal state is reset by the session key, not the queue'
+);
+assert(
+  /const sessionKey = `\$\{student\?\.id \?\? ''\}\|\$\{language\}\|\$\{sessionMinutes\}`/.test(feedScreen),
+  'the session key is built from the child, language and session length'
+);
+
 console.log(`\nIMMERSIVE FEED SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
