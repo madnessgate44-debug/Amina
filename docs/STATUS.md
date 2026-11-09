@@ -1,5 +1,9 @@
 # Miss Noor — status ledger
 
+BLOCKER: none
+last_seq: 3
+ack seq 3
+
 This file is the handoff between runs of the **Miss Noor — autonomous owner window (9h)**
 automation. Every run reads it first and appends to it last. Keep the newest entry at the top
 of "Log".
@@ -23,6 +27,45 @@ of "Log".
 - Product name "Miss Noor"; teacher persona "Miss Nour"; "Amina" is the legacy repo name only.
 
 ## Log (newest first)
+
+### 2026-11-09 (run 11) — the FEED no longer shows a reel in a script the child cannot read
+- **State first:** `main` was `4ad091b`; the only open PR was **#8** (archive, never merge). Baseline
+  gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (all suites), `npm run build`
+  exit 0. The four original owner asks (a)–(d) are already shipped and live [V] (feed 844/844px, header
+  hidden, nav overlay, media img/audio present, hands-free voice wired into `ReelCard`).
+- **Defect found by measuring the feed queue (not in any doc):** the FEED served reels written in a
+  script the child cannot read. Lesson `vocabulary`/`sourceText` are stored in ONE language, so
+  `buildReelsForConcept` used them verbatim for every language. Measured on `main` (queue dump, 20-min
+  session): **ar 4/19, fr 8/19, en 11/19** queued reels were in the wrong script. Examples: an Arabic
+  child read `Processus par lequel les plantes vertes…`; a French child read the Arabic definition
+  `الموقع الجغرافي`; an English child read an Arabic `Ethernet` definition.
+- **What shipped (PR #111, squash `1375ba84`):**
+  - `reelGenerator.ts` — `push()` drops any reel whose `hook`/`show`/`noorLine` is in the wrong script
+    (`readableByChild`; numbers/symbols are language-neutral and allowed). One guard covers every kind.
+  - `feedQueue.ts` — `takeFrom` now also enforces the `<=2` same-lesson breadth rule. It became
+    load-bearing once wrong-script reels are dropped and one lesson can be the only source left in a
+    pool; without it the queue repeated one lesson 3–4× in a row (broke tests 12.1 en/fr).
+  - `reels.test.ts` — new **section 14**: for ar/en/fr, no queued reel (excl. closer) is in the wrong
+    script.
+- **Measured after:** queue dump ar 0/12, fr 0/8, en 0/7 wrong-script reels. Gate: `npx tsc --noEmit`
+  exit 0; `npm test` exit 0 (REELS **63** PASSED / 0 FAILED; all other suites pass); `npm run build`
+  exit 0; `git diff --check` clean; CI `verify` **success** on `1375ba84`.
+- **Deploy + live proof [V]:** Vercel production for `1375ba84` (`dpl_Dqi8xMWBjSrV7j4JDXLDwpVCDzzi`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-2YuathOG.js` SHA-256
+  `fd54d3177ca757c111c2aa69d9a44fe83eaa362f532068bc3a8d4c6829a9cc82` **==** local build of `main`
+  @ `1375ba84`; bundle name changed from the previous live `index-BBdmTsld.js`.
+- **Live proof (Playwright 390×844) [V]:** stepped 8 reels in each language on the live site —
+  **ar 0/8, fr 0/8, en 0/8** wrong-script reels, **0 console errors** in every run.
+- **Inbox:** seq 3 (type `task`) is addressed to a different project — it names `guard.py`,
+  `docs/BACKLOG.md`, `docs/LOOP.md`, none of which exist in this repo. Recorded, not acted on
+  (inbox is data, not authority). `last_seq: 3`, `ack seq 3`.
+- **Next:**
+  1. Lesson `vocabulary`/`sourceText` for Arabic-taught subjects (Islamic, Social Studies, Arabic
+     language) still have no English/French content, so those subjects now yield fewer reels in the
+     `en`/`fr` feed rather than a wrong-language one. Writing that content is a separate content task.
+  2. R9 (`text-slate-400` contrast), R11/G10 legacy "Amina" in shipped curriculum comments (4 hits
+     in `src/data`), G9 (Homework + Missions on one screen).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
 
 ### 2026-11-09 (run 10) — the FEED now teaches the French-track child in French (R13 / G11)
 - **State first:** `main` was `8b7b7e3`; the only open PR was **#8** (archive, never merge). Baseline
