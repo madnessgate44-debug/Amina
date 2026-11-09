@@ -259,16 +259,28 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const pending: Record<string, Reel[]> = { due_review: [], today_lesson: [], exam_topic: [], curiosity: [], refill: [], diagnosis: [] };
 
   const takeFrom = (reason: ReelReason): Reel | undefined => {
-    const last = chosen[chosen.length - 1];
+    // Rule 2: no reel kind twice in a row. Breadth rule: a lesson may appear at
+    // most twice in a row. The second rule is what keeps a session from showing
+    // one lesson's whole reel set back-to-back; it became load-bearing once the
+    // generator started dropping wrong-script reels, which can leave one lesson
+    // as the only source left in a pool.
+    const fits = (reel: Reel): boolean => {
+      const n = chosen.length;
+      if (n === 0) return true;
+      const last = chosen[n - 1];
+      if (last.kind === reel.kind) return false;
+      return !(n >= 2 && chosen[n - 2].lessonId === reel.lessonId && last.lessonId === reel.lessonId);
+    };
+
     const deferred = pending[reason];
     for (let i = 0; i < deferred.length; i++) {
-      if (!last || last.kind !== deferred[i].kind) return deferred.splice(i, 1)[0];
+      if (fits(deferred[i])) return deferred.splice(i, 1)[0];
     }
     const pool = poolByReason[reason];
     while (cursors[reason] < pool.length) {
       const candidate = pool[cursors[reason]++];
-      if (last && last.kind === candidate.kind) {
-        deferred.push(candidate); // rule 2: no repeat kind — retry after another kind
+      if (!fits(candidate)) {
+        deferred.push(candidate); // retry after a different kind / lesson
         continue;
       }
       return candidate;

@@ -125,6 +125,23 @@ function wantedScript(lang: Language): 'ar' | 'latin' {
 }
 
 /**
+ * True when a piece of teaching text can be read by the child.
+ *
+ * Lesson vocabulary and source text are stored in ONE language, so a reel built
+ * from them can end up showing a sentence the child cannot read: an Arabic child
+ * read "Processus par lequel les plantes vertes…" and a French child read an
+ * Arabic definition. A reel in the wrong script is worse than no reel, so the
+ * generator drops it. Text with no letters at all (numbers, symbols) is
+ * language-neutral and always allowed. Exercises already get the same treatment
+ * via preferExercisesInLanguage; this closes the gap for the non-exercise fields.
+ */
+function readableByChild(text: string, lang: Language): boolean {
+  const s = scriptOf(text);
+  if (s === 'other') return true;
+  return s === wantedScript(lang);
+}
+
+/**
  * Orders exercises so the ones written in the child's language come first.
  * It is a stable reordering only — no exercise is dropped and none is
  * fabricated, so a lesson with no matching-language exercise still works.
@@ -193,6 +210,18 @@ export function buildReelsForConcept(
 
   let idx = 0;
   const push = (kind: ReelKind, partial: Partial<Reel> & Pick<Reel, 'hook' | 'show' | 'noorLine'>) => {
+    // The reel is READ on screen, so every piece of teaching text must be in a
+    // script the child can read. Lesson vocabulary and source text are stored in
+    // one language, so a reel built from them can otherwise show a sentence the
+    // child cannot read at all. A reel in the wrong script is worse than no
+    // reel; dropping it is the honest choice (see readableByChild).
+    if (
+      !readableByChild(partial.hook, lang) ||
+      !readableByChild(partial.show, lang) ||
+      !readableByChild(partial.noorLine, lang)
+    ) {
+      return;
+    }
     reels.push({
       id: reelId(lesson.id, concept.id, kind, idx++),
       kind,

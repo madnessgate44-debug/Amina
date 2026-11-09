@@ -430,6 +430,41 @@ function run() {
     `13.3: no French-instructed reel leaks English text (${leaking.length} of ${frTrackReels.length})`
   );
 
+  // ---- 14. No reel is written in a script the child cannot read ----
+  // Lesson vocabulary and source text are stored in ONE language, so a reel
+  // built from them used to show the other script to the child: an Arabic child
+  // read "Processus par lequel les plantes vertes…", and a French or English
+  // child read an Arabic definition. A reel in the wrong script is worse than no
+  // reel. Every reel that reaches the feed must be in the child's own script
+  // (numbers and symbols are language-neutral and allowed).
+  const scriptOf = (t: string): 'ar' | 'latin' | 'other' => {
+    const a = (t.match(/[\u0600-\u06FF]/g) || []).length;
+    const l = (t.match(/[A-Za-zÀ-ÿ]/g) || []).length;
+    return a > l ? 'ar' : l > a ? 'latin' : 'other';
+  };
+  const wanted: Record<string, 'ar' | 'latin'> = { ar: 'ar', en: 'latin', fr: 'latin' };
+  for (const lang of LANGS) {
+    const q = buildFeedQueue({
+      studentId: `stu_script_${lang}`,
+      language: lang,
+      mastery,
+      dueReviews: [],
+      todaySubjects: [],
+      examCalendar: [],
+      now,
+      sessionMinutes: 20,
+    });
+    const wrongScript = q.reels.filter((r) => {
+      if (r.conceptId === 'closer') return false;
+      const s = scriptOf(`${r.hook} ${r.show} ${r.noorLine}`);
+      return s !== 'other' && s !== wanted[lang];
+    });
+    assert(
+      wrongScript.length === 0,
+      `14.1 [${lang}]: no queued reel is in the wrong script (${wrongScript.length})`
+    );
+  }
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');
