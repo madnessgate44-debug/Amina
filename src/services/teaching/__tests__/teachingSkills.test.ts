@@ -204,5 +204,43 @@ const concept: CurriculumLessonConcept = {
   );
 }
 
+// 7. Arabic misconception content for ICT (ask #3, second subject).
+//    Every ICT concept is Arabic-taught and every wrong option must name its own
+//    misconception, or an Arabic child studying ICT gets a model answer instead
+//    of a real diagnosis.
+{
+  const ictLessons = curriculumService.getAllLessons().filter((l) => l.subjectId === 'subj_ict');
+
+  const allCovered = ictLessons.every((l) =>
+    l.concepts.every((c) => (c.misconceptions?.length || 0) > 0)
+  );
+  check('7.1 every ICT concept carries Arabic misconception data', allCovered);
+
+  let distractorResolves = true;
+  let wrongsDistinct = true;
+  let correctNeverDiagnosed = true;
+  for (const l of ictLessons) {
+    for (const c of l.concepts) {
+      const ids = new Set<string>((c.misconceptions || []).map((m) => m.id));
+      for (const d of c.distractors || []) {
+        const [value, misId] = String(d).split('|');
+        if (!misId || !ids.has(misId)) distractorResolves = false;
+        if (matchMisconception(value, c.misconceptions)?.id !== misId) distractorResolves = false;
+      }
+      const wrongOptions = (c.distractors || []).map((d) => String(d).split('|')[0]);
+      const diagnosed = new Set(wrongOptions.map((w) => matchMisconception(w, c.misconceptions)?.id));
+      if (diagnosed.size !== wrongOptions.length) wrongsDistinct = false;
+      // The correct answer of any exercise in the lesson must stay undiagnosed.
+      for (const ex of l.exercises) {
+        if (ex.type !== 'multiple_choice') continue;
+        if (matchMisconception(String(ex.expectedAnswer), c.misconceptions)) correctNeverDiagnosed = false;
+      }
+    }
+  }
+  check('7.2 every ICT distractor names its own misconception', distractorResolves);
+  check('7.3 distinct ICT wrong options get distinct diagnoses', wrongsDistinct);
+  check('7.4 a correct ICT answer is never diagnosed as a misconception', correctNeverDiagnosed);
+}
+
 console.log(`\nTEACHING SKILLS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
