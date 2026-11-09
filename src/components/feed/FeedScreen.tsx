@@ -17,6 +17,11 @@ import { curriculumService } from '../../services/curriculum/curriculumService';
 import { Mission } from '../../types';
 import { Reel } from '../../types/reel';
 import { buildFeedQueue, buildRetryAfterMistakes } from '../../services/reels/feedQueue';
+import { recordLearningSignal } from '../../services/telemetry/learningSignals';
+import {
+  FeedConceptState,
+  reduceFeedSignal,
+} from '../../services/telemetry/feedLearningSignals';
 import { QuizRunner } from '../missions/QuizRunner';
 import { HomeworkRunner } from '../missions/HomeworkRunner';
 import { TeachingSessionModal } from '../teaching/TeachingSessionModal';
@@ -52,6 +57,9 @@ export const FeedScreen: React.FC = () => {
   const [queue, setQueue] = useState<Reel[] | null>(null);
   const [cursor, setCursor] = useState(0);
   const consecutiveWrong = useRef(0);
+  // Per-concept session state for the learning signals, reset when the queue is
+  // rebuilt. Kept in a ref so a reel answer never re-renders the whole feed.
+  const feedSignalState = useRef<Map<string, FeedConceptState>>(new Map());
   const [reducedMotion, setReducedMotion] = useState(false);
   const [announcement, setAnnouncement] = useState('');
 
@@ -84,6 +92,7 @@ export const FeedScreen: React.FC = () => {
       setQueue(builtQueue.reels);
       setCursor(0);
       consecutiveWrong.current = 0;
+      feedSignalState.current = new Map();
     }
   }, [builtQueue]);
 
@@ -185,6 +194,21 @@ export const FeedScreen: React.FC = () => {
     });
   };
 
+  /**
+   * Record the per-session learning signals once a reel's answer is resolved.
+   * The reel loop is where most practice happens, so without this a whole feed
+   * session left no learning evidence behind — only the teaching modal did.
+   */
+  const handleReelOutcome = (reel: Reel, correct: boolean, namedMisconception: boolean) => {
+    if (reel.conceptId === 'closer') return;
+    const { state, outcome } = reduceFeedSignal(
+      feedSignalState.current.get(reel.conceptId),
+      { conceptId: reel.conceptId, correct, namedMisconception }
+    );
+    feedSignalState.current.set(reel.conceptId, state);
+    recordLearningSignal(outcome);
+  };
+
   const currentReel = queue && cursor < queue.length ? queue[cursor] : null;
 
   if (currentReel) {
@@ -213,6 +237,9 @@ export const FeedScreen: React.FC = () => {
           handsFreeEnabled={settings.companionVoiceEnabled}
           onAnswer={(correct) => {
             void handleReelAnswer(currentReel, correct);
+          }}
+          onAnswerOutcome={({ correct, namedMisconception }) => {
+            handleReelOutcome(currentReel, correct, namedMisconception);
           }}
           onReactionSpoken={() => {
             if (currentReel.kind !== 'win_closer') advance();
