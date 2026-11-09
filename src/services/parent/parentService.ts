@@ -15,7 +15,7 @@ import {
   Language,
 } from '../../types';
 import { IStorageService } from '../storage/IStorageService';
-import { curriculumService } from '../curriculum/curriculumService';
+import { curriculumService, FRENCH_SUBJECT_NAMES } from '../curriculum/curriculumService';
 import { formatMasteryView } from '../mastery/masteryEngine';
 import { getDueReviewConcepts } from '../review/spacedReviewScheduler';
 
@@ -77,6 +77,17 @@ export function isPastBedtime(preferences: ParentPreferences, currentTimeStr?: s
   return currentFormatted >= preferences.bedtime;
 }
 
+/**
+ * Subject labels for each supported language. Reads the real curriculum record
+ * so a subject is never mislabelled (F-02: French/Science must not fall back to
+ * "Science" or to English).
+ */
+function subjectLabel(meta: { subjectId: string; subjectNameAr: string; subjectNameEn: string }, language: Language): string {
+  if (language === 'ar') return meta.subjectNameAr;
+  if (language === 'fr') return FRENCH_SUBJECT_NAMES[meta.subjectId] || meta.subjectNameEn;
+  return meta.subjectNameEn;
+}
+
 export interface BuildParentSummaryParams {
   student: Student;
   dayRecords: DayRecord[];
@@ -108,12 +119,12 @@ export function generateParentWeeklySummary(params: BuildParentSummaryParams): P
   const flatConcepts = curriculumService.getFlatConcepts();
   const conceptMap = new Map(flatConcepts.map((c) => [c.id, c]));
 
-  // 1. Lessons covered count
+  // 1. Lessons covered count — the real total. No demo baseline: an empty
+  // database must read as zero, not as fabricated activity (F-02).
   let lessonsCount = 0;
   dayRecords.forEach((d) => {
     lessonsCount += d.lessonsCovered.length;
   });
-  if (lessonsCount === 0) lessonsCount = 4; // demo baseline
 
   // 2. Homework completion
   const hwTotal = Math.max(1, homeworkItems.length);
@@ -131,20 +142,17 @@ export function generateParentWeeklySummary(params: BuildParentSummaryParams): P
 
     const view = formatMasteryView(rec, language);
     if (view.threshold === 'needs_review' || rec.score < 0.6) {
-      const sName = meta.subjectId === 'subj_math'
-        ? (isAr ? 'الرياضيات' : 'Mathematics')
-        : meta.subjectId === 'subj_arabic'
-        ? (isAr ? 'اللغة العربية' : 'Arabic')
-        : (isAr ? 'العلوم' : 'Science');
+      // Read the subject name from the real curriculum record instead of mapping
+      // every non-maths/non-Arabic subject to "Science" (F-02).
+      const sName = subjectLabel(meta, language);
 
       subjectStruggles[sName] = (subjectStruggles[sName] || 0) + 1;
     }
   });
 
+  // An empty list means no subject needs attention. Do not push a sentence in as
+  // if it were a subject.
   const subjectsNeedingAttention = Object.keys(subjectStruggles);
-  if (subjectsNeedingAttention.length === 0) {
-    subjectsNeedingAttention.push(isAr ? 'جميع المواد تسير بانتظام واستقرار' : 'All subjects are on track smoothly');
-  }
 
   // 5. Recent achievements (specific, non-gamified wins)
   const recentAchievements: string[] = [];
@@ -177,13 +185,8 @@ export function generateParentWeeklySummary(params: BuildParentSummaryParams): P
     );
   }
 
-  if (recentAchievements.length === 0) {
-    recentAchievements.push(
-      isAr
-        ? 'تسجيل حضور والتزام إيجابي في بدء المذاكرة المدرسية اليومية.'
-        : 'Consistent engagement and positive start to daily learning.'
-    );
-  }
+  // No evidence of an achievement means an empty list. Do not manufacture
+  // praise that the child did not earn (F-02).
 
   // 6. One recommended action
   const recommendedAction = isAr
