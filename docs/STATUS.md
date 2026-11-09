@@ -24,6 +24,50 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-09 (run 9) — the FEED now records learning signals, and a feed session survives a tap (R7 + a feed reset defect)
+- **State first:** `main` was `f40cec4`; the only open PR was **#8** (archive, never merge). Baseline
+  gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (39 suites, 0 failed),
+  `npm run build` exit 0. The four original owner asks (a)–(d) are already shipped and live [V].
+- **What shipped (two PRs, one coherent unit):**
+  - **PR #106** (squash `2cb6e9f4`) — **R7**, the last open item in the audit plan. `recordLearningSignal`
+    was wired **only** into `TeachingSessionModal`; the feed — where most practice happens — recorded
+    nothing, so a whole reel session left no learning evidence. New pure reducer
+    `src/services/telemetry/feedLearningSignals.ts` maps each reel answer to `nextQuestionCorrect`,
+    `misconceptionResolved`, `independentRecheckPassed` (same rules as the modal); `ReelCard` gains
+    `onAnswerOutcome`, fired once the diagnosis resolves; `FeedScreen` records it from the reel loop.
+  - **PR #107** (squash `fd54cfb6`) — a defect **found by measuring the live app after #106**: answering
+    a reel calls `recordEvidence`, which updates `masteryRecords`, a `builtQueue` dependency, so the
+    queue rebuilds after **every** answer; the effect that applied it ran `setCursor(0)`, bouncing the
+    child back to reel 1 on each tap, and wiped the per-concept signal state so `independentRecheckPassed`
+    could never become true. Session is now keyed on child+language+session length (`sessionKey`); a
+    mid-session rebuild keeps the cursor (clamped) and the signal state, a real session change starts at
+    the top.
+- **Measured before/after on the LIVE site [V]:** reel counter went `1/17 → 2/17 → 3/17 → 1/17` before
+  the fix; after, `1 → 2 → 3 → 3 → 4` (no reset). Live signal probe: 8 answers → 8 signals across 2–3
+  concepts, `independentRecheckPassed` **0 before → 4/8 after**; wrong-answer path writes
+  `nextQuestionCorrect:false`; **0 console errors** in every run.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 — all suites pass, new `FEED LEARNING
+  SIGNALS 22/22`, `IMMERSIVE FEED 32→39`; `npm run build` exit 0; CI `verify` **success** on both merge
+  commits `2cb6e9f4` and `fd54cfb6`.
+- **Deploy [V]:** Vercel production **READY** for `fd54cfb6` (`amina-7ses034k9-forge-fe22`), aliased to
+  https://amina-nine-sepia.vercel.app.
+- **Prove live [V]:** live `assets/index-DgQgFH0U.js` SHA-256
+  `a980b4069599b576dc9f779a00b05a0c02b688b6fe53db4de1bb54fde41951a3` **identical** to the local build of
+  `main` @ `fd54cfb6`; bundle name changed from the previous live `index-3WWTfD--.js`; the live bundle
+  contains the `ais_learning_signals_v1` store key.
+- **Recipe (reusable):** seed IndexedDB directly to skip onboarding — `student` store (full Student,
+  `isOnboarded:true`) + `settings` store record `app_settings` (language `ar`, `companionVoiceEnabled:false`
+  so the reel advances on the read-timer, `micPermissionStatus:'denied'`), then reload. Feed options are
+  `button.min-h-[44px].px-4.py-3:not([disabled])`; the reel counter is the `div.fixed.bottom-24 div`
+  text; the skip control is `button:has-text('تخطّي')`. Read the recorded signals from
+  `localStorage['ais_learning_signals_v1']`.
+- **Next:**
+  1. R13 (`dailyLifeExampleFr`), R8/R9 (brand tokens / two contrast failures), G10 residual internal
+     `getAmina*` identifiers (not user-visible).
+  2. The feed session rebuild is now honest; consider whether `recordEvidence` should be debounced so the
+     queue is not rebuilt on every tap at all (perf, not correctness).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-09 (run 8) — the parent weekly summary no longer fabricates activity (F-02, PR #97)
 - **State first:** `main` was `9b5ec25`. Open PRs: **#97** (draft, parallel session's parent-summary
   honesty fix, head `8595eba`, CI green, idle ~16h) and **#8** (archive, never merge). Baseline gate
