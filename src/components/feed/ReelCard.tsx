@@ -82,11 +82,19 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   const [chosen, setChosen] = useState<number | null>(null);
   const [xpPop, setXpPop] = useState(false);
   const [muted, setMuted] = useState(false);
-  // Guard so the advance signal fires exactly once per answered reel.
+  // Guard so the advance signal fires exactly once per reel.
   const advancedRef = useRef(false);
   // Always call the latest parent callback without re-running the speech effect.
   const onReactionSpokenRef = useRef(onReactionSpoken);
   onReactionSpokenRef.current = onReactionSpoken;
+  // The one place that moves the feed on. Both paths that finish a reel — the
+  // spoken reaction to an answer, and a narration reel Noor has finished
+  // reading — funnel through here, so a reel can never advance twice.
+  const fireAdvance = () => {
+    if (advancedRef.current) return;
+    advancedRef.current = true;
+    onReactionSpokenRef.current?.();
+  };
   // The live reaction to the child's answer, once it arrives.
   const [reaction, setReaction] = useState<string | null>(null);
   const [namedMisconception, setNamedMisconception] = useState(false);
@@ -122,7 +130,18 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   // Noor has finished speaking — the microphone must never cut her off. The
   // ReelCard is keyed by reel id in the feed, so each question starts fresh.
   useEffect(() => {
-    if (!voiceEnabled || muted) return;
+    const asksQuestion = Boolean(reel.options?.length);
+    if (!voiceEnabled || muted) {
+      // No narration. A reel that asks nothing must still not sit still: hold
+      // it long enough to read, then move on. (A question reel waits for the
+      // child instead — silence there is a prompt, not a dead end.)
+      if (!asksQuestion) {
+        const readMs = Math.min(6000, 1800 + reel.noorLine.length * 40);
+        const t = window.setTimeout(fireAdvance, readMs);
+        return () => window.clearTimeout(t);
+      }
+      return;
+    }
     const spoken = `${reel.noorLine}`;
     if (handsFreeOn && reel.options?.length) {
       dispatchHandsFree({ type: 'tutor_turn_added' });
@@ -140,8 +159,23 @@ export const ReelCard: React.FC<ReelCardProps> = ({
         voiceService.cancelSpeech();
       };
     }
-    void voiceService.speak(spoken, language, markAudio, undefined, undefined, audioRef.current ?? undefined);
-    return () => voiceService.cancelSpeech();
+    // Noor narrates. When the reel asks no question there is nothing for the
+    // child to do, so the feed advances the moment she stops speaking — this is
+    // what keeps a narration reel (teach card, story, vocabulary) from sitting
+    // still forever. A question reel waits for the child, so it does not advance
+    // here. The 12s net means a silent speech engine cannot wedge the feed.
+    let narrationDone = false;
+    const onNarrationEnd = () => {
+      if (narrationDone) return;
+      narrationDone = true;
+      if (!asksQuestion) fireAdvance();
+    };
+    void voiceService.speak(spoken, language, markAudio, onNarrationEnd, onNarrationEnd, audioRef.current ?? undefined);
+    const t = asksQuestion ? undefined : window.setTimeout(onNarrationEnd, 12000);
+    return () => {
+      if (t) window.clearTimeout(t);
+      voiceService.cancelSpeech();
+    };
   }, [reel.id, voiceEnabled, muted, language, reel.noorLine, handsFreeOn, reel.options?.length]);
 
   /**
@@ -198,12 +232,6 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   useEffect(() => {
     if (!reaction) return;
     if (advancedRef.current) return;
-
-    const fireAdvance = () => {
-      if (advancedRef.current) return;
-      advancedRef.current = true;
-      onReactionSpokenRef.current?.();
-    };
 
     if (!voiceEnabled || muted) {
       // No audio: hold the reaction long enough to read, then move on.
