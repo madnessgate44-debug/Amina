@@ -24,6 +24,40 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-09 (run 10) — the FEED now teaches the French-track child in French (R13 / G11)
+- **State first:** `main` was `8b7b7e3`; the only open PR was **#8** (archive, never merge). Baseline
+  gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (all suites 0 failed),
+  `npm run build` exit 0. The four original owner asks (a)–(d) are already shipped and live [V]:
+  feed is full-screen (docScrollH == vh, header hidden, nav overlay), reel media audio=1/canvas=1,
+  and the feed correctly **waits** for the child's spoken answer (it is not a static fixed timeout).
+- **Defect found by measuring the live app (390x844, `language: 'fr'`):** the FEED served **English**
+  to a French child. The Girard French-section child reads maths, science and French **in French**,
+  but `reelGenerator` mapped `fr` onto the English concept fields and the feed chrome had no French
+  branch at all. Measured live: **8 of 17** queued reels were English-only, e.g.
+  `Indefinite articles are like hats words wear…` and `If a notebook costs 3.45 pounds…`.
+- **What shipped (PR #109, squash `48367ce9`):**
+  - optional French fields on `CurriculumLessonConcept` (`titleFr`, `sourceTextFr`,
+    `dailyLifeExampleFr`, `storyAnalogyFr`, `prerequisiteFr`);
+  - `src/data/curriculum/frenchTrackContent.ts` — a French overlay for the **29** concepts taught in
+    French, merged in `CurriculumService`, so every reader (feed, teaching session) sees French;
+  - the reel engine and teaching session now use the French fields; French branches added to
+    `FeedScreen` and `ReelCard` chrome;
+  - regression test **reels 13.x**: every French-instructed concept carries French content and no
+    French-instructed reel leaks English text.
+- **Gate:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed; reels now 60 passed);
+  `npm run build` exit 0; `git diff --check` clean.
+- **Deploy + live proof [V]:** Vercel production for `48367ce92` reached **READY** (promoted);
+  live `https://amina-nine-sepia.vercel.app/assets/index-BBdmTsld.js` SHA-256
+  `a0dd120f87f65513cf382a47d931538b8336a3f60d3d88586b3c56828ffeaa9e` **==** local build of `main`.
+  Playwright on the live app in `fr` now shows French chrome (`Niveau`, `Explique-moi plus`,
+  `Passer`) and French content (`Les articles indéfinis sont comme des chapeaux…`,
+  `Si un cahier coûte 3,45 livres…`, correction `Tu y es presque !`). 0 console errors.
+- **Deferred (not fixed):** concepts whose instruction language is **Arabic** (e.g. Islamic
+  education) still fall back to English in the `fr` feed. Separate concern; needs its own decision.
+- **Next:** (1) the Arabic-instructed-subject-in-French-feed fallback above; (2) R9 (`text-slate-400`
+  contrast, 308 uses); (3) R11/G10 legacy "Amina" in shipped curriculum comments (4 hits in
+  `src/data`); (4) G9 (Homework + Missions on one screen).
+
 ### 2026-11-09 (run 9) — the FEED now records learning signals, and a feed session survives a tap (R7 + a feed reset defect)
 - **State first:** `main` was `f40cec4`; the only open PR was **#8** (archive, never merge). Baseline
   gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0 (39 suites, 0 failed),
