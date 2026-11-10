@@ -1,0 +1,36 @@
+{
+  "mission": "Live proof — Arabic diagnosis for the French-maths comparison reel",
+  "baseURL": "https://amina-nine-sepia.vercel.app",
+  "startedAt": "2026-11-10T06:13:07.788Z",
+  "viewport": "390x844",
+  "steps": [
+    "opened FEED tab",
+    "reached comparison reel: true",
+    "clicking '<' at {\"x\":195,\"y\":609.3125,\"w\":314,\"h\":46.5}"
+  ],
+  "consoleErrors": [],
+  "result": {
+    "before": {
+      "counter": "3 / 13",
+      "subject": "مستوى 1\n1\n☀️\nحاجة جديدة\nنور\n\nتعالي نبدأ "
+    },
+    "box": {
+      "x": 195,
+      "y": 609.3125,
+      "w": 314,
+      "h": 46.5
+    },
+    "after": {
+      "latinSentence": true,
+      "screenshotText": "قربت! هشرحلك الفكرة تاني.\nمستوى 1\n1\n☀️\nحاجة جديدة\nنور\n\nتعالي نبدأ بحاجة صغيرة عن «ملحقات الحاسب الآلي ووظيفة كل منها».\n\nتكنولوجيا المعلومات والاتصالات\nعندما تشاهدين فيديو تعليمياً مع مس نور وتصلين الل"
+    }
+  },
+  "capturedReaction": {
+    "snapCount": 7,
+    "hasBadge": true,
+    "arabicDiagnosis": "ظننتِ أن 6,05 أكبر من 6,5 لأن أرقامه بعد العلامة أكثر. ساوي عدد الخانات بإضافة صفر: 6,5 = 6,50. بعدها قارني خانة بخانة: 50 جزء من مئة أكبر من 5 أجزاء من مئة، إذن 6,5 > 6,05.",
+    "namedPrefix": "لأ يا بطل، خلّينا نفهم إيه اللي حصل. ظننتِ أن 6,05 أكبر من 6,5 لأن أرقامه بعد العلامة أكثر. ساوي عدد الخانات بإضافة صفر: 6,5 = 6,50. بعدها قارني خانة بخانة: 50 جزء من مئة أكبر من 5 أجزاء من مئة، إذن 6,5 > 6,05.",
+    "genericWrongSeen": true
+  },
+  "finishedAt": "2026-11-10T06:13:21.853Z"
+}
