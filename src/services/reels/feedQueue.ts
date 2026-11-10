@@ -26,7 +26,7 @@ import { SpacedReviewSchedule } from '../../types/spacedReview';
 import { UpcomingExam } from '../../types/examCalendar';
 import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept, buildWinCloser, sourceLabelFor } from './reelGenerator';
-import { matchMisconception } from '../teaching/skills/teachingSkills';
+import { matchMisconception, misconceptionText } from '../teaching/skills/teachingSkills';
 import { speaksLanguage } from './reelResponse';
 import { createSeededRng } from './seededRng';
 
@@ -207,7 +207,7 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
     for (const concept of lesson.concepts) {
       if (!concept.misconceptions || concept.misconceptions.length === 0) continue;
       const servable = concept.misconceptions.some((m) =>
-        speaksLanguage(`${m.explanation} ${m.remediation}`.trim(), lang)
+        speaksLanguage(misconceptionText(m, lang), lang)
       );
       if (!servable) continue;
       const reels = buildReelsForConcept(lesson, concept, lang, { reason: 'diagnosis' });

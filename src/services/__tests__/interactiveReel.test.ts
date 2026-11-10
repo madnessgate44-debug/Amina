@@ -14,9 +14,11 @@
  */
 
 import { buildReelsForConcept } from '../reels/reelGenerator';
-import { resolveReelResponse, matchSpokenOption } from '../reels/reelResponse';
+import { resolveReelResponse, matchSpokenOption, speaksLanguage } from '../reels/reelResponse';
+import { misconceptionText } from '../teaching/skills/teachingSkills';
 import { curriculumService } from '../curriculum/curriculumService';
 import { Reel } from '../../types/reel';
+import type { ConceptMisconception } from '../../types/teachingSession';
 
 let passed = 0;
 let failed = 0;
@@ -118,8 +120,10 @@ async function main() {
     check('5.1 two different wrong answers get different diagnoses', other.text !== wrongResult.text);
   }
 
-  // --- Language guard: a French diagnosis must never be injected into Arabic. ---
-  // Build the reel the way the app would for an Arabic child, then answer wrong.
+  // --- Arabic child on a French-track concept: the diagnosis is served in
+  //     Arabic, at zero quota. This lesson stores its explanation in French, so
+  //     an Arabic child used to fall through to the model; the stored Arabic
+  //     rendering now names the misconception in the child's own script. ---
   const arReels = buildReelsForConcept(lesson, conceptWithMis, 'ar');
   const arQuestion = arReels.find((r) => r.options && r.options.length > 1)!;
   const arWrong = arQuestion.options!.find((o) => !o.isCorrect)!;
@@ -131,11 +135,31 @@ async function main() {
     studentName: 'سارة',
   });
   const hasLatin = /[A-Za-zÀ-ÿ]{4,}/.test(arabicResult.text);
-  check('6.1 a French misconception is not injected into an Arabic reply', !hasLatin,
+  check('6.1 the Arabic reply carries no French sentence', !hasLatin,
     `got: ${arabicResult.text.slice(0, 60)}`);
-  check('6.2 the mismatched diagnosis is not reported as named', arabicResult.namedMisconception === false);
-  check('6.3 the child still gets a reaction in their own language', /[\u0600-\u06FF]/.test(arabicResult.text));
-  check('6.4 the mismatched path is honest about being degraded', arabicResult.degraded === true);
+  check('6.2 an Arabic child is diagnosed, not left to the model',
+    arabicResult.namedMisconception === true && arabicResult.source === 'misconception');
+  check('6.3 the child gets a reaction in their own language', /[\u0600-\u06FF]/.test(arabicResult.text));
+  check('6.4 the Arabic diagnosis costs no quota', arabicResult.degraded === false);
+
+  // --- Language guard: a genuinely French-only diagnosis must never be
+  //     injected into Arabic. No curriculum concept is French-only any more
+  //     (every French-track concept now carries an Arabic rendering), so the
+  //     guard's contract is asserted directly: the predicate rejects French for
+  //     an Arabic child, and a French-only entry yields French text — which is
+  //     exactly the input the guard then refuses. ---
+  check('6.5 the guard rejects French text for an Arabic child',
+    speaksLanguage('La virgule donne sa valeur au chiffre.', 'ar') === false);
+  check('6.6 the guard accepts Arabic text for an Arabic child',
+    speaksLanguage('العلامة العشرية تعطي الرقم قيمته.', 'ar') === true);
+  const frenchOnly: ConceptMisconception = {
+    id: 'mis_french_only',
+    trigger: 'x',
+    explanation: 'Texte français sans version arabe.',
+    remediation: 'Suite du texte.',
+  };
+  check('6.7 a French-only entry yields French for an Arabic child',
+    speaksLanguage(misconceptionText(frenchOnly, 'ar'), 'ar') === false);
 
   // The same concept answered in French still gets the full diagnosis.
   const frReels = buildReelsForConcept(lesson, conceptWithMis, 'fr');
@@ -147,7 +171,7 @@ async function main() {
     correct: false,
     language: 'fr',
   });
-  check('6.5 a French child still gets the stored diagnosis',
+  check('6.8 a French child still gets the stored diagnosis',
     frenchResult.source === 'misconception' && frenchResult.namedMisconception === true);
 
   // --- Spoken answer (owner ask #2: voice turn-taking in the feed) ----------

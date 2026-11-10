@@ -9,10 +9,12 @@
 
 import {
   matchMisconception,
+  misconceptionText,
   diagnoseMisconceptionSkill,
   explainInLayersSkill,
   groundedVisualSkill,
 } from '../skills/teachingSkills';
+import { speaksLanguage } from '../../reels/reelResponse';
 import { selectTeachingSkill, VISUAL_ESCALATION_ATTEMPT } from '../skills/selectTeachingSkill';
 import { evaluateStudentAnswer } from '../../homework/homeworkGenerator';
 import { curriculumService } from '../../curriculum/curriculumService';
@@ -334,6 +336,50 @@ const concept: CurriculumLessonConcept = {
   check('9.4 a correct maths answer is never diagnosed as a misconception', correctNeverDiagnosed);
   check('9.5 every maths trigger matches itself', triggersSelfMatch);
   check('9.6 every maths diagnosis is written in Arabic', allArabic);
+}
+
+// 10. The French-maths track is diagnosable for an Arabic child (ask #3, final
+//     gap). Its misconceptions were authored in French, so an Arabic child who
+//     tapped a wrong option fell through to the model. Each now carries an
+//     Arabic rendering, and the comparison-sign triggers ("<", "=") match their
+//     own option after the matcher learned to compare symbols. The correct
+//     answer must still never be diagnosed.
+{
+  const mathFrLessons = curriculumService
+    .getAllLessons()
+    .filter((l) => l.id.startsWith('off_mathfr_'));
+
+  let allArabic = true;
+  let distractorResolves = true;
+  let correctNeverDiagnosed = true;
+  let symbolTriggersMatch = true;
+  for (const l of mathFrLessons) {
+    for (const c of l.concepts) {
+      const mis = c.misconceptions || [];
+      for (const m of mis) {
+        if (!speaksLanguage(misconceptionText(m, 'ar'), 'ar')) allArabic = false;
+        // A symbol trigger ("<", "=") has no letters, so it must still resolve
+        // to itself rather than to nothing.
+        if (!/[A-Za-z\u0600-\u06FF]/.test(m.trigger) && matchMisconception(m.trigger, mis)?.id !== m.id) {
+          symbolTriggersMatch = false;
+        }
+      }
+      const ids = new Set(mis.map((m) => m.id));
+      for (const d of c.distractors || []) {
+        const [value, misId] = String(d).split('|');
+        if (!misId || !ids.has(misId)) distractorResolves = false;
+        if (matchMisconception(value, mis)?.id !== misId) distractorResolves = false;
+      }
+      for (const ex of l.exercises) {
+        if (ex.type !== 'multiple_choice') continue;
+        if (matchMisconception(String(ex.expectedAnswer), mis)) correctNeverDiagnosed = false;
+      }
+    }
+  }
+  check('10.1 every French-maths diagnosis is servable in Arabic', allArabic);
+  check('10.2 every French-maths distractor names its own misconception', distractorResolves);
+  check('10.3 a symbol trigger still matches itself', symbolTriggersMatch);
+  check('10.4 a correct French-maths answer is never diagnosed', correctNeverDiagnosed);
 }
 
 console.log(`\nTEACHING SKILLS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);

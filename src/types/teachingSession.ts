@@ -65,6 +65,16 @@ export interface ConceptMisconception {
   explanation: string;
   /** The reframing that clears the misunderstanding. */
   remediation: string;
+  /**
+   * Arabic rendering of the diagnosis, for a child reading Arabic.
+   *
+   * A French-track concept (maths, science, French) stores its explanation and
+   * remediation in French, so an Arabic child who taps the same wrong option
+   * would otherwise fall through to the model. When present, this is served
+   * instead of the French text, so the diagnosis stays in the child's script.
+   */
+  explanationAr?: string;
+  remediationAr?: string;
 }
 
 export interface CurriculumLessonConcept {
