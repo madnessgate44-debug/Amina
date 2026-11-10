@@ -136,6 +136,18 @@ function main() {
   const sciItems = mediaForConcept('off_sci_u1_l1_plant_needs', 'off_sci_u1_l1_c1');
   check('mediaForConcept returns the science concept media', sciItems.length === 2, `got ${sciItems.length}`);
 
+  // 9b. The media reaches the reels the feed actually builds for a fresh
+  // student. The first reel the live feed shows is off_ict_u2_l1_c1; before
+  // this change it fell back to the text-derived canvas, which is why the reel
+  // read as static. Each of these concepts must now resolve to a real asset.
+  const feedReach = [
+    ['off_ict_u2_l1', 'off_ict_u2_l1_c1'],
+    ['off_ar_u1_l1_ana_astatee', 'off_ar_u1_l1_c1'],
+    ['off_sci_u1_l3_coral_bleaching', 'off_sci_u1_l3_c1'],
+  ] as const;
+  const reachMissing = feedReach.filter(([l, c]) => mediaForConcept(l, c).length === 0);
+  check('media covers the concepts the feed queues first (ICT, Arabic story, science)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
+
   // 10. Types present: at least one image, one video and one narration.
   const types = new Set(MEDIA_CATALOG.map((m) => m.type));
   check('the catalog covers images and video', types.has('image') && types.has('video'), [...types].join(','));

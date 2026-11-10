@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Story illustration — off_ar_u1_l1_ana_astatee («أنا أستطيع»).
+  Text-free: the scene carries the story's central metaphor (the horse that
+  shakes off the earth thrown on its back and climbs out of the pit), so no
+  language is baked into the picture.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#fef9c3"/>
+    </linearGradient>
+    <linearGradient id="earth" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#b45309"/>
+      <stop offset="1" stop-color="#78350f"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#sky)"/>
+
+  <!-- Sun -->
+  <circle cx="820" cy="110" r="58" fill="#fbbf24"/>
+  <g stroke="#fbbf24" stroke-width="10" stroke-linecap="round">
+    <line x1="820" y1="24" x2="820" y2="0"/>
+    <line x1="900" y1="110" x2="930" y2="110"/>
+    <line x1="876" y1="54" x2="898" y2="32"/>
+    <line x1="764" y1="54" x2="742" y2="32"/>
+  </g>
+
+  <!-- Ground -->
+  <rect y="430" width="960" height="170" fill="url(#earth)"/>
+  <rect y="430" width="960" height="14" fill="#92400e"/>
+
+  <!-- Pit -->
+  <path d="M330,444 L630,444 L560,600 L400,600 Z" fill="#3f2410"/>
+
+  <!-- Rising horse (head + neck above the rim) -->
+  <g transform="translate(480,300)">
+    <path d="M-46,150 C-70,90 -30,40 10,44 C44,48 66,86 60,140 Z" fill="#7c2d12" stroke="#431407" stroke-width="6"/>
+    <!-- head -->
+    <path d="M4,44 C40,20 78,34 84,64 C88,88 62,100 40,96 C20,92 6,72 4,44 Z" fill="#9a3412" stroke="#431407" stroke-width="6"/>
+    <!-- mane -->
+    <path d="M6,42 C-6,10 -14,4 -26,6" fill="none" stroke="#431407" stroke-width="14" stroke-linecap="round"/>
+    <!-- eye -->
+    <circle cx="56" cy="62" r="6" fill="#1c1917"/>
+    <!-- ear -->
+    <path d="M40,34 L46,14 L58,32 Z" fill="#9a3412" stroke="#431407" stroke-width="5"/>
+  </g>
+
+  <!-- Dirt clods falling onto the horse's back (the metaphor) -->
+  <g fill="#78350f" stroke="#431407" stroke-width="4">
+    <circle cx="470" cy="300" r="16"/>
+    <circle cx="516" cy="268" r="12"/>
+    <circle cx="446" cy="248" r="10"/>
+    <circle cx="504" cy="330" r="9"/>
+  </g>
+  <!-- Motion arcs: dirt sliding off the back -->
+  <g fill="none" stroke="#78350f" stroke-width="7" stroke-linecap="round" opacity="0.85">
+    <path d="M436,352 C410,368 386,372 366,368"/>
+    <path d="M540,352 C566,368 590,372 610,368"/>
+  </g>
+
+  <!-- Upward step arrows: each clod lifts the horse one step -->
+  <g stroke="#16a34a" stroke-width="9" fill="#16a34a" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M250,520 L250,470" />
+    <path d="M250,470 L232,492 M250,470 L268,492"/>
+    <path d="M710,520 L710,470" />
+    <path d="M710,470 L692,492 M710,470 L728,492"/>
+  </g>
+</svg>
