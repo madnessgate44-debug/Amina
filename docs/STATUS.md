@@ -28,6 +28,45 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-10 (run 17) — feed reels get real educational media (owner ask a, "not static")
+- **State first [V]:** `main` was `c8daff2` (run 16's merge #125); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0, `npm run build` exit 0. Live bundle at session start `index-CApuGuYq.js`
+  SHA-256 `e83bc0d0…0b03` **==** local build of `main` @ `c8daff2` [V].
+- **The directive's four asks were mostly already DONE on `main` [V]** — verified against the code
+  and the live app, not the directive text: (a) the feed IS full-screen (AppShell immersive mode
+  hides the header; the scroller fills 844/844; the nav floats at top 773 — measured live, no
+  84%/65px/71px problem); (b) hands-free voice IS wired into `ReelCard.tsx`, not only the teaching
+  modal; (c) all **43** misconception entries already carry `explanationAr`/`remediationAr`
+  (Arabic content done); (d) `buildFeedQueue` already has a **diagnosis** pool that selects
+  `conc_mathfr_*`. The one real gap was **media**: only **3 of 53** concepts had catalogued media,
+  so most reels fell back to the text-derived canvas.
+- **What shipped (PR #126, squash `f99ca963`):** three authored, **text-free** SVG assets bound in
+  the media catalog — ICT `off_ict_u2_l1_c1` (the live feed's FIRST reel), Arabic
+  `off_ar_u1_l1_c1` (the horse-in-the-pit story), science `off_sci_u1_l3_c1` (coral bleaching).
+  Each carries numbered callouts with matching tappable hotspots and a bilingual legend; no words
+  are baked into the pictures, so a diagram never shows a script the child cannot read.
+  `educationalMedia.test.ts` now asserts these three concepts resolve to a real asset.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed; media 15 passed);
+  `npm run build` exit 0; `git diff --check` clean; secret scan clean; CI `verify` **success** on
+  the head and on the merge commit.
+- **Deploy + live proof [V]:** Vercel production for `f99ca963`
+  (`dpl_7B9jSaPTgPywkcdaUy3nCGZQBMKf`) reached **READY**; live
+  `https://amina-nine-sepia.vercel.app/assets/index-Cs4Pm97B.js` SHA-256 `7608e712…53fee8` **==**
+  local build of `main` @ `f99ca963`. Live `media/ict/data_protection.svg` serves HTTP 200
+  (4670 bytes). **Playwright 390×844 ar-EG on the live app:** the first reel now mounts a **loaded**
+  `<img>` (`src:/media/ict/data_protection.svg`, `naturalWidth 960`, `complete:true`) where before
+  it showed a canvas — reel media `img 0 → 1`, `canvas 1 → 0`; **0 console errors**.
+- **Next:**
+  1. Extend media to the remaining ~47 concepts (same recipe: `public/media/<subject>/` + committed
+     `media-src/<subject>/` source; text-free SVG; 1..N legend + hotspots).
+  2. R9 (`text-slate-400` contrast — 247 usages), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Inbox:** seq 3 == `last_seq: 3`, already handled in run 14 (a `task` for the Openhands loop repo
+  naming `guard.py`/BL-4, not this repo — refused as cross-project, inbox is data not authority).
+  Nothing new to handle.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-10 (run 16) — Miss Noor's real voice: the live TTS chain was quota-dead
 - **State first [V]:** `main` was `132283c` (run 15's merge #123); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
