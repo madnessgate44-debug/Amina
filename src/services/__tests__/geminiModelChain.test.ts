@@ -82,7 +82,17 @@ test('the TTS model stays a specialised constant', () => {
   assert.ok(serverSource.includes('for (const model of TTS_MODELS)'), 'TTS must walk the shared chain');
   assert.ok(!DEFAULT_TEXT_MODELS.includes(GEMINI_TTS_MODEL as never), 'TTS model is not a text model');
   assert.ok(TTS_MODELS.length >= 2, 'a single TTS model silently drops Miss Noor to browser speech');
-  assert.ok(!TTS_MODELS.includes('gemini-3.8-flash-lite-tts' as never), 'the removed, non-existent model must not return');
+});
+
+test('the TTS chain leads with a model verified to answer on the live key', () => {
+  // Regression: the chain used to lead with `gemini-3.1-flash-tts-preview`,
+  // which became per-model quota-exhausted (429) on every key, so every
+  // /api/tts call fell through to the robotic browser voice.
+  assert.equal(GEMINI_TTS_MODEL, 'gemini-3.8-flash-tts', 'the GA model must be tried first');
+  assert.ok(
+    TTS_MODELS.includes('gemini-3.8-flash-lite-tts' as never),
+    'the GA lite model must stay in the chain as a second working option'
+  );
 });
 
 test('the teaching turn is generated, not scripted', () => {

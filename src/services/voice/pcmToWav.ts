@@ -35,7 +35,23 @@ export function wavHeader(dataBytes: number, sampleRate: number, channels = 1, b
   return header;
 }
 
-/** Wrap base64 PCM into base64 WAV. Returns the input unchanged when empty. */
+/** True when the base64 payload already begins with a RIFF/WAVE header. */
+export function isRiffWavBase64(base64Audio: string): boolean {
+  if (!base64Audio) return false;
+  // 'RIFF' is the first 4 bytes; base64 of any 4 bytes is 8 chars, but the
+  // decoder is cheap and unambiguous, so decode rather than guess.
+  const head = Buffer.from(base64Audio.slice(0, 12), 'base64');
+  return head.length >= 4 && head.toString('ascii', 0, 4) === 'RIFF';
+}
+
+/**
+ * Wrap base64 PCM into base64 WAV. Returns the input unchanged when empty.
+ *
+ * Idempotent: the GA TTS models already return a complete WAV (mimeType
+ * `audio/wav`), while the older preview models returned headerless PCM. Wrapping
+ * an already-WAV payload would prepend a second 44-byte header and corrupt the
+ * file, so an existing RIFF header is passed through untouched.
+ */
 export function pcmBase64ToWavBase64(
   pcmBase64: string,
   sampleRate: number,
@@ -43,6 +59,7 @@ export function pcmBase64ToWavBase64(
   bitsPerSample = 16
 ): string {
   if (!pcmBase64) return pcmBase64;
+  if (isRiffWavBase64(pcmBase64)) return pcmBase64;
   const pcm = Buffer.from(pcmBase64, 'base64');
   const wav = Buffer.concat([wavHeader(pcm.length, sampleRate, channels, bitsPerSample), pcm]);
   return wav.toString('base64');
