@@ -36,9 +36,15 @@ function lessonWithMisconceptions() {
   const lessons = curriculumService.getAllLessons();
   // This suite exercises the French diagnosis path and the cross-language guard
   // (a French diagnosis must not be injected into an Arabic reply), so it needs
-  // a lesson whose misconception text is French, not merely the first one found.
+  // a lesson whose misconception text is genuinely French. A mixed string that
+  // also carries Arabic is an Arabic diagnosis, not a French one, so requiring
+  // Latin alone is not enough — the script must be French and not Arabic.
   return lessons.find((l) =>
-    l.concepts.some((c) => (c.misconceptions ?? []).some((m) => /[A-Za-zÀ-ÿ]/.test(m.explanation)))
+    l.concepts.some((c) =>
+      (c.misconceptions ?? []).some(
+        (m) => /[A-Za-zÀ-ÿ]/.test(m.explanation) && !/[\u0600-\u06FF]/.test(m.explanation)
+      )
+    )
   );
 }
 
