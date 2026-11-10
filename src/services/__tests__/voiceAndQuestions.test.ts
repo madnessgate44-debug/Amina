@@ -17,7 +17,7 @@ import { pickBestVoice, hasVoiceForLanguage, VoiceLike } from '../voice/voiceSel
 import { getQuizQuestionsForConcept, getReelForConcept, realQuestionsForConcept } from '../content/contentGenerator';
 import { personalizeNoorText } from '../stage/personalizeNoorText';
 import { curriculumService } from '../curriculum/curriculumService';
-import { pcmBase64ToWavBase64 } from '../voice/pcmToWav';
+import { pcmBase64ToWavBase64, wavHeader } from '../voice/pcmToWav';
 
 let passed = 0;
 const test = (name: string, fn: () => void) => {
@@ -195,6 +195,18 @@ test('4.3 the TTS route no longer serves raw PCM under an audio/wav label', () =
   const src = readFileSync(new URL('../../../server.ts', import.meta.url), 'utf8');
   assert.ok(src.includes('pcmBase64ToWavBase64('), 'server.ts must wrap PCM before caching');
   assert.ok(src.includes('TTS_SAMPLE_RATE'), 'server.ts must use the shared sample rate');
+});
+
+// 4.4 The GA TTS models already return a complete WAV, so wrapping them would
+// double the 44-byte header and corrupt the audio. Wrapping must be idempotent.
+test('4.4 an already-WAV payload is not wrapped a second time', () => {
+  const wav = Buffer.concat([wavHeader(8, 24000), Buffer.from([1, 2, 3, 4, 5, 6, 7, 8])]);
+  const once = wav.toString('base64');
+  const twice = pcmBase64ToWavBase64(once, 24000);
+  assert.equal(twice, once, 'a RIFF/WAVE payload must pass through unchanged');
+  const buf = Buffer.from(twice, 'base64');
+  assert.equal(buf.length, wav.length, 'no second header may be prepended');
+  assert.equal(buf.readUInt32LE(24), 24000, 'the original sample rate is preserved');
 });
 
 console.log(`\nVOICE + QUESTIONS SUITE SUMMARY: ${passed} PASSED, ${process.exitCode ? '1+' : 0} FAILED`);

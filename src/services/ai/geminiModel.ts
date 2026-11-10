@@ -44,18 +44,25 @@ export const DEFAULT_STT_MODEL = 'gemini-3.8-flash';
 
 /**
  * Text-to-speech model chain. Speech models are specialised, so the text chain
- * above never applies. Ordered: the newest verified TTS model first, then older
- * ones that still answer on the same key.
+ * above never applies. Ordered: the models verified to answer on the live key
+ * first, then the older preview models as fallbacks.
  *
- * Why a chain: the previous single name (`gemini-3.8-flash-lite-tts`) does not
- * exist on the live model list (verified 2026-10-30). Every TTS call 404'd,
- * `/api/tts` silently returned `useBrowserSpeech:true`, and Miss Noor's voice
- * was the robotic browser one with no real audio for the reel to show.
+ * Why the order matters (verified 2026-11-10): the GA `gemini-3.8-flash-tts`
+ * and `gemini-3.8-flash-lite-tts` answer, but the older preview names the chain
+ * used to lead with are now per-model quota-exhausted (429) on every key. A
+ * preview model first therefore made EVERY `/api/tts` call fall through to the
+ * robotic browser voice — the child heard no real speech and the reel's `<audio>`
+ * stayed hidden. Leading with the models that actually answer restores Miss
+ * Noor's voice.
+ *
+ * The preview models stay in the chain on purpose: a quota is per-model and
+ * resets, so on a key where they answer again they are a valid fallback.
  */
 export const TTS_MODELS = [
+  'gemini-3.8-flash-tts',
+  'gemini-3.8-flash-lite-tts',
   'gemini-3.1-flash-tts-preview',
   'gemini-2.5-flash-preview-tts',
-  'gemini-2.5-pro-preview-tts',
 ] as const;
 
 /** The first TTS model tried. */
