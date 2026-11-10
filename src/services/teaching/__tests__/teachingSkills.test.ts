@@ -286,5 +286,55 @@ const concept: CurriculumLessonConcept = {
   check('8.5 every new trigger matches itself', triggersSelfMatch);
 }
 
+// 9. Arabic misconception content for Mathematics (ask #3, final Arabic wave).
+//    Seven Arabic maths lessons still had zero misconception data, so a wrong
+//    Arabic maths answer fell through to the model. Every remaining Arabic maths
+//    concept now carries a diagnosis. Triggers are whole numeric expressions or
+//    distinctive Arabic phrases, never a bare digit that also occurs in the
+//    correct answer, so the correct answer can never be diagnosed.
+{
+  const mathLessons = curriculumService
+    .getAllLessons()
+    .filter((l) => l.subjectId === 'subj_math' && !l.id.startsWith('off_mathfr_'));
+
+  const allCovered = mathLessons.every((l) =>
+    l.concepts.every((c) => (c.misconceptions?.length || 0) > 0)
+  );
+  check('9.1 every Arabic maths concept carries misconception data', allCovered);
+
+  let distractorResolves = true;
+  let wrongsDistinct = true;
+  let correctNeverDiagnosed = true;
+  let triggersSelfMatch = true;
+  let allArabic = true;
+  for (const l of mathLessons) {
+    for (const c of l.concepts) {
+      const mis = c.misconceptions || [];
+      const ids = new Set(mis.map((m) => m.id));
+      for (const m of mis) {
+        if (matchMisconception(m.trigger, mis)?.id !== m.id) triggersSelfMatch = false;
+        if (!/[\u0600-\u06FF]/.test(`${m.explanation} ${m.remediation}`)) allArabic = false;
+      }
+      for (const d of c.distractors || []) {
+        const [value, misId] = String(d).split('|');
+        if (!misId || !ids.has(misId)) distractorResolves = false;
+        if (matchMisconception(value, mis)?.id !== misId) distractorResolves = false;
+      }
+      const wrongOptions = (c.distractors || []).map((d) => String(d).split('|')[0]);
+      const diagnosed = new Set(wrongOptions.map((w) => matchMisconception(w, mis)?.id));
+      if (diagnosed.size !== wrongOptions.length) wrongsDistinct = false;
+      for (const ex of l.exercises) {
+        if (ex.type !== 'multiple_choice') continue;
+        if (matchMisconception(String(ex.expectedAnswer), mis)) correctNeverDiagnosed = false;
+      }
+    }
+  }
+  check('9.2 every maths distractor names its own misconception', distractorResolves);
+  check('9.3 distinct maths wrong options get distinct diagnoses', wrongsDistinct);
+  check('9.4 a correct maths answer is never diagnosed as a misconception', correctNeverDiagnosed);
+  check('9.5 every maths trigger matches itself', triggersSelfMatch);
+  check('9.6 every maths diagnosis is written in Arabic', allArabic);
+}
+
 console.log(`\nTEACHING SKILLS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
