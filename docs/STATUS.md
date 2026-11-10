@@ -28,6 +28,52 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-10 (run 16) — Miss Noor's real voice: the live TTS chain was quota-dead
+- **State first [V]:** `main` was `132283c` (run 15's merge #123); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0 (all suites 0 failed), `npm run build` exit 0. Live bundle at session start
+  `index-CApuGuYq.js` SHA-256 `e83bc0d0…0b03` **==** local build of `main` @ `132283c` [V].
+  Measured live at 390×844 ar-EG: feed full-screen (`docScrollH` 844 == viewport, `headerVisible:false`,
+  nav floats at top 773), reel media 1 `<audio>` + 1 `<canvas>`, counter advancing, 0 console errors.
+  The directive's "84% viewport / header 65px / media 0/0/0/0" numbers are stale [V].
+- **Defect found by driving the LIVE app (not in any doc) [V]:** owner ask (a)/(b) — "a real spoken
+  conversation" — was broken. Live `POST /api/tts` returned `{"success":false,"useBrowserSpeech":true}`
+  for every request, so Miss Noor fell back to the robotic browser voice and the reel's real `<audio>`
+  stayed `hidden` with no src. Measured before: the reel had `audios:1` but `hasSrc:false, hidden:true`.
+- **Root cause [V]:** `/api/tts` walks `TTS_MODELS` in order, and the chain led with
+  `gemini-3.1-flash-tts-preview` — now **per-model quota-exhausted (429) on all 8 keys**
+  (`GEMINI_POOL_1..7`, `OHGeminiAPI`). The older `gemini-2.5-*-preview-tts` are 400/429 too. The GA
+  models **`gemini-3.8-flash-tts`** and **`gemini-3.8-flash-lite-tts`** answer and return a complete
+  `audio/wav` (RIFF). Measured with the SDK, every key, same params as the route.
+- **What shipped (PR #124, squash `80a6de9`):**
+  - `geminiModel.ts` — `TTS_MODELS` reordered to lead with the GA models; the previews kept as
+    fallbacks (a quota is per-model and resets).
+  - `pcmToWav.ts` — `pcmBase64ToWavBase64` is now **idempotent**: the GA models already return a
+    complete RIFF/WAVE, so wrapping would prepend a second 44-byte header and corrupt the file. An
+    existing RIFF payload passes through untouched (`isRiffWavBase64`).
+  - `geminiModelChain.test.ts` — the stale `!TTS_MODELS.includes('gemini-3.8-flash-lite-tts')` guard
+    (that model was believed non-existent) replaced with a chain-order regression guard.
+  - `voiceAndQuestions.test.ts` — new **4.4** idempotent-wrap check.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed; VOICE+QUESTIONS 19,
+  gemini chain 8); `npm run build` exit 0; `git diff --check` clean; CI `verify` **success** on
+  `1105a096` and on the merge commit `80a6de9`; all 5 checks green.
+- **Local integration proof [V]:** with a working key, `POST /api/tts` on the pre-fix branch returned
+  `useBrowserSpeech:true`; on the fix branch it returned `success:true, mime:audio/wav`, 165478 bytes,
+  first4 `RIFF`.
+- **Deploy + live proof [V]:** Vercel production for `80a6de9` (`dpl_9EzHKGE7h9nZWNMGUccaiw1FUUVo`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-CApuGuYq.js` SHA-256
+  `e83bc0d0…0b03` **==** local build of `main` @ `80a6de9`. Live `POST /api/tts` now returns
+  `success:true, mime:audio/wav`, 148198 bytes, `RIFF`. **Playwright 390×844 ar-EG on the live app:**
+  the FEED reel fired `/api/tts` (200, `audio/wav`, 374240 b64 chars) and mounted a **visible, loaded**
+  `<audio>` (`hidden:false, controls:true, src:"data:audio/wav;base64,…", readyState:4, duration:5.7s`);
+  **0 console errors**. Before the fix the same probe showed the element hidden with no src.
+- **Next:**
+  1. Media richness (owner ask a): only 3 of 54 concepts carry catalogued media (the reel's only real
+     media is Noor's audio + a canvas drawn from the reel's own words).
+  2. R9 (`text-slate-400` contrast — 247 usages), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-10 (run 15) — shipped the French-maths Arabic diagnosis draft (#121) and proved it live
 - **State first [V]:** `main` was `4be3241` (the French-maths Arabic content PR #120); the only open
   PRs were **#8** (archive, never merge) and **#121** (the previous run's *unfinished draft*,
