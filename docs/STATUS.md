@@ -28,6 +28,45 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-10 (run 14) — Arabic misconception content for the remaining Arabic-taught subjects
+- **State first:** `main` was `9988687` (run 13's merge, #117); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0 (all suites 0 failed), `npm run build` exit 0.
+- **Gap found by counting [V]:** owner ask (c) still open for the non-maths/non-ICT Arabic-taught
+  subjects. Measured across all 54 concepts: **25 had misconception data, 24 genuinely diagnosable**.
+  The remaining Arabic-taught gap: **Arabic Language (5)**, **Social Studies (3)**, **Islamic
+  Studies (2)**, **Calligraphy (1)** — 11 concepts where a wrong Arabic answer fell through to the model.
+- **What shipped (PR #118, squash `2a9cd1fb`):** Arabic `misconceptions` (explanation + remediation)
+  for all **11** of those concepts, each `trigger` set to the **exact wrong-option text** of its own
+  exercises, plus `distractors` (`value|mis_id`) pointing at the concept's own misconception.
+  New **section 8** in `teachingSkills.test.ts` (8.1–8.5) locks coverage, distractor resolution,
+  distinct diagnoses, no-false-diagnosis on the correct answer, and trigger self-match.
+- **Trap handled (measured, not assumed):** the matcher's 0.5 token-overlap path bit `مدار الجدي`
+  (shared word `مدار` mis-fired on the correct `مدار السرطان`); trigger tightened to the distinctive
+  `الجدي`. Independent verifier over the four subjects: **0** unresolved distractors, **0** collapsed
+  diagnoses, **0** false diagnoses on correct answers.
+- **Measured after [V]:** concepts with misconception data **25 → 36 / 54**; genuinely diagnosable
+  **24 → 35 / 54**. Feed queue dump (ar, 10-min, Social Studies day): each of the four subjects now
+  queues ≥1 `reason: 'diagnosis'` reel.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed; TEACHING SKILLS
+  **33** PASSED / 0 FAILED, was 28); `npm run build` exit 0; `git diff --check` clean; CI `verify`
+  **success** on `fc12a48` and on the merge commit `2a9cd1fb` on `main`.
+- **Deploy + live proof [V]:** Vercel production for `2a9cd1fb` (`dpl_FYcFQLAGu6yzC7k8T9L6AKRYBuVy`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-D0BLXKNe.js` SHA-256
+  `97de521cea3765853584da6697e8d13c24745fa02e648134ae6cbbcfc961deb5` **==** local build of `main`
+  @ `2a9cd1fb`.
+- **Live proof (Playwright 390×844, ar-EG) [V]:** seeded a day record with Social Studies as today's
+  subject, opened the feed, clicked the wrong Social Studies option **جبل علبة**; Noor answered with
+  the **named Arabic diagnosis** «ظننتِ أن أعلى قمة في مصر هي جبل علبة. أعلى قمة جبلية في مصر هي قمة
+  سانت كاترين في سيناء، لا جبل علبة.» and the `🔍 عرفنا الغلطة` badge; **0 console errors**. Before
+  this run the same tap produced only «قربت! هشرحلك الفكرة تاني.».
+- **Next:**
+  1. Remaining misconception content (owner ask c): **English (2)** and **French (5)** concepts still
+     lack data (Latin-script subjects; the language guard already prevents wrong-language injection).
+  2. Media richness (owner ask a): only 3 of 54 concepts carry catalogued media.
+  3. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-09 (run 13) — Arabic ICT misconception content: the last big diagnosis gap
 - **State first:** `main` was `26d288f` (run 12's merge, #115); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
