@@ -13,6 +13,21 @@ import type {
   TeachingSkillResult,
 } from './types';
 import type { ConceptMisconception } from '../../../types/teachingSession';
+import type { Language } from '../../../types';
+
+/**
+ * The diagnosis to serve a child in `language`, as one `explanation remediation`
+ * string. A French-track concept can carry an Arabic rendering; when the child
+ * reads Arabic that rendering is served so the diagnosis stays in their script.
+ * Returns the text that would actually be shown, which is what the language
+ * guard must test — a French-only entry yields French for an Arabic child and
+ * the caller then falls through to the model rather than mixing scripts.
+ */
+export function misconceptionText(m: ConceptMisconception, language: Language): string {
+  const explanation = language === 'ar' && m.explanationAr ? m.explanationAr : m.explanation;
+  const remediation = language === 'ar' && m.remediationAr ? m.remediationAr : m.remediation;
+  return `${explanation} ${remediation}`.trim();
+}
 
 /**
  * Finds the misconception whose trigger best matches the learner's answer.
@@ -25,7 +40,14 @@ export function matchMisconception(
 ): ConceptMisconception | undefined {
   if (!misconceptions || misconceptions.length === 0) return undefined;
   const answer = normalizeText(studentInput);
-  if (!answer) return undefined;
+  if (!answer) {
+    // A symbol answer ("<", "=") normalises to nothing, so it can only ever
+    // match a trigger that is the same symbol. Comparing the raw strings keeps
+    // a comparison-sign misconception nameable without letting a symbol trigger
+    // match a text answer.
+    const raw = (studentInput || '').trim();
+    return raw ? misconceptions.find((m) => m.trigger.trim() === raw) : undefined;
+  }
 
   let best: { m: ConceptMisconception; score: number } | undefined;
   for (const m of misconceptions) {

@@ -24,7 +24,7 @@
 import { Reel } from '../../types/reel';
 import { Language } from '../../types';
 import { curriculumService } from '../curriculum/curriculumService';
-import { matchMisconception } from '../teaching/skills/teachingSkills';
+import { matchMisconception, misconceptionText } from '../teaching/skills/teachingSkills';
 import { normalizeText } from '../teaching/teachingSession';
 
 /**
@@ -111,7 +111,10 @@ export async function resolveReelResponse(
   // through to the model rather than mixing a French sentence into Arabic.
   const misconception = misconceptionForAnswer(reel, answerText);
   if (misconception) {
-    const diagnosis = `${misconception.explanation} ${misconception.remediation}`.trim();
+    // Serve the diagnosis in the child's own script: an Arabic rendering when
+    // they read Arabic, the stored (French) text otherwise. The guard then sees
+    // exactly what would be shown, so a French-only entry still falls through.
+    const diagnosis = misconceptionText(misconception, language);
     if (speaksLanguage(diagnosis, language)) {
       const named =
         language === 'ar'
