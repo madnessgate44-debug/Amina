@@ -28,6 +28,44 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-10 (run 15) — shipped the French-maths Arabic diagnosis draft (#121) and proved it live
+- **State first [V]:** `main` was `4be3241` (the French-maths Arabic content PR #120); the only open
+  PRs were **#8** (archive, never merge) and **#121** (the previous run's *unfinished draft*,
+  head `060cc654`, mergeable/clean). Baseline gate on the PR branch re-run clean:
+  `npx tsc --noEmit` exit 0, `npm test` exit 0 (all suites 0 failed; TEACHING SKILLS 43,
+  INTERACTIVE REEL 29), `npm run build` exit 0, `git diff --check` clean.
+- **The unit of work:** the previous run authored but never shipped #121. Merging it (owner ask c,
+  final Latin-script gap) was the highest-value finished unit. The live app at session start
+  (`index-C0BtXdVj.js`, SHA-256 `5845ca3a…`) did **not** contain the new Arabic strings [V].
+- **What shipped (PR #121, squash `431586a0`):** `ConceptMisconception` gains optional
+  `explanationAr`/`remediationAr`; new `misconceptionText(m, language)` returns exactly what will be
+  shown, and `reelResponse.resolveReelResponse` + `feedQueue` use it, so the language guard tests the
+  **served** text. `matchMisconception` now compares symbol answers (`<`, `=`) directly — `normalizeText`
+  strips them to `""`, so comparison-sign triggers never matched their own option before. One French
+  trigger corrected (`0,04` named the *correct* answer; now `0,4`). Arabic renderings added to all five
+  French-maths concepts.
+- **Measured after [V]:** `scripts/measure-misconceptions.ts` → concepts total 53, **with data 43**,
+  **servable to an Arabic child 43**, Latin-only **0** (was 5 Latin-only).
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed); `npm run build`
+  exit 0; `git diff --check` clean; CI `verify` **success** on `060cc654` and the merge commit `431586a0`.
+- **Deploy + live proof [V]:** Vercel production for `431586a0` (`dpl_4BvWjzSp3nSpYVT4HnVsVUzdcUGL`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-CApuGuYq.js` SHA-256
+  `e83bc0d02f06a720554dccfb6f82f94e383ed45d02d3dbbc439a106a5fb10b03` **==** local build of `main`
+  @ `431586a0`; the live bundle now contains the new Arabic strings (`ساوي عدد الخانات بإضافة صفر`, …).
+- **Live proof (Playwright 390×844, ar-EG) [V]:** seeded a synthetic QA profile + a confirmed
+  French-maths day record into IndexedDB, opened FEED, walked to the comparison reel (options `> < =`),
+  real-pointer clicked **`<`** at (195, 609). Noor answered with the **named Arabic diagnosis** and the
+  `🔍 عرفنا الغلطة` badge: «لأ يا بطل، خلّينا نفهم إيه اللي حصل. ظننتِ أن 6,05 أكبر من 6,5 لأن أرقامه
+  بعد العلامة أكثر. ساوي عدد الخانات بإضافة صفر: 6,5 = 6,50. بعدها قارني خانة بخانة: 50 جزء من مئة أكبر
+  من 5 أجزاء من مئة، إذن 6,5 > 6,05.» **0 console errors**. Recipe: `scripts/qa-live-mathfr-diagnosis.mjs`
+  (+ `scripts/qa-feed-queue-dump.ts` to locate the target reel). A `MutationObserver` is required — the
+  feed rebuilds its queue after every answer and drops the reaction frame within ~1s.
+- **Next:**
+  1. Media richness (owner ask a): only 3 of 54 concepts carry catalogued media.
+  2. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+  3. Feed full-screen (a): header 65px + nav 71px still always visible.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-10 (run 14) — Arabic misconception content for the remaining Arabic-taught subjects
 - **State first:** `main` was `9988687` (run 13's merge, #117); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
