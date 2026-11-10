@@ -242,5 +242,49 @@ const concept: CurriculumLessonConcept = {
   check('7.4 a correct ICT answer is never diagnosed as a misconception', correctNeverDiagnosed);
 }
 
+// 8. Arabic misconception content for the remaining Arabic-taught subjects
+//    (ask #3, third wave): Arabic Language, Social Studies, Islamic Studies and
+//    Calligraphy. Each wrong option must name its own misconception, a distinct
+//    wrong option must get a distinct diagnosis, and the correct answer must
+//    never be diagnosed (the Arabic-language matcher's 0.5 token-overlap path
+//    can mis-fire on a shared generic word).
+{
+  const newSubjects = ['subj_arabic', 'subj_social_studies', 'subj_islamic', 'subj_calligraphy'];
+  const lessons = curriculumService.getAllLessons().filter((l) => newSubjects.includes(l.subjectId));
+
+  let allCovered = true;
+  let distractorResolves = true;
+  let wrongsDistinct = true;
+  let correctNeverDiagnosed = true;
+  let triggersSelfMatch = true;
+  for (const l of lessons) {
+    for (const c of l.concepts) {
+      const mis = c.misconceptions || [];
+      if (mis.length === 0) allCovered = false;
+      const ids = new Set(mis.map((m) => m.id));
+      for (const m of mis) {
+        if (matchMisconception(m.trigger, mis)?.id !== m.id) triggersSelfMatch = false;
+      }
+      for (const d of c.distractors || []) {
+        const [value, misId] = String(d).split('|');
+        if (!misId || !ids.has(misId)) distractorResolves = false;
+        if (matchMisconception(value, mis)?.id !== misId) distractorResolves = false;
+      }
+      const wrongOptions = (c.distractors || []).map((d) => String(d).split('|')[0]);
+      const diagnosed = new Set(wrongOptions.map((w) => matchMisconception(w, mis)?.id));
+      if (diagnosed.size !== wrongOptions.length) wrongsDistinct = false;
+      for (const ex of l.exercises) {
+        if (ex.type !== 'multiple_choice') continue;
+        if (matchMisconception(String(ex.expectedAnswer), mis)) correctNeverDiagnosed = false;
+      }
+    }
+  }
+  check('8.1 every Arabic-taught subject concept carries misconception data', allCovered);
+  check('8.2 every new distractor names its own misconception', distractorResolves);
+  check('8.3 distinct new wrong options get distinct diagnoses', wrongsDistinct);
+  check('8.4 a correct answer in the new subjects is never diagnosed', correctNeverDiagnosed);
+  check('8.5 every new trigger matches itself', triggersSelfMatch);
+}
+
 console.log(`\nTEACHING SKILLS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
