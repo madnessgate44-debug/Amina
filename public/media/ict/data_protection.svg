@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Data protection & backup — off_ict_u2_l1 (حماية البيانات والنسخ الاحتياطي).
+  Text-free: five numbered callouts only. The wording lives in the catalog's
+  localized legend/alt HTML, so the diagram never shows a language that is not
+  the child's. Numbers map to the five protective steps in the lesson.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#eef2ff"/>
+      <stop offset="1" stop-color="#e0e7ff"/>
+    </linearGradient>
+    <linearGradient id="shield" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#615bff"/>
+      <stop offset="1" stop-color="#4338ca"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#bg)"/>
+
+  <!-- Central shield with a tick -->
+  <g transform="translate(480,150)">
+    <path d="M0,-110 L120,-58 L120,40 C120,110 60,150 0,176 C-60,150 -120,110 -120,40 L-120,-58 Z"
+          fill="url(#shield)" stroke="#312e81" stroke-width="6"/>
+    <path d="M-52,30 L-12,70 L60,-20" fill="none" stroke="#ffffff" stroke-width="20"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Five numbered steps -->
+  <g font-family="DejaVu Sans, sans-serif">
+    <!-- Card 1: share less -->
+    <g transform="translate(60,360)">
+      <rect x="0" y="0" width="160" height="180" rx="22" fill="#ffffff" stroke="#c7d2fe" stroke-width="4"/>
+      <circle cx="80" cy="52" r="26" fill="#615bff"/>
+      <text x="80" y="63" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">1</text>
+      <circle cx="80" cy="120" r="20" fill="none" stroke="#334155" stroke-width="6"/>
+      <path d="M52,160 C52,136 108,136 108,160" fill="none" stroke="#334155" stroke-width="6" stroke-linecap="round"/>
+    </g>
+    <!-- Card 2: strong password (key) -->
+    <g transform="translate(245,360)">
+      <rect x="0" y="0" width="160" height="180" rx="22" fill="#ffffff" stroke="#c7d2fe" stroke-width="4"/>
+      <circle cx="80" cy="52" r="26" fill="#615bff"/>
+      <text x="80" y="63" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">2</text>
+      <circle cx="66" cy="118" r="18" fill="none" stroke="#334155" stroke-width="7"/>
+      <path d="M80,126 L124,150 M110,140 L118,132 M120,146 L128,138" fill="none" stroke="#334155" stroke-width="7" stroke-linecap="round"/>
+    </g>
+    <!-- Card 3: antivirus (bug with slash) -->
+    <g transform="translate(430,360)">
+      <rect x="0" y="0" width="160" height="180" rx="22" fill="#ffffff" stroke="#c7d2fe" stroke-width="4"/>
+      <circle cx="80" cy="52" r="26" fill="#615bff"/>
+      <text x="80" y="63" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">3</text>
+      <ellipse cx="80" cy="130" rx="22" ry="30" fill="none" stroke="#334155" stroke-width="6"/>
+      <path d="M58,112 L40,100 M58,130 L38,130 M58,148 L40,160 M102,112 L120,100 M102,130 L122,130 M102,148 L120,160"
+            fill="none" stroke="#334155" stroke-width="5" stroke-linecap="round"/>
+      <line x1="46" y1="168" x2="114" y2="96" stroke="#dc2626" stroke-width="9" stroke-linecap="round"/>
+    </g>
+    <!-- Card 4: updates (refresh arrows) -->
+    <g transform="translate(615,360)">
+      <rect x="0" y="0" width="160" height="180" rx="22" fill="#ffffff" stroke="#c7d2fe" stroke-width="4"/>
+      <circle cx="80" cy="52" r="26" fill="#615bff"/>
+      <text x="80" y="63" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">4</text>
+      <path d="M46,140 A34,34 0 1 1 80,164" fill="none" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+      <path d="M80,164 L64,150 L84,142 Z" fill="#334155"/>
+      <path d="M114,120 A34,34 0 0 1 96,158" fill="none" stroke="#334155" stroke-width="8" stroke-linecap="round"/>
+      <path d="M96,158 L108,142 L90,140 Z" fill="#334155"/>
+    </g>
+    <!-- Card 5: backup (drive + arrow) -->
+    <g transform="translate(800,360)">
+      <rect x="0" y="0" width="160" height="180" rx="22" fill="#ffffff" stroke="#c7d2fe" stroke-width="4"/>
+      <circle cx="80" cy="52" r="26" fill="#615bff"/>
+      <text x="80" y="63" font-size="32" font-weight="bold" fill="#ffffff" text-anchor="middle">5</text>
+      <rect x="46" y="118" width="68" height="46" rx="10" fill="none" stroke="#334155" stroke-width="6"/>
+      <circle cx="100" cy="141" r="6" fill="#334155"/>
+      <path d="M80,104 L80,74 M66,88 L80,72 L94,88" fill="none" stroke="#16a34a" stroke-width="8"
+            stroke-linecap="round" stroke-linejoin="round"/>
+    </g>
+  </g>
+</svg>
