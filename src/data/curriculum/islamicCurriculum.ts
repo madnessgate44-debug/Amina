@@ -76,6 +76,31 @@ export const ISLAMIC_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
         storyAnalogyEn: 'Like morning sunshine filling a room with warmth, remembering Allah’s names fills your heart with tranquility.',
         prerequisiteAr: 'قراءة القرآن الكريم وأركان الإيمان.',
         prerequisiteEn: 'Basic Quran recitation.',
+        misconceptions: [
+          {
+            id: 'mis_ar_isl_quddus_rain',
+            trigger: 'الذي ينشر المطر',
+            explanation: 'ظننتِ أن معنى «القدوس» هو الذي ينشر المطر.',
+            remediation: '«القدوس» معناه المنزه والمطهر عن كل عيب ونقص، وليس من معاني المطر.',
+          },
+          {
+            id: 'mis_ar_isl_quddus_mountains',
+            trigger: 'الذي خلق الجبال فقط',
+            explanation: 'ظننتِ أن «القدوس» معناه الذي خلق الجبال فقط.',
+            remediation: 'الخلق صفة عامة، أما «القدوس» فيدل على الكمال والتنزيه عن كل نقص.',
+          },
+          {
+            id: 'mis_ar_isl_quddus_hearing',
+            trigger: 'الذي يسمع الأصوات العالية',
+            explanation: 'ظننتِ أن «القدوس» معناه الذي يسمع الأصوات العالية.',
+            remediation: 'السمع صفة أخرى من صفات الله، أما «القدوس» فمعناه المنزه المطهر عن كل عيب ونقص.',
+          },
+        ],
+        distractors: [
+          'الذي ينشر المطر|mis_ar_isl_quddus_rain',
+          'الذي خلق الجبال فقط|mis_ar_isl_quddus_mountains',
+          'الذي يسمع الأصوات العالية|mis_ar_isl_quddus_hearing',
+        ],
         visualType: 'concept_map',
       },
     ],
@@ -149,6 +174,31 @@ export const ISLAMIC_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
         storyAnalogyEn: 'Like a fresh river flowing right outside your doorstep in which you wash five times a day.',
         prerequisiteAr: 'خطوات الوضوء السليم.',
         prerequisiteEn: 'Wudu steps.',
+        misconceptions: [
+          {
+            id: 'mis_ar_isl_prayer_makkah',
+            trigger: 'يوم فتح مكة',
+            explanation: 'ظننتِ أن الصلاة فُرضت يوم فتح مكة.',
+            remediation: 'الصلاة فُرضت ليلة الإسراء والمعراج، لا يوم فتح مكة.',
+          },
+          {
+            id: 'mis_ar_isl_prayer_badr',
+            trigger: 'غزوة بدر',
+            explanation: 'ظننتِ أن الصلاة فُرضت في غزوة بدر.',
+            remediation: 'الفرض كان في ليلة الإسراء والمعراج؛ وغزوة بدر حدث آخر بعده.',
+          },
+          {
+            id: 'mis_ar_isl_prayer_arafah',
+            trigger: 'يوم عرفة',
+            explanation: 'ظننتِ أن الصلاة فُرضت يوم عرفة.',
+            remediation: 'الصلاة فُرضت ليلة الإسراء والمعراج، لا يوم عرفة.',
+          },
+        ],
+        distractors: [
+          'يوم فتح مكة|mis_ar_isl_prayer_makkah',
+          'غزوة بدر|mis_ar_isl_prayer_badr',
+          'يوم عرفة|mis_ar_isl_prayer_arafah',
+        ],
         visualType: 'diagram',
       },
     ],
