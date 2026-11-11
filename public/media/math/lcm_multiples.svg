@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Least common multiple of 4 and 6 — off_math_u2_l7 (المضاعف المشترك الأصغر).
+  Text-free: five numbered callouts. 1 the multiples of 4; 2 the multiples of
+  6; 3 the first number that appears in both lists; 4 the first common meeting
+  point of the two repeating events; 5 the result, 12. Wording lives in the
+  catalog's localized legend/alt, so no script is baked in.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="lcmBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#lcmBg)"/>
+
+  <!-- Multiples of 4 on the top rail -->
+  <line x1="120" y1="190" x2="900" y2="190" stroke="#818cf8" stroke-width="5" stroke-linecap="round"/>
+  <g font-family="DejaVu Sans, sans-serif" font-size="42" font-weight="bold" text-anchor="middle" fill="#c7d2fe">
+    <text x="160" y="150">4</text>
+    <text x="300" y="150">8</text>
+    <text x="440" y="150">12</text>
+    <text x="580" y="150">16</text>
+    <text x="720" y="150">20</text>
+    <text x="860" y="150">24</text>
+  </g>
+  <g fill="#6366f1">
+    <circle cx="160" cy="190" r="12"/>
+    <circle cx="300" cy="190" r="12"/>
+    <circle cx="440" cy="190" r="12"/>
+    <circle cx="580" cy="190" r="12"/>
+    <circle cx="720" cy="190" r="12"/>
+    <circle cx="860" cy="190" r="12"/>
+  </g>
+
+  <!-- Multiples of 6 on the bottom rail -->
+  <line x1="120" y1="430" x2="900" y2="430" stroke="#22d3ee" stroke-width="5" stroke-linecap="round"/>
+  <g font-family="DejaVu Sans, sans-serif" font-size="42" font-weight="bold" text-anchor="middle" fill="#a5f3fc">
+    <text x="160" y="490">6</text>
+    <text x="300" y="490">12</text>
+    <text x="440" y="490">18</text>
+    <text x="580" y="490">24</text>
+    <text x="720" y="490">30</text>
+    <text x="860" y="490">36</text>
+  </g>
+  <g fill="#06b6d4">
+    <circle cx="160" cy="430" r="12"/>
+    <circle cx="300" cy="430" r="12"/>
+    <circle cx="440" cy="430" r="12"/>
+    <circle cx="580" cy="430" r="12"/>
+    <circle cx="720" cy="430" r="12"/>
+    <circle cx="860" cy="430" r="12"/>
+  </g>
+
+  <!-- The first shared multiple: 12 -->
+  <line x1="300" y1="190" x2="300" y2="430" stroke="#fde047" stroke-width="6" stroke-dasharray="10 8"/>
+  <circle cx="300" cy="310" r="46" fill="none" stroke="#fde047" stroke-width="6"/>
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle" fill="#fde047">
+    <text x="300" y="322">12</text>
+  </g>
+
+  <!-- Result -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="58" font-weight="bold" text-anchor="middle">
+    <rect x="720" y="250" width="160" height="120" rx="18" fill="#065f46" stroke="#34d399" stroke-width="5"/>
+    <text x="800" y="330" fill="#6ee7b7">12</text>
+  </g>
+
+  <!-- Numbered callout markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="120" cy="150" r="26" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="120" y="162" fill="#4338ca">1</text>
+    <circle cx="120" cy="490" r="26" fill="#ffffff" stroke="#0891b2" stroke-width="5"/>
+    <text x="120" y="502" fill="#0e7490">2</text>
+    <circle cx="300" cy="110" r="26" fill="#ffffff" stroke="#ca8a04" stroke-width="5"/>
+    <text x="300" y="122" fill="#a16207">3</text>
+    <circle cx="300" cy="560" r="26" fill="#ffffff" stroke="#ca8a04" stroke-width="5"/>
+    <text x="300" y="572" fill="#a16207">4</text>
+    <circle cx="640" cy="310" r="26" fill="#ffffff" stroke="#047857" stroke-width="5"/>
+    <text x="640" y="322" fill="#047857">5</text>
+  </g>
+</svg>
