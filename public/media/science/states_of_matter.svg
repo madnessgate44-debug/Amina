@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  States of matter — conc_scifr_u2_l1_etats (حالات المادة الثلاث).
+  Text-free: five numbered callouts. 1 marks the solid block, whose particles sit
+  in neat rows; 2 the liquid in a beaker, particles close but jumbled; 3 the gas
+  filling its container, particles far apart; 4 the ordered rows of a solid; 5
+  the fast, widely spaced particles of a gas. Wording lives in the catalog's
+  localized legend/alt, so no script is baked in.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="matterBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#082f49"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#matterBg)"/>
+
+  <!-- Panel 1: SOLID — an ice block with an ordered particle grid -->
+  <rect x="40" y="140" width="250" height="330" rx="24" fill="#0c4a6e" opacity="0.6"/>
+  <rect x="80" y="210" width="170" height="200" rx="16" fill="#7dd3fc" opacity="0.35" stroke="#38bdf8" stroke-width="5"/>
+  <g fill="#e0f2fe">
+    <circle cx="115" cy="250" r="12"/><circle cx="160" cy="250" r="12"/><circle cx="205" cy="250" r="12"/>
+    <circle cx="115" cy="295" r="12"/><circle cx="160" cy="295" r="12"/><circle cx="205" cy="295" r="12"/>
+    <circle cx="115" cy="340" r="12"/><circle cx="160" cy="340" r="12"/><circle cx="205" cy="340" r="12"/>
+    <circle cx="115" cy="385" r="12"/><circle cx="160" cy="385" r="12"/><circle cx="205" cy="385" r="12"/>
+  </g>
+
+  <!-- Panel 2: LIQUID — a beaker with jumbled but close particles -->
+  <rect x="355" y="140" width="250" height="330" rx="24" fill="#0c4a6e" opacity="0.6"/>
+  <path d="M395,220 L395,470 L565,470 L565,220" fill="#38bdf8" opacity="0.25" stroke="#7dd3fc" stroke-width="5"/>
+  <g fill="#e0f2fe">
+    <circle cx="425" cy="300" r="12"/><circle cx="475" cy="270" r="12"/><circle cx="525" cy="315" r="12"/>
+    <circle cx="450" cy="360" r="12"/><circle cx="500" cy="345" r="12"/><circle cx="430" cy="415" r="12"/>
+    <circle cx="485" cy="420" r="12"/><circle cx="535" cy="395" r="12"/><circle cx="515" cy="445" r="12"/>
+  </g>
+
+  <!-- Panel 3: GAS — particles far apart with motion arrows -->
+  <rect x="670" y="140" width="250" height="330" rx="24" fill="#0c4a6e" opacity="0.6"/>
+  <g fill="#e0f2fe">
+    <circle cx="720" cy="230" r="10"/><circle cx="850" cy="200" r="10"/><circle cx="790" cy="300" r="10"/>
+    <circle cx="710" cy="380" r="10"/><circle cx="870" cy="400" r="10"/><circle cx="810" cy="440" r="10"/>
+  </g>
+  <g stroke="#fbbf24" stroke-width="5" stroke-linecap="round" fill="none">
+    <path d="M740,240 L790,215"/>
+    <path d="M790,320 L840,300"/>
+    <path d="M730,395 L700,420"/>
+    <path d="M840,410 L880,430"/>
+  </g>
+
+  <!-- Numbered callout markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="60" cy="110" r="26" fill="#ffffff" stroke="#0369a1" stroke-width="5"/>
+    <text x="60" y="122" fill="#0369a1">1</text>
+    <circle cx="375" cy="110" r="26" fill="#ffffff" stroke="#0369a1" stroke-width="5"/>
+    <text x="375" y="122" fill="#0369a1">2</text>
+    <circle cx="690" cy="110" r="26" fill="#ffffff" stroke="#0369a1" stroke-width="5"/>
+    <text x="690" y="122" fill="#0369a1">3</text>
+    <circle cx="285" cy="290" r="26" fill="#ffffff" stroke="#0f766e" stroke-width="5"/>
+    <text x="285" y="302" fill="#0f766e">4</text>
+    <circle cx="930" cy="300" r="26" fill="#ffffff" stroke="#b45309" stroke-width="5"/>
+    <text x="930" y="312" fill="#b45309">5</text>
+  </g>
+</svg>
