@@ -28,6 +28,49 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 (run 23) — media for the five next busiest un-illustrated lessons (ICT + French science)
+- **State first [V]:** `main` was `2226e73` (run 22's record #137); the only open PR was **#8**
+  (archive, never merge). Baseline gate re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0
+  (all suites 0 FAILED), `npm run build` exit 0. Live bundle at session start `index-BgpplhZL.js`;
+  driven live at 390×844 ar-EG: feed full-screen (`docH` 844 == `innerH`, header `null`, nav floats
+  at top 773), reel media census img 1 / audio 1 / canvas 0, Arabic content, **0 console errors** [V].
+- **Re-confirmed the four owner asks are shipped on `main` [V]:** (a) full-screen feed + real media
+  + speech-end advance; (b) hands-free voice turn-taking wired into `ReelCard.tsx`; (c) Arabic
+  misconception content present; (d) `buildFeedQueue` has a `diagnosis` pool for `conc_mathfr_*`.
+  Highest-value *unfinished* item remains media breadth.
+- **Priority correction [V]:** re-ranked by frequency (`scripts/qa-feed-frequency.ts`, 120 simulated
+  days × 10 subjects = 17,861 reels). Run 22's "next" list (all maths) missed two ICT concepts and
+  one French-track science concept with **higher** queue frequency. Chosen five (hits): 
+  `conc_scifr_u1_l1_photosynthese` (319), `off_ict_u2_l5_c1` (319), `off_ict_u1_l6_c1` (312),
+  `off_math_u2_l5_c1` (311), `off_math_u2_l7_c1` (310).
+- **What shipped (PR #138, squash `5d91313`):** five authored, **text-free** SVG diagrams (numeric
+  callouts only; all wording in the catalog's localized legend/alt HTML), each with a complete 1..N
+  bilingual (ar/en/fr) legend and matching tappable hotspots:
+  photosynthesis sun → roots → xylem up → leaf → glucose+O₂ → phloem down
+  (`conc_scifr_u1_l1_photosynthese`, 6), GCF(12,16) as overlapping factor sets → 4
+  (`off_math_u2_l5_c1`, 5), LCM(4,6) on two multiple rails → 12 (`off_math_u2_l7_c1`, 5),
+  facts vs opinions + trusted source + padlock (`off_ict_u2_l5_c1`, 5), Excel `=` formulas +
+  safe-sharing rule (`off_ict_u1_l6_c1`, 5). Coverage **27/54 → 32/54** (catalog 28 → 33).
+  `educationalMedia.test.ts` `feedReach` now also asserts these five.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 FAILED; media 15/15);
+  `npm run build` exit 0; `git diff --check` clean; CI `verify` **success** on the head `aaffc3e`.
+- **Deploy + live proof [V]:** Vercel production for `5d91313` (`dpl_69ykDcnq23EbXweaxTifSAegGL3M`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-Bi-hyRtV.js` SHA-256
+  `08e8ea68691c887c58f20efb20101abedb19bb8d799125d9100b8dd1dd2e55b3` **==** local build of `main`
+  @ `5d91313`. All five new assets serve HTTP 200 live. The **old** live bundle
+  (`index-BgpplhZL.js`, now 404) contains none of the five; the **new** live bundle contains all five.
+  **Playwright 390×844 ar-EG on the live app**: after seeding the ICT day record, the feed mounts
+  `/media/ict/excel_formula_safety.svg` at 960×600 **loaded** (naturalWidth 960), **0 console
+  errors**. All five SVGs also render 960×600 with 0 page errors in the local production build.
+- **Next:**
+  1. Extend media to the remaining ~22 concepts (same recipe: `media-src/<subject>/` + identical copy
+     in `public/media/<subject>/`; text-free SVG; 1..N bilingual legend + hotspots). Next by frequency:
+     `off_math_u1_l1_c1` (~300), `off_math_u3_l1_c1` (~295), `off_ict_u2_l2_c1` (~293), then the rest.
+  2. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Inbox:** seq 3 == `last_seq: 3`, already handled. Nothing new to handle.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-11 (run 22) — media for the five next busiest un-illustrated lessons
 - **State first [V]:** `main` was `776b111` (run 21's merge #135); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
