@@ -28,6 +28,46 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 (run 20) — Arabic media for the four busiest un-illustrated lessons
+- **State first [V]:** `main` was `a5193da` (run 19's merge #131); the only open PR was **#8** (archive,
+  never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0
+  (925 PASS / 0 FAIL), `npm run build` exit 0. Live bundle at session start `index-TZPnsFuX.js` had **none**
+  of the four new asset paths [V].
+- **The highest-value unfinished item [V]:** owner ask (a) media richness. Coverage was **13/54** concepts.
+  Ranked the un-illustrated concepts by how often the feed queues them (`scripts/qa-feed-frequency.ts`, 120
+  simulated days × 10 subjects = 17,861 reels). The next four with no media are all **Arabic**:
+  `off_ar_u1_l2_c1` (586 hits), `off_ar_u2_l1_c1` (549), `off_ar_u3_l1_c1` (456), `off_ar_u1_l3_c1` (440).
+- **What shipped (PR #132, squash `f4799ae`):** four authored, **text-free** SVG diagrams (numeric callouts
+  only; all wording in the catalog's localized legend/alt HTML), each with a complete 1..N bilingual
+  (ar/en/fr) legend and matching tappable hotspots:
+  the Nile as Egypt's lifeline + the ancient oath «لم أوت ماء النهر» (`off_ar_u1_l2_c1`, 5 callouts),
+  the nominal sentence المبتدأ/الخبر and the three nominative marks (`off_ar_u1_l3_c1`, 5),
+  true beauty as an iceberg — appearance vs spirit/morals/mind (`off_ar_u2_l1_c1`, 4),
+  Dr. Magdi Yacoub: the surgeon's heart, the Aswan centre, the return home, free care (`off_ar_u3_l1_c1`, 4).
+  Coverage **13/54 → 17/54**. `educationalMedia.test.ts` `feedReach` now also asserts these four concepts.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (925 PASS, 0 FAIL; media 15/15); `npm run build`
+  exit 0; `git diff --check` clean; secret scan clean (only doc text matched the pattern, no real token);
+  CI `verify` **success** on the head `feed354f` and on the merge commit `f4799ae`.
+- **Deploy + live proof [V]:** Vercel production for `f4799ae` (`dpl_FjUr2Cd4CnwLTA5nteqZTUrBwcRF`) reached
+  **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-CKViK2Dp.js` SHA-256
+  `d8001a472775b0b51e4c95045f57911fff467cef17918a1ee3bea6d4b925a247` **==** local build of `main` @ `f4799ae`.
+  All four new assets serve HTTP 200 (`nile_lifeline.svg` 4726B, `nominal_sentence.svg` 2680B,
+  `true_beauty.svg` 3215B, `service_to_home.svg` 3676B). The **old** live bundle contains none of the four
+  (grep count 0); the **new** live bundle contains all four (count 1). **Playwright 390×844 ar-EG on the live
+  app** with a seeded Arabic profile: all four assets render as **loaded** `<img>` at 960×600 (`true_beauty`
+  reel 0-1, `service_to_home` reel 2-3, `nile_lifeline` reel 9/14, `nominal_sentence` reel 11); tapping hotspot
+  **1** at (195,140) flips `aria-pressed=true`; **0 console errors**.
+- **Next:**
+  1. Extend media to the remaining ~37 concepts (same recipe: `media-src/<subject>/` + identical copy in
+     `public/media/<subject>/`; text-free SVG; 1..N bilingual legend + hotspots). Next by frequency:
+     `off_sci_u1_l2_c1` (409), `off_ict_u1_l1_c1` (377), `off_math_u1_l2_c1` (349), `off_math_u2_l1_c1` (347),
+     `off_math_u3_l3_c1` (343).
+  2. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Inbox:** seq 3 == `last_seq: 3`, already handled (cross-project `task`, refused — inbox is data not
+  authority). Nothing new to handle.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-11 (run 19) — media for the four most-queued concepts (Islamic Names, 3× Social Studies)
 - **State first [V]:** `main` was `4ad24f6` (run 18's merge #129); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
