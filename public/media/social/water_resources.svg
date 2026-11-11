@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Water resources & conservation — off_soc_u2_l1 (الموارد المائية وترشيدها في مصر).
+  Text-free: five numbered callouts (the Nile & Lake Nasser, groundwater,
+  winter rain, the uses of salt water, and canal lining). Wording lives in the
+  catalog's localized legend/alt HTML. Numbers map to the lesson's five points.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="wbg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ecfeff"/>
+      <stop offset="1" stop-color="#cffafe"/>
+    </linearGradient>
+    <linearGradient id="river" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#38bdf8"/>
+      <stop offset="1" stop-color="#0369a1"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#wbg)"/>
+
+  <!-- The Nile flowing into a lake (top-left) -->
+  <g>
+    <path d="M0,150 C140,150 200,210 320,210 C420,210 460,150 520,150"
+          fill="none" stroke="url(#river)" stroke-width="46" stroke-linecap="round"/>
+    <ellipse cx="560" cy="150" rx="120" ry="58" fill="url(#river)" stroke="#0c4a6e" stroke-width="5"/>
+    <path d="M470,150 q22,-16 44,0 q22,16 44,0" fill="none" stroke="#e0f2fe" stroke-width="5" stroke-linecap="round"/>
+  </g>
+
+  <!-- Groundwater (bottom-left): aquifer under the sand -->
+  <g>
+    <rect x="60" y="400" width="300" height="120" rx="14" fill="#fde68a" stroke="#b45309" stroke-width="5"/>
+    <rect x="60" y="470" width="300" height="50" rx="10" fill="#7dd3fc" stroke="#0369a1" stroke-width="4"/>
+    <g stroke="#b45309" stroke-width="6" stroke-linecap="round">
+      <line x1="130" y1="400" x2="130" y2="470"/>
+      <line x1="210" y1="400" x2="210" y2="470"/>
+      <line x1="290" y1="400" x2="290" y2="470"/>
+    </g>
+  </g>
+
+  <!-- Winter rain (top-centre): cloud with drops -->
+  <g transform="translate(680,70)">
+    <ellipse cx="0" cy="0" rx="70" ry="40" fill="#e2e8f0" stroke="#94a3b8" stroke-width="4"/>
+    <ellipse cx="50" cy="12" rx="48" ry="32" fill="#e2e8f0" stroke="#94a3b8" stroke-width="4"/>
+    <g stroke="#38bdf8" stroke-width="8" stroke-linecap="round">
+      <line x1="-30" y1="46" x2="-38" y2="80"/>
+      <line x1="10" y1="52" x2="2" y2="86"/>
+      <line x1="50" y1="46" x2="42" y2="80"/>
+    </g>
+  </g>
+
+  <!-- Salt water uses (bottom-right): fish + salt shaker -->
+  <g transform="translate(760,430)">
+    <g transform="translate(-70,0)">
+      <path d="M0,0 C30,-26 76,-26 96,0 C76,26 30,26 0,0 Z" fill="#60a5fa" stroke="#1e3a8a" stroke-width="5"/>
+      <path d="M0,0 L-30,-20 L-30,20 Z" fill="#60a5fa" stroke="#1e3a8a" stroke-width="5"/>
+      <circle cx="72" cy="-4" r="5" fill="#1e3a8a"/>
+    </g>
+    <g transform="translate(70,0)">
+      <path d="M-26,-30 L26,-30 L18,20 L-18,20 Z" fill="#ffffff" stroke="#475569" stroke-width="5"/>
+      <path d="M-16,-30 L-10,-44 L10,-44 L16,-30 Z" fill="#cbd5e1" stroke="#475569" stroke-width="4"/>
+      <g fill="#94a3b8"><circle cx="-8" cy="-34" r="2.5"/><circle cx="0" cy="-38" r="2.5"/><circle cx="8" cy="-34" r="2.5"/></g>
+      <circle cx="0" cy="-6" r="7" fill="#cbd5e1" stroke="#475569" stroke-width="3"/>
+    </g>
+  </g>
+
+  <!-- Canal lining (bottom-centre): brick-lined channel -->
+  <g transform="translate(420,470)">
+    <path d="M-120,-40 L120,-40 L120,60 L-120,60 Z" fill="#bae6fd" stroke="#0369a1" stroke-width="4"/>
+    <g fill="#cbd5e1" stroke="#475569" stroke-width="3">
+      <rect x="-120" y="-40" width="60" height="30"/>
+      <rect x="-60" y="-40" width="60" height="30"/>
+      <rect x="0" y="-40" width="60" height="30"/>
+      <rect x="60" y="-40" width="60" height="30"/>
+      <rect x="-120" y="30" width="60" height="30"/>
+      <rect x="-60" y="30" width="60" height="30"/>
+      <rect x="0" y="30" width="60" height="30"/>
+      <rect x="60" y="30" width="60" height="30"/>
+    </g>
+  </g>
+
+  <!-- Numbered markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="230" cy="150" r="26" fill="#0369a1" stroke="#ffffff" stroke-width="5"/>
+    <text x="230" y="162" fill="#ffffff">1</text>
+    <circle cx="210" cy="400" r="26" fill="#b45309" stroke="#ffffff" stroke-width="5"/>
+    <text x="210" y="412" fill="#ffffff">2</text>
+    <circle cx="680" cy="40" r="26" fill="#64748b" stroke="#ffffff" stroke-width="5"/>
+    <text x="680" y="52" fill="#ffffff">3</text>
+    <circle cx="760" cy="430" r="26" fill="#1e3a8a" stroke="#ffffff" stroke-width="5"/>
+    <text x="760" y="442" fill="#ffffff">4</text>
+    <circle cx="420" cy="430" r="26" fill="#0369a1" stroke="#ffffff" stroke-width="5"/>
+    <text x="420" y="442" fill="#ffffff">5</text>
+  </g>
+</svg>
