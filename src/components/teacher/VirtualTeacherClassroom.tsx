@@ -256,7 +256,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
     currentLessonId,
   ]);
 
-  // Diagnostic Station States (DIAGNOSE BEFORE TEACHING & MAKE AMINA EXPLAIN THINKING)
+  // Diagnostic Station States (DIAGNOSE BEFORE TEACHING & MAKE THE LEARNER EXPLAIN THINKING)
   const [selectedDiagnosticIndex, setSelectedDiagnosticIndex] = useState<number | null>(null);
   const [studentThinkingInput, setStudentThinkingInput] = useState<string>('');
   const [isThinkingSubmitted, setIsThinkingSubmitted] = useState<boolean>(false);
@@ -628,7 +628,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
     }
   };
 
-  // Analyze Student Reasoning (MAKE AMINA EXPLAIN HER THINKING & DRIVE STRATEGY)
+  // Analyze Student Reasoning (MAKE THE LEARNER EXPLAIN HER THINKING & DRIVE STRATEGY)
   const handleAnalyzeThinking = () => {
     if (selectedDiagnosticIndex === null) return;
     const option = teacherContext.diagnosticQuestion.options[selectedDiagnosticIndex];
@@ -1632,7 +1632,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
               })}
             </div>
 
-            {/* Diagnostic Evaluation & Thinking Input (MAKE AMINA EXPLAIN HER THINKING) */}
+            {/* Diagnostic Evaluation & Thinking Input (MAKE THE LEARNER EXPLAIN HER THINKING) */}
             {selectedDiagnosticIndex !== null && (
               <div className="pt-2 animate-in fade-in duration-200 space-y-3">
                 {/* Pedagogical Diagnosis Notice */}

@@ -188,7 +188,7 @@ async function runIntegrityTests() {
   // =========================================================================
   console.log('\nTest 7: Mission Planner Subject Breadth');
   const realStudent: Student = {
-    id: 'student_amina_real',
+    id: 'student_noor_real',
     name: 'أمينة',
     age: 10,
     grade: 'الصف الخامس الابتدائي',

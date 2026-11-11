@@ -28,6 +28,14 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 — Internal Noor identifier cleanup (PR #146 reconciliation)
+- **State first [V]:** reconciled onto current `main` at `cfb21c23a0282db9fc3eb0d11c326affbea3ce70` using a merge commit; no force-push or history rewrite. PR #144 feed reachability changes are preserved.
+- **Implementation [IN PROGRESS]:** renamed curriculum API methods and context constant to Noor, moved the curriculum config to `noorCurriculumConfig.ts`, updated call sites and regression tests, and removed the obsolete config path from the merged tree.
+- **Verification:** NOT RUN on the reconciled tree. Required gates: `npx tsc --noEmit`, `npm test`, `npm run build`; exact source grep must return zero.
+- **Next:** inspect merged diff, scan all TS/TSX files, run the full gate, then merge and deploy.
+- **Blockers:** PR #8 remains open and excluded. Live acceptance for R9/G9 remains outstanding.
+
+
 ### 2026-11-11 — Feed reachability fix (PR #144 merged + live-proved)
 - **State first [V]:** `main` was `a03d136` (PR #143 media, 54/54 illustrations). Re-verified the full gate on that commit: `npx tsc --noEmit` exit 0, `npm test` all suites pass, `npm run build` exit 0. Live-proved the merged media: local rebuild `assets/index-Dh4zv1KR.js` SHA-256 `0df83f2e…` matched live exactly.
 - **Live drive [V]:** Playwright at 390x844 ar-EG against `https://amina-nine-sepia.vercel.app`. Feed is full screen (docH 844 == innerH 844, header 0px, nav floats at y=773). Real media renders (e.g. `math/lcm_multiples.svg` and the new `math/area_model_multiplication.svg`, both loaded 960×600, 4-5 tappable hotspots, 0 canvas fallbacks). Answering a question advanced `1 / 17 → 2 / 17` with a real reaction "برافو! إجابة صح 👏". Real `<audio>` mounts for Noor's line (1 element, autoplay). 0 console errors. All four owner asks (a-d) verified working live.
