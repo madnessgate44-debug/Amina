@@ -23,6 +23,7 @@ import { readFileSync, existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { MEDIA_CATALOG, mediaForConcept } from '../../data/media/mediaCatalog';
 import { curriculumService } from '../curriculum/curriculumService';
+import { buildFeedQueue } from '../reels/feedQueue';
 import { buildReelsForConcept } from '../reels/reelGenerator';
 import { EducationalMediaItem, localized } from '../../types/media';
 
@@ -75,6 +76,42 @@ function main() {
     coveredConcepts: allConcepts.length - uncovered.length,
     uncoveredConcepts: uncovered,
   }));
+  // Mirror scripts/qa-feed-frequency.ts so the uncovered set is ranked by actual feed exposure.
+  const frequencySubjects = [
+    ['الرياضيات (بالفرنسية)'], ['العلوم'], ['اللغة العربية'], ['التربية الدينية الإسلامية'],
+    ['الخط العربي'], ['الرياضيات'], ['اللغة الإنجليزية'], ['تكنولوجيا المعلومات'],
+    ['الدراسات الاجتماعية'], ['العلوم (بالفرنسية)'],
+  ];
+  const frequencyCounts = new Map<string, number>();
+  const frequencyStart = Date.UTC(2026, 0, 1);
+  for (let day = 0; day < 120; day++) {
+    const now = new Date(frequencyStart + day * 86_400_000);
+    for (const subject of frequencySubjects) {
+      const queue = buildFeedQueue({
+        studentId: 'media-rank-' + (day % 7),
+        language: 'ar',
+        mastery: {},
+        dueReviews: [],
+        todaySubjects: subject,
+        examCalendar: [],
+        sessionMinutes: 10,
+        now,
+      });
+      for (const reel of queue.reels) {
+        if (reel.conceptId === 'closer') continue;
+        frequencyCounts.set(reel.conceptId, (frequencyCounts.get(reel.conceptId) || 0) + 1);
+      }
+    }
+  }
+  const rankedUncovered = [...frequencyCounts.entries()]
+    .map(([conceptId, hits]) => {
+      const found = curriculumService.getConceptById(conceptId);
+      return { conceptId, hits, hasMedia: found ? mediaForConcept(found.lesson.id, conceptId).length > 0 : false, lessonId: found?.lesson.id, subject: found?.lesson.subjectNameAr };
+    })
+    .filter((row) => !row.hasMedia)
+    .sort((a, b) => b.hits - a.hits);
+  console.log('FEED_FREQUENCY_DIAGNOSTIC ' + JSON.stringify(rankedUncovered, null, 2));
+
 
   check('the catalog has media to check', MEDIA_CATALOG.length >= 3, `found ${MEDIA_CATALOG.length}`);
 
