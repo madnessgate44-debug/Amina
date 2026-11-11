@@ -15,7 +15,7 @@
  * Source-scanning, like the branding suite: no DOM, no network, no build.
  */
 
-import { readFileSync } from 'fs';
+import { readFileSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
 
 let passed = 0;
@@ -131,7 +131,20 @@ assert(
 );
 
 /** R9: all non-dark source text must use the AA-safe slate-500 token. */
-const sourceFiles = walk(join(process.cwd(), 'src'));
+function walkSource(dir: string): string[] {
+  const out: string[] = [];
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) {
+      if (name === '__tests__' || name === 'node_modules') continue;
+      out.push(...walkSource(full));
+    } else if (/\.(ts|tsx)$/.test(name)) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+const sourceFiles = walkSource(join(process.cwd(), 'src'));
 const legacyContrastToken = ['text', 'slate', '400'].join('-');
 const contrastOffenders: string[] = [];
 for (const file of sourceFiles) {
