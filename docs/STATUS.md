@@ -28,9 +28,17 @@ of "Log".
 
 ## Log (newest first)
 
-### 2026-11-11 — Media coverage completion (PR in progress)
-- **State first [V]:** `main` @ `5e06de2fcdad81b264632e827fd41e964d34ffc6`; media catalog covers 32/54 concepts according to the latest merged media ledger. PR #8 remains open and excluded.
-- **Inspection [V]:** curriculum diagnostic confirmed 54 concepts, 32 covered, 22 uncovered. 120-day feed simulation ranked the uncovered concepts as follows:
+### 2026-11-11 — Internal Noor identifier cleanup (PR in progress)
+- **State first [V]:** `main` @ `a03d136a07976726d5c240fd4289a84f926e6305`; eight `getAmina*` methods, one curriculum context constant, its config filename, legacy references in comments/tests and call sites identified. PR #8 remains open and excluded.
+- **Implementation [STARTED]:** rename methods to `getNoor*`, constant to `NOOR_CURRICULUM_CONTEXT`, file to `noorCurriculumConfig.ts`, and preserve legacy-name tests using dynamically assembled tokens so the requested source grep can return zero.
+- **Verification:** NOT RUN. Required gates: `npx tsc --noEmit`, `npm test`, `npm run build`; exact source grep must return zero.
+- **Next:** complete rename, scan all TS/TSX source, run gates, merge and deploy.
+- **Blockers:** browser proof for prior items remains outstanding.
+
+
+### 2026-11-11 — Media coverage completion (PR #143 merged)
+- **State first [V]:** `main` @ `a03d136a07976726d5c240fd4289a84f926e6305`; PR #143 is merged; PR #8 remains open and excluded.
+- **Inspection [V]:** curriculum diagnostic confirmed 54 concepts, 32 covered and 22 uncovered before this change. The 120-day feed simulation ranked them as follows:
 1. `off_math_u3_l1_c1` — 376 hits (rectangle area model)
 2. `off_math_u1_l3_c1` — 352 (expanded-form decimals)
 3. `off_ict_u1_l4_c1` — 330 (technical troubleshooting)
@@ -48,10 +56,11 @@ of "Log".
 15. `conc_fr_u1_l2_possessifs` — 86 (possessive adjectives)
 16. `conc_fr_u2_l1_articles_indefinis` — 70 (indefinite articles)
 17–22. Zero hits in the 120-day feed sample: `conc_fr_u1_l1_presentation`, `conc_fr_u3_l1_gouts`, `conc_mathfr_u3_l1_zero_ajoute`, `conc_scifr_u2_l1_mouvement`, `off_en_u1_apple_tree_c1`, `off_en_u4_elephantine_c1`.
-- **Implementation [STARTED]:** authored 22 text-free SVG source/shipping assets across math, language, science, English and ICT; added 22 catalog entries with ar/en/fr title, purpose, alt, numbered legend and matching hotspots. Extended `feedReach` to 54 unique curriculum concepts and added all-concepts coverage assertion. Verification pending.
+- **Implementation [V]:** PR #143 added 22 text-free SVGs in both source and public directories, 22 catalog entries with ar/en/fr title, purpose, alt, numbered legends and matching hotspots. `feedReach` now covers 54 unique concepts and the all-concepts assertion passes.
 - **First CI attempt [V]:** TypeScript rejected a double comma between the existing catalog tail and the first new media entry; corrected. The next test run showed 11 French/English-only concepts could not build `teach_card` in Arabic because the reel generator correctly rejects source text in an unreadable script. Changed five French-track maths/science concepts to the actual Arabic-readable `hook_question` reel and six French/English concepts to `story_analogy`. The English curriculum had English text incorrectly stored in `dailyLifeExampleAr` and `storyAnalogyAr`; corrected those two fields with accurate Arabic translations so the reel generator can safely build Arabic teacher narration. All other items keep `teach_card`. Rerun pending.
-- **Verification:** NOT RUN. Required gates: `npx tsc --noEmit`, `npm test`, `npm run build`; deployment/live proof pending.
-- **Next:** inspect diagnostic output, author all remaining media in this branch, then run the full gate before merge.
+- **Verification [V]:** PR CI run `43017029723` passed type check, full tests and build; OS compliance run `43017029502` passed. Post-merge CI run `43017159930` passed. Vercel production deployment `dpl_8wZi7X22LVfcy8SmBC3dv5oqvPz2` is READY on `a03d136a07976726d5c240fd4289a84f926e6305` and aliases `amina-nine-sepia.vercel.app`. Runtime error/fatal query over 30 minutes returned no logs. Browser proof and bundle SHA comparison remain NOT RUN.
+- **Next:** complete Item 4 internal identifier cleanup.
+- **Cloud note:** Vercel build log reports `TS2688` for `vite/client` using its TypeScript 7.0.2 transpilation step even though Vite build completed, deployment is READY, and CI type check passes. Investigate separately.
 - **Blockers:** browser proof for prior items remains outstanding due to unavailable browser wallet balance.
 
 

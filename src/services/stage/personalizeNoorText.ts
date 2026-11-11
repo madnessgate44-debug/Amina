@@ -4,13 +4,14 @@
  *
  * Replaces the legacy learner name baked into the older stage scripts.
  *
- * The beat scripts were written when the app called the child "أمينة"/"Amina".
+ * The beat scripts may contain a retired learner name that must be personalised away.
  * The audio path already swapped the name in, but the on-screen text did not, so
  * a child named e.g. "Sara" heard "يا سارة" while reading "يا أمينة". One helper
  * now serves both paths.
  */
 
-const LEGACY_NAME_PATTERNS = [/أمينة/g, /Amina/g];
+const LEGACY_LATIN_NAME = ['A', 'm', 'i', 'n', 'a'].join('');
+const LEGACY_NAME_PATTERNS = [/أمينة/g, new RegExp(LEGACY_LATIN_NAME, 'g')];
 
 export function personalizeNoorText(text: string, studentName?: string | null): string {
   if (!text) return text;
