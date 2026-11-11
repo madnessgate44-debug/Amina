@@ -28,6 +28,52 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 (run 22) — media for the five next busiest un-illustrated lessons
+- **State first [V]:** `main` was `776b111` (run 21's merge #135); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0 (all suites 0 FAILED), `npm run build` exit 0. Live bundle at session start
+  `index-B28C0RKd.js`; driven live at 390×844 ar-EG: feed full-screen (`docH` 844 == `innerH`,
+  header `null`, nav floats at top 773), reel media census img 1 / audio 1, **0 console errors** [V].
+- **Re-measured the four owner asks — all four are already shipped on `main` [V]:**
+  (a) full-screen feed + real media + speech-end advance (no `setTimeout(advance)` remains; the
+  immersive-feed suite asserts its absence); (b) hands-free voice turn-taking is wired into
+  `ReelCard.tsx` (imports `handsFreeLoop`, `VoiceInputControl`), not just the teaching modal;
+  (c) all Latin-script misconceptions now carry `explanationAr`/`remediationAr` (0 French-only
+  entries remain — the audit's G4 is fixed); (d) `buildFeedQueue` has a `diagnosis` pool that
+  guarantees a `conc_mathfr_*` reel per session (measured: 1 diagnosis reel for a fresh student).
+  So the audit's G2/G3/G4/G5/R-F1..R-F4 are stale; the highest-value *unfinished* item is media breadth.
+- **What shipped (PR #136, squash `b1f87f7`):** five authored, **text-free** SVG diagrams (numeric
+  callouts only; all wording in the catalog's localized legend/alt HTML), each with a complete 1..N
+  bilingual (ar/en/fr) legend and matching tappable hotspots:
+  rounding 7,7 → 8 on a number line (`off_math_u1_l5_c1`, 5), the prime factor tree for 24
+  (`off_math_u2_l4_c1`, 5), order of operations 2 + 3 × 4 → 14 (`off_math_u6_l1_c1`, 5), the three
+  states of matter with particle models (`conc_scifr_u2_l1_etats`, 5), and the food chain
+  sun → producer → consumers → decomposers (`conc_scifr_u1_l2_chaine`, 5).
+  Coverage **22/53 → 27/53**. `educationalMedia.test.ts` `feedReach` now also asserts these five.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 FAILED; media 15/15);
+  `npm run build` exit 0; `git diff --check` clean; secret scan clean; CI `verify` **success** on the
+  head `5212475` and on the merge commit `b1f87f7`.
+- **Deploy + live proof [V]:** Vercel production for `b1f87f7` (`dpl_7iZfTXVYHFkdsvHGw5nf3fX5F4Hw`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-BgpplhZL.js` SHA-256
+  `d0638ed28ee2e10e22867af37750cd7dcad2a957b076ddc86f116633416c9101` **==** local build of `main`
+  @ `b1f87f7`. All five new assets serve HTTP 200 (`rounding_number_line.svg` 3313B, `factor_tree.svg`
+  2917B, `order_of_operations.svg` 3221B, `states_of_matter.svg` 3673B, `food_chain.svg` 4848B).
+  The **old** live bundle (`index-B28C0RKd.js`) contains none of the five; the **new** live bundle
+  contains all five. **Playwright 390×844 ar-EG on the live app**: skipping through the feed mounts
+  `/media/math/rounding_number_line.svg` at 960×600 **loaded**; the reel exposes five
+  `aria-pressed` hotspots with Arabic labels; tapping hotspot **1** flips `aria-pressed` false→true
+  and reveals `1: العدد قبل التقريب: 7,7`; **0 console errors**.
+- **Next:**
+  1. Extend media to the remaining ~26 concepts (same recipe: `media-src/<subject>/` + identical copy in
+     `public/media/<subject>/`; text-free SVG; 1..N bilingual legend + hotspots). Next by frequency:
+     `off_math_u2_l5_c1` (311), `off_math_u2_l7_c1` (310), `off_math_u1_l1_c1` (300),
+     `off_math_u3_l1_c1` (295), `off_ict_u2_l2_c1` (293).
+  2. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Inbox:** seq 3 == `last_seq: 3`, already handled (cross-project `task`, refused — inbox is data not
+  authority). Nothing new to handle.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-11 (run 21) — media for the five next busiest un-illustrated lessons
 - **State first [V]:** `main` was `d716409` (run 20's merge #133); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
