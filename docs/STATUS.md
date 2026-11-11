@@ -28,6 +28,54 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 (run 19) — media for the four most-queued concepts (Islamic Names, 3× Social Studies)
+- **State first [V]:** `main` was `4ad24f6` (run 18's merge #129); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0 (all suites 0 failed), `npm run build` exit 0. Live bundle at session start
+  `index-TZPnsFuX.js` SHA-256 `64be99e6…cc34` **==** local build of `main` @ `4ad24f6` [V].
+  Live at 390×844 ar-EG: feed full-screen (`headerVisible:false`, nav floats at top 773,
+  doc 844/844), 0 console errors [V].
+- **The highest-value unfinished item [V]:** owner ask (a) media richness. Measured the media
+  coverage across the whole curriculum: **9 of 54** concepts carried media. Then measured which
+  concepts the feed queues most, with the new `scripts/qa-feed-frequency.ts` (120 simulated days ×
+  10 subjects = 17,861 reels): the **top four concepts without media** are
+  `off_isl_u1_l1_c1` (821 hits), `off_soc_u2_l1_c1` (722), `off_soc_u1_l1_c1` (684),
+  `off_soc_u1_l2_c1` (639). Those are the reels that fell back to the text-derived canvas most
+  often — the "static" feel.
+- **What shipped (PR #130, squash `206f9da7`):** four authored, **text-free** SVG diagrams (numeric
+  callouts only; all wording in the catalog's localized legend/alt HTML, so a diagram never shows a
+  script the child cannot read), each with a complete 1..N bilingual (ar/en/fr) legend and matching
+  tappable hotspots:
+  Islamic Names `off_isl_u1_l1_c1` (4 callouts: Al-Quddus, As-Salam, Al-Muhaymin, the heart calmed),
+  Egypt's location `off_soc_u1_l1_c1` (5: Africa, Mediterranean, Red Sea, Suez Canal, Tropic of
+  Cancer), Egypt's landforms `off_soc_u1_l2_c1` (5: Western Desert, Nile Valley & Delta, Eastern
+  Desert, Sinai, St. Catherine), water resources `off_soc_u2_l1_c1` (5: Nile & Lake Nasser,
+  groundwater, winter rain, salt-water uses, canal lining). Coverage **9/54 → 13/54**.
+  `educationalMedia.test.ts` `feedReach` now also asserts these four concepts.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed; media 15/15);
+  `npm run build` exit 0; `git diff --check` clean; secret scan clean; CI `verify` **success** on
+  the head `7da46ae3` and on the merge commit `206f9da7`.
+- **Deploy + live proof [V]:** Vercel production for `206f9da7` (`dpl_8br3Knnep2GBPPSuKWCuvdoY4E8e`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-CQOlIGaP.js` SHA-256
+  `8b09995bdce7eef835b423ab5f1ab2a53612b9d90ed02a82558cd9a8e4685873` **==** local build of `main`
+  @ `206f9da7`. All four new assets serve HTTP 200 (`/media/islamic/names_of_allah.svg` 3808B,
+  `/media/social/water_resources.svg` 4764B, `egypt_location.svg` 2918B, `egypt_landforms.svg`
+  2809B). The **old** live bundle contains none of the four new `src` paths (grep count 0); the
+  **new** live bundle contains all four (count 1). **Playwright 390×844 ar-EG on the live app** with
+  a seeded profile whose day record names Social Studies + Islamic: the first reel mounts a
+  **loaded** `<img>` `/media/islamic/names_of_allah.svg` at 960×600 where before it fell back to a
+  canvas (reel canvas count 0); **0 console errors**.
+- **Next:**
+  1. Extend media to the remaining ~41 concepts (same recipe: `media-src/<subject>/` + committed
+     `public/media/<subject>/`; text-free SVG; 1..N bilingual legend + hotspots). Next by frequency:
+     `off_ar_u1_l2_c1` (586), `off_ar_u2_l1_c1` (549), `off_ar_u3_l1_c1` (456),
+     `off_ar_u1_l3_c1` (440), `off_sci_u1_l2_c1` (409).
+  2. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Inbox:** seq 3 == `last_seq: 3`, already handled (cross-project `task`, refused — inbox is data
+  not authority). Nothing new to handle.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-11 (run 18) — three more reels get real media (Islamic, calligraphy, French-maths)
 - **State first [V]:** `main` was `1f1ad55` (run 17's merge #127); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
