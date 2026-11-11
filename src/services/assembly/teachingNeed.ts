@@ -4,7 +4,7 @@
  *
  * Understanding an ask.
  *
- * Step one of the assembly engine: turn a raw ask ("a learner asks a question or
+ * Step one of the assembly engine: turn a raw ask ("Amina asks a question or
  * pastes text") into a `TeachingNeed` — what she is after, in which language,
  * about which topic, and which real curriculum concept it maps to. When no
  * textbook selection matches, the need is still returned, flagged with

@@ -10,7 +10,7 @@ import {
 } from '../../types/teachingSession';
 import { FlatCurriculumConcept } from '../../types/curriculum';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
-import { NOOR_CURRICULUM_CONTEXT } from '../../data/noorCurriculumConfig';
+import { AMINA_CURRICULUM_CONTEXT } from '../../data/aminaCurriculumConfig';
 import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
 
 export interface SubjectCurriculumSummary {
@@ -177,7 +177,7 @@ export class CurriculumService {
 
   constructor() {
     this.lessons = OFFICIAL_CURRICULUM_LESSONS.map((lesson) => {
-      const config = NOOR_CURRICULUM_CONTEXT.subjectConfigs[lesson.subjectId];
+      const config = AMINA_CURRICULUM_CONTEXT.subjectConfigs[lesson.subjectId];
       // The French subject name is filled unconditionally so French mode never
       // falls back to an English label; the rest depends on a subject config.
       const withFrenchName: OfficialCurriculumLesson = {
@@ -352,7 +352,7 @@ export class CurriculumService {
 
   /**
    * Return all curriculum concepts in flat format for planning, mastery, and review
-   * Derived 100% from Noor's authoritative official curriculum.
+   * Derived 100% from Amina's authoritative official curriculum.
    */
   public getFlatConcepts(): FlatCurriculumConcept[] {
     const flat: FlatCurriculumConcept[] = [];
@@ -382,36 +382,36 @@ export class CurriculumService {
   }
 
   /**
-   * Authoritative Noor Curriculum API methods
+   * Authoritative Amina Curriculum API methods
    */
-  public getNoorCurriculum(): OfficialCurriculumLesson[] {
-    return this.getAllLessons().filter((lesson) => Boolean(NOOR_CURRICULUM_CONTEXT.subjectConfigs[lesson.subjectId]));
+  public getAminaCurriculum(): OfficialCurriculumLesson[] {
+    return this.getAllLessons().filter((lesson) => Boolean(AMINA_CURRICULUM_CONTEXT.subjectConfigs[lesson.subjectId]));
   }
 
-  public getNoorCurriculumContext() {
-    return NOOR_CURRICULUM_CONTEXT;
+  public getAminaCurriculumContext() {
+    return AMINA_CURRICULUM_CONTEXT;
   }
 
-  public getNoorSubjectConfig(id: string) {
-    return NOOR_CURRICULUM_CONTEXT.subjectConfigs[id];
+  public getAminaSubjectConfig(id: string) {
+    return AMINA_CURRICULUM_CONTEXT.subjectConfigs[id];
   }
 
-  public getNoorSubjects(): SubjectCurriculumSummary[] {
+  public getAminaSubjects(): SubjectCurriculumSummary[] {
     return this.getSubjectsSummary();
   }
 
-  public getNoorSubject(id: string): SubjectCurriculumSummary | undefined {
+  public getAminaSubject(id: string): SubjectCurriculumSummary | undefined {
     return this.getSubjectsSummary().find((s) => s.subjectId === id);
   }
 
-  public getNoorLesson(id: string): OfficialCurriculumLesson | undefined {
+  public getAminaLesson(id: string): OfficialCurriculumLesson | undefined {
     return this.getLessonById(id);
   }
 
-  public getNoorConcept(id: string) {
+  public getAminaConcept(id: string) {
     return this.getConceptById(id);
   }
 }
 
 export const curriculumService = new CurriculumService();
-export const getNoorFlatConcepts = () => curriculumService.getFlatConcepts();
+export const getAminaFlatConcepts = () => curriculumService.getFlatConcepts();

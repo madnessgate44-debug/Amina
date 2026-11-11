@@ -1,13 +1,13 @@
 /**
- * Noor's authoritative school/curriculum context.
+ * Amina's authoritative school/curriculum context.
  *
  * Curriculum source and language of instruction are intentionally separate:
  * Math and Science use the Egyptian national curriculum but are taught and
- * assessed in French at Noor's Girard French-track context.
+ * assessed in French at Amina's Girard French-track context.
  */
 import { StudentCurriculumContext, SubjectCurriculumConfig } from '../types/curriculum';
 
-export const NOOR_CURRICULUM_CONTEXT: StudentCurriculumContext = {
+export const AMINA_CURRICULUM_CONTEXT: StudentCurriculumContext = {
   studentName: 'Sara',
   school: 'École Girard',
   location: 'Alexandria, Egypt',

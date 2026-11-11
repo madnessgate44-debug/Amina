@@ -5,7 +5,7 @@
  * The content-assembly contract.
  *
  * The app can already generate a teaching line, a reel, or a lesson narration.
- * What it could not do is take a raw ask ("a learner asks a question or pastes
+ * What it could not do is take a raw ask ("Amina asks a question or pastes
  * text"), work out what the child actually needs, and then build a teaching
  * experience from what the app ALREADY has — reaching for generation only for
  * the parts that are genuinely missing.

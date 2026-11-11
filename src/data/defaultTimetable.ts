@@ -6,7 +6,7 @@
 import { Timetable, DaySchedule, SchoolDayKey } from '../types';
 
 /**
- * Default realistic school timetable for the Grade 5 learner (Egyptian Grade 5 — Section Bilingue / Français):
+ * Default realistic school timetable for Amina (Egyptian Grade 5 — Section Bilingue / Français):
  * Subjects:
  * - اللغة العربية (Arabic)
  * - الرياضيات بالفرنسية (Mathématiques)

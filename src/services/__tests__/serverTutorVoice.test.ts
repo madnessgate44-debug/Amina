@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  *
  * Phase 5a: the server tutor voice must follow the student's addressForm and
- * must never fall back to the hardcoded name "أمينة"/the retired learner name.
+ * must never fall back to the hardcoded name "أمينة"/"Amina".
  */
 
 import assert from 'node:assert';
@@ -14,8 +14,6 @@ import {
   addressFormWord,
 } from '../i18n/serverTutorVoice';
 import { readFileSync } from 'node:fs';
-
-const legacyLatinName = ['A', 'm', 'i', 'n', 'a'].join('');
 
 let passed = 0;
 const test = (name: string, fn: () => void) => {
@@ -66,7 +64,7 @@ test('2.1 resolveStudentName uses the supplied name', () => {
 
 test('2.2 resolveStudentName never returns the old hardcoded child name', () => {
   assert.notStrictEqual(resolveStudentName(undefined, 'ar'), 'أمينة');
-  assert.notStrictEqual(resolveStudentName('', 'en'), legacyLatinName);
+  assert.notStrictEqual(resolveStudentName('', 'en'), 'Amina');
   assert.strictEqual(resolveStudentName(undefined, 'ar'), 'صديقي');
   assert.strictEqual(resolveStudentName(undefined, 'en'), 'friend');
 });
@@ -96,7 +94,7 @@ test('3.2 addressFormWord maps correctly', () => {
 test('4.1 server.ts contains no hardcoded child name or feminine-only address', () => {
   const server = readFileSync(new URL('../../../server.ts', import.meta.url), 'utf8');
   assert.ok(!/أمينة/.test(server), 'server.ts still contains "أمينة"');
-  assert.ok(!server.includes(legacyLatinName), 'server.ts still contains the retired learner name');
+  assert.ok(!/\bAmina\b/.test(server), 'server.ts still contains "Amina"');
   // Feminine-only imperatives that ignore addressForm must not appear.
   for (const phrase of ['يا حبيبتي يا', 'بصي معايا', 'ركزي معايا', 'تعالي أحكي', 'تخيلي لو', 'سامعاكي']) {
     assert.ok(!server.includes(phrase), `server.ts still hardcodes "${phrase}"`);

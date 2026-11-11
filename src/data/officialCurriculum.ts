@@ -31,7 +31,7 @@ import { SCIENCE_CURRICULUM_LESSONS } from './curriculum/scienceCurriculum';
  */
 
 /**
- * Grade 5 curriculum registry for École Girard (Term 1).
+ * Amina Grade 5 curriculum registry for École Girard (Term 1).
  * This registry separates curriculum source from language of instruction.
  * It contains the authoritative lesson material currently present in the repository;
  * it must not be treated as a claim that every physical textbook page has been digitized:

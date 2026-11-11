@@ -141,7 +141,7 @@ export function computeConceptReviewSchedule(
     status = 'due';
   }
 
-  const subjectMeta = curriculumService.getNoorSubject(concept.subjectId);
+  const subjectMeta = curriculumService.getAminaSubject(concept.subjectId);
   const subjectName = isAr
     ? (concept.subjectNameAr || subjectMeta?.subjectNameAr || concept.subjectId)
     : (concept.subjectNameEn || subjectMeta?.subjectNameEn || concept.subjectId);

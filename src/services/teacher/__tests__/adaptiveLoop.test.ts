@@ -14,8 +14,6 @@ import {
 import { OfficialCurriculumLesson, CurriculumLessonConcept } from '../../../types/teachingSession';
 import { curriculumService } from '../../curriculum/curriculumService';
 
-const legacyStudentName = ['A', 'm', 'i', 'n', 'a'].join('');
-
 // Sample Fractions Lesson & Concept
 const fractionLesson: OfficialCurriculumLesson = {
   id: 'off_math_fractions',
@@ -84,7 +82,7 @@ function runTests() {
   // CASE 1: Correct answer + sound reasoning → appropriate positive outcome (MASTERED)
   // =========================================================================
   {
-    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, legacyStudentName);
+    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, 'Amina');
     const correctOpt = diag.options.find((o) => o.isCorrect)!;
     const reasoning = analyzeStudentReasoning(
       'قطعة الـ ١/٣ أكبر لأننا قسمنا نفس الفطيرة على ٣ أشخاص بس، فكل شخص هيكون نصيبه قطعة أكبر من لو قسمنا على ٥',
@@ -112,7 +110,7 @@ function runTests() {
   // CASE 2: Wrong answer + identifiable misconception → misconception diagnosis → targeted teaching → retry
   // =========================================================================
   {
-    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, legacyStudentName);
+    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, 'Amina');
     const misconceptionOpt = diag.options.find((o) => o.diagnosisType === 'misconception')!;
     assert(misconceptionOpt.isCorrect === false, 'Case 2.1: Misconception option is marked incorrect');
     assert(misconceptionOpt.suggestedStrategy === 'visual_model', 'Case 2.2: Strategy for denominator misconception is visual_model');
@@ -130,14 +128,14 @@ function runTests() {
     const targeted = buildTargetedIntervention(
       fractionLesson,
       fractionConcept,
-      legacyStudentName,
+      'Amina',
       'misconception',
       'visual_model'
     );
     assert(targeted.coreExplanationAr.includes('المقام'), 'Case 2.5: Targeted intervention explains denominator misconception');
     assert(targeted.strategy === 'visual_model', 'Case 2.6: Targeted intervention uses visual_model');
 
-    const recheck = buildRecheckQuestionForConcept(fractionLesson, fractionConcept, legacyStudentName);
+    const recheck = buildRecheckQuestionForConcept(fractionLesson, fractionConcept, 'Amina');
     assert(recheck.id.startsWith('recheck_'), 'Case 2.7: Recheck question created for retry');
     assert(recheck.promptAr.includes('١/٤') && recheck.promptAr.includes('١/٨'), 'Case 2.8: Recheck tests same concept on new example (1/4 vs 1/8)');
   }
@@ -146,7 +144,7 @@ function runTests() {
   // CASE 3: Wrong answer + missing prerequisite → prerequisite strategy & outcome (NOT_YET_LEARNED)
   // =========================================================================
   {
-    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, legacyStudentName);
+    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, 'Amina');
     const prereqOpt = diag.options.find((o) => o.diagnosisType === 'missing_prerequisite')!;
 
     const reasoning = analyzeStudentReasoning(
@@ -175,7 +173,7 @@ function runTests() {
   // CASE 4: Correct answer but weak reasoning (guessing) → do NOT automatically mark MASTERED
   // =========================================================================
   {
-    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, legacyStudentName);
+    const diag = buildDiagnosticForConcept(fractionLesson, fractionConcept, 'Amina');
     const correctOpt = diag.options.find((o) => o.isCorrect)!;
 
     // Student clicked the right answer, but typed "تخمين وحظ مش متأكدة"

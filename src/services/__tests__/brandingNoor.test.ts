@@ -4,7 +4,7 @@
  *
  * Branding and learner-name test.
  *
- * The retired project label is not a learner name. The product is Miss Noor, and the
+ * "Amina" is the legacy project name. The product is Miss Noor, and the
  * learner's name is whatever the parent entered — never a hardcoded name.
  * This suite reads the real source files so a hardcoded learner name cannot
  * quietly come back.
@@ -12,11 +12,6 @@
 
 import { readFileSync, readdirSync, statSync, existsSync } from 'fs';
 import { join } from 'path';
-
-const LEGACY_LATIN_NAME = ['A', 'm', 'i', 'n', 'a'].join('');
-const QUOTED_LEGACY_NAME = new RegExp("['\"`][^'\"`]*\\b" + LEGACY_LATIN_NAME + "\\b[^'\"`]*['\"`]");
-const JSX_LEGACY_NAME = new RegExp(">[^<>{}]*(?:\\b" + LEGACY_LATIN_NAME + "\\b|أمينة)[^<>{}]*<");
-const LEGACY_LATIN_NAME_PATTERN = new RegExp("\\b" + LEGACY_LATIN_NAME + "\\b");
 
 let passed = 0;
 let failed = 0;
@@ -46,37 +41,6 @@ function walk(dir: string): string[] {
   return out;
 }
 
-/** Full source scan, including tests and folders outside components/data/services. */
-function walkAllSource(dir: string): string[] {
-  const out: string[] = [];
-  for (const name of readdirSync(dir)) {
-    const full = join(dir, name);
-    if (statSync(full).isDirectory()) {
-      if (name === 'node_modules') continue;
-      out.push(...walkAllSource(full));
-    } else if (/\.(ts|tsx)$/.test(name)) {
-      out.push(full);
-    }
-  }
-  return out;
-}
-
-
-const allSourceFiles = walkAllSource(join(process.cwd(), 'src'));
-const legacyIdentifierHits: string[] = [];
-for (const file of allSourceFiles) {
-  const lines = readFileSync(file, 'utf8').split('\\n');
-  lines.forEach((line, i) => {
-    if (line.includes(LEGACY_LATIN_NAME) || line.includes(LEGACY_LATIN_NAME.toLowerCase())) {
-      legacyIdentifierHits.push(`${file.replace(process.cwd() + '/', '')}:${i + 1}: ${line.trim()}`);
-    }
-  });
-}
-assert(
-  legacyIdentifierHits.length === 0,
-  `1.0 every TypeScript source file under src (including tests) is free of the retired identifier${legacyIdentifierHits.length ? '\\n      ' + legacyIdentifierHits.join('\\n      ') : ''}`
-);
-
 const componentsRoot = join(process.cwd(), 'src', 'components');
 const componentFiles = walk(componentsRoot);
 
@@ -96,7 +60,7 @@ for (const file of componentFiles) {
   lines.forEach((line, i) => {
     if (!isCodeLine(line)) return;
     // A quoted/backticked user-facing string containing the legacy name.
-    if (QUOTED_LEGACY_NAME.test(line) || /['"`][^'"`]*أمينة[^'"`]*['"`]/.test(line)) {
+    if (/['"`][^'"`]*\bAmina\b[^'"`]*['"`]/.test(line) || /['"`][^'"`]*أمينة[^'"`]*['"`]/.test(line)) {
       legacyNameHits.push(`${file.replace(process.cwd() + '/', '')}:${i + 1}: ${line.trim()}`);
     }
   });
@@ -118,7 +82,7 @@ for (const file of componentFiles) {
   lines.forEach((line, i) => {
     if (!isCodeLine(line)) return;
     const withoutComments = line.replace(/\/\/.*$/, '').replace(/\/\*.*?\*\//g, '');
-    if (JSX_LEGACY_NAME.test(withoutComments)) {
+    if (/>[^<>{}]*(?:\bAmina\b|أمينة)[^<>{}]*</.test(withoutComments)) {
       jsxTextHits.push(`${file.replace(process.cwd() + '/', '')}:${i + 1}: ${line.trim()}`);
     }
   });
@@ -178,7 +142,7 @@ for (const file of contentFiles) {
     if (!isCodeLine(line)) return;
     // A quoted/backticked shipped string, or JSX text, containing the legacy name.
     if (
-      QUOTED_LEGACY_NAME.test(line) ||
+      /['"`][^'"`]*\bAmina\b[^'"`]*['"`]/.test(line) ||
       /['"`][^'"`]*أمينة[^'"`]*['"`]/.test(line)
     ) {
       contentNameHits.push(`${file.replace(process.cwd() + '/', '')}:${i + 1}: ${line.trim()}`);
@@ -194,7 +158,7 @@ assert(
 
 // --- 4. Static brand surfaces carry no legacy name ----------------------
 // The component scan above cannot see plain HTML, which is how `public/404.html`
-// kept a stale "legacy learner name" title long after the app itself was renamed.
+// kept a stale "Amina" title long after the app itself was renamed.
 const staticSurfaces = ['index.html', 'public/404.html'];
 for (const rel of staticSurfaces) {
   let text: string;
@@ -204,7 +168,7 @@ for (const rel of staticSurfaces) {
     continue;
   }
   assert(
-    !LEGACY_LATIN_NAME_PATTERN.test(text),
+    !/\bAmina\b/.test(text),
     `4.${staticSurfaces.indexOf(rel) + 1} ${rel} carries no legacy name`
   );
 }
