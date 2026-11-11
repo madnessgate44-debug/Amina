@@ -46,6 +46,37 @@ function walk(dir: string): string[] {
   return out;
 }
 
+/** Full source scan, including tests and folders outside components/data/services. */
+function walkAllSource(dir: string): string[] {
+  const out: string[] = [];
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) {
+      if (name === 'node_modules') continue;
+      out.push(...walkAllSource(full));
+    } else if (/\.(ts|tsx)$/.test(name)) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+
+
+const allSourceFiles = walkAllSource(join(process.cwd(), 'src'));
+const legacyIdentifierHits: string[] = [];
+for (const file of allSourceFiles) {
+  const lines = readFileSync(file, 'utf8').split('\\n');
+  lines.forEach((line, i) => {
+    if (line.includes(LEGACY_LATIN_NAME) || line.includes(LEGACY_LATIN_NAME.toLowerCase())) {
+      legacyIdentifierHits.push(`${file.replace(process.cwd() + '/', '')}:${i + 1}: ${line.trim()}`);
+    }
+  });
+}
+assert(
+  legacyIdentifierHits.length === 0,
+  `1.0 every TypeScript source file under src (including tests) is free of the retired identifier${legacyIdentifierHits.length ? '\\n      ' + legacyIdentifierHits.join('\\n      ') : ''}`
+);
+
 const componentsRoot = join(process.cwd(), 'src', 'components');
 const componentFiles = walk(componentsRoot);
 
