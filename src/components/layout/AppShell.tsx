@@ -99,8 +99,8 @@ export const AppShell: React.FC = () => {
               {activeTab === 'feed' && <FeedScreen />}
               {activeTab === 'learn' && <CurriculumBrowser />}
               {activeTab === 'companion' && <VirtualTeacherClassroom />}
-              {activeTab === 'missions' && <MissionsScreen />}
-              {activeTab === 'homework' && <MissionsScreen />}
+              {activeTab === 'missions' && <MissionsScreen mode="missions" />}
+              {activeTab === 'homework' && <MissionsScreen mode="homework" />}
               {activeTab === 'collections' && <CollectionsScreen />}
               {activeTab === 'mybooks' && <MyBooksScreen />}
               {activeTab === 'review' && <ReviewScreen />}
