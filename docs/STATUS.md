@@ -30,10 +30,11 @@ of "Log".
 
 ### 2026-11-11 — Internal Noor identifier cleanup (PR #146 reconciliation)
 - **State first [V]:** reconciled onto current `main` at `cfb21c23a0282db9fc3eb0d11c326affbea3ce70` using a merge commit; no force-push or history rewrite. PR #144 feed reachability changes are preserved.
-- **Implementation [IN PROGRESS]:** renamed curriculum API methods and context constant to Noor, moved the curriculum config to `noorCurriculumConfig.ts`, updated call sites and regression tests, and removed the obsolete config path from the merged tree.
-- **Verification:** NOT RUN on the reconciled tree. Required gates: `npx tsc --noEmit`, `npm test`, `npm run build`; exact source grep must return zero.
-- **Next:** inspect merged diff, scan all TS/TSX files, run the full gate, then merge and deploy.
-- **Blockers:** PR #8 remains open and excluded. Live acceptance for R9/G9 remains outstanding.
+- **Implementation [V]:** PR #146 merged as `75473318639989f2a7b4e6a7398498c8971c2ad2`. Renamed curriculum API methods and context constant to Noor, moved the config to `noorCurriculumConfig.ts`, updated call sites/tests, and deleted the obsolete config path.
+- **Verification [V]:** reconciled PR CI run `43088181534` passed typecheck, full tests and build; added a full recursive TypeScript/TSX source assertion covering every file under `src/`, including tests, and that assertion passed. Post-merge CI run `43088318490` also passed all three gates. The legacy-identifier scan is now enforced by the test suite.
+- **Deploy [V]:** Vercel production deployment `dpl_CTEcCtwh3P22biAufeEJTKoiFsJK` is READY for merge commit `75473318639989f2a7b4e6a7398498c8971c2ad2`; alias `amina-nine-sepia.vercel.app` is attached.
+- **Live browser proof:** NOT RUN; TinyFish wallet balance is -$0.112, so browser automation cannot start. Deployment readiness is verified, but interactive live acceptance is not claimed.
+- **Next:** continue with remaining product/security priorities. PR #8 remains open and excluded; R9/G9 live acceptance is still outstanding.
 
 
 ### 2026-11-11 — Feed reachability fix (PR #144 merged + live-proved)
