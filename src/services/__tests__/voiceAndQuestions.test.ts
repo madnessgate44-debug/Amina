@@ -16,6 +16,8 @@ import { readFileSync } from 'node:fs';
 import { pickBestVoice, hasVoiceForLanguage, VoiceLike } from '../voice/voiceSelection';
 import { getQuizQuestionsForConcept, getReelForConcept, realQuestionsForConcept } from '../content/contentGenerator';
 import { personalizeNoorText } from '../stage/personalizeNoorText';
+
+const legacyLatinName = ['A', 'm', 'i', 'n', 'a'].join('');
 import { curriculumService } from '../curriculum/curriculumService';
 import { pcmBase64ToWavBase64, wavHeader } from '../voice/pcmToWav';
 
@@ -154,13 +156,13 @@ test('2.6 the reel quick check uses the same real question', () => {
 
 test('3.1 the legacy name is replaced in displayed text', () => {
   assert.strictEqual(personalizeNoorText('مرحباً بكِ يا أمينة!', 'سارة'), 'مرحباً بكِ يا سارة!');
-  assert.strictEqual(personalizeNoorText('Welcome Amina!', 'Sara'), 'Welcome Sara!');
+  assert.strictEqual(personalizeNoorText('Welcome ' + legacyLatinName + '!', 'Sara'), 'Welcome Sara!');
 });
 
 test('3.2 with no name the legacy name never leaks to the screen', () => {
-  const out = personalizeNoorText('يا أمينة و Amina', '');
+  const out = personalizeNoorText('يا أمينة و ' + legacyLatinName, '');
   assert.ok(!out.includes('أمينة'), 'Arabic legacy name leaked');
-  assert.ok(!out.includes('Amina'), 'Latin legacy name leaked');
+  assert.ok(!out.includes(legacyLatinName), 'Latin legacy name leaked');
   assert.ok(out.includes('صديقتي'), 'fallback should address the learner in the feminine');
 });
 

@@ -371,7 +371,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
           setExamCalendar(userExams);
         } else {
           // Genuinely empty installation: No student exists.
-          // Do NOT create Amina automatically. Onboarding will be displayed.
+          // Do NOT create a learner automatically. Onboarding will be displayed.
           setTimetable(null);
           setCurrentDayRecord(null);
           setMasteryRecords({});
