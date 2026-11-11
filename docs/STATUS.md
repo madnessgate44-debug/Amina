@@ -40,7 +40,7 @@ of "Log".
   Highest-value *unfinished* item remains media breadth.
 - **Priority correction [V]:** re-ranked by frequency (`scripts/qa-feed-frequency.ts`, 120 simulated
   days × 10 subjects = 17,861 reels). Run 22's "next" list (all maths) missed two ICT concepts and
-  one French-track science concept with **higher** queue frequency. Chosen five (hits): 
+  one French-track science concept with **higher** queue frequency. Chosen five (hits):
   `conc_scifr_u1_l1_photosynthese` (319), `off_ict_u2_l5_c1` (319), `off_ict_u1_l6_c1` (312),
   `off_math_u2_l5_c1` (311), `off_math_u2_l7_c1` (310).
 - **What shipped (PR #138, squash `5d91313`):** five authored, **text-free** SVG diagrams (numeric
