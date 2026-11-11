@@ -156,9 +156,16 @@ function main() {
     ['off_soc_u1_l1_location', 'off_soc_u1_l1_c1'],
     ['off_soc_u1_l2_surface', 'off_soc_u1_l2_c1'],
     ['off_soc_u2_l1_water_resources', 'off_soc_u2_l1_c1'],
+    // The next-most-frequently-queued concepts without media (measured over 120
+    // simulated days): four Arabic lessons, which the feed queues ~440-590 times
+    // per term. Before this change each fell back to the text-derived canvas.
+    ['off_ar_u1_l2', 'off_ar_u1_l2_c1'],
+    ['off_ar_u2_l1_real_beauty', 'off_ar_u2_l1_c1'],
+    ['off_ar_u3_l1_dr_magdi_yacoub', 'off_ar_u3_l1_c1'],
+    ['off_ar_u1_l3_grammar_nominal', 'off_ar_u1_l3_c1'],
   ] as const;
   const reachMissing = feedReach.filter(([l, c]) => mediaForConcept(l, c).length === 0);
-  check('media covers the concepts the feed queues first (ICT, Arabic story, science, Islamic, calligraphy, French maths)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
+  check('media covers the concepts the feed queues first (ICT, Arabic story, science, Islamic, calligraphy, French maths, the four busiest Arabic lessons)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
 
   // 10. Types present: at least one image, one video and one narration.
   const types = new Set(MEDIA_CATALOG.map((m) => m.type));
