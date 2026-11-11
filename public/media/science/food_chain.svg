@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Food chain — conc_scifr_u1_l2_chaine (السلسلة الغذائية وانتقال الطاقة).
+  Text-free: five numbered callouts. 1 marks the sun, the energy source; 2 the
+  green plant (producer); 3 the herbivore (primary consumer); 4 the carnivore
+  (secondary consumer); 5 the decomposers in the soil that close the cycle. Arrows
+  show energy flowing one way, so the child sees the direction of the chain.
+  Wording lives in the catalog's localized legend/alt, so no script is baked in.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="chainBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#052e16"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+    <marker id="chainArrow" markerWidth="14" markerHeight="14" refX="8" refY="5" orient="auto">
+      <path d="M0,0 L8,5 L0,10 Z" fill="#fbbf24"/>
+    </marker>
+  </defs>
+  <rect width="960" height="600" fill="url(#chainBg)"/>
+
+  <!-- Sun -->
+  <g>
+    <circle cx="120" cy="150" r="58" fill="#f59e0b"/>
+    <g stroke="#fbbf24" stroke-width="8" stroke-linecap="round">
+      <line x1="120" y1="60" x2="120" y2="80"/>
+      <line x1="120" y1="220" x2="120" y2="240"/>
+      <line x1="30" y1="150" x2="50" y2="150"/>
+      <line x1="190" y1="150" x2="210" y2="150"/>
+      <line x1="56" y1="86" x2="70" y2="100"/>
+      <line x1="170" y1="200" x2="184" y2="214"/>
+      <line x1="184" y1="86" x2="170" y2="100"/>
+      <line x1="70" y1="200" x2="56" y2="214"/>
+    </g>
+  </g>
+
+  <!-- Arrow sun -> plant -->
+  <g stroke="#fbbf24" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M210,180 C270,200 280,230 320,250" marker-end="url(#chainArrow)"/>
+  </g>
+
+  <!-- Producer: green plant (grass blades) -->
+  <g>
+    <path d="M400,340 C400,260 380,220 350,190" stroke="#22c55e" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M420,340 C420,250 420,210 420,170" stroke="#16a34a" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <path d="M440,340 C440,260 460,220 490,190" stroke="#22c55e" stroke-width="14" fill="none" stroke-linecap="round"/>
+    <rect x="360" y="340" width="120" height="18" rx="6" fill="#166534"/>
+  </g>
+
+  <!-- Arrow plant -> herbivore -->
+  <g stroke="#fbbf24" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M500,300 C540,300 550,300 580,300" marker-end="url(#chainArrow)"/>
+  </g>
+
+  <!-- Primary consumer: herbivore (rabbit) -->
+  <g>
+    <ellipse cx="660" cy="320" rx="58" ry="42" fill="#e5e7eb"/>
+    <circle cx="700" cy="288" r="30" fill="#e5e7eb"/>
+    <ellipse cx="690" cy="250" rx="10" ry="30" fill="#e5e7eb"/>
+    <ellipse cx="712" cy="250" rx="10" ry="30" fill="#e5e7eb"/>
+    <circle cx="708" cy="286" r="4" fill="#0f172a"/>
+    <circle cx="740" cy="315" r="10" fill="#e5e7eb"/>
+  </g>
+
+  <!-- Arrow herbivore -> carnivore -->
+  <g stroke="#fbbf24" stroke-width="10" stroke-linecap="round" fill="none">
+    <path d="M760,300 C800,300 810,300 840,300" marker-end="url(#chainArrow)"/>
+  </g>
+
+  <!-- Secondary consumer: carnivore (fox) -->
+  <g>
+    <ellipse cx="890" cy="330" rx="46" ry="34" fill="#f97316"/>
+    <path d="M852,300 L846,262 L880,290 Z" fill="#f97316"/>
+    <path d="M928,300 L934,262 L900,290 Z" fill="#f97316"/>
+    <circle cx="902" cy="322" r="5" fill="#0f172a"/>
+    <circle cx="884" cy="322" r="5" fill="#0f172a"/>
+  </g>
+
+  <!-- Soil band with decomposers -->
+  <rect x="0" y="470" width="960" height="130" fill="#78350f" opacity="0.65"/>
+  <g fill="#fcd34d">
+    <circle cx="200" cy="530" r="10"/>
+    <circle cx="300" cy="560" r="10"/>
+    <circle cx="420" cy="525" r="10"/>
+    <circle cx="560" cy="565" r="10"/>
+    <circle cx="700" cy="530" r="10"/>
+  </g>
+
+  <!-- Return arrow decomposers -> plant -->
+  <g stroke="#34d399" stroke-width="8" stroke-linecap="round" fill="none" stroke-dasharray="16 12">
+    <path d="M300,470 C300,430 360,410 400,400"/>
+  </g>
+
+  <!-- Numbered callout markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="60" cy="60" r="26" fill="#ffffff" stroke="#b45309" stroke-width="5"/>
+    <text x="60" y="72" fill="#b45309">1</text>
+    <circle cx="420" cy="120" r="26" fill="#ffffff" stroke="#15803d" stroke-width="5"/>
+    <text x="420" y="132" fill="#15803d">2</text>
+    <circle cx="660" cy="200" r="26" fill="#ffffff" stroke="#334155" stroke-width="5"/>
+    <text x="660" y="212" fill="#334155">3</text>
+    <circle cx="890" cy="240" r="26" fill="#ffffff" stroke="#9a3412" stroke-width="5"/>
+    <text x="890" y="252" fill="#9a3412">4</text>
+    <circle cx="120" cy="560" r="26" fill="#ffffff" stroke="#a16207" stroke-width="5"/>
+    <text x="120" y="572" fill="#a16207">5</text>
+  </g>
+</svg>
