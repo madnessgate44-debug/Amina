@@ -1776,7 +1776,7 @@ export const MEDIA_CATALOG: EducationalMediaItem[] = [
       attribution: 'Drawn from the Egyptian Ministry of Education Grade 5 ICT curriculum, pp. 23-25.',
     },
     review: { status: 'reviewed', reviewedBy: 'owner-window', notes: 'Every formula starts with =; the safe-sharing rule (intranet for school work, no personal data online) matches the lesson reading text.' },
-  },,
+  },
   {
     "id": "math_area_model_multiplication",
     "type": "image",
