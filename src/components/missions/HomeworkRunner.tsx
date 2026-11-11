@@ -615,7 +615,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
               <p className="text-xs text-slate-500">{mission.homeworkDescription || mission.title}</p>
             </div>
           </div>
-          <button onClick={onClose} className="p-1 rounded-full text-slate-400 hover:text-slate-600">
+          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-slate-600">
             <X className="w-5 h-5" />
           </button>
         </div>
@@ -709,7 +709,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
             </button>
           </div>
 
-          <button onClick={onClose} className="p-1 rounded-full text-slate-400 hover:text-slate-600">
+          <button onClick={onClose} className="p-1 rounded-full text-slate-500 hover:text-slate-600">
             <X className="w-4 h-4" />
           </button>
         </div>
@@ -746,7 +746,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
           <>
             {/* Prompt Box */}
             <div className="p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200/80 dark:border-slate-800 shadow-xs space-y-2">
-              <div className="flex items-center justify-between text-xs text-slate-400 font-semibold">
+              <div className="flex items-center justify-between text-xs text-slate-500 font-semibold">
                 <span className="capitalize">
                   {currentQuestion.type === 'multiple_choice'
                     ? isAr ? 'اختيار من متعدد' : 'Multiple Choice'
@@ -930,7 +930,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
                     )}
                     {currentAnswer && (
                       <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border text-xs text-right rtl:text-right font-medium">
-                        <span className="text-[10px] text-slate-400 block mb-0.5">
+                        <span className="text-[10px] text-slate-500 block mb-0.5">
                           {isAr ? 'النص المنطوق:' : 'Spoken Transcript:'}
                         </span>
                         "{currentAnswer}"
@@ -976,7 +976,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
                       <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
                         {isAr ? 'التقط صورة لدفتر الواجب' : 'Take a photo of your notebook'}
                       </h4>
-                      <p className="text-[10px] text-slate-400 mt-0.5">
+                      <p className="text-[10px] text-slate-500 mt-0.5">
                         {isAr ? 'تأكد من وضوح الإضاءة واستقامة الصفحة' : 'Ensure good lighting and page framing'}
                       </p>
                     </div>
@@ -1001,7 +1001,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
                     </div>
 
                     {/* Test Harness low confidence simulator toggle */}
-                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-center gap-2 text-[10px] text-slate-400">
+                    <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-center gap-2 text-[10px] text-slate-500">
                       <label className="flex items-center gap-1.5 cursor-pointer">
                         <input
                           type="checkbox"
@@ -1122,7 +1122,7 @@ export const HomeworkRunner: React.FC<HomeworkRunnerProps> = ({
                       /* Legible OCR extraction */
                       <div className="space-y-2">
                         <div className="p-3 rounded-xl bg-slate-50 dark:bg-slate-800 border text-xs space-y-1 text-right rtl:text-right">
-                          <span className="text-[10px] text-slate-400 block font-bold">
+                          <span className="text-[10px] text-slate-500 block font-bold">
                             {isAr ? 'النص المستخرج من صورتك:' : 'Extracted Text:'}
                           </span>
                           <p className="font-bold text-slate-900 dark:text-slate-100">

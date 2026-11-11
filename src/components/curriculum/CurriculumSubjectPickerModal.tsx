@@ -162,19 +162,19 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
         {/* Search Bar */}
         <div className="p-3 bg-slate-50 dark:bg-slate-850 border-b border-slate-200 dark:border-slate-800 shrink-0">
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute top-2.5 right-3 rtl:right-3 rtl:left-auto ltr:left-3 ltr:right-auto" />
+            <Search className="w-4 h-4 text-slate-500 absolute top-2.5 right-3 rtl:right-3 rtl:left-auto ltr:left-3 ltr:right-auto" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={isAr ? 'ابحثي في كل كتب ودروس الصف الخامس (مثال: كسور، نبات، النيل)...' : 'Search all Grade 5 lessons...'}
-              className="w-full py-2 px-9 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-2xs"
+              className="w-full py-2 px-9 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-2xs"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => setSearchQuery('')}
-                className="absolute top-2 left-3 rtl:left-3 rtl:right-auto ltr:right-3 ltr:left-auto text-xs text-slate-400 hover:text-slate-600 font-bold"
+                className="absolute top-2 left-3 rtl:left-3 rtl:right-auto ltr:right-3 ltr:left-auto text-xs text-slate-500 hover:text-slate-600 font-bold"
               >
                 ✕
               </button>
@@ -230,7 +230,7 @@ export const CurriculumSubjectPickerModal: React.FC<CurriculumSubjectPickerModal
                 {isAr ? `نتائج البحث (${filteredLessons.length} درساً):` : `Search Results (${filteredLessons.length} lessons):`}
               </p>
               {filteredLessons.length === 0 ? (
-                <div className="text-center py-10 space-y-2 text-slate-400">
+                <div className="text-center py-10 space-y-2 text-slate-500">
                   <p className="text-sm font-bold">{isAr ? 'لم نعثر على دروس مطابقة للبحث' : 'No lessons matched your search'}</p>
                   <p className="text-xs">{isAr ? 'جربي البحث بكلمة أخرى مثل: «نبات»، «كسور»، «نيل»' : 'Try searching for plant, math, or Nile'}</p>
                 </div>

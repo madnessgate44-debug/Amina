@@ -225,11 +225,11 @@ export const VoiceInputControl: React.FC<VoiceInputControlProps> = ({
             <button
               type="button"
               disabled
-              className={`${buttonSizeClasses} bg-slate-100 dark:bg-slate-800 text-slate-400 border border-slate-300 dark:border-slate-700 flex items-center justify-center cursor-not-allowed`}
+              className={`${buttonSizeClasses} bg-slate-100 dark:bg-slate-800 text-slate-500 border border-slate-300 dark:border-slate-700 flex items-center justify-center cursor-not-allowed`}
               title={t.voice.micDeniedAdvice}
               aria-label="Microphone disabled"
             >
-              <MicOff className="w-4 h-4 text-slate-400" />
+              <MicOff className="w-4 h-4 text-slate-500" />
             </button>
           </div>
         ) : (
@@ -282,7 +282,7 @@ export const VoiceInputControl: React.FC<VoiceInputControlProps> = ({
                   <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">
                     {t.voice.transcriptReviewTitle}
                   </h3>
-                  <p className="text-[10px] text-slate-400">
+                  <p className="text-[10px] text-slate-500">
                     {t.voice.transcriptReviewSubtitle}
                   </p>
                 </div>

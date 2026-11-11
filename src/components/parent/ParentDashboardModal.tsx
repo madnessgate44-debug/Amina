@@ -217,7 +217,7 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
               exitParentMode();
               onClose();
             }}
-            className="p-1 rounded-lg text-slate-400 hover:text-white"
+            className="p-1 rounded-lg text-slate-500 hover:text-white"
           >
             <X className="w-4 h-4" />
           </button>
@@ -377,7 +377,7 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
                   <GraduationCap className="w-4 h-4 text-indigo-600" />
                   <span>{isAr ? 'سجل جلسات التدريس المباشرة' : 'Live Teaching Sessions Log'}</span>
                 </h4>
-                <span className="text-[10px] text-slate-400 font-medium">
+                <span className="text-[10px] text-slate-500 font-medium">
                   {isAr ? 'من كتب الوزارة الرسمية' : 'From Official Ministry Books'}
                 </span>
               </div>
@@ -435,7 +435,7 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
                             </p>
                           </div>
 
-                          <span className="text-[10px] text-slate-400 shrink-0 font-mono">
+                          <span className="text-[10px] text-slate-500 shrink-0 font-mono">
                             {new Date(sess.lastActiveAt).toLocaleDateString(isAr ? 'ar-EG' : 'en-US', {
                               month: 'short',
                               day: 'numeric',
@@ -458,7 +458,7 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
                               </span>
                             ))}
                             {sess.modalityHistory.length === 0 && (
-                              <span className="text-[10px] text-slate-400 italic">
+                              <span className="text-[10px] text-slate-500 italic">
                                 {isAr ? 'الشرح المباشر الأولي' : 'Initial explanation'}
                               </span>
                             )}
@@ -515,7 +515,7 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
                   <Sliders className="w-3.5 h-3.5 text-indigo-600" />
                   <span>{isAr ? 'تفضيلات الدراسة والوقت (تتطلب PIN):' : 'Study & Bedtime Controls (Requires PIN):'}</span>
                 </h5>
-                <span className="text-[10px] text-slate-400 flex items-center gap-1 font-mono">
+                <span className="text-[10px] text-slate-500 flex items-center gap-1 font-mono">
                   <Lock className="w-3 h-3" />
                   PIN
                 </span>
@@ -544,7 +544,7 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
                   <span className="text-slate-700 dark:text-slate-300 font-medium block">
                     {isAr ? 'موعد النوم (حجب التطبيق بعد الوقت):' : 'Bedtime (block app afterwards):'}
                   </span>
-                  <span className="text-[10px] text-slate-400">
+                  <span className="text-[10px] text-slate-500">
                     {bedtimeEnforced ? (isAr ? 'مفعل حالياً' : 'Currently enforced') : (isAr ? 'غير مفعل' : 'Disabled')}
                   </span>
                 </div>
@@ -656,7 +656,7 @@ export const ParentDashboardModal: React.FC<ParentDashboardModalProps> = ({ onCl
 
         {/* Footer */}
         <div className="p-3 border-t border-slate-100 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/50 flex justify-between items-center">
-          <span className="text-[10px] text-slate-400">
+          <span className="text-[10px] text-slate-500">
             {isAr ? 'وضع ولي الأمر نشط' : 'Parent Mode Active'}
           </span>
           <button

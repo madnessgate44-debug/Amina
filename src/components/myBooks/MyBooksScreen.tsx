@@ -103,7 +103,7 @@ export const MyBooksScreen: React.FC = () => {
                   {book.coverDataUrl ? (
                     <img src={book.coverDataUrl} alt="" className="w-full h-full object-cover" />
                   ) : (
-                    <BookOpen className="w-8 h-8 text-slate-400" />
+                    <BookOpen className="w-8 h-8 text-slate-500" />
                   )}
                 </div>
                 <div className="p-3">

@@ -2477,7 +2477,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 </p>
               </div>
             </div>
-            <span className="text-xs font-bold text-slate-400 font-mono">
+            <span className="text-xs font-bold text-slate-500 font-mono">
               {vocabCards.length} {isArabic ? 'كلمات' : 'words'}
             </span>
           </div>
@@ -2644,7 +2644,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
                           ? 'text-emerald-600 dark:text-emerald-400'
                           : s.status === 'active'
                             ? 'text-indigo-600 dark:text-indigo-300 font-bold'
-                            : 'text-slate-400 dark:text-slate-500'
+                            : 'text-slate-500 dark:text-slate-500'
                       }`}
                     >
                       {s.status === 'done' ? (

@@ -181,7 +181,7 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
           </div>
           <button
             onClick={onSkip}
-            className="p-1 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            className="p-1 rounded-full text-slate-500 hover:text-slate-600 dark:hover:text-slate-200"
             title={isAr ? 'تخطي أو إغلاق' : 'Skip or close'}
           >
             <X className="w-4 h-4" />
@@ -192,7 +192,7 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
       {/* Question Prompt Area */}
       <div className="flex-1 p-5 overflow-y-auto space-y-4">
         <div>
-          <span className="text-[11px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block mb-1">
+          <span className="text-[11px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-wider block mb-1">
             {currentQ.type === 'true_false'
               ? isAr ? 'صح أم خطأ' : 'True or False'
               : isAr ? 'اختيار من متعدد' : 'Multiple Choice'}
@@ -219,7 +219,7 @@ export const QuizRunner: React.FC<QuizRunnerProps> = ({
                 btnClass =
                   'bg-rose-50 dark:bg-rose-950/40 border-rose-500 text-rose-900 dark:text-rose-200 font-bold';
               } else {
-                btnClass = 'opacity-40 border-slate-200 dark:border-slate-800 text-slate-400';
+                btnClass = 'opacity-40 border-slate-200 dark:border-slate-800 text-slate-500';
               }
             }
 

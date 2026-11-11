@@ -93,7 +93,7 @@ export const ParentAuthModal: React.FC<ParentAuthModalProps> = ({ onClose, onSuc
           </div>
           <button
             onClick={onClose}
-            className="p-1 rounded-lg text-slate-400 hover:text-white"
+            className="p-1 rounded-lg text-slate-500 hover:text-white"
           >
             <X className="w-4 h-4" />
           </button>
@@ -128,7 +128,7 @@ export const ParentAuthModal: React.FC<ParentAuthModalProps> = ({ onClose, onSuc
                   {isAr ? 'الاسم:' : 'Name:'}
                 </label>
                 <div className="relative">
-                  <User className="w-4 h-4 text-slate-400 absolute left-3 rtl:right-3 rtl:left-auto top-2.5" />
+                  <User className="w-4 h-4 text-slate-500 absolute left-3 rtl:right-3 rtl:left-auto top-2.5" />
                   <input
                     type="text"
                     required
@@ -145,7 +145,7 @@ export const ParentAuthModal: React.FC<ParentAuthModalProps> = ({ onClose, onSuc
                   {isAr ? 'البريد الإلكتروني:' : 'Email Address:'}
                 </label>
                 <div className="relative">
-                  <Mail className="w-4 h-4 text-slate-400 absolute left-3 rtl:right-3 rtl:left-auto top-2.5" />
+                  <Mail className="w-4 h-4 text-slate-500 absolute left-3 rtl:right-3 rtl:left-auto top-2.5" />
                   <input
                     type="email"
                     required
@@ -197,7 +197,7 @@ export const ParentAuthModal: React.FC<ParentAuthModalProps> = ({ onClose, onSuc
                 <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
                   {isAr ? 'أدخل رمز المرور السري (PIN)' : 'Enter Parent PIN'}
                 </h4>
-                <p className="text-[10px] text-slate-400 mt-0.5">
+                <p className="text-[10px] text-slate-500 mt-0.5">
                   {parentAccount?.parentName} ({parentAccount?.parentEmail})
                 </p>
               </div>

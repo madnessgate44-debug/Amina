@@ -408,7 +408,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
           )}
 
           <div className="mt-5 flex items-center justify-between gap-2 flex-wrap">
-            <span className="text-[12px] text-slate-400 flex items-center gap-1">
+            <span className="text-[12px] text-slate-500 flex items-center gap-1">
               <BookOpen className="w-3 h-3" />
               {reel.sourceLabel}
             </span>

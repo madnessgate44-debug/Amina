@@ -194,7 +194,7 @@ export const ReelViewer: React.FC<ReelViewerProps> = ({
                 if (hasAnsweredCheck) {
                   if (isCorrect) btnStyle = 'bg-emerald-600/60 border-emerald-500 text-emerald-100 font-bold';
                   else if (isSelected) btnStyle = 'bg-rose-600/60 border-rose-500 text-rose-100';
-                  else btnStyle = 'bg-white/5 border-white/5 opacity-50 text-slate-400';
+                  else btnStyle = 'bg-white/5 border-white/5 opacity-50 text-slate-500';
                 }
 
                 return (
@@ -276,7 +276,7 @@ export const ReelViewer: React.FC<ReelViewerProps> = ({
               className={`px-5 py-2.5 rounded-xl text-xs font-black flex items-center gap-1.5 shadow-lg transition-all ${
                 hasAnsweredCheck
                   ? 'bg-emerald-600 hover:bg-emerald-500 text-white cursor-pointer'
-                  : 'bg-slate-700 text-slate-400 cursor-not-allowed'
+                  : 'bg-slate-700 text-slate-500 cursor-not-allowed'
               }`}
             >
               <CheckCircle className="w-4 h-4" />

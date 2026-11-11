@@ -48,7 +48,7 @@ export const DailyReviewModal: React.FC<DailyReviewModalProps> = ({ review, onCl
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+            className="p-1.5 rounded-full text-slate-500 hover:text-slate-600 dark:hover:text-slate-200"
           >
             <X className="w-4 h-4" />
           </button>
@@ -87,12 +87,12 @@ export const DailyReviewModal: React.FC<DailyReviewModalProps> = ({ review, onCl
                 <CheckCircle className="w-3.5 h-3.5" />
                 <span>{isAr ? 'ما أُنجز اليوم:' : 'What was completed today:'}</span>
               </span>
-              <span className="text-[11px] text-slate-400">
+              <span className="text-[11px] text-slate-500">
                 {review.completedMissions.length} {isAr ? 'مهام' : 'missions'}
               </span>
             </div>
             {review.completedMissions.length === 0 ? (
-              <p className="text-[11px] text-slate-400 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl text-center">
+              <p className="text-[11px] text-slate-500 p-2.5 bg-slate-50 dark:bg-slate-900 rounded-xl text-center">
                 {isAr ? 'لم تُكتمل أي مهام اليوم بعد.' : 'No missions completed yet today.'}
               </p>
             ) : (
@@ -118,7 +118,7 @@ export const DailyReviewModal: React.FC<DailyReviewModalProps> = ({ review, onCl
                   <Clock className="w-3.5 h-3.5" />
                   <span>{isAr ? 'مهام باقية (للمتابعة أو التأجيل):' : 'Remaining missions:'}</span>
                 </span>
-                <span className="text-[11px] text-slate-400">
+                <span className="text-[11px] text-slate-500">
                   {review.notCompletedMissions.length}
                 </span>
               </div>
@@ -215,7 +215,7 @@ export const DailyReviewModal: React.FC<DailyReviewModalProps> = ({ review, onCl
 
         {/* Footer */}
         <div className="p-4 border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 flex items-center justify-between">
-          <p className="text-[11px] text-slate-400">
+          <p className="text-[11px] text-slate-500">
             {isAr ? 'محفوظ في سجلك دائماً وبإمكانك مراجعته أي وقت' : 'Saved in history; accessible anytime'}
           </p>
           <button

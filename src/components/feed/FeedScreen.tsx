@@ -278,7 +278,7 @@ export const FeedScreen: React.FC = () => {
           onSkip={advance}
         />
         <div className="fixed bottom-24 left-0 right-0 z-20 flex justify-center pointer-events-none">
-          <div className="text-[12px] text-slate-400 bg-slate-950/70 px-3 py-1 rounded-full">
+          <div className="text-[12px] text-slate-500 bg-slate-950/70 px-3 py-1 rounded-full">
             {cursor + 1} / {queue!.length}
           </div>
         </div>
@@ -307,7 +307,7 @@ export const FeedScreen: React.FC = () => {
                 : `“Come on, ${student?.name || ''}. Watch what I’m showing you, then show me how you think.”`}
             </p>
           </div>
-          <div className="mt-6 flex items-center justify-center gap-2 text-slate-400 text-xs">
+          <div className="mt-6 flex items-center justify-center gap-2 text-slate-500 text-xs">
             <ArrowDown className="w-4 h-4 animate-bounce" />
             <span>{isAr ? 'اسحبي لأعلى — نور هتكمّل معاكي خطوة بخطوة' : isFr ? 'Glisse vers le haut — Noor t\'accompagne pas à pas' : 'Swipe up — Noor will guide you step by step'}</span>
           </div>
@@ -356,7 +356,7 @@ export const FeedScreen: React.FC = () => {
               ) : (
                 <div className="rounded-[2rem] bg-white/10 backdrop-blur-xl border border-white/15 p-6 shadow-2xl">
                   <div className="text-[11px] uppercase tracking-widest text-cyan-300 font-black mb-3">{card.purpose}</div>
-                  <div className="text-xs text-slate-400">{card.subject}</div>
+                  <div className="text-xs text-slate-500">{card.subject}</div>
                   <h2 className="text-3xl font-black leading-tight mt-2">{card.title}</h2>
                   <p className="text-slate-300 text-sm mt-3">{isAr ? 'نور هتبدأ معاكِ، تسألك، تسمع تفكيرك، وتغيّر الشرح حسب إجابتك.' : isFr ? 'Noor va t\'accompagner, te questionner, écouter ton raisonnement et adapter l\'explication.' : 'Noor will teach, question you, listen to your reasoning, and adapt.'}</p>
                   <div className="mt-6 flex items-center justify-between gap-3">

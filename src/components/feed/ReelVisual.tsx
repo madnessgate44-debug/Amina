@@ -66,7 +66,7 @@ export const ReelVisual: React.FC<ReelVisualProps> = ({ reel, isAr, reducedMotio
         role="img"
         aria-label={`${kindLabel}: ${model.title}. ${model.caption}`}
       />
-      <figcaption className="flex items-center justify-between gap-2 px-3 py-1.5 text-[12px] text-slate-400 border-t border-white/10">
+      <figcaption className="flex items-center justify-between gap-2 px-3 py-1.5 text-[12px] text-slate-500 border-t border-white/10">
         <span className="font-black text-cyan-300 uppercase tracking-widest">{kindLabel}</span>
         <span className="truncate">{model.sourceLabel}</span>
       </figcaption>

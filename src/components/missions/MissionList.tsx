@@ -145,7 +145,7 @@ export const MissionList: React.FC<MissionListProps> = ({ missions, onStartMissi
 
               {/* Action Button */}
               <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between">
-                <div className="text-[10px] text-slate-400">
+                <div className="text-[10px] text-slate-500">
                   {mission.type === 'understand_lesson'
                     ? isAr ? 'فيديو قصير (Reel)' : 'Short Reel'
                     : mission.type === 'homework'

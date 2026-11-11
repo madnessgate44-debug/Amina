@@ -54,9 +54,9 @@ export const ReelMedia: React.FC<ReelMediaProps> = ({ item, language, isAr, redu
     <figcaption className="px-3 py-2 border-t border-white/10">
       <div className="flex items-center justify-between gap-2 text-[12px] text-slate-300">
         <span className="font-black text-cyan-300 uppercase tracking-widest">{title}</span>
-        <span className="truncate text-slate-400">{item.curriculumRef}</span>
+        <span className="truncate text-slate-500">{item.curriculumRef}</span>
       </div>
-      <p className="mt-1 text-[12px] text-slate-400 leading-snug">{purpose}</p>
+      <p className="mt-1 text-[12px] text-slate-500 leading-snug">{purpose}</p>
     </figcaption>
   );
 
@@ -104,7 +104,7 @@ export const ReelMedia: React.FC<ReelMediaProps> = ({ item, language, isAr, redu
           <span>{title}</span>
         </div>
         <audio src={src} controls className="w-full h-9" aria-label={alt} onError={onError} />
-        <p className="mt-2 text-[12px] text-slate-400">{purpose}</p>
+        <p className="mt-2 text-[12px] text-slate-500">{purpose}</p>
       </figure>
     );
   }
@@ -119,7 +119,7 @@ export const ReelMedia: React.FC<ReelMediaProps> = ({ item, language, isAr, redu
         ) : (
           <>
             {status === 'loading' && (
-              <div className="absolute inset-0 grid place-items-center text-slate-400">
+              <div className="absolute inset-0 grid place-items-center text-slate-500">
                 <Loader2 className="w-6 h-6 animate-spin" />
               </div>
             )}
@@ -210,7 +210,7 @@ const NarrationBar: React.FC<{ text: string; src: string; isAr: boolean; alt: st
       >
         {playing ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
       </button>
-      <span className="text-[12px] text-slate-400 leading-snug line-clamp-2">{text}</span>
+      <span className="text-[12px] text-slate-500 leading-snug line-clamp-2">{text}</span>
       <audio
         ref={ref}
         src={src}

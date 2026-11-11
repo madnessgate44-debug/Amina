@@ -140,7 +140,7 @@ export const MissionRunnerModal: React.FC<MissionRunnerModalProps> = ({ mission,
               </div>
               <button
                 onClick={() => setTutorActive(false)}
-                className="p-1.5 rounded-full text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
+                className="p-1.5 rounded-full text-slate-500 hover:text-slate-600 dark:hover:text-slate-200"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -154,7 +154,7 @@ export const MissionRunnerModal: React.FC<MissionRunnerModalProps> = ({ mission,
                     <Badge variant={step.modality === 'flag_for_review' ? 'warning' : 'ai'}>
                       {isAr ? step.modalityLabelAr : step.modalityLabelEn}
                     </Badge>
-                    <span className="text-[10px] text-slate-400">
+                    <span className="text-[10px] text-slate-500">
                       {isAr ? `محاولة ${step.state.attemptCount} من ٥` : `Attempt ${step.state.attemptCount} of 5`}
                     </span>
                   </div>

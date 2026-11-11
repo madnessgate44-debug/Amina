@@ -28,6 +28,14 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 — R9 text contrast correction (PR in progress)
+- **State first [V]:** based on `main` @ `9cd408a8cf59d49d81a9be3c8cf8cedbc2d3589a`; only open PR #8 remains explicitly excluded. Production deployment is READY for the same commit and aliases `amina-nine-sepia.vercel.app`.
+- **What changed [V]:** replaced 145 non-dark `text-slate-400` utility occurrences with `text-slate-500` across 34 source files. Dark-variant classes are preserved. Added an automated source-tree regression assertion to the phone accessibility suite; the token is constructed dynamically so the assertion does not match itself.
+- **First CI attempt [V]:** type-check failed because the new source scan referenced a traversal helper that was not defined in this suite; test and build were correctly skipped. Fixed by adding a local TypeScript source walker. No application-code failure was reported.
+- **Verification:** rerun pending. Required gate remains `npx tsc --noEmit`, `npm test`, `npm run build`; CI must pass before merge. Browser contrast and live deployment proof remain NOT RUN.
+- **Next:** run PR gates, verify the source scan returns zero non-dark occurrences, then merge/deploy only after all required evidence is present.
+- **Blockers:** none identified at source-authoring stage; test/build/production proof pending.
+
 ### 2026-11-11 (run 23) — media for the five next busiest un-illustrated lessons (ICT + French science)
 - **State first [V]:** `main` was `2226e73` (run 22's record #137); the only open PR was **#8**
   (archive, never merge). Baseline gate re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0

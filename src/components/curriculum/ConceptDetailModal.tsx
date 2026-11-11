@@ -133,9 +133,9 @@ export const ConceptDetailModal: React.FC<ConceptDetailModalProps> = ({ concept,
             {/* Hierarchy trail */}
             <div className="flex items-center gap-1.5 text-[11px] font-medium text-slate-500 dark:text-slate-400">
               <span>{isAr ? concept.subjectNameAr : concept.subjectNameEn}</span>
-              <ChevronRight className="w-3 h-3 text-slate-400 rtl:rotate-180" />
+              <ChevronRight className="w-3 h-3 text-slate-500 rtl:rotate-180" />
               <span>{isAr ? concept.unitNameAr : concept.unitNameEn}</span>
-              <ChevronRight className="w-3 h-3 text-slate-400 rtl:rotate-180" />
+              <ChevronRight className="w-3 h-3 text-slate-500 rtl:rotate-180" />
               <span>{isAr ? concept.lessonNameAr : concept.lessonNameEn}</span>
             </div>
 
@@ -156,7 +156,7 @@ export const ConceptDetailModal: React.FC<ConceptDetailModalProps> = ({ concept,
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
+            className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 hover:text-slate-700 dark:hover:text-slate-200 transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -177,7 +177,7 @@ export const ConceptDetailModal: React.FC<ConceptDetailModalProps> = ({ concept,
                   {masteryView.confidenceBandLabel}
                 </span>
               </div>
-              <span className="text-[10px] font-mono text-slate-400">
+              <span className="text-[10px] font-mono text-slate-500">
                 {masteryRecord?.evidenceCount ?? 0} {isAr ? 'أدلة' : 'evidence'}
               </span>
             </div>
@@ -194,12 +194,12 @@ export const ConceptDetailModal: React.FC<ConceptDetailModalProps> = ({ concept,
               </div>
               <div className="text-right rtl:text-left text-xs font-mono text-slate-500 dark:text-slate-400">
                 <div>
-                  <span className="text-slate-400">{isAr ? 'يقين احتمالي:' : 'Confidence:'} </span>
+                  <span className="text-slate-500">{isAr ? 'يقين احتمالي:' : 'Confidence:'} </span>
                   <span className="font-bold text-slate-700 dark:text-slate-300">
                     {masteryRecord ? `${(masteryRecord.confidence * 100).toFixed(0)}%` : '0%'}
                   </span>
                 </div>
-                <div className="text-[10px] text-slate-400">
+                <div className="text-[10px] text-slate-500">
                   {isAr ? 'حد أقصى: 95%' : 'Ceiling: 95%'}
                 </div>
               </div>
@@ -208,7 +208,7 @@ export const ConceptDetailModal: React.FC<ConceptDetailModalProps> = ({ concept,
             {/* Timestamps & Decay note */}
             <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400">
               <span className="flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-slate-400" />
+                <Clock className="w-3.5 h-3.5 text-slate-500" />
                 <span>{t.curriculum.lastPracticedLabel}: {formattedLastUpdated}</span>
               </span>
               {settings.simulatedDaysOffset && settings.simulatedDaysOffset > 0 ? (
@@ -240,7 +240,7 @@ export const ConceptDetailModal: React.FC<ConceptDetailModalProps> = ({ concept,
               </button>
 
               <div className="flex items-center gap-2">
-                <span className="text-[10px] text-slate-400 font-medium">
+                <span className="text-[10px] text-slate-500 font-medium">
                   {isAr ? 'حفظ / إعجاب:' : 'Save / Like:'}
                 </span>
                 <SaveLikeButton
@@ -402,7 +402,7 @@ export const ConceptDetailModal: React.FC<ConceptDetailModalProps> = ({ concept,
                     : isAr ? 'عرض سجل الأوزان والأدلة التفصيلي' : 'Show Detailed Evidence Log'}
                 </span>
               </button>
-              <span className="text-[10px] text-slate-400">
+              <span className="text-[10px] text-slate-500">
                 {masteryRecord?.evidenceLog.length ?? 0} {isAr ? 'مدخلات' : 'entries'}
               </span>
             </div>

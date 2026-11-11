@@ -15,7 +15,7 @@
  * Source-scanning, like the branding suite: no DOM, no network, no build.
  */
 
-import { readFileSync } from 'fs';
+import { readFileSync, readdirSync, statSync } from 'fs';
 import { join } from 'path';
 
 let passed = 0;
@@ -128,6 +128,39 @@ assert(
 assert(
   src('src/components/teacher/VirtualTeacherClassroom.tsx').includes('مس نور'),
   'F4.2 the classroom uses the canonical name "مس نور"'
+);
+
+/** R9: all non-dark source text must use the AA-safe slate-500 token. */
+function walkSource(dir: string): string[] {
+  const out: string[] = [];
+  for (const name of readdirSync(dir)) {
+    const full = join(dir, name);
+    if (statSync(full).isDirectory()) {
+      if (name === '__tests__' || name === 'node_modules') continue;
+      out.push(...walkSource(full));
+    } else if (/\.(ts|tsx)$/.test(name)) {
+      out.push(full);
+    }
+  }
+  return out;
+}
+const sourceFiles = walkSource(join(process.cwd(), 'src'));
+const legacyContrastToken = ['text', 'slate', '400'].join('-');
+const contrastOffenders: string[] = [];
+for (const file of sourceFiles) {
+  const lines = readFileSync(file, 'utf8').split('\n');
+  lines.forEach((line, index) => {
+    for (const token of line.match(/[^\s\"'`<>]+/g) ?? []) {
+      const at = token.indexOf(legacyContrastToken);
+      if (at >= 0 && !token.slice(0, at).split(':').includes('dark')) {
+        contrastOffenders.push(`${file.replace(process.cwd() + '/', '')}:${index + 1}`);
+      }
+    }
+  });
+}
+assert(
+  contrastOffenders.length === 0,
+  `R9 all non-dark slate-400 text classes are removed${contrastOffenders.length ? ` (${contrastOffenders.length}: ${contrastOffenders.slice(0, 12).join(', ')})` : ''}`
 );
 
 console.log(`\nPHONE UI ACCESSIBILITY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);

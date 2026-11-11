@@ -204,7 +204,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
                 </h3>
                 <Badge variant="ai">AI Reconstruction</Badge>
               </div>
-              <span className="text-[10px] text-slate-400">
+              <span className="text-[10px] text-slate-500">
                 {followUpCount > 0 && `${t.dayRecord.followUpCountNotice}: ${followUpCount}/3`}
               </span>
             </div>
@@ -212,7 +212,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600"
+            className="p-1.5 rounded-full hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-600"
           >
             <X className="w-5 h-5" />
           </button>
@@ -248,7 +248,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
                   onChange={(e) => setStudentInput(e.target.value)}
                   placeholder={t.dayRecord.inputPlaceholder}
                   disabled={isProcessing}
-                  className="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs"
+                  className="w-full p-3 rounded-2xl border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-xs"
                 />
 
                 <div className="flex items-center gap-2">
@@ -273,7 +273,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
 
               {/* Sample / Test Failure Path Chips */}
               <div className="border-t border-slate-100 dark:border-slate-800 pt-3 space-y-2">
-                <span className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-wider block">
+                <span className="text-[10px] font-bold text-slate-500 dark:text-slate-500 uppercase tracking-wider block">
                   {isArabic ? 'نماذج جاهزة لاختبار مسارات التعافي:' : 'Test Scenarios & Failure Paths:'}
                 </span>
 
@@ -435,7 +435,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
 
                 {/* Lessons summary */}
                 <div className="space-y-1">
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase">
+                  <span className="text-[10px] font-bold text-slate-500 block uppercase">
                     {t.dayRecord.lessonsCovered}
                   </span>
                   {proposedRecord.lessonsCovered.length > 0 ? (
@@ -445,13 +445,13 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
                       </div>
                     ))
                   ) : (
-                    <span className="text-xs text-slate-400 italic">{t.dayRecord.noLessons}</span>
+                    <span className="text-xs text-slate-500 italic">{t.dayRecord.noLessons}</span>
                   )}
                 </div>
 
                 {/* Homework summary */}
                 <div className="space-y-1 border-t border-slate-200 dark:border-slate-700/60 pt-2">
-                  <span className="text-[10px] font-bold text-slate-400 block uppercase">
+                  <span className="text-[10px] font-bold text-slate-500 block uppercase">
                     {t.dayRecord.homeworkAssigned}
                   </span>
                   {proposedRecord.homeworkAssigned.length > 0 ? (
@@ -461,7 +461,7 @@ export const DayRecordFlowModal: React.FC<DayRecordFlowModalProps> = ({ onClose 
                       </div>
                     ))
                   ) : (
-                    <span className="text-xs text-slate-400 italic">{t.dayRecord.noHomework}</span>
+                    <span className="text-xs text-slate-500 italic">{t.dayRecord.noHomework}</span>
                   )}
                 </div>
               </div>
