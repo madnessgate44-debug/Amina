@@ -30,8 +30,25 @@ of "Log".
 
 ### 2026-11-11 — Media coverage completion (PR in progress)
 - **State first [V]:** `main` @ `5e06de2fcdad81b264632e827fd41e964d34ffc6`; media catalog covers 32/54 concepts according to the latest merged media ledger. PR #8 remains open and excluded.
-- **Inspection [STARTED]:** run the curriculum-backed coverage and 120-day feed-frequency diagnostics to enumerate all remaining unillustrated concepts and rank them by feed exposure. The status ledger's earlier ranked list is incomplete, so the diagnostic output is the source of truth for this sprint.
-- **Target:** author every remaining SVG in both `media-src/<subject>/` and `public/media/<subject>/`, bind localized ar/en/fr legend/alt metadata and matching hotspots, and assert 54/54 `feedReach` coverage.
+- **Inspection [V]:** curriculum diagnostic confirmed 54 concepts, 32 covered, 22 uncovered. 120-day feed simulation ranked the uncovered concepts as follows:
+1. `off_math_u3_l1_c1` — 376 hits (rectangle area model)
+2. `off_math_u1_l3_c1` — 352 (expanded-form decimals)
+3. `off_ict_u1_l4_c1` — 330 (technical troubleshooting)
+4. `off_math_u1_l1_c1` — 318 (decimal place value)
+5. `off_ict_u1_l5_c1` — 300 (digital file management)
+6. `conc_mathfr_u2_l1_regle_or` — 282 (equivalent fractions)
+7. `off_ict_u2_l6_c1` — 266 (academic citation)
+8. `off_ict_u1_l3_c1` — 259 (IoT and assistive technology)
+9. `off_ict_u2_l3_c1` — 255 (scam detection)
+10. `conc_mathfr_u3_l1_puissance10` — 242 (powers of ten)
+11. `conc_mathfr_u1_l2_comparaison` — 234 (decimal comparison)
+12. `off_ict_u2_l2_c1` — 231 (passwords and MFA)
+13. `off_ict_u1_l2_c1` — 228 (internet versus intranet)
+14. `off_ict_u2_l4_c1` — 225 (copyright and Creative Commons)
+15. `conc_fr_u1_l2_possessifs` — 86 (possessive adjectives)
+16. `conc_fr_u2_l1_articles_indefinis` — 70 (indefinite articles)
+17–22. Zero hits in the 120-day feed sample: `conc_fr_u1_l1_presentation`, `conc_fr_u3_l1_gouts`, `conc_mathfr_u3_l1_zero_ajoute`, `conc_scifr_u2_l1_mouvement`, `off_en_u1_apple_tree_c1`, `off_en_u4_elephantine_c1`.
+- **Implementation [STARTED]:** authored 22 text-free SVG source/shipping assets across math, language, science, English and ICT; added 22 catalog entries with ar/en/fr title, purpose, alt, numbered legend and matching hotspots. Extended `feedReach` to 54 unique curriculum concepts and added all-concepts coverage assertion. Verification pending.
 - **Verification:** NOT RUN. Required gates: `npx tsc --noEmit`, `npm test`, `npm run build`; deployment/live proof pending.
 - **Next:** inspect diagnostic output, author all remaining media in this branch, then run the full gate before merge.
 - **Blockers:** browser proof for prior items remains outstanding due to unavailable browser wallet balance.

@@ -23,7 +23,6 @@ import { readFileSync, existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { MEDIA_CATALOG, mediaForConcept } from '../../data/media/mediaCatalog';
 import { curriculumService } from '../curriculum/curriculumService';
-import { buildFeedQueue } from '../reels/feedQueue';
 import { buildReelsForConcept } from '../reels/reelGenerator';
 import { EducationalMediaItem, localized } from '../../types/media';
 
@@ -46,72 +45,17 @@ const srcPath = (p: string) => join(ROOT, 'media-src', p.replace(/^media\//, '')
 
 function main() {
 
-  // Temporary authoring diagnostic: enumerate every uncovered curriculum concept
-  // with enough curriculum context to author the remaining diagrams accurately.
   const allConcepts = curriculumService.getAllLessons().flatMap((lesson) =>
-    lesson.concepts.map((concept) => ({
-      conceptId: concept.id,
-      lessonId: lesson.id,
-      subjectId: lesson.subjectId,
-      subjectNameAr: lesson.subjectNameAr,
-      subjectNameEn: lesson.subjectNameEn,
-      subjectNameFr: lesson.subjectNameFr,
-      lessonTitleAr: lesson.titleAr,
-      lessonTitleEn: lesson.titleEn,
-      lessonTitleFr: lesson.titleFr,
-      conceptTitleAr: concept.titleAr,
-      conceptTitleEn: concept.titleEn,
-      conceptTitleFr: concept.titleFr,
-      visualType: concept.visualType,
-      visualPrompt: concept.visualPrompt,
-      sourceText: concept.sourceText,
-      sourceTextFr: concept.sourceTextFr,
-    }))
+    lesson.concepts.map((concept) => ({ lessonId: lesson.id, conceptId: concept.id }))
   );
-  const uncovered = allConcepts.filter((concept) =>
-    mediaForConcept(concept.lessonId, concept.conceptId).length === 0
+  const uncoveredConcepts = allConcepts.filter(({ lessonId, conceptId }) =>
+    mediaForConcept(lessonId, conceptId).length === 0
   );
-  console.log('MEDIA_COVERAGE_DIAGNOSTIC ' + JSON.stringify({
-    totalConcepts: allConcepts.length,
-    coveredConcepts: allConcepts.length - uncovered.length,
-    uncoveredConcepts: uncovered,
-  }));
-  // Mirror scripts/qa-feed-frequency.ts so the uncovered set is ranked by actual feed exposure.
-  const frequencySubjects = [
-    ['الرياضيات (بالفرنسية)'], ['العلوم'], ['اللغة العربية'], ['التربية الدينية الإسلامية'],
-    ['الخط العربي'], ['الرياضيات'], ['اللغة الإنجليزية'], ['تكنولوجيا المعلومات'],
-    ['الدراسات الاجتماعية'], ['العلوم (بالفرنسية)'],
-  ];
-  const frequencyCounts = new Map<string, number>();
-  const frequencyStart = Date.UTC(2026, 0, 1);
-  for (let day = 0; day < 120; day++) {
-    const now = new Date(frequencyStart + day * 86_400_000);
-    for (const subject of frequencySubjects) {
-      const queue = buildFeedQueue({
-        studentId: 'media-rank-' + (day % 7),
-        language: 'ar',
-        mastery: {},
-        dueReviews: [],
-        todaySubjects: subject,
-        examCalendar: [],
-        sessionMinutes: 10,
-        now,
-      });
-      for (const reel of queue.reels) {
-        if (reel.conceptId === 'closer') continue;
-        frequencyCounts.set(reel.conceptId, (frequencyCounts.get(reel.conceptId) || 0) + 1);
-      }
-    }
-  }
-  const rankedUncovered = [...frequencyCounts.entries()]
-    .map(([conceptId, hits]) => {
-      const found = curriculumService.getConceptById(conceptId);
-      return { conceptId, hits, hasMedia: found ? mediaForConcept(found.lesson.id, conceptId).length > 0 : false, lessonId: found?.lesson.id, subject: found?.lesson.subjectNameAr };
-    })
-    .filter((row) => !row.hasMedia)
-    .sort((a, b) => b.hits - a.hits);
-  console.log('FEED_FREQUENCY_DIAGNOSTIC ' + JSON.stringify(rankedUncovered, null, 2));
-
+  check(
+    'all 54 curriculum concepts have authored media',
+    allConcepts.length === 54 && uncoveredConcepts.length === 0,
+    uncoveredConcepts.map((x) => `${x.lessonId}/${x.conceptId}`).join(', ')
+  );
 
   check('the catalog has media to check', MEDIA_CATALOG.length >= 3, `found ${MEDIA_CATALOG.length}`);
 
@@ -259,9 +203,36 @@ function main() {
     ['off_ict_u1_l6', 'off_ict_u1_l6_c1'],
     ['off_math_u2_l5', 'off_math_u2_l5_c1'],
     ['off_math_u2_l7', 'off_math_u2_l7_c1'],
+  
+    ['off_sci_u1_l1_plant_needs', 'off_sci_u1_l1_c1'],
+    ['off_math_u1_l4', 'off_math_u1_l4_c1'],
+    ['off_fr_u1_l1_salutations', 'conc_fr_u1_l1_salutations'],
+    ['off_math_u1_l1', 'off_math_u1_l1_c1'],
+    ['off_math_u1_l3', 'off_math_u1_l3_c1'],
+    ['off_math_u3_l1', 'off_math_u3_l1_c1'],
+    ['off_fr_u1_l1_salutations', 'conc_fr_u1_l1_presentation'],
+    ['off_fr_u1_l2_famille', 'conc_fr_u1_l2_possessifs'],
+    ['off_fr_u2_l1_classe', 'conc_fr_u2_l1_articles_indefinis'],
+    ['off_fr_u3_l1_horaire', 'conc_fr_u3_l1_gouts'],
+    ['off_mathfr_u1_l2_comparer', 'conc_mathfr_u1_l2_comparaison'],
+    ['off_mathfr_u2_l1_fractions', 'conc_mathfr_u2_l1_regle_or'],
+    ['off_mathfr_u3_l1_division', 'conc_mathfr_u3_l1_puissance10'],
+    ['off_mathfr_u3_l1_division', 'conc_mathfr_u3_l1_zero_ajoute'],
+    ['off_scifr_u2_l1_matiere', 'conc_scifr_u2_l1_mouvement'],
+    ['off_en_u1_apple_tree', 'off_en_u1_apple_tree_c1'],
+    ['off_en_u4_elephantine', 'off_en_u4_elephantine_c1'],
+    ['off_ict_u1_l2', 'off_ict_u1_l2_c1'],
+    ['off_ict_u1_l3', 'off_ict_u1_l3_c1'],
+    ['off_ict_u1_l4', 'off_ict_u1_l4_c1'],
+    ['off_ict_u1_l5', 'off_ict_u1_l5_c1'],
+    ['off_ict_u2_l2', 'off_ict_u2_l2_c1'],
+    ['off_ict_u2_l3', 'off_ict_u2_l3_c1'],
+    ['off_ict_u2_l4', 'off_ict_u2_l4_c1'],
+    ['off_ict_u2_l6', 'off_ict_u2_l6_c1'],
   ] as const;
   const reachMissing = feedReach.filter(([l, c]) => mediaForConcept(l, c).length === 0);
-  check('media covers the concepts the feed queues first (ICT, Arabic story, science, Islamic, calligraphy, French maths, the four busiest Arabic lessons)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
+  const uniqueFeedReach = new Set(feedReach.map(([lessonId, conceptId]) => `${lessonId}/${conceptId}`));
+  check('feedReach covers all 54 curriculum concepts', feedReach.length === 54 && uniqueFeedReach.size === 54 && reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
 
   // 10. Types present: at least one image, one video and one narration.
   const types = new Set(MEDIA_CATALOG.map((m) => m.type));
