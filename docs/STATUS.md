@@ -28,13 +28,21 @@ of "Log".
 
 ## Log (newest first)
 
-### 2026-11-11 — R9 text contrast correction (PR in progress)
-- **State first [V]:** based on `main` @ `9cd408a8cf59d49d81a9be3c8cf8cedbc2d3589a`; only open PR #8 remains explicitly excluded. Production deployment is READY for the same commit and aliases `amina-nine-sepia.vercel.app`.
+### 2026-11-11 — G9 Homework and Missions separation (PR in progress)
+- **State first [V]:** `main` is `eb4d6e2adccb3ccaab0a0791168d37e50eb42642`; PR #141 (R9) is merged, and PR #8 remains open and excluded.
+- **Implementation [STARTED]:** pass an explicit `mode` prop from `AppShell`; missions mode excludes homework missions; homework mode includes only homework missions and falls back to `currentDayRecord.homeworkAssigned` when no homework missions exist. Add a pure filter test and include it in the full test gate.
+- **Verification:** NOT RUN yet. Required gate: `npx tsc --noEmit`, `npm test`, `npm run build`; CI and deployment proof pending.
+- **Next:** complete PR review, run gates, merge and deploy only after all three pass.
+- **Blockers:** browser live proof for R9 remains outstanding due to the connected browser wallet being out of funds.
+
+
+### 2026-11-11 — R9 text contrast correction (PR #141 merged)
+- **State first [V]:** based on `main` @ `9cd408a8cf59d49d81a9be3c8cf8cedbc2d3589a`; PR #8 remains explicitly excluded. PR #141 merged as `eb4d6e2adccb3ccaab0a0791168d37e50eb42642`.
 - **What changed [V]:** replaced 145 non-dark `text-slate-400` utility occurrences with `text-slate-500` across 34 source files. Dark-variant classes are preserved. Added an automated source-tree regression assertion to the phone accessibility suite; the token is constructed dynamically so the assertion does not match itself.
 - **First CI attempt [V]:** type-check failed because the new source scan referenced a traversal helper that was not defined in this suite; test and build were correctly skipped. Fixed by adding a local TypeScript source walker. No application-code failure was reported.
-- **Verification:** rerun pending. Required gate remains `npx tsc --noEmit`, `npm test`, `npm run build`; CI must pass before merge. Browser contrast and live deployment proof remain NOT RUN.
-- **Next:** run PR gates, verify the source scan returns zero non-dark occurrences, then merge/deploy only after all required evidence is present.
-- **Blockers:** none identified at source-authoring stage; test/build/production proof pending.
+- **Verification [V]:** PR CI run `43014258974` passed `npm run lint` (script executes `tsc --noEmit`), `npm test`, and `npm run build`; post-merge CI run `43014477934` and OS compliance run `43014477931` also succeeded. Vercel production deployment `dpl_GNMLPmXCLWynQPavQEUF2ZGqKPLj` is READY for the merge commit and aliases `amina-nine-sepia.vercel.app`. Runtime error/fatal query over 30 minutes returned no logs. Browser 390×844 proof and live-bundle/local-build SHA comparison are NOT RUN: browser automation could not start because the connected TinyFish wallet is negative.
+- **Next:** R9 source regression assertion passed in the phone UI suite; continue with G9 in a separate PR. Browser proof remains outstanding.
+- **Blockers:** browser proof is blocked by unavailable TinyFish wallet balance; no payment or paid service was initiated.
 
 ### 2026-11-11 (run 23) — media for the five next busiest un-illustrated lessons (ICT + French science)
 - **State first [V]:** `main` was `2226e73` (run 22's record #137); the only open PR was **#8**
