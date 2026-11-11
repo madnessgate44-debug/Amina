@@ -265,6 +265,40 @@ function run() {
     `9.1: all ${misLessons.length} misconception lessons become reachable (got ${misReached.length}: ${misReached.join(',')})`
   );
 
+  // ---- 9b. Every concept of a multi-concept lesson is reachable ----
+  // `reelsForLesson` used to take only a lesson's FIRST concept, so the second
+  // concept of a lesson never appeared in the feed and its media was dead
+  // weight (measured: 4 of 54 concepts unreachable across 120 days of sessions).
+  // The concepts are now rotated by the day index, the same trick used for
+  // lessons, so the whole lesson is surfaced over days.
+  const multiConceptLessons = curriculumService
+    .getAvailableLessons()
+    .filter((l) => l.concepts.length > 1);
+  assert(multiConceptLessons.length > 0, '9b.0: at least one lesson carries several concepts');
+  const unreachable: string[] = [];
+  for (const lesson of multiConceptLessons) {
+    const seen = new Set<string>();
+    for (let d = 0; d < lesson.concepts.length * 4; d++) {
+      const dayNow = new Date(Date.UTC(2026, 9, 20 + d, 12, 0, 0));
+      const q = buildFeedQueue({
+        studentId: 'stu_multi',
+        language: 'ar',
+        mastery,
+        dueReviews: [],
+        todaySubjects: [lesson.subjectNameAr, lesson.subjectNameEn],
+        examCalendar: [],
+        now: dayNow,
+        sessionMinutes: 20,
+      });
+      for (const r of q.reels) if (r.lessonId === lesson.id) seen.add(r.conceptId);
+    }
+    for (const c of lesson.concepts) if (!seen.has(c.id)) unreachable.push(`${lesson.id}/${c.id}`);
+  }
+  assert(
+    unreachable.length === 0,
+    `9b.1: every concept of a multi-concept lesson becomes reachable (unreachable: ${unreachable.join(', ')})`
+  );
+
   // ---- 10. A session has breadth: it does not run one lesson 6 reels deep ----
   // Each lesson yields ~6 reels. Plain concatenation showed the first lesson for
   // the whole session (measured: 6 reels of one lesson back-to-back). The pools

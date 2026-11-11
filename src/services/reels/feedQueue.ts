@@ -72,10 +72,16 @@ function reelsForLesson(
   lesson: OfficialCurriculumLesson,
   lang: Language,
   reason: ReelReason,
+  dayIndex = 0,
   maxConcepts = 1
 ): Reel[] {
   const out: Reel[] = [];
-  const concepts = lesson.concepts.slice(0, maxConcepts);
+  // A lesson can carry several concepts, but a session consumes only the first
+  // few reels of a pool, so slicing to the first concept left the rest of every
+  // multi-concept lesson unreachable from the feed. Rotating the concepts by the
+  // day index (the same trick used for lessons) makes them all reachable over
+  // days while keeping each pool's size unchanged.
+  const concepts = rotateBy(lesson.concepts, dayIndex).slice(0, maxConcepts);
   for (const concept of concepts) {
     out.push(...buildReelsForConcept(lesson, concept, lang, { reason }));
   }
@@ -160,7 +166,7 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const dayIndex = Math.floor(now.getTime() / 86_400_000);
   const todayLessons = rotateBy(matchedToday, dayIndex);
   for (const lesson of todayLessons) {
-    todayLists.push(reelsForLesson(lesson, lang, 'today_lesson'));
+    todayLists.push(reelsForLesson(lesson, lang, 'today_lesson', dayIndex));
   }
   const todayPool = interleave(todayLists);
 
@@ -169,7 +175,7 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   for (const exam of input.examCalendar || []) {
     const subjectLessons = lessons.filter((l) => l.subjectId === exam.entry.subjectId);
     for (const lesson of rotateBy(subjectLessons, dayIndex)) {
-      examLists.push(reelsForLesson(lesson, lang, 'exam_topic'));
+      examLists.push(reelsForLesson(lesson, lang, 'exam_topic', dayIndex));
     }
   }
   const examPool = interleave(examLists);
@@ -180,7 +186,7 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const wildcardLessons = lessons.filter((l) => !usedLessonIds.has(l.id));
   const shuffledWild = rng.shuffle(wildcardLessons);
   for (const lesson of shuffledWild.slice(0, 3)) {
-    curiosityLists.push(reelsForLesson(lesson, lang, 'curiosity'));
+    curiosityLists.push(reelsForLesson(lesson, lang, 'curiosity', dayIndex));
   }
   const curiosityPool = interleave(curiosityLists);
 
