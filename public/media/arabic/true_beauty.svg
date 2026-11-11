@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  True beauty — off_ar_u2_l1_c1 (الجمال الداخلي وقيمة الأخلاق والعطاء).
+  Text-free iceberg: the small tip above the water is outer appearance, the large
+  submerged mass is inner beauty — a smiling face (spirit), a heart (morals) and
+  an open book (mind). Four numbered callouts; wording is localized in the catalog.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="bsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="bsea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0ea5e9"/>
+      <stop offset="1" stop-color="#075985"/>
+    </linearGradient>
+    <linearGradient id="bice" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="1" stop-color="#dbeafe"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="230" fill="url(#bsky)"/>
+  <rect y="230" width="960" height="370" fill="url(#bsea)"/>
+
+  <!-- Tip above the water: outer appearance (small, temporary) -->
+  <path d="M440,230 L480,96 L520,230 Z" fill="url(#bice)" stroke="#93c5fd" stroke-width="5"/>
+
+  <!-- Submerged mass: inner beauty (large, lasting) -->
+  <path d="M440,230 L300,520 Q290,548 320,548 L640,548 Q670,548 660,520 L520,230 Z"
+        fill="url(#bice)" stroke="#93c5fd" stroke-width="6" opacity="0.95"/>
+
+  <!-- 2: beauty of the spirit — a calm smiling face -->
+  <g transform="translate(400,320)">
+    <circle cx="0" cy="0" r="42" fill="none" stroke="#17233b" stroke-width="7"/>
+    <circle cx="-14" cy="-10" r="5" fill="#17233b"/>
+    <circle cx="14" cy="-10" r="5" fill="#17233b"/>
+    <path d="M-18,12 q18,20 36,0" fill="none" stroke="#17233b" stroke-width="7" stroke-linecap="round"/>
+  </g>
+
+  <!-- 3: beauty of morals — a heart (giving, kindness) -->
+  <g transform="translate(560,300)">
+    <path d="M0,34 C-46,0 -40,-42 -14,-42 C-2,-42 0,-30 0,-24 C0,-30 2,-42 14,-42 C40,-42 46,0 0,34 Z"
+          fill="#ef4444" stroke="#b91c1c" stroke-width="5"/>
+  </g>
+
+  <!-- 4: beauty of the mind — an open book -->
+  <g transform="translate(470,460)">
+    <path d="M-70,-16 q35,-22 70,0 q35,-22 70,0 L70,44 q-35,-22 -70,0 q-35,-22 -70,0 Z"
+          fill="#fefce8" stroke="#a16207" stroke-width="6"/>
+    <line x1="0" y1="-14" x2="0" y2="42" stroke="#a16207" stroke-width="6"/>
+  </g>
+
+  <!-- Numbered markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="480" cy="70" r="26" fill="#0369a1" stroke="#ffffff" stroke-width="5"/>
+    <text x="480" y="82" fill="#ffffff">1</text>
+    <circle cx="330" cy="270" r="26" fill="#17233b" stroke="#ffffff" stroke-width="5"/>
+    <text x="330" y="282" fill="#ffffff">2</text>
+    <circle cx="620" cy="252" r="26" fill="#b91c1c" stroke="#ffffff" stroke-width="5"/>
+    <text x="620" y="264" fill="#ffffff">3</text>
+    <circle cx="470" cy="530" r="26" fill="#a16207" stroke="#ffffff" stroke-width="5"/>
+    <text x="470" y="542" fill="#ffffff">4</text>
+  </g>
+</svg>
