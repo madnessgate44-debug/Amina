@@ -276,7 +276,7 @@ export const TimetableScreen: React.FC = () => {
 
             {!activeDay || activeDay.periods.length === 0 ? (
               <div className="text-center py-10 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-2xl">
-                <p className="text-xs text-slate-400">
+                <p className="text-xs text-slate-500">
                   {isArabic ? 'لا توجد حصص مسجلة لهذا اليوم' : 'No periods recorded for this day'}
                 </p>
               </div>
@@ -312,7 +312,7 @@ export const TimetableScreen: React.FC = () => {
                     )}
                   </div>
                   <div className="flex items-center gap-1 text-[11px] text-slate-500 dark:text-slate-400 mt-0.5">
-                    <Clock className="w-3 h-3 text-slate-400" />
+                    <Clock className="w-3 h-3 text-slate-500" />
                     <span dir="ltr">
                       {period.startTime} - {period.endTime}
                     </span>
@@ -330,7 +330,7 @@ export const TimetableScreen: React.FC = () => {
                 </button>
                 <button
                   onClick={() => handleDeleteSlot(period.id)}
-                  className="p-1.5 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950 text-slate-400 hover:text-rose-600 transition-all"
+                  className="p-1.5 rounded-lg hover:bg-rose-50 dark:hover:bg-rose-950 text-slate-500 hover:text-rose-600 transition-all"
                   title={t.timetable.delete}
                 >
                   <Trash2 className="w-3.5 h-3.5" />
@@ -350,7 +350,7 @@ export const TimetableScreen: React.FC = () => {
           <RotateCcw className="w-3.5 h-3.5" />
           <span>{t.timetable.resetToDemo}</span>
         </button>
-        <span className="text-[11px] text-slate-400">
+        <span className="text-[11px] text-slate-500">
           {currentTimetable.days.reduce((acc, d) => acc + d.periods.length, 0)} {isArabic ? 'حصة مسجلة' : 'total periods'}
         </span>
       </div>

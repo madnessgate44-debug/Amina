@@ -122,7 +122,7 @@ export const ProfileScreen: React.FC = () => {
                 {isAr ? 'الأوسمة والإنجازات الفردية' : 'Personal Achievements'}
               </h3>
             </div>
-            <span className="text-[10px] text-slate-400 font-mono">
+            <span className="text-[10px] text-slate-500 font-mono">
               {gamification.badges.filter((b) => b.unlockedAt).length} / {gamification.badges.length}
             </span>
           </div>
@@ -139,7 +139,7 @@ export const ProfileScreen: React.FC = () => {
                       : 'bg-slate-50 dark:bg-slate-800/50 border-slate-200 dark:border-slate-800 opacity-60'
                   }`}
                 >
-                  <div className={`p-1.5 rounded-xl shrink-0 ${isUnlocked ? 'bg-amber-400 text-slate-900' : 'bg-slate-200 dark:bg-slate-700 text-slate-400'}`}>
+                  <div className={`p-1.5 rounded-xl shrink-0 ${isUnlocked ? 'bg-amber-400 text-slate-900' : 'bg-slate-200 dark:bg-slate-700 text-slate-500'}`}>
                     <Award className="w-3.5 h-3.5" />
                   </div>
                   <div className="min-w-0">
@@ -171,7 +171,7 @@ export const ProfileScreen: React.FC = () => {
               {isAr ? 'مرتبط' : 'Linked'}
             </span>
           ) : (
-            <span className="text-[10px] font-bold text-slate-400 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
+            <span className="text-[10px] font-bold text-slate-500 bg-slate-100 dark:bg-slate-800 px-2 py-0.5 rounded-full">
               {isAr ? 'غير مرتبط' : 'Not Linked'}
             </span>
           )}
@@ -268,7 +268,7 @@ export const ProfileScreen: React.FC = () => {
             {settings.companionVoiceEnabled ? (
               <Volume2 className="w-4 h-4 text-emerald-600" />
             ) : (
-              <VolumeX className="w-4 h-4 text-slate-400" />
+              <VolumeX className="w-4 h-4 text-slate-500" />
             )}
             <span className="font-medium text-slate-700 dark:text-slate-300">
               {isAr ? 'صوت الرفيق التعليمي' : 'Companion Voice'}
@@ -305,7 +305,7 @@ export const ProfileScreen: React.FC = () => {
             <Download className="w-4 h-4 text-indigo-600" />
             <span>{isAr ? 'تصدير نسخة احتياطية شفافة (JSON)' : 'Export Transparent Data (JSON)'}</span>
           </div>
-          <span className="text-[10px] text-slate-400">
+          <span className="text-[10px] text-slate-500">
             {isExporting ? (isAr ? 'جارِ التصدير...' : 'Exporting...') : (isAr ? 'تحميل' : 'Download')}
           </span>
         </button>

@@ -121,7 +121,7 @@ export const DeveloperPanel: React.FC<DeveloperPanelProps> = ({ language }) => {
             <h3 className="font-bold text-sm text-white">
               {isAr ? 'لوحة المطور ومؤشرات الأداء والتكلفة' : 'Developer Panel — Cost & Latency'}
             </h3>
-            <p className="text-[10px] text-slate-400">
+            <p className="text-[10px] text-slate-500">
               {isAr
                 ? 'رصد استهلاك Gemini ومعدل الاستجابة لكل طالب خلال آخر 7 أيام.'
                 : 'Per-student telemetry for Gemini API spend and latency across last 7 days.'}
@@ -136,7 +136,7 @@ export const DeveloperPanel: React.FC<DeveloperPanelProps> = ({ language }) => {
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
         {/* Cost Budget */}
         <div className="p-3 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">
+          <span className="text-[10px] text-slate-500 block font-medium">
             {isAr ? 'تكلفة اليوم / الهدف ($0.50)' : 'Today Cost / Target ($0.50)'}
           </span>
           <div className="flex items-baseline gap-1">
@@ -147,16 +147,16 @@ export const DeveloperPanel: React.FC<DeveloperPanelProps> = ({ language }) => {
             >
               ${todaySummary.totalCostUsd.toFixed(4)}
             </span>
-            <span className="text-[10px] text-slate-400">/ $0.50</span>
+            <span className="text-[10px] text-slate-500">/ $0.50</span>
           </div>
-          <span className="text-[9px] text-slate-400 block font-mono">
+          <span className="text-[9px] text-slate-500 block font-mono">
             {todaySummary.totalTokensIn + todaySummary.totalTokensOut} tokens
           </span>
         </div>
 
         {/* Companion Chat Latency Target */}
         <div className="p-3 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">
+          <span className="text-[10px] text-slate-500 block font-medium">
             {isAr ? 'زمن رد الرفيق (الهدف ≤ 3 ث)' : 'Chat Latency (Target ≤ 3s)'}
           </span>
           <div className="flex items-baseline gap-1">
@@ -165,31 +165,31 @@ export const DeveloperPanel: React.FC<DeveloperPanelProps> = ({ language }) => {
             </span>
             <span className="text-[10px] text-emerald-400">✓ PASS</span>
           </div>
-          <span className="text-[9px] text-slate-400 block">P95: {todaySummary.p95LatencyMs || '~2100'}ms</span>
+          <span className="text-[9px] text-slate-500 block">P95: {todaySummary.p95LatencyMs || '~2100'}ms</span>
         </div>
 
         {/* Quiz Feedback Target */}
         <div className="p-3 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">
+          <span className="text-[10px] text-slate-500 block font-medium">
             {isAr ? 'رد المسابقات (الهدف ≤ 500 مل)' : 'Quiz Feedback (Target ≤ 500ms)'}
           </span>
           <div className="flex items-baseline gap-1">
             <span className="text-sm font-extrabold text-emerald-400">~15ms</span>
             <span className="text-[10px] text-emerald-400">✓ PASS</span>
           </div>
-          <span className="text-[9px] text-slate-400 block">{isAr ? 'تقييم محلي فوري' : 'Instant client eval'}</span>
+          <span className="text-[9px] text-slate-500 block">{isAr ? 'تقييم محلي فوري' : 'Instant client eval'}</span>
         </div>
 
         {/* Home Load Target */}
         <div className="p-3 rounded-2xl bg-slate-800/80 border border-slate-700/60 space-y-1">
-          <span className="text-[10px] text-slate-400 block font-medium">
+          <span className="text-[10px] text-slate-500 block font-medium">
             {isAr ? 'تحميل الشاشة (الهدف ≤ 2 ث)' : 'Home Load (Target ≤ 2s)'}
           </span>
           <div className="flex items-baseline gap-1">
             <span className="text-sm font-extrabold text-emerald-400">~120ms</span>
             <span className="text-[10px] text-emerald-400">✓ PASS</span>
           </div>
-          <span className="text-[9px] text-slate-400 block">{isAr ? 'محلي أولاً IndexedDB' : 'Local-first IndexedDB'}</span>
+          <span className="text-[9px] text-slate-500 block">{isAr ? 'محلي أولاً IndexedDB' : 'Local-first IndexedDB'}</span>
         </div>
       </div>
 
@@ -237,7 +237,7 @@ export const DeveloperPanel: React.FC<DeveloperPanelProps> = ({ language }) => {
 
         <div className="overflow-x-auto rounded-2xl border border-slate-800">
           <table className="w-full text-[10px] text-right rtl:text-right">
-            <thead className="bg-slate-800/60 text-slate-400 uppercase font-mono">
+            <thead className="bg-slate-800/60 text-slate-500 uppercase font-mono">
               <tr>
                 <th className="p-2">{isAr ? 'التاريخ' : 'Date'}</th>
                 <th className="p-2">{isAr ? 'النداءات' : 'Calls'}</th>

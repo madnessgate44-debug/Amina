@@ -245,7 +245,7 @@ export const ProgressScreen: React.FC = () => {
               {isAr ? 'دقائق المذاكرة اليومية (آخر 14 يوماً)' : 'Daily Study Minutes (Last 14 Days)'}
             </h3>
           </div>
-          <span className="text-[10px] text-slate-400 font-medium">
+          <span className="text-[10px] text-slate-500 font-medium">
             {isAr ? 'بدون ضغط السلاسل' : 'Zero pressure'}
           </span>
         </div>
@@ -274,7 +274,7 @@ export const ProgressScreen: React.FC = () => {
                   }`}
                   style={{ height: `${heightPercent}%` }}
                 />
-                <span className="text-[8px] text-slate-400 truncate text-center">
+                <span className="text-[8px] text-slate-500 truncate text-center">
                   {day.displayLabel}
                 </span>
               </div>
@@ -302,7 +302,7 @@ export const ProgressScreen: React.FC = () => {
           </div>
 
           {strengths.length === 0 ? (
-            <p className="text-[11px] text-slate-400 py-2">
+            <p className="text-[11px] text-slate-500 py-2">
               {isAr ? 'ابدأ بحل بعض التمارين لتظهر نقاط قوتك هنا.' : 'Complete some exercises to surface your strengths.'}
             </p>
           ) : (
@@ -339,7 +339,7 @@ export const ProgressScreen: React.FC = () => {
           </div>
 
           {growthAreas.length === 0 ? (
-            <p className="text-[11px] text-slate-400 py-2">
+            <p className="text-[11px] text-slate-500 py-2">
               {isAr ? 'كافة المفاهيم المدروسة تسير بإتقان ممتاز.' : 'All concepts with evidence are in great standing.'}
             </p>
           ) : (
@@ -353,7 +353,7 @@ export const ProgressScreen: React.FC = () => {
                     <span className="font-bold text-slate-900 dark:text-slate-100 block truncate">
                       {isAr ? g.nameAr : g.nameEn}
                     </span>
-                    <span className="text-[9px] text-slate-400">
+                    <span className="text-[9px] text-slate-500">
                       {g.subject}
                     </span>
                   </div>
@@ -378,7 +378,7 @@ export const ProgressScreen: React.FC = () => {
             <Layers className="w-4 h-4 text-indigo-600" />
             <span>{isAr ? 'خريطة المعرفة والمنهج التفصيلية (54 مفهوماً)' : 'Full Knowledge Map Tree (54 Concepts)'}</span>
           </div>
-          {showKnowledgeMapFull ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+          {showKnowledgeMapFull ? <ChevronUp className="w-4 h-4 text-slate-500" /> : <ChevronDown className="w-4 h-4 text-slate-500" />}
         </button>
 
         {showKnowledgeMapFull && (

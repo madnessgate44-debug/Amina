@@ -208,7 +208,7 @@ export const CurriculumBrowser: React.FC = () => {
 
       {/* 2. Search Bar across All Books */}
       <div className="relative">
-        <Search className="w-4 h-4 text-slate-400 absolute top-3 left-3 rtl:left-auto rtl:right-3" />
+        <Search className="w-4 h-4 text-slate-500 absolute top-3 left-3 rtl:left-auto rtl:right-3" />
         <input
           type="text"
           value={searchQuery}
@@ -218,13 +218,13 @@ export const CurriculumBrowser: React.FC = () => {
               ? 'ابحثي في جميع الكتب (كسور، نبات، salutations، décimaux، النيل)...'
               : isFr ? 'Rechercher dans tous les manuels (fractions, plantes, décimaux)...' : 'Search in all books (fractions, plants, decimals)...'
           }
-          className="w-full py-2.5 px-9 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-2xs"
+          className="w-full py-2.5 px-9 text-xs rounded-xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 placeholder:text-slate-500 focus:outline-hidden focus:ring-2 focus:ring-indigo-500 shadow-2xs"
         />
         {searchQuery && (
           <button
             type="button"
             onClick={() => setSearchQuery('')}
-            className="absolute top-2.5 right-3 rtl:right-auto rtl:left-3 text-xs text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 font-bold"
+            className="absolute top-2.5 right-3 rtl:right-auto rtl:left-3 text-xs text-slate-500 hover:text-slate-600 dark:hover:text-slate-200 font-bold"
           >
             ✕
           </button>
@@ -348,7 +348,7 @@ export const CurriculumBrowser: React.FC = () => {
                         {isAr ? u.unitNameAr : isFr && u.unitNameFr ? u.unitNameFr : u.unitNameEn}
                       </h4>
                     </div>
-                    <span className="text-xs text-slate-400 font-bold">
+                    <span className="text-xs text-slate-500 font-bold">
                       {u.lessons.length} {isAr ? 'دروس' : 'lessons'}
                     </span>
                   </div>
@@ -384,7 +384,7 @@ export const CurriculumBrowser: React.FC = () => {
                               <h5 className="text-xs font-black text-slate-900 dark:text-slate-100 pt-0.5">
                                 {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
                               </h5>
-                              <p className="text-xs text-slate-400">
+                              <p className="text-xs text-slate-500">
                                 {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
                               </p>
                             </div>
@@ -401,7 +401,7 @@ export const CurriculumBrowser: React.FC = () => {
                               <button
                                 type="button"
                                 onClick={() => toggleLesson(lesson.id)}
-                                className="p-1 rounded text-slate-400 hover:text-slate-600"
+                                className="p-1 rounded text-slate-500 hover:text-slate-600"
                               >
                                 {isExpanded ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
                               </button>
@@ -454,7 +454,7 @@ export const CurriculumBrowser: React.FC = () => {
                                           <Badge variant="demo">{supp.sourceType === 'al_adwaa' ? 'الأضواء' : 'سلاح التلميذ'}</Badge>
                                           <span className="font-semibold">{isAr ? supp.sourceNameAr : supp.sourceNameEn}</span>
                                         </div>
-                                        {supp.page && <span className="text-slate-400">صـ {supp.page}</span>}
+                                        {supp.page && <span className="text-slate-500">صـ {supp.page}</span>}
                                       </div>
                                     ))}
                                   </div>
@@ -562,7 +562,7 @@ export const CurriculumBrowser: React.FC = () => {
                       <span className="text-xs font-bold px-2 py-0.5 rounded-md bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300">
                         {isAr ? lesson.subjectNameAr : lesson.subjectNameEn}
                       </span>
-                      <span className="text-xs text-slate-400">
+                      <span className="text-xs text-slate-500">
                         {isAr ? `الوحدة ${lesson.unitNumber}` : `Unit ${lesson.unitNumber}`}
                       </span>
                     </div>
@@ -570,7 +570,7 @@ export const CurriculumBrowser: React.FC = () => {
                     <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 pt-0.5">
                       {isAr ? lesson.titleAr : isFr && lesson.titleFr ? lesson.titleFr : lesson.titleEn}
                     </h4>
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-slate-500">
                       {isAr ? lesson.sourceRef.bookAr : lesson.sourceRef.bookEn}
                     </p>
                   </div>

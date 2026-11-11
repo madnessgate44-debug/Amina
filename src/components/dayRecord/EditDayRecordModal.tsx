@@ -96,7 +96,7 @@ export const EditDayRecordModal: React.FC<EditDayRecordModalProps> = ({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600"
+            className="p-1.5 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-600"
           >
             <X className="w-5 h-5" />
           </button>
@@ -136,7 +136,7 @@ export const EditDayRecordModal: React.FC<EditDayRecordModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleRemoveLesson(idx)}
-                    className="p-1 text-slate-400 hover:text-rose-600"
+                    className="p-1 text-slate-500 hover:text-rose-600"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>
@@ -191,7 +191,7 @@ export const EditDayRecordModal: React.FC<EditDayRecordModalProps> = ({
                   <button
                     type="button"
                     onClick={() => handleRemoveHomework(idx)}
-                    className="p-1 text-slate-400 hover:text-rose-600"
+                    className="p-1 text-slate-500 hover:text-rose-600"
                   >
                     <Trash2 className="w-4 h-4" />
                   </button>

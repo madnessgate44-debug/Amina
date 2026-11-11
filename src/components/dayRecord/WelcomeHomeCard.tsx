@@ -62,7 +62,7 @@ export const WelcomeHomeCard: React.FC<WelcomeHomeCardProps> = ({ onStartReconst
         <button
           type="button"
           onClick={dismissWelcomeHome}
-          className="p-1.5 rounded-full hover:bg-slate-200/60 dark:hover:bg-slate-800 text-slate-400 hover:text-slate-600 transition-colors"
+          className="p-1.5 rounded-full hover:bg-slate-200/60 dark:hover:bg-slate-800 text-slate-500 hover:text-slate-600 transition-colors"
           title={t.dayRecord.dismiss}
         >
           <X className="w-4 h-4" />

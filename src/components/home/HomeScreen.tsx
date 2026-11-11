@@ -409,7 +409,7 @@ export const HomeScreen: React.FC = () => {
 
           <button
             onClick={() => regenerateMissionsForToday(selectedDuration)}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-all"
+            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-all"
             title={isArabic ? 'إعادة جدولة المهام' : 'Re-plan missions'}
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -432,7 +432,7 @@ export const HomeScreen: React.FC = () => {
               <h3 className="text-xs sm:text-sm font-black text-slate-900 dark:text-slate-100">
                 {isArabic ? 'مدرستي — كتبي المدرسية' : isFrench ? 'Mon école — Manuels' : 'My School — Textbooks'}
               </h3>
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-500">
                 {isArabic ? 'جميع كتب وزارة التربية والتعليم الرسمية والداعمة' : 'All official & supplementary curriculum books'}
               </p>
             </div>
@@ -466,7 +466,7 @@ export const HomeScreen: React.FC = () => {
                 <h4 className="text-xs font-black text-slate-900 dark:text-slate-100 truncate pt-1">
                   {isArabic ? b.subjectNameAr : isFrench && b.subjectNameFr ? b.subjectNameFr : b.subjectNameEn}
                 </h4>
-                <p className="text-xs text-slate-400 truncate">
+                <p className="text-xs text-slate-500 truncate">
                   {isArabic ? b.bookTitleAr : isFrench && b.bookTitleFr ? b.bookTitleFr : b.bookTitleEn}
                 </p>
               </div>

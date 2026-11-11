@@ -273,7 +273,7 @@ export const KnowledgeMap: React.FC = () => {
                     {isAr ? 'منهج رسمي' : 'Official'}
                   </Badge>
                 </div>
-                <span className="text-[10px] font-mono text-slate-400">
+                <span className="text-[10px] font-mono text-slate-500">
                   {subjectConceptsCount} {isAr ? 'مفهوماً' : 'concepts'}
                 </span>
               </div>
@@ -386,7 +386,7 @@ export const KnowledgeMap: React.FC = () => {
                                     {isAr ? 'رسمي' : 'Official'}
                                   </Badge>
                                 </div>
-                                <span className="text-[10px] text-slate-400 truncate block">
+                                <span className="text-[10px] text-slate-500 truncate block">
                                   {isAr ? lesson.titleAr : lesson.titleEn}
                                 </span>
                               </div>
@@ -400,7 +400,7 @@ export const KnowledgeMap: React.FC = () => {
                                 {view.compositeLabel}
                               </span>
 
-                              <div className="text-[9px] font-mono text-slate-400 flex items-center gap-1">
+                              <div className="text-[9px] font-mono text-slate-500 flex items-center gap-1">
                                 <span>{view.thresholdLabel}</span>
                                 <span>•</span>
                                 <span>{record?.evidenceCount ?? 0} {isAr ? 'أدلة' : 'ev'}</span>

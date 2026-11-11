@@ -67,7 +67,7 @@ export const SaveLikeButton: React.FC<SaveLikeButtonProps> = ({
           className={`${btnClass} transition-colors ${
             isLiked
               ? 'text-rose-500 bg-rose-50 dark:bg-rose-950/40 hover:bg-rose-100'
-              : 'text-slate-400 hover:text-rose-500 hover:bg-slate-100 dark:hover:bg-slate-800'
+              : 'text-slate-500 hover:text-rose-500 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
           <Heart className={`${iconClass} ${isLiked ? 'fill-current' : ''}`} />
@@ -81,7 +81,7 @@ export const SaveLikeButton: React.FC<SaveLikeButtonProps> = ({
           className={`${btnClass} transition-colors ${
             isSaved
               ? 'text-indigo-600 bg-indigo-50 dark:bg-indigo-950/40 hover:bg-indigo-100'
-              : 'text-slate-400 hover:text-indigo-600 hover:bg-slate-100 dark:hover:bg-slate-800'
+              : 'text-slate-500 hover:text-indigo-600 hover:bg-slate-100 dark:hover:bg-slate-800'
           }`}
         >
           <Bookmark className={`${iconClass} ${isSaved ? 'fill-current' : ''}`} />

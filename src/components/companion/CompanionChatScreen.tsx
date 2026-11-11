@@ -540,7 +540,7 @@ export const CompanionChatScreen: React.FC = () => {
           <button
             type="button"
             onClick={handleClearChat}
-            className="p-2 rounded-xl text-slate-400 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all"
+            className="p-2 rounded-xl text-slate-500 hover:text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/30 transition-all"
             title={isArabic ? 'مسح سجل المحادثة' : 'Clear conversation history'}
             aria-label={isArabic ? 'مسح سجل المحادثة' : 'Clear conversation history'}
           >
@@ -598,7 +598,7 @@ export const CompanionChatScreen: React.FC = () => {
                 <div className="whitespace-pre-wrap">{msg.content}</div>
                 <div
                   className={`text-[9px] mt-1.5 flex items-center justify-between gap-2 ${
-                    isUser ? 'text-indigo-200' : 'text-slate-400 dark:text-slate-500'
+                    isUser ? 'text-indigo-200' : 'text-slate-500 dark:text-slate-500'
                   }`}
                 >
                   <span>{msg.timestamp}</span>
@@ -616,7 +616,7 @@ export const CompanionChatScreen: React.FC = () => {
         })}
 
         {isSending && (
-          <div className="flex items-center gap-2 text-xs text-slate-400 italic">
+          <div className="flex items-center gap-2 text-xs text-slate-500 italic">
             <div className="w-7 h-7 rounded-full bg-indigo-100 dark:bg-indigo-950 flex items-center justify-center">
               <Bot className="w-4 h-4 text-indigo-600" />
             </div>

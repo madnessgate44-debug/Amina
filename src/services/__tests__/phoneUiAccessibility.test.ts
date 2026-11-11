@@ -130,5 +130,25 @@ assert(
   'F4.2 the classroom uses the canonical name "مس نور"'
 );
 
+/** R9: all non-dark source text must use the AA-safe slate-500 token. */
+const sourceFiles = walk(join(process.cwd(), 'src'));
+const legacyContrastToken = ['text', 'slate', '400'].join('-');
+const contrastOffenders: string[] = [];
+for (const file of sourceFiles) {
+  const lines = readFileSync(file, 'utf8').split('\n');
+  lines.forEach((line, index) => {
+    for (const token of line.match(/[^\s\"'`<>]+/g) ?? []) {
+      const at = token.indexOf(legacyContrastToken);
+      if (at >= 0 && !token.slice(0, at).split(':').includes('dark')) {
+        contrastOffenders.push(`${file.replace(process.cwd() + '/', '')}:${index + 1}`);
+      }
+    }
+  });
+}
+assert(
+  contrastOffenders.length === 0,
+  `R9 all non-dark slate-400 text classes are removed${contrastOffenders.length ? ` (${contrastOffenders.length}: ${contrastOffenders.slice(0, 12).join(', ')})` : ''}`
+);
+
 console.log(`\nPHONE UI ACCESSIBILITY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);

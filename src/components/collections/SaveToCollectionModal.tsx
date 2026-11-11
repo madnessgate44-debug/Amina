@@ -91,14 +91,14 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
               <h3 className="text-xs font-bold text-slate-900 dark:text-slate-100">
                 {isAr ? 'حفظ إلى المجموعات الخاصة' : 'Save to Collections'}
               </h3>
-              <p className="text-[10px] text-slate-400 truncate max-w-[240px]">
+              <p className="text-[10px] text-slate-500 truncate max-w-[240px]">
                 {item.title}
               </p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800"
+            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-600 hover:bg-slate-100 dark:hover:bg-slate-800"
           >
             <X className="w-4 h-4" />
           </button>
@@ -161,7 +161,7 @@ export const SaveToCollectionModal: React.FC<SaveToCollectionModalProps> = ({ it
                 <button
                   type="button"
                   onClick={() => setShowAddColInput(false)}
-                  className="p-2 text-slate-400 hover:text-slate-600"
+                  className="p-2 text-slate-500 hover:text-slate-600"
                 >
                   <X className="w-4 h-4" />
                 </button>

@@ -228,7 +228,7 @@ export const ReviewScreen: React.FC = () => {
                 <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
                   {isAr ? 'رائع! لا توجد مفاهيم مستحقة للمراجعة الآن' : 'All clear! No concepts due for review right now.'}
                 </h4>
-                <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
+                <p className="text-[11px] text-slate-500 max-w-xs mx-auto">
                   {isAr
                     ? 'الجدولة التكيفية ستنبهك بلطف عندما يحين موعد مراجعة أي مفهوم علمي للحفاظ على ثباته.'
                     : 'The adaptive scheduler will gently remind you when any concept is ready for a refresh.'}
@@ -349,7 +349,7 @@ export const ReviewScreen: React.FC = () => {
               <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
                 {isAr ? 'لا توجد عناصر محفوظة في هذه المجموعة بعد' : 'No items saved in this collection yet.'}
               </h4>
-              <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
+              <p className="text-[11px] text-slate-500 max-w-xs mx-auto">
                 {isAr
                   ? 'يمكنك حفظ أي درس، أو بطاقة مفهوم، أو ملاحظة، أو مقطع تعليمي بالضغط على أيقونة الإشارة المرجعية.'
                   : 'You can save any lesson, quiz, concept card, or note by tapping the bookmark icon.'}
@@ -384,7 +384,7 @@ export const ReviewScreen: React.FC = () => {
                         type="button"
                         onClick={() => handleStartEditNote(item.id, item.note)}
                         title={isAr ? 'تعديل الملاحظة' : 'Edit note'}
-                        className="p-1.5 text-slate-400 hover:text-indigo-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                        className="p-1.5 text-slate-500 hover:text-indigo-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                       >
                         <Edit3 className="w-3.5 h-3.5" />
                       </button>
@@ -392,7 +392,7 @@ export const ReviewScreen: React.FC = () => {
                         type="button"
                         onClick={() => removeSavedItem(item.id)}
                         title={isAr ? 'حذف من المحفوظات' : 'Remove item'}
-                        className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
+                        className="p-1.5 text-slate-500 hover:text-rose-600 rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800"
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -474,7 +474,7 @@ export const ReviewScreen: React.FC = () => {
                 <h4 className="text-xs font-bold text-slate-800 dark:text-slate-200">
                   {isAr ? 'لا توجد تقارير أسبوعية مسجلة بعد' : 'No weekly reviews generated yet.'}
                 </h4>
-                <p className="text-[11px] text-slate-400 max-w-xs mx-auto">
+                <p className="text-[11px] text-slate-500 max-w-xs mx-auto">
                   {isAr
                     ? 'اضغط على زر (أنشئ تقرير الأسبوع) بالأعلى للاطلاع على ملخص استيعابك وإنجازاتك في جو مريح.'
                     : 'Tap "Generate Week" above to see your conceptual retention and wins.'}
@@ -496,7 +496,7 @@ export const ReviewScreen: React.FC = () => {
                         <h4 className="text-xs font-bold text-slate-900 dark:text-slate-100">
                           {isAr ? 'تقرير الأسبوع الدراسي' : 'Weekly Review'} ({rev.weekStartDate} - {rev.weekEndDate})
                         </h4>
-                        <span className="text-[10px] text-slate-400">
+                        <span className="text-[10px] text-slate-500">
                           {rev.timeSpentMinutes} {isAr ? 'دقيقة مذاكرة هادفة' : 'minutes studied'}
                         </span>
                       </div>

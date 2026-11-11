@@ -20,7 +20,7 @@ export const EvidenceLogViewer: React.FC<EvidenceLogViewerProps> = ({ evidenceLo
   if (!evidenceLog || evidenceLog.length === 0) {
     return (
       <div className="p-4 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-dashed border-slate-200 dark:border-slate-700 text-center">
-        <Layers className="w-6 h-6 text-slate-400 mx-auto mb-2 opacity-60" />
+        <Layers className="w-6 h-6 text-slate-500 mx-auto mb-2 opacity-60" />
         <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
           {t.curriculum.evidenceLogEmpty}
         </p>
@@ -106,7 +106,7 @@ export const EvidenceLogViewer: React.FC<EvidenceLogViewerProps> = ({ evidenceLo
                 </div>
 
                 <div className="flex items-center gap-1 font-mono font-bold text-[11px]">
-                  <span className="text-slate-400 dark:text-slate-500">Δ</span>
+                  <span className="text-slate-500 dark:text-slate-500">Δ</span>
                   <span className={deltaColor}>
                     {deltaSign}{(entry.deltaApplied * 100).toFixed(1)}%
                   </span>
@@ -116,24 +116,24 @@ export const EvidenceLogViewer: React.FC<EvidenceLogViewerProps> = ({ evidenceLo
               {/* Weights breakdown row */}
               <div className="grid grid-cols-2 gap-2 text-[10px] text-slate-600 dark:text-slate-400 bg-slate-50 dark:bg-slate-900/60 p-2 rounded-lg font-mono">
                 <div>
-                  <span className="text-slate-400">{t.curriculum.difficultyLabel}: </span>
+                  <span className="text-slate-500">{t.curriculum.difficultyLabel}: </span>
                   <span className="font-semibold">{entry.difficulty.toFixed(2)}</span>
                 </div>
                 <div>
-                  <span className="text-slate-400">{t.curriculum.weightCombined}: </span>
+                  <span className="text-slate-500">{t.curriculum.weightCombined}: </span>
                   <span className="font-semibold text-indigo-600 dark:text-indigo-400">
                     {(entry.weights?.combinedWeight ?? 0).toFixed(3)}
                   </span>
                 </div>
                 {entry.scoreAfter !== undefined && (
                   <div>
-                    <span className="text-slate-400">{t.curriculum.scoreAfter}: </span>
+                    <span className="text-slate-500">{t.curriculum.scoreAfter}: </span>
                     <span className="font-semibold">{(entry.scoreAfter * 100).toFixed(1)}%</span>
                   </div>
                 )}
                 {entry.confidenceAfter !== undefined && (
                   <div>
-                    <span className="text-slate-400">{t.curriculum.confidenceAfter}: </span>
+                    <span className="text-slate-500">{t.curriculum.confidenceAfter}: </span>
                     <span className="font-semibold">{(entry.confidenceAfter * 100).toFixed(1)}%</span>
                   </div>
                 )}
@@ -145,12 +145,12 @@ export const EvidenceLogViewer: React.FC<EvidenceLogViewerProps> = ({ evidenceLo
                 </p>
               )}
 
-              <div className="flex items-center justify-between text-[10px] text-slate-400 font-mono pt-0.5">
+              <div className="flex items-center justify-between text-[10px] text-slate-500 font-mono pt-0.5">
                 <span className="flex items-center gap-1">
                   <Clock className="w-2.5 h-2.5" />
                   {formattedDate}
                 </span>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400">
+                <span className="text-[9px] uppercase tracking-wider text-slate-500">
                   {isAr ? 'دليل موثق' : 'VERIFIED EVIDENCE'}
                 </span>
               </div>
