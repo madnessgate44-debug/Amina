@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Letter Alif in Naskh & Ruqaa — off_callig_alif (قواعد رسم حرف الألف).
+  Text-free: four numbered callouts. Left panel: the straight, five-dot-tall
+  Alif of Naskh with its small top ornament (the taroos). Right panel: the
+  shorter, gently tilted three-dot Alif of Ruqaa with no ornament. Callout 4
+  marks the pen held at a 45-degree angle. Wording lives in the catalog's
+  localized legend/alt, so no script is baked into the picture.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="calBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#calBg)"/>
+
+  <!-- Baselines -->
+  <line x1="60" y1="470" x2="900" y2="470" stroke="#a5b4fc" stroke-width="4" stroke-dasharray="14 12"/>
+  <line x1="60" y1="500" x2="900" y2="500" stroke="#6366f1" stroke-width="4"/>
+
+  <!-- ── Naskh panel (left) ─────────────────────────────────────────── -->
+  <rect x="70" y="60" width="360" height="470" rx="28" fill="#ffffff" opacity="0.06" stroke="#818cf8" stroke-width="4"/>
+
+  <!-- The Naskh Alif: a perfectly straight, tall vertical stroke -->
+  <path d="M180,470 L180,150" stroke="#fbbf24" stroke-width="18" stroke-linecap="round"/>
+  <!-- The taroos / zulfa ornament at the top -->
+  <path d="M180,150 C214,150 226,126 200,112 C186,104 168,116 180,132" fill="none" stroke="#fbbf24" stroke-width="12" stroke-linecap="round"/>
+
+  <!-- Five-dot measure for the Naskh Alif -->
+  <g fill="#22d3ee">
+    <circle cx="270" cy="168" r="11"/><circle cx="270" cy="232" r="11"/>
+    <circle cx="270" cy="296" r="11"/><circle cx="270" cy="360" r="11"/>
+    <circle cx="270" cy="424" r="11"/>
+  </g>
+  <line x1="270" y1="140" x2="270" y2="150" stroke="#22d3ee" stroke-width="4"/>
+  <line x1="270" y1="440" x2="270" y2="452" stroke="#22d3ee" stroke-width="4"/>
+
+  <!-- ── Ruqaa panel (right) ────────────────────────────────────────── -->
+  <rect x="530" y="60" width="360" height="470" rx="28" fill="#ffffff" opacity="0.06" stroke="#818cf8" stroke-width="4"/>
+
+  <!-- The Ruqaa Alif: shorter and gently tilted, no ornament -->
+  <path d="M660,470 L694,270" stroke="#f472b6" stroke-width="18" stroke-linecap="round"/>
+
+  <!-- Three-dot measure for the Ruqaa Alif -->
+  <g fill="#22d3ee">
+    <circle cx="762" cy="288" r="11"/><circle cx="762" cy="352" r="11"/><circle cx="762" cy="416" r="11"/>
+  </g>
+  <line x1="762" y1="272" x2="762" y2="282" stroke="#22d3ee" stroke-width="4"/>
+  <line x1="762" y1="432" x2="762" y2="444" stroke="#22d3ee" stroke-width="4"/>
+
+  <!-- ── Pen-angle inset (bottom centre, callout 4) ─────────────────── -->
+  <g transform="translate(470,470)">
+    <path d="M0,0 L74,-74" stroke="#facc15" stroke-width="9" stroke-linecap="round"/>
+    <path d="M74,-74 L104,-44 L36,24 Z" fill="#fde68a" stroke="#b45309" stroke-width="5"/>
+    <path d="M0,0 L74,-74" stroke="none"/>
+    <path d="M0,0 A 44,44 0 0 0 44,-44" fill="none" stroke="#e0e7ff" stroke-width="5"/>
+  </g>
+
+  <!-- Numbered callout markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="30" font-weight="bold" text-anchor="middle">
+    <circle cx="130" cy="132" r="24" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="130" y="143" fill="#4338ca">1</text>
+    <circle cx="560" cy="132" r="24" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="560" y="143" fill="#4338ca">2</text>
+    <circle cx="236" cy="104" r="24" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="236" y="115" fill="#4338ca">3</text>
+    <circle cx="510" cy="524" r="24" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="510" y="535" fill="#4338ca">4</text>
+  </g>
+</svg>

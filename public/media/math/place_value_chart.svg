@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Decimal place-value chart — off_mathfr_u1_l1 / conc_mathfr_u1_l1_position.
+  Text-free: four numbered callouts. 1 marks the decimal comma; 2, 3 and 4 mark
+  the first, second and third places after it (tenths, hundredths, thousandths).
+  The number 0,004 is placed so the child sees that the 4 sits in the third
+  place, so its value is four thousandths, not four tenths. The right-pointing
+  arrows show each place is ten times smaller than the one before. Wording lives
+  in the catalog's localized legend/alt, so no script is baked into the picture.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="pvBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1e1b4b"/>
+      <stop offset="1" stop-color="#0f172a"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#pvBg)"/>
+
+  <!-- Column headers: numbered callout circles (labels come from the legend) -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="30" font-weight="bold" text-anchor="middle">
+    <circle cx="385" cy="130" r="26" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="385" y="141" fill="#4338ca">2</text>
+    <circle cx="555" cy="130" r="26" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="555" y="141" fill="#4338ca">3</text>
+    <circle cx="725" cy="130" r="26" fill="#ffffff" stroke="#4338ca" stroke-width="5"/>
+    <text x="725" y="141" fill="#4338ca">4</text>
+    <circle cx="285" cy="130" r="26" fill="#ffffff" stroke="#dc2626" stroke-width="5"/>
+    <text x="285" y="141" fill="#dc2626">1</text>
+  </g>
+
+  <!-- Place-value cells -->
+  <g stroke-width="5">
+    <rect x="120" y="180" width="130" height="150" rx="18" fill="#ffffff" opacity="0.10" stroke="#818cf8"/>
+    <rect x="320" y="180" width="130" height="150" rx="18" fill="#ffffff" opacity="0.10" stroke="#818cf8"/>
+    <rect x="490" y="180" width="130" height="150" rx="18" fill="#ffffff" opacity="0.10" stroke="#818cf8"/>
+    <rect x="660" y="180" width="130" height="150" rx="18" fill="#ffffff" opacity="0.10" stroke="#818cf8"/>
+  </g>
+
+  <!-- The number 0,004: units 0 | comma | tenths 0 | hundredths 0 | thousandths 4 -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="96" font-weight="bold" text-anchor="middle">
+    <text x="185" y="292" fill="#e0e7ff">0</text>
+    <text x="285" y="292" fill="#f87171">,</text>
+    <text x="385" y="292" fill="#e0e7ff">0</text>
+    <text x="555" y="292" fill="#e0e7ff">0</text>
+    <text x="725" y="292" fill="#22d3ee">4</text>
+  </g>
+
+  <!-- Each place is ten times smaller than the one before -->
+  <g stroke="#a5b4fc" stroke-width="6" stroke-linecap="round" fill="none">
+    <path d="M455,255 L472,255"/><path d="M462,246 L472,255 L462,264"/>
+    <path d="M625,255 L642,255"/><path d="M632,246 L642,255 L632,264"/>
+  </g>
+  <g font-family="DejaVu Sans, sans-serif" font-size="30" font-weight="bold" text-anchor="middle" fill="#a5b4fc">
+    <text x="464" y="230">÷10</text>
+    <text x="634" y="230">÷10</text>
+  </g>
+
+  <!-- Decimal comma pointer from callout 1 down to the comma -->
+  <line x1="285" y1="156" x2="285" y2="212" stroke="#dc2626" stroke-width="4" stroke-dasharray="8 8"/>
+
+  <!-- The 4 is emphasised: it is the digit whose place decides its value -->
+  <rect x="660" y="180" width="130" height="150" rx="18" fill="none" stroke="#22d3ee" stroke-width="8"/>
+</svg>
