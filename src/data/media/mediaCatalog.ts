@@ -1777,6 +1777,2238 @@ export const MEDIA_CATALOG: EducationalMediaItem[] = [
     },
     review: { status: 'reviewed', reviewedBy: 'owner-window', notes: 'Every formula starts with =; the safe-sharing rule (intranet for school work, no personal data online) matches the lesson reading text.' },
   },
+  {
+    "id": "math_area_model_multiplication",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_math_u3_l1",
+    "conceptId": "off_math_u3_l1_c1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 Mathematics — Unit 3, Lesson 1",
+    "src": "media/math/area_model_multiplication.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "نموذج مساحة المستطيل للضرب",
+      "en": "Rectangle area model for multiplication",
+      "fr": "Modèle de l’aire du rectangle pour la multiplication"
+    },
+    "purpose": {
+      "ar": "تقسيم المستطيل إلى أجزاء أصغر وحساب المساحات الجزئية ثم جمعها.",
+      "en": "Split a rectangle into smaller sections, calculate partial areas and add them.",
+      "fr": "Partager un rectangle en parties, calculer les aires partielles puis les additionner."
+    },
+    "alt": {
+      "ar": "مستطيل مقسم إلى أربعة أجزاء مرقمة يوضح المساحات الجزئية والناتج الكلي.",
+      "en": "A rectangle split into four numbered parts shows partial areas and the total product.",
+      "fr": "Un rectangle partagé en quatre parties numérotées montre les aires partielles et le produit total."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "نقسم العامل الأول إلى أجزاء",
+          "en": "Split the first factor into parts",
+          "fr": "Décomposer le premier facteur"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نقسم العامل الثاني بالطريقة نفسها",
+          "en": "Split the second factor in the same way",
+          "fr": "Décomposer le deuxième facteur de la même façon"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "نحسب مساحة كل جزء",
+          "en": "Calculate each partial area",
+          "fr": "Calculer chaque aire partielle"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "نجمع المساحات للحصول على الناتج",
+          "en": "Add the areas to get the product",
+          "fr": "Additionner les aires pour obtenir le produit"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 Mathematics — Unit 3, Lesson 1."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "math_decimal_expanded_form",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_math_u1_l3",
+    "conceptId": "off_math_u1_l3_c1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 Mathematics — Unit 1, Lesson 3",
+    "src": "media/math/decimal_expanded_form.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "تحليل العدد العشري إلى قيم منازله",
+      "en": "Expanded form of a decimal",
+      "fr": "Décomposition d’un nombre décimal"
+    },
+    "purpose": {
+      "ar": "تفكيك العدد العشري إلى مجموع العشرات والآحاد والأعشار والأجزاء من مئة.",
+      "en": "Break a decimal into tens, ones, tenths and hundredths.",
+      "fr": "Décomposer un décimal en dizaines, unités, dixièmes et centièmes."
+    },
+    "alt": {
+      "ar": "خمسة أجزاء مرقمة تعرض أعمدة القيم المكانية ثم الأجزاء المنفصلة ومجموعها.",
+      "en": "Five numbered panels show place-value bars, separated parts and their sum.",
+      "fr": "Cinq panneaux numérotés montrent les rangs, les parties séparées puis leur somme."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "العشرات مجموعات من عشرة",
+          "en": "Tens are groups of ten",
+          "fr": "Les dizaines sont des groupes de dix"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "الآحاد وحدات كاملة",
+          "en": "Ones are whole units",
+          "fr": "Les unités sont des unités entières"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "الأعشار بعد الفاصلة مباشرة",
+          "en": "Tenths come just after the decimal point",
+          "fr": "Les dixièmes suivent la virgule"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "الأجزاء من مئة أصغر من الأعشار",
+          "en": "Hundredths are smaller than tenths",
+          "fr": "Les centièmes sont plus petits que les dixièmes"
+        }
+      },
+      {
+        "n": 5,
+        "text": {
+          "ar": "نجمع قيم المنازل لتكوين العدد",
+          "en": "Add place values to form the number",
+          "fr": "Additionner les rangs pour former le nombre"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.246,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.912,
+        "y": 0.193
+      },
+      {
+        "n": 4,
+        "x": 0.412,
+        "y": 0.61
+      },
+      {
+        "n": 5,
+        "x": 0.746,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 Mathematics — Unit 1, Lesson 3."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_technical_troubleshooting",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_ict_u1_l4",
+    "conceptId": "off_ict_u1_l4_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 4",
+    "src": "media/ict/technical_troubleshooting.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "خطوات حل المشكلات التقنية",
+      "en": "Technical troubleshooting steps",
+      "fr": "Étapes de dépannage informatique"
+    },
+    "purpose": {
+      "ar": "تحديد المشكلة ووضع خطة وتجربة حل ثم مراجعة النتيجة وطلب المساعدة.",
+      "en": "Identify a problem, plan, test a solution, then review and ask for help.",
+      "fr": "Identifier le problème, planifier, tester une solution puis vérifier et demander de l’aide."
+    },
+    "alt": {
+      "ar": "أربع مراحل مرقمة من اكتشاف العطل إلى التخطيط والتجربة ومراجعة النتيجة.",
+      "en": "Four numbered stages move from finding a fault to planning, testing and reviewing.",
+      "fr": "Quatre étapes numérotées vont de la détection à la planification, au test et à la vérification."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "نحدد المشكلة بوضوح",
+          "en": "Identify the problem clearly",
+          "fr": "Identifier clairement le problème"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نخطط لحل مناسب",
+          "en": "Plan a suitable solution",
+          "fr": "Prévoir une solution adaptée"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "نجرب خطوة واحدة في كل مرة",
+          "en": "Test one step at a time",
+          "fr": "Tester une étape à la fois"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "نراجع النتيجة ونطلب المساعدة",
+          "en": "Review the result and ask for help",
+          "fr": "Vérifier le résultat et demander de l’aide"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 4."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "math_decimal_thousandths",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_math_u1_l1",
+    "conceptId": "off_math_u1_l1_c1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 Mathematics — Unit 1, Lesson 1",
+    "src": "media/math/decimal_thousandths.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "القيمة المكانية حتى خانة الألف",
+      "en": "Decimal place value to thousandths",
+      "fr": "Valeur décimale jusqu’aux millièmes"
+    },
+    "purpose": {
+      "ar": "يوضح ترتيب الجزء الصحيح والأعشار والأجزاء من مئة وألف في العدد العشري.",
+      "en": "Shows the whole part, tenths, hundredths and thousandths in a decimal.",
+      "fr": "Présente la partie entière, les dixièmes, les centièmes et les millièmes."
+    },
+    "alt": {
+      "ar": "أربع بطاقات مرقمة تعرض أعمدة للقيمة المكانية وفاصلة عشرية.",
+      "en": "Four numbered cards show place-value columns and a decimal separator.",
+      "fr": "Quatre cartes numérotées montrent les rangs et la virgule décimale."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الجزء الصحيح وحدات كاملة",
+          "en": "The whole part contains full units",
+          "fr": "La partie entière contient les unités"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "الفاصلة تفصل الصحيح عن العشري",
+          "en": "The decimal point separates whole and decimal parts",
+          "fr": "La virgule sépare les parties entière et décimale"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "الأعشار: عشرة أجزاء متساوية",
+          "en": "Tenths: ten equal parts",
+          "fr": "Dixièmes : dix parts égales"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "الأجزاء من مئة وألف أجزاء أدق",
+          "en": "Hundredths and thousandths are smaller parts",
+          "fr": "Centièmes et millièmes : des parts plus petites"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 Mathematics — Unit 1, Lesson 1."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_digital_file_management",
+    "type": "image",
+    "kind": "concept_map",
+    "lessonId": "off_ict_u1_l5",
+    "conceptId": "off_ict_u1_l5_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 5",
+    "src": "media/ict/digital_file_management.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "إدارة الملفات الرقمية بأمان",
+      "en": "Digital file management and safe storage",
+      "fr": "Gestion des fichiers et stockage sécurisé"
+    },
+    "purpose": {
+      "ar": "تنظيم الملفات في مجلدات واضحة وحفظها بأمان وتجنب وحدات التخزين المجهولة.",
+      "en": "Organise files in clear folders, store them safely and avoid unknown storage devices.",
+      "fr": "Organiser les fichiers, les conserver en sécurité et éviter les supports inconnus."
+    },
+    "alt": {
+      "ar": "أربع لوحات مرقمة تعرض مجلدا وملفات مرتبة وقفل حماية ووحدة تخزين مجهولة.",
+      "en": "Four numbered panels show a folder, organised files, a lock and an unknown storage device.",
+      "fr": "Quatre panneaux montrent un dossier, des fichiers rangés, un cadenas et un support inconnu."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "ننشئ مجلدات بأسماء واضحة",
+          "en": "Create folders with clear names",
+          "fr": "Créer des dossiers aux noms clairs"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نرتب الملفات في المجلد المناسب",
+          "en": "Organise files in the right folder",
+          "fr": "Ranger les fichiers dans le bon dossier"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "نحفظ الملفات في مكان آمن",
+          "en": "Store files in a safe place",
+          "fr": "Conserver les fichiers en lieu sûr"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "نتجنب وحدات التخزين المجهولة",
+          "en": "Avoid unknown storage devices",
+          "fr": "Éviter les supports inconnus"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 5."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "math_equivalent_fractions",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_u2_l1_fractions",
+    "conceptId": "conc_mathfr_u2_l1_regle_or",
+    "subjectId": "subj_math",
+    "reelKind": "hook_question",
+    "curriculumRef": "Grade 5 French-track Mathematics — Unité 2, Fractions équivalentes",
+    "src": "media/math/equivalent_fractions_rule.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "قاعدة الكسور المتكافئة",
+      "en": "Equivalent fractions rule",
+      "fr": "Règle des fractions équivalentes"
+    },
+    "purpose": {
+      "ar": "ضرب البسط والمقام أو قسمتهما على العدد نفسه يحافظ على قيمة الكسر.",
+      "en": "Multiplying or dividing the numerator and denominator by the same number preserves the fraction’s value.",
+      "fr": "Multiplier ou diviser le numérateur et le dénominateur par le même nombre conserve la valeur."
+    },
+    "alt": {
+      "ar": "أربع مراحل تعرض دائرتين مقسمتين إلى أجزاء متساوية وسهما يربط كسرين متكافئين.",
+      "en": "Four stages show two fraction circles divided into equal parts and an arrow linking equivalent fractions.",
+      "fr": "Quatre étapes montrent deux cercles fractionnés et une flèche reliant des fractions équivalentes."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الكسر الأول يمثل أجزاء من الكل",
+          "en": "The first fraction represents parts of a whole",
+          "fr": "La première fraction représente des parts d’un tout"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نضرب البسط والمقام بالعدد نفسه",
+          "en": "Multiply numerator and denominator by the same number",
+          "fr": "Multiplier le numérateur et le dénominateur par le même nombre"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "أو نقسمهما على العدد نفسه",
+          "en": "Or divide both by the same number",
+          "fr": "Ou diviser les deux par le même nombre"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "القيمة تبقى متساوية",
+          "en": "The value stays equal",
+          "fr": "La valeur reste égale"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French-track Mathematics — Unité 2, Fractions équivalentes."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_academic_citation",
+    "type": "image",
+    "kind": "concept_map",
+    "lessonId": "off_ict_u2_l6",
+    "conceptId": "off_ict_u2_l6_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 6",
+    "src": "media/ict/academic_citation_honesty.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "التوثيق والأمانة العلمية",
+      "en": "Academic citation and honesty",
+      "fr": "Citation et honnêteté intellectuelle"
+    },
+    "purpose": {
+      "ar": "استخدام مصدر موثوق والاقتباس وإعادة الصياغة ثم تسجيل المرجع.",
+      "en": "Use a trustworthy source, quote, paraphrase and record the reference.",
+      "fr": "Utiliser une source fiable, citer, reformuler puis noter la référence."
+    },
+    "alt": {
+      "ar": "أربع بطاقات لكتاب مصدر وفقاعة اقتباس وملاحظة معاد صياغتها وقائمة مراجع.",
+      "en": "Four cards show a source book, quotation bubble, paraphrased note and reference list.",
+      "fr": "Quatre cartes montrent un livre source, une citation, une note reformulée et une bibliographie."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "نبدأ بمصدر موثوق",
+          "en": "Start with a trustworthy source",
+          "fr": "Commencer par une source fiable"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نضع الكلام المنقول بين علامتي اقتباس",
+          "en": "Put copied words in quotation marks",
+          "fr": "Mettre les mots repris entre guillemets"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "نعيد الصياغة بكلماتنا مع حفظ المعنى",
+          "en": "Paraphrase in our own words without changing meaning",
+          "fr": "Reformuler sans changer le sens"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "نسجل المرجع لننسب الفكرة لصاحبها",
+          "en": "Record the reference to credit the source",
+          "fr": "Noter la référence pour créditer la source"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 6."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_iot_assistive",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_ict_u1_l3",
+    "conceptId": "off_ict_u1_l3_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 3",
+    "src": "media/ict/iot_assistive_technology.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "إنترنت الأشياء والتكنولوجيا المساعدة",
+      "en": "Internet of Things and assistive technology",
+      "fr": "Internet des objets et technologies d’assistance"
+    },
+    "purpose": {
+      "ar": "ربط الأجهزة الذكية واستخدام أدوات مساعدة تدعم الوصول والاستقلال.",
+      "en": "Connect smart devices and use assistive tools that improve access and independence.",
+      "fr": "Connecter les appareils intelligents et utiliser des outils qui favorisent l’accès et l’autonomie."
+    },
+    "alt": {
+      "ar": "أجهزة منزلية متصلة بشبكة وهاتف ثم واجهة مساعدة تدعم المستخدم.",
+      "en": "Smart devices connect to a network and phone, then an assistive interface supports the user.",
+      "fr": "Des appareils se connectent à un réseau et à un téléphone, puis une interface adaptée aide l’utilisateur."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الأجهزة الذكية تجمع معلومات",
+          "en": "Smart devices collect information",
+          "fr": "Les appareils intelligents recueillent des informations"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "الشبكة تربط الأجهزة",
+          "en": "The network connects devices",
+          "fr": "Le réseau relie les appareils"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "التقنية المساعدة تسهل الاستخدام",
+          "en": "Assistive technology makes use easier",
+          "fr": "La technologie d’assistance facilite l’usage"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "الهدف دعم الوصول والاستقلال",
+          "en": "The goal is access and independence",
+          "fr": "L’objectif est l’accès et l’autonomie"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 3."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_scam_detection",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_ict_u2_l3",
+    "conceptId": "off_ict_u2_l3_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 3",
+    "src": "media/ict/scam_detection_reporting.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "كشف المواقع الاحتيالية والإبلاغ",
+      "en": "Detecting scams and reporting",
+      "fr": "Détecter les arnaques et les signaler"
+    },
+    "purpose": {
+      "ar": "فحص عنوان الموقع وتجنب الروابط المشبوهة وحماية البيانات والإبلاغ.",
+      "en": "Check website addresses, avoid suspicious links, protect data and report scams.",
+      "fr": "Vérifier les adresses, éviter les liens suspects, protéger les données et signaler les arnaques."
+    },
+    "alt": {
+      "ar": "رسالة تحذير وعدسة تفحص العنوان ودرع يمنع الرابط وهاتف للإبلاغ.",
+      "en": "A warning message, magnifier checking an address, shield blocking a link and phone for reporting.",
+      "fr": "Un message d’alerte, une loupe, un bouclier bloquant un lien et un téléphone pour signaler."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "ننتبه للجوائز والتهديدات المفاجئة",
+          "en": "Watch for unexpected prizes and threats",
+          "fr": "Se méfier des prix et menaces inattendus"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نفحص عنوان الموقع والمرسل",
+          "en": "Check the website address and sender",
+          "fr": "Vérifier l’adresse du site et l’expéditeur"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "لا نضغط ولا نشارك البيانات",
+          "en": "Do not click or share personal data",
+          "fr": "Ne pas cliquer ni partager ses données"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "نخبر شخصا موثوقا ونبلغ",
+          "en": "Tell a trusted person and report it",
+          "fr": "Prévenir une personne de confiance et signaler"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 3."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "math_decimal_powers_ten",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_u3_l1_division",
+    "conceptId": "conc_mathfr_u3_l1_puissance10",
+    "subjectId": "subj_math",
+    "reelKind": "hook_question",
+    "curriculumRef": "Grade 5 French-track Mathematics — Unité 3, Puissances de dix",
+    "src": "media/math/decimal_powers_of_ten.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "ضرب الأعداد العشرية في قوى العشرة",
+      "en": "Multiplying decimals by powers of ten",
+      "fr": "Multiplier les décimaux par des puissances de dix"
+    },
+    "purpose": {
+      "ar": "تحريك الفاصلة يمينا منزلة أو منزلتين أو ثلاثا عند الضرب في 10 أو 100 أو 1000.",
+      "en": "Shift the decimal point right one, two or three places when multiplying by 10, 100 or 1000.",
+      "fr": "Déplacer la virgule d’un, deux ou trois rangs vers la droite en multipliant par 10, 100 ou 1000."
+    },
+    "alt": {
+      "ar": "ثلاث لوحات مرقمة تعرض الفاصلة قبل الضرب وبعد انتقالها إلى اليمين.",
+      "en": "Three numbered panels show a decimal point before and after shifting right.",
+      "fr": "Trois panneaux montrent la virgule avant et après son déplacement vers la droite."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الضرب في 10 يحرك الفاصلة منزلة",
+          "en": "Multiplying by 10 shifts one place",
+          "fr": "Multiplier par 10 décale d’un rang"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "الضرب في 100 يحركها منزلتين",
+          "en": "Multiplying by 100 shifts two places",
+          "fr": "Multiplier par 100 décale de deux rangs"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "الضرب في 1000 يحركها ثلاث منازل",
+          "en": "Multiplying by 1000 shifts three places",
+          "fr": "Multiplier par 1000 décale de trois rangs"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.267,
+        "y": 0.393
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.393
+      },
+      {
+        "n": 3,
+        "x": 0.892,
+        "y": 0.393
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French-track Mathematics — Unité 3, Puissances de dix."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "math_decimal_comparison",
+    "type": "image",
+    "kind": "number_line",
+    "lessonId": "off_mathfr_u1_l2_comparer",
+    "conceptId": "conc_mathfr_u1_l2_comparaison",
+    "subjectId": "subj_math",
+    "reelKind": "hook_question",
+    "curriculumRef": "Grade 5 French-track Mathematics — Unité 1, Comparer les décimaux",
+    "src": "media/math/decimal_comparison_zero_padding.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "مقارنة الأعداد العشرية",
+      "en": "Comparing decimals with zero padding",
+      "fr": "Comparer les décimaux avec des zéros"
+    },
+    "purpose": {
+      "ar": "محاذاة الفواصل ثم مقارنة الجزء الصحيح والخانات العشرية من اليسار إلى اليمين.",
+      "en": "Align decimal points, then compare whole and decimal places from left to right.",
+      "fr": "Aligner les virgules puis comparer les rangs de gauche à droite."
+    },
+    "alt": {
+      "ar": "أربع مراحل لمحاذاة عددين عشريين وإضافة أصفار ثم مقارنة الخانات.",
+      "en": "Four stages align two decimals, add zeros and compare place values.",
+      "fr": "Quatre étapes alignent deux décimaux, ajoutent des zéros puis comparent les rangs."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "نقارن الجزء الصحيح أولا",
+          "en": "Compare the whole parts first",
+          "fr": "Comparer d’abord les parties entières"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نحاذي الفاصلتين",
+          "en": "Align the decimal points",
+          "fr": "Aligner les virgules"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "نضيف أصفارا لإكمال الخانات",
+          "en": "Add zeros to complete the places",
+          "fr": "Ajouter des zéros pour compléter les rangs"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "نقارن من اليسار إلى اليمين",
+          "en": "Compare from left to right",
+          "fr": "Comparer de gauche à droite"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French-track Mathematics — Unité 1, Comparer les décimaux."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "math_decimal_zero_completion",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_u3_l1_division",
+    "conceptId": "conc_mathfr_u3_l1_zero_ajoute",
+    "subjectId": "subj_math",
+    "reelKind": "hook_question",
+    "curriculumRef": "Grade 5 French-track Mathematics — Unité 3, Puissances de dix",
+    "src": "media/math/decimal_zero_completion.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "إضافة الأصفار عند انتهاء الخانات",
+      "en": "Adding zeros when decimal places run out",
+      "fr": "Ajouter des zéros quand les rangs manquent"
+    },
+    "purpose": {
+      "ar": "إضافة أصفار إلى يمين العدد عندما يتجاوز تحريك الفاصلة عدد الخانات المتاحة.",
+      "en": "Add zeros to the right when shifting the decimal point goes beyond available digits.",
+      "fr": "Ajouter des zéros à droite lorsque le déplacement dépasse les chiffres disponibles."
+    },
+    "alt": {
+      "ar": "ثلاث مراحل لعدد عشري تتحرك فيه الفاصلة ثم تضاف أصفار إلى اليمين.",
+      "en": "Three stages show a decimal shifting and zeros being added on the right.",
+      "fr": "Trois étapes montrent un décimal qui se déplace puis des zéros ajoutés à droite."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "نبدأ بالعدد العشري",
+          "en": "Start with the decimal number",
+          "fr": "Commencer par le nombre décimal"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نحرك الفاصلة حسب قوة العشرة",
+          "en": "Shift the decimal point by the power of ten",
+          "fr": "Déplacer la virgule selon la puissance de dix"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "نضيف أصفارا إذا انتهت الخانات",
+          "en": "Add zeros when digits run out",
+          "fr": "Ajouter des zéros lorsque les chiffres manquent"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.267,
+        "y": 0.393
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.393
+      },
+      {
+        "n": 3,
+        "x": 0.892,
+        "y": 0.393
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French-track Mathematics — Unité 3, Puissances de dix."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "science_particle_movement",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_scifr_u2_l1_matiere",
+    "conceptId": "conc_scifr_u2_l1_mouvement",
+    "subjectId": "subj_science",
+    "reelKind": "hook_question",
+    "curriculumRef": "Grade 5 French-track Science — Unité 2, Les états de la matière",
+    "src": "media/science/particle_movement_states.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "حركة الجسيمات وحالات المادة",
+      "en": "Particle movement and states of matter",
+      "fr": "Mouvement des particules et états de la matière"
+    },
+    "purpose": {
+      "ar": "مقارنة ترتيب الجسيمات وحركتها في الصلب والسائل والغاز.",
+      "en": "Compare particle spacing and movement in solids, liquids and gases.",
+      "fr": "Comparer l’espacement et le mouvement des particules dans les solides, liquides et gaz."
+    },
+    "alt": {
+      "ar": "ثلاث حجرات تعرض جسيمات متراصة في الصلب ومتقاربة في السائل ومتباعدة في الغاز.",
+      "en": "Three chambers show tightly packed solid particles, close liquid particles and widely spaced gas particles.",
+      "fr": "Trois compartiments montrent des particules serrées, proches puis éloignées."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الصلب: جسيمات متراصة تهتز",
+          "en": "Solid: tightly packed particles vibrate",
+          "fr": "Solide : particules serrées qui vibrent"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "السائل: جسيمات متقاربة تنزلق",
+          "en": "Liquid: close particles slide",
+          "fr": "Liquide : particules proches qui glissent"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "الغاز: جسيمات متباعدة تتحرك بحرية",
+          "en": "Gas: spaced particles move freely",
+          "fr": "Gaz : particules éloignées qui bougent librement"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.267,
+        "y": 0.393
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.393
+      },
+      {
+        "n": 3,
+        "x": 0.892,
+        "y": 0.393
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "science",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French-track Science — Unité 2, Les états de la matière."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "fr_self_introduction",
+    "type": "image",
+    "kind": "illustration",
+    "lessonId": "off_fr_u1_l1_salutations",
+    "conceptId": "conc_fr_u1_l1_presentation",
+    "subjectId": "subj_french",
+    "reelKind": "story_analogy",
+    "curriculumRef": "Grade 5 French — Unité 1, Se présenter",
+    "src": "media/language/french_self_introduction.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "التعريف بالنفس بالفرنسية",
+      "en": "Introducing yourself in French",
+      "fr": "Se présenter en français"
+    },
+    "purpose": {
+      "ar": "عرض صيغ s’appeler عند الحديث عن النفس ومخاطبة شخص ووصف شخص آخر.",
+      "en": "Shows s’appeler when speaking about yourself, addressing someone and describing another person.",
+      "fr": "Présente s’appeler pour parler de soi, s’adresser à quelqu’un et parler d’une autre personne."
+    },
+    "alt": {
+      "ar": "ثلاثة مشاهد مرقمة لأشخاص يتبادلون التعارف من المتكلم إلى المخاطب ثم الغائب.",
+      "en": "Three numbered scenes show a speaker, a person being addressed and another person.",
+      "fr": "Trois scènes numérotées montrent le locuteur, l’interlocuteur puis une autre personne."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "أنا: Je m’appelle",
+          "en": "I: Je m’appelle",
+          "fr": "Je : Je m’appelle"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "أنت: Tu t’appelles",
+          "en": "You: Tu t’appelles",
+          "fr": "Tu : Tu t’appelles"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "هو أو هي: Il / Elle s’appelle",
+          "en": "He or she: Il / Elle s’appelle",
+          "fr": "Il ou elle : Il / Elle s’appelle"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.267,
+        "y": 0.393
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.393
+      },
+      {
+        "n": 3,
+        "x": 0.892,
+        "y": 0.393
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "language",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French — Unité 1, Se présenter."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "fr_possessive_adjectives",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_fr_u1_l2_famille",
+    "conceptId": "conc_fr_u1_l2_possessifs",
+    "subjectId": "subj_french",
+    "reelKind": "story_analogy",
+    "curriculumRef": "Grade 5 French — Unité 1, Ma famille",
+    "src": "media/language/french_possessives.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "صفات الملكية Mon وMa وMes",
+      "en": "French possessive adjectives",
+      "fr": "Les adjectifs possessifs"
+    },
+    "purpose": {
+      "ar": "تمييز mon للمذكر المفرد وma للمؤنث المفرد وmes للجمع.",
+      "en": "Distinguish mon for masculine singular, ma for feminine singular and mes for plural.",
+      "fr": "Distinguer mon au masculin, ma au féminin et mes au pluriel."
+    },
+    "alt": {
+      "ar": "ثلاث بطاقات مرقمة تعرض شخصا ومفردا مؤنثا ومجموعة للدلالة على صيغ الملكية.",
+      "en": "Three numbered cards show a masculine person, a feminine object and a group for possessive forms.",
+      "fr": "Trois cartes montrent un nom masculin, un nom féminin et un groupe pour les formes possessives."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "Mon مع اسم مذكر مفرد",
+          "en": "Mon with a masculine singular noun",
+          "fr": "Mon avec un nom masculin singulier"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "Ma مع اسم مؤنث مفرد",
+          "en": "Ma with a feminine singular noun",
+          "fr": "Ma avec un nom féminin singulier"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "Mes مع اسم جمع",
+          "en": "Mes with a plural noun",
+          "fr": "Mes avec un nom pluriel"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.267,
+        "y": 0.393
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.393
+      },
+      {
+        "n": 3,
+        "x": 0.892,
+        "y": 0.393
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "language",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French — Unité 1, Ma famille."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "fr_indefinite_articles",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_fr_u2_l1_classe",
+    "conceptId": "conc_fr_u2_l1_articles_indefinis",
+    "subjectId": "subj_french",
+    "reelKind": "story_analogy",
+    "curriculumRef": "Grade 5 French — Unité 2, Les objets de la classe",
+    "src": "media/language/french_indefinite_articles.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "أدوات النكرة Un وUne وDes",
+      "en": "French indefinite articles",
+      "fr": "Les articles indéfinis"
+    },
+    "purpose": {
+      "ar": "ربط un بالمذكر المفرد وune بالمؤنث المفرد وdes بالجمع.",
+      "en": "Connect un with masculine singular, une with feminine singular and des with plural nouns.",
+      "fr": "Associer un au masculin, une au féminin et des au pluriel."
+    },
+    "alt": {
+      "ar": "ثلاث مجموعات مرقمة تعرض أداة مفردة وممحاة مفردة ومجموعة أدوات.",
+      "en": "Three numbered groups show one masculine object, one feminine object and several objects.",
+      "fr": "Trois groupes montrent un objet masculin, un objet féminin et plusieurs objets."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "Un مع اسم مذكر مفرد",
+          "en": "Un with a masculine singular noun",
+          "fr": "Un avec un nom masculin singulier"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "Une مع اسم مؤنث مفرد",
+          "en": "Une with a feminine singular noun",
+          "fr": "Une avec un nom féminin singulier"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "Des مع أكثر من شيء",
+          "en": "Des with plural nouns",
+          "fr": "Des avec plusieurs objets"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.267,
+        "y": 0.393
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.393
+      },
+      {
+        "n": 3,
+        "x": 0.892,
+        "y": 0.393
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "language",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French — Unité 2, Les objets de la classe."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "fr_school_preferences",
+    "type": "image",
+    "kind": "concept_map",
+    "lessonId": "off_fr_u3_l1_horaire",
+    "conceptId": "conc_fr_u3_l1_gouts",
+    "subjectId": "subj_french",
+    "reelKind": "story_analogy",
+    "curriculumRef": "Grade 5 French — Unité 3, Mes matières préférées",
+    "src": "media/language/french_school_preferences.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "التعبير عن الميول المدرسية",
+      "en": "Expressing school preferences",
+      "fr": "Exprimer ses goûts scolaires"
+    },
+    "purpose": {
+      "ar": "تمييز الإعجاب والتفضيل وعدم الإعجاب باستخدام aimer وpréférer.",
+      "en": "Distinguish liking, preferring and not liking using aimer and préférer.",
+      "fr": "Distinguer aimer, préférer et ne pas aimer."
+    },
+    "alt": {
+      "ar": "ثلاث رموز مرقمة لقلب ونجمة وعلامة ناقص تمثل الإعجاب والتفضيل وعدم الإعجاب.",
+      "en": "Three numbered symbols—a heart, star and minus—represent liking, preferring and not liking.",
+      "fr": "Trois symboles — cœur, étoile et signe moins — représentent aimer, préférer et ne pas aimer."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "J’aime: أحب المادة",
+          "en": "J’aime: I like the subject",
+          "fr": "J’aime : j’aime la matière"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "Je préfère: أفضل هذه المادة",
+          "en": "Je préfère: I prefer this subject",
+          "fr": "Je préfère : je préfère cette matière"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "Je n’aime pas: لا أحب",
+          "en": "Je n’aime pas: I do not like it",
+          "fr": "Je n’aime pas : je n’aime pas"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.267,
+        "y": 0.393
+      },
+      {
+        "n": 2,
+        "x": 0.579,
+        "y": 0.393
+      },
+      {
+        "n": 3,
+        "x": 0.892,
+        "y": 0.393
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "language",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Grade 5 French — Unité 3, Mes matières préférées."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "english_generous_apple_tree",
+    "type": "image",
+    "kind": "concept_map",
+    "lessonId": "off_en_u1_apple_tree",
+    "conceptId": "off_en_u1_apple_tree_c1",
+    "subjectId": "subj_english",
+    "reelKind": "story_analogy",
+    "curriculumRef": "English Connect 5 — Unit 1, The Generous Apple Tree",
+    "src": "media/english/generous_apple_tree.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "شجرة التفاح المعطاءة",
+      "en": "The generous apple tree",
+      "fr": "Le pommier généreux"
+    },
+    "purpose": {
+      "ar": "ربط عطاء الشجرة بالرعاية غير المشروطة والامتنان لمن نحب.",
+      "en": "Connect the tree’s giving with unconditional care and gratitude for loved ones.",
+      "fr": "Relier les dons de l’arbre à la générosité et à la gratitude envers les proches."
+    },
+    "alt": {
+      "ar": "شجرة تفاح مرقمة بجذور وثمار ومجموعة أشخاص وقلب يرمز للحب.",
+      "en": "A numbered apple tree with roots and fruit beside people and a heart symbolising love.",
+      "fr": "Un pommier numéroté avec racines et fruits, des personnes et un cœur symbolisant l’amour."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الشجرة تعطي دون انتظار مقابل",
+          "en": "The tree gives without expecting a reward",
+          "fr": "L’arbre donne sans attendre de récompense"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "الثمار تمثل ما نقدمه للآخرين",
+          "en": "The fruit represents what we give to others",
+          "fr": "Les fruits représentent ce que nous offrons"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "العائلة والأصدقاء يتلقون الرعاية",
+          "en": "Family and friends receive care",
+          "fr": "La famille et les amis reçoivent de l’attention"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "الامتنان يقدر العطاء",
+          "en": "Gratitude appreciates generosity",
+          "fr": "La gratitude valorise la générosité"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "language",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from English Connect 5 — Unit 1, The Generous Apple Tree."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "english_elephantine_ecotourism",
+    "type": "image",
+    "kind": "map",
+    "lessonId": "off_en_u4_elephantine",
+    "conceptId": "off_en_u4_elephantine_c1",
+    "subjectId": "subj_english",
+    "reelKind": "story_analogy",
+    "curriculumRef": "English Connect 5 — Unit 4, Elephantine Island",
+    "src": "media/english/elephantine_ecotourism.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "جزيرة إلفنتين والسياحة البيئية",
+      "en": "Elephantine Island and eco-tourism",
+      "fr": "L’île Éléphantine et l’écotourisme"
+    },
+    "purpose": {
+      "ar": "عرض النيل والطبيعة والمعالم التاريخية والسياحة المسؤولة في الجزيرة.",
+      "en": "Show the Nile, nature, historic landmarks and responsible tourism on the island.",
+      "fr": "Présenter le Nil, la nature, les sites historiques et le tourisme responsable."
+    },
+    "alt": {
+      "ar": "خريطة مبسطة لجزيرة وسط النيل مع معلم تاريخي ونباتات وزوار يحافظون على البيئة.",
+      "en": "A simplified Nile island map with a historic landmark, plants and environmentally responsible visitors.",
+      "fr": "Une carte simplifiée d’une île du Nil avec un monument, des plantes et des visiteurs responsables."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "النيل يحيط بالجزيرة",
+          "en": "The Nile surrounds the island",
+          "fr": "Le Nil entoure l’île"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "المعالم تحفظ تاريخ المكان",
+          "en": "Landmarks preserve local history",
+          "fr": "Les monuments préservent l’histoire locale"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "الطبيعة موطن للكائنات",
+          "en": "Nature is a habitat for living things",
+          "fr": "La nature est un habitat pour les êtres vivants"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "الزائر المسؤول يحافظ على المكان",
+          "en": "Responsible visitors protect the place",
+          "fr": "Les visiteurs responsables protègent le lieu"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "language",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from English Connect 5 — Unit 4, Elephantine Island."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_internet_intranet",
+    "type": "image",
+    "kind": "concept_map",
+    "lessonId": "off_ict_u1_l2",
+    "conceptId": "off_ict_u1_l2_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 2",
+    "src": "media/ict/internet_vs_intranet.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "الإنترنت والإنترانت",
+      "en": "Internet versus intranet",
+      "fr": "Internet et intranet"
+    },
+    "purpose": {
+      "ar": "مقارنة الشبكة العامة المفتوحة بالشبكة الداخلية الخاصة بمؤسسة.",
+      "en": "Compare the public global internet with a private internal organisational network.",
+      "fr": "Comparer l’internet public mondial à un réseau interne privé."
+    },
+    "alt": {
+      "ar": "أربع لوحات تقارن كرة أرضية متصلة بالجميع بشبكة مغلقة داخل مؤسسة.",
+      "en": "Four panels contrast a globally connected globe with a closed network inside an organisation.",
+      "fr": "Quatre panneaux opposent un globe connecté au monde à un réseau fermé dans une organisation."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الإنترنت شبكة عامة واسعة",
+          "en": "The internet is a wide public network",
+          "fr": "Internet est un vaste réseau public"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "الأجهزة تتصل عبر العالم",
+          "en": "Devices connect across the world",
+          "fr": "Les appareils se connectent dans le monde entier"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "الإنترانت شبكة خاصة مغلقة",
+          "en": "An intranet is a private closed network",
+          "fr": "L’intranet est un réseau privé fermé"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "تستخدمها مؤسسة وأعضاؤها المصرح لهم",
+          "en": "An organisation and authorised members use it",
+          "fr": "Une organisation et ses membres autorisés l’utilisent"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 1, Lesson 2."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_password_mfa",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_ict_u2_l2",
+    "conceptId": "off_ict_u2_l2_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 2",
+    "src": "media/ict/password_mfa_security.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "كلمات المرور القوية والمصادقة المتعددة",
+      "en": "Strong passwords and multi-factor authentication",
+      "fr": "Mots de passe forts et authentification multifacteur"
+    },
+    "purpose": {
+      "ar": "استخدام كلمة مرور فريدة ومدير كلمات مرور وعامل ثان لحماية الحساب.",
+      "en": "Use a unique password, password manager and second factor to protect an account.",
+      "fr": "Utiliser un mot de passe unique, un gestionnaire et un second facteur pour protéger un compte."
+    },
+    "alt": {
+      "ar": "أربع رموز لمفتاح وخزانة كلمات مرور وهاتف تحقق ودرع حماية.",
+      "en": "Four symbols show a key, password vault, verification phone and security shield.",
+      "fr": "Quatre symboles montrent une clé, un coffre, un téléphone de vérification et un bouclier."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "كلمة مرور طويلة وفريدة",
+          "en": "A long, unique password",
+          "fr": "Un mot de passe long et unique"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "مدير كلمات المرور يحفظها بأمان",
+          "en": "A password manager stores them safely",
+          "fr": "Un gestionnaire les conserve en sécurité"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "عامل ثان يؤكد هويتك",
+          "en": "A second factor confirms your identity",
+          "fr": "Un second facteur confirme ton identité"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "طبقات الأمان تحمي الحساب",
+          "en": "Security layers protect the account",
+          "fr": "Les couches de sécurité protègent le compte"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 2."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  },
+  {
+    "id": "ict_copyright_creative_commons",
+    "type": "image",
+    "kind": "concept_map",
+    "lessonId": "off_ict_u2_l4",
+    "conceptId": "off_ict_u2_l4_c1",
+    "subjectId": "subj_ict",
+    "reelKind": "teach_card",
+    "curriculumRef": "Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 4",
+    "src": "media/ict/copyright_creative_commons.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "الملكية الفكرية والمشاع الإبداعي",
+      "en": "Copyright and Creative Commons",
+      "fr": "Droit d’auteur et Creative Commons"
+    },
+    "purpose": {
+      "ar": "احترام عمل المؤلف وطلب الإذن أو استخدام ترخيص مناسب وذكر المصدر.",
+      "en": "Respect an author's work, get permission or use an appropriate licence, and credit the source.",
+      "fr": "Respecter l’œuvre, obtenir une autorisation ou une licence adaptée et citer la source."
+    },
+    "alt": {
+      "ar": "أربع رموز لمبدع وعلامة حقوق وترخيص وكتاب مصدر مع نسبة العمل لصاحبه.",
+      "en": "Four symbols show a creator, rights seal, licence and source book with attribution.",
+      "fr": "Quatre symboles montrent un créateur, un sceau de droits, une licence et un livre source."
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "المؤلف يملك حق عمله الأصلي",
+          "en": "The creator owns rights to original work",
+          "fr": "Le créateur détient les droits de son œuvre"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "نطلب الإذن قبل إعادة الاستخدام",
+          "en": "Ask permission before reusing work",
+          "fr": "Demander l’autorisation avant réutilisation"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "نختار ترخيصا يسمح بالاستخدام",
+          "en": "Choose a licence that permits use",
+          "fr": "Choisir une licence qui autorise l’usage"
+        }
+      },
+      {
+        "n": 4,
+        "text": {
+          "ar": "نذكر المؤلف والمصدر",
+          "en": "Credit the author and source",
+          "fr": "Citer l’auteur et la source"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.34,
+        "y": 0.193
+      },
+      {
+        "n": 2,
+        "x": 0.819,
+        "y": 0.193
+      },
+      {
+        "n": 3,
+        "x": 0.34,
+        "y": 0.61
+      },
+      {
+        "n": 4,
+        "x": 0.819,
+        "y": 0.61
+      }
+    ],
+    "displayDurationMs": 12000,
+    "branding": {
+      "palette": "noor-core",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor",
+        "fr": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from Egyptian Ministry Grade 5 ICT — Unit 2, Lesson 4."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "assistant-audit",
+      "notes": "Numbered callouts, localized legend, matching hotspots and text-free SVG checked against the curriculum concept."
+    }
+  }
 ];
 
 /** All media for one lesson+concept, in catalog order. */

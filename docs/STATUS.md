@@ -28,12 +28,39 @@ of "Log".
 
 ## Log (newest first)
 
-### 2026-11-11 — G9 Homework and Missions separation (PR in progress)
-- **State first [V]:** `main` is `eb4d6e2adccb3ccaab0a0791168d37e50eb42642`; PR #141 (R9) is merged, and PR #8 remains open and excluded.
-- **Implementation [STARTED]:** pass an explicit `mode` prop from `AppShell`; missions mode excludes homework missions; homework mode includes only homework missions and falls back to `currentDayRecord.homeworkAssigned` when no homework missions exist. Add a pure filter test and include it in the full test gate.
-- **Verification:** NOT RUN yet. Required gate: `npx tsc --noEmit`, `npm test`, `npm run build`; CI and deployment proof pending.
-- **Next:** complete PR review, run gates, merge and deploy only after all three pass.
-- **Blockers:** browser live proof for R9 remains outstanding due to the connected browser wallet being out of funds.
+### 2026-11-11 — Media coverage completion (PR in progress)
+- **State first [V]:** `main` @ `5e06de2fcdad81b264632e827fd41e964d34ffc6`; media catalog covers 32/54 concepts according to the latest merged media ledger. PR #8 remains open and excluded.
+- **Inspection [V]:** curriculum diagnostic confirmed 54 concepts, 32 covered, 22 uncovered. 120-day feed simulation ranked the uncovered concepts as follows:
+1. `off_math_u3_l1_c1` — 376 hits (rectangle area model)
+2. `off_math_u1_l3_c1` — 352 (expanded-form decimals)
+3. `off_ict_u1_l4_c1` — 330 (technical troubleshooting)
+4. `off_math_u1_l1_c1` — 318 (decimal place value)
+5. `off_ict_u1_l5_c1` — 300 (digital file management)
+6. `conc_mathfr_u2_l1_regle_or` — 282 (equivalent fractions)
+7. `off_ict_u2_l6_c1` — 266 (academic citation)
+8. `off_ict_u1_l3_c1` — 259 (IoT and assistive technology)
+9. `off_ict_u2_l3_c1` — 255 (scam detection)
+10. `conc_mathfr_u3_l1_puissance10` — 242 (powers of ten)
+11. `conc_mathfr_u1_l2_comparaison` — 234 (decimal comparison)
+12. `off_ict_u2_l2_c1` — 231 (passwords and MFA)
+13. `off_ict_u1_l2_c1` — 228 (internet versus intranet)
+14. `off_ict_u2_l4_c1` — 225 (copyright and Creative Commons)
+15. `conc_fr_u1_l2_possessifs` — 86 (possessive adjectives)
+16. `conc_fr_u2_l1_articles_indefinis` — 70 (indefinite articles)
+17–22. Zero hits in the 120-day feed sample: `conc_fr_u1_l1_presentation`, `conc_fr_u3_l1_gouts`, `conc_mathfr_u3_l1_zero_ajoute`, `conc_scifr_u2_l1_mouvement`, `off_en_u1_apple_tree_c1`, `off_en_u4_elephantine_c1`.
+- **Implementation [STARTED]:** authored 22 text-free SVG source/shipping assets across math, language, science, English and ICT; added 22 catalog entries with ar/en/fr title, purpose, alt, numbered legend and matching hotspots. Extended `feedReach` to 54 unique curriculum concepts and added all-concepts coverage assertion. Verification pending.
+- **First CI attempt [V]:** TypeScript rejected a double comma between the existing catalog tail and the first new media entry; corrected. The next test run showed 11 French/English-only concepts could not build `teach_card` in Arabic because the reel generator correctly rejects source text in an unreadable script. Changed five French-track maths/science concepts to the actual Arabic-readable `hook_question` reel and six French/English concepts to `story_analogy`. The English curriculum had English text incorrectly stored in `dailyLifeExampleAr` and `storyAnalogyAr`; corrected those two fields with accurate Arabic translations so the reel generator can safely build Arabic teacher narration. All other items keep `teach_card`. Rerun pending.
+- **Verification:** NOT RUN. Required gates: `npx tsc --noEmit`, `npm test`, `npm run build`; deployment/live proof pending.
+- **Next:** inspect diagnostic output, author all remaining media in this branch, then run the full gate before merge.
+- **Blockers:** browser proof for prior items remains outstanding due to unavailable browser wallet balance.
+
+
+### 2026-11-11 — G9 Homework and Missions separation (PR #142 merged)
+- **State first [V]:** `main` is `5e06de2fcdad81b264632e827fd41e964d34ffc6`; PR #141 (R9) and PR #142 (G9) are merged; PR #8 remains open and excluded.
+- **Implementation [V]:** `AppShell` now passes explicit `mode="missions"` and `mode="homework"`; Missions excludes homework missions, Homework shows homework missions or falls back to `currentDayRecord.homeworkAssigned`. Added a pure filter helper and eight regression assertions to the full `npm test` chain.
+- **Verification [V]:** PR CI run `43014862564` passed TypeScript, full `npm test` (including `MISSION SCREEN FILTERS: 8 PASSED, 0 FAILED`), and `npm run build`; OS compliance run `43014862593` passed. Post-merge CI run `43014984254` and compliance run `43014984173` succeeded. Vercel production deployment `dpl_5ftoFZMD71FERRnJnYZeLt8i6EcB` is READY for merge commit `5e06de2fcdad81b264632e827fd41e964d34ffc6` and aliases `amina-nine-sepia.vercel.app`.
+- **Next:** continue with media coverage. Browser live proof remains outstanding due to the connected browser wallet being out of funds.
+- **Blockers:** browser live proof for R9/G9 and live-bundle/local-build SHA comparison are not verified.
 
 
 ### 2026-11-11 — R9 text contrast correction (PR #141 merged)

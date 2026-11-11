@@ -44,6 +44,19 @@ const publicPath = (src: string) => join(ROOT, 'public', src.replace(/^\/+/, '')
 const srcPath = (p: string) => join(ROOT, 'media-src', p.replace(/^media\//, ''));
 
 function main() {
+
+  const allConcepts = curriculumService.getAllLessons().flatMap((lesson) =>
+    lesson.concepts.map((concept) => ({ lessonId: lesson.id, conceptId: concept.id }))
+  );
+  const uncoveredConcepts = allConcepts.filter(({ lessonId, conceptId }) =>
+    mediaForConcept(lessonId, conceptId).length === 0
+  );
+  check(
+    'all 54 curriculum concepts have authored media',
+    allConcepts.length === 54 && uncoveredConcepts.length === 0,
+    uncoveredConcepts.map((x) => `${x.lessonId}/${x.conceptId}`).join(', ')
+  );
+
   check('the catalog has media to check', MEDIA_CATALOG.length >= 3, `found ${MEDIA_CATALOG.length}`);
 
   // 1. Every item carries the metadata that makes it educational.
@@ -190,9 +203,36 @@ function main() {
     ['off_ict_u1_l6', 'off_ict_u1_l6_c1'],
     ['off_math_u2_l5', 'off_math_u2_l5_c1'],
     ['off_math_u2_l7', 'off_math_u2_l7_c1'],
+  
+    ['off_sci_u1_l1_plant_needs', 'off_sci_u1_l1_c1'],
+    ['off_math_u1_l4', 'off_math_u1_l4_c1'],
+    ['off_fr_u1_l1_salutations', 'conc_fr_u1_l1_salutations'],
+    ['off_math_u1_l1', 'off_math_u1_l1_c1'],
+    ['off_math_u1_l3', 'off_math_u1_l3_c1'],
+    ['off_math_u3_l1', 'off_math_u3_l1_c1'],
+    ['off_fr_u1_l1_salutations', 'conc_fr_u1_l1_presentation'],
+    ['off_fr_u1_l2_famille', 'conc_fr_u1_l2_possessifs'],
+    ['off_fr_u2_l1_classe', 'conc_fr_u2_l1_articles_indefinis'],
+    ['off_fr_u3_l1_horaire', 'conc_fr_u3_l1_gouts'],
+    ['off_mathfr_u1_l2_comparer', 'conc_mathfr_u1_l2_comparaison'],
+    ['off_mathfr_u2_l1_fractions', 'conc_mathfr_u2_l1_regle_or'],
+    ['off_mathfr_u3_l1_division', 'conc_mathfr_u3_l1_puissance10'],
+    ['off_mathfr_u3_l1_division', 'conc_mathfr_u3_l1_zero_ajoute'],
+    ['off_scifr_u2_l1_matiere', 'conc_scifr_u2_l1_mouvement'],
+    ['off_en_u1_apple_tree', 'off_en_u1_apple_tree_c1'],
+    ['off_en_u4_elephantine', 'off_en_u4_elephantine_c1'],
+    ['off_ict_u1_l2', 'off_ict_u1_l2_c1'],
+    ['off_ict_u1_l3', 'off_ict_u1_l3_c1'],
+    ['off_ict_u1_l4', 'off_ict_u1_l4_c1'],
+    ['off_ict_u1_l5', 'off_ict_u1_l5_c1'],
+    ['off_ict_u2_l2', 'off_ict_u2_l2_c1'],
+    ['off_ict_u2_l3', 'off_ict_u2_l3_c1'],
+    ['off_ict_u2_l4', 'off_ict_u2_l4_c1'],
+    ['off_ict_u2_l6', 'off_ict_u2_l6_c1'],
   ] as const;
   const reachMissing = feedReach.filter(([l, c]) => mediaForConcept(l, c).length === 0);
-  check('media covers the concepts the feed queues first (ICT, Arabic story, science, Islamic, calligraphy, French maths, the four busiest Arabic lessons)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
+  const uniqueFeedReach = new Set(feedReach.map(([lessonId, conceptId]) => `${lessonId}/${conceptId}`));
+  check('feedReach covers all 54 curriculum concepts', feedReach.length === 54 && uniqueFeedReach.size === 54 && reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
 
   // 10. Types present: at least one image, one video and one narration.
   const types = new Set(MEDIA_CATALOG.map((m) => m.type));
