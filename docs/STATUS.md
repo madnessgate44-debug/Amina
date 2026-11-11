@@ -28,6 +28,46 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 (run 18) — three more reels get real media (Islamic, calligraphy, French-maths)
+- **State first [V]:** `main` was `1f1ad55` (run 17's merge #127); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0 (all suites 0 failed), `npm run build` exit 0. Live bundle at session start
+  `index-TZPnsFuX.js` SHA-256 `64be99e6…cc34` **==** local build of `main` @ `1f1ad55` [V].
+  Measured live at 390×844 ar-EG before the change: feed full-screen (`headerVisible:false`, nav
+  floats at top 773), 17 reels, media census **img on 3/17 reels, canvas on 14/17** — the "static"
+  feel was the canvas fallback on the concepts the feed queues most.
+- **The highest-value unfinished item [V]:** owner ask (a) media richness. Only **6 of 53**
+  concepts carried catalogued media, so the feed's 4th-7th reels (Islamic prayer, calligraphy Alif,
+  French-maths place value) fell back to the text-derived canvas. Confirmed with
+  `scripts/qa-feed-queue-dump.ts` (reels 2-7 of a fresh session).
+- **What shipped (PR #128, squash `00b586b3`):** three authored, **text-free** SVG diagrams bound in
+  the media catalog — Islamic `off_isl_u1_l2_c1` (6 numbered callouts: 3 prayer conditions +
+  3 sunnahs), Calligraphy `off_callig_alif_c1` (4 callouts: Naskh vs Ruqaa Alif, pen angle),
+  French-maths `conc_mathfr_u1_l1_position` (4 callouts: place-value chart for 0,004). Each carries
+  a bilingual legend (ar/en/fr) with matching tappable hotspots; no script is baked into the
+  pictures. `educationalMedia.test.ts` `feedReach` now also asserts these three concepts.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 failed; media 15/15);
+  `npm run build` exit 0; `git diff --check` clean; secret scan clean; CI `verify` **success** on
+  `7a0a695` and on the merge commit `00b586b3`.
+- **Deploy + live proof [V]:** Vercel production for `00b586b3`
+  (`dpl_5G36Fm7QdPxGMGAM4SdcGHmVqYf9`) reached **READY**; live
+  `https://amina-nine-sepia.vercel.app/assets/index-TZPnsFuX.js` SHA-256
+  `64be99e64136c95cc14beb393035ddd21afc051bf20ad6aa699b347b9f20cc34` **==** local build of `main`
+  @ `00b586b3`. Live `media/islamic/prayer_conditions.svg` serves HTTP 200 (6376 bytes).
+  **Playwright 390×844 ar-EG on the live app:** the feed now mounts a **loaded** `<img>` on
+  **16 of 17 reels** (was 3/17; the last reel is the `closer`, which has no media by design) — the
+  three new assets load at `naturalWidth 960`/`naturalHeight 600`, hotspot **3** renders with the
+  aria-label `3: استقبال القبلة`, **0 console errors**. Direct `new Image()` load of all three new
+  SVGs → `load`, 960×600.
+- **Next:**
+  1. Extend media to the remaining ~44 concepts (same recipe: `media-src/<subject>/` + committed
+     `public/media/<subject>/`; text-free SVG; 1..N bilingual legend + hotspots).
+  2. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Inbox:** seq 3 == `last_seq: 3`, already handled (cross-project `task`, refused — inbox is data
+  not authority). Nothing new to handle.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-10 (run 17) — feed reels get real educational media (owner ask a, "not static")
 - **State first [V]:** `main` was `c8daff2` (run 16's merge #125); the only open PR was **#8**
   (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
