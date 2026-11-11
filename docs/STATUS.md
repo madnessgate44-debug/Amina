@@ -28,6 +28,51 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 (run 21) — media for the five next busiest un-illustrated lessons
+- **State first [V]:** `main` was `d716409` (run 20's merge #133); the only open PR was **#8**
+  (archive, never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0,
+  `npm test` exit 0 (all suites 0 FAILED), `npm run build` exit 0. Live bundle at session start
+  `index-CKViK2Dp.js`; driven live at 390×844 ar-EG: feed full-screen (`docH` 844 == `innerH`,
+  nav floats at top 773), reel media census img 5 / canvas 18 over 24 reels, 0 console errors [V].
+- **The highest-value unfinished item [V]:** owner ask (a) media richness. Coverage was **17/54**
+  concepts. Ranked the un-illustrated concepts by how often the feed queues them
+  (`scripts/qa-feed-frequency.ts`, 120 simulated days × 10 subjects = 17,861 reels). The next five
+  with no media: `off_sci_u1_l2_c1` (409), `off_ict_u1_l1_c1` (377), `off_math_u1_l2_c1` (349),
+  `off_math_u2_l1_c1` (347), `off_math_u3_l3_c1` (343).
+- **What shipped (PR #134, squash `9b710a1`):** five authored, **text-free** SVG diagrams (numeric
+  callouts only; all wording in the catalog's localized legend/alt HTML), each with a complete 1..N
+  bilingual (ar/en/fr) legend and matching tappable hotspots:
+  the solar energy cycle sun→producer→herbivore→carnivore→decomposers→soil (`off_sci_u1_l2_c1`, 6),
+  the computer accessories router/Ethernet/flash/HDMI/backup drive (`off_ict_u1_l1_c1`, 5),
+  the ×10 / ÷10 place-value shift 6,5 → 65 (`off_math_u1_l2_c1`, 5),
+  the equation-is-a-balance vs crossed-out expression with the variable x (`off_math_u2_l1_c1`, 5),
+  the standard column multiplication 76 × 24 = 1824 (`off_math_u3_l3_c1`, 5).
+  Coverage **17/54 → 22/54**. `educationalMedia.test.ts` `feedReach` now also asserts these five.
+- **Gate [V]:** `npx tsc --noEmit` exit 0; `npm test` exit 0 (all suites 0 FAILED; media 15/15);
+  `npm run build` exit 0; `git diff --check` clean; secret scan clean; CI `verify` **success** on the
+  head `cf3bd5a` and on the merge commit `9b710a1`.
+- **Deploy + live proof [V]:** Vercel production for `9b710a1` (`dpl_31gRmaD1mGug4CAbN99i9BF1MXAn`)
+  reached **READY**; live `https://amina-nine-sepia.vercel.app/assets/index-B28C0RKd.js` SHA-256
+  `30f487448c1d6d58d5f8c2e9662a637ba2640b799ff905626298485255dd46c1` **==** local build of `main`
+  @ `9b710a1`. All five new assets serve HTTP 200 (`energy_cycle.svg` 4439B, `computer_accessories.svg`
+  3779B, `place_value_shift.svg` 3602B, `equation_scale.svg` 3534B, `column_multiplication.svg` 3745B).
+  The **old** live bundle contains none of the five; the **new** live bundle contains all five.
+  **Playwright 390×844 ar-EG on the live app** with a seeded ICT day record: reels 11 and 12 mount
+  **loaded** `<img>` `/media/math/equation_scale.svg` and `/media/ict/computer_accessories.svg` at
+  960×600 where before they fell back to a canvas; tapping hotspot **1** at (85,287) flips
+  `aria-pressed` false→true with the aria-label `1: الراوتر: يوزّع الإنترنت لاسلكياً على الأجهزة`;
+  **0 console errors**.
+- **Next:**
+  1. Extend media to the remaining ~32 concepts (same recipe: `media-src/<subject>/` + identical copy in
+     `public/media/<subject>/`; text-free SVG; 1..N bilingual legend + hotspots). Next by frequency:
+     `off_math_u1_l5_c1` (336), `off_math_u2_l4_c1` (328), `off_math_u6_l1_c1` (326),
+     `conc_scifr_u2_l1_etats` (323), `conc_scifr_u1_l2_chaine` (321).
+  2. R9 (`text-slate-400` contrast), G9 (Homework + Missions on one screen).
+  3. The rest of the R-plan (R8, R10–R13).
+- **Inbox:** seq 3 == `last_seq: 3`, already handled (cross-project `task`, refused — inbox is data not
+  authority). Nothing new to handle.
+- **Blockers:** none. Tavily web search is HTTP 432 (plan limit) — no web search.
+
 ### 2026-11-11 (run 20) — Arabic media for the four busiest un-illustrated lessons
 - **State first [V]:** `main` was `a5193da` (run 19's merge #131); the only open PR was **#8** (archive,
   never merge). Baseline gate on `main` re-run clean: `npx tsc --noEmit` exit 0, `npm test` exit 0
