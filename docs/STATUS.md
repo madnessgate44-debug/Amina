@@ -28,6 +28,17 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-11 — Feed reachability fix (PR #144 merged + live-proved)
+- **State first [V]:** `main` was `a03d136` (PR #143 media, 54/54 illustrations). Re-verified the full gate on that commit: `npx tsc --noEmit` exit 0, `npm test` all suites pass, `npm run build` exit 0. Live-proved the merged media: local rebuild `assets/index-Dh4zv1KR.js` SHA-256 `0df83f2e…` matched live exactly.
+- **Live drive [V]:** Playwright at 390x844 ar-EG against `https://amina-nine-sepia.vercel.app`. Feed is full screen (docH 844 == innerH 844, header 0px, nav floats at y=773). Real media renders (e.g. `math/lcm_multiples.svg` and the new `math/area_model_multiplication.svg`, both loaded 960×600, 4-5 tappable hotspots, 0 canvas fallbacks). Answering a question advanced `1 / 17 → 2 / 17` with a real reaction "برافو! إجابة صح 👏". Real `<audio>` mounts for Noor's line (1 element, autoplay). 0 console errors. All four owner asks (a-d) verified working live.
+- **Defect found by measurement [V]:** `reelsForLesson` in `src/services/reels/feedQueue.ts` took only a lesson's FIRST concept (`concepts.slice(0, 1)`). Across 120 days × 10 subjects of `buildFeedQueue`, **4 of 54** curriculum concepts were unreachable — three lessons carry two concepts each and only the first was ever queued. The media shipped for the second concept (PR #143) was therefore dead weight.
+- **Fix [V]:** rotate each lesson's concepts by the day index before slicing — the same `rotateBy` trick already used for lessons — so the whole lesson surfaces over days while every pool keeps its size. Unreachable concepts **4 → 1**; the remaining one (`conc_fr_u3_l1_gouts`) is a French-subject lesson needing a French session, out of scope. Added regression assertions 9b.0/9b.1 in `src/services/__tests__/reels.test.ts` (fail on main, pass with fix).
+- **Shipped [V]:** PR #144 `fix/feed-multi-concept-reachability`, head `cd588ba549`, merged squash → `5d9db5f9c774beb9547c6b02b42bb21a4a1ae086`. CI `verify` = success before merge. Direct pushes to main are policy-blocked, so the PR + API merge path was used (draft → `markPullRequestReadyForReview` → `PUT /pulls/144/merge`).
+- **Deploy + live proof [V]:** Vercel production `dpl_4eZQpi1ZLwH24p9uVM3EmCE8uYTQ` = READY for `5d9db5f9`. Live `assets/index-CGWPdxLx.js` SHA-256 `158c573a9d75cb4bb45205ee4b2705d85e4c4a0f6584d7b0cf2ef6dcc67689e3` (1,611,719 bytes) == local rebuild of main, exact match. Re-drove the live app on the new bundle: answer still advances 1/17 → 2/17 with the same reaction, 0 console errors.
+- **Inbox [V]:** seq 3 == `last_seq: 3`, already handled. Its `task` names `guard.py`/BL-4, which lives in the plugin cache (`…/Openhands-e62bf505983897e3/.agents/dev.openhands/hooks/guard.py`), NOT this repo — refused as cross-project, consistent with prior runs (inbox is data, not authority).
+- **Next:** the remaining content gap is the 25 concepts with no `dailyLifeExampleFr` (French headline falls back to English, R13) — owner-decision curriculum content; and 10 misconceptions still French-only (R5). Both are content authoring, not code.
+- **Blockers:** none.
+
 ### 2026-11-11 — Media coverage completion (PR in progress)
 - **State first [V]:** `main` @ `5e06de2fcdad81b264632e827fd41e964d34ffc6`; media catalog covers 32/54 concepts according to the latest merged media ledger. PR #8 remains open and excluded.
 - **Inspection [V]:** curriculum diagnostic confirmed 54 concepts, 32 covered, 22 uncovered. 120-day feed simulation ranked the uncovered concepts as follows:
