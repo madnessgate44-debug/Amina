@@ -44,6 +44,38 @@ const publicPath = (src: string) => join(ROOT, 'public', src.replace(/^\/+/, '')
 const srcPath = (p: string) => join(ROOT, 'media-src', p.replace(/^media\//, ''));
 
 function main() {
+
+  // Temporary authoring diagnostic: enumerate every uncovered curriculum concept
+  // with enough curriculum context to author the remaining diagrams accurately.
+  const allConcepts = curriculumService.getAllLessons().flatMap((lesson) =>
+    lesson.concepts.map((concept) => ({
+      conceptId: concept.id,
+      lessonId: lesson.id,
+      subjectId: lesson.subjectId,
+      subjectNameAr: lesson.subjectNameAr,
+      subjectNameEn: lesson.subjectNameEn,
+      subjectNameFr: lesson.subjectNameFr,
+      lessonTitleAr: lesson.titleAr,
+      lessonTitleEn: lesson.titleEn,
+      lessonTitleFr: lesson.titleFr,
+      conceptTitleAr: concept.titleAr,
+      conceptTitleEn: concept.titleEn,
+      conceptTitleFr: concept.titleFr,
+      visualType: concept.visualType,
+      visualPrompt: concept.visualPrompt,
+      sourceText: concept.sourceText,
+      sourceTextFr: concept.sourceTextFr,
+    }))
+  );
+  const uncovered = allConcepts.filter((concept) =>
+    mediaForConcept(concept.lessonId, concept.conceptId).length === 0
+  );
+  console.log('MEDIA_COVERAGE_DIAGNOSTIC ' + JSON.stringify({
+    totalConcepts: allConcepts.length,
+    coveredConcepts: allConcepts.length - uncovered.length,
+    uncoveredConcepts: uncovered,
+  }));
+
   check('the catalog has media to check', MEDIA_CATALOG.length >= 3, `found ${MEDIA_CATALOG.length}`);
 
   // 1. Every item carries the metadata that makes it educational.

@@ -28,12 +28,21 @@ of "Log".
 
 ## Log (newest first)
 
-### 2026-11-11 — G9 Homework and Missions separation (PR in progress)
-- **State first [V]:** `main` is `eb4d6e2adccb3ccaab0a0791168d37e50eb42642`; PR #141 (R9) is merged, and PR #8 remains open and excluded.
-- **Implementation [STARTED]:** pass an explicit `mode` prop from `AppShell`; missions mode excludes homework missions; homework mode includes only homework missions and falls back to `currentDayRecord.homeworkAssigned` when no homework missions exist. Add a pure filter test and include it in the full test gate.
-- **Verification:** NOT RUN yet. Required gate: `npx tsc --noEmit`, `npm test`, `npm run build`; CI and deployment proof pending.
-- **Next:** complete PR review, run gates, merge and deploy only after all three pass.
-- **Blockers:** browser live proof for R9 remains outstanding due to the connected browser wallet being out of funds.
+### 2026-11-11 — Media coverage completion (PR in progress)
+- **State first [V]:** `main` @ `5e06de2fcdad81b264632e827fd41e964d34ffc6`; media catalog covers 32/54 concepts according to the latest merged media ledger. PR #8 remains open and excluded.
+- **Inspection [STARTED]:** run the curriculum-backed coverage and 120-day feed-frequency diagnostics to enumerate all remaining unillustrated concepts and rank them by feed exposure. The status ledger's earlier ranked list is incomplete, so the diagnostic output is the source of truth for this sprint.
+- **Target:** author every remaining SVG in both `media-src/<subject>/` and `public/media/<subject>/`, bind localized ar/en/fr legend/alt metadata and matching hotspots, and assert 54/54 `feedReach` coverage.
+- **Verification:** NOT RUN. Required gates: `npx tsc --noEmit`, `npm test`, `npm run build`; deployment/live proof pending.
+- **Next:** inspect diagnostic output, author all remaining media in this branch, then run the full gate before merge.
+- **Blockers:** browser proof for prior items remains outstanding due to unavailable browser wallet balance.
+
+
+### 2026-11-11 — G9 Homework and Missions separation (PR #142 merged)
+- **State first [V]:** `main` is `5e06de2fcdad81b264632e827fd41e964d34ffc6`; PR #141 (R9) and PR #142 (G9) are merged; PR #8 remains open and excluded.
+- **Implementation [V]:** `AppShell` now passes explicit `mode="missions"` and `mode="homework"`; Missions excludes homework missions, Homework shows homework missions or falls back to `currentDayRecord.homeworkAssigned`. Added a pure filter helper and eight regression assertions to the full `npm test` chain.
+- **Verification [V]:** PR CI run `43014862564` passed TypeScript, full `npm test` (including `MISSION SCREEN FILTERS: 8 PASSED, 0 FAILED`), and `npm run build`; OS compliance run `43014862593` passed. Post-merge CI run `43014984254` and compliance run `43014984173` succeeded. Vercel production deployment `dpl_5ftoFZMD71FERRnJnYZeLt8i6EcB` is READY for merge commit `5e06de2fcdad81b264632e827fd41e964d34ffc6` and aliases `amina-nine-sepia.vercel.app`.
+- **Next:** continue with media coverage. Browser live proof remains outstanding due to the connected browser wallet being out of funds.
+- **Blockers:** browser live proof for R9/G9 and live-bundle/local-build SHA comparison are not verified.
 
 
 ### 2026-11-11 — R9 text contrast correction (PR #141 merged)
