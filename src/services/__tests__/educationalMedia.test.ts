@@ -181,6 +181,15 @@ function main() {
     ['off_math_u6_l1', 'off_math_u6_l1_c1'],
     ['off_scifr_u2_l1_matiere', 'conc_scifr_u2_l1_etats'],
     ['off_scifr_u1_l2_chaines', 'conc_scifr_u1_l2_chaine'],
+    // The next-most-frequently-queued concepts without media (measured over 120
+    // simulated days): the French-track photosynthesis lesson and four ICT /
+    // maths lessons the feed queues ~310-320 times per term. Before this change
+    // each fell back to the text-derived canvas.
+    ['off_scifr_u1_l1_plantes', 'conc_scifr_u1_l1_photosynthese'],
+    ['off_ict_u2_l5', 'off_ict_u2_l5_c1'],
+    ['off_ict_u1_l6', 'off_ict_u1_l6_c1'],
+    ['off_math_u2_l5', 'off_math_u2_l5_c1'],
+    ['off_math_u2_l7', 'off_math_u2_l7_c1'],
   ] as const;
   const reachMissing = feedReach.filter(([l, c]) => mediaForConcept(l, c).length === 0);
   check('media covers the concepts the feed queues first (ICT, Arabic story, science, Islamic, calligraphy, French maths, the four busiest Arabic lessons)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));

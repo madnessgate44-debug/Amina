@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Facts versus opinions — off_ict_u2_l5 (التمييز بين الحقائق والآراء).
+  Text-free: five numbered callouts. 1 the two panels (fact on the left,
+  opinion on the right); 2 a fact: everyone sees the same sunrise; 3 an
+  opinion: the preferred colour differs from person to person; 4 the trusted
+  national source (Egyptian Knowledge Bank) used to check a fact; 5 the
+  secure connection marker (padlock + https) before entering any data.
+  Wording lives in the catalog's localized legend/alt, so no script is baked in.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="factBg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0f172a"/>
+      <stop offset="1" stop-color="#1e293b"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#factBg)"/>
+
+  <!-- Left panel: FACT -->
+  <rect x="60" y="90" width="400" height="420" rx="24" fill="#065f46" opacity="0.35" stroke="#34d399" stroke-width="5"/>
+  <!-- Sunrise over a horizon -->
+  <g>
+    <path d="M140,400 Q260,400 380,400" stroke="#34d399" stroke-width="6" fill="none"/>
+    <path d="M180,400 A80,80 0 0 1 340,400 Z" fill="#fbbf24"/>
+    <g stroke="#fde047" stroke-width="6" stroke-linecap="round">
+      <line x1="260" y1="280" x2="260" y2="250"/>
+      <line x1="200" y1="300" x2="180" y2="278"/>
+      <line x1="320" y1="300" x2="340" y2="278"/>
+    </g>
+  </g>
+
+  <!-- Right panel: OPINION -->
+  <rect x="500" y="90" width="400" height="420" rx="24" fill="#7c2d12" opacity="0.35" stroke="#fb923c" stroke-width="5"/>
+  <!-- Two different shirt colours -->
+  <g>
+    <rect x="560" y="300" width="90" height="110" rx="14" fill="#38bdf8"/>
+    <rect x="750" y="300" width="90" height="110" rx="14" fill="#f472b6"/>
+    <circle cx="605" cy="270" r="30" fill="#e2e8f0"/>
+    <circle cx="795" cy="270" r="30" fill="#e2e8f0"/>
+  </g>
+
+  <!-- Trusted source: a small shield with a check -->
+  <g>
+    <path d="M300,440 L340,455 L340,495 Q340,520 300,535 Q260,520 260,495 L260,455 Z" fill="#1d4ed8" stroke="#93c5fd" stroke-width="4"/>
+    <path d="M285,485 L297,497 L318,470" stroke="#ffffff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Secure marker: padlock -->
+  <g transform="translate(660,430)">
+    <rect x="0" y="26" width="72" height="58" rx="10" fill="#22c55e"/>
+    <path d="M12,26 L12,14 A24,24 0 0 1 60,14 L60,26" stroke="#22c55e" stroke-width="9" fill="none"/>
+    <circle cx="36" cy="54" r="7" fill="#065f46"/>
+  </g>
+
+  <!-- Numbered callout markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="480" cy="60" r="26" fill="#ffffff" stroke="#0f766e" stroke-width="5"/>
+    <text x="480" y="72" fill="#0f766e">1</text>
+    <circle cx="260" cy="200" r="26" fill="#ffffff" stroke="#047857" stroke-width="5"/>
+    <text x="260" y="212" fill="#047857">2</text>
+    <circle cx="700" cy="200" r="26" fill="#ffffff" stroke="#c2410c" stroke-width="5"/>
+    <text x="700" y="212" fill="#c2410c">3</text>
+    <circle cx="300" cy="470" r="26" fill="#ffffff" stroke="#1d4ed8" stroke-width="5"/>
+    <text x="300" y="482" fill="#1d4ed8">4</text>
+    <circle cx="600" cy="510" r="26" fill="#ffffff" stroke="#047857" stroke-width="5"/>
+    <text x="600" y="522" fill="#047857">5</text>
+  </g>
+</svg>
