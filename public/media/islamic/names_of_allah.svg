@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  The Beautiful Names of Allah — off_isl_u1_l1 (سورة الحشر وأسماء الله الحسنى).
+  Text-free: four numbered callouts (Al-Quddus, As-Salam, Al-Muhaymin, and the
+  heart made tranquil by remembering them). Wording lives in the catalog's
+  localized legend/alt HTML, so the diagram never shows a script the child
+  cannot read. Numbers map to the lesson's four named meanings.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f5f3ff"/>
+      <stop offset="1" stop-color="#e0e7ff"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#ffb86b" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#ffb86b" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#sky)"/>
+
+  <!-- A ring of light at the top: the Names as light (a decorative frame only). -->
+  <g transform="translate(480,120)">
+    <circle r="150" fill="url(#glow)"/>
+    <circle r="96" fill="none" stroke="#615bff" stroke-width="6" opacity="0.35"/>
+  </g>
+
+  <!-- Heart made tranquil (bottom centre) -->
+  <g transform="translate(480,470)">
+    <path d="M0,60 C-90,-20 -120,-70 -70,-104 C-34,-126 -6,-104 0,-78 C6,-104 34,-126 70,-104 C120,-70 90,-20 0,60 Z"
+          fill="#fb7185" stroke="#be123c" stroke-width="6"/>
+    <g stroke="#fecdd3" stroke-width="5" stroke-linecap="round" opacity="0.8">
+      <path d="M-30,-40 L30,10"/>
+      <path d="M-30,10 L30,-40"/>
+    </g>
+  </g>
+
+  <!-- Callout 1: a perfect, unflawed shape (Al-Quddus) -->
+  <g transform="translate(150,250)">
+    <circle r="70" fill="#ffffff" stroke="#615bff" stroke-width="6"/>
+    <path d="M-34,4 L-6,32 L38,-30" fill="none" stroke="#615bff" stroke-width="14"
+          stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- Callout 2: peace / safety (As-Salam) — a dove carrying an olive branch -->
+  <g transform="translate(810,250)">
+    <circle r="70" fill="#ffffff" stroke="#26b8a8" stroke-width="6"/>
+    <g transform="translate(0,0)">
+      <path d="M-30,6 C-14,-20 22,-24 40,0 C24,22 -14,22 -30,6 Z" fill="#e2e8f0" stroke="#0f766e" stroke-width="4"/>
+      <path d="M-6,2 L-22,-12 L-30,4 Z" fill="#cbd5e1" stroke="#0f766e" stroke-width="4"/>
+      <circle cx="26" cy="-4" r="4" fill="#0f766e"/>
+      <path d="M-6,6 L-40,20" fill="none" stroke="#16a34a" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="-46" cy="22" rx="9" ry="5" fill="#22c55e"/>
+    </g>
+  </g>
+
+  <!-- Callout 3: watchful eye / protector (Al-Muhaymin) -->
+  <g transform="translate(480,250)">
+    <circle r="70" fill="#ffffff" stroke="#17233b" stroke-width="6"/>
+    <path d="M-42,0 C-18,-28 18,-28 42,0 C18,28 -18,28 -42,0 Z" fill="none" stroke="#17233b" stroke-width="5"/>
+    <circle cx="0" cy="0" r="15" fill="#17233b"/>
+    <circle cx="6" cy="-6" r="4" fill="#ffffff"/>
+  </g>
+
+  <!-- Numbered markers (offset to the top-left of each icon so the icon stays visible) -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="104" cy="204" r="26" fill="#615bff" stroke="#ffffff" stroke-width="5"/>
+    <text x="104" y="216" fill="#ffffff">1</text>
+    <circle cx="856" cy="204" r="26" fill="#26b8a8" stroke="#ffffff" stroke-width="5"/>
+    <text x="856" y="216" fill="#ffffff">2</text>
+    <circle cx="526" cy="204" r="26" fill="#17233b" stroke="#ffffff" stroke-width="5"/>
+    <text x="526" y="216" fill="#ffffff">3</text>
+    <circle cx="420" cy="410" r="26" fill="#fb7185" stroke="#ffffff" stroke-width="5"/>
+    <text x="420" y="422" fill="#ffffff">4</text>
+  </g>
+</svg>

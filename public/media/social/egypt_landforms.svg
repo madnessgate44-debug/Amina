@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Egypt's landforms — off_soc_u1_l2 (مظاهر سطح بلدي ووحداته التضاريسية).
+  Text-free: five numbered callouts (the Nile Valley & Delta, the Western
+  Desert, the Eastern Desert, Sinai, and the highest peak, St. Catherine).
+  Wording lives in the catalog's localized legend/alt HTML.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="600" viewBox="0 0 960 600" role="img">
+  <defs>
+    <linearGradient id="lsky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e0f2fe"/>
+      <stop offset="1" stop-color="#fef3c7"/>
+    </linearGradient>
+  </defs>
+  <rect width="960" height="600" fill="url(#lsky)"/>
+
+  <!-- Western Desert (largest): rolling dunes on the left -->
+  <g>
+    <path d="M40,470 C120,400 200,400 280,470 C340,420 400,420 440,470 L440,560 L40,560 Z"
+          fill="#fcd34d" stroke="#b45309" stroke-width="5"/>
+    <path d="M40,470 C120,400 200,400 280,470" fill="none" stroke="#d97706" stroke-width="4" opacity="0.6"/>
+  </g>
+
+  <!-- Nile Valley & Delta (narrow green strip through the middle) -->
+  <g>
+    <path d="M470,150 C452,300 470,420 500,560 L560,560 C540,420 520,300 540,150 Z"
+          fill="#4ade80" stroke="#15803d" stroke-width="5"/>
+    <!-- Delta fanning to the north -->
+    <path d="M505,150 C430,110 430,60 470,40 L560,40 C610,70 590,120 535,150 Z"
+          fill="#22c55e" stroke="#15803d" stroke-width="5"/>
+  </g>
+
+  <!-- Eastern Desert (mountains, right of the Nile) -->
+  <g>
+    <path d="M580,470 L660,300 L720,470 Z" fill="#f59e0b" stroke="#b45309" stroke-width="5"/>
+    <path d="M660,470 L740,320 L820,470 Z" fill="#fb923c" stroke="#b45309" stroke-width="5"/>
+  </g>
+
+  <!-- Sinai (far right): the highest peak, St. Catherine -->
+  <g>
+    <path d="M760,470 L860,200 L940,470 Z" fill="#e5e7eb" stroke="#6b7280" stroke-width="5"/>
+    <path d="M860,200 L830,270 L890,270 Z" fill="#ffffff" stroke="#6b7280" stroke-width="3"/>
+  </g>
+
+  <!-- Numbered markers -->
+  <g font-family="DejaVu Sans, sans-serif" font-size="34" font-weight="bold" text-anchor="middle">
+    <circle cx="150" cy="420" r="26" fill="#b45309" stroke="#ffffff" stroke-width="5"/>
+    <text x="150" y="432" fill="#ffffff">1</text>
+    <circle cx="515" cy="120" r="26" fill="#15803d" stroke="#ffffff" stroke-width="5"/>
+    <text x="515" y="132" fill="#ffffff">2</text>
+    <circle cx="700" cy="340" r="26" fill="#b45309" stroke="#ffffff" stroke-width="5"/>
+    <text x="700" y="352" fill="#ffffff">3</text>
+    <circle cx="800" cy="450" r="26" fill="#6b7280" stroke="#ffffff" stroke-width="5"/>
+    <text x="800" y="462" fill="#ffffff">4</text>
+    <circle cx="860" cy="176" r="26" fill="#111827" stroke="#ffffff" stroke-width="5"/>
+    <text x="860" y="188" fill="#ffffff">5</text>
+  </g>
+</svg>

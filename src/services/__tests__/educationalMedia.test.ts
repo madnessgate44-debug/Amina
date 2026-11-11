@@ -149,6 +149,13 @@ function main() {
     ['off_isl_u1_l2_prayer_virtues', 'off_isl_u1_l2_c1'],
     ['off_callig_alif_naskh_ruqaa', 'off_callig_alif_c1'],
     ['off_mathfr_u1_l1_decimaux', 'conc_mathfr_u1_l1_position'],
+    // The most-frequently-queued concepts without media (measured over 120
+    // simulated days): the Islamic Names lesson and the three Social Studies
+    // lessons, which the feed queues hundreds of times per term.
+    ['off_isl_u1_l1_names_of_allah', 'off_isl_u1_l1_c1'],
+    ['off_soc_u1_l1_location', 'off_soc_u1_l1_c1'],
+    ['off_soc_u1_l2_surface', 'off_soc_u1_l2_c1'],
+    ['off_soc_u2_l1_water_resources', 'off_soc_u2_l1_c1'],
   ] as const;
   const reachMissing = feedReach.filter(([l, c]) => mediaForConcept(l, c).length === 0);
   check('media covers the concepts the feed queues first (ICT, Arabic story, science, Islamic, calligraphy, French maths)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
