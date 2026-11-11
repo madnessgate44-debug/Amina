@@ -144,9 +144,14 @@ function main() {
     ['off_ict_u2_l1', 'off_ict_u2_l1_c1'],
     ['off_ar_u1_l1_ana_astatee', 'off_ar_u1_l1_c1'],
     ['off_sci_u1_l3_coral_bleaching', 'off_sci_u1_l3_c1'],
+    // The next concepts the feed queues for a fresh student: an Islamic lesson,
+    // the calligraphy lesson, and the French-maths diagnosis reel.
+    ['off_isl_u1_l2_prayer_virtues', 'off_isl_u1_l2_c1'],
+    ['off_callig_alif_naskh_ruqaa', 'off_callig_alif_c1'],
+    ['off_mathfr_u1_l1_decimaux', 'conc_mathfr_u1_l1_position'],
   ] as const;
   const reachMissing = feedReach.filter(([l, c]) => mediaForConcept(l, c).length === 0);
-  check('media covers the concepts the feed queues first (ICT, Arabic story, science)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
+  check('media covers the concepts the feed queues first (ICT, Arabic story, science, Islamic, calligraphy, French maths)', reachMissing.length === 0, reachMissing.map(([l, c]) => `${l}/${c}`).join(', '));
 
   // 10. Types present: at least one image, one video and one narration.
   const types = new Set(MEDIA_CATALOG.map((m) => m.type));
