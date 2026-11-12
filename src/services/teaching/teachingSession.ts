@@ -118,7 +118,7 @@ export class TeachingSessionEngine {
       throw new Error(`Lesson ${lessonId} not found in official curriculum.`);
     }
 
-    const effectiveLang = this.resolveLanguage(language, lesson.language);
+    const effectiveLang = this.resolveLanguage(language, lesson.instructionLanguage || lesson.contentLanguage || lesson.language);
     const isAr = effectiveLang === 'ar';
     const isFr = effectiveLang === 'fr';
 
@@ -200,7 +200,7 @@ export class TeachingSessionEngine {
       throw new Error(`Lesson ${session.lessonId} not found.`);
     }
 
-    const effectiveLang = this.resolveLanguage(language, lesson.language, studentInput);
+    const effectiveLang = this.resolveLanguage(language, lesson.instructionLanguage || lesson.contentLanguage || lesson.language, studentInput);
     const isAr = effectiveLang === 'ar';
     const isFr = effectiveLang === 'fr';
 
@@ -820,8 +820,8 @@ export class TeachingSessionEngine {
       }
     }
 
-    if (lessonLang) return lessonLang;
     if (explicitLang) return explicitLang;
+    if (lessonLang) return lessonLang;
     return 'ar';
   }
 
