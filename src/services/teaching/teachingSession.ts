@@ -38,6 +38,25 @@ const STOP = new Set(
 
 const stem = (w: string) => w.replace(/^ال/, '');
 
+function conceptTitle(concept: CurriculumLessonConcept, isFr: boolean): string {
+  return isFr ? (concept.titleFr || concept.titleEn) : concept.titleEn;
+}
+
+function conceptSourceText(concept: CurriculumLessonConcept, isFr: boolean): string {
+  return isFr
+    ? (concept.sourceTextFr || concept.titleFr || concept.titleEn)
+    : concept.sourceText;
+}
+
+function conceptKeyPoints(concept: CurriculumLessonConcept, isFr: boolean): string[] {
+  if (!isFr) return concept.keyPoints;
+  // Never leak Arabic key-point text into the French teaching path. A concise
+  // French source summary is safer than silently falling back to Arabic.
+  return concept.keyPointsFr?.length
+    ? concept.keyPointsFr
+    : [concept.sourceTextFr || concept.titleFr || concept.titleEn];
+}
+
 function tokens(s: string): Set<string> {
   return new Set(
     normalizeText(s).split(' ').filter((w) => w.length > 2 && !STOP.has(w)).map(stem)
@@ -99,10 +118,10 @@ export class TeachingSessionEngine {
     if (existingSession && existingSession.status === 'in_progress') {
       const currentConcept = lesson.concepts[existingSession.currentConceptIndex] || lesson.concepts[0];
       const resumeGreeting = isFr
-        ? `Rebonjour cher ami ! La dernière fois, nous explorions «${currentConcept.titleEn}» de la leçon «${lesson.titleEn}» (${lesson.sourceRef.bookEn}). Es-tu prêt à continuer ?`
+        ? `Rebonjour cher ami ! La dernière fois, nous explorions «${conceptTitle(currentConcept, isFr)}» de la leçon «${lesson.titleEn}» (${lesson.sourceRef.bookEn}). Es-tu prêt à continuer ?`
         : isAr
         ? `أهلاً بك مجدداً يا بطل! في المرة السابقة كنا ندرس معاً «${currentConcept.titleAr}» من درس «${lesson.titleAr}» (${lesson.sourceRef.bookAr}). هل تحب أن نكمل من حيث توقفنا؟`
-        : `Welcome back, friend! Last time we were exploring "${currentConcept.titleEn}" from "${lesson.titleEn}" (${lesson.sourceRef.bookEn}). Ready to pick up right where we left off?`;
+        : `Welcome back, friend! Last time we were exploring "${conceptTitle(currentConcept, isFr)}" from "${lesson.titleEn}" (${lesson.sourceRef.bookEn}). Ready to pick up right where we left off?`;
 
       const greetingTurn: TutorTurn = {
         id: `turn_greet_${Date.now()}`,
@@ -288,10 +307,10 @@ export class TeachingSessionEngine {
         nextStep = 'teach';
         modalityUsed = 'source_explanation';
         replyText = isFr
-          ? `Très bien ! Ouvrons notre manuel (${lesson.sourceRef.bookEn}) pour notre première notion : «${currentConcept.titleEn}».\n\n📖 Texte du manuel :\n"${currentConcept.sourceText}"\n\n📌 Points clés :\n${currentConcept.keyPoints.map((p) => `• ${p}`).join('\n')}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
+          ? `Très bien ! Ouvrons notre manuel (${lesson.sourceRef.bookEn}) pour notre première notion : «${conceptTitle(currentConcept, isFr)}».\n\n📖 Texte du manuel :\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
           : isAr
-          ? `رائع جداً! الآن لنفتح كتابنا (${lesson.sourceRef.bookAr}) ونبدأ بالفكرة الأولى: «${currentConcept.titleAr}».\n\n📖 من نص الكتاب المدرسي:\n"${currentConcept.sourceText}"\n\n📌 النقاط الجوهرية:\n${currentConcept.keyPoints.map((p) => `• ${p}`).join('\n')}\n\n(خذ نفساً هادئاً، وعندما تكون مستعداً اخبرني لننتقل للخطوة التالية!)`
-          : `Great! Now let’s open our textbook (${lesson.sourceRef.bookEn}) to our first concept: "${currentConcept.titleEn}".\n\n📖 From the textbook:\n"${currentConcept.sourceText}"\n\n📌 Key Points:\n${currentConcept.keyPoints.map((p) => `• ${p}`).join('\n')}\n\nTake your time to absorb this! Tell me when you're ready to continue.`;
+          ? `رائع جداً! الآن لنفتح كتابنا (${lesson.sourceRef.bookAr}) ونبدأ بالفكرة الأولى: «${currentConcept.titleAr}».\n\n📖 من نص الكتاب المدرسي:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 النقاط الجوهرية:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\n(خذ نفساً هادئاً، وعندما تكون مستعداً اخبرني لننتقل للخطوة التالية!)`
+          : `Great! Now let’s open our textbook (${lesson.sourceRef.bookEn}) to our first concept: "${conceptTitle(currentConcept, isFr)}".\n\n📖 From the textbook:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nTake your time to absorb this! Tell me when you're ready to continue.`;
         break;
       }
 
@@ -299,10 +318,10 @@ export class TeachingSessionEngine {
         // Step 3 -> Step 4: Ask Open-Ended Check
         nextStep = 'ask';
         replyText = isFr
-          ? `Maintenant cher ami, avec tes propres mots et sans mémorisation : qu'as-tu compris de «${currentConcept.titleEn}» ? (Explique-moi librement, je t'écoute !)`
+          ? `Maintenant cher ami, avec tes propres mots et sans mémorisation : qu'as-tu compris de «${conceptTitle(currentConcept, isFr)}» ? (Explique-moi librement, je t'écoute !)`
           : isAr
           ? `الآن يا صديقي، بكلماتك البسيطة الخاصة وبدون حفظ حرفي: ما الذي فهمته من كلامنا عن «${currentConcept.titleAr}»؟ (احكِ لي بحرية، لا توجد إجابة خطأ هنا!)`
-          : `Now friend, in your own words without memorization: what did you understand about "${currentConcept.titleEn}"? (Tell me freely, I am listening!)`;
+          : `Now friend, in your own words without memorization: what did you understand about "${conceptTitle(currentConcept, isFr)}"? (Tell me freely, I am listening!)`;
         break;
       }
 
@@ -314,10 +333,10 @@ export class TeachingSessionEngine {
           // Good grasp! Proceed to Step 7: Mandatory Explain-it-back
           nextStep = 'explain_back';
           replyText = isFr
-            ? `Excellente compréhension ! 👍\n\nEt maintenant, voici le vrai test du maître :\n«À ton tour de m'enseigner ! Explique-moi la notion de '${currentConcept.titleEn}' comme si j'étais un nouvel élève qui ne sait absolument rien !»`
+            ? `Excellente compréhension ! 👍\n\nEt maintenant, voici le vrai test du maître :\n«À ton tour de m'enseigner ! Explique-moi la notion de '${conceptTitle(currentConcept, isFr)}' comme si j'étais un nouvel élève qui ne sait absolument rien !»`
             : isAr
             ? `استيعاب رائع وتفكير سليم يا بطل! 👍\n\nوالآن جاء الاختبار الحقيقي للمعلم الماهر:\n«دورك الآن لتعلمني! اشرح لي فكرة "${currentConcept.titleAr}" وكأني طالب جديد لا أعرف أي شيء عنها على الإطلاق!»`
-            : `Spot-on understanding! 👍\n\nNow comes the true test of a master:\n"Now you teach me! Explain '${currentConcept.titleEn}' as if I know absolutely nothing about it!"`;
+            : `Spot-on understanding! 👍\n\nNow comes the true test of a master:\n"Now you teach me! Explain '${conceptTitle(currentConcept, isFr)}' as if I know absolutely nothing about it!"`;
         } else {
           // Needs escalation: Step 5 Adjust via Escalation Ladder
           nextStep = 'adjust';
@@ -340,19 +359,19 @@ export class TeachingSessionEngine {
           // Understood through the ladder! Advance to mandatory explain-it-back
           nextStep = 'explain_back';
           replyText = isFr
-            ? `Formidable ! Maintenant l'idée est limpide. 🎯\n\nÀ ton tour de m'enseigner ! Explique-moi «${currentConcept.titleEn}» avec tes propres mots comme si je n'avais pas lu le manuel !`
+            ? `Formidable ! Maintenant l'idée est limpide. 🎯\n\nÀ ton tour de m'enseigner ! Explique-moi «${conceptTitle(currentConcept, isFr)}» avec tes propres mots comme si je n'avais pas lu le manuel !`
             : isAr
             ? `ممتاز جداً! الآن وصلت الفكرة بوضوح. 🎯\n\nوكما اتفقنا، لا يكتمل فهم درس إلا عندما تشرحه:\n«دورك الآن لتعلمني! اشرح لي فكرة "${currentConcept.titleAr}" بطريقتك الخاصة وكأني صديقك الذي لم يقرأ الدرس بعد!»`
-            : `Terrific! Now the concept is crystal clear. 🎯\n\nNow you teach me! Explain "${currentConcept.titleEn}" in your own words as if I haven't read the textbook yet!`;
+            : `Terrific! Now the concept is crystal clear. 🎯\n\nNow you teach me! Explain "${conceptTitle(currentConcept, isFr)}" in your own words as if I haven't read the textbook yet!`;
         } else if (session.currentAttemptCount >= 5) {
           // Reached Attempt 6: Flag for review gently
           nextStep = 'celebrate';
           modalityUsed = 'flag_for_review';
           replyText = isFr
-            ? `Bravo pour tes efforts persévérants ! 🌟 Nous avons noté «${currentConcept.titleEn}» pour une révision calme demain sans surcharge. Ton confort passe avant tout !`
+            ? `Bravo pour tes efforts persévérants ! 🌟 Nous avons noté «${conceptTitle(currentConcept, isFr)}» pour une révision calme demain sans surcharge. Ton confort passe avant tout !`
             : isAr
             ? `أحسنت المحاولة والجهد الكبير يا بطل! 🌟 وضعنا مفهوم «${currentConcept.titleAr}» في بطاقة (المراجعة اللاحقة) لنمر عليه غداً بروقان وبدون أي إجهاد. صحتك وراحتك هي الأهم دائماً!`
-            : `Wonderful effort and persistence! 🌟 We flagged "${currentConcept.titleEn}" for a calm review tomorrow so you never feel overloaded. Your comfort always comes first!`;
+            : `Wonderful effort and persistence! 🌟 We flagged "${conceptTitle(currentConcept, isFr)}" for a calm review tomorrow so you never feel overloaded. Your comfort always comes first!`;
         } else {
           // Continue climbing the escalation ladder
           const attempt = session.currentAttemptCount + 1;
@@ -390,18 +409,18 @@ export class TeachingSessionEngine {
           };
 
           replyText = isFr
-            ? `Excellente explication de «${currentConcept.titleEn}» ! 🌟 Tu as relié l'idée aux points essentiels du cours.`
+            ? `Excellente explication de «${conceptTitle(currentConcept, isFr)}» ! 🌟 Tu as relié l'idée aux points essentiels du cours.`
             : isAr
             ? `شرح قوي ومبني على الفكرة الأساسية في «${currentConcept.titleAr}»! 🌟 دلوقتي عندنا دليل حقيقي على الفهم، مش مجرد إجابة صحيحة.`
-            : `Strong explanation of "${currentConcept.titleEn}"! 🌟 You connected the idea to the key points, so we have real evidence of understanding.`;
+            : `Strong explanation of "${conceptTitle(currentConcept, isFr)}"! 🌟 You connected the idea to the key points, so we have real evidence of understanding.`;
 
           if (session.currentConceptIndex < lesson.concepts.length - 1) {
             const nextConcept = lesson.concepts[session.currentConceptIndex + 1];
             replyText += isFr
-              ? `\n\n✨ Passons maintenant à «${nextConcept.titleEn}» ?`
+              ? `\n\n✨ Passons maintenant à «${conceptTitle(nextConcept, isFr)}» ?`
               : isAr
               ? `\n\n✨ والآن ننتقل للمفهوم التالي: «${nextConcept.titleAr}»؟`
-              : `\n\n✨ Shall we move to the next concept: "${nextConcept.titleEn}"?`;
+              : `\n\n✨ Shall we move to the next concept: "${conceptTitle(nextConcept, isFr)}"?`;
           } else {
             isSessionCompleted = true;
             nextStep = 'close';
@@ -456,10 +475,10 @@ export class TeachingSessionEngine {
           modalityUsed = 'source_explanation';
 
           replyText = isFr
-            ? `En route ! La notion suivante dans notre manuel (${lesson.sourceRef.bookEn}) est : «${nextConcept.titleEn}».\n\n📖 Texte :\n"${nextConcept.sourceText}"\n\n📌 Points clés :\n${nextConcept.keyPoints.map((p) => `• ${p}`).join('\n')}\n\nQu'en penses-tu ?`
+            ? `En route ! La notion suivante dans notre manuel (${lesson.sourceRef.bookEn}) est : «${conceptTitle(nextConcept, isFr)}».\n\n📖 Texte :\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nQu'en penses-tu ?`
             : isAr
-            ? `على بركة الله! المفهوم التالي في كتابنا (${lesson.sourceRef.bookAr}) هو: «${nextConcept.titleAr}».\n\n📖 من نص الدرس:\n"${nextConcept.sourceText}"\n\n📌 النقاط الرئيسية:\n${nextConcept.keyPoints.map((p) => `• ${p}`).join('\n')}\n\nما رأيك في هذه النقطة؟`
-            : `Let's proceed! The next concept in our textbook (${lesson.sourceRef.bookEn}) is: "${nextConcept.titleEn}".\n\n📖 Text:\n"${nextConcept.sourceText}"\n\n📌 Key Points:\n${nextConcept.keyPoints.map((p) => `• ${p}`).join('\n')}\n\nWhat are your thoughts on this?`;
+            ? `على بركة الله! المفهوم التالي في كتابنا (${lesson.sourceRef.bookAr}) هو: «${nextConcept.titleAr}».\n\n📖 من نص الدرس:\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 النقاط الرئيسية:\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nما رأيك في هذه النقطة؟`
+            : `Let's proceed! The next concept in our textbook (${lesson.sourceRef.bookEn}) is: "${conceptTitle(nextConcept, isFr)}".\n\n📖 Text:\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nWhat are your thoughts on this?`;
 
           const tutorTurn: TutorTurn = {
             id: `turn_tut_${Date.now()}`,
@@ -584,7 +603,7 @@ export class TeachingSessionEngine {
 
     const student = tokens(text);
     const conceptTerms = new Set([...tokens(concept.titleAr), ...tokens(concept.titleEn)]);
-    const keyPointTerms = new Set(concept.keyPoints.flatMap((p) => [...tokens(p)]));
+    const keyPointTerms = new Set(conceptKeyPoints(concept, isFr).flatMap((p) => [...tokens(p)]));
     const conceptKeywordMatches = [...conceptTerms].filter((t) => student.has(t)).length;
     const keyPointMatches = [...keyPointTerms].filter((t) => student.has(t)).length;
 
@@ -643,10 +662,10 @@ export class TeachingSessionEngine {
         return {
           modality: 'source_explanation',
           text: isFr
-            ? `Pas de souci ! Regardons cela directement à partir du texte de ton manuel (${lesson.sourceRef.bookEn}) :\n"${concept.sourceTextFr || concept.sourceText}"\n\nEn clair : ${concept.keyPoints[0]}. Est-ce plus compréhensible ainsi ?`
+            ? `Pas de souci ! Regardons cela directement à partir du texte de ton manuel (${lesson.sourceRef.bookEn}) :\n"${conceptSourceText(concept, isFr)}"\n\nEn clair : ${conceptKeyPoints(concept, isFr)[0]}. Est-ce plus compréhensible ainsi ?`
             : isAr
-            ? `لا بأس يا بطل، دعنا ننظر إليها من زاوية أوضح من نص الكتاب المدرسي (${lesson.sourceRef.bookAr}):\n"${concept.sourceText}"\n\nالمقصود هنا ببساطة: ${concept.keyPoints[0]}. هل يبدو هذا أوضح؟`
-            : `No problem at all! Let's examine it straight from the textbook text (${lesson.sourceRef.bookEn}):\n"${concept.sourceText}"\n\nSimply put: ${concept.keyPoints[0]}. Does that make more sense?`,
+            ? `لا بأس يا بطل، دعنا ننظر إليها من زاوية أوضح من نص الكتاب المدرسي (${lesson.sourceRef.bookAr}):\n"${concept.sourceText}"\n\nالمقصود هنا ببساطة: ${conceptKeyPoints(concept, isFr)[0]}. هل يبدو هذا أوضح؟`
+            : `No problem at all! Let's examine it straight from the textbook text (${lesson.sourceRef.bookEn}):\n"${concept.sourceText}"\n\nSimply put: ${conceptKeyPoints(concept, isFr)[0]}. Does that make more sense?`,
         };
       }
 
@@ -701,7 +720,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'flag_for_review',
           text: isFr
-            ? `Tu es remarquable et tu as donné le meilleur de toi-même ! 🌟 Nous programmons «${concept.titleEn}» pour une révision calme demain, en toute sérénité. Ton bien-être passe toujours en premier !`
+            ? `Tu es remarquable et tu as donné le meilleur de toi-même ! 🌟 Nous programmons «${conceptTitle(concept, isFr)}» pour une révision calme demain, en toute sérénité. Ton bien-être passe toujours en premier !`
             : isAr
             ? `أنت رائع وبذلت وسعك اليوم! 🌟 سنضع مفهوم «${concept.titleAr}» في المراجعة الهادئة غداً لنعود إليها براحة ودون أي ضغط. راحتك وصحتك أهم من أي شيء!`
             : `You did great and gave it your honest effort! 🌟 We will flag "${concept.titleEn}" for a calm spaced review tomorrow so you can rest. Your well-being comes first!`,
