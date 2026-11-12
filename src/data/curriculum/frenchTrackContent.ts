@@ -24,72 +24,132 @@ export const FRENCH_TRACK_CONTENT: Record<string, ConceptFrenchContent> = {
   // --- Mathématiques (Ministry book, taught in French) ---
   off_math_u1_l1_c1: {
     titleFr: 'Les nombres décimaux jusqu\'aux millièmes',
+    keyPointsFr: [
+          "Après la virgule, le premier rang est celui des dixièmes, le deuxième celui des centièmes et le troisième celui des millièmes.",
+          "La valeur d’un chiffre dépend de sa position : dans 0,875, le 5 vaut 0,005.",
+          "On peut décomposer un nombre décimal en additionnant les valeurs de chacun de ses chiffres."
+    ],
     sourceTextFr: 'Le rang d\'un chiffre après la virgule fixe sa valeur : dixièmes, centièmes, millièmes.',
     dailyLifeExampleFr: 'Sur une balance électronique qui affiche 1,525 kg, le dernier 5 représente 5 grammes (des millièmes de kilogramme).',
     storyAnalogyFr: 'Imagine couper un gâteau en 1 000 miettes égales : chaque miette est un millième !',
   },
   off_math_u1_l2_c1: {
     titleFr: 'Décalage de la valeur de position par 10',
+    keyPointsFr: [
+          "Multiplier par 10 décale les chiffres d’un rang vers la gauche dans le tableau de numération.",
+          "Diviser par 10 décale les chiffres d’un rang vers la droite.",
+          "La valeur du nombre est multipliée ou divisée par 10 ; les chiffres ne changent pas d’ordre entre eux."
+    ],
     sourceTextFr: 'Multiplier par 10 décale chaque chiffre d\'un rang vers la gauche : les unités deviennent des dizaines.',
     dailyLifeExampleFr: '5 livres multipliées par 10 donnent 50 livres (les unités deviennent des dizaines).',
     storyAnalogyFr: 'Comme avancer d\'une gare sur un train express quand on multiplie par 10.',
   },
   off_math_u1_l3_c1: {
     titleFr: 'Forme développée des nombres décimaux',
+    keyPointsFr: [
+          "La forme développée est la somme des valeurs de position de chaque chiffre.",
+          "On distingue les dizaines, les unités, les dixièmes, les centièmes et les millièmes.",
+          "On vérifie la décomposition en recomposant le nombre initial."
+    ],
     sourceTextFr: 'Décomposer un décimal, c\'est l\'écrire comme la somme de ses rangs : 15,75 = 10 + 5 + 0,70 + 0,05.',
     dailyLifeExampleFr: '15,75 livres, c\'est 10 + 5 + 0,70 + 0,05 livres.',
     storyAnalogyFr: 'Comme démonter des briques de Lego en pièces séparées puis les reclipser ensemble.',
   },
   off_math_u1_l4_c1: {
     titleFr: 'Comparer les décimaux en complétant par des zéros',
+    keyPointsFr: [
+          "Comparer d’abord les parties entières des deux nombres.",
+          "Si elles sont égales, comparer les chiffres décimaux de gauche à droite.",
+          "Ajouter des zéros à droite ne change pas la valeur : 2,4 = 2,40."
+    ],
     sourceTextFr: 'On compare d\'abord les parties entières ; si elles sont égales, on complète par des zéros pour comparer les décimales.',
     dailyLifeExampleFr: 'On compare des températures : 36,5° est plus chaud que 35,6° car 36 > 35.',
     storyAnalogyFr: 'Comme des coureurs : celui qui a la plus grande première enjambée mène dès le départ.',
   },
   off_math_u1_l5_c1: {
     titleFr: 'Règles de l\'arrondi des décimaux',
+    keyPointsFr: [
+          "Repérer le rang auquel on veut arrondir.",
+          "Observer le chiffre immédiatement à droite de ce rang.",
+          "Si ce chiffre est 5 ou plus, augmenter le chiffre du rang choisi d’une unité ; sinon, le garder."
+    ],
     sourceTextFr: 'Pour arrondir, on regarde le chiffre juste après le rang voulu : 5 ou plus, on arrondit au-dessus.',
     dailyLifeExampleFr: 'Payer 50 livres pour une note de 49,90 livres arrondie à l\'entier.',
     storyAnalogyFr: 'Comme gravir une colline : si tu atteins le sommet (5), tu passes de l\'autre côté vers le nombre suivant.',
   },
   off_math_u2_l1_c1: {
     titleFr: 'Équations, expressions et variables',
+    keyPointsFr: [
+          "Une expression contient des nombres, des opérations et parfois des variables.",
+          "Une équation affirme que deux expressions sont égales et contient le signe =.",
+          "Une variable représente une valeur inconnue que l’on peut déterminer en conservant l’égalité."
+    ],
     sourceTextFr: 'Une expression décrit un calcul ; une équation affirme que deux quantités sont égales.',
     dailyLifeExampleFr: 'On part de 10 livres et il en reste 4 : 10 − x = 4, donc le prix du stylo x = 6 livres.',
     storyAnalogyFr: 'Une équation est comme une balance équilibrée : les deux plateaux doivent rester égaux.',
   },
   off_math_u2_l4_c1: {
     titleFr: 'Arbre des facteurs premiers',
+    keyPointsFr: [
+          "Un nombre premier possède exactement deux diviseurs : 1 et lui-même.",
+          "Un nombre composé possède plus de deux diviseurs.",
+          "Un arbre de facteurs décompose un nombre composé jusqu’à obtenir uniquement des facteurs premiers."
+    ],
     sourceTextFr: 'Tout nombre composé se décompose en un produit de facteurs premiers.',
     dailyLifeExampleFr: 'Comme décomposer un gâteau en ses ingrédients purs : farine, sucre et lait.',
     storyAnalogyFr: 'Les nombres premiers sont comme les atomes en chimie : les briques de tous les nombres composés.',
   },
   off_math_u2_l5_c1: {
     titleFr: 'Trouver le plus grand commun diviseur',
+    keyPointsFr: [
+          "Lister les diviseurs de chaque nombre ou utiliser les facteurs premiers.",
+          "Repérer les diviseurs communs aux deux nombres.",
+          "Le PGCD est le plus grand de ces diviseurs communs."
+    ],
     sourceTextFr: 'Le PGCD est le plus grand nombre qui divise deux nombres à la fois.',
     dailyLifeExampleFr: 'Répartir 30 et 48 desserts dans le plus grand nombre de boîtes cadeaux : le PGCD est 6.',
     storyAnalogyFr: 'Comme trouver la plus grande clé passe-partout qui ouvre deux portes différentes.',
   },
   off_math_u2_l7_c1: {
     titleFr: 'Applications du plus petit commun multiple',
+    keyPointsFr: [
+          "Écrire les premiers multiples de chacun des nombres.",
+          "Repérer le premier multiple présent dans les deux listes.",
+          "Le PPCM est le plus petit multiple commun non nul."
+    ],
     sourceTextFr: 'Le PPCM est le plus petit nombre commun à deux listes de multiples.',
     dailyLifeExampleFr: 'Deux bus partant toutes les 10 et 15 minutes repartiront ensemble toutes les 30 minutes.',
     storyAnalogyFr: 'Deux amis qui sautent : l\'un de 2 en 2, l\'autre de 3 en 3 ; leurs traces se rejoignent au pas 6.',
   },
   off_math_u3_l1_c1: {
     titleFr: 'Modèle de l\'aire du rectangle pour la multiplication',
+    keyPointsFr: [
+          "Décomposer chaque facteur en dizaines et unités.",
+          "Représenter les produits partiels avec des rectangles ou une grille d’aire.",
+          "Additionner les aires des rectangles pour obtenir le produit total."
+    ],
     sourceTextFr: 'On peut décomposer un grand rectangle en rectangles plus petits pour multiplier plus facilement.',
     dailyLifeExampleFr: 'Calculer la surface totale de carrelage de deux pièces voisines.',
     storyAnalogyFr: 'Comme assembler des pièces de puzzle pour révéler l\'image complète.',
   },
   off_math_u3_l3_c1: {
     titleFr: 'Étapes de la multiplication posée en colonnes',
+    keyPointsFr: [
+          "Multiplier d’abord par le chiffre des unités.",
+          "Multiplier ensuite par le chiffre des dizaines en décalant le produit d’un rang.",
+          "Additionner les produits partiels pour obtenir le résultat."
+    ],
     sourceTextFr: 'On multiplie par les unités, puis par les dizaines, et on additionne les produits partiels.',
     dailyLifeExampleFr: 'Acheter 24 livres à 76 livres chacun : 76 × 24 = 1 824 livres.',
     storyAnalogyFr: 'Comme construire une tour à deux étages : finir l\'étage 1, poser l\'étage 2, puis les relier.',
   },
   off_math_u6_l1_c1: {
     titleFr: 'Règles de priorité des opérations',
+    keyPointsFr: [
+          "Effectuer d’abord les calculs entre parenthèses.",
+          "Effectuer ensuite les multiplications et les divisions, de gauche à droite.",
+          "Terminer par les additions et les soustractions, de gauche à droite."
+    ],
     sourceTextFr: 'On calcule d\'abord les parenthèses, puis les multiplications et divisions, enfin les additions et soustractions.',
     dailyLifeExampleFr: 'Acheter 3 repas à 50 avec une remise de 10 : 3 × 50 − 10 = 140.',
     storyAnalogyFr: 'Comme des feux de circulation qui donnent la priorité aux véhicules prioritaires.',
@@ -98,18 +158,33 @@ export const FRENCH_TRACK_CONTENT: Record<string, ConceptFrenchContent> = {
   // --- Sciences (Ministry book, taught in French) ---
   off_sci_u1_l1_c1: {
     titleFr: 'L\'usine alimentaire de la plante verte',
+    keyPointsFr: [
+          "Les racines absorbent l’eau et les sels minéraux ; le xylème les transporte vers les feuilles.",
+          "La chlorophylle capte l’énergie lumineuse et les stomates permettent les échanges gazeux.",
+          "La photosynthèse utilise l’eau, le dioxyde de carbone et la lumière pour produire du glucose et libérer du dioxygène."
+    ],
     sourceTextFr: 'La plante fabrique sa nourriture grâce à la lumière, à l\'eau et au dioxyde de carbone.',
     dailyLifeExampleFr: 'Placer une plante en pot sur un balcon ensoleillé et voir ses feuilles devenir bien vertes.',
     storyAnalogyFr: 'Une feuille est comme une cuisine : la lumière est le four, l\'eau et le CO₂ sont les ingrédients.',
   },
   off_sci_u1_l2_c1: {
     titleFr: 'Le cycle de l\'énergie solaire dans la nature',
+    keyPointsFr: [
+          "Les producteurs, comme les plantes vertes, fabriquent leur propre matière organique.",
+          "L’énergie passe des producteurs aux consommateurs le long des chaînes alimentaires.",
+          "Les décomposeurs transforment les restes organiques et recyclent les nutriments dans l’écosystème."
+    ],
     sourceTextFr: 'L\'énergie du soleil passe des plantes aux herbivores puis aux carnivores.',
     dailyLifeExampleFr: 'L\'herbe du jardin est mangée par un escargot, mangé par un moineau, qui rend ses nutriments au sol.',
     storyAnalogyFr: 'Comme un relais où l\'énergie est le témoin passé du soleil aux plantes, aux animaux et à la terre.',
   },
   off_sci_u1_l3_c1: {
     titleFr: 'La biodiversité marine et sa protection en Égypte',
+    keyPointsFr: [
+          "Les récifs coralliens abritent de nombreuses espèces et contribuent à la biodiversité marine.",
+          "Le réchauffement de l’eau peut provoquer le blanchissement des coraux.",
+          "La réduction des déchets plastiques et la protection des habitats contribuent à préserver la vie marine."
+    ],
     sourceTextFr: 'Les récifs coralliens abritent une vie marine immense et fragile.',
     dailyLifeExampleFr: 'Utiliser des sacs en tissu et des gourdes inox sur les plages de la mer Rouge au lieu du plastique.',
     storyAnalogyFr: 'Les récifs coralliens sont comme des immeubles pour la vie marine : détruits, des millions d\'êtres perdent leur maison.',
