@@ -141,6 +141,21 @@ if (wrongSourcePages.length > 0) {
   })));
 }
 
+const wrongSubjectMappings = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => {
+  if (MATH_CURRICULUM_LESSONS.some((source) => source.id === lesson.id)) return lesson.subjectId !== 'subj_math';
+  if (SCIENCE_CURRICULUM_LESSONS.some((source) => source.id === lesson.id)) return lesson.subjectId !== 'subj_science';
+  return false;
+});
+check(
+  `3.1b Ministry source records retain their correct subject mapping (${wrongSubjectMappings.length} wrong)`,
+  wrongSubjectMappings.length === 0,
+);
+if (wrongSubjectMappings.length > 0) {
+  console.error('   wrong subject mappings:', wrongSubjectMappings.map((lesson) => ({
+    id: lesson.id, subjectId: lesson.subjectId,
+  })));
+}
+
 // 3.2 the ids the app targets directly must still resolve.
 const loadBearing = ['off_mathfr_u1_l1_decimaux', 'off_math_u1_l1', 'off_scifr_u1_l1_plantes', 'off_sci_u1_l1_plant_needs'];
 const unresolved = loadBearing.filter((id) => !registeredIds.has(id));
