@@ -142,6 +142,8 @@ export interface OfficialCurriculumLesson {
   readingText: string | null;
   vocabulary: CurriculumVocabulary[];
   exercises: CurriculumExercise[];
+  /** Language-specific assessment sets; `exercises` remains the default track for existing consumers. */
+  exercisesByLanguage?: Partial<Record<'ar' | 'en' | 'fr', CurriculumExercise[]>>;
   concepts: CurriculumLessonConcept[];
   originTag: 'official';
   language?: 'ar' | 'en' | 'fr';
