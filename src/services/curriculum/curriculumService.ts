@@ -190,6 +190,7 @@ export class CurriculumService {
             ...concept,
             titleFr: concept.titleFr || fr.titleFr,
             sourceTextFr: concept.sourceTextFr || fr.sourceTextFr,
+            keyPointsFr: concept.keyPointsFr || fr.keyPointsFr,
             dailyLifeExampleFr: concept.dailyLifeExampleFr || fr.dailyLifeExampleFr,
             storyAnalogyFr: concept.storyAnalogyFr || fr.storyAnalogyFr,
           };
