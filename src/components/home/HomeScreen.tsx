@@ -114,8 +114,8 @@ export const HomeScreen: React.FC = () => {
         <div className="absolute -bottom-16 -left-12 h-48 w-48 rounded-full bg-cyan-300/10 blur-2xl pointer-events-none" />
         <div className="relative z-10 p-4 sm:p-5 space-y-3">
           <div className="flex items-center justify-between gap-2">
-            <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-extrabold tracking-wide">MISS NOOR · YOUR TEACHER</span>
-            <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-bold">{gradeLabel}</span>
+            <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-extrabold tracking-wide">MISS NOOR · YOUR TEACHER</span>
+            <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs font-bold">{gradeLabel}</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
             <div className="shrink-0 -ml-2">
@@ -132,13 +132,13 @@ export const HomeScreen: React.FC = () => {
           </div>
           {todaySchedule?.periods?.filter((period) => !period.isBreak).length ? (
             <div className="rounded-2xl border border-white/10 bg-white/10 p-3 space-y-2">
-              <div className="text-[11px] font-extrabold uppercase tracking-wide text-indigo-100">
+              <div className="text-xs font-extrabold uppercase tracking-wide text-indigo-100">
                 {isArabic ? 'جدول المدرسة اليوم' : isFrench ? "Aujourd'hui à l'école" : "Today's school timetable"}
               </div>
               <div className="flex gap-2 overflow-x-auto pb-1">
                 {todaySchedule.periods.filter((period) => !period.isBreak).slice(0, 5).map((period) => (
                   <div key={period.id} className="min-w-[104px] rounded-xl bg-slate-950/20 px-2.5 py-2">
-                    <div className="text-[10px] font-bold text-indigo-200">{period.startTime}–{period.endTime}</div>
+                    <div className="text-xs font-bold text-indigo-200">{period.startTime}–{period.endTime}</div>
                     <div className="mt-0.5 truncate text-xs font-extrabold">{period.subject}</div>
                   </div>
                 ))}
@@ -169,7 +169,7 @@ export const HomeScreen: React.FC = () => {
             <span>{isArabic ? 'ابدئي الحديث مع مس نور' : isFrench ? 'Parler avec Mademoiselle Noor' : 'Talk with Miss Noor'}</span>
             <ArrowRight className="h-4 w-4 rtl:rotate-180" />
           </button>
-          <div className="flex items-center justify-between text-[11px] font-semibold text-indigo-200">
+          <div className="flex items-center justify-between text-xs font-semibold text-indigo-200">
             <span>{isArabic ? 'أنا هنا لأساعدك على الفهم، لا للحفظ فقط.' : "I'll help you understand, not just memorise."}</span>
             {gamification ? <span>{gamification.xp} XP · {gamification.streak.currentDays} 🔥</span> : null}
           </div>
