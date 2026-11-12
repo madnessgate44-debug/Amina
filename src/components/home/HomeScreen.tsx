@@ -110,93 +110,76 @@ export const HomeScreen: React.FC = () => {
 
   return (
     <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4" dir={isArabic ? 'rtl' : 'ltr'}>
-      {/* 1. Header Greeting & Status Bar */}
-      <div className="p-4 rounded-3xl bg-linear-to-br from-indigo-700 via-indigo-800 to-purple-900 text-white shadow-xl shadow-indigo-950/20 relative overflow-hidden">
-        <div className="absolute -right-8 -top-8 w-28 h-28 bg-white/10 rounded-full blur-xl pointer-events-none" />
-        <div className="absolute -left-8 -bottom-8 w-28 h-28 bg-indigo-400/20 rounded-full blur-xl pointer-events-none" />
-
-        <div className="relative z-10 space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-xs bg-white/20 backdrop-blur-xs px-2.5 py-0.5 rounded-full font-bold">
-                {t.app.title}
-              </span>
-              <span className="text-xs font-black px-2 py-0.5 rounded-full bg-emerald-400 text-slate-950 shadow-xs">
-                {gradeLabel}
-              </span>
+      {/* Miss Noor is the centre of Home: a teacher, not a status dashboard. */}
+      <section className="relative overflow-hidden rounded-[2rem] bg-linear-to-br from-[#172554] via-[#312e81] to-[#581c87] text-white shadow-xl shadow-indigo-950/20">
+        <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-fuchsia-300/10 blur-2xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-12 h-48 w-48 rounded-full bg-cyan-300/10 blur-2xl pointer-events-none" />
+        <div className="relative z-10 p-4 sm:p-5 space-y-3">
+          <div className="flex items-center justify-between gap-2">
+            <span className="rounded-full bg-white/15 px-3 py-1 text-[11px] font-extrabold tracking-wide">MISS NOOR · YOUR TEACHER</span>
+            <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-bold">{gradeLabel}</span>
+          </div>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <div className="shrink-0 -ml-2">
+              <NourCharacter state="encouraging" outfit="arabic" size="lg" />
             </div>
-            <div className="flex items-center gap-1.5 text-xs bg-black/25 px-2.5 py-1 rounded-full text-indigo-100 font-mono">
-              <Clock className="w-3.5 h-3.5" />
-              <span dir="ltr">{settings.demoTimeSimulatorActive ? settings.simulatedTime : localTimeStr()}</span>
+            <div className="min-w-0 space-y-2">
+              <h1 className="text-xl sm:text-2xl font-black leading-tight">
+                {isArabic ? 'أهلاً ' : isFrench ? 'Bonjour ' : 'Hello '}{studentName}{isArabic ? '، أنا مس نور.' : isFrench ? ' ! Je suis Mademoiselle Noor.' : ", I'm Miss Noor."}
+              </h1>
+              <p className="text-sm leading-relaxed text-indigo-100">
+                {isArabic ? 'احكي لي ماذا تعلمتِ اليوم، أو أخبريني أين تحتاجين إلى المساعدة. سنتعلم معاً خطوة بخطوة.' : isFrench ? "Raconte-moi ta journée ou dis-moi ce qui te semble difficile. Nous allons apprendre ensemble." : "Tell me what you learned today, or show me what feels difficult. We'll work it out together, one step at a time."}
+              </p>
             </div>
           </div>
-
-          {gamification && (
-            <div className="flex items-center gap-2 text-[12px] font-black">
-              <span className="flex items-center gap-1 bg-black/25 px-2.5 py-1 rounded-full text-amber-300">
-                <Star className="w-3.5 h-3.5" />
-                {gamification.xp} XP
-              </span>
-              <span className="flex items-center gap-1 bg-black/25 px-2.5 py-1 rounded-full text-orange-300">
-                <Flame className="w-3.5 h-3.5" />
-                {gamification.streak.currentDays}
-                {gamification.streak.isPaused && (isArabic ? ' (راحة)' : ' (rest)')}
-              </span>
+          {todaySchedule?.periods?.filter((period) => !period.isBreak).length ? (
+            <div className="rounded-2xl border border-white/10 bg-white/10 p-3 space-y-2">
+              <div className="text-[11px] font-extrabold uppercase tracking-wide text-indigo-100">
+                {isArabic ? 'جدول المدرسة اليوم' : isFrench ? "Aujourd'hui à l'école" : "Today's school timetable"}
+              </div>
+              <div className="flex gap-2 overflow-x-auto pb-1">
+                {todaySchedule.periods.filter((period) => !period.isBreak).slice(0, 5).map((period) => (
+                  <div key={period.id} className="min-w-[104px] rounded-xl bg-slate-950/20 px-2.5 py-2">
+                    <div className="text-[10px] font-bold text-indigo-200">{period.startTime}–{period.endTime}</div>
+                    <div className="mt-0.5 truncate text-xs font-extrabold">{period.subject}</div>
+                  </div>
+                ))}
+              </div>
             </div>
-          )}
-
-          <div>
-            <h1 className="text-xl font-black tracking-tight flex items-center gap-1.5">
-              <span>{isFrench ? 'Bienvenue' : t.home.welcome} {studentName}!</span>
-              <span className="text-amber-300">👋</span>
-            </h1>
-            <p className="text-xs text-indigo-200 mt-0.5">
-              {isArabic
-                ? 'رفيقكِ ومعلمتكِ الذكية لتنظيم يومك والمذاكرة خطوة بخطوة بدون ضغط'
-                : isFrench ? 'Ton enseignante IA personnelle pour apprendre sereinement, à ton rythme' : 'Your personal AI teacher & companion for relaxed, joyful learning'}
-            </p>
+          ) : null}
+          <button
+            type="button"
+            onClick={() => {
+              const todayLessonsStr = currentDayRecord?.lessonsCovered?.map((l) => l.subject + ': ' + (l.topic || '')).join(', ') || '';
+              setCompanionContext({
+                source: nextPendingMission ? (nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action') : 'general',
+                missionId: nextPendingMission?.id,
+                lessonId: nextPendingMission?.lessonId,
+                conceptId: nextPendingMission?.conceptId,
+                subjectName: nextPendingMission?.subject,
+                topic: nextPendingMission?.title,
+                notes: nextPendingMission?.whyNow,
+                whyNow: nextPendingMission?.whyNow,
+                schoolDaySummary: todayLessonsStr,
+                reasonWhyRecommended: nextPendingMission?.whyNow,
+              });
+              setActiveTab('companion');
+            }}
+            className="w-full min-h-12 rounded-2xl bg-amber-300 px-4 py-3 text-sm font-black text-slate-950 shadow-lg shadow-black/15 transition-transform active:scale-[0.99] flex items-center justify-center gap-2"
+          >
+            <MessageCircle className="h-4 w-4" />
+            <span>{isArabic ? 'ابدئي الحديث مع مس نور' : isFrench ? 'Parler avec Mademoiselle Noor' : 'Talk with Miss Noor'}</span>
+            <ArrowRight className="h-4 w-4 rtl:rotate-180" />
+          </button>
+          <div className="flex items-center justify-between text-[11px] font-semibold text-indigo-200">
+            <span>{isArabic ? 'أنا هنا لأساعدك على الفهم، لا للحفظ فقط.' : "I'll help you understand, not just memorise."}</span>
+            {gamification ? <span>{gamification.xp} XP · {gamification.streak.currentDays} 🔥</span> : null}
           </div>
-
         </div>
-      </div>
+      </section>
 
       {/* Phase 5d: Today with Noor + parent-entered exam countdown */}
       <section className="space-y-2">
-        <button
-          onClick={() => {
-            const todayLessonsStr = currentDayRecord?.lessonsCovered?.map((l) => `${l.subject}: ${l.topic || ''}`).join(', ') || '';
-            setCompanionContext({
-              source: nextPendingMission ? (nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action') : 'general',
-              missionId: nextPendingMission?.id,
-              lessonId: nextPendingMission?.lessonId,
-              conceptId: nextPendingMission?.conceptId,
-              subjectName: nextPendingMission?.subject,
-              topic: nextPendingMission?.title,
-              notes: nextPendingMission?.whyNow,
-              whyNow: nextPendingMission?.whyNow,
-              schoolDaySummary: todayLessonsStr,
-              reasonWhyRecommended: nextPendingMission?.whyNow,
-            });
-            setActiveTab('companion');
-          }}
-          className="w-full rounded-3xl bg-linear-to-br from-violet-600 via-purple-700 to-indigo-800 text-white p-4 shadow-lg flex items-center gap-3 text-start"
-        >
-          <span className="p-2.5 rounded-2xl bg-white/15 shrink-0">
-            <Play className="w-5 h-5" />
-          </span>
-          <span className="min-w-0 flex-1">
-            <span className="block text-base font-black">
-              {isArabic ? 'حصة النهارده مع نور' : isFrench ? 'La leçon du jour avec Noor' : 'Today with Noor'}
-            </span>
-            <span className="block text-[12px] text-indigo-200 mt-0.5">
-              {isArabic
-                ? 'دقايق قليلة، درس واحد، وسؤال واحد بس'
-                : isFrench ? 'Quelques minutes, une idée, une seule question' : 'A few minutes, one idea, one quick question'}
-            </span>
-          </span>
-          <ArrowRight className="w-5 h-5 shrink-0 rtl:rotate-180" />
-        </button>
-
         {nextExam && (
           <div className="rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 p-3.5 flex items-center gap-3">
             <span className="p-2 rounded-2xl bg-rose-100 dark:bg-rose-950/40 text-rose-600 dark:text-rose-300 shrink-0">
@@ -399,38 +382,10 @@ export const HomeScreen: React.FC = () => {
 
       {/* 4. TODAY'S STUDY PLAN QUEUE */}
       <section className="space-y-3">
-        <div className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-xs flex items-center justify-between text-xs">
-          <div className="flex items-center gap-2">
-            <Sliders className="w-4 h-4 text-indigo-600" />
-            <span className="font-bold text-slate-800 dark:text-slate-200">
-              {isArabic ? 'وقت المذاكرة المتاح اليوم:' : isFrench ? 'Temps d’étude disponible :' : 'Available Study Time:'}
-            </span>
-            <select
-              value={selectedDuration}
-              onChange={(e) => {
-                const val = Number(e.target.value);
-                setSelectedDuration(val);
-                regenerateMissionsForToday(val);
-              }}
-              className="bg-slate-100 dark:bg-slate-700 border border-slate-300 dark:border-slate-600 rounded-lg px-2 py-1 font-bold text-indigo-700 dark:text-indigo-300 focus:outline-hidden"
-            >
-              <option value={10}>{isArabic ? '١٠ دقائق (أدنى يوم فعال)' : '10 min (MVD)'}</option>
-              <option value={20}>{isArabic ? '٢٠ دقيقة' : '20 min'}</option>
-              <option value={35}>{isArabic ? '٣٥ دقيقة' : '35 min'}</option>
-              <option value={45}>{isArabic ? '٤٥ دقيقة (افتراضي)' : '45 min'}</option>
-              <option value={60}>{isArabic ? '٦٠ دقيقة' : '60 min'}</option>
-            </select>
-          </div>
-
-          <button
-            onClick={() => regenerateMissionsForToday(selectedDuration)}
-            className="min-h-[44px] min-w-[44px] flex items-center justify-center rounded-lg text-slate-500 hover:text-indigo-600 hover:bg-indigo-50 dark:hover:bg-slate-700 transition-all"
-            title={isArabic ? 'إعادة جدولة المهام' : 'Re-plan missions'}
-          >
-            <RotateCcw className="w-3.5 h-3.5" />
-          </button>
+        <div className="flex items-center gap-2 px-1 text-xs font-semibold text-slate-500 dark:text-slate-400">
+          <Sparkles className="h-4 w-4 text-amber-500" />
+          <span>{isArabic ? 'مس نور ترتب الخطوة التالية حسب واجباتك وتقدمك.' : isFrench ? 'Noor choisit la prochaine étape selon tes devoirs et tes progrès.' : 'Noor chooses the next step from your homework and learning progress.'}</span>
         </div>
-
         {/* Mission List */}
         <MissionList
           missions={missionsForToday}
@@ -494,41 +449,6 @@ export const HomeScreen: React.FC = () => {
           ))}
         </div>
       </section>
-
-      {/* 6. PERSISTENT TALK TO MISS NOUR ACTION */}
-      <button
-        type="button"
-        onClick={() => {
-          const todayLessonsStr = currentDayRecord?.lessonsCovered?.map((l) => `${l.subject}: ${l.topic || ''}`).join(', ') || '';
-          setCompanionContext({
-            source: nextPendingMission ? (nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action') : 'general',
-            missionId: nextPendingMission?.id,
-            lessonId: nextPendingMission?.lessonId,
-            conceptId: nextPendingMission?.conceptId,
-            subjectName: nextPendingMission?.subject,
-            topic: nextPendingMission?.title,
-            notes: nextPendingMission?.whyNow,
-            whyNow: nextPendingMission?.whyNow,
-            schoolDaySummary: todayLessonsStr,
-            reasonWhyRecommended: nextPendingMission?.whyNow,
-          });
-          setActiveTab('companion');
-        }}
-        className="w-full p-4 rounded-3xl bg-linear-to-r from-indigo-600 via-indigo-700 to-purple-700 hover:from-indigo-700 text-white font-bold text-xs sm:text-sm flex items-center justify-between shadow-lg shadow-indigo-600/20 transition-all group cursor-pointer"
-      >
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-xs flex items-center justify-center group-hover:scale-105 transition-transform">
-            <Bot className="w-5 h-5 text-white" />
-          </div>
-          <div className="text-left rtl:text-right">
-            <span className="block font-black text-sm">{isArabic ? 'تحدثي مع مس نور 👩‍🏫' : 'Talk with Miss Noor 👩‍🏫'}</span>
-            <span className="block text-xs text-indigo-100 font-normal mt-0.5">
-              {isArabic ? 'اسأليها عن أي درس أو مفهوم، صوتياً أو كتابة في أي وقت' : 'Ask her anything about lessons, voice or text'}
-            </span>
-          </div>
-        </div>
-        {isArabic ? <ArrowLeft className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
-      </button>
 
       {/* Modals */}
       {showReconstructionModal && (
