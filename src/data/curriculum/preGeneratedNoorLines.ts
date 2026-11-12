@@ -353,7 +353,7 @@ export function preGeneratedKey(
   lessonId: string,
   conceptIndex: number
 ): string {
-  return \`\${language}:\${lessonId}:\${conceptIndex}\`;
+  return language + ':' + lessonId + ':' + conceptIndex;
 }
 
 /**
