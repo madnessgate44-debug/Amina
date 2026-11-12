@@ -39,7 +39,7 @@ const STOP = new Set(
 const stem = (w: string) => w.replace(/^ال/, '');
 
 function conceptTitle(concept: CurriculumLessonConcept, isFr: boolean): string {
-  return isFr ? (concept.titleFr || concept.titleEn) : concept.titleEn;
+  return isFr ? (concept.titleFr || 'cette notion') : concept.titleEn;
 }
 
 function lessonTitle(lesson: OfficialCurriculumLesson, isFr: boolean): string {
@@ -52,7 +52,7 @@ function sourceBookLabel(lesson: OfficialCurriculumLesson, isFr: boolean): strin
 
 function conceptSourceText(concept: CurriculumLessonConcept, isFr: boolean): string {
   return isFr
-    ? (concept.sourceTextFr || concept.titleFr || concept.titleEn)
+    ? (concept.sourceTextFr || concept.titleFr || 'Contenu du manuel à vérifier.')
     : concept.sourceText;
 }
 
@@ -62,7 +62,7 @@ function conceptKeyPoints(concept: CurriculumLessonConcept, isFr: boolean): stri
   // French source summary is safer than silently falling back to Arabic.
   return concept.keyPointsFr?.length
     ? concept.keyPointsFr
-    : [concept.sourceTextFr || concept.titleFr || concept.titleEn];
+    : [concept.sourceTextFr || concept.titleFr || 'Retenons les idées essentielles de cette notion.'];
 }
 
 function tokens(s: string): Set<string> {
@@ -691,7 +691,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'daily_life_example',
           text: isFr
-            ? `Prenons un exemple de la vie quotidienne :\n${concept.dailyLifeExampleFr || concept.dailyLifeExampleEn}\n\nTu vois ? C'est exactement ce que signifie «${concept.titleFr || concept.titleEn}». Qu'en penses-tu ?`
+            ? `Prenons un exemple de la vie quotidienne :\n${concept.dailyLifeExampleFr || 'Pensons à une situation de la vie quotidienne qui illustre cette notion.'}\n\nTu vois ? C'est exactement ce que signifie «${concept.titleFr || concept.titleEn}». Qu'en penses-tu ?`
             : isAr
             ? `دعنا نأخذ مثالاً من حياتك اليومية:\n${concept.dailyLifeExampleAr}\n\nأرأيت؟ هذا بالضبط ما يقصده درس «${concept.titleAr}». ما رأيك في هذا المثال؟`
             : `Let's connect this to real daily life:\n${concept.dailyLifeExampleEn}\n\nSee? That is exactly what "${concept.titleEn}" is talking about. How does that sound?`,
@@ -702,7 +702,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'story_analogy',
           text: isFr
-            ? `Imagine cette petite histoire et cette comparaison :\n${concept.storyAnalogyFr || concept.storyAnalogyEn}\n\nArrives-tu à visualiser la scène ? C'est ainsi que cela fonctionne en réalité !`
+            ? `Imagine cette petite histoire et cette comparaison :\n${concept.storyAnalogyFr || 'Imaginons une situation simple pour mieux comprendre cette notion.'}\n\nArrives-tu à visualiser la scène ? C'est ainsi que cela fonctionne en réalité !`
             : isAr
             ? `تخيل معي هذه القصة الصغيرة والتشبيه الممتع:\n${concept.storyAnalogyAr}\n\nهل تخيلت الموقف؟ هكذا تماماً تعمل هذه الفكرة في الواقع!`
             : `Picture this vivid little story and analogy:\n${concept.storyAnalogyEn}\n\nCan you picture that scene? That is precisely how this idea works!`,
@@ -726,7 +726,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'break_prerequisite',
           text: isFr
-            ? `Décomposons cela en une étape préparatoire plus simple :\n${concept.prerequisiteFr || concept.prerequisiteEn}\n\nUne fois ce socle bien compris, la suite devient facile. Est-ce clair pour toi ?`
+            ? `Décomposons cela en une étape préparatoire plus simple :\n${concept.prerequisiteFr || 'Reprenons d’abord les notions de base nécessaires à cette idée.'}\n\nUne fois ce socle bien compris, la suite devient facile. Est-ce clair pour toi ?`
             : isAr
             ? `تعال نبسط المسألة أكثر ونفهم الخطوة التمهيدية الأولى:\n${concept.prerequisiteAr}\n\nإذا ضبطنا هذه النقطة البسيطة، ستجد كل ما يليها سهلاً للغاية. هل هذه النقطة الأساسية واضحة لديك؟`
             : `Let's break this down into a simpler prerequisite building block:\n${concept.prerequisiteEn}\n\nOnce we anchor this foundational piece, the rest clicks easily. Does this make sense to you?`,
