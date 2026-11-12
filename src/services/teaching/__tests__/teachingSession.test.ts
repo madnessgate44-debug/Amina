@@ -260,4 +260,37 @@ function advance(session: any, input: string) {
   );
 }
 
+
+ 
+// Every French escalation rung stays in French, including visual and prerequisite recovery.
+{
+  const initialized = engine.initializeSession({
+    studentId: 'student_test_french_escalation',
+    lessonId: 'off_math_u1_l1',
+    language: 'fr',
+  });
+  let session = engine.advanceSession({
+    session: initialized.session,
+    studentInput: 'Oui',
+    language: 'fr',
+  }).session;
+  session = engine.advanceSession({ session, studentInput: 'Oui', language: 'fr' }).session;
+  session = engine.advanceSession({ session, studentInput: 'Oui', language: 'fr' }).session;
+  assert(session.currentStep === 'ask', 'French escalation setup must reach the understanding question');
+
+  for (let attempt = 1; attempt <= 5; attempt += 1) {
+    const result = engine.advanceSession({
+      session,
+      studentInput: 'Je ne sais pas',
+      language: 'fr',
+    });
+    assert(
+      !/[\u0600-\u06FF]/.test(result.newTutorTurn.text),
+      `French escalation attempt ${attempt} must not leak Arabic script: ${JSON.stringify(result.newTutorTurn.text)}`,
+    );
+    session = result.session;
+  }
+  assert(session.currentStep === 'adjust', 'French escalation should reach the prerequisite support step before the final review flag');
+}
+
 console.log('TeachingSession explain-back evidence tests passed.');
