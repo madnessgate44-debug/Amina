@@ -98,6 +98,8 @@ export interface CurriculumLessonConcept {
    */
   titleFr?: string;
   sourceTextFr?: string;
+  /** French-language key points used by the French teaching path. */
+  keyPointsFr?: string[];
   dailyLifeExampleFr?: string;
   storyAnalogyFr?: string;
   prerequisiteFr?: string;
