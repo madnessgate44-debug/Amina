@@ -85,7 +85,7 @@ function run() {
   let fabricated = 0;
   for (const lesson of lessons) {
     const allowed = new Set<string>();
-    for (const ex of lesson.exercises) {
+    for (const ex of lesson.exercisesByLanguage?.ar ?? lesson.exercises) {
       for (const o of ex.options || []) allowed.add(String(o));
     }
     for (const concept of lesson.concepts) {

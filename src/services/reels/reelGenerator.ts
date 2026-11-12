@@ -278,8 +278,9 @@ export function buildReelsForConcept(
   // under a French prompt), so it is excluded rather than shown: a question with
   // unreadable choices is worse than no question. Exercises in the child's own
   // language come first.
+  const languageExercises = lesson.exercisesByLanguage?.[lang] ?? lesson.exercises;
   const usableExercises = preferExercisesInLanguage(
-    lesson.exercises
+    languageExercises
       .map((ex) => ({ ex, options: exerciseToOptions(ex) }))
       .filter((x): x is { ex: CurriculumExercise; options: ReelOption[] } => x.options !== null)
       .filter((x) => readableExercise(x.options, lang)),
