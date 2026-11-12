@@ -13,6 +13,8 @@
  * knowing about it.
  */
 
+import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
+
 export interface ConceptFrenchContent {
   titleFr: string;
   sourceTextFr: string;
@@ -21,7 +23,7 @@ export interface ConceptFrenchContent {
   storyAnalogyFr: string;
 }
 
-export const FRENCH_TRACK_CONTENT: Record<string, ConceptFrenchContent> = {
+const BASE_FRENCH_TRACK_CONTENT: Record<string, ConceptFrenchContent> = {
   // --- Mathématiques (Ministry book, taught in French) ---
   off_math_u1_l1_c1: {
     titleFr: 'Les nombres décimaux jusqu\'aux millièmes',
@@ -280,4 +282,24 @@ export const FRENCH_TRACK_CONTENT: Record<string, ConceptFrenchContent> = {
     dailyLifeExampleFr: 'Au congélateur les particules de l\'eau ralentissent et gèlent ; sur le feu elles accélèrent et s\'évaporent.',
     storyAnalogyFr: 'Comme des élèves serrés quand il fait froid et dispersés quand il fait chaud.',
   },
+};;
+
+const CURRENT_SCIENCE_FRENCH_OVERLAYS = Object.fromEntries(
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept) => [
+      concept.id,
+      {
+        titleFr: concept.titleFr || concept.titleEn,
+        sourceTextFr: concept.sourceTextFr || concept.sourceText,
+        keyPointsFr: concept.keyPointsFr || concept.keyPoints,
+        dailyLifeExampleFr: concept.dailyLifeExampleFr || '',
+        storyAnalogyFr: concept.storyAnalogyFr || '',
+      },
+    ]),
+  ),
+) as Record<string, ConceptFrenchContent>;
+
+export const FRENCH_TRACK_CONTENT: Record<string, ConceptFrenchContent> = {
+  ...BASE_FRENCH_TRACK_CONTENT,
+  ...CURRENT_SCIENCE_FRENCH_OVERLAYS,
 };
