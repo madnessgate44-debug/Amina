@@ -691,7 +691,7 @@ export class TeachingSessionEngine {
         return {
           modality: 'daily_life_example',
           text: isFr
-            ? `Prenons un exemple de la vie quotidienne :\n${concept.dailyLifeExampleFr || 'Pensons à une situation de la vie quotidienne qui illustre cette notion.'}\n\nTu vois ? C'est exactement ce que signifie «${concept.titleFr || concept.titleEn}». Qu'en penses-tu ?`
+            ? `Prenons un exemple de la vie quotidienne :\n${concept.dailyLifeExampleFr || 'Pensons à une situation de la vie quotidienne qui illustre cette notion.'}\n\nTu vois ? C'est exactement ce que signifie «${conceptTitle(concept, isFr)}». Qu'en penses-tu ?`
             : isAr
             ? `دعنا نأخذ مثالاً من حياتك اليومية:\n${concept.dailyLifeExampleAr}\n\nأرأيت؟ هذا بالضبط ما يقصده درس «${concept.titleAr}». ما رأيك في هذا المثال؟`
             : `Let's connect this to real daily life:\n${concept.dailyLifeExampleEn}\n\nSee? That is exactly what "${concept.titleEn}" is talking about. How does that sound?`,
