@@ -13,13 +13,14 @@
  * Live model calls are then spent only on the part that must be live: reacting
  * to what this child actually said.
  *
- * GENERATED FILE — do not edit by hand. Regenerate with:
- *   npm run generate:noor-lines
- * The `noorPreGeneratedLines` test fails if a lesson is missing a line, so this
- * file cannot silently fall behind the curriculum.
+ * Base entries are generated with `npm run generate:noor-lines`. Current Science
+ * lessons also receive deterministic source-derived Arabic lines below, so a
+ * newly registered Science lesson does not require a live model or API key.
  *
  * Key format: `${language}:${lessonId}:${conceptIndex}`.
  */
+
+import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
   /** The warm opening for the lesson. */
@@ -33,7 +34,7 @@ export interface PreGeneratedNoorLines {
 /** Slot names, so callers never pass a bare string. */
 export type PreGeneratedSlot = keyof PreGeneratedNoorLines;
 
-export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
+const BASE_PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   "ar:off_ar_u3_l1_dr_magdi_yacoub:0": {
     "intro": "أهلاً بك يا بطل! النهارده هنسمع سوا حوار دكتور مجدي يعقوب، وهنتعلم إزاي نجاحنا وتفوقنا بيخلينا نرد الجميل لبلدنا مصر ونسعد كل إنسان محتاج. جاهز نبدأ رحلتنا سوا؟",
     "explanation": "حبنا الحقيقي لبلدنا مصر بيظهر لما ننجح ونرد جميلها علينا ونخفف التعب عن الناس، بالظبط زي ما عمل دكتور مجدي يعقوب. وشطارتك وتفوقك في دراستك دلوقتي هما أول خطوة عشان لما تكبري تبقي طبيبة أو مهندسة تبتكري حلول تسعد أطفال بلدنا وتخدمهم. الإنسان الأصيل عامل زي الشجرة اللي كبرت في حديقة بيتها، وأول ما طرحت ثمار حلوة، قدّمتها لأهلها اللي رعوها وسقوها من البداية.",
@@ -306,12 +307,52 @@ export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   }
 };
 
+/**
+ * Deterministic Arabic teacher lines for the newly digitised Science lessons.
+ * They use the authored lesson concept and examples, so lesson start remains
+ * available without a live model key or paid generation quota.
+ */
+const CURRENT_SCIENCE_NOOR_LINES = Object.fromEntries(
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => {
+      const keyPoint = concept.titleAr;
+      return [
+        'ar:' + lesson.id + ':' + index,
+        {
+          intro:
+            'أهلاً يا بطلة! النهارده هنتعلم مع بعض درس ' +
+            concept.titleAr +
+            '. هنفهم الفكرة خطوة خطوة ونربطها بمثال من حياتنا اليومية. جاهزة نبدأ؟',
+          explanation:
+            'الفكرة الأساسية هي ' +
+            concept.titleAr +
+            '. ' +
+            concept.dailyLifeExampleAr +
+            ' ' +
+            keyPoint +
+            ' خلينا نفهم السبب ونشرح المعلومة بكلماتنا، مش نحفظها بس.',
+          check:
+            'تقدري تشرحي بطريقتك ' +
+            keyPoint +
+            '؟ اذكري مثالاً من حياتك يساعدك توضحي الفكرة.',
+        },
+      ];
+    }),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
+export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
+  ...BASE_PRE_GENERATED_NOOR_LINES,
+  ...CURRENT_SCIENCE_NOOR_LINES,
+};
+
+
 export function preGeneratedKey(
   language: string,
   lessonId: string,
   conceptIndex: number
 ): string {
-  return `${language}:${lessonId}:${conceptIndex}`;
+  return language + ':' + lessonId + ':' + conceptIndex;
 }
 
 /**

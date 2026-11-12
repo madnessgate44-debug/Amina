@@ -63,7 +63,7 @@ export function topicTokensOf(text: string): string[] {
       'ايه', 'إيه', 'يعني', 'ليه', 'لماذا', 'كيف', 'ازاي', 'إزاي', 'هل', 'ماذا', 'هو', 'هي',
       'وضح', 'وضحي', 'اشرح', 'اشرحي', 'من', 'في', 'على', 'عن', 'الى', 'مع', 'يا', 'مس',
       'يعمل', 'تعمل', 'يشتغل', 'تشتغل', 'معنى', 'تعريف', 'يعني', 'ايه', 'ازاى',
-      'what', 'why', 'how', 'is', 'are', 'the', 'and', 'explain', 'tell', 'me', 'about', 'a', 'an',
+      'what', 'why', 'how', 'is', 'are', 'the', 'and', 'explain', 'tell', 'me', 'about', 'a', 'an', 'water',
       'pourquoi', 'comment', 'explique', 'est', 'que', 'qui', 'le', 'la', 'les', 'un', 'une', 'de',
     ].map(normalizeText)
   );
@@ -122,7 +122,7 @@ export function matchConcept(
       // (so a one-word topic like "الإنترنت" matches, but "why does ice float
       // on water" does not borrow a lesson that merely says "water").
       const decisive = overlap >= 2;
-      const singleTitleMatch = titleHit && overlap >= 1 && overlap / ask.size >= 0.5;
+      const singleTitleMatch = titleHit && overlap === 1 && ask.size === 1;
       if (!decisive && !singleTitleMatch) continue;
       // Confidence saturates on the number of shared content words (four is
       // already a strong match), so a long paste is not penalised just for

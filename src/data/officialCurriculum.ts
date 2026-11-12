@@ -7,7 +7,8 @@ import { OfficialCurriculumLesson } from '../types/teachingSession';
 import { ARABIC_CURRICULUM_LESSONS } from './curriculum/arabicCurriculum';
 import { FRENCH_CURRICULUM_LESSONS } from './curriculum/frenchCurriculum';
 import { MATH_FR_CURRICULUM_LESSONS } from './curriculum/mathFrCurriculum';
-import { SCIENCE_FR_CURRICULUM_LESSONS } from './curriculum/scienceFrCurriculum';
+import { SCIENCE_FR_CURRICULUM_LESSONS as LEGACY_SCIENCE_FR_CURRICULUM_LESSONS } from './curriculum/scienceFrCurriculum';
+import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './curriculum/scienceFrCurriculum2026';
 import { SOCIAL_STUDIES_CURRICULUM_LESSONS } from './curriculum/socialStudiesCurriculum';
 import { ENGLISH_CURRICULUM_LESSONS } from './curriculum/englishCurriculum';
 import { ICT_CURRICULUM_LESSONS } from './curriculum/ictCurriculum';
@@ -93,8 +94,25 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     assessmentLanguage: 'fr' as const,
     track: 'french_bilingual' as const,
   })),
-  ...SCIENCE_FR_CURRICULUM_LESSONS.map((lesson) => ({
+  // Current 2026/2027 Ministry French Science book: nine chapters and 28
+  // numbered lessons. Old mismatched Science records stay registered only as
+  // unavailable compatibility IDs; learners must not be sent to those topics.
+  ...SCIENCE_FR_CURRICULUM_2026_LESSONS.map((lesson) => ({
     ...lesson,
+    subjectId: 'subj_science',
+    subjectNameAr: 'العلوم',
+    subjectNameEn: 'Science',
+    subjectNameFr: 'Sciences',
+    curriculumSource: 'egyptian_national' as const,
+    instructionLanguage: 'fr' as const,
+    contentLanguage: 'fr' as const,
+    assessmentLanguage: 'fr' as const,
+    track: 'french_bilingual' as const,
+  })),
+  ...LEGACY_SCIENCE_FR_CURRICULUM_LESSONS.map((lesson) => ({
+    ...lesson,
+    isAvailable: false,
+    contentStatus: 'pending_materials' as const,
     subjectId: 'subj_science',
     subjectNameAr: 'العلوم',
     subjectNameEn: 'Science',

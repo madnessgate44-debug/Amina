@@ -220,16 +220,19 @@ test('3.5 the classroom opens on the teaching station, not the quiz', () => {
   );
 });
 
-test('3.6 the teaching station is listed before the question stations in the tab order', () => {
+test('3.6 learner-facing tabs lead with learning and hide internal pedagogy stations', () => {
   const src = readFileSync(
     new URL('../../components/teacher/VirtualTeacherClassroom.tsx', import.meta.url),
     'utf8'
   );
-  const teachIdx = src.indexOf("labelAr: '1. الشرح الموجه'");
-  const diagIdx = src.indexOf("labelAr: '2. التشخيص'");
-  assert.ok(teachIdx > -1, 'the teaching station is not labelled first');
-  assert.ok(diagIdx > -1, 'the diagnostic station label changed unexpectedly');
-  assert.ok(teachIdx < diagIdx, 'the diagnostic question is still shown before the teaching tab');
+  const learnIdx = src.indexOf("labelAr: 'نتعلم معاً'");
+  const practiseIdx = src.indexOf("labelAr: 'لنجرب'");
+  const askIdx = src.indexOf("labelAr: 'اسألي نور'");
+  assert.ok(learnIdx > -1, 'the first tab is not the learner-facing Learn with Noor action');
+  assert.ok(practiseIdx > learnIdx, 'practice does not follow the learning tab');
+  assert.ok(askIdx > practiseIdx, 'Ask Noor does not follow practice');
+  assert.ok(!src.includes("labelAr: '2. التشخيص'"), 'internal diagnosis is exposed as a learner tab');
+  assert.ok(!src.includes("labelAr: '3. إعادة التحقق'"), 'internal re-check is exposed as a learner tab');
 });
 
 console.log(`\nNOOR VOICE + TEACHING SUITE SUMMARY: ${passed} PASSED, ${process.exitCode ? '1+' : 0} FAILED`);
