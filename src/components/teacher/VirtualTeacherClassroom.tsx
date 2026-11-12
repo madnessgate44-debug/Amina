@@ -1464,6 +1464,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
             </div>
           </div>
         </div>
+      </div>
 
       {/* Learner-facing choices stay natural; diagnosis and re-check remain teacher-managed. */}
       <div className="grid grid-cols-3 gap-2 rounded-2xl bg-slate-200/80 p-1.5 dark:bg-slate-800/90">
