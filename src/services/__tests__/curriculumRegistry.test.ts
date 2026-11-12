@@ -224,7 +224,7 @@ check(
 );
 if (conceptsMissingFrenchOverlay.length > 0) console.error('   missing French overlays:', conceptsMissingFrenchOverlay);
 
-const ministryConceptsMissingFrenchKeyPoints = [...MATH_CURRICULUM_LESSONS, ...SCIENCE_CURRICULUM_LESSONS]
+const ministryConceptsMissingFrenchKeyPoints = [...MATH_CURRICULUM_LESSONS, ...SCIENCE_CURRICULUM_LESSONS, ...SCIENCE_FR_CURRICULUM_2026_LESSONS]
   .flatMap((lesson) => lesson.concepts.filter((concept) =>
     !FRENCH_TRACK_CONTENT[concept.id]?.keyPointsFr?.length,
   ).map((concept) => ({ lesson: lesson.id, concept: concept.id })));
