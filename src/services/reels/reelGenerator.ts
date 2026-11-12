@@ -125,6 +125,51 @@ function wantedScript(lang: Language): 'ar' | 'latin' {
 }
 
 /**
+ * Function words that identify the natural language of Latin-script text.
+ *
+ * Script alone cannot tell English from French, and a French child was shown
+ * whole English sentences ("Helping a classmate understand a difficult
+ * concept") because the script guard only rejected Arabic. Only unambiguous
+ * markers are listed: words shared by both languages ("a", "on", "or", "en")
+ * are in neither set, so they never tip the verdict.
+ */
+const ENGLISH_MARKERS = new Set([
+  'the','and','with','for','from','your','you','are','of','to','in','this','that','like','each','is','was',
+  'were','will','has','have','can','how','what','which','its','their','they','them','we','our','us','as',
+  'but','if','when','where','who','all','some','more','most','other','into','over','after','before',
+  'because','through','between','during','about','than','then','there','these','those','him','her','she',
+  'he','his','not','be','by','at','it','an','so','up','out','down','off','again','once','here','why','both',
+  'few','many','much','such','no','nor','too','very','just','only','own','same',
+]);
+const FRENCH_MARKERS = new Set([
+  'le','la','les','de','des','une','un','est','pour','dans','avec','que','qui','sur','pas','comme','ton','ta',
+  'tes','ce','cette','ces','nous','vous','au','aux','du','se','son','sa','ses','et','sont','par','mais','tout',
+  'tous','toute','bien','être','ont','il','elle','ils','elles','qu','quand','dont','entre','vers','chez','sans',
+  'sous','aussi','encore','très','peu','beaucoup','toujours','jamais','leur','leurs','notre','nos','votre','vos',
+  'mon','ma','mes','moi','toi','lui','été','avait','avoir','faire','fait','moins','donc','car','ni','était',
+  'étaient','sera','serait','celui','celle','alors','ainsi','autre','autres','même',
+]);
+
+/**
+ * The natural language of Latin-script text, or 'other' when it carries no
+ * decisive marker. Deliberately conservative: numbers, symbols and short proper
+ * nouns (which are the same in both languages) stay 'other' and are never
+ * dropped.
+ */
+function latinLanguage(text: string): 'en' | 'fr' | 'other' {
+  const words = text.toLowerCase().split(/[^a-zà-ÿ']+/).filter((w) => w.length > 1);
+  if (words.length === 0) return 'other';
+  let en = 0;
+  let fr = 0;
+  for (const w of words) {
+    if (ENGLISH_MARKERS.has(w)) en++;
+    if (FRENCH_MARKERS.has(w)) fr++;
+  }
+  if (en === fr) return 'other';
+  return en > fr ? 'en' : 'fr';
+}
+
+/**
  * True when a piece of teaching text can be read by the child.
  *
  * Lesson vocabulary and source text are stored in ONE language, so a reel built
@@ -138,7 +183,16 @@ function wantedScript(lang: Language): 'ar' | 'latin' {
 function readableByChild(text: string, lang: Language): boolean {
   const s = scriptOf(text);
   if (s === 'other') return true;
-  return s === wantedScript(lang);
+  if (s !== wantedScript(lang)) return false;
+  // Latin script covers both English and French, so a French child could still
+  // be shown an English sentence (and vice versa). When the text carries a
+  // decisive marker of the other language, it is not readable. Text with no
+  // decisive marker (numbers, proper nouns, shared words) is always allowed.
+  if (s === 'latin' && (lang === 'en' || lang === 'fr')) {
+    const actual = latinLanguage(text);
+    if (actual !== 'other' && actual !== lang) return false;
+  }
+  return true;
 }
 
 /**
@@ -151,8 +205,17 @@ function preferExercisesInLanguage(
   lang: Language
 ): Array<{ ex: CurriculumExercise; options: ReelOption[] }> {
   const want = wantedScript(lang);
+  const score = (text: string): number => {
+    const s = scriptOf(text);
+    if (s !== want) return 2; // wrong script — last
+    if (s === 'latin' && (lang === 'en' || lang === 'fr')) {
+      const actual = latinLanguage(text);
+      if (actual !== 'other' && actual !== lang) return 1; // right script, wrong language
+    }
+    return 0; // right script and (for Latin) right language or undecidable
+  };
   return usable
-    .map((item, i) => ({ item, i, score: scriptOf(item.ex.question || '') === want ? 0 : 1 }))
+    .map((item, i) => ({ item, i, score: score(item.ex.question || '') }))
     .sort((a, b) => a.score - b.score || a.i - b.i)
     .map((x) => x.item);
 }
