@@ -727,10 +727,25 @@ function run() {
       if (fresh.reels[i].kind === fresh.reels[i - 1].kind) backToBack++;
     }
     assert(backToBack === 0, `18.3 [${lang}]: no reel kind repeats back-to-back on a first feed (${backToBack})`);
-    assert(
-      fresh.reels.some((r) => r.reason === 'diagnosis'),
-      `18.4 [${lang}]: the first feed still reaches the diagnosis path`
-    );
+    // The diagnosis pool only offers a concept whose stored diagnosis is in the
+    // child's own language (see feedQueue). No curriculum misconception has an
+    // English rendering — every entry is Arabic — so an English child honestly
+    // has no deterministic diagnosis to reach. Before the guard judged the
+    // DOMINANT script, this assertion passed for `en` only because Arabic text
+    // carrying a Latin parenthetical like "(Byte)" leaked through as "English".
+    // Where servable content exists (ar, fr) the path must still be reached.
+    const servable = lang !== 'en';
+    if (servable) {
+      assert(
+        fresh.reels.some((r) => r.reason === 'diagnosis'),
+        `18.4 [${lang}]: the first feed still reaches the diagnosis path`
+      );
+    } else {
+      assert(
+        !fresh.reels.some((r) => r.reason === 'diagnosis'),
+        `18.4 [${lang}]: no diagnosis reel is faked from the other language`
+      );
+    }
     assert(
       fresh.reels[fresh.reels.length - 1].kind === 'win_closer',
       `18.5 [${lang}]: the first feed still ends with a win_closer`

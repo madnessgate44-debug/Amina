@@ -28,7 +28,7 @@ import { curriculumService } from '../curriculum/curriculumService';
 import { subjectLabelMatchesLesson } from '../curriculum/subjectIdentity';
 import { buildReelsForConcept, buildWinCloser, sourceLabelFor } from './reelGenerator';
 import { matchMisconception, misconceptionText } from '../teaching/skills/teachingSkills';
-import { speaksLanguage } from './reelResponse';
+import { speaksLanguage } from './languageGuard';
 import { createSeededRng } from './seededRng';
 
 export interface FeedQueueInput {

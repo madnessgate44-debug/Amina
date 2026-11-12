@@ -203,6 +203,22 @@ async function main() {
   check('7.7 a spoken wrong answer reaches the same diagnosis as a tap',
     spokenWrong.source === wrongResult.source && spokenWrong.namedMisconception === wrongResult.namedMisconception);
 
+  // --- Dominance, not mere presence (regression) ---
+  // The old guard returned true for any Latin letter, so an Arabic diagnosis
+  // that ends with a Latin parenthetical was served whole to a French or
+  // English child, and a French-only diagnosis was served to an English child
+  // (both scripts are Latin). The guard must judge which script DOMINATES.
+  check('7.8 the guard rejects a French diagnosis for an English child',
+    speaksLanguage('Vous avez déplacé la virgule vers la gauche, ce qui divise par 1000.', 'en') === false);
+  check('7.9 the guard rejects Arabic text carrying a Latin parenthetical for a French child',
+    speaksLanguage('الماوس جهاز إدخال، ولا يربط الحاسب بالراوتر (router).', 'fr') === false);
+  check('7.10 the guard rejects the same Arabic text for an English child',
+    speaksLanguage('الماوس جهاز إدخال، ولا يربط الحاسب بالراوتر (router).', 'en') === false);
+  check('7.11 the guard still accepts that Arabic text for an Arabic child',
+    speaksLanguage('الماوس جهاز إدخال، ولا يربط الحاسب بالراوتر (router).', 'ar') === true);
+  check('7.12 the guard accepts English text for an English child',
+    speaksLanguage('You moved the decimal point the wrong way.', 'en') === true);
+
   console.log(`\nINTERACTIVE REEL SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED\n`);
   process.exit(failed > 0 ? 1 : 0);
 }
