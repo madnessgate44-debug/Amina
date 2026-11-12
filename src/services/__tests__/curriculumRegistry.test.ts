@@ -140,6 +140,19 @@ check(
 );
 if (conceptsMissingFrenchOverlay.length > 0) console.error('   missing French overlays:', conceptsMissingFrenchOverlay);
 
+const ministryConceptsMissingFrenchKeyPoints = [...MATH_CURRICULUM_LESSONS, ...SCIENCE_CURRICULUM_LESSONS]
+  .flatMap((lesson) => lesson.concepts.filter((concept) =>
+    !FRENCH_TRACK_CONTENT[concept.id]?.keyPointsFr?.length,
+  ).map((concept) => ({ lesson: lesson.id, concept: concept.id })));
+check(
+  `7.2 every Ministry Maths/Science concept has structured French key points (${ministryConceptsMissingFrenchKeyPoints.length} missing)`,
+  ministryConceptsMissingFrenchKeyPoints.length === 0,
+);
+if (ministryConceptsMissingFrenchKeyPoints.length > 0) {
+  console.error('   missing French key points:', ministryConceptsMissingFrenchKeyPoints);
+}
+
+
 const frenchEngine = new TeachingSessionEngine();
 const frenchStart = frenchEngine.initializeSession({
   studentId: 'curriculum-regression',
@@ -158,7 +171,7 @@ const frenchTeaching = frenchEngine.advanceSession({
 });
 const frenchTeachingText = frenchTeaching.newTutorTurn.text;
 check(
-  '7.2 French Science teaching turn uses French overlay and contains no Arabic script',
+  '7.3 French Science teaching turn uses French overlay and contains no Arabic script',
   frenchTeachingText.includes("L'usine alimentaire de la plante verte") &&
     !/[\u0600-\u06FF]/.test(frenchTeachingText),
 );
