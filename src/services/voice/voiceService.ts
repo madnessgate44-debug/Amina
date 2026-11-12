@@ -4,7 +4,7 @@
  */
 
 import { Language, MicPermissionState } from '../../types';
-import { pickBestVoice, hasVoiceForLanguage } from './voiceSelection';
+import { pickBestVoice, hasVoiceForLanguage, speechLangFor } from './voiceSelection';
 import { MAX_AUDIO_MS } from '../upload/payloadLimits';
 
 // Web Speech API interfaces
@@ -171,7 +171,7 @@ class VoiceService {
     return new Promise(async (resolve, reject) => {
       onStatusChange('listening');
 
-      const targetLang = language === 'ar' ? 'ar-EG' : 'en-US';
+      const targetLang = speechLangFor(language);
 
       // Setup MediaRecorder as Tier 2 fallback recorder in parallel
       let fallbackAudioBlob: Blob | null = null;
@@ -546,13 +546,7 @@ class VoiceService {
       utterance.rate = language === 'ar' ? 0.95 : 1.0;
       utterance.pitch = 1.05;
 
-      if (language === 'ar') {
-        utterance.lang = 'ar-EG';
-      } else if (language === 'fr') {
-        utterance.lang = 'fr-FR';
-      } else {
-        utterance.lang = 'en-US';
-      }
+      utterance.lang = speechLangFor(language);
 
       let settled = false;
       let timer: number | undefined;
