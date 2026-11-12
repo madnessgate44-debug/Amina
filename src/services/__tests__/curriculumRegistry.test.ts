@@ -15,6 +15,7 @@ import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
+import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
 
 
 let passed = 0;
@@ -88,6 +89,38 @@ if (zeroConcept.length > 0) console.error('   empty:', zeroConcept.map((l) => l.
 // 5. Every lesson keeps its Ministry source page, so a claim stays checkable.
 const noPage = OFFICIAL_CURRICULUM_LESSONS.filter((l) => !l.sourceRef?.page);
 check(`5.1 every lesson names its source page (${noPage.length} missing)`, noPage.length === 0);
+
+// 6. The full Egyptian Grade 5 Maths and Science books are taught in French
+//    on this track, so every registered assessment prompt and option must be French.
+const ministryMathScience = [...MATH_CURRICULUM_LESSONS, ...SCIENCE_CURRICULUM_LESSONS];
+const missingFrenchAssessment = ministryMathScience.filter(
+  (lesson) => !FRENCH_ASSESSMENTS[lesson.id] || FRENCH_ASSESSMENTS[lesson.id].length === 0,
+);
+check(
+  `6.1 every Ministry maths/science lesson has French assessment items (${missingFrenchAssessment.length} missing)`,
+  missingFrenchAssessment.length === 0,
+);
+const registeredMinistry = OFFICIAL_CURRICULUM_LESSONS.filter(
+  (lesson) => ministryMathScience.some((source) => source.id === lesson.id),
+);
+const arabicScript = /[\\u0600-\\u06FF]/;
+const nonFrenchAssessment = registeredMinistry.filter((lesson) =>
+  lesson.exercises.some((exercise) =>
+    [exercise.question, ...(exercise.options ?? []), exercise.expectedAnswer ?? ''].some((value) => arabicScript.test(value)),
+  ),
+);
+check(
+  `6.2 registered Ministry maths/science assessments contain no Arabic-script text (${nonFrenchAssessment.length} affected lessons)`,
+  nonFrenchAssessment.length === 0,
+);
+const assessmentCountMismatch = ministryMathScience.filter((source) => {
+  const registeredLesson = registeredMinistry.find((lesson) => lesson.id === source.id);
+  return !registeredLesson || registeredLesson.exercises.length !== FRENCH_ASSESSMENTS[source.id].length;
+});
+check(
+  `6.3 each registered lesson uses the complete French assessment set (${assessmentCountMismatch.length} mismatches)`,
+  assessmentCountMismatch.length === 0,
+);
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
