@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import React from 'react';
+import React, { useId } from 'react';
 import { NourState, SubjectOutfit } from '../../types/stage';
 
 interface NourCharacterProps {
@@ -67,11 +67,11 @@ export const NourCharacter: React.FC<NourCharacterProps> = ({
     >
       <svg viewBox="0 0 220 260" className="h-full w-full overflow-visible drop-shadow-lg" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <linearGradient id="noor-coat" x1="0" y1="0" x2="1" y2="1">
+          <linearGradient id={`${uid}-noor-coat`} x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stopColor={colors.coat} />
             <stop offset="100%" stopColor="#172554" />
           </linearGradient>
-          <linearGradient id="noor-skin" x1="0" y1="0" x2="0.9" y2="1">
+          <linearGradient id={`${uid}-noor-skin`} x1="0" y1="0" x2="0.9" y2="1">
             <stop offset="0%" stopColor="#f7c9a8" />
             <stop offset="100%" stopColor="#d99572" />
           </linearGradient>
@@ -92,7 +92,7 @@ export const NourCharacter: React.FC<NourCharacterProps> = ({
 
         {/* Neck and shoulders */}
         <path d="M87 155h46v33H87z" fill="#c98261" />
-        <path d="M48 244c4-37 23-58 48-65h30c27 7 45 28 49 65z" fill="url(#noor-coat)" />
+        <path d="M48 244c4-37 23-58 48-65h30c27 7 45 28 49 65z" fill={`url(#${uid}-noor-coat)`} />
         <path d="M87 177l23 25 23-25 19 18-24 49H92l-24-49z" fill="#fff7ed" />
         <path d="M87 178l23 24-18 21-22-28zM133 178l-23 24 18 21 22-28z" fill={colors.coat} />
         <path d="M89 226l21-24 21 24-11 18h-20z" fill={colors.accent} opacity=".95" />
@@ -100,7 +100,7 @@ export const NourCharacter: React.FC<NourCharacterProps> = ({
         <text x="110" y="225" textAnchor="middle" fontSize="8" fontWeight="900" fill={colors.coat}>{colors.badge}</text>
 
         {/* Face */}
-        <ellipse cx="110" cy="103" rx="55" ry="66" fill="url(#noor-skin)" />
+        <ellipse cx="110" cy="103" rx="55" ry="66" fill={`url(#${uid}-noor-skin)`} />
         <path d="M57 87c-2-40 23-67 56-67 33 0 54 25 53 62-13-5-24-17-29-30-15 17-42 25-80 24z" fill="#30201d" />
         <path d="M59 81c-4 28 1 55 12 72-17-8-24-30-21-51 1-9 4-16 9-21zM161 80c5 28 0 55-12 73 17-9 24-30 21-52-1-9-4-16-9-21z" fill="#3b2722" />
         <path d="M65 76c10-17 25-25 43-27 20-2 34 5 48 18-13-3-25-10-33-19-13 15-34 24-58 28z" fill="#3b2722" />
