@@ -625,6 +625,77 @@ function run() {
     );
   }
 
+  // ---- 17. Today's-lesson pool matches the timetable's display labels ----
+  // A day record stores the timetable's subject labels ("الرياضيات بالفرنسية
+  // (Maths)", "العلوم بالفرنسية (Sciences)"), and the server's day-record
+  // parser writes the same shape. `buildFeedQueue` compared them to a lesson's
+  // subjectNameAr/En with an EXACT string match, so those labels matched no
+  // lesson at all: the today's-lesson pool was empty and a French child whose
+  // day was French maths/science got a feed of only the diagnosis reel and the
+  // closer (measured: 4 reels, 0 from today_lesson, vs 17 for a plain label).
+  // Matching now goes through the canonical subject identity, so every spelling
+  // of the same subject reaches the same lessons. Exact labels still match.
+  const todayLabelCases: Array<{ label: string; lessonId: string }> = [
+    { label: 'الرياضيات بالفرنسية (Maths)', lessonId: 'off_mathfr_u1_l1_decimaux' },
+    { label: 'العلوم بالفرنسية (Sciences)', lessonId: 'off_scifr_u1_l1_plantes' },
+    { label: 'الرياضيات', lessonId: 'off_math_u1_l1' },
+    { label: 'العلوم', lessonId: 'off_sci_u1_l1_plant_needs' },
+    { label: 'Mathematics', lessonId: 'off_math_u1_l1' },
+    { label: 'French Mathematics', lessonId: 'off_mathfr_u1_l1_decimaux' },
+  ];
+  for (const { label, lessonId } of todayLabelCases) {
+    for (const lang of ['ar', 'fr'] as const) {
+      const q = buildFeedQueue({
+        studentId: `stu_label_${lang}_${lessonId}`,
+        language: lang,
+        mastery: {},
+        dueReviews: [],
+        todaySubjects: [label],
+        examCalendar: [],
+        now,
+        sessionMinutes: 10,
+      });
+      assert(
+        q.composition.today_lesson > 0,
+        `17.1 [${lang}] subject "${label}" reaches the today's-lesson pool (today_lesson=${q.composition.today_lesson})`
+      );
+    }
+  }
+
+  // The specific collapse: a French child with a French-maths day must get a
+  // full session, not a two-reel stub.
+  const frMathsDay = buildFeedQueue({
+    studentId: 'stu_fr_maths_day',
+    language: 'fr',
+    mastery: {},
+    dueReviews: [],
+    todaySubjects: ['الرياضيات بالفرنسية (Maths)'],
+    examCalendar: [],
+    now,
+    sessionMinutes: 10,
+  });
+  assert(
+    frMathsDay.reels.length >= 10,
+    `17.2: a French-maths day yields a full session, not a stub (${frMathsDay.reels.length} reels)`
+  );
+
+  // No regression: an unrelated label must still match nothing, so the pool is
+  // not padded with every lesson.
+  const unrelated = buildFeedQueue({
+    studentId: 'stu_unrelated',
+    language: 'fr',
+    mastery: {},
+    dueReviews: [],
+    todaySubjects: ['تربية رياضية'],
+    examCalendar: [],
+    now,
+    sessionMinutes: 10,
+  });
+  assert(
+    unrelated.composition.today_lesson === 0,
+    `17.3: an unrelated subject label matches no lesson (today_lesson=${unrelated.composition.today_lesson})`
+  );
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');
