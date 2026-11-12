@@ -169,6 +169,10 @@ The page references below are taken from the app’s own source metadata. They a
 - `docs/STATUS.md` — latest French feed and exercise-language findings.
 - Commit `766843bdd946362460b406f3b5500cb9b859c3a2` — registration of previously orphaned Ministry Maths/Science sources; records lesson count growth from 36 to 51 and concept count from 35 to 54.
 
+
+### Data-integrity note — concept denominator mismatch
+The current `docs/STATUS.md` reports 30/53 concepts as narration-only and 26/53 as question-eligible for the French path. The curriculum registration/media commits describe 54 concepts in the repository. These denominators are not reconciled in the available ledger. Therefore, 30/53 is reported as the status-ledger measurement, not recomputed as a percentage of all 54 registry concepts. A follow-up diagnostic must export the exact concept IDs included in each denominator and identify the excluded or added concept before publishing a final percentage.
+
 ## Audit conclusion
 
 **[VERIFIED] Miss Noor has a substantial Grade 5 first-term content base, but it is not a complete or fully reconciled Grade 5 curriculum.** The largest confirmed gap is French-language interactive assessment, followed by incomplete subject-book inventories and missing catalogue subjects. The exact Girard assignment list and the actual source-book TOCs remain **UNVERIFIED**. Do not advertise or label curriculum coverage as complete until the school book list and all assigned books have been reconciled lesson by lesson.
