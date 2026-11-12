@@ -176,5 +176,41 @@ check(
     !/[\u0600-\u06FF]/.test(frenchTeachingText),
 );
 
+
+ 
+// 8. Registry identity and language contracts are checked independently of array lengths.
+const duplicateLessonIds = OFFICIAL_CURRICULUM_LESSONS
+  .map((lesson) => lesson.id)
+  .filter((id, index, all) => all.indexOf(id) !== index);
+check(
+  `8.1 registered lesson ids are globally unique (${duplicateLessonIds.length} duplicates)`,
+  duplicateLessonIds.length === 0,
+);
+if (duplicateLessonIds.length > 0) console.error('   duplicate lesson ids:', duplicateLessonIds);
+
+const duplicateConceptIds = OFFICIAL_CURRICULUM_LESSONS.flatMap((lesson) =>
+  lesson.concepts.map((concept) => ({ subjectId: lesson.subjectId, conceptId: concept.id, lessonId: lesson.id })),
+).filter((entry, index, all) =>
+  all.findIndex((candidate) => candidate.subjectId === entry.subjectId && candidate.conceptId === entry.conceptId) !== index,
+);
+check(
+  `8.2 concept ids are unique within each subject (${duplicateConceptIds.length} duplicates)`,
+  duplicateConceptIds.length === 0,
+);
+if (duplicateConceptIds.length > 0) console.error('   duplicate concepts:', duplicateConceptIds);
+
+const incorrectlyTaggedFrenchLessons = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) =>
+  ['subj_math', 'subj_science'].includes(lesson.subjectId) &&
+  (!lesson.subjectNameFr || lesson.instructionLanguage !== 'fr' ||
+    lesson.contentLanguage !== 'fr' || lesson.assessmentLanguage !== 'fr'),
+);
+check(
+  `8.3 Grade 5 Maths and Science registry entries declare the French learning track (${incorrectlyTaggedFrenchLessons.length} inconsistent)`,
+  incorrectlyTaggedFrenchLessons.length === 0,
+);
+if (incorrectlyTaggedFrenchLessons.length > 0) {
+  console.error('   inconsistent French-track metadata:', incorrectlyTaggedFrenchLessons.map((lesson) => lesson.id));
+}
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
