@@ -83,7 +83,7 @@ for (const tab of ['home', 'feed', 'learn', 'companion']) {
 
 // --- R-F1.4 content clears the overlay -----------------------------------
 assert(
-  /pb-24/.test(reelCard),
+  /pb-28/.test(reelCard),
   'the reel card reserves bottom space so the overlay nav does not cover content'
 );
 
@@ -101,8 +101,26 @@ assert(
   'the reel scroller is h-full so the viewport, not the content, sets the slide height'
 );
 assert(
-  /className="h-full snap-start flex items-center px-4 pt-6 pb-24/.test(reelCard),
-  'the reel section is h-full so a tall reel cannot push the slide below the fold'
+  /className="h-full snap-start overflow-y-auto px-4 pt-6 pb-28 relative"/.test(reelCard),
+  'the reel section is h-full and scrolls its own content so a tall reel cannot push the slide below the fold'
+);
+// A 4-option reel is taller than a 390x844 slide, so with vertical centring and
+// `overflow-hidden` the last option and the whole toolbar rendered under the
+// floating nav and could not be tapped. Measured live: the last option sat at
+// y=798-844, exactly under the nav (top 773). The section must scroll instead.
+assert(
+  !/h-full snap-start flex items-center px-4 pt-6 pb-24 relative overflow-hidden/.test(reelCard),
+  'the reel section is not vertically centred and clipped (the bug that hid the last option under the nav)'
+);
+assert(
+  /pb-28 relative"/.test(reelCard) && !/overflow-hidden"/.test(reelCard.split('snap-start')[1] || ''),
+  'the reel section keeps its own scroll and clears the floating nav'
+);
+// A tall reel must scroll to reach the content below the fold (the last option,
+// the toolbar), so the fix is a scrolling section, not a clipped one.
+assert(
+  /overflow-y-auto/.test(reelCard),
+  'the reel section scrolls so content below the fold (last option, toolbar) is reachable'
 );
 
 // --- R-F2 Noor speaks the reaction (spoken turn, not a static card) -------

@@ -1,0 +1,564 @@
+{
+  "baseURL": "https://amina-nine-sepia.vercel.app",
+  "lang": "ar",
+  "consoleErrors": [],
+  "measure": {
+    "vh": 844,
+    "navRect": {
+      "top": 773,
+      "bottom": 844,
+      "h": 71
+    },
+    "controls": [
+      {
+        "text": "1",
+        "top": 148,
+        "bottom": 192,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "1",
+        "coveredByNav": false
+      },
+      {
+        "text": "2",
+        "top": 148,
+        "bottom": 192,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "2",
+        "coveredByNav": false
+      },
+      {
+        "text": "3",
+        "top": 148,
+        "bottom": 192,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "3",
+        "coveredByNav": false
+      },
+      {
+        "text": "4",
+        "top": 229,
+        "bottom": 273,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "4",
+        "coveredByNav": false
+      },
+      {
+        "text": "5",
+        "top": 229,
+        "bottom": 273,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "5",
+        "coveredByNav": false
+      },
+      {
+        "text": "30 + 4 + 0,5 + 0,02 + 0,007",
+        "top": 628,
+        "bottom": 675,
+        "h": 47,
+        "inOptions": true,
+        "hitIsSelf": true,
+        "hitText": "30 + 4 + 0,5 + 0,02 + 0,",
+        "coveredByNav": false
+      },
+      {
+        "text": "3 + 4 + 5 + 2 + 7",
+        "top": 685,
+        "bottom": 731,
+        "h": 47,
+        "inOptions": true,
+        "hitIsSelf": true,
+        "hitText": "3 + 4 + 5 + 2 + 7",
+        "coveredByNav": false
+      },
+      {
+        "text": "300 + 40 + 5 + 0,27",
+        "top": 741,
+        "bottom": 788,
+        "h": 47,
+        "inOptions": true,
+        "hitIsSelf": true,
+        "hitText": "300 + 40 + 5 + 0,27",
+        "coveredByNav": true
+      },
+      {
+        "text": "34 + 527",
+        "top": 798,
+        "bottom": 844,
+        "h": 47,
+        "inOptions": true,
+        "hitIsSelf": false,
+        "hitText": "الرئيسية\nالموجز\nالمكتبة\n",
+        "coveredByNav": true
+      },
+      {
+        "text": "",
+        "top": 864,
+        "bottom": 908,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": false,
+        "hitText": null,
+        "coveredByNav": false
+      },
+      {
+        "text": "",
+        "top": 864,
+        "bottom": 908,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": false,
+        "hitText": null,
+        "coveredByNav": false
+      },
+      {
+        "text": "علّمني أكتر",
+        "top": 916,
+        "bottom": 960,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": false,
+        "hitText": null,
+        "coveredByNav": false
+      },
+      {
+        "text": "تخطّي",
+        "top": 916,
+        "bottom": 960,
+        "h": 44,
+        "inOptions": false,
+        "hitIsSelf": false,
+        "hitText": null,
+        "coveredByNav": false
+      },
+      {
+        "text": "الرئيسية",
+        "top": 780,
+        "bottom": 836,
+        "h": 56,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "الرئيسية",
+        "coveredByNav": true
+      },
+      {
+        "text": "الموجز",
+        "top": 780,
+        "bottom": 836,
+        "h": 56,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "الموجز",
+        "coveredByNav": true
+      },
+      {
+        "text": "المكتبة",
+        "top": 780,
+        "bottom": 836,
+        "h": 56,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "المكتبة",
+        "coveredByNav": true
+      },
+      {
+        "text": "نور",
+        "top": 780,
+        "bottom": 836,
+        "h": 56,
+        "inOptions": false,
+        "hitIsSelf": true,
+        "hitText": "نور",
+        "coveredByNav": true
+      }
+    ],
+    "optionsCovered": [
+      "300 + 40 + 5 + 0,27",
+      "34 + 527"
+    ]
+  },
+  "parts": {
+    "sectionTop": 0,
+    "sectionH": 844,
+    "innerH": 1191,
+    "parts": [
+      {
+        "depth": 0,
+        "tag": "div",
+        "cls": "flex items-start gap-2 mb-3",
+        "top": -209,
+        "h": 144,
+        "text": "☀️\nحاجة جديدة\nنور\n\nتعالي نبدأ "
+      },
+      {
+        "depth": 1,
+        "tag": "div",
+        "cls": "relative inline-flex items-center justify-center select-none",
+        "top": -209,
+        "h": 112,
+        "text": "☀️"
+      },
+      {
+        "depth": 2,
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "top": -209,
+        "h": 112,
+        "text": ""
+      },
+      {
+        "depth": 3,
+        "tag": "g",
+        "cls": "[object SVGAnimatedString]",
+        "top": -149,
+        "h": 43,
+        "text": ""
+      },
+      {
+        "depth": 3,
+        "tag": "g",
+        "cls": "[object SVGAnimatedString]",
+        "top": -208,
+        "h": 53,
+        "text": ""
+      },
+      {
+        "depth": 1,
+        "tag": "div",
+        "cls": "flex-1 min-w-0",
+        "top": -209,
+        "h": 144,
+        "text": "حاجة جديدة\nنور\n\nتعالي نبدأ بحا"
+      },
+      {
+        "depth": 2,
+        "tag": "div",
+        "cls": "inline-block text-[12px] uppercase tracking-widest text-ambe",
+        "top": -206,
+        "h": 18,
+        "text": "حاجة جديدة"
+      },
+      {
+        "depth": 2,
+        "tag": "div",
+        "cls": "rounded-2xl rounded-bl-md bg-white text-slate-900 px-4 py-3 ",
+        "top": -184,
+        "h": 119,
+        "text": "نور\n\nتعالي نبدأ بحاجة صغيرة عن"
+      },
+      {
+        "depth": 3,
+        "tag": "div",
+        "cls": "flex items-center gap-1.5 text-violet-600 text-[12px] font-b",
+        "top": -172,
+        "h": 18,
+        "text": "نور"
+      },
+      {
+        "depth": 3,
+        "tag": "p",
+        "cls": "text-[15px] font-bold leading-relaxed",
+        "top": -150,
+        "h": 73,
+        "text": "تعالي نبدأ بحاجة صغيرة عن «تحل"
+      },
+      {
+        "depth": 0,
+        "tag": "div",
+        "cls": "rounded-[2rem] bg-white/10 backdrop-blur-xl border border-wh",
+        "top": -53,
+        "h": 1035,
+        "text": "الرياضيات\nمبلغ 15,75 جنيه هو ع"
+      },
+      {
+        "depth": 1,
+        "tag": "div",
+        "cls": "text-[12px] uppercase tracking-widest text-cyan-300 font-bla",
+        "top": -32,
+        "h": 18,
+        "text": "الرياضيات"
+      },
+      {
+        "depth": 1,
+        "tag": "h2",
+        "cls": "text-[22px] font-black leading-snug text-white",
+        "top": -6,
+        "h": 91,
+        "text": "مبلغ 15,75 جنيه هو عبارة عن 10"
+      },
+      {
+        "depth": 1,
+        "tag": "p",
+        "cls": "text-[14px] text-slate-300 mt-2 leading-relaxed",
+        "top": 93,
+        "h": 23,
+        "text": "تحليل الأعداد العشرية إلى قيمه"
+      },
+      {
+        "depth": 1,
+        "tag": "figure",
+        "cls": "mt-4 rounded-2xl border border-white/15 bg-white/5 overflow-",
+        "top": 131,
+        "h": 481,
+        "text": "1\n2\n3\n4\n5\nاضغطي الأرقام لتتعلم"
+      },
+      {
+        "depth": 2,
+        "tag": "div",
+        "cls": "relative",
+        "top": 132,
+        "h": 195,
+        "text": "1\n2\n3\n4\n5"
+      },
+      {
+        "depth": 3,
+        "tag": "img",
+        "cls": "w-full block",
+        "top": 132,
+        "h": 195,
+        "text": ""
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "absolute w-11 h-11 -translate-x-1/2 -translate-y-1/2 rounded",
+        "top": 148,
+        "h": 44,
+        "text": "1"
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "absolute w-11 h-11 -translate-x-1/2 -translate-y-1/2 rounded",
+        "top": 148,
+        "h": 44,
+        "text": "2"
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "absolute w-11 h-11 -translate-x-1/2 -translate-y-1/2 rounded",
+        "top": 148,
+        "h": 44,
+        "text": "3"
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "absolute w-11 h-11 -translate-x-1/2 -translate-y-1/2 rounded",
+        "top": 229,
+        "h": 44,
+        "text": "4"
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "absolute w-11 h-11 -translate-x-1/2 -translate-y-1/2 rounded",
+        "top": 229,
+        "h": 44,
+        "text": "5"
+      },
+      {
+        "depth": 2,
+        "tag": "div",
+        "cls": "px-3 py-2 border-t border-white/10",
+        "top": 327,
+        "h": 176,
+        "text": "اضغطي الأرقام لتتعلمي\n1العشرات"
+      },
+      {
+        "depth": 3,
+        "tag": "div",
+        "cls": "text-[11px] font-black uppercase tracking-widest text-cyan-3",
+        "top": 336,
+        "h": 17,
+        "text": "اضغطي الأرقام لتتعلمي"
+      },
+      {
+        "depth": 3,
+        "tag": "ul",
+        "cls": "grid grid-cols-1 gap-1",
+        "top": 357,
+        "h": 139,
+        "text": "1العشرات مجموعات من عشرة\n2الآح"
+      },
+      {
+        "depth": 2,
+        "tag": "figcaption",
+        "cls": "px-3 py-2 border-t border-white/10",
+        "top": 503,
+        "h": 108,
+        "text": "تحليل العدد العشري إلى قيم منا"
+      },
+      {
+        "depth": 3,
+        "tag": "div",
+        "cls": "flex items-center justify-between gap-2 text-[12px] text-sla",
+        "top": 512,
+        "h": 54,
+        "text": "تحليل العدد العشري إلى قيم منا"
+      },
+      {
+        "depth": 3,
+        "tag": "p",
+        "cls": "mt-1 text-[12px] text-slate-500 leading-snug",
+        "top": 570,
+        "h": 33,
+        "text": "تفكيك العدد العشري إلى مجموع ا"
+      },
+      {
+        "depth": 1,
+        "tag": "div",
+        "cls": "mt-4 space-y-2.5",
+        "top": 628,
+        "h": 216,
+        "text": "30 + 4 + 0,5 + 0,02 + 0,007\n3 "
+      },
+      {
+        "depth": 2,
+        "tag": "button",
+        "cls": "w-full min-h-[44px] px-4 py-3 rounded-2xl text-start text-[1",
+        "top": 628,
+        "h": 47,
+        "text": "30 + 4 + 0,5 + 0,02 + 0,007"
+      },
+      {
+        "depth": 3,
+        "tag": "span",
+        "cls": "",
+        "top": 640,
+        "h": 23,
+        "text": "30 + 4 + 0,5 + 0,02 + 0,007"
+      },
+      {
+        "depth": 2,
+        "tag": "button",
+        "cls": "w-full min-h-[44px] px-4 py-3 rounded-2xl text-start text-[1",
+        "top": 685,
+        "h": 47,
+        "text": "3 + 4 + 5 + 2 + 7"
+      },
+      {
+        "depth": 3,
+        "tag": "span",
+        "cls": "",
+        "top": 697,
+        "h": 23,
+        "text": "3 + 4 + 5 + 2 + 7"
+      },
+      {
+        "depth": 2,
+        "tag": "button",
+        "cls": "w-full min-h-[44px] px-4 py-3 rounded-2xl text-start text-[1",
+        "top": 741,
+        "h": 47,
+        "text": "300 + 40 + 5 + 0,27"
+      },
+      {
+        "depth": 3,
+        "tag": "span",
+        "cls": "",
+        "top": 753,
+        "h": 23,
+        "text": "300 + 40 + 5 + 0,27"
+      },
+      {
+        "depth": 2,
+        "tag": "button",
+        "cls": "w-full min-h-[44px] px-4 py-3 rounded-2xl text-start text-[1",
+        "top": 798,
+        "h": 47,
+        "text": "34 + 527"
+      },
+      {
+        "depth": 3,
+        "tag": "span",
+        "cls": "",
+        "top": 810,
+        "h": 23,
+        "text": "34 + 527"
+      },
+      {
+        "depth": 1,
+        "tag": "div",
+        "cls": "mt-5 flex items-center justify-between gap-2 flex-wrap",
+        "top": 864,
+        "h": 96,
+        "text": "Maths Ministry Techbook pp. 11"
+      },
+      {
+        "depth": 2,
+        "tag": "span",
+        "cls": "text-[12px] text-slate-500 flex items-center gap-1",
+        "top": 877,
+        "h": 18,
+        "text": "Maths Ministry Techbook pp. 11"
+      },
+      {
+        "depth": 3,
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "top": 880,
+        "h": 12,
+        "text": ""
+      },
+      {
+        "depth": 2,
+        "tag": "div",
+        "cls": "flex items-center gap-1",
+        "top": 864,
+        "h": 44,
+        "text": ""
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "min-h-[44px] min-w-[44px] flex items-center justify-center r",
+        "top": 864,
+        "h": 44,
+        "text": ""
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "min-h-[44px] min-w-[44px] flex items-center justify-center r",
+        "top": 864,
+        "h": 44,
+        "text": ""
+      },
+      {
+        "depth": 2,
+        "tag": "div",
+        "cls": "flex items-center gap-2",
+        "top": 916,
+        "h": 44,
+        "text": "علّمني أكتر\nتخطّي"
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "min-h-[44px] px-3 py-2 rounded-xl bg-white/15 text-white tex",
+        "top": 916,
+        "h": 44,
+        "text": "علّمني أكتر"
+      },
+      {
+        "depth": 3,
+        "tag": "button",
+        "cls": "min-h-[44px] px-3 py-2 rounded-xl bg-transparent text-slate-",
+        "top": 916,
+        "h": 44,
+        "text": "تخطّي"
+      }
+    ]
+  }
+}
