@@ -28,6 +28,17 @@ of "Log".
 
 ## Log (newest first)
 
+### 2026-11-12 — Wrong-script answer choices in the feed (PR #148 merged + live-proved)
+- **Defect [V]:** a French-reading child was shown a question whose **answer choices were in Arabic** — unanswerable. Seen live in French (reel "Équations, expressions et variables" with Arabic options), then measured in code: **31/84** generated French question reels and **14/126** Arabic ones had choices in the wrong script. Root cause: `buildReelsForConcept` guarded `hook`/`show`/`noorLine` with `readableByChild` but not the answer options, and the French-track maths/science lessons store their exercises in Arabic.
+- **Fix [V]:** `reelGenerator.ts` now skips any question-capable exercise whose choices are not all in the child's own script, so an unanswerable question is never shown. That changed the pool contents and exposed a latent bug in `feedQueue.ts`: the rule-1 "sure win" swap could place two same-kind reels back-to-back. It now moves a winnable reel to the front only when rule 2 (no repeat kind) stays intact. `reels.test.ts` gains 14.2 (queued questions) and 14.3 (every generated question); both fail before the change (14.2: 1/2/2; 14.3: 14/31/31) and pass after.
+- **Gate [V]:** `npx tsc --noEmit` = 0; `npm test` exit 0 (reels 134 passed/0 failed, interactiveReel 29/0); `npm run build` exit 0; `git diff --check` clean. PR #148 CI `verify` = success.
+- **Merge [V]:** PR #148 squash-merged to `main` as `f6939449c7fb4b658f576183cc9951a73ec77d99` via the GitHub API. Post-merge CI on `f6939449` = `verify` success. PRs #7/#8 untouched.
+- **Deploy [V]:** Vercel production deployment for `f6939449c7` is **READY** (`amina-6odfaan2i-forge-fe22.vercel.app`); alias `amina-nine-sepia.vercel.app` serves it.
+- **Live proof [V]:** live `/assets/index-BFNog_hu.js` SHA-256 `98d4e3a10facb9d7ec734b00a5b691ef323d4660e9602b84d3ac6a267dda3573` == local `dist/assets/index-BFNog_hu.js` (both 1611828 bytes). Drove the live app with Playwright at 390x844 fr-FR: **0** Arabic-option reels (2 question reels, both Latin); 0 page errors.
+- **Trade-off (documented, honest):** French-track concepts with an interactive question drop 53→26 because those lessons store Arabic exercises and have no French exercise data. Every concept still reaches the child through narration reels (`hook_question`/`story_analogy`/`teach_card`). Removing an unanswerable question is correct; writing French exercises is the follow-up (below).
+- **Next:** write French (and English) exercise choices for the French-track maths/science/ICT lessons so interactivity is restored in the child's language; keep BL-4 (below) in mind. Inbox seq 3 is a `task` but references `guard.py`, `docs/BACKLOG.md`, `docs/LOOP.md`, none of which exist in this repo — cross-project infrastructure, not applicable here; already acked at `seq 3`.
+- **Blockers:** none.
+
 ### 2026-11-11 — Internal Noor identifier cleanup (PR #146 reconciliation)
 - **State first [V]:** reconciled onto current `main` at `cfb21c23a0282db9fc3eb0d11c326affbea3ce70` using a merge commit; no force-push or history rewrite. PR #144 feed reachability changes are preserved.
 - **Implementation [V]:** PR #146 merged as `75473318639989f2a7b4e6a7398498c8971c2ad2`. Renamed curriculum API methods and context constant to Noor, moved the config to `noorCurriculumConfig.ts`, updated call sites/tests, and deleted the obsolete config path.
