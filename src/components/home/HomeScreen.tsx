@@ -56,7 +56,6 @@ export const HomeScreen: React.FC = () => {
     plannerExplanation,
     startMission,
     closeMissionRunner,
-    regenerateMissionsForToday,
     saveDayRecord,
     setActiveTab,
     currentDailyReview,
@@ -76,7 +75,6 @@ export const HomeScreen: React.FC = () => {
 
   const [showReconstructionModal, setShowReconstructionModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedDuration, setSelectedDuration] = useState<number>(45);
 
   const studentName = student?.name || '';
   const gradeLabel = student?.grade || (isArabic ? 'الصف الخامس الابتدائي 🇪🇬' : 'Grade 5 Primary 🇪🇬');
