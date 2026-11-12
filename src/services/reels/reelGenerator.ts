@@ -157,6 +157,19 @@ function preferExercisesInLanguage(
     .map((x) => x.item);
 }
 
+/**
+ * True when the child can answer the exercise: every one of its choices must be
+ * in a script they can read. A bilingual lesson can pair a prompt the child can
+ * read with choices written for the other track (an Arabic maths exercise under
+ * a French prompt), leaving an unanswerable question on screen. The choices are
+ * always shown, so they are the guard; the prompt itself is checked where it is
+ * displayed (the `show` field) by `readableByChild`. Such an exercise is skipped
+ * rather than shown.
+ */
+function readableExercise(options: ReelOption[], lang: Language): boolean {
+  return options.every((o) => readableByChild(o.text, lang));
+}
+
 /** Deterministic id so tests and React keys are stable. */
 function reelId(lessonId: string, conceptId: string, kind: ReelKind, index: number): string {
   return `${lessonId}__${conceptId}__${kind}__${index}`;
@@ -197,12 +210,16 @@ export function buildReelsForConcept(
   const sourceText = nonEmpty(lang === 'fr' ? concept.sourceTextFr : undefined, concept.sourceText);
   const keyPoint = concept.keyPoints && concept.keyPoints.length ? concept.keyPoints[0] : '';
 
-  // Collect question-capable exercises once, ordered so the child's own
-  // language comes first (a bilingual lesson can mix Arabic and French).
+  // Collect question-capable exercises once. An exercise whose choices are
+  // written for the other track cannot be answered (an Arabic maths exercise
+  // under a French prompt), so it is excluded rather than shown: a question with
+  // unreadable choices is worse than no question. Exercises in the child's own
+  // language come first.
   const usableExercises = preferExercisesInLanguage(
     lesson.exercises
       .map((ex) => ({ ex, options: exerciseToOptions(ex) }))
-      .filter((x): x is { ex: CurriculumExercise; options: ReelOption[] } => x.options !== null),
+      .filter((x): x is { ex: CurriculumExercise; options: ReelOption[] } => x.options !== null)
+      .filter((x) => readableExercise(x.options, lang)),
     lang
   );
 

@@ -88,20 +88,6 @@ function reelsForLesson(
   return out;
 }
 
-/** Picks the first reel that gives the child a fair, winnable start. */
-function firstSureWin(pools: Reel[][], lang: Language): Reel | undefined {
-  for (const pool of pools) {
-    for (const reel of pool) {
-      // Prefer a question the child can answer; fall back to any reel.
-      if (reel.options && reel.options.some((o) => o.isCorrect)) return reel;
-    }
-  }
-  for (const pool of pools) {
-    if (pool.length) return pool[0];
-  }
-  return undefined;
-}
-
 /**
  * Rotates a list left by `n`, wrapping. A session only consumes the first few
  * reels of a pool, so without rotation the tail of a subject (e.g. the four
@@ -327,16 +313,29 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
     if (!added) break;
   }
 
-  // Rule 1: the first reel must be a sure win. Swap the first winnable reel in.
-  const sureWin = firstSureWin(
-    [chosen.filter((r) => r.options), chosen],
-    lang
-  );
-  if (sureWin && chosen.length && chosen[0].id !== sureWin.id) {
-    const at = chosen.findIndex((r) => r.id === sureWin.id);
-    if (at > 0) {
-      const [reel] = chosen.splice(at, 1);
-      chosen.unshift(reel);
+  // Rule 1: the first reel must be a sure win. Move a winnable reel in — but
+  // only a move that keeps rule 2 (no repeat kind back-to-back) intact. The
+  // old unconditional swap could bring two same-kind reels together, and the
+  // child then saw two identical cards in a row.
+  const isSureWin = (r: Reel) => Boolean(r.options && r.options.some((o) => o.isCorrect));
+  const swapKeepsKindsDistinct = (arr: Reel[], from: number): boolean => {
+    const copy = arr.slice();
+    const [reel] = copy.splice(from, 1);
+    copy.unshift(reel);
+    for (let i = 1; i < copy.length; i++) {
+      if (copy[i].kind === copy[i - 1].kind) return false;
+    }
+    return true;
+  };
+  if (chosen.length && !isSureWin(chosen[0])) {
+    for (const candidate of chosen) {
+      if (!isSureWin(candidate)) continue;
+      const at = chosen.findIndex((r) => r.id === candidate.id);
+      if (at > 0 && swapKeepsKindsDistinct(chosen, at)) {
+        const [reel] = chosen.splice(at, 1);
+        chosen.unshift(reel);
+        break;
+      }
     }
   }
 
