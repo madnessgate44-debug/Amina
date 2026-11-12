@@ -498,6 +498,46 @@ function run() {
       wrongScript.length === 0,
       `14.1 [${lang}]: no queued reel is in the wrong script (${wrongScript.length})`
     );
+
+    // 14.2 — the answer OPTIONS are read by the child too. A bilingual lesson
+    // (the French-track maths/science books) pairs an Arabic prompt with Arabic
+    // choices; a French child was shown a readable question over choices written
+    // in the other script, so the question could not be answered. Every queued
+    // question must offer only choices the child can read.
+    const wrongOptionReels = q.reels.filter((r) => {
+      if (!r.options || r.options.length === 0) return false;
+      return r.options.some((o) => {
+        const s = scriptOf(o.text);
+        return s !== 'other' && s !== wanted[lang];
+      });
+    });
+    assert(
+      wrongOptionReels.length === 0,
+      `14.2 [${lang}]: no queued question shows choices in the wrong script (${wrongOptionReels.length})`
+    );
+
+    // 14.3 — the same guarantee for EVERY reel the generator can build, not only
+    // the handful a session queues, so a future queue change cannot re-expose it.
+    let genWrongOptions = 0;
+    for (const lesson of curriculumService.getAvailableLessons()) {
+      for (const concept of lesson.concepts) {
+        for (const reel of buildReelsForConcept(lesson, concept, lang, {})) {
+          if (!reel.options || reel.options.length === 0) continue;
+          if (
+            reel.options.some((o) => {
+              const s = scriptOf(o.text);
+              return s !== 'other' && s !== wanted[lang];
+            })
+          ) {
+            genWrongOptions++;
+          }
+        }
+      }
+    }
+    assert(
+      genWrongOptions === 0,
+      `14.3 [${lang}]: no generated question offers choices in the wrong script (${genWrongOptions})`
+    );
   }
 
   // ---- 15. Arabic misconception content reaches more than maths ----
