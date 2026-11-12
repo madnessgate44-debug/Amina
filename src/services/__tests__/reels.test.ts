@@ -592,6 +592,39 @@ function run() {
     }
   }
 
+  // ---- 16. A Latin-script feed never leaks the other Latin language ----
+  // Section 13 only covers French-INSTRUCTED lessons. But a French feed also
+  // reaches lessons instructed in Arabic or English (social studies, the
+  // English reader, Arabic language), whose `fr` fields fall back to the
+  // English text. The script guard cannot see that: English and French are both
+  // Latin. A French child was therefore shown whole English sentences. This
+  // scans EVERY reel of the fr and en feeds, across every pool, and fails when
+  // a reel carries decisive markers of the other Latin language.
+  const EN_WORDS = /\b(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|is|was|were|will|has|have|can|how|what|which|its|their|they|them|we|our|us|but|if|when|where|who|all|some|more|most|other|into|over|after|before|because|through|between|during|about|than|then|there|these|those|she|he|his|her|not|be|by|at|it|an|so|up|out|down|off)\b/i;
+  const FR_WORDS = /\b(le|la|les|de|des|une|un|est|pour|dans|avec|que|qui|sur|pas|comme|ton|ta|tes|ce|cette|ces|nous|vous|au|aux|du|se|son|sa|ses|et|sont|par|mais|tout|tous|toute|bien|ont|il|elle|ils|elles|quand|dont|entre|vers|chez|sans|sous|aussi|encore|très|peu|beaucoup|toujours|jamais|leur|leurs|notre|nos|votre|vos|mon|ma|mes|moi|toi|lui|été|avait|avoir|faire|fait|moins|donc|car|ni|était|étaient|sera|serait|celui|celle|alors|ainsi|autre|autres|même)\b/i;
+  for (const lang of ['fr', 'en'] as const) {
+    const feed = buildFeedQueue({
+      studentId: `stu_lang_${lang}_all`,
+      language: lang,
+      mastery,
+      dueReviews: [],
+      todaySubjects: ['Mathematics', 'Science', 'French', 'Social Studies', 'English', 'Information Technology', 'Arabic'],
+      sessionMinutes: 30,
+    });
+    const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
+    const leakyReels = feed.reels
+      .filter((reel) => reel.kind !== 'win_closer')
+      .filter((reel) => {
+        const text = `${reel.hook} ${reel.noorLine} ${reel.show || ''} ${(reel.options || []).map((o) => o.text).join(' ')}`;
+        return wrongLatin.test(text);
+      })
+      .map((reel) => `${reel.lessonId}/${reel.kind}`);
+    assert(
+      leakyReels.length === 0,
+      `16.1 [${lang}]: no reel leaks the other Latin language (${leakyReels.length}: ${leakyReels.slice(0, 4).join(', ')})`
+    );
+  }
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');
