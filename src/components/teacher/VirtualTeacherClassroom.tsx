@@ -342,8 +342,9 @@ export const VirtualTeacherClassroom: React.FC = () => {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [soundEnabled, setSoundEnabled] = useState(!soundEffects.getMuted());
 
-  // Interactive Classroom Station: 'diagnostic' | 'chalkboard' | 'recheck' | 'quiz' | 'vocab' | 'ask'
-  const [activeStation, setActiveStation] = useState<'diagnostic' | 'chalkboard' | 'recheck' | 'quiz' | 'vocab' | 'ask'>('diagnostic');
+  // Start with a teacher-led explanation. Diagnosis is a supporting step,
+  // not the learner's default first experience.
+  const [activeStation, setActiveStation] = useState<'diagnostic' | 'chalkboard' | 'recheck' | 'quiz' | 'vocab' | 'ask'>('chalkboard');
 
   // Chalkboard Deep Explanation Sub-Tab: 'hook' | 'chalkboard' | 'analogy' | 'discussion'
   const [explanationSubTab, setExplanationSubTab] = useState<'hook' | 'chalkboard' | 'analogy' | 'discussion'>('hook');
