@@ -22,6 +22,7 @@
 import { readFileSync, existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { MEDIA_CATALOG, mediaForConcept } from '../../data/media/mediaCatalog';
+import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept } from '../reels/reelGenerator';
 import { EducationalMediaItem, localized } from '../../types/media';
@@ -48,13 +49,24 @@ function main() {
   const allConcepts = curriculumService.getAllLessons().flatMap((lesson) =>
     lesson.concepts.map((concept) => ({ lessonId: lesson.id, conceptId: concept.id }))
   );
-  const uncoveredConcepts = allConcepts.filter(({ lessonId, conceptId }) =>
+  const existingConcepts = allConcepts.filter(({ lessonId }) => !lessonId.startsWith('off_scifr_2026_'));
+  const uncoveredConcepts = existingConcepts.filter(({ lessonId, conceptId }) =>
     mediaForConcept(lessonId, conceptId).length === 0
   );
   check(
-    'all 54 curriculum concepts have authored media',
-    allConcepts.length === 54 && uncoveredConcepts.length === 0,
+    'all 54 existing curriculum concepts retain authored media',
+    existingConcepts.length === 54 && uncoveredConcepts.length === 0,
     uncoveredConcepts.map((x) => `${x.lessonId}/${x.conceptId}`).join(', ')
+  );
+
+  const currentScienceConcepts = SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts);
+  const scienceWithoutDiagramFallback = currentScienceConcepts.filter(
+    (concept) => concept.visualType !== 'diagram' || !concept.visualPrompt?.trim()
+  );
+  check(
+    'all 28 new Science concepts have a structured diagram fallback',
+    currentScienceConcepts.length === 28 && scienceWithoutDiagramFallback.length === 0,
+    scienceWithoutDiagramFallback.map((concept) => concept.id).join(', ')
   );
 
   check('the catalog has media to check', MEDIA_CATALOG.length >= 3, `found ${MEDIA_CATALOG.length}`);
