@@ -1465,53 +1465,12 @@ export const VirtualTeacherClassroom: React.FC = () => {
           </div>
         </div>
 
-        {/* Teacher Outfit Wardrobe Chips */}
-        <div className="mt-3 pt-2 border-t border-indigo-800/60 flex items-center justify-between text-xs text-indigo-200 flex-wrap gap-1">
-          <span className="flex items-center gap-1 font-bold text-amber-300 text-xs">
-            <Shirt className="w-3 h-3" />
-            <span>{isArabic ? 'زي المعلمة:' : "Outfit:"}</span>
-          </span>
-          <div className="flex items-center gap-1 flex-wrap">
-            {[
-              { id: 'arabic' as SubjectOutfit, label: 'عربي 📜' },
-              { id: 'math' as SubjectOutfit, label: 'رياضيات 📐' },
-              { id: 'science' as SubjectOutfit, label: 'علوم 🔬' },
-              { id: 'english' as SubjectOutfit, label: 'إنجليزي 🇬🇧' },
-              { id: 'social_studies' as SubjectOutfit, label: 'دراسات 🧭' },
-              { id: 'islamic' as SubjectOutfit, label: 'دين 🕌' },
-            ].map((outfit) => (
-              <button
-                key={outfit.id}
-                type="button"
-                onClick={() => {
-                  soundEffects.playPop();
-                  setCurrentOutfit(outfit.id);
-                  const msg = isArabic
-                    ? `غيرت زي مس نور لمادة ${outfit.label.split(' ')[0]}! جاهزة يا ${studentName}؟`
-                    : `Switched outfit for ${outfit.label}! Ready, ${studentName}?`;
-                  speakText(msg, 'excited');
-                }}
-                className={`min-h-[44px] px-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  currentOutfit === outfit.id
-                    ? 'bg-amber-400 text-slate-950 shadow-xs'
-                    : 'bg-white/10 hover:bg-white/20 text-indigo-100'
-                }`}
-              >
-                {outfit.label}
-              </button>
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* 4. MAIN CLASSROOM STATIONS SELECTOR TABS */}
-      <div className="grid grid-cols-5 gap-1 p-1 bg-slate-200/80 dark:bg-slate-800/90 rounded-2xl">
+      {/* Learner-facing choices stay natural; diagnosis and re-check remain teacher-managed. */}
+      <div className="grid grid-cols-3 gap-2 rounded-2xl bg-slate-200/80 p-1.5 dark:bg-slate-800/90">
         {[
-          { id: 'chalkboard', labelAr: '1. الشرح الموجه', labelEn: '1. Teaching', icon: '👩‍🏫' },
-          { id: 'diagnostic', labelAr: '2. التشخيص', labelEn: '2. Diagnosis', icon: '🩺' },
-          { id: 'recheck', labelAr: '3. فحص الإتقان', labelEn: '3. Re-Check', icon: '🎯' },
-          { id: 'quiz', labelAr: '4. تمارين الوزارة', labelEn: '4. Exercises', icon: '⭐' },
-          { id: 'ask', labelAr: '5. اسألي نور', labelEn: '5. Ask Noor', icon: '💬' },
+          { id: 'chalkboard', labelAr: 'نتعلم معاً', labelEn: 'Learn with Noor', icon: '👩‍🏫' },
+          { id: 'quiz', labelAr: 'لنجرب', labelEn: "Let's practise", icon: '⭐' },
+          { id: 'ask', labelAr: 'اسألي نور', labelEn: 'Ask Noor', icon: '💬' },
         ].map((tab) => {
           const isActive = activeStation === tab.id;
           return (
@@ -1522,16 +1481,14 @@ export const VirtualTeacherClassroom: React.FC = () => {
                 soundEffects.playPop();
                 setActiveStation(tab.id as any);
               }}
-              className={`py-2 px-0.5 rounded-xl text-center transition-all flex flex-col items-center gap-0.5 cursor-pointer ${
+              className={\`min-h-12 rounded-xl px-2 py-2 text-center transition-all flex flex-col items-center justify-center gap-0.5 cursor-pointer \${
                 isActive
-                  ? 'bg-indigo-600 text-white shadow-md font-black scale-[1.02]'
+                  ? 'bg-indigo-600 text-white shadow-md font-black'
                   : 'text-slate-600 dark:text-slate-300 hover:bg-white/60 dark:hover:bg-slate-700/60 font-bold'
-              }`}
+              }\`}
             >
               <span className="text-base">{tab.icon}</span>
-              <span className="text-xs sm:text-xs leading-tight truncate">
-                {isArabic ? tab.labelAr : tab.labelEn}
-              </span>
+              <span className="text-xs leading-tight">{isArabic ? tab.labelAr : tab.labelEn}</span>
             </button>
           );
         })}
