@@ -4,11 +4,12 @@
  */
 
 /**
- * Guards the curriculum registry against a whole book being written but never
- * registered. This is not hypothetical: `mathCurriculum.ts` (12 lessons) and
- * `scienceCurriculum.ts` (3 lessons) were exported and imported nowhere, so
- * most of both Ministry books was unreachable in the app while the audit
- * reported only the handful of lessons that happened to load.
+ * Guards registry identity, source-page mapping, and French teaching contracts.
+ *
+ * Important: this suite does NOT claim that the current digitized records are
+ * complete books. The independent Ministry TOC manifest lists 46 Maths lessons
+ * and 9 Science chapters; the current code arrays contain only 12 Maths records
+ * and 3 Science records, and the Science titles do not match the current TOC.
  */
 
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
@@ -45,18 +46,53 @@ const missing = [...MATH_CURRICULUM_LESSONS, ...SCIENCE_CURRICULUM_LESSONS].filt
 check('1.1 no Ministry maths or science lesson is orphaned from the registry', missing.length === 0);
 if (missing.length > 0) console.error('   orphaned:', missing);
 
-// 2. The two books are far wider than the French-section extract, so the
-//    registry must carry more of them than the extract alone.
-const mathRegistered = OFFICIAL_CURRICULUM_LESSONS.filter((l) => l.subjectId === 'subj_math');
-const scienceRegistered = OFFICIAL_CURRICULUM_LESSONS.filter((l) => l.subjectId === 'subj_science');
+// 2. The independent Ministry TOC manifest defines the real denominators.
+//    These are inventory guards, not a claim that the current code is complete.
+const EXPECTED_MATH_TOC_LESSONS = 46;
+const EXPECTED_SCIENCE_TOC_CHAPTERS = 9;
+const ministryMathRegistered = OFFICIAL_CURRICULUM_LESSONS.filter(
+  (lesson) => MATH_CURRICULUM_LESSONS.some((source) => source.id === lesson.id),
+);
+const ministryScienceRegistered = OFFICIAL_CURRICULUM_LESSONS.filter(
+  (lesson) => SCIENCE_CURRICULUM_LESSONS.some((source) => source.id === lesson.id),
+);
 
 check(
-  `2.1 maths carries the full Ministry book, not just the extract (${mathRegistered.length} lessons)`,
-  mathRegistered.length >= MATH_CURRICULUM_LESSONS.length,
+  `2.1 all current Ministry Maths source records are registered exactly once (${MATH_CURRICULUM_LESSONS.length} source records)`,
+  ministryMathRegistered.length === MATH_CURRICULUM_LESSONS.length &&
+    new Set(ministryMathRegistered.map((lesson) => lesson.id)).size === MATH_CURRICULUM_LESSONS.length,
 );
 check(
-  `2.2 science carries the full Ministry book, not just the extract (${scienceRegistered.length} lessons)`,
-  scienceRegistered.length >= SCIENCE_CURRICULUM_LESSONS.length,
+  `2.2 all current Ministry Science source records are registered exactly once (${SCIENCE_CURRICULUM_LESSONS.length} source records)`,
+  ministryScienceRegistered.length === SCIENCE_CURRICULUM_LESSONS.length &&
+    new Set(ministryScienceRegistered.map((lesson) => lesson.id)).size === SCIENCE_CURRICULUM_LESSONS.length,
+);
+
+const mathCoverageGap = EXPECTED_MATH_TOC_LESSONS - MATH_CURRICULUM_LESSONS.length;
+const scienceChapterTitles = [
+  'Les os et les muscles',
+  'Les changements des saisons',
+  'Les conditions de germination',
+  'Les conditions de croissance',
+  'De la fleur au fruit',
+  'La croissance et la reproduction humaines',
+  'La croissance et la reproduction des animaux',
+  'Les changements météorologiques',
+  'Le cycle de l’eau',
+];
+const scienceTocTitleMatches = SCIENCE_CURRICULUM_LESSONS.filter((lesson) =>
+  scienceChapterTitles.includes(lesson.titleFr || lesson.titleEn),
+).length;
+check(
+  `2.3 Maths source inventory remains explicitly short of the 46-lesson TOC (${mathCoverageGap} not yet represented)`,
+  mathCoverageGap >= 0 && MATH_CURRICULUM_LESSONS.length < EXPECTED_MATH_TOC_LESSONS,
+);
+check(
+  `2.4 Science source records are not falsely counted as the 9 Ministry chapters (${scienceTocTitleMatches} title matches)`,
+  scienceTocTitleMatches < EXPECTED_SCIENCE_TOC_CHAPTERS,
+);
+console.log(
+  `[CURRICULUM COVERAGE — NOT COMPLETE] Maths: ${MATH_CURRICULUM_LESSONS.length}/${EXPECTED_MATH_TOC_LESSONS} TOC lessons; Science: ${SCIENCE_CURRICULUM_LESSONS.length} legacy/source records, ${scienceTocTitleMatches}/${EXPECTED_SCIENCE_TOC_CHAPTERS} chapter-title matches.`,
 );
 
 // 3. A topic may appear once per language track but no more, so the fuller
@@ -73,6 +109,37 @@ const duplicateTopics = (lessons: typeof MATH_CURRICULUM_LESSONS) => {
 const dupes = [...duplicateTopics(mathRegistered), ...duplicateTopics(scienceRegistered)];
 check('3.1 no lesson title appears twice within a subject', dupes.length === 0);
 if (dupes.length > 0) console.error('   duplicates:', dupes);
+
+// 3.1a source pages are checked against a fixed audit fixture, not read back
+//      from the same arrays used to build the registry.
+const expectedSourcePageById: Record<string, number> = {
+  off_math_u1_l1: 3,
+  off_math_u1_l2: 7,
+  off_math_u1_l3: 11,
+  off_math_u1_l4: 15,
+  off_math_u1_l5: 17,
+  off_math_u2_l1: 44,
+  off_math_u2_l4: 51,
+  off_math_u2_l5: 54,
+  off_math_u2_l7: 59,
+  off_math_u3_l1: 65,
+  off_math_u3_l3: 72,
+  off_math_u6_l1: 121,
+  off_sci_u1_l1_plant_needs: 10,
+  off_sci_u1_l2_ecosystem: 20,
+  off_sci_u1_l3_coral_bleaching: 34,
+};
+const wrongSourcePages = [...MATH_CURRICULUM_LESSONS, ...SCIENCE_CURRICULUM_LESSONS]
+  .filter((lesson) => expectedSourcePageById[lesson.id] !== lesson.sourceRef.page);
+check(
+  `3.1a current Ministry records retain the independently audited source page (${wrongSourcePages.length} wrong)`,
+  wrongSourcePages.length === 0,
+);
+if (wrongSourcePages.length > 0) {
+  console.error('   wrong source pages:', wrongSourcePages.map((lesson) => ({
+    id: lesson.id, expected: expectedSourcePageById[lesson.id], actual: lesson.sourceRef.page,
+  })));
+}
 
 // 3.2 the ids the app targets directly must still resolve.
 const loadBearing = ['off_mathfr_u1_l1_decimaux', 'off_math_u1_l1', 'off_scifr_u1_l1_plantes', 'off_sci_u1_l1_plant_needs'];
