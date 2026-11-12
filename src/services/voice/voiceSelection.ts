@@ -25,6 +25,18 @@ export interface VoiceLike {
 const LANG_PREFIX: Record<string, string> = { ar: 'ar', fr: 'fr', en: 'en' };
 
 /**
+ * BCP-47 tag handed to speech recognition and speech synthesis for an app
+ * language. A French child must be recognised as speaking French: the old
+ * `language === 'ar' ? 'ar-EG' : 'en-US'` sent French audio to the English
+ * recogniser, so a spoken French answer never matched.
+ */
+export function speechLangFor(language: string): string {
+  if (language === 'ar') return 'ar-EG';
+  if (language === 'fr') return 'fr-FR';
+  return 'en-US';
+}
+
+/**
  * Regional variants in descending preference. Egyptian Arabic first because the
  * learner is in Alexandria; a generic `ar` voice is still far better than none.
  */

@@ -13,7 +13,7 @@
 
 import assert from 'node:assert';
 import { readFileSync } from 'node:fs';
-import { pickBestVoice, hasVoiceForLanguage, VoiceLike } from '../voice/voiceSelection';
+import { pickBestVoice, hasVoiceForLanguage, speechLangFor, VoiceLike } from '../voice/voiceSelection';
 import { getQuizQuestionsForConcept, getReelForConcept, realQuestionsForConcept } from '../content/contentGenerator';
 import { personalizeNoorText } from '../stage/personalizeNoorText';
 
@@ -74,6 +74,30 @@ test('1.5 French prefers fr-FR and does not steal an English voice', () => {
 test('1.6 no voices loaded yet is reported as unavailable, not as success', () => {
   assert.strictEqual(hasVoiceForLanguage([], 'ar'), false);
   assert.strictEqual(pickBestVoice([], 'ar'), undefined);
+});
+
+test('1.7 speech recognition gets the child language, not English (fr regression)', () => {
+  // The live defect: `language === 'ar' ? 'ar-EG' : 'en-US'` sent French audio
+  // to the English recogniser, so a spoken French answer never matched.
+  assert.strictEqual(speechLangFor('fr'), 'fr-FR');
+  assert.strictEqual(speechLangFor('ar'), 'ar-EG');
+  assert.strictEqual(speechLangFor('en'), 'en-US');
+});
+
+test('1.8 the STT and TTS paths both use speechLangFor, so they cannot drift', () => {
+  const src = readFileSync(new URL('../voice/voiceService.ts', import.meta.url), 'utf8');
+  assert.ok(
+    src.includes('const targetLang = speechLangFor(language)'),
+    'startListening must derive its recognition language from speechLangFor'
+  );
+  assert.ok(
+    src.includes('utterance.lang = speechLangFor(language)'),
+    'speak() must derive its utterance language from speechLangFor'
+  );
+  assert.ok(
+    !src.includes("language === 'ar' ? 'ar-EG' : 'en-US'"),
+    'the old English-for-French mapping must be gone'
+  );
 });
 
 // ---------------------------------------------------------------------------
