@@ -26,6 +26,7 @@ export const NourCharacter: React.FC<NourCharacterProps> = ({
   size = 'md',
   onClick,
 }) => {
+  const uid = useId().replace(/:/g, '');
   const sizeMap = {
     sm: 'w-24 h-28',
     md: 'w-36 h-44 sm:w-44 sm:h-52',
