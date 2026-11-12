@@ -231,3 +231,18 @@ It defines source acquisition, canonical lesson reconciliation, complete French 
 The 12 November French assessment layer contains **26 items** (20 Maths and 6 Science) across 15 Ministry-source lesson records. This corrects the earlier sentence in this report that said 25. The 26 items remain unverified against the complete original PDFs and do not constitute complete lesson or book coverage.
 
 **Current status remains: all three subjects NOT COMPLETE.**
+
+
+## Teaching-engine remediation — 12 November 2026
+
+A further French-language teaching defect was corrected in the application code:
+
+- Added `keyPointsFr` to the curriculum concept type.
+- Added structured French key points for all 12 current Ministry Maths concepts and all 3 current Ministry Science concepts.
+- Updated `CurriculumService` to merge French key-point overlays into canonical concepts.
+- Updated the teaching session engine to select French concept titles, French source summaries, and French key points when the learner language is French. When a French key-point array is absent, it uses the French source summary rather than Arabic key points.
+- Extended the curriculum registry test to require a French title/source overlay for every concept in the three French-track subjects, require French key points for all 15 current Ministry Maths/Science concepts, and exercise a French Science teaching turn with an Arabic-script guard.
+
+**Verification status:** [VERIFIED] The changed files and test assertions are committed on `main`. [UNPROVEN] The TypeScript check and test suite have not been executed in this session; the GitHub workflow-run lookup for the latest direct-main commit returned no runs. This patch improves the current 15 lesson concepts but does not add missing book units, Term 2, or complete the French-language coursebook reconciliation.
+
+The earlier 26-question assessment layer remains a limited practice layer, not a full assessment programme. All three subjects remain **NOT COMPLETE**.
