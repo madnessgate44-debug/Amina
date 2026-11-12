@@ -63,7 +63,7 @@ export function topicTokensOf(text: string): string[] {
       'ايه', 'إيه', 'يعني', 'ليه', 'لماذا', 'كيف', 'ازاي', 'إزاي', 'هل', 'ماذا', 'هو', 'هي',
       'وضح', 'وضحي', 'اشرح', 'اشرحي', 'من', 'في', 'على', 'عن', 'الى', 'مع', 'يا', 'مس',
       'يعمل', 'تعمل', 'يشتغل', 'تشتغل', 'معنى', 'تعريف', 'يعني', 'ايه', 'ازاى',
-      'what', 'why', 'how', 'is', 'are', 'the', 'and', 'explain', 'tell', 'me', 'about', 'a', 'an',
+      'what', 'why', 'how', 'is', 'are', 'the', 'and', 'explain', 'tell', 'me', 'about', 'a', 'an', 'water',
       'pourquoi', 'comment', 'explique', 'est', 'que', 'qui', 'le', 'la', 'les', 'un', 'une', 'de',
     ].map(normalizeText)
   );
