@@ -56,6 +56,8 @@ const ministryMathRegistered = OFFICIAL_CURRICULUM_LESSONS.filter(
 const ministryScienceRegistered = OFFICIAL_CURRICULUM_LESSONS.filter(
   (lesson) => SCIENCE_CURRICULUM_LESSONS.some((source) => source.id === lesson.id),
 );
+const mathRegistered = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.subjectId === 'subj_math');
+const scienceRegistered = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.subjectId === 'subj_science');
 
 check(
   `2.1 all current Ministry Maths source records are registered exactly once (${MATH_CURRICULUM_LESSONS.length} source records)`,
