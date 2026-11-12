@@ -16,6 +16,7 @@
 export interface ConceptFrenchContent {
   titleFr: string;
   sourceTextFr: string;
+  keyPointsFr?: string[];
   dailyLifeExampleFr: string;
   storyAnalogyFr: string;
 }
