@@ -177,7 +177,14 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   const usedLessonIds = new Set([...todayLessons.map((l) => l.id), ...(input.examCalendar || []).flatMap((e) => lessons.filter((l) => l.subjectId === e.entry.subjectId).map((l) => l.id))]);
   const wildcardLessons = lessons.filter((l) => !usedLessonIds.has(l.id));
   const shuffledWild = rng.shuffle(wildcardLessons);
-  for (const lesson of shuffledWild.slice(0, 3)) {
+  // On a first feed the wildcard pool is the ONLY pool with content: a fresh
+  // child has no day record, no mastery and no due reviews, so nothing fills
+  // the 40/30/20/10 pools. A fixed cap of 3 lessons starved that session —
+  // measured 8 reels in Arabic and 4 in French against the 15-reel target of a
+  // 10-minute session. Build enough wildcard lessons to fill the session; the
+  // pools that are already full are unaffected because the wildcard only ever
+  // tops up.
+  for (const lesson of shuffledWild.slice(0, Math.max(3, targetCount))) {
     curiosityLists.push(reelsForLesson(lesson, lang, 'curiosity', dayIndex));
   }
   const curiosityPool = interleave(curiosityLists);
@@ -351,20 +358,38 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   // slotted where it repeats neither the neighbouring kind (rule 2) nor the
   // neighbouring lesson (breadth), and never duplicates a reel already queued.
   if (!chosen.some((r) => r.reason === 'diagnosis')) {
-    const candidate = diagnosisPool.find((r) => !chosen.some((c) => c.id === r.id));
-    if (candidate) {
-      const fits = (i: number, strictLesson: boolean): boolean => {
-        const prev = i > 0 ? chosen[i - 1] : undefined;
-        const next = i < chosen.length ? chosen[i] : undefined;
-        if (prev?.kind === candidate.kind || next?.kind === candidate.kind) return false;
-        if (strictLesson && (prev?.lessonId === candidate.lessonId || next?.lessonId === candidate.lessonId)) return false;
-        return true;
-      };
-      let at = chosen.findIndex((_, i) => i >= 1 && fits(i, true));
-      if (at < 0) at = chosen.findIndex((_, i) => i >= 1 && fits(i, false));
-      if (at < 0) at = chosen.length;
+    const fits = (i: number, candidate: Reel, strictLesson: boolean): boolean => {
+      const prev = i > 0 ? chosen[i - 1] : undefined;
+      const next = i < chosen.length ? chosen[i] : undefined;
+      if (prev?.kind === candidate.kind || next?.kind === candidate.kind) return false;
+      if (strictLesson && (prev?.lessonId === candidate.lessonId || next?.lessonId === candidate.lessonId)) return false;
+      return true;
+    };
+    // Try each diagnosis reel until one can be slotted where it repeats neither
+    // the neighbouring kind (rule 2, hard) nor the neighbouring lesson
+    // (breadth, soft). A candidate whose kind collides everywhere (e.g. the
+    // pool leads with hook_question and every slot neighbours one) is skipped in
+    // favour of one whose kind fits — appending it unconditionally is what put
+    // two same-kind reels back-to-back and broke rule 2.
+    const candidates = diagnosisPool.filter((r) => !chosen.some((c) => c.id === r.id));
+    let placed = false;
+    for (const candidate of candidates) {
+      let at = chosen.findIndex((_, i) => i >= 1 && fits(i, candidate, true));
+      if (at < 0) at = chosen.findIndex((_, i) => i >= 1 && fits(i, candidate, false));
+      if (at < 0) continue;
       chosen.splice(at, 0, candidate);
       composition.diagnosis++;
+      placed = true;
+      break;
+    }
+    if (!placed && candidates.length) {
+      // Last resort: append, but only when it does not repeat the final kind.
+      const candidate = candidates[0];
+      const last = chosen[chosen.length - 1];
+      if (!last || last.kind !== candidate.kind) {
+        chosen.push(candidate);
+        composition.diagnosis++;
+      }
     }
   }
 

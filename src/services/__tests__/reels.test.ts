@@ -696,6 +696,47 @@ function run() {
     `17.3: an unrelated subject label matches no lesson (today_lesson=${unrelated.composition.today_lesson})`
   );
 
+  // ---- 18. A first feed is a full session, not a stub ----
+  // A fresh child has no day record, no mastery and no due reviews, so the
+  // 40/30/20/10 pools are all empty and the wildcard ("curiosity") pool is the
+  // only source. It used to be hard-capped at 3 lessons, which starved the
+  // session: measured 8 reels in Arabic and 4 in French against the 15-reel
+  // target of a 10-minute session. The child got a stub, not a lesson.
+  for (const lang of LANGS) {
+    const fresh = buildFeedQueue({
+      studentId: `fresh_${lang}`,
+      language: lang,
+      mastery: {},
+      dueReviews: [],
+      todaySubjects: [],
+      examCalendar: [],
+      now,
+      sessionMinutes: 10,
+    });
+    const target = Math.max(4, Math.round((10 * 60) / 40));
+    assert(
+      fresh.reels.length >= target,
+      `18.1 [${lang}]: a first feed reaches the session target (${fresh.reels.length} >= ${target})`
+    );
+    assert(
+      fresh.composition.curiosity >= 6,
+      `18.2 [${lang}]: the wildcard pool fills the session (curiosity=${fresh.composition.curiosity})`
+    );
+    let backToBack = 0;
+    for (let i = 1; i < fresh.reels.length; i++) {
+      if (fresh.reels[i].kind === fresh.reels[i - 1].kind) backToBack++;
+    }
+    assert(backToBack === 0, `18.3 [${lang}]: no reel kind repeats back-to-back on a first feed (${backToBack})`);
+    assert(
+      fresh.reels.some((r) => r.reason === 'diagnosis'),
+      `18.4 [${lang}]: the first feed still reaches the diagnosis path`
+    );
+    assert(
+      fresh.reels[fresh.reels.length - 1].kind === 'win_closer',
+      `18.5 [${lang}]: the first feed still ends with a win_closer`
+    );
+  }
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');
