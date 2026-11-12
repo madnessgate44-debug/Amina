@@ -163,3 +163,17 @@ This plan is a work-control document. It does not certify any of the three subje
 **Verification limitation:** code and tests are committed, but no TypeScript/test/build run is available in this execution. These changes repair the current lesson teaching-language path; they do not complete either textbook, do not add Term 2, and do not establish the assigned French language book.
 
 **Next execution gate:** retrieve and inspect the actual Ministry student-book TOCs/pages and assigned French coursebook, then build the canonical full-year lesson manifest before authoring additional lessons.
+
+## 9. Source-book reconciliation checkpoint — 12 November 2026
+
+The new file docs/curriculum/grade-5-2026-2027-french-maths-science-term1-source-manifest.md records the extracted Ministry TOC for the official Term 1 Maths-in-French and Science-in-French books.
+
+**Maths:** [VERIFIED] 46 listed lessons across six units. The app's 12 Ministry-source lesson records are only a subset; four French-extract records still need edition reconciliation.
+
+**Science:** [VERIFIED] nine chapter headings and start pages. [FAILED] none of the six current app Science lesson titles matches the extracted chapter headings. Treat all six current Science records as unverified/possibly wrong-edition content; do not count them as coverage of the 2026–2027 book.
+
+**French language:** [UNVERIFIED] Girard's assigned book and first-/second-foreign-language track. The Ministry first-term Grade 5 book catalogue lists English as the first foreign language, while separate weekly French first/second-language assessments exist.
+
+**Teacher guides:** [BLOCKED] no matching 2026–2027 French-version Ministry teacher guide located yet. Do not substitute another country's teacher guide.
+
+**Immediate next milestone:** extract the lesson-level contents and pages from all nine Science chapters, then build source-verified full lessons. The 46 Maths lessons also need page-level reconciliation and completion. Term 2 remains blocked pending official source books.
