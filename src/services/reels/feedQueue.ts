@@ -25,6 +25,7 @@ import { MasteryRecord } from '../../types/mastery';
 import { SpacedReviewSchedule } from '../../types/spacedReview';
 import { UpcomingExam } from '../../types/examCalendar';
 import { curriculumService } from '../curriculum/curriculumService';
+import { subjectLabelMatchesLesson } from '../curriculum/subjectIdentity';
 import { buildReelsForConcept, buildWinCloser, sourceLabelFor } from './reelGenerator';
 import { matchMisconception, misconceptionText } from '../teaching/skills/teachingSkills';
 import { speaksLanguage } from './reelResponse';
@@ -139,13 +140,18 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   // ---- pool 2: today's school lessons ----
   const todayLists: Reel[][] = [];
   const lessons = curriculumService.getAvailableLessons();
-  const subjectSet = new Set((input.todaySubjects || []).map((s) => s.toLowerCase()));
+  const todaySubjectLabels = input.todaySubjects || [];
   const lessonIdSet = new Set(input.todayLessonIds || []);
+  // Match a lesson to today's subjects through the canonical identity, not an
+  // exact string compare. A day record stores the timetable's display labels
+  // ("الرياضيات بالفرنسية (Maths)") and the server's parser writes the same
+  // shape, while a lesson carries "الرياضيات"; an exact match silently found
+  // nothing, so a French child whose day was French maths got no today's-lesson
+  // pool at all and the feed collapsed to the diagnosis + closer reels.
   const matchedToday = lessons.filter(
     (l) =>
       lessonIdSet.has(l.id) ||
-      subjectSet.has(l.subjectNameEn.toLowerCase()) ||
-      subjectSet.has(l.subjectNameAr.toLowerCase())
+      todaySubjectLabels.some((label) => subjectLabelMatchesLesson(label, l))
   );
   // Rotate the day's lessons by the day index so the tail of a long subject
   // (where the misconception-bearing maths lessons live) is reached over days.
