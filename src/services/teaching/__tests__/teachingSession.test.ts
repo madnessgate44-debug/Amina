@@ -215,14 +215,21 @@ function advance(session: any, input: string) {
     `French teaching turn must use French concept content without Arabic script; resolved=${engine.resolveLanguage('fr', frenchLesson.instructionLanguage || frenchLesson.contentLanguage || frenchLesson.language, 'Oui')}; text=${JSON.stringify(teaching.newTutorTurn.text)}`,
   );
 
-  const understanding = engine.advanceSession({
+  const ask = engine.advanceSession({
     session: teaching.session,
+    studentInput: 'Oui',
+    language: 'fr',
+  });
+  assert(ask.session.currentStep === 'ask', 'French teaching must proceed to the understanding question');
+
+  const understanding = engine.advanceSession({
+    session: ask.session,
     studentInput: frenchPoints.join(' '),
     language: 'fr',
   });
   assert(
     understanding.session.currentStep === 'explain_back',
-    `French understanding check must evaluate French key points; resolved=${engine.resolveLanguage('fr', frenchLesson.instructionLanguage || frenchLesson.contentLanguage || frenchLesson.language, frenchPoints.join(' '))}; step=${understanding.session.currentStep}; response=${JSON.stringify(understanding.newTutorTurn.text)}; points=${JSON.stringify(frenchPoints)}`,
+    'French understanding check must evaluate French key points',
   );
 
   const explainBack = engine.advanceSession({
