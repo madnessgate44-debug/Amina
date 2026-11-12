@@ -176,4 +176,81 @@ function advance(session: any, input: string) {
   assert(leaked.length === 0, `literal \\n leaked in ${leaked.length} tutor turn(s)`);
 }
 
+
+ 
+// French-track regression: greeting, teaching, understanding, explain-back, and visuals
+// must all use French concept data and must not depend on an implicit isFr variable.
+{
+  const frenchLessonId = 'off_math_u1_l1';
+  const frenchLesson = curriculumService.getLessonById(frenchLessonId);
+  if (!frenchLesson || !frenchLesson.concepts[0]) throw new Error('French-track Ministry maths lesson missing');
+  const frenchConcept = frenchLesson.concepts[0];
+  const frenchPoints = frenchConcept.keyPointsFr ?? [];
+  assert(frenchPoints.length >= 2, 'French regression fixture must provide at least two French key points');
+
+  const initialized = engine.initializeSession({
+    studentId: 'student_test_french',
+    lessonId: frenchLessonId,
+    language: 'fr',
+  });
+  assert(
+    initialized.greetingTurn.text.includes('Bonjour') &&
+      !initialized.greetingTurn.text.includes('Maths Ministry Techbook'),
+    'French greeting must not expose the English source-book label',
+  );
+
+  const warmup = engine.advanceSession({
+    session: initialized.session,
+    studentInput: 'Oui',
+    language: 'fr',
+  });
+  const teaching = engine.advanceSession({
+    session: warmup.session,
+    studentInput: 'Oui',
+    language: 'fr',
+  });
+  assert(
+    teaching.newTutorTurn.text.includes(frenchConcept.titleFr ?? '') &&
+      !/[\\u0600-\\u06FF]/.test(teaching.newTutorTurn.text),
+    'French teaching turn must use French concept content without Arabic script',
+  );
+
+  const understanding = engine.advanceSession({
+    session: teaching.session,
+    studentInput: frenchPoints.join(' '),
+    language: 'fr',
+  });
+  assert(
+    understanding.session.currentStep === 'explain_back',
+    'French understanding check must evaluate French key points',
+  );
+
+  const explainBack = engine.advanceSession({
+    session: understanding.session,
+    studentInput: 'Les dixièmes représentent une part sur dix et les centièmes une part sur cent, parce que chaque rang après la virgule devient dix fois plus petit.',
+    language: 'fr',
+  });
+  assert(
+    Boolean(explainBack.session.explainBackEvidence),
+    'French explain-back must execute and capture evidence without a runtime language-reference error',
+  );
+  assert(
+    (explainBack.session.explainBackEvidence?.conceptKeywordMatches ?? 0) > 0,
+    'French explain-back must match the French concept title',
+  );
+  assert(
+    (explainBack.session.explainBackEvidence?.keyPointMatches ?? 0) > 0,
+    'French explain-back must match French key points',
+  );
+
+  const visual = engine.buildStructuredVisual(frenchConcept, frenchLesson, 'fr');
+  assert(
+    visual.titleEn === (frenchConcept.titleFr ?? frenchConcept.titleEn) &&
+      Array.isArray(visual.elements.keyPoints) &&
+      visual.elements.keyPoints.length > 0 &&
+      !/[\\u0600-\\u06FF]/.test(visual.elements.keyPoints.join(' ')),
+    'French structured visual must carry French title and key points',
+  );
+}
+
 console.log('TeachingSession explain-back evidence tests passed.');
