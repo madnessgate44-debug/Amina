@@ -17,6 +17,7 @@ import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurricu
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
 import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
+import { TeachingSessionEngine } from '../teaching/teachingSession';
 
 
 let passed = 0;
@@ -139,10 +140,27 @@ check(
 );
 if (conceptsMissingFrenchOverlay.length > 0) console.error('   missing French overlays:', conceptsMissingFrenchOverlay);
 
-const teachingEngineSource = (await import('../teaching/teachingSession')).TeachingSessionEngine;
+const frenchEngine = new TeachingSessionEngine();
+const frenchStart = frenchEngine.initializeSession({
+  studentId: 'curriculum-regression',
+  lessonId: 'off_sci_u1_l1_plant_needs',
+  language: 'fr',
+});
+const frenchWarmup = frenchEngine.advanceSession({
+  session: frenchStart.session,
+  studentInput: 'Oui',
+  language: 'fr',
+});
+const frenchTeaching = frenchEngine.advanceSession({
+  session: frenchWarmup.session,
+  studentInput: 'Oui',
+  language: 'fr',
+});
+const frenchTeachingText = frenchTeaching.newTutorTurn.text;
 check(
-  '7.2 French teaching engine selects French concept title/source/key points',
-  typeof teachingEngineSource === 'function',
+  '7.2 French Science teaching turn uses French overlay and contains no Arabic script',
+  frenchTeachingText.includes('L’usine alimentaire de la plante verte') &&
+    !/[\\u0600-\\u06FF]/.test(frenchTeachingText),
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
