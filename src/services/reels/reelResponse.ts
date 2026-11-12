@@ -26,6 +26,7 @@ import { Language } from '../../types';
 import { curriculumService } from '../curriculum/curriculumService';
 import { matchMisconception, misconceptionText } from '../teaching/skills/teachingSkills';
 import { normalizeText } from '../teaching/teachingSession';
+import { speaksLanguage } from './languageGuard';
 
 /**
  * Match a spoken transcript against the reel's own options.
@@ -81,21 +82,10 @@ function misconceptionForAnswer(reel: Reel, answerText: string) {
   return matchMisconception(answerText, found.concept.misconceptions);
 }
 
-/**
- * True when `text` is written in the language the child is reading.
- *
- * Misconception text is authored per curriculum track and is not translated, so
- * a French-track entry can be served to a child reading Arabic. Injecting it
- * anyway would put a French sentence in the middle of Noor's Arabic — worse
- * than saying less. When the script does not match, the caller falls through to
- * the model, which can explain in the child's own language.
- */
-export function speaksLanguage(text: string, language: Language): boolean {
-  const hasArabic = /[\u0600-\u06FF]/.test(text);
-  const hasLatin = /[A-Za-zÀ-ÿ]/.test(text);
-  if (language === 'ar') return hasArabic;
-  return hasLatin;
-}
+// The language guard lives in `languageGuard.ts` so the generator, this
+// diagnosis path and the feed's diagnosis pool all share one answer. It is
+// re-exported here because callers already import it from this module.
+export { speaksLanguage } from './languageGuard';
 
 export async function resolveReelResponse(
   params: ResolveReelResponseParams
