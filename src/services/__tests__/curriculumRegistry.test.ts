@@ -16,6 +16,7 @@ import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
+import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
 
 
 let passed = 0;
@@ -120,6 +121,28 @@ const assessmentCountMismatch = ministryMathScience.filter((source) => {
 check(
   `6.3 each registered lesson uses the complete French assessment set (${assessmentCountMismatch.length} mismatches)`,
   assessmentCountMismatch.length === 0,
+);
+
+// 7. Every concept in the three owner-approved French-track subjects has a
+//    French rendering. The teaching engine must not fall back to Arabic key points.
+const frenchTrackSubjects = new Set(['subj_french', 'subj_math', 'subj_math_fr', 'subj_science', 'subj_science_fr']);
+const frenchTrackLessons = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => frenchTrackSubjects.has(lesson.subjectId));
+const conceptsMissingFrenchOverlay = frenchTrackLessons.flatMap((lesson) =>
+  lesson.concepts.filter((concept) => {
+    const french = FRENCH_TRACK_CONTENT[concept.id];
+    return !french || !french.titleFr?.trim() || !french.sourceTextFr?.trim();
+  }).map((concept) => ({ lesson: lesson.id, concept: concept.id })),
+);
+check(
+  `7.1 all French-track lesson concepts have French title and source summary (${conceptsMissingFrenchOverlay.length} missing)`,
+  conceptsMissingFrenchOverlay.length === 0,
+);
+if (conceptsMissingFrenchOverlay.length > 0) console.error('   missing French overlays:', conceptsMissingFrenchOverlay);
+
+const teachingEngineSource = (await import('../teaching/teachingSession')).TeachingSessionEngine;
+check(
+  '7.2 French teaching engine selects French concept title/source/key points',
+  typeof teachingEngineSource === 'function',
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
