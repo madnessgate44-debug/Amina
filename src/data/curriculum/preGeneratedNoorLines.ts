@@ -13,13 +13,14 @@
  * Live model calls are then spent only on the part that must be live: reacting
  * to what this child actually said.
  *
- * GENERATED FILE — do not edit by hand. Regenerate with:
- *   npm run generate:noor-lines
- * The `noorPreGeneratedLines` test fails if a lesson is missing a line, so this
- * file cannot silently fall behind the curriculum.
+ * Base entries are generated with `npm run generate:noor-lines`. Current Science
+ * lessons also receive deterministic source-derived Arabic lines below, so a
+ * newly registered Science lesson does not require a live model or API key.
  *
  * Key format: `${language}:${lessonId}:${conceptIndex}`.
  */
+
+import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
   /** The warm opening for the lesson. */
@@ -305,8 +306,6 @@ const BASE_PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
     "check": "تفتكر إيه هو 'الميزان' اللي لازم حروفنا تستقر عليه عشان خطنا يطلع مظبوط؟"
   }
 };
-
-import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
 
 /**
  * Deterministic Arabic teacher lines for the newly digitised Science lessons.
