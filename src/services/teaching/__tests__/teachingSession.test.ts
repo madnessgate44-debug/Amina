@@ -222,7 +222,7 @@ function advance(session: any, input: string) {
   });
   assert(
     understanding.session.currentStep === 'explain_back',
-    'French understanding check must evaluate French key points',
+    `French understanding check must evaluate French key points; resolved=${engine.resolveLanguage('fr', frenchLesson.instructionLanguage || frenchLesson.contentLanguage || frenchLesson.language, frenchPoints.join(' '))}; step=${understanding.session.currentStep}; response=${JSON.stringify(understanding.newTutorTurn.text)}; points=${JSON.stringify(frenchPoints)}`,
   );
 
   const explainBack = engine.advanceSession({
