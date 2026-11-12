@@ -163,7 +163,22 @@ export const HomeScreen: React.FC = () => {
       {/* Phase 5d: Today with Noor + parent-entered exam countdown */}
       <section className="space-y-2">
         <button
-          onClick={() => setActiveTab('feed')}
+          onClick={() => {
+            const todayLessonsStr = currentDayRecord?.lessonsCovered?.map((l) => `${l.subject}: ${l.topic || ''}`).join(', ') || '';
+            setCompanionContext({
+              source: nextPendingMission ? (nextPendingMission.type === 'homework' ? 'homework' : 'home_next_action') : 'general',
+              missionId: nextPendingMission?.id,
+              lessonId: nextPendingMission?.lessonId,
+              conceptId: nextPendingMission?.conceptId,
+              subjectName: nextPendingMission?.subject,
+              topic: nextPendingMission?.title,
+              notes: nextPendingMission?.whyNow,
+              whyNow: nextPendingMission?.whyNow,
+              schoolDaySummary: todayLessonsStr,
+              reasonWhyRecommended: nextPendingMission?.whyNow,
+            });
+            setActiveTab('companion');
+          }}
           className="w-full rounded-3xl bg-linear-to-br from-violet-600 via-purple-700 to-indigo-800 text-white p-4 shadow-lg flex items-center gap-3 text-start"
         >
           <span className="p-2.5 rounded-2xl bg-white/15 shrink-0">
