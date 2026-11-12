@@ -6,15 +6,14 @@
 /**
  * Guards registry identity, source-page mapping, and French teaching contracts.
  *
- * Important: this suite does NOT claim that the current digitized records are
- * complete books. The independent Ministry TOC manifest lists 46 Maths lessons
- * and 9 Science chapters; the current code arrays contain only 12 Maths records
- * and 3 Science records, and the Science titles do not match the current TOC.
+ * The current Term 1 Science book is represented by 28 numbered French lessons
+ * across nine chapters. Maths remains a partial 12/46 lesson extraction.
  */
 
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
+import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
 import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
@@ -50,6 +49,7 @@ if (missing.length > 0) console.error('   orphaned:', missing);
 //    These are inventory guards, not a claim that the current code is complete.
 const EXPECTED_MATH_TOC_LESSONS = 46;
 const EXPECTED_SCIENCE_TOC_CHAPTERS = 9;
+const EXPECTED_SCIENCE_TOC_LESSONS = 28;
 const ministryMathRegistered = OFFICIAL_CURRICULUM_LESSONS.filter(
   (lesson) => MATH_CURRICULUM_LESSONS.some((source) => source.id === lesson.id),
 );
@@ -71,30 +71,30 @@ check(
 );
 
 const mathCoverageGap = EXPECTED_MATH_TOC_LESSONS - MATH_CURRICULUM_LESSONS.length;
-const scienceChapterTitles = [
-  'Les os et les muscles',
-  'Les changements des saisons',
-  'Les conditions de germination',
-  'Les conditions de croissance',
-  'De la fleur au fruit',
-  'La croissance et la reproduction humaines',
-  'La croissance et la reproduction des animaux',
-  'Les changements météorologiques',
-  'Le cycle de l’eau',
-];
-const scienceTocTitleMatches = SCIENCE_CURRICULUM_LESSONS.filter((lesson) =>
-  scienceChapterTitles.includes(lesson.titleFr || lesson.titleEn),
-).length;
+const science2026Ids = new Set(SCIENCE_FR_CURRICULUM_2026_LESSONS.map((lesson) => lesson.id));
+const science2026Registered = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => science2026Ids.has(lesson.id));
+const expectedLessonsPerChapter: Record<number, number> = { 1: 4, 2: 2, 3: 5, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3 };
+const actualLessonsPerChapter = Array.from({ length: EXPECTED_SCIENCE_TOC_CHAPTERS }, (_, i) =>
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => lesson.unitNumber === i + 1).length,
+);
+const scienceSourcePagesMissing = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => !lesson.sourceRef.page);
 check(
-  `2.3 Maths source inventory remains explicitly short of the 46-lesson TOC (${mathCoverageGap} not yet represented)`,
-  mathCoverageGap >= 0 && MATH_CURRICULUM_LESSONS.length < EXPECTED_MATH_TOC_LESSONS,
+  `2.4 current Science Term 1 contains all ${EXPECTED_SCIENCE_TOC_LESSONS} numbered lessons across nine chapters`,
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.length === EXPECTED_SCIENCE_TOC_LESSONS &&
+    science2026Registered.length === EXPECTED_SCIENCE_TOC_LESSONS &&
+    actualLessonsPerChapter.every((count, index) => count === expectedLessonsPerChapter[index + 1]) &&
+    scienceSourcePagesMissing.length === 0,
 );
 check(
-  `2.4 Science source records are not falsely counted as the 9 Ministry chapters (${scienceTocTitleMatches} title matches)`,
-  scienceTocTitleMatches < EXPECTED_SCIENCE_TOC_CHAPTERS,
+  `2.5 current Science Term 1 French assessment coverage (${SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => !lesson.exercisesByLanguage?.fr || lesson.exercisesByLanguage.fr.length < 2).length} incomplete)`,
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.every((lesson) => lesson.exercisesByLanguage?.fr && lesson.exercisesByLanguage.fr.length >= 2),
+);
+check(
+  `2.6 obsolete French Science lessons are unavailable (${OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_scifr_') && !lesson.id.startsWith('off_scifr_2026_') && lesson.isAvailable).length} incorrectly available)`,
+  OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_scifr_') && !lesson.id.startsWith('off_scifr_2026_')).every((lesson) => !lesson.isAvailable),
 );
 console.log(
-  `[CURRICULUM COVERAGE — NOT COMPLETE] Maths: ${MATH_CURRICULUM_LESSONS.length}/${EXPECTED_MATH_TOC_LESSONS} TOC lessons; Science: ${SCIENCE_CURRICULUM_LESSONS.length} legacy/source records, ${scienceTocTitleMatches}/${EXPECTED_SCIENCE_TOC_CHAPTERS} chapter-title matches.`,
+  `[CURRICULUM COVERAGE] Maths: ${MATH_CURRICULUM_LESSONS.length}/${EXPECTED_MATH_TOC_LESSONS} Term 1 TOC lessons; Science: ${SCIENCE_FR_CURRICULUM_2026_LESSONS.length}/${EXPECTED_SCIENCE_TOC_LESSONS} Term 1 lessons across nine chapters. Maths remains incomplete.`,
 );
 
 // 3. A topic may appear once per language track but no more, so the fuller
