@@ -304,7 +304,7 @@ const BASE_PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
     "explanation": "عشان خطك يبقى جميل، لازم تمسك القلم بزاوية ٤٥ درجة وتخلي السطر هو الميزان اللي بيسند حروفك. حرف الألف في النسخ بيكون واقف مستقيم وهيبة زي النخلة، وفي الرقعة بيميل شوية بخفة ورشاقة. لما تركز في استقامة حروفك وأنت بتكتب واجبك، كراستك هتبقى منظمة وشكلها يفرح زي اللوحة الفنية.",
     "check": "تفتكر إيه هو 'الميزان' اللي لازم حروفنا تستقر عليه عشان خطنا يطلع مظبوط؟"
   }
-};;
+};
 
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
 
@@ -346,3 +346,27 @@ export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...BASE_PRE_GENERATED_NOOR_LINES,
   ...CURRENT_SCIENCE_NOOR_LINES,
 };
+
+
+export function preGeneratedKey(
+  language: string,
+  lessonId: string,
+  conceptIndex: number
+): string {
+  return \`\${language}:\${lessonId}:\${conceptIndex}\`;
+}
+
+/**
+ * The fixed line for a lesson concept, or null when it has not been generated.
+ * A null result is the caller's signal to fall back to a live call.
+ */
+export function getPreGeneratedLine(
+  language: string,
+  lessonId: string,
+  conceptIndex: number,
+  slot: PreGeneratedSlot
+): string | null {
+  const entry = PRE_GENERATED_NOOR_LINES[preGeneratedKey(language, lessonId, conceptIndex)];
+  const value = entry?.[slot];
+  return value && value.trim() ? value : null;
+}
