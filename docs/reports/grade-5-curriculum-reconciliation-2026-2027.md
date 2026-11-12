@@ -106,10 +106,12 @@ The page references below are taken from the app’s own source metadata. They a
 ## Confirmed defects and omissions
 
 ### P0 — French-track maths/science practice is incomplete
-- 30/53 concepts are narration-only for a French-reading child, according to the current status ledger.
-- The app now filters out unreadable Arabic choices rather than presenting unanswerable questions.
-- This is the correct safety behaviour, but it leaves the child without practice on many taught concepts.
-- Remediation: author and independently verify French prompts, distractors, answer keys, explanations and misconception feedback for every assigned French-taught maths/science concept. Do not machine-translate without checking mathematical meaning and curriculum vocabulary.
+- The pre-change status ledger reported 30/53 concepts as narration-only for a French-reading child. That figure has **not** yet been recomputed after the 12 November assessment-language patch.
+- Before the patch, the 12 Ministry Maths and 3 Ministry Science lesson records had Arabic assessment prompts/options despite French instruction/assessment metadata.
+- **Implementation update (12 November 2026):** a French assessment layer now supplies 25 French multiple-choice items across all 15 Ministry Maths/Science lesson records (19 Maths, 6 Science). The registry applies these items to the French-bilingual track. The separate 4-lesson French Maths extract and 3-lesson French Science extract already had French-language exercise text and were left unchanged.
+- A repository test now checks that all 15 Ministry lesson records have a French assessment set, that registered questions/options/answers contain no Arabic-script text, and that the registry uses the complete mapped set.
+- **Not yet proven complete:** these are lesson-level assessment items, not evidence that every individual concept has sufficient practice. The previous 30/53 metric must be recalculated from the runtime feed after the patch; concept-level question coverage, distractor quality, explanations and misconception feedback still need a dedicated audit. Full textbook PDF verification also remains outstanding.
+- Remediation: expand and independently verify French prompts, distractors, answer keys, explanations and misconception feedback for every assigned French-taught maths/science concept. Do not machine-translate without checking mathematical meaning and curriculum vocabulary.
 
 ### P1 — Book coverage is demonstrably partial
 - French language: the timetable lesson record says “Pending Upload”; it has no MCQ exercise.
@@ -144,8 +146,8 @@ The page references below are taken from the app’s own source metadata. They a
 
 | Priority | Work item | Acceptance criterion |
 |---|---|---|
-| P0 | French Maths exercise authoring | Every assigned French Maths concept has at least one verified French exercise with French options and correct answer. |
-| P0 | French Science exercise authoring | Same criterion for every assigned French Science concept. |
+| P0 | French Maths concept-level practice completion | The 12 November lesson-level French assessment layer is in place; every assigned French Maths concept still needs verified French practice, answer keys and feedback. |
+| P0 | French Science concept-level practice completion | The 12 November lesson-level French assessment layer is in place; every assigned French Science concept still needs verified French practice, answer keys and feedback. |
 | P1 | Complete French language source | Pending book upload replaced with a source-verified lesson sequence and exercises. |
 | P1 | Complete English, Arabic, Social Studies and ICT inventories | Every TOC lesson mapped to an app record or explicitly marked not assigned. |
 | P1 | Add missing catalogue subjects only if Girard confirms they are assigned | Library/Research, Family Management/Entrepreneurship, Agriculture/Entrepreneurship mapped lesson by lesson. |
@@ -172,6 +174,16 @@ The page references below are taken from the app’s own source metadata. They a
 
 ### Data-integrity note — concept denominator mismatch
 The current `docs/STATUS.md` reports 30/53 concepts as narration-only and 26/53 as question-eligible for the French path. The curriculum registration/media commits describe 54 concepts in the repository. These denominators are not reconciled in the available ledger. Therefore, 30/53 is reported as the status-ledger measurement, not recomputed as a percentage of all 54 registry concepts. A follow-up diagnostic must export the exact concept IDs included in each denominator and identify the excluded or added concept before publishing a final percentage.
+
+
+## Implementation update — 12 November 2026
+
+The first language defect has been addressed in the repository:
+- Added `src/data/curriculum/frenchAssessment.ts` with French replacements for all 25 existing multiple-choice assessment items in the 12 Ministry Maths and 3 Ministry Science Grade 5 lesson records.
+- Updated `src/data/officialCurriculum.ts` so the French-bilingual registry uses those French items instead of the Arabic source-language prompts/options.
+- Extended `src/services/__tests__/curriculumRegistry.test.ts` with checks for complete lesson-level mapping, absence of Arabic-script assessment text, and exact item-count parity.
+- Static repository check: all 15 source lesson IDs have a matching assessment map; no source IDs are missing or extra; no Arabic-script text was found in the new assessment map.
+- **Verification limitation:** GitHub Actions returned no PR-triggered workflow runs for these direct-main commits, and no local test/build execution was available in this session. Typecheck, test suite, live feed behaviour and the post-change narration-only denominator remain unverified. The patch must not be described as fully closing the concept-level P0 gap.
 
 ## Audit conclusion
 
