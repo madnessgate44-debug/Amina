@@ -188,3 +188,46 @@ The first language defect has been addressed in the repository:
 ## Audit conclusion
 
 **[VERIFIED] Miss Noor has a substantial Grade 5 first-term content base, but it is not a complete or fully reconciled Grade 5 curriculum.** The largest confirmed gap is French-language interactive assessment, followed by incomplete subject-book inventories and missing catalogue subjects. The exact Girard assignment list and the actual source-book TOCs remain **UNVERIFIED**. Do not advertise or label curriculum coverage as complete until the school book list and all assigned books have been reconciled lesson by lesson.
+
+
+## Follow-up audit — full French-track scope confirmed (12 November 2026)
+
+The owner confirmed that the completion target is exactly three Grade 5 subjects: **French language, Mathematics taught in French, and Science taught in French**. The target is the full 2026–2027 school year, including both terms, not only the current Term 1 seed.
+
+### Newly verified content-integrity defect
+
+Inspection of the actual source files shows that the previous assessment patch did **not** make all French-track teaching content French:
+
+- `src/data/officialCurriculum.ts` maps the Ministry Maths and Science source records to French instruction/content/assessment metadata.
+- `mathCurriculum.ts` contains French explanations but mixed Arabic/French exercise and support fields.
+- `scienceCurriculum.ts` contains Arabic objectives, reading text, vocabulary definitions, exercises, and concept support fields.
+- `frenchAssessment.ts` replaces only the exercise arrays for mapped lesson IDs. It does not translate reading text, objectives, vocabulary, concept key points, examples, prerequisites, or misconceptions.
+- The French Maths/Science extracts are also registered under the same subject IDs, creating overlap that must be resolved by canonical source lesson and objective identity.
+
+**Finding: [FAILED] The registry's French content metadata is not currently a reliable guarantee that the learner receives a fully French teaching experience.** The assessment patch is a limited remediation, not a completed French-language content layer.
+
+### French subject source ambiguity
+
+The 2026–2027 Ministry first-term Grade 5 book catalogue lists 15 books, including Maths and Science in French, but does not list a standalone French student textbook. Separate official Ministry Grade 5 French first- and second-foreign-language weekly assessment files are discoverable. The exact French coursebook, language track (first or second foreign language), and annual lesson sequence assigned by Girard remain **UNVERIFIED**.
+
+Do not substitute a Moroccan Grade 5 French syllabus, French CM2, or another school's coursebook.
+
+### Source acquisition status
+
+- [VERIFIED] Direct Ministry server endpoints identified for Grade 5 2026–2027 Term 1 Maths in French and Science in French.
+- [BLOCKED] The available web retrieval path rejected the Maths PDF because it is approximately 17.2 MB and could not retrieve the Science PDF. The original pages and full TOCs have therefore not been inspected.
+- [UNVERIFIED] 2026–2027 Term 2 student books and official teacher guides for the French versions of Maths and Science.
+- [UNVERIFIED] Girard's exact French subject book and whether it is French first foreign language or second foreign language.
+
+### Controlling implementation plan
+
+A new owner-scope and acceptance document is now tracked at:
+`docs/curriculum/grade-5-french-track-completion-plan.md`
+
+It defines source acquisition, canonical lesson reconciliation, complete French teacher-ready lesson requirements, app integration, and verification gates. It explicitly prevents the project from claiming completion or publishing percentages without a confirmed source-book denominator.
+
+### Corrected assessment count
+
+The 12 November French assessment layer contains **26 items** (20 Maths and 6 Science) across 15 Ministry-source lesson records. This corrects the earlier sentence in this report that said 25. The 26 items remain unverified against the complete original PDFs and do not constitute complete lesson or book coverage.
+
+**Current status remains: all three subjects NOT COMPLETE.**
