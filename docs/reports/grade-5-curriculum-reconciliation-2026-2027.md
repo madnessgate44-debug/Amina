@@ -246,3 +246,36 @@ A further French-language teaching defect was corrected in the application code:
 **Verification status:** [VERIFIED] The changed files and test assertions are committed on `main`. [UNPROVEN] The TypeScript check and test suite have not been executed in this session; the GitHub workflow-run lookup for the latest direct-main commit returned no runs. This patch improves the current 15 lesson concepts but does not add missing book units, Term 2, or complete the French-language coursebook reconciliation.
 
 The earlier 26-question assessment layer remains a limited practice layer, not a full assessment programme. All three subjects remain **NOT COMPLETE**.
+
+## Critical source-book TOC reconciliation — 12 November 2026
+
+The actual 2026–2027 Ministry-hosted Term 1 PDFs were successfully text-extracted through a document extraction route after the normal browser path could not read the large PDFs. The new source manifest is docs/curriculum/grade-5-2026-2027-french-maths-science-term1-source-manifest.md.
+
+### [VERIFIED] Maths source denominator
+
+The Ministry Maths-in-French TOC lists **46 lessons across six units**. The current repository has 12 Ministry-source Maths lesson records plus four separate French-extract records. The 12 records are a partial subset; the four extract records still require edition/page reconciliation. The app is missing most of Unit 1, Units 4–5, and additional lessons from Units 2, 3 and 6. The current Unit 6 label “Order of Operations” also needs reconciliation against the TOC title “Expressions numériques” at page 121.
+
+### [FAILED] Science source alignment
+
+The Ministry Science-in-French TOC lists nine chapters:
+1. Les os et les muscles (p. 6)
+2. Les changements des saisons (p. 20)
+3. Les conditions de germination (p. 28)
+4. Les conditions de croissance (p. 44)
+5. De la fleur au fruit (p. 52)
+6. La croissance et la reproduction humaines (p. 64)
+7. La croissance et la reproduction des animaux (p. 72)
+8. Les changements météorologiques (p. 80)
+9. Le cycle de l’eau (p. 92)
+
+None of the six current app Science lesson titles (three Ministry-source plus three French extracts) matches these nine chapter headings. The current app topics include photosynthesis, food webs, coral bleaching, and states of matter. Those topics are **not present as chapter titles in the extracted 2026–2027 French Science TOC** and must be treated as **[UNVERIFIED / POSSIBLY WRONG-EDITION CONTENT]** until the actual chapter pages prove otherwise. The current six Science records must not be counted as coverage of this edition.
+
+### French-language subject and teacher guides
+
+The current 2026–2027 first-term Ministry Grade 5 catalogue lists English as the first foreign language but no standalone French student book among the 15 listed titles. Separate weekly Ministry assessments exist for Grade 5 French first and second foreign language. Girard's assigned French book and track remain unverified. No matching 2026–2027 French-version Maths/Science teacher guide has yet been located; absence is not proven.
+
+### Required safety decision
+
+Before the next student-facing curriculum release, quarantine or replace the six unverified Science records so the app does not present them as if they cover the current Ministry book. Do not add chapter-level stubs as if they were complete lessons. First extract the sub-lesson structure and page content from all nine chapters, then author full teaching material.
+
+**Current status:** Maths NOT COMPLETE (46 lesson TOC; app has 12 Ministry records plus 4 unverified extract records). Science NOT COMPLETE (9 verified chapter headings; all 6 current app records unaligned at chapter-title level). French language NOT COMPLETE (book/track unresolved).
