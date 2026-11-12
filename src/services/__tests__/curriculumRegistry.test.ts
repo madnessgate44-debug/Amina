@@ -159,7 +159,7 @@ const frenchTeaching = frenchEngine.advanceSession({
 const frenchTeachingText = frenchTeaching.newTutorTurn.text;
 check(
   '7.2 French Science teaching turn uses French overlay and contains no Arabic script',
-  frenchTeachingText.includes('L’usine alimentaire de la plante verte') &&
+  frenchTeachingText.includes("L'usine alimentaire de la plante verte") &&
     !/[\\u0600-\\u06FF]/.test(frenchTeachingText),
 );
 
