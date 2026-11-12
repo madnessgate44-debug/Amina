@@ -316,7 +316,7 @@ import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
 const CURRENT_SCIENCE_NOOR_LINES = Object.fromEntries(
   SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
     lesson.concepts.map((concept, index) => {
-      const keyPoint = concept.keyPoints?.[0] || concept.sourceText;
+      const keyPoint = concept.titleAr;
       return [
         'ar:' + lesson.id + ':' + index,
         {
