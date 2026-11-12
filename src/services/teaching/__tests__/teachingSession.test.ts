@@ -212,7 +212,7 @@ function advance(session: any, input: string) {
   assert(
     teaching.newTutorTurn.text.includes(frenchConcept.titleFr ?? '') &&
       !/[\\u0600-\\u06FF]/.test(teaching.newTutorTurn.text),
-    'French teaching turn must use French concept content without Arabic script',
+    `French teaching turn must use French concept content without Arabic script; resolved=${engine.resolveLanguage('fr', frenchLesson.instructionLanguage || frenchLesson.contentLanguage || frenchLesson.language, 'Oui')}; text=${JSON.stringify(teaching.newTutorTurn.text)}`,
   );
 
   const understanding = engine.advanceSession({
