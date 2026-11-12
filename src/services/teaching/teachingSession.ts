@@ -42,6 +42,14 @@ function conceptTitle(concept: CurriculumLessonConcept, isFr: boolean): string {
   return isFr ? (concept.titleFr || concept.titleEn) : concept.titleEn;
 }
 
+function lessonTitle(lesson: OfficialCurriculumLesson, isFr: boolean): string {
+  return isFr ? (lesson.titleFr || lesson.subjectNameFr || 'notre leçon') : lesson.titleEn;
+}
+
+function sourceBookLabel(lesson: OfficialCurriculumLesson, isFr: boolean): string {
+  return isFr ? `manuel de ${lesson.subjectNameFr || 'la matière'}` : lesson.sourceRef.bookEn;
+}
+
 function conceptSourceText(concept: CurriculumLessonConcept, isFr: boolean): string {
   return isFr
     ? (concept.sourceTextFr || concept.titleFr || concept.titleEn)
@@ -118,10 +126,10 @@ export class TeachingSessionEngine {
     if (existingSession && existingSession.status === 'in_progress') {
       const currentConcept = lesson.concepts[existingSession.currentConceptIndex] || lesson.concepts[0];
       const resumeGreeting = isFr
-        ? `Rebonjour cher ami ! La dernière fois, nous explorions «${conceptTitle(currentConcept, isFr)}» de la leçon «${lesson.titleEn}» (${lesson.sourceRef.bookEn}). Es-tu prêt à continuer ?`
+        ? `Rebonjour cher ami ! La dernière fois, nous explorions «${conceptTitle(currentConcept, isFr)}» de la leçon «${lessonTitle(lesson, isFr)}» (${sourceBookLabel(lesson, isFr)}). Es-tu prêt à continuer ?`
         : isAr
         ? `أهلاً بك مجدداً يا بطل! في المرة السابقة كنا ندرس معاً «${currentConcept.titleAr}» من درس «${lesson.titleAr}» (${lesson.sourceRef.bookAr}). هل تحب أن نكمل من حيث توقفنا؟`
-        : `Welcome back, friend! Last time we were exploring "${conceptTitle(currentConcept, isFr)}" from "${lesson.titleEn}" (${lesson.sourceRef.bookEn}). Ready to pick up right where we left off?`;
+        : `Welcome back, friend! Last time we were exploring "${conceptTitle(currentConcept, isFr)}" from "${lessonTitle(lesson, isFr)}" (${sourceBookLabel(lesson, isFr)}). Ready to pick up right where we left off?`;
 
       const greetingTurn: TutorTurn = {
         id: `turn_greet_${Date.now()}`,
@@ -145,10 +153,10 @@ export class TeachingSessionEngine {
     const sessionId = `teach_sess_${lessonId}_${Date.now()}`;
 
     const greetingText = isFr
-      ? `Bonjour cher ami ! Je suis ton tuteur et compagnon d'apprentissage. Aujourd'hui, nous allons étudier ensemble une belle leçon de ton manuel : «${lesson.titleEn}» (${lesson.sourceRef.bookEn}). Prêt à commencer ?`
+      ? `Bonjour cher ami ! Je suis ton tuteur et compagnon d'apprentissage. Aujourd'hui, nous allons étudier ensemble une belle leçon de ton manuel : «${lessonTitle(lesson, isFr)}» (${sourceBookLabel(lesson, isFr)}). Prêt à commencer ?`
       : isAr
       ? `أهلاً بك يا بطل! أنا رفيقك التعليمي ومعلمك الخصوصي. اليوم سنجلس معاً لنتعلم بهدوء درساً ممتعاً من كتابك المدرسي: «${lesson.titleAr}» (${lesson.sourceRef.bookAr}). جاهز لنبدأ؟`
-      : `Hello there! I am your personal study companion and tutor. Today we will sit down together to explore a great lesson from your textbook: "${lesson.titleEn}" (${lesson.sourceRef.bookEn}). Ready to begin?`;
+      : `Hello there! I am your personal study companion and tutor. Today we will sit down together to explore a great lesson from your textbook: "${lessonTitle(lesson, isFr)}" (${sourceBookLabel(lesson, isFr)}). Ready to begin?`;
 
     const greetingTurn: TutorTurn = {
       id: `turn_greet_${Date.now()}`,
@@ -215,10 +223,10 @@ export class TeachingSessionEngine {
     const isOffBook = this.checkIsOffBook(studentInput, lesson, currentConcept);
     if (isOffBook && studentInput.trim().length > 5) {
       const offBookReply = isFr
-        ? `C'est une excellente question très curieuse ! Cependant, elle n'est pas dans notre leçon d'aujourd'hui. Concentrons-nous sur ce que ton enseignant va évaluer dans (${lesson.sourceRef.bookEn}), et j'ai noté ta belle question pour en discuter plus tard !`
+        ? `C'est une excellente question très curieuse ! Cependant, elle n'est pas dans notre leçon d'aujourd'hui. Concentrons-nous sur ce que ton enseignant va évaluer dans (${sourceBookLabel(lesson, isFr)}), et j'ai noté ta belle question pour en discuter plus tard !`
         : isAr
         ? `سؤال ذكي وفضولي جداً! لكنه خارج كتابنا لدرس اليوم. دعني أركز معك على ما يختبرك فيه المعلم من (${lesson.sourceRef.bookAr})، وسجلت سؤالك الجميل هذا لنتحدث عنه لاحقاً مع والديك!`
-        : `That’s a brilliant curious question! It’s not in our textbook lesson today though. Let’s focus on what your teacher will test you on from (${lesson.sourceRef.bookEn}), and I saved your great question for later!`;
+        : `That’s a brilliant curious question! It’s not in our textbook lesson today though. Let’s focus on what your teacher will test you on from (${sourceBookLabel(lesson, isFr)}), and I saved your great question for later!`;
 
       const tutorTurn: TutorTurn = {
         id: `turn_tut_${Date.now()}`,
@@ -253,16 +261,16 @@ export class TeachingSessionEngine {
 
     // 2. Handle on-demand visual request
     if (forceVisual) {
-      const visualData = this.buildStructuredVisual(currentConcept, lesson);
+      const visualData = this.buildStructuredVisual(currentConcept, lesson, effectiveLang);
       const visualTurn: TutorTurn = {
         id: `turn_tut_vis_${Date.now()}`,
         role: 'tutor',
         step: 'visual',
         text: isFr
-          ? `Voici un schéma visuel tiré de ton livre (${lesson.sourceRef.bookEn}) pour rendre l'idée parfaitement claire. Regarde et dis-moi ce que tu remarques !`
+          ? `Voici un schéma visuel tiré de ton livre (${sourceBookLabel(lesson, isFr)}) pour rendre l'idée parfaitement claire. Regarde et dis-moi ce que tu remarques !`
           : isAr
           ? `تفضل يا بطل! أعددت لك هذا الرسم التوضيحي من كتابك المدرسي (${lesson.sourceRef.bookAr}) ليسهل عليك استيعاب الفكرة تماماً. ألقِ نظرة عليه وقل لي ما الذي لاحظته؟`
-          : `Here you go! I prepared this structured visual straight from your textbook (${lesson.sourceRef.bookEn}) to make the idea crystal clear. Take a look and tell me what you see!`,
+          : `Here you go! I prepared this structured visual straight from your textbook (${sourceBookLabel(lesson, isFr)}) to make the idea crystal clear. Take a look and tell me what you see!`,
         sourceRef: lesson.sourceRef,
         modalityUsed: 'structured_visual',
         visualData,
@@ -307,10 +315,10 @@ export class TeachingSessionEngine {
         nextStep = 'teach';
         modalityUsed = 'source_explanation';
         replyText = isFr
-          ? `Très bien ! Ouvrons notre manuel (${lesson.sourceRef.bookEn}) pour notre première notion : «${conceptTitle(currentConcept, isFr)}».\n\n📖 Texte du manuel :\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
+          ? `Très bien ! Ouvrons notre manuel (${sourceBookLabel(lesson, isFr)}) pour notre première notion : «${conceptTitle(currentConcept, isFr)}».\n\n📖 Texte du manuel :\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
           : isAr
           ? `رائع جداً! الآن لنفتح كتابنا (${lesson.sourceRef.bookAr}) ونبدأ بالفكرة الأولى: «${currentConcept.titleAr}».\n\n📖 من نص الكتاب المدرسي:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 النقاط الجوهرية:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\n(خذ نفساً هادئاً، وعندما تكون مستعداً اخبرني لننتقل للخطوة التالية!)`
-          : `Great! Now let’s open our textbook (${lesson.sourceRef.bookEn}) to our first concept: "${conceptTitle(currentConcept, isFr)}".\n\n📖 From the textbook:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nTake your time to absorb this! Tell me when you're ready to continue.`;
+          : `Great! Now let’s open our textbook (${sourceBookLabel(lesson, isFr)}) to our first concept: "${conceptTitle(currentConcept, isFr)}".\n\n📖 From the textbook:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nTake your time to absorb this! Tell me when you're ready to continue.`;
         break;
       }
 
@@ -327,7 +335,7 @@ export class TeachingSessionEngine {
 
       case 'ask': {
         // Evaluate student's understanding
-        const evalScore = this.evaluateStudentUnderstanding(studentInput, currentConcept);
+        const evalScore = this.evaluateStudentUnderstanding(studentInput, currentConcept, effectiveLang);
 
         if (evalScore >= 0.7) {
           // Good grasp! Proceed to Step 7: Mandatory Explain-it-back
@@ -353,7 +361,7 @@ export class TeachingSessionEngine {
 
       case 'adjust': {
         // Check student's response to the escalated explanation
-        const evalScore = this.evaluateStudentUnderstanding(studentInput, currentConcept);
+        const evalScore = this.evaluateStudentUnderstanding(studentInput, currentConcept, effectiveLang);
 
         if (evalScore >= 0.65) {
           // Understood through the ladder! Advance to mandatory explain-it-back
@@ -388,7 +396,7 @@ export class TeachingSessionEngine {
       case 'explain_back': {
         // Explain-back is the recheck/evaluation gate. Length alone is never enough.
         const explanation = studentInput.trim();
-        const analysis = this.evaluateExplainBack(explanation, currentConcept);
+        const analysis = this.evaluateExplainBack(explanation, currentConcept, effectiveLang);
 
         const evidence = {
           text: explanation,
@@ -425,10 +433,10 @@ export class TeachingSessionEngine {
             isSessionCompleted = true;
             nextStep = 'close';
             replyText += isFr
-              ? `\n\n🎉 Félicitations ! Toutes les notions de «${lesson.titleEn}» sont maintenant vérifiées.`
+              ? `\n\n🎉 Félicitations ! Toutes les notions de «${lessonTitle(lesson, isFr)}» sont maintenant vérifiées.`
               : isAr
               ? `\n\n🎉 ممتاز! تم التحقق من فهم جميع مفاهيم درس «${lesson.titleAr}».`
-              : `\n\n🎉 Excellent! All concepts in "${lesson.titleEn}" have now been verified.`;
+              : `\n\n🎉 Excellent! All concepts in "${lessonTitle(lesson, isFr)}" have now been verified.`;
           }
         } else {
           // Weak/guessing explain-back: no mastery evidence. Return to targeted practice.
@@ -475,10 +483,10 @@ export class TeachingSessionEngine {
           modalityUsed = 'source_explanation';
 
           replyText = isFr
-            ? `En route ! La notion suivante dans notre manuel (${lesson.sourceRef.bookEn}) est : «${conceptTitle(nextConcept, isFr)}».\n\n📖 Texte :\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nQu'en penses-tu ?`
+            ? `En route ! La notion suivante dans notre manuel (${sourceBookLabel(lesson, isFr)}) est : «${conceptTitle(nextConcept, isFr)}».\n\n📖 Texte :\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nQu'en penses-tu ?`
             : isAr
             ? `على بركة الله! المفهوم التالي في كتابنا (${lesson.sourceRef.bookAr}) هو: «${nextConcept.titleAr}».\n\n📖 من نص الدرس:\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 النقاط الرئيسية:\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nما رأيك في هذه النقطة؟`
-            : `Let's proceed! The next concept in our textbook (${lesson.sourceRef.bookEn}) is: "${conceptTitle(nextConcept, isFr)}".\n\n📖 Text:\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nWhat are your thoughts on this?`;
+            : `Let's proceed! The next concept in our textbook (${sourceBookLabel(lesson, isFr)}) is: "${conceptTitle(nextConcept, isFr)}".\n\n📖 Text:\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nWhat are your thoughts on this?`;
 
           const tutorTurn: TutorTurn = {
             id: `turn_tut_${Date.now()}`,
@@ -591,7 +599,8 @@ export class TeachingSessionEngine {
 
   private evaluateExplainBack(
     input: string,
-    concept: CurriculumLessonConcept
+    concept: CurriculumLessonConcept,
+    language: 'ar' | 'en' | 'fr' = 'ar',
   ): {
     quality: 'sound' | 'partial' | 'guessing' | 'unclear';
     conceptKeywordMatches: number;
@@ -602,7 +611,14 @@ export class TeachingSessionEngine {
     if (!text) return { quality: 'unclear', conceptKeywordMatches: 0, keyPointMatches: 0, confidence: 'low' };
 
     const student = tokens(text);
-    const conceptTerms = new Set([...tokens(concept.titleAr), ...tokens(concept.titleEn)]);
+    const isFr = language === 'fr';
+    const conceptTerms = new Set(
+      isFr
+        ? tokens(conceptTitle(concept, true))
+        : language === 'ar'
+        ? [...tokens(concept.titleAr), ...tokens(concept.titleEn)]
+        : tokens(concept.titleEn),
+    );
     const keyPointTerms = new Set(conceptKeyPoints(concept, isFr).flatMap((p) => [...tokens(p)]));
     const conceptKeywordMatches = [...conceptTerms].filter((t) => student.has(t)).length;
     const keyPointMatches = [...keyPointTerms].filter((t) => student.has(t)).length;
@@ -620,7 +636,9 @@ export class TeachingSessionEngine {
 
     // Parroting: almost none of the child's words are her own (they all come from the source).
     const sourceTokens = new Set([
-      ...conceptTerms, ...keyPointTerms, ...tokens(concept.sourceText || ''),
+      ...conceptTerms,
+      ...keyPointTerms,
+      ...tokens(isFr ? conceptSourceText(concept, true) : concept.sourceText || ''),
     ]);
     const own = [...student].filter((t) => !sourceTokens.has(t)).length;
     // ponytail: 0.15 own-word ratio is a heuristic; upgrade: grade explain-back with the model + rubric
@@ -662,10 +680,10 @@ export class TeachingSessionEngine {
         return {
           modality: 'source_explanation',
           text: isFr
-            ? `Pas de souci ! Regardons cela directement à partir du texte de ton manuel (${lesson.sourceRef.bookEn}) :\n"${conceptSourceText(concept, isFr)}"\n\nEn clair : ${conceptKeyPoints(concept, isFr)[0]}. Est-ce plus compréhensible ainsi ?`
+            ? `Pas de souci ! Regardons cela directement à partir du texte de ton manuel (${sourceBookLabel(lesson, isFr)}) :\n"${conceptSourceText(concept, isFr)}"\n\nEn clair : ${conceptKeyPoints(concept, isFr)[0]}. Est-ce plus compréhensible ainsi ?`
             : isAr
             ? `لا بأس يا بطل، دعنا ننظر إليها من زاوية أوضح من نص الكتاب المدرسي (${lesson.sourceRef.bookAr}):\n"${concept.sourceText}"\n\nالمقصود هنا ببساطة: ${conceptKeyPoints(concept, isFr)[0]}. هل يبدو هذا أوضح؟`
-            : `No problem at all! Let's examine it straight from the textbook text (${lesson.sourceRef.bookEn}):\n"${concept.sourceText}"\n\nSimply put: ${conceptKeyPoints(concept, isFr)[0]}. Does that make more sense?`,
+            : `No problem at all! Let's examine it straight from the textbook text (${sourceBookLabel(lesson, isFr)}):\n"${concept.sourceText}"\n\nSimply put: ${conceptKeyPoints(concept, isFr)[0]}. Does that make more sense?`,
         };
       }
 
@@ -692,15 +710,15 @@ export class TeachingSessionEngine {
       }
 
       case 4: {
-        const visualData = this.buildStructuredVisual(concept, lesson);
+        const visualData = this.buildStructuredVisual(concept, lesson, effectiveLang);
         return {
           modality: 'structured_visual',
           visualData,
           text: isFr
-            ? `Une image vaut mille mots ! J'ai tracé ce schéma visuel tiré de ton manuel (${lesson.sourceRef.bookEn}) :\n«${visualData.titleEn}».\n\nObserve le schéma : que remarques-tu ?`
+            ? `Une image vaut mille mots ! J'ai tracé ce schéma visuel tiré de ton manuel (${sourceBookLabel(lesson, isFr)}) :\n«${visualData.titleEn}».\n\nObserve le schéma : que remarques-tu ?`
             : isAr
             ? `الصورة بألف كلمة! رسمت لك هذا المخطط البصري من كتابك المدرسي (${lesson.sourceRef.bookAr}):\n«${visualData.titleAr}».\n\nتأمل الرسم المعروض أمامك وقل لي ماذا ترى؟`
-            : `A picture is worth a thousand words! I rendered this structured diagram from your textbook (${lesson.sourceRef.bookEn}):\n"${visualData.titleEn}".\n\nLook at the diagram and tell me what stands out to you?`,
+            : `A picture is worth a thousand words! I rendered this structured diagram from your textbook (${sourceBookLabel(lesson, isFr)}):\n"${visualData.titleEn}".\n\nLook at the diagram and tell me what stands out to you?`,
         };
       }
 
@@ -732,13 +750,20 @@ export class TeachingSessionEngine {
   /**
    * Simple semantic check for open-ended answers
    */
-  private evaluateStudentUnderstanding(input: string, concept: CurriculumLessonConcept): number {
+  private evaluateStudentUnderstanding(
+    input: string,
+    concept: CurriculumLessonConcept,
+    language: 'ar' | 'en' | 'fr' = 'ar',
+  ): number {
     const text = input.trim().toLowerCase();
     if (!text || text.length < 4) return 0.2;
 
+    const isFr = language === 'fr';
+    const title = isFr ? conceptTitle(concept, true) : language === 'ar' ? concept.titleAr : concept.titleEn;
+    const points = isFr ? conceptKeyPoints(concept, true) : concept.keyPoints;
     const keywords = [
-      ...concept.titleAr.toLowerCase().split(/\s+/),
-      ...concept.keyPoints.flatMap((k) => k.toLowerCase().split(/\s+/)),
+      ...title.toLowerCase().split(/\s+/),
+      ...points.flatMap((k) => k.toLowerCase().split(/\s+/)),
     ].filter((w) => w.length > 2);
 
     const matches = keywords.filter((k) => text.includes(k));
@@ -805,19 +830,22 @@ export class TeachingSessionEngine {
    */
   public buildStructuredVisual(
     concept: CurriculumLessonConcept,
-    lesson: OfficialCurriculumLesson
+    lesson: OfficialCurriculumLesson,
+    language: 'ar' | 'en' | 'fr' = 'ar',
   ): StructuredVisualData {
+    const isFr = language === 'fr';
     return {
       type: concept.visualType || 'diagram',
       titleAr: concept.titleAr,
-      titleEn: concept.titleEn,
+      // The visual renderer uses titleEn for non-Arabic sessions; supply French in French mode.
+      titleEn: isFr ? conceptTitle(concept, true) : concept.titleEn,
       captionAr: `مصدر الشكل: ${lesson.sourceRef.bookAr}`,
-      captionEn: `Source: ${lesson.sourceRef.bookEn}`,
+      captionEn: isFr ? `Source : ${sourceBookLabel(lesson, true)}` : `Source: ${lesson.sourceRef.bookEn}`,
       sourceRef: lesson.sourceRef,
       elements: {
         conceptId: concept.id,
-        lessonTitle: lesson.titleAr,
-        keyPoints: concept.keyPoints,
+        lessonTitle: isFr ? lessonTitle(lesson, true) : lesson.titleAr,
+        keyPoints: isFr ? conceptKeyPoints(concept, true) : concept.keyPoints,
       },
     };
   }
