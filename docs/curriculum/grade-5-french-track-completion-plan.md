@@ -149,3 +149,17 @@ For every canonical lesson, author and validate:
 - **[FAILED]** A test or verification actually ran and failed.
 
 This plan is a work-control document. It does not certify any of the three subjects as complete.
+
+
+## 8. Implementation checkpoint — 12 November 2026
+
+**Committed on main after the baseline:**
+- `src/types/teachingSession.ts`: optional `keyPointsFr` concept field.
+- `src/data/curriculum/frenchTrackContent.ts`: structured French key points for the 12 current Ministry Maths concepts and 3 current Ministry Science concepts.
+- `src/services/curriculum/curriculumService.ts`: merge the French key-point overlay.
+- `src/services/teaching/teachingSession.ts`: French mode now selects French concept titles, source summaries, and key points; missing French key points fall back to the French source summary rather than Arabic concept points.
+- `src/services/__tests__/curriculumRegistry.test.ts`: checks French overlay coverage, structured key points for the current 15 Ministry Maths/Science concepts, and a French Science teaching turn with no Arabic-script text.
+
+**Verification limitation:** code and tests are committed, but no TypeScript/test/build run is available in this execution. These changes repair the current lesson teaching-language path; they do not complete either textbook, do not add Term 2, and do not establish the assigned French language book.
+
+**Next execution gate:** retrieve and inspect the actual Ministry student-book TOCs/pages and assigned French coursebook, then build the canonical full-year lesson manifest before authoring additional lessons.
