@@ -211,7 +211,7 @@ function advance(session: any, input: string) {
   });
   assert(
     teaching.newTutorTurn.text.includes(frenchConcept.titleFr ?? '') &&
-      !/[\\u0600-\\u06FF]/.test(teaching.newTutorTurn.text),
+      !/[\u0600-\u06FF]/.test(teaching.newTutorTurn.text),
     `French teaching turn must use French concept content without Arabic script; resolved=${engine.resolveLanguage('fr', frenchLesson.instructionLanguage || frenchLesson.contentLanguage || frenchLesson.language, 'Oui')}; text=${JSON.stringify(teaching.newTutorTurn.text)}`,
   );
 
@@ -248,7 +248,7 @@ function advance(session: any, input: string) {
     visual.titleEn === (frenchConcept.titleFr ?? frenchConcept.titleEn) &&
       Array.isArray(visual.elements.keyPoints) &&
       visual.elements.keyPoints.length > 0 &&
-      !/[\\u0600-\\u06FF]/.test(visual.elements.keyPoints.join(' ')),
+      !/[\u0600-\u06FF]/.test(visual.elements.keyPoints.join(' ')),
     'French structured visual must carry French title and key points',
   );
 }
