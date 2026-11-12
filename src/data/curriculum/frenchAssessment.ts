@@ -75,9 +75,25 @@ export const FRENCH_ASSESSMENTS: Record<string, CurriculumExercise[]> = {
 };
 
 /** Replace source-language assessment wording with the matching French version. */
-export function withFrenchAssessments<T extends { id: string; exercises: CurriculumExercise[] }>(
-  lesson: T,
-): T {
-  const exercises = FRENCH_ASSESSMENTS[lesson.id];
-  return exercises ? { ...lesson, exercises } : lesson;
+export function withFrenchAssessments<
+  T extends {
+    id: string;
+    exercises: CurriculumExercise[];
+    exercisesByLanguage?: Partial<Record<'ar' | 'en' | 'fr', CurriculumExercise[]>>;
+  },
+>(lesson: T): T {
+  const frenchExercises = FRENCH_ASSESSMENTS[lesson.id];
+  if (!frenchExercises) return lesson;
+
+  // Keep the source-language exercises available. Replacing them outright made
+  // Arabic reel diagnosis silently lose every usable Science question.
+  return {
+    ...lesson,
+    exercises: frenchExercises,
+    exercisesByLanguage: {
+      ...lesson.exercisesByLanguage,
+      ar: lesson.exercises,
+      fr: frenchExercises,
+    },
+  };
 }
