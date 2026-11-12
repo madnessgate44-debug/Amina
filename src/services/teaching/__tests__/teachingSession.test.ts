@@ -227,7 +227,7 @@ function advance(session: any, input: string) {
 
   const explainBack = engine.advanceSession({
     session: understanding.session,
-    studentInput: 'Les dixièmes représentent une part sur dix et les centièmes une part sur cent, parce que chaque rang après la virgule devient dix fois plus petit.',
+    studentInput: 'Les nombres décimaux jusqu’aux millièmes utilisent les dixièmes, les centièmes et les millièmes. Chaque rang après la virgule devient dix fois plus petit, parce que sa valeur dépend de sa position.',
     language: 'fr',
   });
   assert(
