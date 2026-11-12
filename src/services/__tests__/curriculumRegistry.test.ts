@@ -103,7 +103,7 @@ check(
 const registeredMinistry = OFFICIAL_CURRICULUM_LESSONS.filter(
   (lesson) => ministryMathScience.some((source) => source.id === lesson.id),
 );
-const arabicScript = /[\\u0600-\\u06FF]/;
+const arabicScript = /[\u0600-\u06FF]/;
 const nonFrenchAssessment = registeredMinistry.filter((lesson) =>
   lesson.exercises.some((exercise) =>
     [exercise.question, ...(exercise.options ?? []), exercise.expectedAnswer ?? ''].some((value) => arabicScript.test(value)),
