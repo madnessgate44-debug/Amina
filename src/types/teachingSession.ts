@@ -75,6 +75,20 @@ export interface ConceptMisconception {
    */
   explanationAr?: string;
   remediationAr?: string;
+  /**
+   * French rendering of the diagnosis, for a child reading French.
+   *
+   * The French-section child (Girard) reads maths, science and French in
+   * French, but those lessons stored their diagnosis in Arabic only, so a
+   * French child who tapped a mapped wrong option never got a named diagnosis:
+   * the language guard refused the Arabic text and the turn fell through to the
+   * model. When present, this is served instead.
+   */
+  explanationFr?: string;
+  remediationFr?: string;
+  /** English rendering of the diagnosis, for a child reading English. */
+  explanationEn?: string;
+  remediationEn?: string;
 }
 
 export interface CurriculumLessonConcept {

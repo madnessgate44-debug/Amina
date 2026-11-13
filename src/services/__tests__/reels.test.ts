@@ -16,7 +16,7 @@
 import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept, isValidReel, sourceLabelFor, buildWinCloser } from '../reels/reelGenerator';
 import { buildFeedQueue, buildRetryAfterMistakes } from '../reels/feedQueue';
-import { matchMisconception } from '../teaching/skills/teachingSkills';
+import { matchMisconception, misconceptionText } from '../teaching/skills/teachingSkills';
 import { speaksLanguage } from '../reels/reelResponse';
 import { createSeededRng, hashSeed } from '../reels/seededRng';
 import { Language } from '../../types';
@@ -728,24 +728,14 @@ function run() {
     }
     assert(backToBack === 0, `18.3 [${lang}]: no reel kind repeats back-to-back on a first feed (${backToBack})`);
     // The diagnosis pool only offers a concept whose stored diagnosis is in the
-    // child's own language (see feedQueue). No curriculum misconception has an
-    // English rendering — every entry is Arabic — so an English child honestly
-    // has no deterministic diagnosis to reach. Before the guard judged the
-    // DOMINANT script, this assertion passed for `en` only because Arabic text
-    // carrying a Latin parenthetical like "(Byte)" leaked through as "English".
-    // Where servable content exists (ar, fr) the path must still be reached.
-    const servable = lang !== 'en';
-    if (servable) {
-      assert(
-        fresh.reels.some((r) => r.reason === 'diagnosis'),
-        `18.4 [${lang}]: the first feed still reaches the diagnosis path`
-      );
-    } else {
-      assert(
-        !fresh.reels.some((r) => r.reason === 'diagnosis'),
-        `18.4 [${lang}]: no diagnosis reel is faked from the other language`
-      );
-    }
+    // child's own language (see feedQueue). Every language now has servable
+    // diagnosis content: Arabic natively, and French/English through the
+    // explanationFr/En renderings added for the French-track lessons (see
+    // section 20), so all three feeds must reach the diagnosis path.
+    assert(
+      fresh.reels.some((r) => r.reason === 'diagnosis'),
+      `18.4 [${lang}]: the first feed still reaches the diagnosis path`
+    );
     assert(
       fresh.reels[fresh.reels.length - 1].kind === 'win_closer',
       `18.5 [${lang}]: the first feed still ends with a win_closer`
@@ -813,6 +803,80 @@ function run() {
       feedDuplicates === 0,
       `19.2 [${lang}]: the queued session shows no duplicate question (${feedDuplicates})`
     );
+  }
+
+  // ---- 20. A French child gets a named diagnosis, not a fall-through ----
+  // The diagnosis text was stored in Arabic only for the maths/science/French
+  // lessons, and the language guard refuses Arabic for a French reader. A French
+  // child who tapped a MAPPED wrong option therefore got the generic
+  // "wrong answer" line and the turn fell through to the model: measured before
+  // the fix, only 10 of 211 French wrong options across the curriculum could be
+  // diagnosed, and 25 reachable misconceptions were blocked. Each such entry now
+  // carries an explanationFr/remediationFr rendering, so every wrong option that
+  // resolves to a stored misconception is servable in the child's own language.
+  for (const lang of LANGS) {
+    let wrongOptions = 0;
+    let diagnosable = 0;
+    const blocked: string[] = [];
+    for (const lesson of curriculumService.getAvailableLessons()) {
+      for (const concept of lesson.concepts) {
+        const ms = concept.misconceptions;
+        if (!ms || ms.length === 0) continue;
+        for (const reel of buildReelsForConcept(lesson, concept, lang, {})) {
+          if (!reel.options || reel.options.length === 0) continue;
+          for (const o of reel.options.filter((x) => !x.isCorrect)) {
+            const m = matchMisconception(o.text, ms);
+            if (!m) continue;
+            wrongOptions++;
+            if (speaksLanguage(misconceptionText(m, lang), lang)) {
+              diagnosable++;
+            } else {
+              blocked.push(`${lesson.id}/${m.id}`);
+            }
+          }
+        }
+      }
+    }
+    assert(
+      blocked.length === 0,
+      `20.1 [${lang}]: every reachable misconception is servable in the child's language (${blocked.length} blocked of ${wrongOptions}: ${blocked.slice(0, 4).join(', ')})`
+    );
+    assert(
+      diagnosable === wrongOptions,
+      `20.2 [${lang}]: every mapped wrong option can be diagnosed (${diagnosable}/${wrongOptions})`
+    );
+  }
+
+  // The served diagnosis must actually be French for a French child: the guard
+  // and the selection both have to agree, or the child reads the wrong script.
+  const frDiagQueue = buildFeedQueue({
+    studentId: 'stu_fr_diag',
+    language: 'fr',
+    mastery: {},
+    dueReviews: [],
+    todaySubjects: [],
+    examCalendar: [],
+    now,
+    sessionMinutes: 10,
+  });
+  const frDiagReel = frDiagQueue.reels.find((r) => r.reason === 'diagnosis' && r.options && r.options.length > 0);
+  assert(Boolean(frDiagReel), '20.3: the French feed contains a diagnosis reel');
+  if (frDiagReel) {
+    const found = curriculumService.getConceptById(frDiagReel.conceptId);
+    const ms = found?.concept.misconceptions || [];
+    const wrongs = frDiagReel.options!.filter((o) => !o.isCorrect);
+    const named = wrongs.map((o) => matchMisconception(o.text, ms)).filter(Boolean);
+    assert(
+      named.length > 0,
+      `20.4 [${frDiagReel.conceptId}]: at least one wrong option maps to a misconception (${named.length}/${wrongs.length})`
+    );
+    for (const m of named) {
+      const text = misconceptionText(m!, 'fr');
+      assert(
+        speaksLanguage(text, 'fr'),
+        `20.5 [${m!.id}]: the served diagnosis is French (${text.slice(0, 40)}…)`
+      );
+    }
   }
 
   console.log('\n=================================================================');

@@ -24,8 +24,18 @@ import type { Language } from '../../../types';
  * the caller then falls through to the model rather than mixing scripts.
  */
 export function misconceptionText(m: ConceptMisconception, language: Language): string {
-  const explanation = language === 'ar' && m.explanationAr ? m.explanationAr : m.explanation;
-  const remediation = language === 'ar' && m.remediationAr ? m.remediationAr : m.remediation;
+  // Prefer the rendering written in the child's own language; fall back to the
+  // stored (lesson-language) text. A stored diagnosis is often Arabic-only for
+  // a French-taught lesson, so a French child was shown nothing — the guard
+  // rejected the Arabic and the turn fell through to the model.
+  const pick = (base: string, ar?: string, fr?: string, en?: string): string => {
+    if (language === 'ar' && ar) return ar;
+    if (language === 'fr' && fr) return fr;
+    if (language === 'en' && en) return en;
+    return base;
+  };
+  const explanation = pick(m.explanation, m.explanationAr, m.explanationFr, m.explanationEn);
+  const remediation = pick(m.remediation, m.remediationAr, m.remediationFr, m.remediationEn);
   return `${explanation} ${remediation}`.trim();
 }
 
