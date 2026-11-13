@@ -135,11 +135,13 @@ check(
   `2.7 all 28 current Science lessons have complete app-authored French teaching plans (${incompleteScienceGuides.length} incomplete)`,
   SCIENCE_FR_CURRICULUM_2026_LESSONS.length === 28 && incompleteScienceGuides.length === 0,
 );
-const scienceReadingMismatches = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) =>
-  !lesson.teacherGuide ||
-  !lesson.readingText?.includes(lesson.teacherGuide.explanationFr) ||
-  !lesson.readingText.includes(lesson.teacherGuide.workedExampleFr),
-);
+const scienceReadingMismatches = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => {
+  const guide = lesson.teacherGuide;
+  const reading = lesson.readingText ?? '';
+  return !guide ||
+    !reading.includes(guide.explanationFr) ||
+    !reading.includes(guide.workedExampleFr);
+});
 check(
   `2.7a all current Science reading texts use the complete French explanation and demonstration (${scienceReadingMismatches.length} mismatches)`,
   scienceReadingMismatches.length === 0,
