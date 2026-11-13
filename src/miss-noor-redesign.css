@@ -96,3 +96,27 @@ body { color: var(--mn-ink); background: var(--mn-paper); }
     scroll-behavior: auto !important; transition-duration: .01ms !important;
   }
 }
+
+/* The teacher-led home welcome is an editorial lesson invitation, not a KPI tile. */
+.mn-home-hero {
+  position: relative; overflow: hidden; isolation: isolate;
+  color: #fff; background: var(--mn-teal-dark);
+  border: 0; border-radius: 2rem;
+  box-shadow: var(--mn-shadow);
+}
+.mn-home-hero::after {
+  content: ""; position: absolute; inset: auto -3rem -5rem auto;
+  width: 17rem; height: 17rem; border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%; box-shadow: 0 0 0 2rem rgba(255,255,255,.035), 0 0 0 4rem rgba(255,255,255,.025);
+  pointer-events: none; z-index: -1;
+}
+.mn-home-hero p { color: rgba(255,255,255,.84); }
+.mn-home-hero .mn-teacher-kicker {
+  color: #f6d99a; font-size: .72rem; font-weight: 900; letter-spacing: .09em;
+}
+.mn-home-hero button { background: #f4d58e; color: #203b3a; border: 0; }
+.mn-page [class*="rounded-3xl"][class*="bg-white"],
+.mn-page [class*="rounded-2xl"][class*="bg-white"] {
+  border-color: var(--mn-line);
+}
+.mn-page [class*="text-slate-500"] { color: var(--mn-ink-soft); }
