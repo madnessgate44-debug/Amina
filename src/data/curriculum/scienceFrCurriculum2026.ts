@@ -86,7 +86,7 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
   isAvailable:true,contentStatus:'available',teachingContentOrigin:'app_authored_from_student_book',teacherGuide,sourceRef,
   objectives:s.objectives,
   readingText,
-  vocabulary:s.vocab.map(([word,definition])=>({word,definition})),
+  vocabulary:teacherGuide?.vocabularyFr ?? s.vocab.map(([word,definition])=>({word,definition})),
   exercises,exercisesByLanguage:{fr:exercises},concepts:[concept]
  };
 }
