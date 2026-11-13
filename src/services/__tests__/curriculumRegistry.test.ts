@@ -13,6 +13,8 @@
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
+import { SCIENCE_FR_CURRICULUM_LESSONS } from '../../data/curriculum/scienceFrCurriculum';
+import { SCIENCE_FR_TEACHER_GUIDE_2026, SCIENCE_FR_TERM1_ENRICHMENT_2026, SCIENCE_FR_TERM1_METHOD_SKILLS_2026 } from '../../data/curriculum/scienceFrTeachingGuide2026';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
@@ -88,6 +90,64 @@ check(
 check(
   `2.5 current Science Term 1 French assessment coverage (${SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => !lesson.exercisesByLanguage?.fr || lesson.exercisesByLanguage.fr.length < 2).length} incomplete)`,
   SCIENCE_FR_CURRICULUM_2026_LESSONS.every((lesson) => lesson.exercisesByLanguage?.fr && lesson.exercisesByLanguage.fr.length >= 2),
+);
+
+const expectedSciencePageRanges: Record<string, string> = {
+  '1-1': '6–7', '1-2': '8–11', '1-3': '12–13', '1-4': '14–18',
+  '2-1': '20–21', '2-2': '22–25',
+  '3-1': '28–29', '3-2': '30–33', '3-3': '34–35', '3-4': '36–39', '3-5': '40–43',
+  '4-1': '44–45', '4-2': '46–49',
+  '5-1': '52–54', '5-2': '55–59', '5-3': '60–63',
+  '6-1': '64–65', '6-2': '66–67', '6-3': '68–71',
+  '7-1': '72–73', '7-2': '74–75', '7-3': '76–79',
+  '8-1': '80–81', '8-2': '82–85', '8-3': '86–89',
+  '9-1': '92–93', '9-2': '94–97', '9-3': '98–101',
+};
+const incompleteScienceGuides = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => {
+  const key = `${lesson.unitNumber}-${lesson.lessonNumber}`;
+  const guide = lesson.teacherGuide;
+  if (!guide) return true;
+  const guideText = [
+    guide.explanationFr,
+    guide.workedExampleFr,
+    ...guide.guidedPracticeFr.flatMap((item) => [item.prompt, item.expectedAnswer]),
+    ...guide.independentPracticeFr.flatMap((item) => [item.prompt, item.expectedAnswer]),
+    ...guide.answerKeyFr,
+    ...guide.misconceptionDiagnosisFr.flatMap((item) => [item.observedResponse, item.diagnosis, item.correctivePrompt]),
+    ...guide.remediationFr,
+    ...guide.masteryCheckFr.flatMap((item) => [item.prompt, item.expectedAnswer, item.successCriterion]),
+  ];
+  return guide.provenance !== 'app_authored' ||
+    !guide.sourceEdition.includes('2026–2027') ||
+    guide.sourcePages !== expectedSciencePageRanges[key] ||
+    guide.explanationFr.trim().length < 180 ||
+    !guide.workedExampleFr.trim() ||
+    guide.guidedPracticeFr.length < 2 ||
+    guide.independentPracticeFr.length < 2 ||
+    guide.answerKeyFr.length !== guide.independentPracticeFr.length ||
+    guide.independentPracticeFr.some((item, index) => item.expectedAnswer !== guide.answerKeyFr[index]) ||
+    guide.misconceptionDiagnosisFr.length < 1 ||
+    guide.remediationFr.length < 1 ||
+    guide.masteryCheckFr.length < 2 ||
+    guideText.some((value) => !value.trim() || /TODO|placeholder|lorem/i.test(value) || /[\\u0600-\\u06FF]/.test(value));
+});
+check(
+  `2.7 all 28 current Science lessons have complete app-authored French teaching plans (${incompleteScienceGuides.length} incomplete)`,
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.length === 28 && incompleteScienceGuides.length === 0,
+);
+if (incompleteScienceGuides.length > 0) {
+  console.error('   incomplete teacher guides:', incompleteScienceGuides.map((lesson) => lesson.id));
+}
+check(
+  '2.8 enrichment and scientific-method material from the student book are indexed',
+  SCIENCE_FR_TERM1_ENRICHMENT_2026.length === 6 && SCIENCE_FR_TERM1_METHOD_SKILLS_2026.length === 4,
+);
+const legacyScienceIds = new Set([...SCIENCE_CURRICULUM_LESSONS, ...SCIENCE_FR_CURRICULUM_LESSONS].map((lesson) => lesson.id));
+const legacyScienceRegistered = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => legacyScienceIds.has(lesson.id));
+check(
+  `2.9 legacy Science records are retained only as unavailable compatibility entries (${legacyScienceRegistered.filter((lesson) => lesson.isAvailable || lesson.contentStatus !== 'pending_materials').length} incorrectly available)`,
+  legacyScienceRegistered.length === legacyScienceIds.size &&
+    legacyScienceRegistered.every((lesson) => !lesson.isAvailable && lesson.contentStatus === 'pending_materials'),
 );
 check(
   `2.6 obsolete French Science lessons are unavailable (${OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_scifr_') && !lesson.id.startsWith('off_scifr_2026_') && lesson.isAvailable).length} incorrectly available)`,
