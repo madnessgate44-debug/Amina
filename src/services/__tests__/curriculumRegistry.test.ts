@@ -351,6 +351,7 @@ const incompleteChapterOneGuides = chapterOneScienceLessons.filter((lesson) => {
   return !guide ||
     guide.provenance !== 'app_authored_from_student_book' ||
     guide.explanationFr.length < 300 ||
+    (guide.vocabularyFr?.length ?? 0) < 5 ||
     guide.demonstrationFr.length < 50 ||
     guide.guidedPracticeFr.length < 2 ||
     guide.independentPracticeFr.length < 2 ||
@@ -364,6 +365,12 @@ const incompleteChapterOneGuides = chapterOneScienceLessons.filter((lesson) => {
     guide.masteryCheckFr.successCriteria.length < 3 ||
     (lesson.concepts[0]?.misconceptions?.length ?? 0) < 2;
 });
+const chapterOneMovementVocabulary = chapterOneScienceLessons.find((lesson) => lesson.id === 'off_scifr_2026_u1_l1')?.vocabulary.map((item) => item.word) ?? [];
+check(
+  '2.10 Chapter 1 vocabulary explicitly names biceps and triceps',
+  chapterOneMovementVocabulary.includes('le biceps') && chapterOneMovementVocabulary.includes('le triceps'),
+);
+
 check(
   `2.8 Chapter 1 has complete app-authored teacher plans for all four lessons (${incompleteChapterOneGuides.length} incomplete)`,
   chapterOneScienceLessons.length === 4 && incompleteChapterOneGuides.length === 0,
