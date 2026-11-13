@@ -129,3 +129,18 @@ body { color: var(--mn-ink); background: var(--mn-paper); }
   background: rgba(255,253,248,.10);
   border-color: rgba(255,253,248,.18);
 }
+
+/* Classroom keeps its teaching stations and state machine, but moves away from
+   the old indigo utility-panel palette. */
+.mn-classroom { background: transparent; }
+.mn-classroom [class*="bg-indigo-50"],
+.mn-classroom [class*="from-indigo-50"],
+.mn-classroom [class*="via-amber-50"],
+.mn-classroom [class*="to-purple-50"] {
+  background-color: #f4efe4;
+}
+.mn-classroom [class*="border-indigo-"] { border-color: #d9cdb8; }
+.mn-classroom [class*="text-indigo-"] { color: var(--mn-teal-dark); }
+.mn-classroom [class*="rounded-2xl"] { border-radius: 1.25rem; }
+.mn-classroom button { min-height: 44px; }
+.mn-classroom [class*="bg-white"] { background-color: #fffdf8; }
