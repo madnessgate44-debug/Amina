@@ -46,15 +46,15 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
         stage: 'guided',
         question: 'Quand tu plies le coude, que fait le biceps ?',
         expectedAnswer: 'Le biceps se contracte et devient plus ferme.',
-        answerExplanation: 'La contraction du muscle situé devant le bras tire sur les os et aide à plier l’avant-bras.'
+        answerExplanation: 'La contraction du biceps tire sur les os et aide à plier l’avant-bras.'
       },
       {
         type: 'multiple_choice',
         stage: 'guided',
         question: 'Quand tu tends le bras, quel muscle se contracte ?',
-        options: ['Celui de l’arrière du bras.', 'Celui de l’avant du bras.', 'Aucun muscle.'],
-        expectedAnswer: 'Celui de l’arrière du bras.',
-        answerExplanation: 'Pendant l’extension, le muscle de l’arrière se contracte et celui de l’avant se relâche.'
+        options: ['Le triceps, situé à l’arrière du bras.', 'Le biceps, situé à l’avant du bras.', 'Aucun muscle.'],
+        expectedAnswer: 'Le triceps, situé à l’arrière du bras.',
+        answerExplanation: 'Pendant l’extension, le triceps se contracte et le biceps se relâche.'
       },
       {
         type: 'fill_blank',
@@ -79,15 +79,15 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
       }
     ],
     answerKeyFr: [
-      { prompt: 'Pratique guidée 1 — muscle de devant quand le coude est plié', expectedAnswer: 'Il se contracte et devient plus ferme.', explanation: 'La contraction tire sur les os et participe à la flexion.' },
-      { prompt: 'Pratique guidée 2 — muscle qui se contracte pendant l’extension', expectedAnswer: 'Le muscle situé à l’arrière du bras.', explanation: 'Le muscle de derrière se contracte tandis que celui de devant se relâche.' },
+      { prompt: 'Pratique guidée 1 — biceps quand le coude est plié', expectedAnswer: 'Le biceps se contracte et devient plus ferme.', explanation: 'La contraction tire sur les os et participe à la flexion.' },
+      { prompt: 'Pratique guidée 2 — triceps qui se contracte pendant l’extension', expectedAnswer: 'Le triceps, situé à l’arrière du bras.', explanation: 'Le muscle de derrière se contracte tandis que celui de devant se relâche.' },
       { prompt: 'Pratique indépendante 1 — compléter « les muscles font bouger les os en les… »', expectedAnswer: 'tirant', explanation: 'Les muscles tirent sur les os ; ils ne les poussent pas.' },
       { prompt: 'Pratique indépendante 2 — rôle du coude', expectedAnswer: 'C’est une articulation où les os se rencontrent et qui permet le mouvement.', explanation: 'Le mouvement du bras se produit autour de l’articulation du coude.' }
     ],
     sourceAnswerKeyFr: [
-      { page: 10, item: 'Essaye 1(1)', expectedAnswer: 'Réponse B — le muscle de devant se contracte.', explanation: 'Pendant la flexion, le muscle situé à l’avant du bras se contracte et devient plus ferme.' },
+      { page: 10, item: 'Essaye 1(1)', expectedAnswer: 'Réponse B — le biceps se contracte.', explanation: 'Pendant la flexion, le muscle situé à l’avant du bras se contracte et devient plus ferme.' },
       { page: 10, item: 'Essaye 1(2)', expectedAnswer: 'La contraction.', explanation: 'Les muscles tirent sur les os lorsqu’ils se contractent.' },
-      { page: 11, item: 'Entraîne-toi 1(1)', expectedAnswer: 'Réponse A — le muscle de l’arrière se contracte et celui de devant se relâche.', explanation: 'Pendant l’extension, le rôle des deux muscles s’inverse.' },
+      { page: 11, item: 'Entraîne-toi 1(1)', expectedAnswer: 'Réponse A — le triceps se contracte et le biceps se relâche.', explanation: 'Pendant l’extension, le rôle des deux muscles s’inverse.' },
       { page: 11, item: 'Entraîne-toi 1(2)', expectedAnswer: 'Réponse B — les muscles font bouger le corps en tirant sur les os.', explanation: 'Les muscles tirent sur les os ; ils ne les poussent pas.' }
     ],
     misconceptionsFr: [
@@ -101,12 +101,12 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
         id: 'scifr26_ch1_l1_both',
         trigger: 'les deux muscles se contractent en même temps',
         explanation: 'Tu n’as pas encore repéré l’alternance des muscles pendant la flexion et l’extension.',
-        remediation: 'Refais lentement le mouvement : bras plié, muscle de devant contracté ; bras tendu, muscle de derrière contracté. Compare les deux positions.'
+        remediation: 'Refais lentement le mouvement : bras plié, biceps contracté ; bras tendu, triceps contracté. Compare les deux positions.'
       }
     ],
     masteryCheckFr: {
-      prompt: 'Sans regarder le cours, explique à Miss Noor ce qui se passe aux muscles de devant et de derrière quand tu plies puis tends le coude.',
-      expectedAnswer: 'Quand le bras se plie, le muscle de devant se contracte et celui de derrière se relâche. Quand le bras se tend, celui de derrière se contracte et celui de devant se relâche. Les muscles tirent sur les os.',
+      prompt: 'Sans regarder le cours, explique à Miss Noor ce qui se passe au biceps et au triceps quand tu plies puis tends le coude.',
+      expectedAnswer: 'Quand le bras se plie, le biceps se contracte et le triceps se relâche. Quand le bras se tend, le triceps se contracte et le biceps se relâche. Les muscles tirent sur les os.',
       successCriteria: ['Distingue flexion et extension.', 'Nomme le muscle qui se contracte dans chaque position.', 'Explique que les muscles tirent sur les os.']
     }
   },
