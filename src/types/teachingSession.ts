@@ -137,6 +137,42 @@ export interface SupplementaryResource {
   isAvailable: boolean;
 }
 
+export interface CurriculumTeacherGuidePracticeItem {
+  prompt: string;
+  expectedAnswer: string;
+}
+
+export interface CurriculumTeacherGuideMisconception {
+  observedResponse: string;
+  diagnosis: string;
+  correctivePrompt: string;
+}
+
+export interface CurriculumTeacherGuideMasteryCheck {
+  prompt: string;
+  expectedAnswer: string;
+  successCriterion: string;
+}
+
+/**
+ * App-authored teaching support derived from a cited student-book edition.
+ * It must never be represented as an official Ministry teacher guide.
+ */
+export interface CurriculumTeacherGuide {
+  provenance: 'app_authored';
+  sourceEdition: string;
+  sourcePages: string;
+  explanationFr: string;
+  workedExampleFr: string;
+  guidedPracticeFr: CurriculumTeacherGuidePracticeItem[];
+  independentPracticeFr: CurriculumTeacherGuidePracticeItem[];
+  /** Ordered one-to-one with independentPracticeFr. */
+  answerKeyFr: string[];
+  misconceptionDiagnosisFr: CurriculumTeacherGuideMisconception[];
+  remediationFr: string[];
+  masteryCheckFr: CurriculumTeacherGuideMasteryCheck[];
+}
+
 export interface OfficialCurriculumLesson {
   id: string;
   subjectId: string;
@@ -169,6 +205,7 @@ export interface OfficialCurriculumLesson {
   isAvailable: boolean;
   contentStatus?: 'available' | 'pending_materials';
   supplementaryResources?: SupplementaryResource[];
+  teacherGuide?: CurriculumTeacherGuide;
 }
 
 export type StructuredVisualType =
