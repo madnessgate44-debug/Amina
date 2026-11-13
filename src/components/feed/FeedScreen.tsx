@@ -276,6 +276,7 @@ export const FeedScreen: React.FC = () => {
             }
           }}
           onSkip={advance}
+          onFinish={() => setActiveTab('home')}
         />
         <div className="fixed bottom-24 left-0 right-0 z-20 flex justify-center pointer-events-none">
           <div className="text-[12px] text-slate-500 bg-slate-950/70 px-3 py-1 rounded-full">
