@@ -71,6 +71,10 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   })),
   ...SCIENCE_CURRICULUM_LESSONS.map((lesson) => ({
     ...withFrenchAssessments(lesson),
+    // These three older national Science records do not match the 2026–2027
+    // French Term 1 textbook. Keep IDs for compatibility, but do not expose them.
+    isAvailable: false,
+    contentStatus: 'pending_materials' as const,
     subjectId: 'subj_science',
     subjectNameAr: 'العلوم',
     subjectNameEn: 'Science',
