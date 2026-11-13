@@ -10,6 +10,7 @@
  * across nine chapters. Maths remains a partial 12/46 lesson extraction.
  */
 
+import { readFileSync } from 'node:fs';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
@@ -93,6 +94,12 @@ check(
   `2.6 obsolete French Science lessons are unavailable (${OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_scifr_') && !lesson.id.startsWith('off_scifr_2026_') && lesson.isAvailable).length} incorrectly available)`,
   OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_scifr_') && !lesson.id.startsWith('off_scifr_2026_')).every((lesson) => !lesson.isAvailable),
 );
+const legacyNationalScience = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => SCIENCE_CURRICULUM_LESSONS.some((source) => source.id === lesson.id));
+check(
+  `2.6a legacy national Science records are unavailable (${legacyNationalScience.filter((lesson) => lesson.isAvailable || lesson.contentStatus !== 'pending_materials').length} incorrectly available)`,
+  legacyNationalScience.length === SCIENCE_CURRICULUM_LESSONS.length && legacyNationalScience.every((lesson) => !lesson.isAvailable && lesson.contentStatus === 'pending_materials'),
+);
+
 console.log(
   `[CURRICULUM COVERAGE] Maths: ${MATH_CURRICULUM_LESSONS.length}/${EXPECTED_MATH_TOC_LESSONS} Term 1 TOC lessons; Science: ${SCIENCE_FR_CURRICULUM_2026_LESSONS.length}/${EXPECTED_SCIENCE_TOC_LESSONS} Term 1 lessons across nine chapters. Maths remains incomplete.`,
 );
@@ -295,6 +302,13 @@ check(
 if (incorrectlyTaggedFrenchLessons.length > 0) {
   console.error('   inconsistent French-track metadata:', incorrectlyTaggedFrenchLessons.map((lesson) => lesson.id));
 }
+
+const lessonStudyModalSource = readFileSync(new URL('../../components/curriculum/LessonStudyModal.tsx', import.meta.url), 'utf8');
+const teacherSequenceUiFields = ["activeTab === 'practice'", 'guidedPracticeFr', 'independentPracticeFr', 'answerKeyFr', 'misconceptionDiagnosisFr', 'remediationFr', 'masteryCheckFr'];
+check(
+  '2.10 learner lesson view exposes the complete teacher-plan practice sequence',
+  teacherSequenceUiFields.every((field) => lessonStudyModalSource.includes(field)),
+);
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
