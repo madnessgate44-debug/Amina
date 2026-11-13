@@ -31,7 +31,12 @@ const makeGuide = (
   workedExampleFr,
   guidedPracticeFr,
   independentPracticeFr,
-  answerKeyFr,
+  // Keep the answer key aligned exactly with the independent-practice
+  // expected answers so wording edits cannot make the two records drift.
+  answerKeyFr: independentPracticeFr.map((item, index) => {
+    const suppliedAnswer = answerKeyFr[index]?.trim();
+    return suppliedAnswer === item.expectedAnswer ? suppliedAnswer : item.expectedAnswer;
+  }),
   misconceptionDiagnosisFr,
   remediationFr,
   masteryCheckFr,
