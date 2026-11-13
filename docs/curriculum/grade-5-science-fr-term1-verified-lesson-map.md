@@ -5,7 +5,7 @@
 **Subject:** Sciences taught in French  
 **Source book:** Ministry student book, 109 pages  
 **Evidence:** [VERIFIED] Direct extraction of the uploaded 109-page book, including pages 1–109. Ministry copyright/edition statement appears on printed page 3 (2026/2027).  
-**Status:** Source inventory and teacher-guide blueprint COMPLETED for Term 1. App integration and runtime verification NOT RUN. This is not a full-year completion declaration.
+**Status:** [VERIFIED] Source inventory and all 28 numbered lesson page ranges are reconciled. App-authored French teaching plans now cover all 28 lessons. CI/runtime verification is pending. This is not a full-year completion declaration.
 
 ## Source identity and scope
 
@@ -177,9 +177,9 @@ These pages are not an extra chapter but provide cross-curricular scientific ski
 
 ## Teacher-guide status
 
-**[BLOCKED]** No matching Egyptian Ministry 2026–2027 teacher guide for the French Science book was found in the online sources checked.  
-**[VERIFIED]** The student book itself explicitly describes teacher-directed observation, experimentation and inquiry, and provides activities, questions and chapter exercises.  
-**Implementation rule:** author a “Miss Noor teacher guide derived from the Ministry student book”. It must not be presented as an official Ministry teacher guide.
+**[BLOCKED]** No matching Egyptian Ministry 2026–2027 teacher guide for the French Science book was found in the sources checked.  
+**[VERIFIED]** The student book itself provides activities, questions, chapter exercises and inquiry procedures.  
+**[VERIFIED]** A complete app-authored “Miss Noor teacher guide derived from the Ministry student book” is now stored in `src/data/curriculum/scienceFrTeachingGuide2026.ts` and attached to all 28 current-edition lessons. It must not be presented as an official Ministry teacher guide. See `grade-5-science-fr-term1-miss-noor-teacher-guide-2026-2027.md`.
 
 ## Online supporting sources found
 
@@ -192,17 +192,17 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 
 ## Release gates
 
-1. Replace/quarantine the six legacy Science lesson records whose subject matter does not match this edition; preserve IDs only if app dependencies require aliases.
-2. Add the 28 numbered lessons above as canonical source lessons with exact printed page ranges.
-3. For every lesson, implement French objectives, a child-readable explanation, modelled examples, vocabulary, activity, guided and independent practice, worked answer explanations, misconceptions/remediation and a mastery check.
-4. Add the end-of-book scientific-method skills as reusable lesson skills and assessment criteria.
-5. Import the Ministry assessment book after direct retrieval and question-by-question validation.
-6. Run typecheck, full tests and production build; then inspect the deployed phone experience.
-7. Do not mark Science complete until Term 2 is sourced and integrated too.
+1. [VERIFIED] The six legacy Science records are quarantined as unavailable compatibility entries; their IDs are preserved but they are not current-edition coverage.
+2. [VERIFIED] The 28 current-edition lessons are registered with exact printed page ranges.
+3. [VERIFIED] All 28 lessons now have app-authored French explanations, demonstrations, guided and independent practice, answer keys, misconception diagnosis, remediation and mastery checks.
+4. [VERIFIED] The six enrichment features and four end-of-book scientific-method skills are indexed as reusable teaching material.
+5. [BLOCKED] Inspect the separate Ministry assessment-book PDF question by question before importing its questions or answers.
+6. Run and inspect typecheck, full tests, production build and applicable CI; then perform a phone-sized learner walkthrough.
+7. [BLOCKED] Do not mark Science complete until the 2026–2027 Term 2 student book is sourced and integrated.
 
 ## Evidence boundary
 
-- **[VERIFIED]** Edition/copyright 2026–2027; 109 pages; nine chapter headings; the 28 lesson titles and page ranges above; enrichment sections; pp. 104–107 scientific skills; extracted teaching statements and activities.
-- **[INFERRED]** The recommended Miss Noor teaching sequences are instructional design derived from the student book, not verbatim Ministry teacher-guide instructions.
-- **[BLOCKED]** Term 2 Science book; matching official teacher guide; direct inspection of the online assessment-book PDF.
-- **[NOT RUN]** App integration, tests, build, deployment and runtime lesson walkthrough.
+- **[VERIFIED]** The inspected 109-page student-book copy carries the Ministry 2026–2027 imprint; all nine chapter headings, 28 numbered lesson page ranges, enrichment sections and pp. 104–107 scientific skills are reconciled.
+- **[VERIFIED]** The 28 lesson plans are app-authored teaching material derived from the student book, not official Ministry teacher-guide instructions.
+- **[BLOCKED]** Term 2 Science book; matching official teacher guide; question-by-question assessment-book inspection.
+- **[NOT YET VERIFIED]** CI, production build, deployment and phone-sized runtime lesson walkthrough.
