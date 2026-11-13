@@ -286,7 +286,7 @@ This update supersedes the 12 November Science inventory finding above; it does 
 
 ### [VERIFIED] Full Term 1 Science source inventory
 
-The complete 109-page Egyptian Ministry 2026–2027 Grade 5 French Science Term 1 student book is now available in the Library source copy and has been inspected page by page. The nine chapter headings and all 28 numbered lesson page spans are reconciled in [the verified lesson map](../curriculum/grade-5-science-fr-term1-verified-lesson-map.md). The application records the exact printed span in `sourceRef.pageRange` and retains the start page in `sourceRef.page`.
+The complete available Egyptian Ministry 2026–2027 Grade 5 French Science Term 1 PDF is now available in the Library source copy and has been inspected page by page. Text extraction exposes 109 PDF pages; the book's production metadata page lists 112 printed pages. The lesson map uses the printed lesson page numbers. The nine chapter headings and all 28 numbered lesson page spans are reconciled in [the verified lesson map](../curriculum/grade-5-science-fr-term1-verified-lesson-map.md). The application records the exact printed span in `sourceRef.pageRange` and retains the start page in `sourceRef.page`.
 
 Chapter 1's final numbered lesson (1-4) is p. 14–17. The dromedary enrichment is a separate section on p. 18–19; it is not included in the lesson's page span.
 
