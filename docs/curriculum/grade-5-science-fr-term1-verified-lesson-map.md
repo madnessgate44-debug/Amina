@@ -220,3 +220,19 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 [BLOCKED] No matching Egyptian Ministry 2026–2027 French Science teacher guide has been verified. The Miss Noor guide is therefore explicitly app-authored and derived from the student book; it is not represented as official teacher-guide material.
 
 [NOT COMPLETE] Chapters 2–9 have verified source-page inventories but do not yet have the same complete teacher-ready expansion as Chapter 1. The end-of-book scientific-skills pages 104–107 also remain to be integrated across the nine chapters. Term 2 is still outside this reconstruction.
+
+### Teacher-guide completion tracker
+
+| Chapter | Printed source range | Numbered lessons | Teacher-ready guide status |
+|---|---:|---:|---|
+| 1. Les os et les muscles | pp. 6–19 | 4 | Complete app-authored guide; dromedary enrichment separately covered on pp. 18–19 |
+| 2. Les changements des saisons | pp. 20–27 | 2 | Source map verified; teacher guide pending |
+| 3. Les conditions de germination | pp. 28–43 | 5 | Source map verified; teacher guide pending |
+| 4. Les conditions de croissance | pp. 44–51 | 2 | Source map verified; teacher guide pending |
+| 5. De la fleur au fruit | pp. 52–63 | 3 | Source map verified; teacher guide pending |
+| 6. La croissance et la reproduction humaines | pp. 64–71 | 3 | Source map verified; teacher guide pending |
+| 7. La croissance et la reproduction des animaux | pp. 72–79 | 3 | Source map verified; teacher guide pending |
+| 8. Les changements météorologiques | pp. 80–91 | 3 | Source map verified; teacher guide pending |
+| 9. Le cycle de l’eau | pp. 92–103 | 3 | Source map verified; teacher guide pending |
+
+The chapter title in the TOC is retained as the canonical heading. Where the chapter-opening page uses a slightly different wording, preserve that as a source-title variant rather than silently renaming the TOC entry.
