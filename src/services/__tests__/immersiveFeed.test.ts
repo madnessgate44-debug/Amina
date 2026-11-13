@@ -254,5 +254,31 @@ assert(
   'the session key is built from the child, language and session length'
 );
 
+
+// --- the session closer must not be a dead end -----------------------------
+// Measured on the live app (390x844 ar-EG): after the last reel the child sees
+// "خلصنا جلسة النهارده!" with a single button, "تخطّي" (Skip), and that button
+// does nothing — `advance()` is a no-op at the last index, so the child is
+// stuck on a card with no way forward and no way back to the rest of the app.
+// A session that ends in a dead end is the "static" the owner's ask rules out.
+assert(
+  /onFinish/.test(reelCard),
+  'the reel exposes an onFinish callback for the end-of-session card'
+);
+assert(
+  /const isCloser = reel\.conceptId === 'closer'/.test(reelCard) ||
+    /reel\.conceptId === 'closer'/.test(reelCard),
+  'the reel recognises the closer card'
+);
+assert(
+  /onClick=\{isCloser \? onFinish : onSkip\}/.test(reelCard),
+  'the closer card offers a working action instead of a no-op Skip'
+);
+assert(
+  /onFinish=\{\(\) => setActiveTab\('home'\)\}/.test(feedScreen) ||
+    /onFinish=/.test(feedScreen),
+  'the feed wires the closer action to leave the feed'
+);
+
 console.log(`\nIMMERSIVE FEED SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);

@@ -45,6 +45,11 @@ interface ReelCardProps {
   onAnswerOutcome?: (outcome: { correct: boolean; namedMisconception: boolean }) => void;
   onTeachMore: () => void;
   onSkip: () => void;
+  /**
+   * Fired by the end-of-session card. The closer has no next reel, so its
+   * action must leave the feed rather than call the no-op `advance()`.
+   */
+  onFinish?: () => void;
   /** Enables the spoken turn: after Noor speaks, the microphone opens by itself. */
   handsFreeEnabled?: boolean;
   /**
@@ -76,6 +81,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
   onAnswerOutcome,
   onTeachMore,
   onSkip,
+  onFinish,
   handsFreeEnabled = false,
   onReactionSpoken,
 }) => {
@@ -189,6 +195,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
 
   const reason = reel.reason ? REASON_LABEL[reel.reason] : null;
   const reasonText = reason ? (isAr ? reason.ar : reel.language === 'fr' ? reason.fr : reason.en) : '';
+  const isCloser = reel.conceptId === 'closer';
   const correctIndex = reel.options ? reel.options.findIndex((o) => o.isCorrect) : -1;
 
   const handlePick = (index: number) => {
@@ -435,7 +442,7 @@ export const ReelCard: React.FC<ReelCardProps> = ({
               </button>
             )}
             <div className="flex items-center gap-2">
-              {reel.conceptId !== 'closer' && (
+              {!isCloser && (
                 <button
                   type="button"
                   onClick={onTeachMore}
@@ -447,10 +454,24 @@ export const ReelCard: React.FC<ReelCardProps> = ({
               {chosen === null && (
                 <button
                   type="button"
-                  onClick={onSkip}
-                  className="min-h-[44px] px-3 py-2 rounded-xl bg-transparent text-slate-300 text-[14px] font-bold hover:text-white"
+                  onClick={isCloser ? onFinish : onSkip}
+                  className={
+                    isCloser
+                      ? 'min-h-[44px] px-4 py-2 rounded-xl bg-white text-slate-950 text-[14px] font-black hover:bg-white/90'
+                      : 'min-h-[44px] px-3 py-2 rounded-xl bg-transparent text-slate-300 text-[14px] font-bold hover:text-white'
+                  }
                 >
-                  {isAr ? 'تخطّي' : reel.language === 'fr' ? 'Passer' : 'Skip'}
+                  {isCloser
+                    ? isAr
+                      ? 'خلصنا — نرجع للرئيسية'
+                      : reel.language === 'fr'
+                      ? 'Terminé — retour à l’accueil'
+                      : 'Done — back home'
+                    : isAr
+                    ? 'تخطّي'
+                    : reel.language === 'fr'
+                    ? 'Passer'
+                    : 'Skip'}
                 </button>
               )}
             </div>
