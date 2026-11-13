@@ -27,7 +27,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 | 1-1 | Les os et les muscles | 6–7 | Flexion and extension of the arm; muscles contract and relax in alternating pairs; muscles pull bones; elbow is an articulation. |
 | 1-2 | La structure des os | 8–11 | Bones support and protect; joints connect two or more bones; cartilage cushions bone ends; joint movement differs by location. |
 | 1-3 | Le squelette complet du corps | 12–13 | Skeleton; skull protects brain; ribs protect heart and lungs; vertebral column supports the body and allows bending. |
-| 1-4 | Le corps des animaux | 14–18 | Compare human and animal skeletons/joints; animal movement uses muscle contraction and bone traction; form varies with locomotion. |
+| 1-4 | Le corps des animaux | 14–17 | Compare human and animal skeletons/joints; animal movement uses muscle contraction and bone traction; form varies with locomotion. |
 | Enrichment | Biomécanique — le dromadaire | 18–19 | Camel knee callosities cushion impact; spreading toe bones distribute weight on sand; hump stores fat, not water; fat distribution supports heat loss. |
 
 **Miss Noor lesson sequence:** begin with a safe arm-flexion demonstration; ask the learner to predict which muscle feels firm; model contract/relax; compare a human skeleton diagram with a dog/rabbit; finish with a camel adaptation explanation. Do not ask the child to press hard on joints or perform unsafe lifting.
@@ -206,3 +206,17 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 - **[INFERRED]** The recommended Miss Noor teaching sequences are instructional design derived from the student book, not verbatim Ministry teacher-guide instructions.
 - **[BLOCKED]** Term 2 Science book; matching official teacher guide; direct inspection of the online assessment-book PDF.
 - **[NOT RUN]** App integration, tests, build, deployment and runtime lesson walkthrough.
+
+## Reconstruction update — 13 November 2026
+
+[VERIFIED] The complete 109-page 2026–2027 French Science student book is now available in the source Library copy and has been inspected page by page. The nine chapter TOC entries and all 28 numbered lesson spans in this map are reconciled to the printed pages. The application stores the exact printed span in `sourceRef.pageRange`; the start page remains in `sourceRef.page`.
+
+[VERIFIED] Chapter 1 core lesson 1-4 ends on p. 17. The dromedary enrichment begins on p. 18 and continues to p. 19; it is not part of lesson 1-4's core page range.
+
+[COMPLETED] The app-authored Chapter 1 teacher guide is in [grade-5-science-fr-term1-teacher-guide-chapter-1.md](./grade-5-science-fr-term1-teacher-guide-chapter-1.md). It covers all four numbered lessons and the separate enrichment, including French teaching explanations, demonstrations, guided and independent practice, answer keys, misconception diagnosis, remediation and mastery checks. The same structured material is attached to the four Chapter 1 lesson records in `scienceFrTeacherGuide2026.ts`.
+
+[VERIFIED] The textbook's printed exercise answers on pp. 10–11 and 16–17 were checked against the extracted page text before being added to the guide and its structured answer key.
+
+[BLOCKED] No matching Egyptian Ministry 2026–2027 French Science teacher guide has been verified. The Miss Noor guide is therefore explicitly app-authored and derived from the student book; it is not represented as official teacher-guide material.
+
+[NOT COMPLETE] Chapters 2–9 have verified source-page inventories but do not yet have the same complete teacher-ready expansion as Chapter 1. The end-of-book scientific-skills pages 104–107 also remain to be integrated across the nine chapters. Term 2 is still outside this reconstruction.
