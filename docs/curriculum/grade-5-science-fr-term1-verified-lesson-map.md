@@ -5,7 +5,7 @@
 **Subject:** Sciences taught in French  
 **Source book:** Ministry student book, 109 pages  
 **Evidence:** [VERIFIED] Direct extraction of the uploaded 109-page book, including pages 1–109. Ministry copyright/edition statement appears on printed page 3 (2026/2027).  
-**Status:** Source inventory and teacher-guide blueprint COMPLETED for Term 1. App integration and runtime verification NOT RUN. This is not a full-year completion declaration.
+**Status:** [VERIFIED] Source inventory and all 28 numbered lesson page ranges are reconciled. App-authored French teaching plans now cover all 28 lessons. CI/runtime verification is pending. This is not a full-year completion declaration.
 
 ## Source identity and scope
 
@@ -27,7 +27,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 | 1-1 | Les os et les muscles | 6–7 | Flexion and extension of the arm; muscles contract and relax in alternating pairs; muscles pull bones; elbow is an articulation. |
 | 1-2 | La structure des os | 8–11 | Bones support and protect; joints connect two or more bones; cartilage cushions bone ends; joint movement differs by location. |
 | 1-3 | Le squelette complet du corps | 12–13 | Skeleton; skull protects brain; ribs protect heart and lungs; vertebral column supports the body and allows bending. |
-| 1-4 | Le corps des animaux | 14–18 | Compare human and animal skeletons/joints; animal movement uses muscle contraction and bone traction; form varies with locomotion. |
+| 1-4 | Le corps des animaux | 14–17 | Compare human and animal skeletons/joints; animal movement uses muscle contraction and bone traction; form varies with locomotion. |
 | Enrichment | Biomécanique — le dromadaire | 18–19 | Camel knee callosities cushion impact; spreading toe bones distribute weight on sand; hump stores fat, not water; fat distribution supports heat loss. |
 
 **Miss Noor lesson sequence:** begin with a safe arm-flexion demonstration; ask the learner to predict which muscle feels firm; model contract/relax; compare a human skeleton diagram with a dog/rabbit; finish with a camel adaptation explanation. Do not ask the child to press hard on joints or perform unsafe lifting.
@@ -58,7 +58,8 @@ Page ranges below are the printed page numbers visible in the student book. Each
 | 3-2 | L’eau et la germination | 30–33 | Fair test: compare moist and dry cotton; change only water availability; keep air, temperature and light conditions equivalent; seeds need water to germinate. |
 | 3-3 | L’air et la germination | 34–35 | Compare moist cotton exposed to air with seeds fully submerged; change air exposure only; keep water and temperature comparable; seeds need air. |
 | 3-4 | La température et la germination | 36–39 | Compare warm and cold conditions; keep water, air and light comparable; appropriate warmth is needed for germination. |
-| 3-5 | Résumé de la germination | 40–43 | Three conditions: water, air and suitable temperature; if one is missing, seeds do not germinate; sunlight and fertilizer are needed for later plant growth, not for germination itself. |
+| 3-5 | Résumé de la germination | 40–42 | Three conditions: water, air and suitable temperature; if one is missing, seeds do not germinate; sunlight and fertilizer are needed for later plant growth, not for germination itself. |
+| Enrichment | Comparer les graines familières | 43 | Compare the shapes and colours of pea, date-palm, wheat, sunflower, cotton and maize seeds. |
 | Enrichment | Les graines et la dormance | 50–51 | Seed dormancy; dry conditions can preserve seeds; Nile floodplain soil and nutrient-rich silt support plant growth. |
 
 **Miss Noor lesson sequence:** inspect a soaked bean seed; identify seed coat, cotyledons and embryo; predict each experiment; explicitly name the changed variable and controlled variables; ask learner to interpret results; build a three-condition summary table. Use iodine only with adult supervision and never taste it.
@@ -67,7 +68,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 
 **Key vocabulary:** graine, embryon, cotylédon, amidon, germination, solution d’iode, variable, condition constante, air, eau, température appropriée, dormance.
 
-**Book practice:** pp. 32–34, 38–43. Enrichment pp. 50–51.
+**Book practice:** pp. 32–34, 38–42. Seed-comparison enrichment p. 43; dormancy/Nile enrichment pp. 50–51.
 
 ### Chapter 4 — Les conditions de croissance (pp. 44–51)
 
@@ -89,7 +90,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 |---|---|---:|---|
 | 5-1 | La structure de la fleur de luffa | 52–54 | Luffa and squash plants have male and female flowers; male flower has a stamen and pollen; female flower has a carpel and swelling at the base that becomes fruit. |
 | 5-2 | Comment utiliser le microscope ? | 55–59 | Microscope parts; prepare a slide; use low magnification first; focus by moving objective away from slide while viewing; image is inverted; total magnification = eyepiece × objective. |
-| 5-3 | La pollinisation et comment les fruits se développent | 60–63 | Pollination is transfer of pollen to the top of the carpel; insects such as bees transport pollen in luffa; after pollination the carpel develops into fruit and seeds form. |
+| 5-3 | La pollinisation et comment les fruits se développent | 60–62 | Pollination is transfer of pollen to the top of the carpel; insects such as bees transport pollen in luffa; after pollination the carpel develops into fruit and seeds form. |
 | Review | Révision et exercices | 63 | Integrative review of flower structure, pollen, pollination and microscope procedure. |
 
 **Miss Noor lesson sequence:** compare male/female flower diagrams; label stamen, pollen, carpel, sepals, petals and ovary/swelling; demonstrate slide preparation with safe materials; practise microscope handling using low power; sequence pollination → fruit development → seed formation.
@@ -177,9 +178,9 @@ These pages are not an extra chapter but provide cross-curricular scientific ski
 
 ## Teacher-guide status
 
-**[BLOCKED]** No matching Egyptian Ministry 2026–2027 teacher guide for the French Science book was found in the online sources checked.  
-**[VERIFIED]** The student book itself explicitly describes teacher-directed observation, experimentation and inquiry, and provides activities, questions and chapter exercises.  
-**Implementation rule:** author a “Miss Noor teacher guide derived from the Ministry student book”. It must not be presented as an official Ministry teacher guide.
+**[BLOCKED]** No matching Egyptian Ministry 2026–2027 teacher guide for the French Science book was found in the sources checked.  
+**[VERIFIED]** The student book itself provides activities, questions, chapter exercises and inquiry procedures.  
+**[VERIFIED]** A complete app-authored “Miss Noor teacher guide derived from the Ministry student book” is now stored in `src/data/curriculum/scienceFrTeachingGuide2026.ts` and attached to all 28 current-edition lessons. It must not be presented as an official Ministry teacher guide. See `grade-5-science-fr-term1-miss-noor-teacher-guide-2026-2027.md`.
 
 ## Online supporting sources found
 
@@ -192,17 +193,17 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 
 ## Release gates
 
-1. Replace/quarantine the six legacy Science lesson records whose subject matter does not match this edition; preserve IDs only if app dependencies require aliases.
-2. Add the 28 numbered lessons above as canonical source lessons with exact printed page ranges.
-3. For every lesson, implement French objectives, a child-readable explanation, modelled examples, vocabulary, activity, guided and independent practice, worked answer explanations, misconceptions/remediation and a mastery check.
-4. Add the end-of-book scientific-method skills as reusable lesson skills and assessment criteria.
-5. Import the Ministry assessment book after direct retrieval and question-by-question validation.
-6. Run typecheck, full tests and production build; then inspect the deployed phone experience.
-7. Do not mark Science complete until Term 2 is sourced and integrated too.
+1. [VERIFIED] The six legacy Science records are quarantined as unavailable compatibility entries; their IDs are preserved but they are not current-edition coverage.
+2. [VERIFIED] The 28 current-edition lessons are registered with exact printed page ranges.
+3. [VERIFIED] All 28 lessons now have app-authored French explanations, demonstrations, guided and independent practice, answer keys, misconception diagnosis, remediation and mastery checks.
+4. [VERIFIED] The six enrichment features and four end-of-book scientific-method skills are indexed as reusable teaching material.
+5. [BLOCKED] Inspect the separate Ministry assessment-book PDF question by question before importing its questions or answers.
+6. Run and inspect typecheck, full tests, production build and applicable CI; then perform a phone-sized learner walkthrough.
+7. [BLOCKED] Do not mark Science complete until the 2026–2027 Term 2 student book is sourced and integrated.
 
 ## Evidence boundary
 
-- **[VERIFIED]** Edition/copyright 2026–2027; 109 pages; nine chapter headings; the 28 lesson titles and page ranges above; enrichment sections; pp. 104–107 scientific skills; extracted teaching statements and activities.
-- **[INFERRED]** The recommended Miss Noor teaching sequences are instructional design derived from the student book, not verbatim Ministry teacher-guide instructions.
-- **[BLOCKED]** Term 2 Science book; matching official teacher guide; direct inspection of the online assessment-book PDF.
-- **[NOT RUN]** App integration, tests, build, deployment and runtime lesson walkthrough.
+- **[VERIFIED]** The inspected 109-page student-book copy carries the Ministry 2026–2027 imprint; all nine chapter headings, 28 numbered lesson page ranges, enrichment sections and pp. 104–107 scientific skills are reconciled.
+- **[VERIFIED]** The 28 lesson plans are app-authored teaching material derived from the student book, not official Ministry teacher-guide instructions.
+- **[BLOCKED]** Term 2 Science book; matching official teacher guide; question-by-question assessment-book inspection.
+- **[NOT YET VERIFIED]** CI, production build, deployment and phone-sized runtime lesson walkthrough.
