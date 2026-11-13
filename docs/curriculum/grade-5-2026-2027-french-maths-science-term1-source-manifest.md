@@ -158,3 +158,33 @@ The four current Miss Noor French-language lessons therefore remain **UNVERIFIED
 - **[BLOCKED]** A matching 2026–2027 Ministry French Science teacher guide and the Term 2 Science student book.
 - **[UNVERIFIED]** Girard's exact assigned book/track and the separate assessment-book question alignment.
 - **[NOT YET VERIFIED]** CI, app runtime and deployment for the new teaching-pack integration.
+
+
+## 8. Separate Science assessment-book source discovery — 13 November 2026
+
+**[UNVERIFIED — source listing and sample previews only]** A separate French Science assessment-book PDF for Grade 5, Term 1, 2026–2027 was located:
+
+- Listing A: https://mozkratgahza.com/pdf/7054 — describes a Ministry-prepared Science assessment book, 68 pages, approximately 33 MB, published 27 October 2026.
+- Listing B: https://www.modrsbook.com/primary-5/term-1/science/thmyl-ktab-altkyymat-science-balfrnsaoy-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027 — describes the same title/year/term, 69 pages, approximately 33 MB.
+- Download/preview link exposed by Listing A: https://drive.google.com/file/d/1x5sXWZ5gIv_YNMymiF_jrSATqvMmekI4/preview
+- Sample page previews on Listing B show the assessment booklet's first chapter material: lesson 1-1 on muscle contraction/relaxation and lesson 1-2 on bone structure/joints. These are assessment-book pages, not student-textbook page numbers.
+
+**Discrepancy:** the two listings report 68 versus 69 pages. The full PDF could not be retrieved through the available browser/download path in this run, and no direct Ministry-hosted assessment PDF URL or cryptographic source match was verified.
+
+**Required handling:** do not import the listing's sample questions as a complete assessment bank. Do not claim the workbook is Ministry-authenticated solely from a third-party listing. Obtain the complete PDF through a retrievable source, verify its cover/imprint/year/grade/subject/language, reconcile all questions to the nine student-book chapters, and independently verify every answer before importing. Any Miss Noor-authored questions must remain separately labelled.
+
+## 9. Term 2 source availability
+
+**[BLOCKED — source not yet published in the checked catalogue]** The Grade 5 2026–2027 book catalogue reviewed on 13 November 2026 still lists only the first-term collection. Its publication note says Term 2 books are added when the Ministry publishes them: https://miskeg.app/books/general-primary-5/ (last catalogue review displayed: 26 October 2026).
+
+**Resolution:** Term 2 cannot be reconstructed responsibly until the exact 2026–2027 French Science Term 2 student book is published and accessible. Do not reuse a 2024/2025 or 2025/2026 Term 2 book, or infer Term 2 from Term 1. Recheck the Ministry book catalogue after publication and then establish a new edition-specific manifest before authoring lessons.
+
+## 10. Deployment and release constraint
+
+**[VERIFIED]** Vercel rejected PR preview deployments with `api-deployments-free-per-day` after the free project exceeded 100 deployments in a day. This is a daily platform quota, not a source-code build failure. The current production deployment remains `READY` on the main commit `fc929b46f9f4c0fd40ad27a8e70fd0ddc41a1e34`, with the custom domain `amina-nine-sepia.vercel.app` assigned.
+
+**Resolution:** preserve the existing production deployment; stop commit-by-commit preview churn; finish curriculum work in one branch/PR and run GitHub CI independently; merge only after checks pass; allow one production deployment from main after the daily quota resets. No paid upgrade is assumed. A preview quota failure is not evidence that production is broken, and a successful GitHub build is not evidence that the new curriculum is live.
+
+## 11. Official teacher-guide search boundary
+
+**[BLOCKED]** Searches for the exact Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide did not locate a matching document. Search results for the Ministry's National International Curriculum (NIC) teaching guides describe a different curriculum and are not acceptable substitutes. The current Miss Noor guide remains app-authored from the student-book copy. If an exact Ministry guide is later found, reconcile it lesson by lesson and preserve provenance; do not overwrite app-authored material without source comparison.
