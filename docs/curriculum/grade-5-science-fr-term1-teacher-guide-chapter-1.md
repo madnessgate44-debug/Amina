@@ -14,7 +14,7 @@
 - **Enrichissement :** biomécanique du dromadaire, p. 18–19.
 - **Exercices du manuel :** p. 10–11 et p. 16–17.
 
-[VERIFIED] Le PDF consulté porte les mentions de droits du ministère pour 2026–2027 et contient 109 pages. Les pages imprimées ci-dessus ont été vérifiées dans le document. [BLOCKED] Aucun guide de l'enseignant du ministère, correspondant à cette édition et à la version française, n'a été identifié dans les sources consultées.
+[VERIFIED] Le PDF consulté porte les mentions de droits du ministère pour 2026–2027. L'extraction du document expose 109 pages PDF, tandis que la page de spécifications éditoriales indique 112 pages imprimées. Les références de ce guide utilisent les numéros de page imprimés du manuel. [BLOCKED] Aucun guide de l'enseignant du ministère, correspondant à cette édition et à la version française, n'a été identifié dans les sources consultées.
 
 ## Objectifs du chapitre
 
