@@ -37,8 +37,10 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
   const speechLanguage = lesson.instructionLanguage || lesson.contentLanguage || language;
   const studentName = student?.name || (isAr ? 'صديقي' : isFr ? 'ami' : 'friend');
 
-  const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'exercises'>('explanation');
+  const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'practice' | 'exercises'>('explanation');
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
+  const [revealedGuideAnswers, setRevealedGuideAnswers] = useState<Record<string, boolean>>({});
+  const toggleGuideAnswer = (key: string) => setRevealedGuideAnswers((previous) => ({ ...previous, [key]: !previous[key] }));
   const [exerciseFeedback, setExerciseFeedback] = useState<Record<number, { isCorrect: boolean; message: string }>>({});
   const [encouragingFeedback, setEncouragingFeedback] = useState<{
     type: EncouragementType;
@@ -157,6 +159,12 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   : isFr
                   ? `Écoute chaque mot de vocabulaire et lis sa définition en français.`
                   : `Tap any vocabulary word to hear Miss Noor pronounce and explain its definition.`
+                : activeTab === 'practice'
+                ? isAr
+                  ? 'تدريب خطوة بخطوة، ثم حاولي وحدك واكشفي الإجابة بعد المحاولة.'
+                  : isFr
+                  ? 'Suis la pratique guidée, essaie seule, puis révèle la réponse pour te corriger.'
+                  : 'Follow the guided practice, try independently, then reveal the answer to check your work.'
                 : isAr
                 ? `والآن مع التحدي والتمارين التفاعلية! اختاري الإجابة الصحيحة واستمعي للتشجيع!`
                 : isFr
@@ -204,6 +212,25 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             <Layers className="w-3.5 h-3.5" />
             <span>{isAr ? `المفردات (${lesson.vocabulary.length})` : isFr ? `Vocabulaire (${lesson.vocabulary.length})` : `Vocab (${lesson.vocabulary.length})`}</span>
           </button>
+
+          {lesson.teacherGuide && (
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playPop();
+                setActiveTab('practice');
+                setEncouragingFeedback(null);
+              }}
+              className={`flex-1 py-2 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                activeTab === 'practice'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+              }`}
+            >
+              <BookOpen className="w-3.5 h-3.5" />
+              <span>{isAr ? 'التدريب والإتقان' : isFr ? 'Pratique' : 'Practice'}</span>
+            </button>
+          )}
 
           <button
             type="button"
@@ -381,7 +408,79 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             </div>
           )}
 
-          {/* TAB 3: INTERACTIVE EXERCISES */}
+          {/* TAB 3: APP-AUTHORED TEACHING SEQUENCE */}
+          {activeTab === 'practice' && lesson.teacherGuide && (
+            <div className="space-y-5 animate-in fade-in duration-200">
+              <section className="space-y-3">
+                <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">{isAr ? 'التدريب الموجّه' : isFr ? 'Pratique guidée' : 'Guided practice'}</h3>
+                {lesson.teacherGuide.guidedPracticeFr.map((item, index) => {
+                  const key = `guided-${index}`;
+                  return (
+                    <div key={key} className="rounded-2xl border border-slate-200 dark:border-slate-700 p-3 space-y-2">
+                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{index + 1}. {item.prompt}</p>
+                      <button type="button" onClick={() => toggleGuideAnswer(key)} className="text-xs font-bold text-indigo-600 dark:text-indigo-300 underline">
+                        {revealedGuideAnswers[key] ? (isFr ? 'Masquer la réponse' : isAr ? 'إخفاء الإجابة' : 'Hide answer') : (isFr ? 'Voir la réponse attendue' : isAr ? 'إظهار الإجابة المتوقعة' : 'Reveal expected answer')}
+                      </button>
+                      {revealedGuideAnswers[key] && <p className="rounded-xl bg-indigo-50 dark:bg-indigo-950/30 p-3 text-sm leading-relaxed">{item.expectedAnswer}</p>}
+                    </div>
+                  );
+                })}
+              </section>
+
+              <section className="space-y-3">
+                <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">{isAr ? 'التدريب المستقل' : isFr ? 'Pratique autonome' : 'Independent practice'}</h3>
+                {lesson.teacherGuide.independentPracticeFr.map((item, index) => {
+                  const key = `independent-${index}`;
+                  return (
+                    <div key={key} className="rounded-2xl border border-slate-200 dark:border-slate-700 p-3 space-y-2">
+                      <p className="text-sm font-semibold text-slate-800 dark:text-slate-100">{index + 1}. {item.prompt}</p>
+                      <button type="button" onClick={() => toggleGuideAnswer(key)} className="text-xs font-bold text-indigo-600 dark:text-indigo-300 underline">
+                        {revealedGuideAnswers[key] ? (isFr ? 'Masquer la correction' : isAr ? 'إخفاء التصحيح' : 'Hide answer key') : (isFr ? 'Révéler la correction' : isAr ? 'إظهار التصحيح' : 'Reveal answer key')}
+                      </button>
+                      {revealedGuideAnswers[key] && <p className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 p-3 text-sm leading-relaxed">{lesson.teacherGuide.answerKeyFr[index]}</p>}
+                    </div>
+                  );
+                })}
+              </section>
+
+              <section className="space-y-3">
+                <h3 className="text-sm font-black text-amber-700 dark:text-amber-300">{isAr ? 'تشخيص الأخطاء الشائعة' : isFr ? 'Comprendre les erreurs fréquentes' : 'Common misconception diagnosis'}</h3>
+                {lesson.teacherGuide.misconceptionDiagnosisFr.map((item, index) => (
+                  <div key={index} className="rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 p-3 space-y-1.5">
+                    <p className="text-xs font-bold">{isFr ? 'Réponse observée :' : isAr ? 'الإجابة التي قد تظهر:' : 'Possible learner response:'} {item.observedResponse}</p>
+                    <p className="text-xs">{isFr ? 'Diagnostic :' : isAr ? 'التشخيص:' : 'Diagnosis:'} {item.diagnosis}</p>
+                    <p className="text-xs font-semibold text-indigo-700 dark:text-indigo-300">{isFr ? 'Question corrective :' : isAr ? 'سؤال التصحيح:' : 'Corrective prompt:'} {item.correctivePrompt}</p>
+                  </div>
+                ))}
+              </section>
+
+              <section className="space-y-2">
+                <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">{isAr ? 'خطوات إعادة الشرح' : isFr ? 'Remédiation' : 'Remediation'}</h3>
+                <ol className="list-decimal pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-200">
+                  {lesson.teacherGuide.remediationFr.map((step, index) => <li key={index}>{step}</li>)}
+                </ol>
+              </section>
+
+              <section className="space-y-3">
+                <h3 className="text-sm font-black text-emerald-700 dark:text-emerald-300">{isAr ? 'التحقق من الإتقان' : isFr ? 'Vérification de la maîtrise' : 'Mastery check'}</h3>
+                {lesson.teacherGuide.masteryCheckFr.map((item, index) => {
+                  const key = `mastery-${index}`;
+                  return (
+                    <div key={key} className="rounded-2xl border border-emerald-200 dark:border-emerald-900 p-3 space-y-2">
+                      <p className="text-sm font-semibold">{item.prompt}</p>
+                      <p className="text-xs text-slate-500">{isFr ? 'Critère de réussite :' : isAr ? 'معيار النجاح:' : 'Success criterion:'} {item.successCriterion}</p>
+                      <button type="button" onClick={() => toggleGuideAnswer(key)} className="text-xs font-bold text-emerald-700 dark:text-emerald-300 underline">
+                        {revealedGuideAnswers[key] ? (isFr ? 'Masquer la réponse' : isAr ? 'إخفاء الإجابة' : 'Hide answer') : (isFr ? 'Voir la réponse attendue' : isAr ? 'إظهار الإجابة المتوقعة' : 'Reveal expected answer')}
+                      </button>
+                      {revealedGuideAnswers[key] && <p className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 p-3 text-sm">{item.expectedAnswer}</p>}
+                    </div>
+                  );
+                })}
+              </section>
+            </div>
+          )}
+
+          {/* TAB 4: INTERACTIVE EXERCISES */}
           {activeTab === 'exercises' && (
             <div className="space-y-4 animate-in fade-in duration-200">
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
