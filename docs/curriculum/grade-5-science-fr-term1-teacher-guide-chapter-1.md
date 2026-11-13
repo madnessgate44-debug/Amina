@@ -78,11 +78,11 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
 
 ### Pratique guidée — avec réponses
 
-1. **Question :** Quand tu plies le coude, que fait le muscle situé devant le bras ?  
+1. **Question :** Quand tu plies le coude, que fait le muscle situé devant le bras ?
    **Réponse :** Il se contracte et devient plus ferme.
-2. **Question :** Quand tu tends le bras, quel muscle se contracte ?  
+2. **Question :** Quand tu tends le bras, quel muscle se contracte ?
    **Réponse :** Celui de l'arrière du bras.
-3. **Complète :** Les muscles font bouger les os en les … ; ils ne les … pas.  
+3. **Complète :** Les muscles font bouger les os en les … ; ils ne les … pas.
    **Réponse :** en les *tirant* ; ils ne les *poussent* pas.
 
 ### Pratique indépendante — avec corrigé
@@ -94,11 +94,11 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
 
 ### Diagnostic des erreurs et remédiation
 
-- **Erreur :** « Les muscles poussent les os. »  
-  **Diagnostic :** l'élève inverse l'action du muscle.  
+- **Erreur :** « Les muscles poussent les os. »
+  **Diagnostic :** l'élève inverse l'action du muscle.
   **Remédiation :** utiliser l'image d'une corde attachée à un objet. Quand la corde se raccourcit, elle tire l'objet vers elle. Un muscle tire sur l'os lorsqu'il se contracte.
-- **Erreur :** « Les deux muscles se contractent de la même façon en même temps. »  
-  **Diagnostic :** l'élève n'a pas repéré l'alternance entre flexion et extension.  
+- **Erreur :** « Les deux muscles se contractent de la même façon en même temps. »
+  **Diagnostic :** l'élève n'a pas repéré l'alternance entre flexion et extension.
   **Remédiation :** refaire lentement les deux mouvements : bras plié, muscle de devant contracté ; bras tendu, muscle de derrière contracté.
 
 ### Vérification de la maîtrise
@@ -137,27 +137,27 @@ Les extrémités de certains os sont protégées par du cartilage. Le cartilage 
 
 ### Pratique guidée — avec réponses
 
-1. **Question :** Qu'appelle-t-on une articulation ?  
+1. **Question :** Qu'appelle-t-on une articulation ?
    **Réponse :** L'endroit où deux os ou plus se rencontrent.
-2. **Question :** Quel est le rôle du cartilage ?  
+2. **Question :** Quel est le rôle du cartilage ?
    **Réponse :** Il agit comme un coussin, réduit les frottements et protège les extrémités des os.
-3. **Question :** Le coude et l'épaule permettent-ils exactement les mêmes mouvements ?  
+3. **Question :** Le coude et l'épaule permettent-ils exactement les mêmes mouvements ?
    **Réponse :** Non. Le coude se plie surtout dans une direction ; l'épaule permet des mouvements plus variés.
 
 ### Pratique indépendante — avec corrigé
 
-1. Écris une définition simple du mot « articulation ».  
+1. Écris une définition simple du mot « articulation ».
    **Corrigé :** endroit où deux os ou plus se rencontrent.
-2. Complète un tableau : partie du corps / articulation repérée / mouvement observé.  
+2. Complète un tableau : partie du corps / articulation repérée / mouvement observé.
    **Corrigé possible :** coude / articulation du coude / flexion et extension ; épaule / articulation de l'épaule / mouvements plus variés.
 
 ### Diagnostic des erreurs et remédiation
 
-- **Erreur :** « Toutes les articulations tournent dans toutes les directions. »  
-  **Diagnostic :** l'élève pense que toutes les articulations ont la même mobilité.  
+- **Erreur :** « Toutes les articulations tournent dans toutes les directions. »
+  **Diagnostic :** l'élève pense que toutes les articulations ont la même mobilité.
   **Remédiation :** comparer le coude et l'épaule. Le coude se plie surtout dans une direction ; l'épaule permet des mouvements plus variés.
-- **Erreur :** « Le cartilage est un os dur. »  
-  **Diagnostic :** l'élève confond le cartilage souple avec l'os.  
+- **Erreur :** « Le cartilage est un os dur. »
+  **Diagnostic :** l'élève confond le cartilage souple avec l'os.
   **Remédiation :** reprendre l'image du coussin : le cartilage est souple et réduit les frottements entre les extrémités des os.
 
 ### Vérification de la maîtrise
@@ -196,11 +196,11 @@ Les os ont donc deux grands rôles à retenir : soutenir le corps et protéger d
 
 ### Pratique guidée — avec réponses
 
-1. **Question :** Quel organe le crâne protège-t-il ?  
+1. **Question :** Quel organe le crâne protège-t-il ?
    **Réponse :** Le cerveau.
-2. **Question :** Quels organes les côtes protègent-elles ?  
+2. **Question :** Quels organes les côtes protègent-elles ?
    **Réponse :** Le cœur et les poumons.
-3. **Question :** De quoi la colonne vertébrale est-elle composée ?  
+3. **Question :** De quoi la colonne vertébrale est-elle composée ?
    **Réponse :** De nombreux petits os reliés entre eux.
 
 ### Pratique indépendante — avec corrigé
@@ -213,11 +213,11 @@ Les os ont donc deux grands rôles à retenir : soutenir le corps et protéger d
 
 ### Diagnostic des erreurs et remédiation
 
-- **Erreur :** « Le crâne protège le cœur. »  
-  **Diagnostic :** l'élève associe le mauvais organe à la mauvaise partie du squelette.  
+- **Erreur :** « Le crâne protège le cœur. »
+  **Diagnostic :** l'élève associe le mauvais organe à la mauvaise partie du squelette.
   **Remédiation :** le crâne entoure le cerveau ; les côtes forment la cage qui protège le cœur et les poumons.
-- **Erreur :** « La colonne vertébrale est un seul os. »  
-  **Diagnostic :** l'élève imagine une structure longue et rigide.  
+- **Erreur :** « La colonne vertébrale est un seul os. »
+  **Diagnostic :** l'élève imagine une structure longue et rigide.
   **Remédiation :** observer le schéma : la colonne est formée de nombreux petits os reliés, ce qui permet au corps de se pencher.
 
 ### Vérification de la maîtrise
@@ -253,11 +253,11 @@ Les squelettes ne sont pourtant pas identiques. La longueur et la forme des os, 
 
 ### Pratique guidée — avec réponses
 
-1. **Question :** Comment les chiens et les lapins font-ils bouger leurs os ?  
+1. **Question :** Comment les chiens et les lapins font-ils bouger leurs os ?
    **Réponse :** Leurs muscles se contractent et tirent sur leurs os.
-2. **Question :** Pourquoi les membres postérieurs du lapin sont-ils longs ?  
+2. **Question :** Pourquoi les membres postérieurs du lapin sont-ils longs ?
    **Réponse :** Ils l'aident à sauter.
-3. **Question :** Les squelettes de tous les animaux ont-ils exactement la même forme ?  
+3. **Question :** Les squelettes de tous les animaux ont-ils exactement la même forme ?
    **Réponse :** Non. Leur forme varie selon le mode de déplacement.
 
 ### Pratique indépendante — avec corrigé
@@ -268,11 +268,11 @@ Les squelettes ne sont pourtant pas identiques. La longueur et la forme des os, 
 
 ### Diagnostic des erreurs et remédiation
 
-- **Erreur :** « Tous les animaux ont le même squelette. »  
-  **Diagnostic :** l'élève confond un mécanisme de mouvement semblable avec une forme de squelette identique.  
+- **Erreur :** « Tous les animaux ont le même squelette. »
+  **Diagnostic :** l'élève confond un mécanisme de mouvement semblable avec une forme de squelette identique.
   **Remédiation :** comparer le chien et le lapin : ils utilisent tous deux des os et des muscles, mais la longueur et la forme de leurs os varient avec leurs mouvements.
-- **Erreur :** « Les animaux bougent sans muscles. »  
-  **Diagnostic :** l'élève oublie le rôle des muscles dans le mouvement.  
+- **Erreur :** « Les animaux bougent sans muscles. »
+  **Diagnostic :** l'élève oublie le rôle des muscles dans le mouvement.
   **Remédiation :** rappeler que, comme chez l'être humain, les muscles des animaux se contractent et tirent sur les os.
 
 ### Vérification de la maîtrise
@@ -297,7 +297,7 @@ Les squelettes ne sont pourtant pas identiques. La longueur et la forme des os, 
 
 **Réponse attendue :** les tissus souples sous les callosités amortissent les chocs ; les orteils s'écartent pour augmenter la surface d'appui et répartir le poids sur le sable.
 
-**Idée fausse à diagnostiquer :** « La bosse contient de l'eau. »  
+**Idée fausse à diagnostiquer :** « La bosse contient de l'eau. »
 **Remédiation :** faire distinguer une réserve de graisse d'une réserve d'eau. La bosse stocke de la graisse, que le corps peut utiliser pour produire de l'énergie.
 
 ---
