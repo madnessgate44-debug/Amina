@@ -14,7 +14,7 @@ import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
 import { SCIENCE_FR_CURRICULUM_LESSONS } from '../../data/curriculum/scienceFrCurriculum';
-import { SCIENCE_FR_TEACHER_GUIDE_2026, SCIENCE_FR_TERM1_ENRICHMENT_2026, SCIENCE_FR_TERM1_METHOD_SKILLS_2026 } from '../../data/curriculum/scienceFrTeachingGuide2026';
+import { SCIENCE_FR_TEACHER_GUIDE_2026, SCIENCE_FR_TERM1_ENRICHMENT_2026, SCIENCE_FR_TERM1_METHOD_SKILLS_2026, SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026 } from '../../data/curriculum/scienceFrTeachingGuide2026';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
@@ -93,11 +93,11 @@ check(
 );
 
 const expectedSciencePageRanges: Record<string, string> = {
-  '1-1': '6–7', '1-2': '8–11', '1-3': '12–13', '1-4': '14–18',
+  '1-1': '6–7', '1-2': '8–11', '1-3': '12–13', '1-4': '14–17',
   '2-1': '20–21', '2-2': '22–25',
-  '3-1': '28–29', '3-2': '30–33', '3-3': '34–35', '3-4': '36–39', '3-5': '40–43',
+  '3-1': '28–29', '3-2': '30–33', '3-3': '34–35', '3-4': '36–39', '3-5': '40–42',
   '4-1': '44–45', '4-2': '46–49',
-  '5-1': '52–54', '5-2': '55–59', '5-3': '60–63',
+  '5-1': '52–54', '5-2': '55–59', '5-3': '60–62',
   '6-1': '64–65', '6-2': '66–67', '6-3': '68–71',
   '7-1': '72–73', '7-2': '74–75', '7-3': '76–79',
   '8-1': '80–81', '8-2': '82–85', '8-3': '86–89',
@@ -135,12 +135,22 @@ check(
   `2.7 all 28 current Science lessons have complete app-authored French teaching plans (${incompleteScienceGuides.length} incomplete)`,
   SCIENCE_FR_CURRICULUM_2026_LESSONS.length === 28 && incompleteScienceGuides.length === 0,
 );
+const scienceReadingMismatches = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) =>
+  !lesson.teacherGuide ||
+  !lesson.readingText?.includes(lesson.teacherGuide.explanationFr) ||
+  !lesson.readingText.includes(lesson.teacherGuide.workedExampleFr),
+);
+check(
+  `2.7a all current Science reading texts use the complete French explanation and demonstration (${scienceReadingMismatches.length} mismatches)`,
+  scienceReadingMismatches.length === 0,
+);
+
 if (incompleteScienceGuides.length > 0) {
   console.error('   incomplete teacher guides:', incompleteScienceGuides.map((lesson) => lesson.id));
 }
 check(
   '2.8 all lesson plans, enrichment features and scientific-method skills are indexed',
-  Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && SCIENCE_FR_TERM1_ENRICHMENT_2026.length === 6 && SCIENCE_FR_TERM1_METHOD_SKILLS_2026.length === 4,
+  Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && SCIENCE_FR_TERM1_ENRICHMENT_2026.length === 6 && SCIENCE_FR_TERM1_METHOD_SKILLS_2026.length === 4 && SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026.length === 1 && SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026[0].sourcePages === '63',
 );
 const legacyScienceIds = new Set([...SCIENCE_CURRICULUM_LESSONS, ...SCIENCE_FR_CURRICULUM_LESSONS].map((lesson) => lesson.id));
 const legacyScienceRegistered = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => legacyScienceIds.has(lesson.id));
