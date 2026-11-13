@@ -12,7 +12,7 @@
 - **Sciences — livre de l'élève, semestre 1:** [Official Ministry PDF](https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf)
 - Catalogue reference: [Grade 5 2026–2027 Ministry first-term book list](https://miskeg.app/books/general-primary-5/)
 
-The PDF table-of-contents text was extracted from the exact Ministry-hosted URLs above. The Maths PDF is approximately 17.2 MB. The Science PDF is large and could not be downloaded through the ordinary browser path, but the complete 109-page 2026–2027 French Science student book was available as a Library source copy and was inspected page by page. The Science page inventory below is now verified; the teacher-ready teaching material is still being authored.
+The PDF table-of-contents text was extracted from the exact Ministry-hosted URLs above. The Maths PDF is approximately 17.2 MB. The Science PDF is large and could not be downloaded through the ordinary browser path, but the complete available 2026–2027 French Science PDF was available as a Library source copy and was inspected page by page. Text extraction exposes 109 PDF pages; the book's production metadata page lists 112 printed pages. All curriculum ranges below use the printed lesson page numbers, not either total-page count. The Science page inventory below is now verified; the teacher-ready teaching material is still being authored.
 
 ## 1. Maths — 46 listed lessons across 6 units
 
@@ -154,7 +154,7 @@ If the Ministry has not published a French-version teacher guide, Miss Noor must
 
 ## 7. Evidence labels
 
-- **[VERIFIED]** Ministry PDF edition, 109-page Science student book, nine chapter headings, 28 numbered lesson page spans, enrichment ranges and the printed exercise items inspected.
+- **[VERIFIED]** Ministry PDF edition, 109 extracted PDF pages (the production page lists 112 printed pages), nine chapter headings, 28 numbered lesson page spans, enrichment ranges and the printed exercise items inspected.
 - **[VERIFIED]** Chapter 1 app-authored teacher guide and structured lesson data; this is derived from the student book and is not official Ministry teacher-guide content.
 - **[UNVERIFIED]** Girard assignment, exact school sequence, and any legacy Science topic not matched to these pages.
 - **[BLOCKED]** Matching official Ministry French teacher guide and Term 2 student book; full teacher-ready expansions for chapters 2–9.
