@@ -34,6 +34,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
   const { language, student } = useApp();
   const isAr = language === 'ar';
   const isFr = language === 'fr';
+  const speechLanguage = lesson.instructionLanguage || lesson.contentLanguage || language;
   const studentName = student?.name || (isAr ? 'صديقي' : isFr ? 'ami' : 'friend');
 
   const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'exercises'>('explanation');
@@ -252,7 +253,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                       type="button"
                       onClick={() => {
                         soundEffects.playPop();
-                        tutorSpeechService.speakTaskInstruction(lesson.readingText || '', studentName, { language });
+                        tutorSpeechService.speakTaskInstruction(lesson.readingText || '', studentName, { language: speechLanguage });
                       }}
                       className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 hover:underline cursor-pointer"
                     >
@@ -289,7 +290,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                           : isFr
                           ? `${concept.titleFr || concept.titleEn}. ${concept.sourceTextFr || concept.sourceText}. Exemple : ${concept.dailyLifeExampleFr || ''}`
                           : `${concept.titleEn}. ${concept.sourceText}`;
-                        tutorSpeechService.speakTaskInstruction(text, studentName, { language });
+                        tutorSpeechService.speakTaskInstruction(text, studentName, { language: speechLanguage });
                       }}
                       className="p-1.5 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700 cursor-pointer"
                       title={isAr ? 'استمع للشرح' : isFr ? 'Écouter l’explication' : 'Listen'}
@@ -356,7 +357,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                         : isFr
                         ? `Mot : ${v.word}. Définition : ${v.definition}. ${v.example ? `Exemple : ${v.example}` : ''}`
                         : `Word: ${v.word}. Definition: ${v.definition}`;
-                      tutorSpeechService.speakTaskInstruction(spoken, studentName, { language });
+                      tutorSpeechService.speakTaskInstruction(spoken, studentName, { language: speechLanguage });
                     }}
                     className="p-3.5 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-indigo-400 shadow-2xs hover:shadow-sm transition-all cursor-pointer space-y-1.5 hover:scale-[1.01]"
                   >
@@ -422,7 +423,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                         type="button"
                         onClick={() => {
                           soundEffects.playPop();
-                          tutorSpeechService.speakTaskInstruction(ex.question, studentName, { language });
+                          tutorSpeechService.speakTaskInstruction(ex.question, studentName, { language: speechLanguage });
                         }}
                         className="p-1.5 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700 cursor-pointer shrink-0"
                         title={isAr ? 'استمع للسؤال' : isFr ? 'Écouter la question' : 'Read Question'}
