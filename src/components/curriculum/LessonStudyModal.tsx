@@ -300,7 +300,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   </div>
 
                   <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                    {isAr ? concept.sourceText : isFr ? (concept.sourceTextFr || concept.sourceText) : concept.sourceText}
+                    {isAr ? concept.sourceText : isFr ? (lesson.teacherGuide ? concept.sourceText : (concept.sourceTextFr || concept.sourceText)) : concept.sourceText}
                   </p>
 
                   {/* Key Points */}
