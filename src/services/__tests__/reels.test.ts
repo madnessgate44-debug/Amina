@@ -805,6 +805,81 @@ function run() {
     );
   }
 
+  // ---- 19b. The same question is never shown twice, even across concepts ----
+  // The section-19 dedupe is per-concept (usedExercises is local to
+  // buildReelsForConcept), so a lesson whose two concepts share one exercise
+  // could still show the identical question twice in a session: once from the
+  // today's-lesson pool, once from the diagnosis pool. Measured on main before
+  // the fix: a French-maths day in English queued "700|70|7|0,007" at reel #1
+  // (diagnosis, conc_mathfr_u3_l1_zero_ajoute) and reel #38 (today_lesson,
+  // conc_mathfr_u3_l1_puissance10). The queue now drops any question whose
+  // options are already queued, whatever pool or concept it came from.
+  // First: prove the data really does contain such a shared exercise, so the
+  // guard is exercised rather than vacuously true.
+  let sharedAcrossConcepts = 0;
+  for (const lang of LANGS) {
+    for (const lesson of curriculumService.getAvailableLessons()) {
+      const perConcept = lesson.concepts.map(
+        (c) =>
+          new Set(
+            buildReelsForConcept(lesson, c, lang, {})
+              .filter((r) => r.options && r.options.length > 0)
+              .map((r) => r.options!.map((o) => o.text).join('|'))
+          )
+      );
+      for (let i = 0; i < perConcept.length; i++) {
+        for (let j = i + 1; j < perConcept.length; j++) {
+          for (const s of perConcept[i]) if (perConcept[j].has(s)) sharedAcrossConcepts++;
+        }
+      }
+    }
+  }
+  assert(
+    sharedAcrossConcepts > 0,
+    `19b.0: the curriculum still has exercises shared by two concepts of one lesson (${sharedAcrossConcepts})`
+  );
+
+  const dupScanSubjects: string[][] = [
+    [],
+    ['Mathematics', 'Science', 'French', 'Social Studies', 'English', 'Information Technology', 'Arabic', 'التربية الإسلامية'],
+    ['الرياضيات بالفرنسية (Maths)'],
+    ['العلوم بالفرنسية (Sciences)'],
+  ];
+  for (const lang of LANGS) {
+    let worstDup = 0;
+    let where = '';
+    for (const todaySubjects of dupScanSubjects) {
+      for (const minutes of [10, 20, 30]) {
+        const q = buildFeedQueue({
+          studentId: `crossdup_${lang}`,
+          language: lang,
+          mastery: {},
+          dueReviews: [],
+          todaySubjects,
+          examCalendar: [],
+          now,
+          sessionMinutes: minutes,
+        });
+        const seenQ = new Set<string>();
+        let dup = 0;
+        for (const r of q.reels) {
+          if (!r.options || r.options.length === 0) continue;
+          const s = r.options.map((o) => o.text).join('|');
+          if (seenQ.has(s)) dup++;
+          seenQ.add(s);
+        }
+        if (dup > worstDup) {
+          worstDup = dup;
+          where = `${minutes}min ${JSON.stringify(todaySubjects)}`;
+        }
+      }
+    }
+    assert(
+      worstDup === 0,
+      `19b.1 [${lang}]: no question is shown twice across concepts in a session (${worstDup}${where ? ' @ ' + where : ''})`
+    );
+  }
+
   // ---- 20. A French child gets a named diagnosis, not a fall-through ----
   // The diagnosis text was stored in Arabic only for the maths/science/French
   // lessons, and the language guard refuses Arabic for a French reader. A French

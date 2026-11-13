@@ -263,6 +263,28 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
   // shrink the session instead of just reordering it.
   const pending: Record<string, Reel[]> = { due_review: [], today_lesson: [], exam_topic: [], curiosity: [], refill: [], diagnosis: [] };
 
+  // A question is identified by its answer options. The same exercise can be
+  // attached to two concepts of one lesson — conc_mathfr_u3_l1_puissance10 and
+  // conc_mathfr_u3_l1_zero_ajoute share the exercise "700|70|7|0,007" — and the
+  // generator dedupes only WITHIN a concept, so a session could still show the
+  // identical question twice: once from the today's-lesson pool, once from the
+  // diagnosis pool. Measured before this guard: a French-maths day in English
+  // showed that question at reel #1 and reel #38. A repeated question is the
+  // dead, static card the owner's "it must not be static" ask rules out, so a
+  // question whose options are already queued is never taken again.
+  const questionSig = (r: Reel): string | null =>
+    r.options && r.options.length ? r.options.map((o) => o.text).join('|') : null;
+  const seenQuestionSigs = new Set<string>();
+  const isDuplicateQuestion = (r: Reel): boolean => {
+    const s = questionSig(r);
+    return s !== null && seenQuestionSigs.has(s);
+  };
+  const claim = (r: Reel): Reel => {
+    const s = questionSig(r);
+    if (s !== null) seenQuestionSigs.add(s);
+    return r;
+  };
+
   const takeFrom = (reason: ReelReason): Reel | undefined => {
     // Rule 2: no reel kind twice in a row. Breadth rule: a lesson may appear at
     // most twice in a row. The second rule is what keeps a session from showing
@@ -279,16 +301,22 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
 
     const deferred = pending[reason];
     for (let i = 0; i < deferred.length; i++) {
-      if (fits(deferred[i])) return deferred.splice(i, 1)[0];
+      if (isDuplicateQuestion(deferred[i])) {
+        deferred.splice(i, 1); // a duplicate can never fit; drop it rather than retry forever
+        i--;
+        continue;
+      }
+      if (fits(deferred[i])) return claim(deferred.splice(i, 1)[0]);
     }
     const pool = poolByReason[reason];
     while (cursors[reason] < pool.length) {
       const candidate = pool[cursors[reason]++];
+      if (isDuplicateQuestion(candidate)) continue; // never show the same question twice
       if (!fits(candidate)) {
         deferred.push(candidate); // retry after a different kind / lesson
         continue;
       }
-      return candidate;
+      return claim(candidate);
     }
     return undefined;
   };
@@ -371,7 +399,9 @@ export function buildFeedQueue(input: FeedQueueInput): FeedQueue {
     // pool leads with hook_question and every slot neighbours one) is skipped in
     // favour of one whose kind fits — appending it unconditionally is what put
     // two same-kind reels back-to-back and broke rule 2.
-    const candidates = diagnosisPool.filter((r) => !chosen.some((c) => c.id === r.id));
+    const candidates = diagnosisPool.filter(
+      (r) => !chosen.some((c) => c.id === r.id) && !isDuplicateQuestion(r)
+    );
     let placed = false;
     for (const candidate of candidates) {
       let at = chosen.findIndex((_, i) => i >= 1 && fits(i, candidate, true));
