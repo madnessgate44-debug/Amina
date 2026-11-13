@@ -107,9 +107,9 @@ export const HomeScreen: React.FC = () => {
   const curriculumBooks = curriculumService.getSubjectsSummary();
 
   return (
-    <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4" dir={isArabic ? 'rtl' : 'ltr'}>
+    <div className="mn-page flex-1 flex flex-col pb-24 space-y-4" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Miss Noor is the centre of Home: a teacher, not a status dashboard. */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-linear-to-br from-[#172554] via-[#312e81] to-[#581c87] text-white shadow-xl shadow-indigo-950/20">
+      <section className="mn-home-hero relative overflow-hidden rounded-[2rem] text-white">
         <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-fuchsia-300/10 blur-2xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-12 h-48 w-48 rounded-full bg-cyan-300/10 blur-2xl pointer-events-none" />
         <div className="relative z-10 p-4 sm:p-5 space-y-3">
