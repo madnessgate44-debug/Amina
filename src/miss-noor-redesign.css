@@ -120,3 +120,12 @@ body { color: var(--mn-ink); background: var(--mn-paper); }
   border-color: var(--mn-line);
 }
 .mn-page [class*="text-slate-500"] { color: var(--mn-ink-soft); }
+
+.mn-feed-surface { background: #123e3b; }
+.mn-feed-surface > section:first-child > div:first-child {
+  background: linear-gradient(180deg, #1d5b53 0%, #123e3b 100%);
+}
+.mn-feed-surface [class*="bg-white/10"] {
+  background: rgba(255,253,248,.10);
+  border-color: rgba(255,253,248,.18);
+}
