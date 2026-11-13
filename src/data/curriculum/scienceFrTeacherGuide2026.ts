@@ -14,15 +14,26 @@ export type ScienceFrenchTeacherPlan = CurriculumTeacherGuide;
 export const SCIENCE_FR_CHAPTER_1_TEACHING_PLANS: Record<number, ScienceFrenchTeacherPlan> = {
   1: {
     provenance: 'app_authored_from_student_book',
+    vocabularyFr: [
+      { word: 'un os', definition: 'Partie dure qui soutient le corps et protège certains organes.' },
+      { word: 'un muscle', definition: 'Partie souple qui se contracte et se relâche pour tirer sur les os.' },
+      { word: 'le biceps', definition: 'Muscle situé à l’avant du bras ; il se contracte quand tu plies le coude.' },
+      { word: 'le triceps', definition: 'Muscle situé à l’arrière du bras ; il se contracte quand tu tends le coude.' },
+      { word: 'la contraction', definition: 'Action d’un muscle qui devient plus court et plus ferme.' },
+      { word: 'le relâchement', definition: 'Moment où un muscle se détend.' },
+      { word: 'la flexion', definition: 'Mouvement qui plie une articulation, comme le coude.' },
+      { word: 'l’extension', definition: 'Mouvement qui tend une articulation.' },
+      { word: 'une articulation', definition: 'Endroit où deux os ou plus se rencontrent.' }
+    ],
     explanationFr: `Ton corps peut bouger grâce au travail de deux parties qui agissent ensemble : les os et les muscles. Les os sont durs. Ils donnent une forme au corps et servent de support. Les muscles sont des parties souples qui peuvent se contracter et se relâcher.
 
-Un muscle ne pousse pas un os : il tire sur lui lorsqu'il se contracte. Au niveau du bras, deux muscles travaillent en alternance. Quand tu plies le coude, le muscle situé devant le bras se contracte et devient plus ferme ; le muscle situé derrière se relâche. Quand tu tends le bras, c'est l'inverse : le muscle de derrière se contracte et celui de devant se relâche.
+Un muscle ne pousse pas un os : il tire sur lui lorsqu'il se contracte. Au niveau du bras, deux muscles travaillent en alternance : le biceps, situé à l'avant, et le triceps, situé à l'arrière. Quand tu plies le coude, le biceps se contracte et devient plus ferme ; le triceps se relâche. Quand tu tends le bras, c'est l'inverse : le triceps se contracte et le biceps se relâche.
 
 Le coude est une articulation : c'est l'endroit où des os se rencontrent et où le mouvement est possible. Retenons la chaîne : un muscle se contracte, il tire sur un os, et le bras bouge autour de l'articulation.`,
-    demonstrationFr: `Assieds-toi ou reste debout sans porter d'objet. Plie lentement un coude. Avec l'autre main, touche doucement le muscle à l'avant du bras, puis celui de l'arrière : compare leur fermeté. Tends ensuite le bras sans forcer et recommence. Décris ce qui change. Ne demande jamais à l'élève de pousser contre une résistance ou de soulever une charge.`,
+    demonstrationFr: `Assieds-toi ou reste debout sans porter d'objet. Plie lentement un coude. Avec l'autre main, touche doucement le biceps à l'avant du bras, puis le triceps à l'arrière : compare leur fermeté. Tends ensuite le bras sans forcer et recommence. Décris ce qui change. Ne demande jamais à l'élève de pousser contre une résistance ou de soulever une charge.`,
     guidedPracticeFr: [
-      'Avec le bras plié, montre le muscle situé à l’avant du bras. Est-il plus ferme ou plus relâché ?',
-      'Avec le bras tendu, compare de nouveau les deux muscles. Lequel se contracte maintenant ?',
+      'Avec le bras plié, montre le biceps. Est-il plus ferme ou plus relâché ?',
+      'Avec le bras tendu, compare de nouveau le biceps et le triceps. Lequel se contracte maintenant ?',
       'Complète oralement : les muscles font bouger les os en les … ; ils ne les … pas.'
     ],
     independentPracticeFr: [
@@ -33,8 +44,8 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
       {
         type: 'qa',
         stage: 'guided',
-        question: 'Quand tu plies le coude, que fait le muscle situé devant le bras ?',
-        expectedAnswer: 'Il se contracte et devient plus ferme.',
+        question: 'Quand tu plies le coude, que fait le biceps ?',
+        expectedAnswer: 'Le biceps se contracte et devient plus ferme.',
         answerExplanation: 'La contraction du muscle situé devant le bras tire sur les os et aide à plier l’avant-bras.'
       },
       {
@@ -63,7 +74,7 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
         type: 'qa',
         stage: 'mastery',
         question: 'Explique, dans l’ordre, comment les muscles permettent de plier puis de tendre le bras.',
-        expectedAnswer: 'Pour plier, le muscle de devant se contracte et celui de derrière se relâche. Pour tendre, le muscle de derrière se contracte et celui de devant se relâche. Les muscles tirent sur les os au niveau du coude.',
+        expectedAnswer: 'Pour plier, le biceps se contracte et le triceps se relâche. Pour tendre, le triceps se contracte et le biceps se relâche. Les muscles tirent sur les os au niveau du coude.',
         answerExplanation: 'La réponse doit nommer les deux positions, l’alternance des muscles et le fait que les muscles tirent sur les os.'
       }
     ],
@@ -101,6 +112,13 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
   },
   2: {
     provenance: 'app_authored_from_student_book',
+    vocabularyFr: [
+      { word: 'une articulation', definition: 'Endroit où deux os ou plus se rencontrent.' },
+      { word: 'le cartilage', definition: 'Tissu souple qui agit comme un coussin entre les extrémités des os.' },
+      { word: 'un frottement', definition: 'Contact qui se produit lorsque deux surfaces glissent l’une contre l’autre.' },
+      { word: 'la mobilité', definition: 'Possibilité pour une articulation de bouger.' },
+      { word: 'une extrémité', definition: 'Partie située au bout d’un os.' }
+    ],
     explanationFr: `Les os sont solides. Ils soutiennent le corps, lui donnent sa forme et protègent certains organes importants. Les os ne sont pas tous attachés de la même façon : ils se rencontrent au niveau des articulations.
 
 Une articulation est l'endroit où deux os ou plus se rencontrent. À certaines articulations, un mouvement est surtout possible dans une direction, comme au coude. À d'autres, comme à l'épaule, le mouvement est plus varié.
@@ -181,6 +199,14 @@ Les extrémités de certains os sont protégées par du cartilage. Le cartilage 
   },
   3: {
     provenance: 'app_authored_from_student_book',
+    vocabularyFr: [
+      { word: 'le squelette', definition: 'Ensemble des os du corps.' },
+      { word: 'le crâne', definition: 'Partie osseuse qui protège le cerveau.' },
+      { word: 'les côtes', definition: 'Os qui forment une cage autour du cœur et des poumons.' },
+      { word: 'la colonne vertébrale', definition: 'Suite de petits os reliés qui soutient le corps.' },
+      { word: 'une vertèbre', definition: 'Un des petits os qui composent la colonne vertébrale.' },
+      { word: 'un organe', definition: 'Partie du corps qui réalise une fonction importante.' }
+    ],
     explanationFr: `L'ensemble des os reliés entre eux forme le squelette. Le squelette soutient le corps, lui donne sa forme et protège des organes fragiles. Le corps humain possède environ deux cents os.
 
 Trois parties sont particulièrement importantes. Le crâne forme une protection autour du cerveau. Les côtes forment une cage qui protège le cœur et les poumons. La colonne vertébrale est composée de nombreux petits os reliés entre eux. Elle soutient le corps et permet au dos de rester souple pour se pencher et bouger dans différentes directions.
@@ -260,6 +286,16 @@ Les os ont donc deux grands rôles à retenir : soutenir le corps et protéger d
   },
   4: {
     provenance: 'app_authored_from_student_book',
+    vocabularyFr: [
+      { word: 'un membre antérieur', definition: 'Patte ou membre situé vers l’avant du corps.' },
+      { word: 'un membre postérieur', definition: 'Patte ou membre situé vers l’arrière du corps.' },
+      { word: 'la locomotion', definition: 'Manière dont un être vivant se déplace.' },
+      { word: 'une adaptation', definition: 'Caractéristique qui aide un être vivant à vivre dans son milieu.' },
+      { word: 'une callosité', definition: 'Zone de peau épaisse qui protège une partie du corps.' },
+      { word: 'un orteil', definition: 'Doigt du pied.' },
+      { word: 'une bosse', definition: 'Relief arrondi sur le dos du dromadaire.' },
+      { word: 'la graisse', definition: 'Réserve de nutriments que le corps peut utiliser pour produire de l’énergie.' }
+    ],
     explanationFr: `Les êtres humains et de nombreux animaux possèdent des os, des articulations et des muscles. Chez le chien, le chat et le lapin, les muscles se contractent et tirent sur les os pour produire le mouvement, comme chez l'être humain.
 
 Les squelettes ne sont pourtant pas identiques. La longueur et la forme des os, ainsi que la position des articulations, varient selon la façon dont l'animal se déplace. Les membres postérieurs du lapin sont longs et puissants pour l'aider à sauter. Les membres du chien possèdent aussi des articulations qui permettent de plier les pattes.
