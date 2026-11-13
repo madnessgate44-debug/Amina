@@ -73,7 +73,12 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
       { prompt: 'Pratique indépendante 1 — compléter « les muscles font bouger les os en les… »', expectedAnswer: 'tirant', explanation: 'Les muscles tirent sur les os ; ils ne les poussent pas.' },
       { prompt: 'Pratique indépendante 2 — rôle du coude', expectedAnswer: 'C’est une articulation où les os se rencontrent et qui permet le mouvement.', explanation: 'Le mouvement du bras se produit autour de l’articulation du coude.' }
     ],
-    sourceAnswerKeyFr: [],
+    sourceAnswerKeyFr: [
+      { page: 10, item: 'Essaye 1(1)', expectedAnswer: 'Réponse B — le muscle de devant se contracte.', explanation: 'Pendant la flexion, le muscle situé à l’avant du bras se contracte et devient plus ferme.' },
+      { page: 10, item: 'Essaye 1(2)', expectedAnswer: 'La contraction.', explanation: 'Les muscles tirent sur les os lorsqu’ils se contractent.' },
+      { page: 11, item: 'Entraîne-toi 1(1)', expectedAnswer: 'Réponse A — le muscle de l’arrière se contracte et celui de devant se relâche.', explanation: 'Pendant l’extension, le rôle des deux muscles s’inverse.' },
+      { page: 11, item: 'Entraîne-toi 1(2)', expectedAnswer: 'Réponse B — les muscles font bouger le corps en tirant sur les os.', explanation: 'Les muscles tirent sur les os ; ils ne les poussent pas.' }
+    ],
     misconceptionsFr: [
       {
         id: 'scifr26_ch1_l1_push',
@@ -151,6 +156,7 @@ Les extrémités de certains os sont protégées par du cartilage. Le cartilage 
       { page: 10, item: 'Essaye 2(1)', expectedAnswer: 'Une articulation.', explanation: 'C’est l’endroit où deux os ou plus se rencontrent.' },
       { page: 10, item: 'Essaye 2(2)', expectedAnswer: 'Réponse B.', explanation: 'La direction et l’amplitude de la flexion dépendent de l’emplacement de l’articulation.' },
       { page: 10, item: 'Essaye 2(3)', expectedAnswer: 'Du cartilage.', explanation: 'Le cartilage agit comme un coussin et réduit le frottement.' },
+      { page: 11, item: 'Entraîne-toi 2(1)', expectedAnswer: 'Réponse C — les os ne se contractent pas et ne bougent pas seuls comme les muscles.', explanation: 'Les os soutiennent et protègent le corps ; les muscles se contractent.' },
       { page: 11, item: 'Entraîne-toi 2(2)', expectedAnswer: 'Le cartilage.', explanation: 'Le cartilage protège les extrémités des os dans les articulations.' }
     ],
     misconceptionsFr: [
