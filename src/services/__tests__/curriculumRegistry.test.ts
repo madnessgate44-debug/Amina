@@ -129,7 +129,7 @@ const incompleteScienceGuides = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesso
     guide.misconceptionDiagnosisFr.length < 1 ||
     guide.remediationFr.length < 1 ||
     guide.masteryCheckFr.length < 2 ||
-    guideText.some((value) => !value.trim() || /TODO|placeholder|lorem/i.test(value) || /[\\u0600-\\u06FF]/.test(value));
+    guideText.some((value) => !value.trim() || /TODO|placeholder|lorem/i.test(value) || /[\u0600-\u06FF]/.test(value));
 });
 check(
   `2.7 all 28 current Science lessons have complete app-authored French teaching plans (${incompleteScienceGuides.length} incomplete)`,
@@ -139,8 +139,8 @@ if (incompleteScienceGuides.length > 0) {
   console.error('   incomplete teacher guides:', incompleteScienceGuides.map((lesson) => lesson.id));
 }
 check(
-  '2.8 enrichment and scientific-method material from the student book are indexed',
-  SCIENCE_FR_TERM1_ENRICHMENT_2026.length === 6 && SCIENCE_FR_TERM1_METHOD_SKILLS_2026.length === 4,
+  '2.8 all lesson plans, enrichment features and scientific-method skills are indexed',
+  Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && SCIENCE_FR_TERM1_ENRICHMENT_2026.length === 6 && SCIENCE_FR_TERM1_METHOD_SKILLS_2026.length === 4,
 );
 const legacyScienceIds = new Set([...SCIENCE_CURRICULUM_LESSONS, ...SCIENCE_FR_CURRICULUM_LESSONS].map((lesson) => lesson.id));
 const legacyScienceRegistered = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => legacyScienceIds.has(lesson.id));
