@@ -57,7 +57,7 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
  const sourceRef={book:'Manuel de Sciences 5e Primaire — Ministère de l’Éducation, 2026–2027, Term 1',bookAr:'كتاب الوزارة للعلوم بالفرنسية — الصف الخامس — الفصل الدراسي الأول',bookEn:'Egypt Ministry Grade 5 Science in French — Term 1 (2026–2027)',grade:'Primary 5 / Grade 5',term:'Term 1 — 2026–2027',unit,lesson,page:s.page,isAvailable:true};
  const concept={
   id:conceptId,conceptNumber:1,titleAr:s.ar,titleEn:s.en,titleFr:s.fr,
-  sourceText:s.focus,sourceTextFr:teacherGuide.explanationFr,keyPoints:s.objectives,keyPointsFr:s.objectives,
+  sourceText:s.focus,sourceTextFr:s.focus,keyPoints:s.objectives,keyPointsFr:s.objectives,
   dailyLifeExampleAr:s.exampleAr,dailyLifeExampleEn:s.exampleEn,dailyLifeExampleFr:s.exampleFr,
   storyAnalogyAr:'تخيّل مثالاً من الحياة اليومية يساعدك على فهم '+s.ar,
   storyAnalogyEn:'Use a familiar everyday situation to understand '+s.en+'.',
