@@ -313,3 +313,28 @@ Before the next student-facing curriculum release, quarantine or replace the six
 - **[UNPROVEN]** The live phone-sized learner experience has not yet been walked through after these changes.
 
 The next release gate is to run and inspect the complete CI pipeline, correct any failures without weakening existing tests, and then perform a French lesson walkthrough on the deployed app. Science remains Term 1 only until the 2026–2027 Term 2 source is obtained.
+
+
+## Execution update — 13 November 2026
+
+### Current-mainline delivery
+
+- **[VERIFIED]** The previous PR #171 was based on `ed9aa246e6156748352a513db76902dc766a252b`, while current main had advanced to `fc929b46f9f4c0fd40ad27a8e70fd0ddc41a1e34`. The branches diverged; PR #171 was not mergeable.
+- **[VERIFIED]** The curriculum work was ported onto a new branch based directly on current main, with no commits behind the baseline. PR #175 is the replacement review path.
+- **[VERIFIED]** Three older national Science records and three older French-extract records remain registered only for ID compatibility and are now explicitly unavailable with `pending_materials` status.
+- **[VERIFIED]** The French lesson modal now has a dedicated Practice tab that exposes guided practice, independent practice, answer-key reveal, misconception diagnosis, remediation and mastery checks from the app-authored guide.
+- **[NOT YET VERIFIED]** Current-mainline PR CI, the updated regression suite, production build, and live phone walkthrough must complete before merge or deployment is claimed.
+
+### Additional source findings
+
+- **[UNVERIFIED] Assessment workbook:** a separate 2026–2027 Term 1 French Science assessment-book listing and two sample page previews were located. The previews show assessment activities for chapter 1. The full file could not be retrieved; two listings disagree on 68 versus 69 pages. No questions have been imported and no answer key is treated as official.
+- **[BLOCKED] Term 2:** the checked Grade 5 2026–2027 catalogue still lists only Term 1. It states that Term 2 books are added when the Ministry publishes them. The exact 2026–2027 French Science Term 2 student book is therefore the missing source; prior-year books are not substitutes.
+- **[BLOCKED] Ministry teacher guide:** no exact Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide was found. Other curricula's teacher guides are not substitutes. The current guide remains Miss Noor-authored.
+- **[VERIFIED] Deployment quota:** Vercel rejected preview builds with `api-deployments-free-per-day` after more than 100 deployments in one day. This is a platform quota, not a failed application build. The existing production deployment on main remains READY on `fc929b46f9f4c0fd40ad27a8e70fd0ddc41a1e34`. The no-cost release path is to avoid repeated preview churn, rely on GitHub CI, and allow one production deployment after merge when the daily quota resets.
+
+### Updated completion boundary
+
+**[VERIFIED]** The Term 1 source map and 28 app-authored lesson plans are represented in code, and the student lesson view now exposes the structured teaching sequence.  
+**[UNPROVEN]** Actual learner usability and speech behavior on a phone until a real French-path walkthrough is completed.  
+**[BLOCKED]** Term 2 source reconstruction, full assessment-book validation, and any matching Ministry French teacher guide.  
+This remains a Term 1 reconstruction, not a full-year completion declaration.
