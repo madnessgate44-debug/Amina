@@ -147,6 +147,25 @@ check(
   scienceReadingMismatches.length === 0,
 );
 
+const scienceTutorWiringMismatches = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => {
+  const guide = lesson.teacherGuide;
+  const concept = lesson.concepts[0];
+  return !guide ||
+    !concept ||
+    concept.sourceTextFr !== guide.explanationFr ||
+    concept.misconceptions?.length !== guide.misconceptionDiagnosisFr.length ||
+    guide.misconceptionDiagnosisFr.some((item, index) => {
+      const mapped = concept.misconceptions?.[index];
+      return !mapped ||
+        mapped.explanationFr !== item.diagnosis ||
+        mapped.remediationFr !== item.correctivePrompt;
+    });
+});
+check(
+  `2.7b all 28 Science lessons wire the full French explanation and misconception diagnoses into the tutor (${scienceTutorWiringMismatches.length} mismatches)`,
+  scienceTutorWiringMismatches.length === 0,
+);
+
 if (incompleteScienceGuides.length > 0) {
   console.error('   incomplete teacher guides:', incompleteScienceGuides.map((lesson) => lesson.id));
 }
