@@ -234,16 +234,12 @@ assert(
 
 // --- the feed session survives the per-answer queue rebuild ---------------
 // recordEvidence updates masteryRecords, which is a builtQueue dependency, so
-// the queue rebuilds after EVERY answer. The cursor and the per-concept signal
-// state must not be rewound by that rebuild, or the child is bounced to reel 1
-// and `independentRecheckPassed` can never become true.
+// the queue rebuilds after EVERY answer. The per-concept signal state must not
+// be rewound by that rebuild, or `independentRecheckPassed` can never become
+// true.
 assert(
   /const sessionChanged = activeSessionRef\.current !== sessionKey/.test(feedScreen),
   'the feed distinguishes a new session from a mid-session queue rebuild'
-);
-assert(
-  /setCursor\(Math\.min\(cursorRef\.current, Math\.max\(0, builtQueue\.reels\.length - 1\)\)\)/.test(feedScreen),
-  'a mid-session rebuild keeps the child on the same reel'
 );
 assert(
   /feedSignalState\.current = new Map\(\);[\s\S]{0,80}\}, \[sessionKey\]\)/.test(feedScreen),
@@ -252,6 +248,29 @@ assert(
 assert(
   /const sessionKey = `\$\{student\?\.id \?\? ''\}\|\$\{language\}\|\$\{sessionMinutes\}`/.test(feedScreen),
   'the session key is built from the child, language and session length'
+);
+
+// --- the queue is FROZEN within one session --------------------------------
+// Measured on the live app (390x844 ar-EG): the queue was rebuilt after every
+// answer because masteryRecords is a builtQueue dependency. buildFeedQueue() is
+// deterministic for a given input, but a rebuild with the new mastery REORDERS
+// the queue — the reel the child just answered moved from index 1 to index 7.
+// The card is keyed by reel id, so the reel under the child's finger was
+// silently swapped and remounted, destroying the chosen/reaction state: the
+// feed looked frozen and the rule-3 retry reels were discarded. The fix keeps
+// the session the child started and only rebuilds when the session identity
+// (child, language, session length) changes.
+assert(
+  /if \(!sessionChanged\) \{[\s\S]{0,900}?return;/.test(feedScreen),
+  'a mid-session rebuild returns early instead of replacing the queue'
+);
+assert(
+  !/setCursor\(Math\.min\(cursorRef\.current/.test(feedScreen),
+  'a mid-session rebuild no longer keeps a stale index into a reordered queue'
+);
+assert(
+  /activeSessionRef\.current = sessionKey;\s*\n\s*setQueue\(builtQueue\.reels\);/.test(feedScreen),
+  'the queue is set only when the session changes'
 );
 
 
