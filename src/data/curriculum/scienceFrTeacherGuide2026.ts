@@ -3,7 +3,7 @@
  * Egyptian Ministry student book. These are teaching adaptations, not an
  * official Ministry teacher guide and not quotations from the student book.
  */
-import {
+import type {
   ConceptMisconception,
   CurriculumExercise,
   CurriculumTeacherGuide,
