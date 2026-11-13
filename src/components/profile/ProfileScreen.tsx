@@ -68,7 +68,7 @@ export const ProfileScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4">
+    <div className="mn-page flex-1 flex flex-col pb-24 space-y-5">
       {/* 1. Student Profile Card */}
       <div className="p-4 rounded-3xl bg-linear-to-br from-indigo-700 via-indigo-800 to-indigo-950 text-white shadow-xl shadow-indigo-900/20 relative overflow-hidden space-y-3">
         <div className="flex items-center justify-between">
