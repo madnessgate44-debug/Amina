@@ -279,3 +279,42 @@ The current 2026–2027 first-term Ministry Grade 5 catalogue lists English as t
 Before the next student-facing curriculum release, quarantine or replace the six unverified Science records so the app does not present them as if they cover the current Ministry book. Do not add chapter-level stubs as if they were complete lessons. First extract the sub-lesson structure and page content from all nine chapters, then author full teaching material.
 
 **Current status:** Maths NOT COMPLETE (46 lesson TOC; app has 12 Ministry records plus 4 unverified extract records). Science NOT COMPLETE (9 verified chapter headings; all 6 current app records unaligned at chapter-title level). French language NOT COMPLETE (book/track unresolved).
+
+## Science reconstruction update — 13 November 2026
+
+This update supersedes the 12 November Science inventory finding above; it does not rewrite the historical baseline.
+
+### [VERIFIED] Full Term 1 Science source inventory
+
+The complete available Egyptian Ministry 2026–2027 Grade 5 French Science Term 1 PDF is now available in the Library source copy and has been inspected page by page. Text extraction exposes 109 PDF pages; the book's production metadata page lists 112 printed pages. The lesson map uses the printed lesson page numbers. The nine chapter headings and all 28 numbered lesson page spans are reconciled in [the verified lesson map](../curriculum/grade-5-science-fr-term1-verified-lesson-map.md). The application records the exact printed span in `sourceRef.pageRange` and retains the start page in `sourceRef.page`.
+
+Chapter 1's final numbered lesson (1-4) is p. 14–17. The dromedary enrichment is a separate section on p. 18–19; it is not included in the lesson's page span.
+
+### [VERIFIED] Current-edition lesson records
+
+`src/data/curriculum/scienceFrCurriculum2026.ts` contains 28 current-edition French Science lesson records across the nine chapters. The three legacy Ministry Science records and three legacy French-extract records remain distinct from this dataset and are not counted toward 2026–2027 coverage. Legacy topics such as plant needs/photosynthesis, food webs, coral bleaching and states of matter are not counted as coverage of this edition without page-level evidence.
+
+### [COMPLETED] Chapter 1 teaching reconstruction
+
+A complete **app-authored** teacher guide has been added for Chapter 1's four lessons and the separate dromedary enrichment:
+
+- `docs/curriculum/grade-5-science-fr-term1-teacher-guide-chapter-1.md`
+- `src/data/curriculum/scienceFrTeacherGuide2026.ts`
+
+The four lesson records now carry French explanations, demonstrations, guided and independent practice, answer explanations, source exercise answer keys, misconception triggers and remediation, and mastery checks. The teaching engine labels this prose as “Explication de Miss Noor, fondée sur le manuel”; it no longer presents this app-authored explanation as a verbatim textbook passage. The French teaching turn includes the demonstration and guided-practice scaffold.
+
+[VERIFIED] The printed exercise items and answer choices on pp. 10–11 and 16–17 were inspected before the Chapter 1 source answer key was authored. The answers are recorded by page and item reference rather than copying the questions.
+
+### [BLOCKED] Official teacher guide and remaining scope
+
+No matching Egyptian Ministry 2026–2027 French Science teacher guide has been verified. The Chapter 1 guide is therefore an original Miss Noor adaptation, not official Ministry teacher-guide content.
+
+Chapters 2–9 have verified source-page inventories but still require full teacher-ready expansions. The scientific-skills pages 104–107 also need integration across the chapters. Term 2 remains blocked until its 2026–2027 student book is sourced and inspected. No full-book or full-year completion claim is made.
+
+### Verification boundary
+
+- [VERIFIED] Source-page inspection, lesson-page mapping and Chapter 1 answer-key extraction.
+- [VERIFIED] PR #170 CI run [#467](https://github.com/madnessgate44-debug/Amina/actions/runs/43387120714) on head `15190c96d4f271afe1fd1e170988abe9a82a08b2` completed successfully on 13 November 2026. The blocking `npm run lint` / Type check step passed; `npm test` passed, including the Curriculum Registry suite at 25 passed / 0 failed; `npm run build` completed successfully (Vite reported non-blocking `__dirname` configuration and >500 kB chunk warnings).
+- [VERIFIED] Engineering Execution OS compliance run [#589](https://github.com/madnessgate44-debug/Amina/actions/runs/43387120696) completed successfully; output: `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- [NOT RUN] Live browser lesson walkthrough. No production deployment was triggered or verified; this PR is not merged.
+- [NOT MERGED] PR #170 remains a draft for owner review. The documentation-only status correction after the tested code head will trigger a fresh CI/compliance run.

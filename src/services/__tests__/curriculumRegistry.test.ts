@@ -296,5 +296,122 @@ if (incorrectlyTaggedFrenchLessons.length > 0) {
   console.error('   inconsistent French-track metadata:', incorrectlyTaggedFrenchLessons.map((lesson) => lesson.id));
 }
 
+
+const expectedSciencePageRangeById: Record<string, string> = {
+  'off_scifr_2026_u1_l1': '6–7',
+  'off_scifr_2026_u1_l2': '8–11',
+  'off_scifr_2026_u1_l3': '12–13',
+  'off_scifr_2026_u1_l4': '14–17',
+  'off_scifr_2026_u2_l1': '20–21',
+  'off_scifr_2026_u2_l2': '22–25',
+  'off_scifr_2026_u3_l1': '28–29',
+  'off_scifr_2026_u3_l2': '30–33',
+  'off_scifr_2026_u3_l3': '34–35',
+  'off_scifr_2026_u3_l4': '36–39',
+  'off_scifr_2026_u3_l5': '40–43',
+  'off_scifr_2026_u4_l1': '44–45',
+  'off_scifr_2026_u4_l2': '46–49',
+  'off_scifr_2026_u5_l1': '52–54',
+  'off_scifr_2026_u5_l2': '55–59',
+  'off_scifr_2026_u5_l3': '60–63',
+  'off_scifr_2026_u6_l1': '64–65',
+  'off_scifr_2026_u6_l2': '66–67',
+  'off_scifr_2026_u6_l3': '68–71',
+  'off_scifr_2026_u7_l1': '72–73',
+  'off_scifr_2026_u7_l2': '74–75',
+  'off_scifr_2026_u7_l3': '76–79',
+  'off_scifr_2026_u8_l1': '80–81',
+  'off_scifr_2026_u8_l2': '82–85',
+  'off_scifr_2026_u8_l3': '86–89',
+  'off_scifr_2026_u9_l1': '92–93',
+  'off_scifr_2026_u9_l2': '94–97',
+  'off_scifr_2026_u9_l3': '98–101',
+};
+const wrongSciencePageRanges = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => {
+  const expected = expectedSciencePageRangeById[lesson.id];
+  const actualStart = Number(lesson.sourceRef.pageRange?.split('–')[0]);
+  return !expected || lesson.sourceRef.pageRange !== expected || actualStart !== Number(lesson.sourceRef.page);
+});
+check(
+  `2.7 all 28 Science lessons preserve the exact printed page range (${wrongSciencePageRanges.length} wrong)`,
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.length === EXPECTED_SCIENCE_TOC_LESSONS &&
+    Object.keys(expectedSciencePageRangeById).length === EXPECTED_SCIENCE_TOC_LESSONS &&
+    wrongSciencePageRanges.length === 0,
+);
+if (wrongSciencePageRanges.length > 0) {
+  console.error('   wrong Science page ranges:', wrongSciencePageRanges.map((lesson) => ({
+    id: lesson.id, expected: expectedSciencePageRangeById[lesson.id],
+    actual: lesson.sourceRef.pageRange, startPage: lesson.sourceRef.page,
+  })));
+}
+
+const chapterOneScienceLessons = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => lesson.unitNumber === 1);
+const incompleteChapterOneGuides = chapterOneScienceLessons.filter((lesson) => {
+  const guide = lesson.teacherGuide;
+  return !guide ||
+    guide.provenance !== 'app_authored_from_student_book' ||
+    guide.explanationFr.length < 300 ||
+    (guide.vocabularyFr?.length ?? 0) < 5 ||
+    guide.demonstrationFr.length < 50 ||
+    guide.guidedPracticeFr.length < 2 ||
+    guide.independentPracticeFr.length < 2 ||
+    guide.practiceExercisesFr.length < 4 ||
+    !guide.practiceExercisesFr.some((exercise) => exercise.stage === 'guided') ||
+    !guide.practiceExercisesFr.some((exercise) => exercise.stage === 'independent') ||
+    !guide.practiceExercisesFr.some((exercise) => exercise.stage === 'mastery') ||
+    guide.answerKeyFr.length < 3 ||
+    guide.sourceAnswerKeyFr.length < 1 ||
+    guide.misconceptionsFr.length < 2 ||
+    guide.masteryCheckFr.successCriteria.length < 3 ||
+    (lesson.concepts[0]?.misconceptions?.length ?? 0) < 2;
+});
+const chapterOneMovementVocabulary = chapterOneScienceLessons.find((lesson) => lesson.id === 'off_scifr_2026_u1_l1')?.vocabulary.map((item) => item.word) ?? [];
+check(
+  '2.10 Chapter 1 vocabulary explicitly names biceps and triceps',
+  chapterOneMovementVocabulary.includes('le biceps') && chapterOneMovementVocabulary.includes('le triceps'),
+);
+
+check(
+  `2.8 Chapter 1 has complete app-authored teacher plans for all four lessons (${incompleteChapterOneGuides.length} incomplete)`,
+  chapterOneScienceLessons.length === 4 && incompleteChapterOneGuides.length === 0,
+);
+if (incompleteChapterOneGuides.length > 0) {
+  console.error('   incomplete Chapter 1 guides:', incompleteChapterOneGuides.map((lesson) => lesson.id));
+}
+
+const scienceLessonsMissingTeachingProvenance = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
+  (lesson) => lesson.teachingContentOrigin !== 'app_authored_from_student_book',
+);
+check(
+  `2.9 all current French Science teaching prose is explicitly labelled app-authored (${scienceLessonsMissingTeachingProvenance.length} missing)`,
+  scienceLessonsMissingTeachingProvenance.length === 0,
+);
+
+const scienceFrEngine = new TeachingSessionEngine();
+const scienceFrStart = scienceFrEngine.initializeSession({
+  studentId: 'curriculum-regression',
+  lessonId: 'off_scifr_2026_u1_l1',
+  language: 'fr',
+});
+const scienceFrWarmup = scienceFrEngine.advanceSession({
+  session: scienceFrStart.session,
+  studentInput: 'Oui',
+  language: 'fr',
+});
+const scienceFrTeaching = scienceFrEngine.advanceSession({
+  session: scienceFrWarmup.session,
+  studentInput: 'Oui',
+  language: 'fr',
+});
+const scienceFrTeachingText = scienceFrTeaching.newTutorTurn.text;
+check(
+  '7.4 Chapter 1 teaching turn labels Miss Noor prose, includes demonstration and guided practice, and contains no Arabic script',
+  scienceFrTeachingText.includes('Explication de Miss Noor, fondée sur le manuel') &&
+    scienceFrTeachingText.includes('Démonstration') &&
+    scienceFrTeachingText.includes('Pratique guidée') &&
+    !scienceFrTeachingText.includes('Texte du manuel') &&
+    !arabicScript.test(scienceFrTeachingText),
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
