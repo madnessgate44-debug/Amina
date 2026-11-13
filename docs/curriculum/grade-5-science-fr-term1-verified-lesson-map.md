@@ -5,7 +5,7 @@
 **Subject:** Sciences taught in French  
 **Source book:** Ministry student book; text extraction exposes 109 PDF pages, while the production metadata page lists 112 printed pages
 **Evidence:** [VERIFIED] Direct extraction of the available PDF, including 109 text-extracted pages. The production metadata page lists 112 printed pages. Curriculum ranges below use the printed lesson page numbers. Ministry copyright/edition statement appears on printed page 3 (2026/2027).
-**Status:** Source inventory VERIFIED for all 9 chapters and 28 numbered lessons. Complete app-authored teacher guide and runtime integration: Chapter 1 only. Chapters 2–9 teaching plans remain pending; PR CI is the next verification gate. This is not a Term 1, full-book or full-year completion declaration.
+**Status:** Source inventory VERIFIED for all 9 chapters and 28 numbered lessons. Complete app-authored teacher guide and runtime integration: Chapter 1 only. Chapters 2–9 teaching plans remain pending. PR #170 CI and Engineering Execution OS compliance have passed; the latest report-only correction is awaiting its own workflow rerun. This is not a Term 1, full-book or full-year completion declaration.
 
 ## Source identity and scope
 
