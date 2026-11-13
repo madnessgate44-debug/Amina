@@ -279,3 +279,37 @@ The current 2026–2027 first-term Ministry Grade 5 catalogue lists English as t
 Before the next student-facing curriculum release, quarantine or replace the six unverified Science records so the app does not present them as if they cover the current Ministry book. Do not add chapter-level stubs as if they were complete lessons. First extract the sub-lesson structure and page content from all nine chapters, then author full teaching material.
 
 **Current status:** Maths NOT COMPLETE (46 lesson TOC; app has 12 Ministry records plus 4 unverified extract records). Science NOT COMPLETE (9 verified chapter headings; all 6 current app records unaligned at chapter-title level). French language NOT COMPLETE (book/track unresolved).
+
+
+## Addendum — 13 November 2026: Grade 5 French Science Term 1 reconstruction
+
+**Baseline inspected:** main at ed9aa246e6156748352a513db76902dc766a252b  
+**Scope:** Grade 5 Science only; Egyptian Ministry 2026–2027 French Term 1 student book.
+
+### Source reconciliation
+
+- **[VERIFIED]** The inspected student-book copy has 109 PDF pages and carries the Ministry / Central Administration of Curriculum Development imprint and 2026–2027 edition information. The final imprint page records ISBN 978-633-8530-17-4.
+- **[VERIFIED]** All nine requested chapter headings and their printed starting pages match the book: pp. 6, 20, 28, 44, 52, 64, 72, 80 and 92.
+- **[VERIFIED]** Page-level inspection identifies 28 numbered lessons across those chapters, with exact printed page ranges recorded in docs/curriculum/grade-5-science-fr-term1-verified-lesson-map.md.
+- **[VERIFIED]** The six enrichment features and the scientific-method appendix on pp. 104–107 are retained in the teaching data.
+- **[BLOCKED]** No matching 2026–2027 Egyptian Ministry French Science teacher guide was verified. The app-authored Miss Noor guide is not labelled or represented as an official Ministry guide.
+- **[BLOCKED]** Term 2 Science remains unsourced. No full-year completion claim is made.
+- **[UNPROVEN]** The separate assessment-book PDF has not yet been inspected question by question.
+
+### App changes prepared on the reconstruction branch
+
+- Added src/data/curriculum/scienceFrTeachingGuide2026.ts with app-authored French explanations, worked demonstrations, guided practice, independent practice, aligned answer keys, misconception diagnoses, remediation and mastery checks for all 28 lessons.
+- Attached each guide to its current-edition lesson in src/data/curriculum/scienceFrCurriculum2026.ts; the lesson reading text now uses the full French explanation and demonstration.
+- Added a structured teacher-guide type to src/types/teachingSession.ts.
+- Updated src/components/curriculum/LessonStudyModal.tsx so French mode renders French lesson titles, explanations, concepts, vocabulary, exercise labels and feedback rather than falling back to English.
+- Quarantined the three older national Science records as unavailable / pending_materials, matching the existing quarantine of the three older French-extract records. Their IDs remain registered for compatibility, but they are not current-edition coverage.
+- Added registry checks for all 28 guide records, exact page ranges, French-only content, answer-key alignment, enrichment/appendix inventory and legacy-record quarantine.
+- Added the teacher-pack document and updated the source manifest and verified lesson map.
+
+### Verification status
+
+- **[VERIFIED]** The source inventory and the app-authored data are present on the reconstruction branch.
+- **[NOT YET VERIFIED]** npm run lint, npm test, npm run build, CI/compliance workflow logs and deployment status have not yet been verified for this branch.
+- **[UNPROVEN]** The live phone-sized learner experience has not yet been walked through after these changes.
+
+The next release gate is to run and inspect the complete CI pipeline, correct any failures without weakening existing tests, and then perform a French lesson walkthrough on the deployed app. Science remains Term 1 only until the 2026–2027 Term 2 source is obtained.
