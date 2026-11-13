@@ -34,6 +34,8 @@ export interface SourceRef {
   unit: string;
   lesson: string;
   page: number | string;
+  /** Exact printed page span in the source student book. */
+  pageRange?: string;
   isAvailable: boolean;
 }
 
@@ -49,6 +51,25 @@ export interface CurriculumExercise {
   options?: string[];
   expectedAnswer?: string;
   page?: number | string;
+  /** Distinguishes teacher-led scaffolding from independent and mastery work. */
+  stage?: 'guided' | 'independent' | 'mastery';
+  /** Child-readable explanation shown after the expected answer is checked. */
+  answerExplanation?: string;
+}
+
+export interface CurriculumTeacherGuide {
+  /** Explicit provenance: this is not an official Ministry teacher guide. */
+  provenance: 'app_authored_from_student_book' | 'official_ministry_teacher_guide';
+  explanationFr: string;
+  demonstrationFr: string;
+  guidedPracticeFr: string[];
+  independentPracticeFr: string[];
+  enrichmentFr?: string;
+  practiceExercisesFr: CurriculumExercise[];
+  answerKeyFr: Array<{ prompt: string; expectedAnswer: string; explanation: string }>;
+  sourceAnswerKeyFr: Array<{ page: number; item: string; expectedAnswer: string; explanation: string }>;
+  misconceptionsFr: ConceptMisconception[];
+  masteryCheckFr: { prompt: string; expectedAnswer: string; successCriteria: string[] };
 }
 
 /**
@@ -117,6 +138,11 @@ export interface CurriculumLessonConcept {
   dailyLifeExampleFr?: string;
   storyAnalogyFr?: string;
   prerequisiteFr?: string;
+  /** App-authored, teacher-led lesson sequence for French Science. */
+  demonstrationFr?: string;
+  guidedPracticeFr?: string[];
+  independentPracticeFr?: string[];
+  masteryCheckFr?: string;
   visualType?: StructuredVisualType;
   visualPrompt?: string;
   /** Known wrong answers, each with a remediation. Optional; older lessons omit it. */
@@ -168,6 +194,9 @@ export interface OfficialCurriculumLesson {
   track?: CurriculumTrack;
   isAvailable: boolean;
   contentStatus?: 'available' | 'pending_materials';
+  /** Separates official student-book provenance from app-authored teaching prose. */
+  teachingContentOrigin?: 'app_authored_from_student_book' | 'official_ministry_teacher_guide';
+  teacherGuide?: CurriculumTeacherGuide;
   supplementaryResources?: SupplementaryResource[];
 }
 
