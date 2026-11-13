@@ -63,6 +63,11 @@ function conceptSourceLabel(lesson: OfficialCurriculumLesson, isFr: boolean): st
   return isFr ? 'Texte du manuel' : 'From the textbook';
 }
 
+function conceptSourcePresentation(concept: CurriculumLessonConcept, lesson: OfficialCurriculumLesson, isFr: boolean): string {
+  const sourceText = conceptSourceText(concept, isFr);
+  return isFr && lesson.teachingContentOrigin === 'app_authored_from_student_book' ? sourceText : `"${sourceText}"`;
+}
+
 function conceptPracticeScaffold(concept: CurriculumLessonConcept, isFr: boolean): string {
   if (!isFr) return '';
   const sections: string[] = [];
@@ -336,7 +341,7 @@ export class TeachingSessionEngine {
         nextStep = 'teach';
         modalityUsed = 'source_explanation';
         replyText = isFr
-          ? `Très bien ! Ouvrons notre manuel (${sourceBookLabel(lesson, isFr)}) pour notre première notion : «${conceptTitle(currentConcept, isFr)}».\n\n📘 ${conceptSourceLabel(lesson, isFr)} :\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}${conceptPracticeScaffold(currentConcept, isFr)}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
+          ? `Très bien ! Ouvrons notre manuel (${sourceBookLabel(lesson, isFr)}) pour notre première notion : «${conceptTitle(currentConcept, isFr)}».\n\n📘 ${conceptSourceLabel(lesson, isFr)} :\n${conceptSourcePresentation(currentConcept, lesson, isFr)}\n\n📌 Points clés :\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}${conceptPracticeScaffold(currentConcept, isFr)}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
           : isAr
           ? `رائع جداً! الآن لنفتح كتابنا (${lesson.sourceRef.bookAr}) ونبدأ بالفكرة الأولى: «${currentConcept.titleAr}».\n\n📖 من نص الكتاب المدرسي:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 النقاط الجوهرية:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\n(خذ نفساً هادئاً، وعندما تكون مستعداً اخبرني لننتقل للخطوة التالية!)`
           : `Great! Now let’s open our textbook (${sourceBookLabel(lesson, isFr)}) to our first concept: "${conceptTitle(currentConcept, isFr)}".\n\n📖 From the textbook:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nTake your time to absorb this! Tell me when you're ready to continue.`;
@@ -504,7 +509,7 @@ export class TeachingSessionEngine {
           modalityUsed = 'source_explanation';
 
           replyText = isFr
-            ? `En route ! La notion suivante dans notre manuel (${sourceBookLabel(lesson, isFr)}) est : «${conceptTitle(nextConcept, isFr)}».\n\n📘 ${conceptSourceLabel(lesson, isFr)} :\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}${conceptPracticeScaffold(nextConcept, isFr)}\n\nQu'en penses-tu ?`
+            ? `En route ! La notion suivante dans notre manuel (${sourceBookLabel(lesson, isFr)}) est : «${conceptTitle(nextConcept, isFr)}».\n\n📘 ${conceptSourceLabel(lesson, isFr)} :\n${conceptSourcePresentation(nextConcept, lesson, isFr)}\n\n📌 Points clés :\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}${conceptPracticeScaffold(nextConcept, isFr)}\n\nQu'en penses-tu ?`
             : isAr
             ? `على بركة الله! المفهوم التالي في كتابنا (${lesson.sourceRef.bookAr}) هو: «${nextConcept.titleAr}».\n\n📖 من نص الدرس:\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 النقاط الرئيسية:\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nما رأيك في هذه النقطة؟`
             : `Let's proceed! The next concept in our textbook (${sourceBookLabel(lesson, isFr)}) is: "${conceptTitle(nextConcept, isFr)}".\n\n📖 Text:\n"${conceptSourceText(nextConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(nextConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nWhat are your thoughts on this?`;
