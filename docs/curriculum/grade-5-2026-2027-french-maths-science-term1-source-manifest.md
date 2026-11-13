@@ -3,7 +3,7 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Language:** French  
-**Status:** Science TOC and all 28 numbered lesson page spans verified against the complete 2026–2027 student book; teacher-ready content reconstruction is in progress. Maths lesson-body reconciliation remains incomplete.  
+**Status:** Science TOC and all 28 numbered lesson page spans verified against the complete 2026–2027 student book; teacher-ready content reconstruction is in progress. Maths lesson-body reconciliation remains incomplete.
 **Important:** This is a source manifest, not proof that Girard assigns every book or that the app already covers it.
 
 ## Official source files
