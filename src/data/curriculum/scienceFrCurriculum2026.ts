@@ -76,8 +76,8 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
  const qa={type:'qa' as const,question:'Explique avec tes propres mots : '+s.objectives[0],expectedAnswer:s.why,page:s.page};
  const exercises = teacherGuide?.practiceExercisesFr ?? [mc,qa];
  const readingText = teacherGuide
-  ? [s.fr,teacherGuide.explanationFr,'Démonstration : '+teacherGuide.demonstrationFr,'Pratique guidée : '+teacherGuide.guidedPracticeFr.join(' '),'Pratique indépendante : '+teacherGuide.independentPracticeFr.join(' '),'Vérification de la maîtrise : '+teacherGuide.masteryCheckFr.prompt].join('\\n\\n')
-  : s.fr+'\\n\\n'+s.focus+'\\n\\nÀ retenir : '+s.objectives.join(' ')+'\\n\\nExemple : '+s.exampleFr+'\\n\\nExplique ensuite cette idée avec tes propres mots.';
+  ? [s.fr,teacherGuide.explanationFr,'Démonstration : '+teacherGuide.demonstrationFr,'Pratique guidée : '+teacherGuide.guidedPracticeFr.join(' '),'Pratique indépendante : '+teacherGuide.independentPracticeFr.join(' '),'Vérification de la maîtrise : '+teacherGuide.masteryCheckFr.prompt].join('\n\n')
+  : s.fr+'\n\n'+s.focus+'\n\nÀ retenir : '+s.objectives.join(' ')+'\n\nExemple : '+s.exampleFr+'\n\nExplique ensuite cette idée avec tes propres mots.';
  return {
   id,subjectId:'subj_science_fr',subjectNameAr:'العلوم (بالفرنسية)',subjectNameEn:'Science (French section)',subjectNameFr:'Sciences',
   unitNumber:s.u,unitNameAr:'الفصل '+s.u,unitNameEn:'Chapter '+s.u,unitNameFr:unit,lessonNumber:s.n,
