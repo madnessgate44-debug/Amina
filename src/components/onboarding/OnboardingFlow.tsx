@@ -187,7 +187,7 @@ export const OnboardingFlow: React.FC = () => {
     : 'Hi! I am Miss Noor, your Grade 5 teacher. Let us get to know each other quickly!';
 
   return (
-    <div className="flex flex-col min-h-[85vh] p-4 sm:p-6 max-w-lg mx-auto w-full">
+    <div className="mn-page flex flex-col min-h-[85vh]">
       <div className="mb-5">
         <h1 className="text-lg font-black text-slate-900 dark:text-slate-100 mb-2">
           {step === 1
