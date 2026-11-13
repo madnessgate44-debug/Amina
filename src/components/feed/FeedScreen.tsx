@@ -102,16 +102,23 @@ export const FeedScreen: React.FC = () => {
   useEffect(() => {
     if (!builtQueue) return;
     const sessionChanged = activeSessionRef.current !== sessionKey;
-    activeSessionRef.current = sessionKey;
-    setQueue(builtQueue.reels);
-    if (sessionChanged) {
-      // A new session starts at the top; a rebuild inside one keeps the place.
-      setCursor(0);
-      consecutiveWrong.current = 0;
+    if (!sessionChanged) {
+      // Within one session the queue is FROZEN. buildFeedQueue() is deterministic
+      // for a given input, but `masteryRecords` is an input and it changes on
+      // every answer (recordEvidence writes to it). Rebuilding therefore
+      // REORDERS the queue mid-session: measured, the reel the child just
+      // answered moved from index 1 to index 7, so the card under their finger
+      // was silently swapped for a different one. The card is keyed by reel id,
+      // so the swap remounted it and destroyed the child's chosen/reaction
+      // state — the feed looked frozen. It also discarded the rule-3 retry reels
+      // spliced in by handleReelAnswer. Freezing keeps the session the child
+      // started; a different child, language or session length still rebuilds.
       return;
     }
-    // Keep the child on the same reel across a rebuild (clamped to the new length).
-    setCursor(Math.min(cursorRef.current, Math.max(0, builtQueue.reels.length - 1)));
+    activeSessionRef.current = sessionKey;
+    setQueue(builtQueue.reels);
+    setCursor(0);
+    consecutiveWrong.current = 0;
   }, [builtQueue, sessionKey]);
 
   // The per-concept signal state spans a whole session, so it must survive a
