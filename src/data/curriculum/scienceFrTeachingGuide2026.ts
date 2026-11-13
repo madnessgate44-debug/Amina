@@ -117,7 +117,7 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
     ],
   ),
   '1-4': makeGuide(
-    '14–18',
+    '14–17',
     'Les humains et de nombreux animaux possèdent des os, des articulations et des muscles. Ces éléments travaillent ensemble : les muscles se contractent et tirent sur les os pour produire le mouvement. Les animaux n’ont pas tous la même forme de squelette. La longueur et la forme de leurs os ainsi que la disposition de leurs articulations varient selon leur manière de se déplacer. Par exemple, les longues pattes arrière du lapin l’aident à sauter. Les chiens, les chats et les lapins utilisent eux aussi leurs muscles pour tirer sur leurs os.',
     'Compare un dessin du membre antérieur d’un chien avec un bras humain. Repère l’articulation qui correspond au coude. Compare ensuite les longues pattes arrière du lapin avec celles d’un animal qui saute moins.',
     [
@@ -299,7 +299,7 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
     ],
   ),
   '3-5': makeGuide(
-    '40–43',
+    '40–42',
     'Les expériences du chapitre montrent trois conditions nécessaires à la germination : l’eau, l’air et une température appropriée. Si l’une de ces conditions manque, la graine ne germe pas normalement. La lumière du Soleil et l’engrais ne sont pas nécessaires pour déclencher la germination elle-même ; ils deviennent importants pour la croissance de la jeune plante après la germination. Une graine peut donc commencer à germer dans un endroit sombre si elle dispose d’eau, d’air et d’une température convenable.',
     'Présente trois cartes : eau, air, température appropriée. Retire une carte à la fois et demande ce qui manque à la graine. Ajoute ensuite deux cartes, lumière et engrais, et classe-les dans les besoins de la croissance après la germination.',
     [
@@ -429,7 +429,7 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
     ],
   ),
   '5-3': makeGuide(
-    '60–63',
+    '60–62',
     'La pollinisation se produit lorsque des grains de pollen provenant d’une fleur mâle se déposent sur le sommet du carpelle d’une fleur femelle. Chez le luffa, les fleurs mâles et femelles sont séparées. Des insectes, comme les abeilles, peuvent transporter le pollen d’une fleur à l’autre. Après la pollinisation, le carpelle se développe en fruit et des graines se forment à l’intérieur. Sans pollinisation, la fleur femelle ne produit pas un fruit qui se développe normalement.',
     'Utilise deux fleurs femelles de luffa protégées par des sacs. Sur la fleur A, dépose du pollen provenant d’une fleur mâle puis replace le sac. Laisse la fleur B protégée sans ajouter de pollen. Après quelques jours, compare le développement des deux bases florales.',
     [
@@ -804,6 +804,15 @@ export const SCIENCE_FR_TERM1_ENRICHMENT_2026 = [
     sourcePages: '102–103',
     titleFr: 'Le cycle de l’eau du Nil',
     appAuthoredSummaryFr: 'Le manuel relie l’évaporation, la condensation et les pluies au trajet de l’eau en Afrique et au Nil. Il évoque le stockage de l’eau derrière le Haut Barrage d’Assouan. Utiliser ce passage comme enrichissement du cycle de l’eau et de la préservation de la ressource.',
+  },
+] as const;
+
+export const SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026 = [
+  {
+    chapter: 5,
+    sourcePages: '63',
+    titleFr: 'Révision et exercices',
+    appAuthoredSummaryFr: 'Cette page de révision vérifie les acquis du chapitre 5 : l’ordre des parties de la fleur, la distinction entre fleurs mâles et femelles, le pollen, la mise au point du microscope et la pollinisation. Elle est indexée séparément de la leçon 5-3, qui se termine à la page 62.',
   },
 ] as const;
 
