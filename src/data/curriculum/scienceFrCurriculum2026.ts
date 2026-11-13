@@ -8,6 +8,7 @@
  * not an official Ministry teacher guide.
  */
 import { OfficialCurriculumLesson } from '../../types/teachingSession';
+import { SCIENCE_FR_TEACHER_GUIDE_2026 } from './scienceFrTeachingGuide2026';
 
 type Spec = {
   u:number; n:number; page:number; pages:string; fr:string; en:string; ar:string;
@@ -16,7 +17,7 @@ type Spec = {
   exampleFr:string; exampleEn:string; exampleAr:string;
 };
 const S:Spec[] = [
-{u:1,n:1,page:6,pages:'6–7',fr:'Les os et les muscles',en:'Bones and muscles',ar:'العظام والعضلات',focus:'Quand tu plies le coude, le biceps se contracte et se raccourcit tandis que le triceps se relâche. Quand tu tends le bras, leur rôle s’inverse. Les muscles tirent les os ; ils ne les poussent pas. Le coude est une articulation.',objectives:['Décrire la flexion et l’extension du bras.','Expliquer le travail des muscles en paire.','Comprendre que les muscles tirent les os.'],vocab:[['os','Partie dure du squelette.'],['muscle','Organe qui se contracte et se relâche.'],['articulation','Endroit où des os se rencontrent.']],q:'Quand tu plies le coude, que fait le biceps ?',options:['Il se contracte.','Il disparaît.','Il pousse les os.','Il devient un os.'],answer:'Il se contracte.',why:'Le biceps se raccourcit et tire l’avant-bras vers le haut.',exampleFr:'Plie doucement ton coude et touche le muscle à l’avant du bras.',exampleEn:'Bend your elbow gently and feel the muscle at the front of your arm.',exampleAr:'اثنِ مرفقك برفق والمس العضلة أمام الذراع.'},
+{u:1,n:1,page:6,pages:'6–7',fr:'Les os et les muscles',en:'Bones and muscles',ar:'العظام والعضلات',focus:'Quand tu plies le coude, le muscle fléchisseur à l’avant du bras se contracte tandis que le muscle extenseur à l’arrière se relâche. Quand tu tends le bras, leurs rôles s’inversent. Les muscles tirent les os ; ils ne les poussent pas. Le coude est une articulation.',objectives:['Décrire la flexion et l’extension du bras.','Expliquer le travail des muscles en paire.','Comprendre que les muscles tirent les os.'],vocab:[['os','Partie dure du squelette.'],['muscle','Organe qui se contracte et se relâche.'],['articulation','Endroit où des os se rencontrent.']],q:'Quand tu plies le coude, que fait le biceps ?',options:['Il se contracte.','Il disparaît.','Il pousse les os.','Il devient un os.'],answer:'Il se contracte.',why:'Le biceps se raccourcit et tire l’avant-bras vers le haut.',exampleFr:'Plie doucement ton coude et touche le muscle à l’avant du bras.',exampleEn:'Bend your elbow gently and feel the muscle at the front of your arm.',exampleAr:'اثنِ مرفقك برفق والمس العضلة أمام الذراع.'},
 {u:1,n:2,page:8,pages:'8–11',fr:'La structure des os',en:'The structure of bones',ar:'تركيب العظام',focus:'Les os soutiennent le corps, lui donnent sa forme et protègent les organes. Les articulations relient les os. Le cartilage recouvre certaines extrémités osseuses et réduit les frottements. Les articulations n’ont pas toutes la même mobilité.',objectives:['Expliquer le soutien et la protection assurés par les os.','Identifier le rôle des articulations.','Expliquer comment le cartilage facilite le mouvement.'],vocab:[['cartilage','Tissu souple qui protège les extrémités des os.'],['articulation','Jonction entre des os.'],['frottement','Résistance entre deux surfaces en contact.']],q:'Quel est le rôle du cartilage ?',options:['Réduire les frottements.','Faire pousser les muscles.','Remplacer les os.','Fabriquer les articulations.'],answer:'Réduire les frottements.',why:'Le cartilage forme une surface lisse qui aide les os à bouger.',exampleFr:'Le cartilage du genou aide les os à glisser pendant la marche.',exampleEn:'Knee cartilage helps bones move smoothly while walking.',exampleAr:'يساعد غضروف الركبة العظام على الحركة بسلاسة أثناء المشي.'},
 {u:1,n:3,page:12,pages:'12–13',fr:'Le squelette complet du corps',en:'The human skeleton',ar:'الهيكل العظمي الكامل',focus:'Le squelette soutient le corps et protège les organes. Le crâne protège le cerveau. Les côtes protègent le cœur et les poumons. La colonne vertébrale soutient le tronc et permet de se pencher et de tourner.',objectives:['Nommer le crâne, les côtes et la colonne vertébrale.','Associer chaque partie à sa fonction.','Expliquer le rôle du squelette dans le mouvement.'],vocab:[['squelette','Ensemble des os du corps.'],['crâne','Os qui protègent le cerveau.'],['colonne vertébrale','Suite de vertèbres qui soutient le dos.']],q:'Quel organe est protégé par le crâne ?',options:['Le cerveau.','L’estomac.','Les reins.','Les muscles des jambes.'],answer:'Le cerveau.',why:'Le crâne forme une protection osseuse autour du cerveau.',exampleFr:'Ta colonne vertébrale aide à soutenir ton tronc quand tu portes ton sac.',exampleEn:'Your spine supports your trunk when you carry a schoolbag.',exampleAr:'يساعد العمود الفقري على دعم الجذع عند حمل الحقيبة.'},
 {u:1,n:4,page:14,pages:'14–18',fr:'Le corps des animaux',en:'Animal bodies and movement',ar:'أجسام الحيوانات وحركتها',focus:'Les os, les articulations et les muscles travaillent ensemble pour permettre le mouvement. Leur forme varie selon le mode de déplacement. Un animal qui court, nage, vole ou grimpe présente des adaptations différentes.',objectives:['Comparer le squelette humain à celui de quelques animaux.','Relier la forme du corps au mode de déplacement.','Expliquer le rôle des muscles dans le mouvement.'],vocab:[['locomotion','Manière dont un être vivant se déplace.'],['adaptation','Caractéristique utile dans un milieu.'],['articulation','Jonction qui permet le mouvement.']],q:'Pourquoi les squelettes des animaux ont-ils des formes différentes ?',options:['Ils sont adaptés à différents mouvements.','Les animaux n’ont pas de muscles.','Tous les animaux vivent dans l’eau.','Les os sont en métal.'],answer:'Ils sont adaptés à différents mouvements.',why:'La forme des membres et des articulations dépend du déplacement.',exampleFr:'Les pattes d’un chat aident à courir et sauter ; les nageoires d’un poisson aident à nager.',exampleEn:'A cat’s legs help it run and jump; a fish’s fins help it swim.',exampleAr:'تساعد أرجل القط على الجري والقفز، وتساعد زعانف السمكة على السباحة.'},
@@ -47,6 +48,8 @@ const S:Spec[] = [
 ];
 
 function makeLesson(s:Spec):OfficialCurriculumLesson {
+ const teacherGuide = SCIENCE_FR_TEACHER_GUIDE_2026[`${s.u}-${s.n}`];
+ if (!teacherGuide) throw new Error(`Missing app-authored teacher guide for Science lesson ${s.u}-${s.n}`);
  const id='off_scifr_2026_u'+s.u+'_l'+s.n;
  const conceptId='conc_scifr_2026_u'+s.u+'_l'+s.n;
  const unit='Chapitre '+s.u;
@@ -54,7 +57,7 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
  const sourceRef={book:'Manuel de Sciences 5e Primaire — Ministère de l’Éducation, 2026–2027, Term 1',bookAr:'كتاب الوزارة للعلوم بالفرنسية — الصف الخامس — الفصل الدراسي الأول',bookEn:'Egypt Ministry Grade 5 Science in French — Term 1 (2026–2027)',grade:'Primary 5 / Grade 5',term:'Term 1 — 2026–2027',unit,lesson,page:s.page,isAvailable:true};
  const concept={
   id:conceptId,conceptNumber:1,titleAr:s.ar,titleEn:s.en,titleFr:s.fr,
-  sourceText:s.focus,sourceTextFr:s.focus,keyPoints:s.objectives,keyPointsFr:s.objectives,
+  sourceText:s.focus,sourceTextFr:teacherGuide.explanationFr,keyPoints:s.objectives,keyPointsFr:s.objectives,
   dailyLifeExampleAr:s.exampleAr,dailyLifeExampleEn:s.exampleEn,dailyLifeExampleFr:s.exampleFr,
   storyAnalogyAr:'تخيّل مثالاً من الحياة اليومية يساعدك على فهم '+s.ar,
   storyAnalogyEn:'Use a familiar everyday situation to understand '+s.en+'.',
@@ -74,7 +77,8 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
   instructionLanguage:'fr',contentLanguage:'fr',assessmentLanguage:'fr',curriculumSource:'egyptian_national',track:'french_bilingual',
   isAvailable:true,contentStatus:'available',sourceRef,
   objectives:s.objectives,
-  readingText:s.fr+'\n\n'+s.focus+'\n\nÀ retenir : '+s.objectives.join(' ')+'\n\nExemple : '+s.exampleFr+'\n\nExplique ensuite cette idée avec tes propres mots.',
+  readingText:teacherGuide.explanationFr+'\n\nDémonstration : '+teacherGuide.workedExampleFr+'\n\nExplique ensuite cette idée avec tes propres mots.',
+  teacherGuide,
   vocabulary:s.vocab.map(([word,definition])=>({word,definition})),
   exercises:[mc,qa],exercisesByLanguage:{fr:[mc,qa]},concepts:[concept]
  };
