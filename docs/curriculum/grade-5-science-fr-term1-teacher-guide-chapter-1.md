@@ -289,13 +289,13 @@ Les squelettes ne sont pourtant pas identiques. La longueur et la forme des os, 
 
 [VERIFIED] Les pages d'enrichissement présentent trois idées :
 
-1. **Les callosités des genoux :** elles protègent les zones de contact avec le sol et amortissent les chocs lorsque le dromadaire s'agenouille.
+1. **Les coussinets des genoux :** une peau épaisse appelée callosités recouvre les zones de contact ; des tissus très souples situés dessous agissent comme un coussin et réduisent les chocs lorsque le dromadaire s'agenouille.
 2. **Les orteils :** les os des orteils s'écartent au contact du sol. La surface d'appui augmente et le poids du corps se répartit mieux sur le sable.
-3. **La bosse :** elle contient de la graisse, et non de l'eau. Cette réserve fournit des nutriments que le corps peut utiliser pour produire de l'énergie. Le regroupement de la graisse dans la bosse aide aussi le reste du corps à perdre de la chaleur.
+3. **La bosse :** elle contient de la graisse, et non de l'eau. Le corps décompose cette graisse pour produire de l'énergie. Comme elle est regroupée dans la bosse, le vent peut rafraîchir le reste du corps et aider la chaleur à se libérer.
 
 **Question de discussion :** Comment les pieds et les genoux du dromadaire l'aident-ils à se déplacer dans le désert ?
 
-**Réponse attendue :** les callosités amortissent les chocs et les orteils s'écartent pour répartir le poids sur le sable.
+**Réponse attendue :** les tissus souples sous les callosités amortissent les chocs ; les orteils s'écartent pour augmenter la surface d'appui et répartir le poids sur le sable.
 
 **Idée fausse à diagnostiquer :** « La bosse contient de l'eau. »  
 **Remédiation :** faire distinguer une réserve de graisse d'une réserve d'eau. La bosse stocke de la graisse, que le corps peut utiliser pour produire de l'énergie.
