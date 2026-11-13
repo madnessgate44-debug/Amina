@@ -172,7 +172,7 @@ export const ProgressScreen: React.FC = () => {
   const maxMinutes = Math.max(45, ...dailyActivity.map((d) => d.minutes));
 
   return (
-    <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4">
+    <div className="mn-page flex-1 flex flex-col pb-24 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
