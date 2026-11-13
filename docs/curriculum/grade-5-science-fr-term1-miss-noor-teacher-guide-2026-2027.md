@@ -22,11 +22,11 @@ Printed page numbers are the numbers visible on the book pages. The lesson-level
 
 | Chapter | Exact chapter heading | Chapter pages | Numbered lessons and printed page ranges |
 |---:|---|---:|---|
-| 1 | Les os et les muscles | 6–19 | 1-1 pp. 6–7; 1-2 pp. 8–11; 1-3 pp. 12–13; 1-4 pp. 14–18 |
+| 1 | Les os et les muscles | 6–19 | 1-1 pp. 6–7; 1-2 pp. 8–11; 1-3 pp. 12–13; 1-4 pp. 14–17 |
 | 2 | Les changements des saisons | 20–27 | 2-1 pp. 20–21; 2-2 pp. 22–25 |
-| 3 | Les conditions de germination | 28–43 | 3-1 pp. 28–29; 3-2 pp. 30–33; 3-3 pp. 34–35; 3-4 pp. 36–39; 3-5 pp. 40–43 |
+| 3 | Les conditions de germination | 28–43 | 3-1 pp. 28–29; 3-2 pp. 30–33; 3-3 pp. 34–35; 3-4 pp. 36–39; 3-5 pp. 40–42 |
 | 4 | Les conditions de croissance | 44–51 | 4-1 pp. 44–45; 4-2 pp. 46–49 |
-| 5 | De la fleur au fruit | 52–63 | 5-1 pp. 52–54; 5-2 pp. 55–59; 5-3 pp. 60–63 |
+| 5 | De la fleur au fruit | 52–63 | 5-1 pp. 52–54; 5-2 pp. 55–59; 5-3 pp. 60–62 |
 | 6 | La croissance et la reproduction humaines | 64–71 | 6-1 pp. 64–65; 6-2 pp. 66–67; 6-3 pp. 68–71 |
 | 7 | La croissance et la reproduction des animaux | 72–79 | 7-1 pp. 72–73; 7-2 pp. 74–75; 7-3 pp. 76–79 |
 | 8 | Les changements météorologiques | 80–91 | 8-1 pp. 80–81; 8-2 pp. 82–85; 8-3 pp. 86–89 |
@@ -69,6 +69,8 @@ The plan content is intentionally concise enough for a teacher to use during a l
 | 7 | Compare animals that give birth with animals that lay eggs; define hatching; explain how reproduction and protected habitats support species continuity. | reproduction, espèce, donner naissance, pondre, œuf, éclosion, petit, réserve naturelle, conservation |
 | 8 | Estimate cloud cover using the book's eight-part model; observe cloud movement from a fixed reference; interpret satellite images and justify a forecast. | météo, couverture nuageuse, nuageux, ensoleillé, vent, direction, boussole, satellite, radar, prévision, khamsin |
 | 9 | Explain evaporation and condensation; sequence the water cycle; connect the cycle to rivers, seas and the Nile. | évaporation, vapeur d’eau, condensation, gouttelette, refroidissement, nuage, précipitation, rivière, mer, cycle de l’eau |
+
+Chapter 5 also has a separate printed-page-63 “Révision et exercices” review. Lesson 5-3 ends on p. 62; the review is indexed separately in SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026.
 
 ## Enrichment pages retained
 
