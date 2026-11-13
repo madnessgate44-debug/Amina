@@ -166,7 +166,7 @@ export const TimetableScreen: React.FC = () => {
     : ['Arabic Language', 'Mathematics', 'Science', 'Religious Studies', 'Physical Education', 'Art', 'Break / Recess'];
 
   return (
-    <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-20">
+    <div className="mn-page flex-1 flex flex-col pb-24">
       {/* Header */}
       <div className="mb-4">
         <div className="flex items-center justify-between">
