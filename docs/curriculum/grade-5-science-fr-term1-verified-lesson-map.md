@@ -27,7 +27,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 | 1-1 | Les os et les muscles | 6–7 | Flexion and extension of the arm; muscles contract and relax in alternating pairs; muscles pull bones; elbow is an articulation. |
 | 1-2 | La structure des os | 8–11 | Bones support and protect; joints connect two or more bones; cartilage cushions bone ends; joint movement differs by location. |
 | 1-3 | Le squelette complet du corps | 12–13 | Skeleton; skull protects brain; ribs protect heart and lungs; vertebral column supports the body and allows bending. |
-| 1-4 | Le corps des animaux | 14–18 | Compare human and animal skeletons/joints; animal movement uses muscle contraction and bone traction; form varies with locomotion. |
+| 1-4 | Le corps des animaux | 14–17 | Compare human and animal skeletons/joints; animal movement uses muscle contraction and bone traction; form varies with locomotion. |
 | Enrichment | Biomécanique — le dromadaire | 18–19 | Camel knee callosities cushion impact; spreading toe bones distribute weight on sand; hump stores fat, not water; fat distribution supports heat loss. |
 
 **Miss Noor lesson sequence:** begin with a safe arm-flexion demonstration; ask the learner to predict which muscle feels firm; model contract/relax; compare a human skeleton diagram with a dog/rabbit; finish with a camel adaptation explanation. Do not ask the child to press hard on joints or perform unsafe lifting.
@@ -58,7 +58,8 @@ Page ranges below are the printed page numbers visible in the student book. Each
 | 3-2 | L’eau et la germination | 30–33 | Fair test: compare moist and dry cotton; change only water availability; keep air, temperature and light conditions equivalent; seeds need water to germinate. |
 | 3-3 | L’air et la germination | 34–35 | Compare moist cotton exposed to air with seeds fully submerged; change air exposure only; keep water and temperature comparable; seeds need air. |
 | 3-4 | La température et la germination | 36–39 | Compare warm and cold conditions; keep water, air and light comparable; appropriate warmth is needed for germination. |
-| 3-5 | Résumé de la germination | 40–43 | Three conditions: water, air and suitable temperature; if one is missing, seeds do not germinate; sunlight and fertilizer are needed for later plant growth, not for germination itself. |
+| 3-5 | Résumé de la germination | 40–42 | Three conditions: water, air and suitable temperature; if one is missing, seeds do not germinate; sunlight and fertilizer are needed for later plant growth, not for germination itself. |
+| Enrichment | Comparer les graines familières | 43 | Compare the shapes and colours of pea, date-palm, wheat, sunflower, cotton and maize seeds. |
 | Enrichment | Les graines et la dormance | 50–51 | Seed dormancy; dry conditions can preserve seeds; Nile floodplain soil and nutrient-rich silt support plant growth. |
 
 **Miss Noor lesson sequence:** inspect a soaked bean seed; identify seed coat, cotyledons and embryo; predict each experiment; explicitly name the changed variable and controlled variables; ask learner to interpret results; build a three-condition summary table. Use iodine only with adult supervision and never taste it.
@@ -67,7 +68,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 
 **Key vocabulary:** graine, embryon, cotylédon, amidon, germination, solution d’iode, variable, condition constante, air, eau, température appropriée, dormance.
 
-**Book practice:** pp. 32–34, 38–43. Enrichment pp. 50–51.
+**Book practice:** pp. 32–34, 38–42. Seed-comparison enrichment p. 43; dormancy/Nile enrichment pp. 50–51.
 
 ### Chapter 4 — Les conditions de croissance (pp. 44–51)
 
@@ -89,7 +90,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 |---|---|---:|---|
 | 5-1 | La structure de la fleur de luffa | 52–54 | Luffa and squash plants have male and female flowers; male flower has a stamen and pollen; female flower has a carpel and swelling at the base that becomes fruit. |
 | 5-2 | Comment utiliser le microscope ? | 55–59 | Microscope parts; prepare a slide; use low magnification first; focus by moving objective away from slide while viewing; image is inverted; total magnification = eyepiece × objective. |
-| 5-3 | La pollinisation et comment les fruits se développent | 60–63 | Pollination is transfer of pollen to the top of the carpel; insects such as bees transport pollen in luffa; after pollination the carpel develops into fruit and seeds form. |
+| 5-3 | La pollinisation et comment les fruits se développent | 60–62 | Pollination is transfer of pollen to the top of the carpel; insects such as bees transport pollen in luffa; after pollination the carpel develops into fruit and seeds form. |
 | Review | Révision et exercices | 63 | Integrative review of flower structure, pollen, pollination and microscope procedure. |
 
 **Miss Noor lesson sequence:** compare male/female flower diagrams; label stamen, pollen, carpel, sepals, petals and ovary/swelling; demonstrate slide preparation with safe materials; practise microscope handling using low power; sequence pollination → fruit development → seed formation.
