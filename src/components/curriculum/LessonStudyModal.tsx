@@ -504,7 +504,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                       <span className="font-black text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
                         <Award className="w-3.5 h-3.5" />
                         <span>{isAr ? `تمرين ${exIdx + 1}` : isFr ? `Exercice ${exIdx + 1}` : `Exercise ${exIdx + 1}`}</span>
-                        {ex.page && <span>(ص. {ex.page})</span>}
+                        {ex.page && <span>{isAr ? `(ص. ${ex.page})` : `(p. ${ex.page})`}</span>}
                       </span>
                       {answered && feedback?.isCorrect && (
                         <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
