@@ -35,7 +35,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
   const isAr = language === 'ar';
   const isFr = language === 'fr';
   const speechLanguage = lesson.instructionLanguage || lesson.contentLanguage || language;
-  const teacherGuide = teacherGuide;
+  const teacherGuide = lesson.teacherGuide;
   const studentName = student?.name || (isAr ? 'صديقي' : isFr ? 'ami' : 'friend');
 
   const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'practice' | 'exercises'>('explanation');
