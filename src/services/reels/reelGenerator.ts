@@ -206,6 +206,26 @@ export function buildReelsForConcept(
 
   const vocab = lesson.vocabulary && lesson.vocabulary.length ? lesson.vocabulary[0] : null;
 
+  // The three question kinds all draw from the same exercise list, so a lesson
+  // with one or two exercises used to show the SAME question two or three times
+  // in a single session (hook_question, spot_the_mistake and quick_choice each
+  // reached for usableExercises[0]). The child saw the identical card return.
+  // Each kind now claims the next DISTINCT exercise and a kind is skipped when
+  // the lesson has no fresh exercise left, so a question is never repeated
+  // inside a session. A concept with one exercise asks it once.
+  const usedExercises = new Set<number>();
+  const takeExercise = (
+    predicate: (item: (typeof usableExercises)[number]) => boolean
+  ): (typeof usableExercises)[number] | undefined => {
+    for (let i = 0; i < usableExercises.length; i++) {
+      if (usedExercises.has(i)) continue;
+      if (!predicate(usableExercises[i])) continue;
+      usedExercises.add(i);
+      return usableExercises[i];
+    }
+    return undefined;
+  };
+
   let idx = 0;
   const push = (kind: ReelKind, partial: Partial<Reel> & Pick<Reel, 'hook' | 'show' | 'noorLine'>) => {
     // The reel is READ on screen, so every piece of teaching text must be in a
@@ -232,7 +252,7 @@ export function buildReelsForConcept(
     switch (kind) {
       case 'hook_question': {
         if (!hookLine) break;
-        const ex = usableExercises[0];
+        const ex = takeExercise(() => true);
         push('hook_question', {
           hook: hookLine,
           show: conceptTitle(concept, lang),
@@ -270,8 +290,9 @@ export function buildReelsForConcept(
         break;
       }
       case 'spot_the_mistake': {
-        // Needs a misconception-bearing wrong option from a real exercise.
-        const ex = usableExercises.find((x) => x.options.some((o) => !o.isCorrect));
+        // Needs a misconception-bearing wrong option from a real exercise, and a
+        // fresh one: the same question must not come back later as quick_choice.
+        const ex = takeExercise((x) => x.options.some((o) => !o.isCorrect));
         if (!ex) break;
         const wrong = ex.options.find((o) => !o.isCorrect);
         if (!wrong) break;
@@ -286,7 +307,7 @@ export function buildReelsForConcept(
         break;
       }
       case 'quick_choice': {
-        const ex = usableExercises[1] || usableExercises[0];
+        const ex = takeExercise(() => true);
         if (!ex) break;
         push('quick_choice', {
           hook: lang === 'ar' ? 'سؤال سريع' : lang === 'fr' ? 'Question rapide' : 'Quick question',

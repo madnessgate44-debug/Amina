@@ -752,6 +752,69 @@ function run() {
     );
   }
 
+  // ---- 19. The same question is never asked twice in one session ----
+  // hook_question, spot_the_mistake and quick_choice all drew from the same
+  // exercise list and each reached for usableExercises[0]/[1] with no memory of
+  // what it had already used, so a lesson with one or two exercises repeated the
+  // IDENTICAL card two or three times in a session. Measured before the fix:
+  // 48 extra duplicate reels in Arabic, 92 in French across the curriculum; a
+  // 30-minute Arabic feed showed off_math_u1_l3's question at reel 1 AND reel 39.
+  // A repeated question is a dead, static reel — exactly what the owner's
+  // "it must not be static" ask rules out. Each question kind now claims a
+  // DISTINCT exercise and is skipped when none is left, so a concept with one
+  // exercise asks it once and a concept with two asks two different ones.
+  for (const lang of LANGS) {
+    let conceptsWithDuplicate = 0;
+    let duplicateReels = 0;
+    for (const lesson of curriculumService.getAvailableLessons()) {
+      for (const concept of lesson.concepts) {
+        const questionReels = buildReelsForConcept(lesson, concept, lang, {}).filter(
+          (r) => r.options && r.options.length > 0
+        );
+        const seen = new Set<string>();
+        let conceptHasDuplicate = false;
+        for (const r of questionReels) {
+          const key = r.options!.map((o) => o.text).join('|');
+          if (seen.has(key)) {
+            duplicateReels++;
+            conceptHasDuplicate = true;
+          }
+          seen.add(key);
+        }
+        if (conceptHasDuplicate) conceptsWithDuplicate++;
+      }
+    }
+    assert(
+      duplicateReels === 0,
+      `19.1 [${lang}]: no concept repeats a question inside a session (${duplicateReels} across ${conceptsWithDuplicate} concepts)`
+    );
+
+    // The fix must not shrink the session: the queues stay at the same size, so
+    // the duplicate removal only replaced repeated cards, it did not drop reels.
+    const feed = buildFeedQueue({
+      studentId: `nodup_${lang}`,
+      language: lang,
+      mastery,
+      dueReviews: [],
+      todaySubjects: ['Mathematics', 'Science', 'French', 'Social Studies', 'English', 'Information Technology', 'Arabic', 'التربية الإسلامية'],
+      examCalendar: [],
+      now,
+      sessionMinutes: 30,
+    });
+    const seenInFeed = new Set<string>();
+    let feedDuplicates = 0;
+    for (const r of feed.reels) {
+      if (!r.options || r.options.length === 0) continue;
+      const key = r.options.map((o) => o.text).join('|');
+      if (seenInFeed.has(key)) feedDuplicates++;
+      seenInFeed.add(key);
+    }
+    assert(
+      feedDuplicates === 0,
+      `19.2 [${lang}]: the queued session shows no duplicate question (${feedDuplicates})`
+    );
+  }
+
   console.log('\n=================================================================');
   console.log(`REELS SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
   console.log('=================================================================');
