@@ -69,8 +69,13 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     assessmentLanguage: 'fr' as const,
     track: 'french_bilingual' as const,
   })),
+  // Legacy Science records belong to an older/unreconciled edition. Keep their
+  // IDs registered for compatibility, but quarantine them so they cannot be
+  // counted or shown as coverage of the 2026–2027 Term 1 French student book.
   ...SCIENCE_CURRICULUM_LESSONS.map((lesson) => ({
     ...withFrenchAssessments(lesson),
+    isAvailable: false,
+    contentStatus: 'pending_materials' as const,
     subjectId: 'subj_science',
     subjectNameAr: 'العلوم',
     subjectNameEn: 'Science',
