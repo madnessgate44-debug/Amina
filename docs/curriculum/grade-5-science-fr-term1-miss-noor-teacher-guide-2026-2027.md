@@ -124,3 +124,16 @@ These four skills are indexed in SCIENCE_FR_TERM1_METHOD_SKILLS_2026.
 - **[VERIFIED]** The app-authored teaching-plan data structure now contains a complete French explanation, worked example, guided practice, independent practice, answer key, misconception diagnosis, remediation and mastery checks for each of the 28 Term 1 lessons.
 - **[BLOCKED]** Matching Ministry teacher guide and Term 2 Science student book.
 - **[UNPROVEN]** Production deployment and live learner walkthrough until CI and runtime evidence are available.
+
+
+## Learner-facing teaching sequence
+
+The current-mainline integration adds a dedicated **Practice / Pratique** tab to the Miss Noor lesson view. For lessons with an app-authored teacher plan, it exposes:
+
+- Guided-practice prompts, with expected responses revealed on request.
+- Independent-practice prompts, with the ordered answer key hidden until requested.
+- Misconception examples, diagnoses and corrective prompts.
+- Remediation steps.
+- Mastery-check prompts, success criteria and revealable expected answers.
+
+The teaching plan remains original Miss Noor material. This interface does not turn it into an official Ministry teacher guide. Automated CI and a live French learner walkthrough on a phone are still required before the integration is declared verified in production.
