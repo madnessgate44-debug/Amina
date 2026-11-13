@@ -33,7 +33,8 @@ interface LessonStudyModalProps {
 export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onClose }) => {
   const { language, student } = useApp();
   const isAr = language === 'ar';
-  const studentName = student?.name || (isAr ? 'صديقي' : 'friend');
+  const isFr = language === 'fr';
+  const studentName = student?.name || (isAr ? 'صديقي' : isFr ? 'ami' : 'friend');
 
   const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'exercises'>('explanation');
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
@@ -47,12 +48,14 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
   useEffect(() => {
     const welcomeText = isAr
       ? `أهلاً يا ${studentName}! فتحنا درس: «${lesson.titleAr}» من ${lesson.sourceRef.bookAr}. أنا جاهزة أشرحلك كل فكرة ونحل التمارين سوا!`
+      : isFr
+      ? `Bonjour ${studentName} ! Nous étudions « ${lesson.titleFr || lesson.titleEn} ». Lis l’explication, observe l’exemple et réponds aux exercices.`
       : `Welcome ${studentName}! We opened the lesson: "${lesson.titleEn}" from ${lesson.sourceRef.bookEn}. Ready to explore together!`;
 
     tutorSpeechService.speakEncouragingFeedback('welcome', studentName, welcomeText, {
       language,
     });
-  }, [lesson, studentName, language, isAr]);
+  }, [lesson, studentName, language, isAr, isFr]);
 
   const handleSelectOption = (exerciseIdx: number, optionIdx: number, expectedAnswer?: string, options?: string[]) => {
     if (selectedAnswers[exerciseIdx] !== undefined) return; // already answered
@@ -68,6 +71,8 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
       soundEffects.playStarEarned();
       const praiseNote = isAr
         ? `إجابة عبقرية يا ${studentName}! «${chosenOption}» هي الإجابة الصحيحة تماماً.`
+        : isFr
+        ? `Bonne réponse, ${studentName} ! « ${chosenOption} » est correct.`
         : `Brilliant, ${studentName}! "${chosenOption}" is the correct answer.`;
 
       setExerciseFeedback((prev) => ({
@@ -82,8 +87,10 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
     } else {
       soundEffects.playBounce();
       const encouragementNote = isAr
-        ? `محاولة كويسة يا ${studentName}! الإجابة الصحيحة من كتاب الوزارة هي: «${expectedAnswer}». ركزي في النقطة دي يا بطلة!`
-        : `Good try, ${studentName}! The correct answer from the textbook is: "${expectedAnswer}".`;
+        ? `محاولة كويسة يا ${studentName}! الإجابة الصحيحة هي: «${expectedAnswer}». ركزي في النقطة دي!`
+        : isFr
+        ? `Bonne tentative, ${studentName}. La réponse attendue est : « ${expectedAnswer} ». Reprenons l’idée ensemble.`
+        : `Good try, ${studentName}! The expected answer is: "${expectedAnswer}".`;
 
       setExerciseFeedback((prev) => ({
         ...prev,
@@ -111,12 +118,12 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             </div>
             <div>
               <span className="text-[10px] font-bold text-amber-300 flex items-center gap-1">
-                <span>{lesson.subjectNameAr}</span>
+                <span>{isAr ? lesson.subjectNameAr : isFr ? (lesson.subjectNameFr || lesson.subjectNameEn) : lesson.subjectNameEn}</span>
                 <span>•</span>
-                <span>{lesson.sourceRef.bookAr}</span>
+                <span>{isAr ? lesson.sourceRef.bookAr : isFr ? lesson.sourceRef.book : lesson.sourceRef.bookEn}</span>
               </span>
               <h2 className="text-sm sm:text-base font-black leading-tight text-white">
-                {isAr ? lesson.titleAr : lesson.titleEn}
+                {isAr ? lesson.titleAr : isFr ? (lesson.titleFr || lesson.titleEn) : lesson.titleEn}
               </h2>
             </div>
           </div>
@@ -126,7 +133,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
               type="button"
               onClick={onClose}
               className="p-2 rounded-xl bg-white/10 hover:bg-white/20 text-white transition-colors cursor-pointer"
-              title={isAr ? 'إغلاق' : 'Close'}
+              title={isAr ? 'إغلاق' : isFr ? 'Fermer' : 'Close'}
             >
               <X className="w-4 h-4" />
             </button>
@@ -140,14 +147,20 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
               activeTab === 'explanation'
                 ? isAr
                   ? `يا ${studentName}، اقرأي نص الدرس واستمعي لشرح كل فكرة رئيسية مع أمثلة من حياتنا اليومية.`
+                  : isFr
+                  ? `${studentName}, lis l’explication et observe l’exemple avant de répondre.`
                   : `${studentName}, read the lesson text and explore concepts with real-world examples.`
                 : activeTab === 'vocab'
                 ? isAr
                   ? `اضغطي على أي كلمة تاريخية أو مصطلح علمي لتستمعي لنطقه وشرح معناه بصوت مس نور.`
+                  : isFr
+                  ? `Écoute chaque mot de vocabulaire et lis sa définition en français.`
                   : `Tap any vocabulary word to hear Miss Noor pronounce and explain its definition.`
                 : isAr
-                ? `والآن مع التحدي والتمارين التفاعلية من كتاب الوزارة! اختاري الإجابة الصحيحة واستمعي للتشجيع!`
-                : `Now for textbook exercises! Select the correct answer and listen to feedback.`
+                ? `والآن مع التحدي والتمارين التفاعلية! اختاري الإجابة الصحيحة واستمعي للتشجيع!`
+                : isFr
+                ? `Passe aux exercices de Miss Noor, puis vérifie ta réponse avec l’explication.`
+                : `Now for Miss Noor’s exercises! Select the best answer and listen to feedback.`
             }
             studentName={studentName}
             language={language}
@@ -171,7 +184,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             }`}
           >
             <BookOpen className="w-3.5 h-3.5" />
-            <span>{isAr ? 'الشرح والمفاهيم' : 'Explanation'}</span>
+            <span>{isAr ? 'الشرح والمفاهيم' : isFr ? 'Explication' : 'Explanation'}</span>
           </button>
 
           <button
@@ -188,7 +201,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             }`}
           >
             <Layers className="w-3.5 h-3.5" />
-            <span>{isAr ? `المفردات (${lesson.vocabulary.length})` : `Vocab (${lesson.vocabulary.length})`}</span>
+            <span>{isAr ? `المفردات (${lesson.vocabulary.length})` : isFr ? `Vocabulaire (${lesson.vocabulary.length})` : `Vocab (${lesson.vocabulary.length})`}</span>
           </button>
 
           <button
@@ -205,7 +218,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             }`}
           >
             <Award className="w-3.5 h-3.5 text-amber-500" />
-            <span>{isAr ? `التمارين (${lesson.exercises.length})` : `Exercises (${lesson.exercises.length})`}</span>
+            <span>{isAr ? `التمارين (${lesson.exercises.length})` : isFr ? `Exercices (${lesson.exercises.length})` : `Exercises (${lesson.exercises.length})`}</span>
           </button>
         </div>
 
@@ -218,7 +231,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
               <div className="p-3.5 rounded-2xl bg-amber-50/80 dark:bg-amber-950/30 border border-amber-200 dark:border-amber-800 space-y-1.5">
                 <h4 className="text-xs font-black text-amber-950 dark:text-amber-200 flex items-center gap-1.5">
                   <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                  <span>{isAr ? 'نواتج وأهداف التعلم في هذا الدرس:' : 'Learning Objectives:'}</span>
+                  <span>{isAr ? 'نواتج وأهداف التعلم في هذا الدرس:' : isFr ? 'Objectifs d’apprentissage :' : 'Learning Objectives:'}</span>
                 </h4>
                 <ul className="space-y-1 pr-4 rtl:pr-4 ltr:pl-4 list-disc text-xs text-slate-700 dark:text-slate-300 font-medium">
                   {lesson.objectives.map((obj, i) => (
@@ -233,7 +246,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   <div className="flex items-center justify-between">
                     <span className="text-xs font-black text-indigo-700 dark:text-indigo-300 flex items-center gap-1">
                       <FileText className="w-3.5 h-3.5" />
-                      <span>{isAr ? 'نص الدرس من كتاب الوزارة:' : 'Textbook Reading Content:'}</span>
+                      <span>{isAr ? 'شرح الدرس:' : isFr ? 'Explication originale de Miss Noor :' : 'Lesson explanation:'}</span>
                     </span>
                     <button
                       type="button"
@@ -244,7 +257,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                       className="text-[11px] font-bold text-indigo-600 dark:text-indigo-400 flex items-center gap-1 hover:underline cursor-pointer"
                     >
                       <Volume2 className="w-3.5 h-3.5" />
-                      <span>{isAr ? 'استمعي للنص كاملاً' : 'Read Aloud'}</span>
+                      <span>{isAr ? 'استمعي للنص كاملاً' : isFr ? 'Écouter l’explication' : 'Read Aloud'}</span>
                     </button>
                   </div>
                   <p className="text-xs sm:text-sm text-slate-800 dark:text-slate-100 leading-relaxed font-medium whitespace-pre-line">
@@ -264,7 +277,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                       <span className="w-6 h-6 rounded-lg bg-indigo-100 text-indigo-700 dark:bg-indigo-900/60 dark:text-indigo-300 flex items-center justify-center text-xs font-bold">
                         {concept.conceptNumber}
                       </span>
-                      <span>{isAr ? concept.titleAr : concept.titleEn}</span>
+                      <span>{isAr ? concept.titleAr : isFr ? (concept.titleFr || concept.titleEn) : concept.titleEn}</span>
                     </h4>
 
                     <button
@@ -273,27 +286,29 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                         soundEffects.playPop();
                         const text = isAr
                           ? `${concept.titleAr}. ${concept.sourceText}. مثال من حياتنا: ${concept.dailyLifeExampleAr}`
+                          : isFr
+                          ? `${concept.titleFr || concept.titleEn}. ${concept.sourceTextFr || concept.sourceText}. Exemple : ${concept.dailyLifeExampleFr || ''}`
                           : `${concept.titleEn}. ${concept.sourceText}`;
                         tutorSpeechService.speakTaskInstruction(text, studentName, { language });
                       }}
                       className="p-1.5 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700 cursor-pointer"
-                      title={isAr ? 'استمع للشرح' : 'Listen'}
+                      title={isAr ? 'استمع للشرح' : isFr ? 'Écouter l’explication' : 'Listen'}
                     >
                       <Volume2 className="w-4 h-4" />
                     </button>
                   </div>
 
                   <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                    {concept.sourceText}
+                    {isAr ? concept.sourceText : isFr ? (concept.sourceTextFr || concept.sourceText) : concept.sourceText}
                   </p>
 
                   {/* Key Points */}
                   <div className="space-y-1 bg-slate-50 dark:bg-slate-700/40 p-2.5 rounded-xl border border-slate-200/80 dark:border-slate-700">
                     <span className="text-[10px] font-black text-indigo-600 dark:text-indigo-400 block">
-                      {isAr ? 'نقاط الفهم الأساسية:' : 'Key Learning Points:'}
+                      {isAr ? 'نقاط الفهم الأساسية:' : isFr ? 'Points essentiels :' : 'Key Learning Points:'}
                     </span>
                     <ul className="list-disc pr-4 rtl:pr-4 ltr:pl-4 space-y-0.5 text-[11px] text-slate-600 dark:text-slate-300">
-                      {concept.keyPoints.map((pt, i) => (
+                      {(isFr ? (concept.keyPointsFr || concept.keyPoints) : concept.keyPoints).map((pt, i) => (
                         <li key={i}>{pt}</li>
                       ))}
                     </ul>
@@ -303,14 +318,14 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px]">
                     {concept.dailyLifeExampleAr && (
                       <div className="p-2.5 rounded-xl bg-emerald-50/70 dark:bg-emerald-950/30 border border-emerald-200 dark:border-emerald-800 text-emerald-950 dark:text-emerald-200">
-                        <span className="font-black block mb-0.5">🌱 {isAr ? 'من حياتنا اليومية:' : 'Daily Life:'}</span>
-                        <span>{isAr ? concept.dailyLifeExampleAr : concept.dailyLifeExampleEn}</span>
+                        <span className="font-black block mb-0.5">🌱 {isAr ? 'من حياتنا اليومية:' : isFr ? 'Dans la vie quotidienne :' : 'Daily Life:'}</span>
+                        <span>{isAr ? concept.dailyLifeExampleAr : isFr ? (concept.dailyLifeExampleFr || concept.dailyLifeExampleEn) : concept.dailyLifeExampleEn}</span>
                       </div>
                     )}
                     {concept.storyAnalogyAr && (
                       <div className="p-2.5 rounded-xl bg-purple-50/70 dark:bg-purple-950/30 border border-purple-200 dark:border-purple-800 text-purple-950 dark:text-purple-200">
-                        <span className="font-black block mb-0.5">💡 {isAr ? 'تشبيه لتبسيط الفكرة:' : 'Story Analogy:'}</span>
-                        <span>{isAr ? concept.storyAnalogyAr : concept.storyAnalogyEn}</span>
+                        <span className="font-black block mb-0.5">💡 {isAr ? 'تشبيه لتبسيط الفكرة:' : isFr ? 'Pour simplifier :' : 'Story Analogy:'}</span>
+                        <span>{isAr ? concept.storyAnalogyAr : isFr ? (concept.storyAnalogyFr || concept.storyAnalogyEn) : concept.storyAnalogyEn}</span>
                       </div>
                     )}
                   </div>
@@ -325,7 +340,9 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 {isAr
                   ? 'هذه هي المفردات والمصطلحات الأساسية الواردة في كتاب الوزارة لهذا الدرس. اضغطي على أي بطاقة لتستمعي لنطقها وشرحها:'
-                  : 'Key textbook terminology. Tap any card to hear pronunciation and meaning:'}
+                  : isFr
+                  ? 'Vocabulaire scientifique de cette leçon. Écoute chaque mot et lis sa définition :'
+                  : 'Key lesson terminology. Tap any card to hear pronunciation and meaning:'}
               </p>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -336,6 +353,8 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                       soundEffects.playPop();
                       const spoken = isAr
                         ? `مصطلح: «${v.word}»، معناه: ${v.definition}. ${v.example ? `مثال: ${v.example}` : ''}`
+                        : isFr
+                        ? `Mot : ${v.word}. Définition : ${v.definition}. ${v.example ? `Exemple : ${v.example}` : ''}`
                         : `Word: ${v.word}. Definition: ${v.definition}`;
                       tutorSpeechService.speakTaskInstruction(spoken, studentName, { language });
                     }}
@@ -352,7 +371,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                     </p>
                     {v.example && (
                       <p className="text-[11px] text-slate-500 dark:text-slate-400 italic">
-                        {isAr ? `مثال: «${v.example}»` : `Example: "${v.example}"`}
+                        {isAr ? `مثال: «${v.example}»` : isFr ? `Exemple : « ${v.example} »` : `Example: "${v.example}"`}
                       </p>
                     )}
                   </div>
@@ -367,7 +386,9 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
               <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">
                 {isAr
                   ? 'تمارين وتدريبات مطابقة تماماً لأسئلة كتاب الوزارة. كل إجابة صحيحة تمنحك نجماً وتشجيعاً من مس نور!'
-                  : 'Interactive exercises directly from the Ministry textbook. Answer each question to receive audio feedback!'}
+                  : isFr
+                  ? 'Exercices de Miss Noor rédigés à partir des notions du manuel. Réponds et écoute le retour.'
+                  : 'Miss Noor exercises based on the lesson. Answer each question to receive audio feedback!'}
               </p>
 
               {lesson.exercises.map((ex, exIdx) => {
@@ -382,13 +403,13 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                     <div className="flex items-center justify-between text-[11px]">
                       <span className="font-black text-indigo-600 dark:text-indigo-400 flex items-center gap-1">
                         <Award className="w-3.5 h-3.5" />
-                        <span>{isAr ? `تمرين ${exIdx + 1}` : `Exercise ${exIdx + 1}`}</span>
+                        <span>{isAr ? `تمرين ${exIdx + 1}` : isFr ? `Exercice ${exIdx + 1}` : `Exercise ${exIdx + 1}`}</span>
                         {ex.page && <span>(ص. {ex.page})</span>}
                       </span>
                       {answered && feedback?.isCorrect && (
                         <span className="text-emerald-600 dark:text-emerald-400 font-bold flex items-center gap-1">
                           <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>{isAr ? 'تم الحل بنجاح ⭐' : 'Solved ⭐'}</span>
+                          <span>{isAr ? 'تم الحل بنجاح ⭐' : isFr ? 'Réussi ⭐' : 'Solved ⭐'}</span>
                         </span>
                       )}
                     </div>
@@ -404,7 +425,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                           tutorSpeechService.speakTaskInstruction(ex.question, studentName, { language });
                         }}
                         className="p-1.5 rounded-lg text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700 cursor-pointer shrink-0"
-                        title={isAr ? 'استمع للسؤال' : 'Read Question'}
+                        title={isAr ? 'استمع للسؤال' : isFr ? 'Écouter la question' : 'Read Question'}
                       >
                         <Volume2 className="w-4 h-4" />
                       </button>
@@ -479,7 +500,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
         {/* Bottom Footer Actions */}
         <div className="p-3 bg-slate-100 dark:bg-slate-800 border-t border-slate-200 dark:border-slate-700 flex items-center justify-between shrink-0">
           <span className="text-xs text-slate-500 dark:text-slate-400 font-bold">
-            📖 {lesson.sourceRef.bookAr}
+            📖 {isAr ? lesson.sourceRef.bookAr : isFr ? lesson.sourceRef.book : lesson.sourceRef.bookEn}
           </span>
 
           <div className="flex items-center gap-2">
@@ -488,7 +509,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
               onClick={onClose}
               className="px-3 py-2 rounded-xl bg-slate-200 dark:bg-slate-700 hover:bg-slate-300 text-slate-800 dark:text-slate-200 font-bold text-xs cursor-pointer"
             >
-              {isAr ? 'إغلاق' : 'Close'}
+              {isAr ? 'إغلاق' : isFr ? 'Fermer' : 'Close'}
             </button>
           </div>
         </div>
