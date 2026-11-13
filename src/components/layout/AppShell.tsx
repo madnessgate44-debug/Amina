@@ -44,7 +44,7 @@ export const AppShell: React.FC = () => {
         <p className="text-sm font-extrabold text-slate-700 dark:text-slate-200 mb-1">
           {isArabic ? 'مس نور تستيقظ…' : language === 'fr' ? 'Mademoiselle Noor se réveille…' : 'Miss Noor is waking up…'}
         </p>
-        <p className="text-xs text-slate-500 dark:text-slate-400 font-semibold">
+        <p className="mn-brand-subtitle text-xs font-semibold">
           {isArabic
             ? 'التحميل الأول قد يستغرق لحظة'
             : language === 'fr'
@@ -63,16 +63,16 @@ export const AppShell: React.FC = () => {
   const isImmersive = !showOnboarding && activeTab === 'feed';
 
   return (
-    <div className={`min-h-screen bg-slate-100 dark:bg-slate-950 flex flex-col items-center text-slate-900 dark:text-slate-100${isImmersive ? ' h-screen overflow-hidden' : ''}`}>
-      <div className={`w-full max-w-md md:max-w-lg min-h-screen bg-slate-50 dark:bg-slate-900 border-x border-slate-200/80 dark:border-slate-800 shadow-2xl flex flex-col relative${isImmersive ? ' h-screen' : ''}`}>
+    <div className={`mn-app-outer min-h-screen flex flex-col items-center${isImmersive ? ' h-screen overflow-hidden' : ''}`}>
+      <div className={`mn-app-frame w-full min-h-screen flex flex-col relative${isImmersive ? ' h-screen' : ''}`}>
         {!showOnboarding && !isImmersive && (
-          <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5 flex items-center justify-between">
+          <header className="mn-topbar sticky top-0 z-40 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-linear-to-br from-[#615bff] to-[#26b8a8] text-white flex items-center justify-center shadow-md">
+              <div className="mn-brand-mark">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
-                <div className="text-sm font-black tracking-tight">{t.app.name}</div>
+                <div className="mn-brand-title text-sm font-black tracking-tight">{t.app.name}</div>
                 <div className="text-xs text-slate-500 dark:text-slate-400">
                   {student?.name || ''}
                 </div>
