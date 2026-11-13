@@ -3,8 +3,8 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Subject:** Sciences taught in French  
-**Source book:** Ministry student book; text extraction exposes 109 PDF pages, while the production metadata page lists 112 printed pages  
-**Evidence:** [VERIFIED] Direct extraction of the available PDF, including 109 text-extracted pages. The production metadata page lists 112 printed pages. Curriculum ranges below use the printed lesson page numbers. Ministry copyright/edition statement appears on printed page 3 (2026/2027).  
+**Source book:** Ministry student book; text extraction exposes 109 PDF pages, while the production metadata page lists 112 printed pages
+**Evidence:** [VERIFIED] Direct extraction of the available PDF, including 109 text-extracted pages. The production metadata page lists 112 printed pages. Curriculum ranges below use the printed lesson page numbers. Ministry copyright/edition statement appears on printed page 3 (2026/2027).
 **Status:** Source inventory and teacher-guide blueprint COMPLETED for Term 1. App integration and runtime verification NOT RUN. This is not a full-year completion declaration.
 
 ## Source identity and scope
