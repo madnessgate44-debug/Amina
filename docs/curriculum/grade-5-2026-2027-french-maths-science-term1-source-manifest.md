@@ -3,7 +3,7 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Language:** French  
-**Status:** TOC extracted from the official student-book PDFs; detailed lesson-body reconciliation is still in progress.  
+**Status:** Science TOC and all 28 numbered lesson page spans verified against the complete 2026–2027 student book; teacher-ready content reconstruction is in progress. Maths lesson-body reconciliation remains incomplete.  
 **Important:** This is a source manifest, not proof that Girard assigns every book or that the app already covers it.
 
 ## Official source files
@@ -12,7 +12,7 @@
 - **Sciences — livre de l'élève, semestre 1:** [Official Ministry PDF](https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf)
 - Catalogue reference: [Grade 5 2026–2027 Ministry first-term book list](https://miskeg.app/books/general-primary-5/)
 
-The PDF table-of-contents text was extracted from the exact Ministry-hosted URLs above. The Maths PDF is approximately 17.2 MB; the Science PDF is large and could not be fully downloaded through the ordinary browser path. The extracted TOC is usable for inventory, but every page still needs lesson-level verification before authoring.
+The PDF table-of-contents text was extracted from the exact Ministry-hosted URLs above. The Maths PDF is approximately 17.2 MB. The Science PDF is large and could not be downloaded through the ordinary browser path, but the complete 109-page 2026–2027 French Science student book was available as a Library source copy and was inspected page by page. The Science page inventory below is now verified; the teacher-ready teaching material is still being authored.
 
 ## 1. Maths — 46 listed lessons across 6 units
 
@@ -96,7 +96,7 @@ The PDF table-of-contents text was extracted from the exact Ministry-hosted URLs
 
 ## 2. Sciences — 9 chapters listed
 
-The extracted contents page provides chapter titles and starting pages. It does not yet provide a complete verified list of every numbered sub-lesson and activity.
+The complete student book has now been inspected. The chapter TOC, 28 numbered lesson titles, printed page spans and separate enrichment ranges are recorded in [the verified Science lesson map](./grade-5-science-fr-term1-verified-lesson-map.md).
 
 | Chapitre | Titre du livre (French) | Page |
 |---:|---|---:|
@@ -110,7 +110,7 @@ The extracted contents page provides chapter titles and starting pages. It does 
 | 8 | Les changements météorologiques | 80 |
 | 9 | Le cycle de l’eau | 92 |
 
-**Science chapter denominator: 9 chapters.** This is not yet a lesson denominator; each chapter must be expanded from the original pages before claiming lesson-level completeness.
+**Science denominator: 9 chapters and 28 numbered lessons.** [VERIFIED] All 28 numbered lesson spans are checked against the printed pages. This is source-inventory completeness only; it is not proof that every lesson has a complete teacher-ready plan.
 
 ## 3. Mismatch against the current Miss Noor registry
 
@@ -125,9 +125,9 @@ The repository currently has 12 Ministry-source lesson records and 4 additional 
 
 ### Science
 
-The repository currently has 3 Ministry-source records and 3 French-extract records. None of the six current lesson titles matches the nine chapter titles in the 2026–2027 Ministry French Science TOC.
+The repository retains three legacy Ministry Science records and three legacy French-extract records; these remain separate from the current 2026–2027 French Science dataset. The canonical `scienceFrCurriculum2026.ts` dataset now contains 28 numbered lessons across the nine verified chapters, with exact printed page spans stored in `sourceRef.pageRange`.
 
-Current app topics such as photosynthesis, food webs, coral bleaching, and states of matter are **not present as chapter titles in this book's extracted TOC**. They must be treated as **[UNVERIFIED / POSSIBLY WRONG-EDITION CONTENT]** until the full chapter pages prove otherwise. They must not be used to claim coverage of this edition.
+Current legacy topics such as plant needs/photosynthesis, food webs, coral bleaching and states of matter are **not present as chapter titles in this book's extracted TOC**. They are not counted as coverage of this edition without page-level evidence. Do not merge them into the 28-lesson denominator.
 
 ## 4. French language subject
 
@@ -143,16 +143,18 @@ If the Ministry has not published a French-version teacher guide, Miss Noor must
 
 ## 6. Required next steps
 
-1. Obtain the complete lesson-by-lesson Science chapter breakdown from pages 6–end of the official Science PDF.
-2. Inspect the actual pages of all 46 Maths lessons and all nine Science chapters.
-3. Identify any current-year official teacher guides; otherwise document the absence and build the Miss Noor teacher guide from the verified student book.
-4. Confirm Girard's assigned French-language coursebook and track.
-5. Reconcile old app records against this manifest; quarantine wrong-edition or unsupported content.
-6. Build the full lesson content and assessment bank only after the source inventory is fixed.
-7. Keep Term 2 as **BLOCKED** until the 2026–2027 Term 2 student books are found and inspected.
+1. **Science source inventory — COMPLETED:** all nine chapters and 28 numbered lesson spans have been reconciled to the full Term 1 student book.
+2. **Science teacher-guide reconstruction — IN PROGRESS:** Chapter 1 is complete as an app-authored guide; chapters 2–9 still need full explanations, demonstrations, guided/independent practice, answer keys, misconception diagnosis, remediation and mastery checks.
+3. Inspect the actual pages of all 46 Maths lessons; Maths remains a partial 12/46 Ministry-source extraction.
+4. Continue searching for a matching 2026–2027 Ministry French Science teacher guide. Until one is verified, label Miss Noor teaching material as app-authored.
+5. Confirm Girard's assigned French-language coursebook and first-/second-foreign-language track.
+6. Reconcile legacy Science records by track and source; do not count them as coverage of this edition without page-level evidence.
+7. Integrate the end-of-book scientific-skills pages 104–107 across the nine chapters.
+8. Keep Term 2 as **BLOCKED** until the 2026–2027 Term 2 student books are found and inspected.
 
 ## 7. Evidence labels
 
-- **[VERIFIED]** Ministry PDF TOC title and page as extracted from the official Ministry-hosted 2026–2027 Term 1 PDF.
-- **[UNVERIFIED]** Lesson-body interpretation, current app alignment, Girard assignment, or any title/page mapping not checked against the page itself.
-- **[BLOCKED]** Full Science lesson extraction, Term 2 student books, and current French-version teacher guides.
+- **[VERIFIED]** Ministry PDF edition, 109-page Science student book, nine chapter headings, 28 numbered lesson page spans, enrichment ranges and the printed exercise items inspected.
+- **[VERIFIED]** Chapter 1 app-authored teacher guide and structured lesson data; this is derived from the student book and is not official Ministry teacher-guide content.
+- **[UNVERIFIED]** Girard assignment, exact school sequence, and any legacy Science topic not matched to these pages.
+- **[BLOCKED]** Matching official Ministry French teacher guide and Term 2 student book; full teacher-ready expansions for chapters 2–9.
