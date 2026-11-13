@@ -314,6 +314,7 @@ Chapters 2–9 have verified source-page inventories but still require full teac
 ### Verification boundary
 
 - [VERIFIED] Source-page inspection, lesson-page mapping and Chapter 1 answer-key extraction.
-- [UNPROVEN] The new code/data changes have not yet passed the PR's TypeScript, full test and build gates in this update.
-- [NOT RUN] Live browser lesson walkthrough, deployment and production verification.
-- [NOT MERGED] The changes are proposed on a dedicated branch; owner review and merge remain required.
+- [VERIFIED] PR #170 CI run [#467](https://github.com/madnessgate44-debug/Amina/actions/runs/43387120714) on head `15190c96d4f271afe1fd1e170988abe9a82a08b2` completed successfully on 13 November 2026. The blocking `npm run lint` / Type check step passed; `npm test` passed, including the Curriculum Registry suite at 25 passed / 0 failed; `npm run build` completed successfully (Vite reported non-blocking `__dirname` configuration and >500 kB chunk warnings).
+- [VERIFIED] Engineering Execution OS compliance run [#589](https://github.com/madnessgate44-debug/Amina/actions/runs/43387120696) completed successfully; output: `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- [NOT RUN] Live browser lesson walkthrough. No production deployment was triggered or verified; this PR is not merged.
+- [NOT MERGED] PR #170 remains a draft for owner review. The documentation-only status correction after the tested code head will trigger a fresh CI/compliance run.
