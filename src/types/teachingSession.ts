@@ -61,6 +61,7 @@ export interface CurriculumTeacherGuide {
   /** Explicit provenance: this is not an official Ministry teacher guide. */
   provenance: 'app_authored_from_student_book' | 'official_ministry_teacher_guide';
   explanationFr: string;
+  vocabularyFr?: Array<{ word: string; definition: string }>;
   demonstrationFr: string;
   guidedPracticeFr: string[];
   independentPracticeFr: string[];
