@@ -38,7 +38,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ overlay = false }) => {
               key={item.id}
               type="button"
               onClick={() => setActiveTab(item.id)}
-              aria-current={isActive ? "page" : undefined}\n              className={`mn-nav-item flex flex-col items-center justify-center cursor-pointer ${
+              aria-current={isActive ? "page" : undefined}
+              className={`mn-nav-item flex flex-col items-center justify-center cursor-pointer ${
                 isActive
                   ? overlay
                     ? 'text-white bg-white/20'
