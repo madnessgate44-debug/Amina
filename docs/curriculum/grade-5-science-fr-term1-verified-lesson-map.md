@@ -3,8 +3,8 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Subject:** Sciences taught in French  
-**Source book:** Ministry student book, 109 pages  
-**Evidence:** [VERIFIED] Direct extraction of the uploaded 109-page book, including pages 1–109. Ministry copyright/edition statement appears on printed page 3 (2026/2027).  
+**Source book:** Ministry student book; text extraction exposes 109 PDF pages, while the production metadata page lists 112 printed pages  
+**Evidence:** [VERIFIED] Direct extraction of the available PDF, including 109 text-extracted pages. The production metadata page lists 112 printed pages. Curriculum ranges below use the printed lesson page numbers. Ministry copyright/edition statement appears on printed page 3 (2026/2027).  
 **Status:** Source inventory and teacher-guide blueprint COMPLETED for Term 1. App integration and runtime verification NOT RUN. This is not a full-year completion declaration.
 
 ## Source identity and scope
@@ -202,14 +202,14 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 
 ## Evidence boundary
 
-- **[VERIFIED]** Edition/copyright 2026–2027; 109 pages; nine chapter headings; the 28 lesson titles and page ranges above; enrichment sections; pp. 104–107 scientific skills; extracted teaching statements and activities.
+- **[VERIFIED]** Edition/copyright 2026–2027; 109 text-extracted PDF pages and 112 printed pages per production metadata; nine chapter headings; the 28 lesson titles and page ranges above; enrichment sections; pp. 104–107 scientific skills; extracted teaching statements and activities.
 - **[INFERRED]** The recommended Miss Noor teaching sequences are instructional design derived from the student book, not verbatim Ministry teacher-guide instructions.
 - **[BLOCKED]** Term 2 Science book; matching official teacher guide; direct inspection of the online assessment-book PDF.
 - **[NOT RUN]** App integration, tests, build, deployment and runtime lesson walkthrough.
 
 ## Reconstruction update — 13 November 2026
 
-[VERIFIED] The complete 109-page 2026–2027 French Science student book is now available in the source Library copy and has been inspected page by page. The nine chapter TOC entries and all 28 numbered lesson spans in this map are reconciled to the printed pages. The application stores the exact printed span in `sourceRef.pageRange`; the start page remains in `sourceRef.page`.
+[VERIFIED] The complete available 2026–2027 French Science PDF is now available in the source Library copy and has been inspected page by page. Text extraction exposes 109 PDF pages; the production metadata page lists 112 printed pages. The nine chapter TOC entries and all 28 numbered lesson spans in this map are reconciled to the printed page numbers. The nine chapter TOC entries and all 28 numbered lesson spans in this map are reconciled to the printed pages. The application stores the exact printed span in `sourceRef.pageRange`; the start page remains in `sourceRef.page`.
 
 [VERIFIED] Chapter 1 core lesson 1-4 ends on p. 17. The dromedary enrichment begins on p. 18 and continues to p. 19; it is not part of lesson 1-4's core page range.
 
