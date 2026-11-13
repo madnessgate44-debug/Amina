@@ -34,6 +34,9 @@
 |---|---|
 | un os | Partie dure qui soutient le corps et protège certains organes. |
 | un muscle | Partie souple qui se contracte et se relâche pour tirer sur les os. |
+| le biceps | Muscle situé à l'avant du bras ; il se contracte quand tu plies le coude. |
+| le triceps | Muscle situé à l'arrière du bras ; il se contracte quand tu tends le coude. |
+| une vertèbre | Un des petits os qui composent la colonne vertébrale. |
 | se contracter | Devenir plus court et plus ferme. |
 | se relâcher | Se détendre après une contraction. |
 | la flexion | Mouvement qui plie une partie du corps, comme le coude. |
@@ -61,7 +64,7 @@
 
 Ton corps peut bouger grâce au travail de deux parties qui agissent ensemble : les os et les muscles. Les os sont durs. Ils donnent une forme au corps et servent de support. Les muscles sont des parties souples qui peuvent se contracter et se relâcher.
 
-Un muscle ne pousse pas un os : il tire sur lui lorsqu'il se contracte. Au niveau du bras, deux muscles travaillent en alternance. Quand tu plies le coude, le muscle situé devant le bras se contracte et devient plus ferme ; le muscle situé derrière se relâche. Quand tu tends le bras, c'est l'inverse : le muscle de derrière se contracte et celui de devant se relâche.
+Un muscle ne pousse pas un os : il tire sur lui lorsqu'il se contracte. Au niveau du bras, deux muscles travaillent en alternance : le biceps, situé à l'avant, et le triceps, situé à l'arrière. Quand tu plies le coude, le biceps se contracte et devient plus ferme ; le triceps se relâche. Quand tu tends le bras, c'est l'inverse : le triceps se contracte et le biceps se relâche.
 
 Le coude est une articulation : c'est l'endroit où des os se rencontrent et où le mouvement est possible. Retenons la chaîne : **un muscle se contracte → il tire sur un os → le bras bouge autour de l'articulation.**
 
@@ -69,7 +72,7 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
 
 1. L'élève s'assoit ou reste debout, sans porter d'objet.
 2. Il plie lentement un coude.
-3. Avec l'autre main, il touche doucement le muscle à l'avant du bras, puis celui de l'arrière.
+3. Avec l'autre main, il touche doucement le biceps à l'avant du bras, puis le triceps à l'arrière.
 4. Il compare leur fermeté.
 5. Il tend ensuite le bras sans forcer et recommence.
 6. Il explique ce qui a changé.
@@ -78,17 +81,17 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
 
 ### Pratique guidée — avec réponses
 
-1. **Question :** Quand tu plies le coude, que fait le muscle situé devant le bras ?
-   **Réponse :** Il se contracte et devient plus ferme.
+1. **Question :** Quand tu plies le coude, que fait le biceps ?
+   **Réponse :** Le biceps se contracte et devient plus ferme.
 2. **Question :** Quand tu tends le bras, quel muscle se contracte ?
-   **Réponse :** Celui de l'arrière du bras.
+   **Réponse :** Le triceps, situé à l'arrière du bras.
 3. **Complète :** Les muscles font bouger les os en les … ; ils ne les … pas.
    **Réponse :** en les *tirant* ; ils ne les *poussent* pas.
 
 ### Pratique indépendante — avec corrigé
 
-1. Dessine deux bras : un bras plié et un bras tendu. Ajoute une flèche sur le muscle qui se contracte dans chaque position.
-   - **Corrigé :** bras plié → muscle de devant ; bras tendu → muscle de derrière.
+1. Dessine deux bras : un bras plié et un bras tendu. Ajoute une flèche et écris « biceps » ou « triceps » sur le muscle qui se contracte dans chaque position.
+   - **Corrigé :** bras plié → biceps ; bras tendu → triceps.
 2. Écris trois phrases pour expliquer le rôle des muscles, des os et du coude.
    - **Corrigé attendu :** les os soutiennent le corps ; les muscles se contractent et tirent sur les os ; le coude est l'articulation autour de laquelle le bras bouge.
 
@@ -105,7 +108,7 @@ Le coude est une articulation : c'est l'endroit où des os se rencontrent et où
 
 **Question :** Sans regarder le cours, explique ce qui se passe aux muscles de devant et de derrière quand tu plies puis tends le coude.
 
-**Réponse attendue :** quand le bras se plie, le muscle de devant se contracte et celui de derrière se relâche ; quand le bras se tend, celui de derrière se contracte et celui de devant se relâche. Les muscles tirent sur les os.
+**Réponse attendue :** quand le bras se plie, le biceps se contracte et le triceps se relâche ; quand le bras se tend, le triceps se contracte et le biceps se relâche. Les muscles tirent sur les os.
 
 **Critères :** l'élève distingue flexion et extension, nomme le muscle qui se contracte dans chaque position et explique que les muscles tirent sur les os.
 
@@ -310,12 +313,12 @@ Ce corrigé donne les réponses et les raisons. Il ne reproduit pas les question
 
 | Page / item | Réponse | Raison |
 |---|---|---|
-| p. 10, Essaye 1(1) | B — le muscle de devant se contracte. | Pendant la flexion, le muscle de devant devient plus ferme. |
+| p. 10, Essaye 1(1) | B — le biceps se contracte. | Pendant la flexion, le muscle de devant devient plus ferme. |
 | p. 10, Essaye 1(2) | La contraction. | Les muscles tirent sur les os lorsqu'ils se contractent. |
 | p. 10, Essaye 2(1) | Une articulation. | C'est l'endroit où deux os ou plus se rencontrent. |
 | p. 10, Essaye 2(2) | B. | La direction et l'amplitude du mouvement dépendent de l'articulation. |
 | p. 10, Essaye 2(3) | Le cartilage. | Il agit comme un coussin et réduit les frottements. |
-| p. 11, Entraîne-toi 1(1) | A — le muscle de derrière se contracte et celui de devant se relâche. | C'est le mouvement d'extension. |
+| p. 11, Entraîne-toi 1(1) | A — le triceps se contracte et le biceps se relâche. | C'est le mouvement d'extension. |
 | p. 11, Entraîne-toi 1(2) | B — les muscles tirent sur les os. | Les muscles ne poussent pas les os. |
 | p. 11, Entraîne-toi 2(1) | C. | Les os ne se contractent pas et ne bougent pas seuls comme les muscles. |
 | p. 11, Entraîne-toi 2(2) | Le cartilage. | Il protège les extrémités des os dans les articulations. |
