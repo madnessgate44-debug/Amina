@@ -1,6 +1,6 @@
 # Sciences — chapitre 1 : guide pédagogique de Miss Noor (2026–2027)
 
-<badge>Contenu pédagogique rédigé par Miss Noor</badge>
+**Contenu pédagogique rédigé par Miss Noor — non officiel.**
 
 **Ce document n'est pas un guide officiel du ministère.** Les explications, démonstrations, exercices supplémentaires, diagnostics et remédiations ci-dessous sont des créations pédagogiques de Miss Noor, rédigées à partir des pages vérifiées du manuel ministériel de l'élève. Aucun passage n'est présenté comme une citation du manuel.
 
