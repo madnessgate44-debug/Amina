@@ -84,7 +84,7 @@ export const SettingsScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-20 space-y-5">
+    <div className="mn-page flex-1 flex flex-col pb-24 space-y-5">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2.5">
