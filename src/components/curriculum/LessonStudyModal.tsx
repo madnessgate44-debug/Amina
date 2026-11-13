@@ -35,6 +35,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
   const isAr = language === 'ar';
   const isFr = language === 'fr';
   const speechLanguage = lesson.instructionLanguage || lesson.contentLanguage || language;
+  const teacherGuide = teacherGuide;
   const studentName = student?.name || (isAr ? 'صديقي' : isFr ? 'ami' : 'friend');
 
   const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'practice' | 'exercises'>('explanation');
@@ -213,7 +214,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             <span>{isAr ? `المفردات (${lesson.vocabulary.length})` : isFr ? `Vocabulaire (${lesson.vocabulary.length})` : `Vocab (${lesson.vocabulary.length})`}</span>
           </button>
 
-          {lesson.teacherGuide && (
+          {teacherGuide && (
             <button
               type="button"
               onClick={() => {
@@ -327,7 +328,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   </div>
 
                   <p className="text-xs text-slate-700 dark:text-slate-300 leading-relaxed font-medium">
-                    {isAr ? concept.sourceText : isFr ? (lesson.teacherGuide ? concept.sourceText : (concept.sourceTextFr || concept.sourceText)) : concept.sourceText}
+                    {isAr ? concept.sourceText : isFr ? (teacherGuide ? concept.sourceText : (concept.sourceTextFr || concept.sourceText)) : concept.sourceText}
                   </p>
 
                   {/* Key Points */}
@@ -409,11 +410,11 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
           )}
 
           {/* TAB 3: APP-AUTHORED TEACHING SEQUENCE */}
-          {activeTab === 'practice' && lesson.teacherGuide && (
+          {activeTab === 'practice' && teacherGuide && (
             <div className="space-y-5 animate-in fade-in duration-200">
               <section className="space-y-3">
                 <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">{isAr ? 'التدريب الموجّه' : isFr ? 'Pratique guidée' : 'Guided practice'}</h3>
-                {lesson.teacherGuide.guidedPracticeFr.map((item, index) => {
+                {teacherGuide.guidedPracticeFr.map((item, index) => {
                   const key = `guided-${index}`;
                   return (
                     <div key={key} className="rounded-2xl border border-slate-200 dark:border-slate-700 p-3 space-y-2">
@@ -429,7 +430,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
 
               <section className="space-y-3">
                 <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">{isAr ? 'التدريب المستقل' : isFr ? 'Pratique autonome' : 'Independent practice'}</h3>
-                {lesson.teacherGuide.independentPracticeFr.map((item, index) => {
+                {teacherGuide.independentPracticeFr.map((item, index) => {
                   const key = `independent-${index}`;
                   return (
                     <div key={key} className="rounded-2xl border border-slate-200 dark:border-slate-700 p-3 space-y-2">
@@ -437,7 +438,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                       <button type="button" onClick={() => toggleGuideAnswer(key)} className="text-xs font-bold text-indigo-600 dark:text-indigo-300 underline">
                         {revealedGuideAnswers[key] ? (isFr ? 'Masquer la correction' : isAr ? 'إخفاء التصحيح' : 'Hide answer key') : (isFr ? 'Révéler la correction' : isAr ? 'إظهار التصحيح' : 'Reveal answer key')}
                       </button>
-                      {revealedGuideAnswers[key] && <p className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 p-3 text-sm leading-relaxed">{lesson.teacherGuide.answerKeyFr[index]}</p>}
+                      {revealedGuideAnswers[key] && <p className="rounded-xl bg-emerald-50 dark:bg-emerald-950/30 p-3 text-sm leading-relaxed">{teacherGuide.answerKeyFr[index]}</p>}
                     </div>
                   );
                 })}
@@ -445,7 +446,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
 
               <section className="space-y-3">
                 <h3 className="text-sm font-black text-amber-700 dark:text-amber-300">{isAr ? 'تشخيص الأخطاء الشائعة' : isFr ? 'Comprendre les erreurs fréquentes' : 'Common misconception diagnosis'}</h3>
-                {lesson.teacherGuide.misconceptionDiagnosisFr.map((item, index) => (
+                {teacherGuide.misconceptionDiagnosisFr.map((item, index) => (
                   <div key={index} className="rounded-2xl bg-amber-50/70 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900 p-3 space-y-1.5">
                     <p className="text-xs font-bold">{isFr ? 'Réponse observée :' : isAr ? 'الإجابة التي قد تظهر:' : 'Possible learner response:'} {item.observedResponse}</p>
                     <p className="text-xs">{isFr ? 'Diagnostic :' : isAr ? 'التشخيص:' : 'Diagnosis:'} {item.diagnosis}</p>
@@ -457,13 +458,13 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
               <section className="space-y-2">
                 <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">{isAr ? 'خطوات إعادة الشرح' : isFr ? 'Remédiation' : 'Remediation'}</h3>
                 <ol className="list-decimal pl-5 space-y-2 text-sm text-slate-700 dark:text-slate-200">
-                  {lesson.teacherGuide.remediationFr.map((step, index) => <li key={index}>{step}</li>)}
+                  {teacherGuide.remediationFr.map((step, index) => <li key={index}>{step}</li>)}
                 </ol>
               </section>
 
               <section className="space-y-3">
                 <h3 className="text-sm font-black text-emerald-700 dark:text-emerald-300">{isAr ? 'التحقق من الإتقان' : isFr ? 'Vérification de la maîtrise' : 'Mastery check'}</h3>
-                {lesson.teacherGuide.masteryCheckFr.map((item, index) => {
+                {teacherGuide.masteryCheckFr.map((item, index) => {
                   const key = `mastery-${index}`;
                   return (
                     <div key={key} className="rounded-2xl border border-emerald-200 dark:border-emerald-900 p-3 space-y-2">
