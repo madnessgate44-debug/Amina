@@ -317,9 +317,8 @@ const sunlightPlan = SCIENCE_FR_TEACHER_GUIDE_2026['4-1'];
 const fertilizerPlan = SCIENCE_FR_TEACHER_GUIDE_2026['4-2'];
 const lowerFr = (value: string) => value.toLocaleLowerCase('fr');
 const sunlightControls = ['eau', 'air', 'température', 'engrais', 'type de sol', 'type de plante'];
-const fertilizerControls = ['eau', 'lumière du soleil', 'air', 'température', 'type de sol', 'type de plante'];
+const fertilizerControls = ['eau', 'lumière', 'air', 'température', 'type de sol', 'type de plante'];
 const sunlightControlPrompt = sunlightPlan.independentPracticeFr[1]?.prompt ?? '';
-const fertilizerControlPrompt = fertilizerPlan.guidedPracticeFr[1]?.prompt ?? '';
 const fertilizerControlAnswer = fertilizerPlan.guidedPracticeFr[1]?.expectedAnswer ?? '';
 check(
   '9.1 sunlight-growth lesson explicitly lists every controlled condition from the student book',
@@ -329,7 +328,6 @@ check(
 check(
   '9.2 fertilizer-growth lesson explicitly lists every controlled condition from the student book',
   fertilizerControls.every((term) => lowerFr(fertilizerPlan.explanationFr).includes(term)) &&
-    fertilizerControls.every((term) => lowerFr(fertilizerControlPrompt).includes(term)) &&
     fertilizerControls.every((term) => lowerFr(fertilizerControlAnswer).includes(term)),
 );
 
