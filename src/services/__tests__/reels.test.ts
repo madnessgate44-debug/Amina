@@ -14,10 +14,11 @@
  */
 
 import { curriculumService } from '../curriculum/curriculumService';
-import { buildReelsForConcept, isValidReel, sourceLabelFor, buildWinCloser } from '../reels/reelGenerator';
+import { buildReelsForConcept, exerciseToOptions, isValidReel, sourceLabelFor, buildWinCloser } from '../reels/reelGenerator';
 import { buildFeedQueue, buildRetryAfterMistakes } from '../reels/feedQueue';
 import { matchMisconception, misconceptionText } from '../teaching/skills/teachingSkills';
 import { speaksLanguage } from '../reels/reelResponse';
+import { readableByChild } from '../reels/languageGuard';
 import { createSeededRng, hashSeed } from '../reels/seededRng';
 import { Language } from '../../types';
 import { Reel } from '../../types/reel';
@@ -952,6 +953,59 @@ function run() {
         `20.5 [${m!.id}]: the served diagnosis is French (${text.slice(0, 40)}…)`
       );
     }
+  }
+
+  // ---- 21. A question card must SHOW its question (and only a readable one) ----
+  // hook_question is the only question kind that set `show` to the concept
+  // TITLE instead of the exercise's own prompt (spot_the_mistake and
+  // quick_choice both already used ex.question). Measured on the live app at
+  // 390x844 ar-EG: reel 1/17 was a hook_question with four answer buttons
+  // («أنا أستطيع» / «سأستسلم» …) and nothing above them saying what was asked —
+  // the child saw choices with no question. The card must carry its exercise's
+  // question text whenever it carries options AND that text is in a script the
+  // child can read. A French-track exercise stores its prompt in French over
+  // language-neutral choices, so for a non-French child the prompt is unreadable
+  // and is (honestly) not shown; showing it would fail the script guard and drop
+  // the reel. Two contracts hold the line:
+  //   21.1 — every question reel whose prompt the child can read SHOWS that prompt
+  //   21.2 — no question reel ever displays a prompt the child cannot read
+  for (const lang of LANGS) {
+    let readablePromptReels = 0;
+    let shownWhenReadable = 0;
+    let unreadableShown = 0;
+    const missing: string[] = [];
+    for (const lesson of curriculumService.getAvailableLessons()) {
+      for (const concept of lesson.concepts) {
+        for (const r of buildReelsForConcept(lesson, concept, lang, {})) {
+          if (!r.options || r.options.length === 0) continue;
+          const pool = (lesson.exercisesByLanguage?.[lang] ?? lesson.exercises) || [];
+          const sig = r.options.map((o) => o.text).join('|');
+          const ex = pool.find((e) => {
+            const o = exerciseToOptions(e);
+            return o ? o.map((x) => x.text).join('|') === sig : false;
+          });
+          const q = ex?.question?.trim() || '';
+          if (!q) continue;
+          const readable = readableByChild(q, lang);
+          const hay = `${r.hook} ${r.show} ${r.noorLine}`;
+          if (readable) {
+            readablePromptReels++;
+            if (hay.includes(q)) shownWhenReadable++;
+            else if (missing.length < 3) missing.push(`${r.kind}/${r.conceptId}`);
+          } else if (hay.includes(q)) {
+            unreadableShown++;
+          }
+        }
+      }
+    }
+    assert(
+      readablePromptReels > 0 && shownWhenReadable === readablePromptReels,
+      `21.1 [${lang}]: every question reel with a readable prompt shows it (${shownWhenReadable}/${readablePromptReels}${missing.length ? '; missing ' + missing.join(', ') : ''})`
+    );
+    assert(
+      unreadableShown === 0,
+      `21.2 [${lang}]: no question reel shows a prompt the child cannot read (${unreadableShown})`
+    );
   }
 
   console.log('\n=================================================================');

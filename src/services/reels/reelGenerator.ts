@@ -252,10 +252,21 @@ export function buildReelsForConcept(
     switch (kind) {
       case 'hook_question': {
         if (!hookLine) break;
+        // The card is a question, so it must SHOW its question. It used to set
+        // `show` to the concept title, so the child saw four answer buttons
+        // («أنا أستطيع» / «سأستسلم» …) with nothing above them saying what was
+        // asked. The other two question kinds (spot_the_mistake, quick_choice)
+        // already showed ex.question. A French-track exercise stores its prompt
+        // in French over language-neutral choices, so for a non-French child the
+        // prompt is unreadable; showing it would fail the script guard and drop
+        // the whole reel. In that case the title stays (today's behaviour) and
+        // the question is not displayed — an honest content gap (no Arabic
+        // exercises exist for that lesson yet), not a fabricated one.
         const ex = takeExercise(() => true);
+        const asksReadableQuestion = Boolean(ex && readableByChild(ex.ex.question, lang));
         push('hook_question', {
           hook: hookLine,
-          show: conceptTitle(concept, lang),
+          show: asksReadableQuestion ? ex!.ex.question : conceptTitle(concept, lang),
           noorLine: lang === 'ar'
             ? `تعالي نبدأ بحاجة صغيرة عن «${conceptTitle(concept, lang)}».`
             : lang === 'fr'
