@@ -351,16 +351,7 @@ export const SCIENCE_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
         ],
       },
     ],
-  }     'لا تتأثر مطلقاً|mis_sci_foodweb_no_effect',
-          'تتحول إلى كائنات منتجة|mis_sci_foodweb_producer',
-          'يزداد غذاؤها مباشرة|mis_sci_foodweb_more_food',
-          'إنشاء محمية طبيعية|mis_sci_foodweb_reserve',
-          'تقليل المخلفات البلاستيكية|mis_sci_foodweb_reduce_waste',
-          'تنظيم الصيد لحماية الأنواع|mis_sci_foodweb_control_hunting',
-        ],
-      },
-    ],
-  }
+  },
 ];
 
 /**
