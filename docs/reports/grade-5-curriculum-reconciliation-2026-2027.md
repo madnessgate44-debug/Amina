@@ -288,7 +288,7 @@ Before the next student-facing curriculum release, quarantine or replace the six
 
 ### Source reconciliation
 
-- **[VERIFIED]** The inspected student-book copy has 109 PDF pages and carries the Ministry / Central Administration of Curriculum Development imprint and 2026–2027 edition information. The final imprint page records ISBN 978-633-8530-17-4.
+- **[VERIFIED]** The inspected Library PDF is 110 pages: 109 book-content pages plus a third-party promotional insert at PDF page 110. The Ministry / Central Administration of Curriculum Development imprint and 2026–2027 edition statement appear on PDF page 3; the final book imprint on PDF page 109 records ISBN 978-633-8530-17-4. The copy is third-party assembled; byte-level identity with the canonical Ministry endpoint is [UNPROVEN].
 - **[VERIFIED]** All nine requested chapter headings and their printed starting pages match the book: pp. 6, 20, 28, 44, 52, 64, 72, 80 and 92.
 - **[VERIFIED]** Page-level inspection identifies 28 numbered lessons across those chapters, with exact printed page ranges recorded in docs/curriculum/grade-5-science-fr-term1-verified-lesson-map.md.
 - **[VERIFIED]** The six enrichment features and the scientific-method appendix on pp. 104–107 are retained in the teaching data.
@@ -338,3 +338,25 @@ The next release gate is to run and inspect the complete CI pipeline, correct an
 **[UNPROVEN]** Actual learner usability and speech behavior on a phone until a real French-path walkthrough is completed.  
 **[BLOCKED]** Term 2 source reconstruction, full assessment-book validation, and any matching Ministry French teacher guide.  
 This remains a Term 1 reconstruction, not a full-year completion declaration.
+
+
+## Science source and release verification update — 14 November 2026
+
+### Source-copy provenance correction
+
+- **[VERIFIED]** The Library PDF used for the Science reconstruction has 110 PDF pages. PDF pages 1–109 contain the book copy; page 110 is a third-party promotional insert and is excluded. The file is 59,040,102 bytes; SHA-256: `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`.
+- **[VERIFIED]** PDF page 3 (front matter, not printed textbook page 3) contains the Ministry/Central Administration 2026–2027 imprint. PDF page 109 contains ISBN 978-633-8530-17-4. PDF metadata identifies PDFsharp and third-party site keywords.
+- **[UNPROVEN]** The copy is not a verified direct Ministry download and has not been byte-for-byte compared with the canonical Ministry-hosted URL. The visible Ministry imprint supports edition identification within the copy, not proof of untouched official distribution.
+
+### Current mainline state
+
+- **[VERIFIED]** The Science Term 1 reconstruction PR [#175](https://github.com/madnessgate44-debug/Amina/pull/175) is merged at `6a345c3f8543f6f4a42b8a5096d4dced587cd6b9`. Current `main` is `d094933379dddf7db6b37cfd419dae06caf3174d`.
+- **[PASS]** CI run [43535411225](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411225): `npm run lint`, `npm test` (39 suite summaries passed, 0 failed; curriculum registry 23 passed, 0 failed), and `npm run build` (Vite 8.3.5, 1,792 modules, 575 ms).
+- **[PASS]** Engineering Execution OS compliance run [43535411162](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411162).
+- **[VERIFIED]** The Vercel status check on current main reports `success` / `Deployment has completed`. No phone-sized learner walkthrough was performed in this audit.
+
+### Remaining Science boundary
+
+- **[VERIFIED]** The nine Term 1 chapters and 28 lesson plans are present on main. The plans are app-authored Miss Noor material derived from the inspected student-book copy, not official Ministry teacher-guide content.
+- **[BLOCKED]** No matching 2026–2027 Egyptian Ministry French Science teacher guide or Term 2 student book is verified. The separate assessment-book PDF remains unverified question by question.
+- **[UNPROVEN]** Phone-sized French learner walkthrough and custom-domain lesson behavior. No full-year or full-book completion claim is made.
