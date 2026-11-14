@@ -1324,3 +1324,486 @@ Attention : Les parenthèses changent l'ordre ! (45,84 + 13,05) ÷ 5 oblige à f
     ],
   },
 ];
+
+/**
+ * Complete Grade 5 Term 1 units 4–6 gap fill for the Arabic mathematics track.
+ * Titles follow the 2026/2027 curriculum index; the explanations, examples,
+ * and formative questions are original Miss Noor teaching material.
+ */
+type MathGapSpec={
+ id:string;unitNumber:4|5|6;lessonNumber:number;titleAr:string;titleEn:string;
+ paragraphs:string[];vocabulary:{word:string;definition:string}[];
+ questions:{question:string;options:string[];answer:string}[];
+ keyPoints:string[];exampleAr:string;exampleEn:string;analogyAr:string;analogyEn:string;correction:string;
+};
+function makeMathGapLesson(spec:MathGapSpec):OfficialCurriculumLesson {
+ const wrong=spec.questions.flatMap((q,qi)=>q.options.filter(o=>o!==q.answer).map((option,wi)=>({
+  id:spec.id+'_mis_'+(qi+1)+'_'+(wi+1),trigger:option,
+  explanation:'الاختيار «'+option+'» لا يطبق الفكرة الرياضية المطلوبة في هذا الدرس. '+spec.correction,
+  remediation:'بص يا بطل، '+spec.correction,
+ })));
+ const unitNames={
+  4:['الوحدة الرابعة: القسمة على أعداد صحيحة','Unit 4: Division of Whole Numbers'],
+  5:['الوحدة الخامسة: عمليتا الضرب والقسمة مع الكسور العشرية','Unit 5: Multiplication and Division with Decimals'],
+  6:['الوحدة السادسة: التعبيرات العددية والأنماط','Unit 6: Numerical Expressions and Patterns'],
+ } as const;
+ const unit=unitNames[spec.unitNumber];
+ const conceptTitle=spec.titleAr;
+ return {
+  id:spec.id,subjectId:'subj_math',subjectNameAr:'الرياضيات',subjectNameEn:'Mathematics',
+  unitNumber:spec.unitNumber,unitNameAr:unit[0],unitNameEn:unit[1],
+  lessonNumber:spec.lessonNumber,titleAr:spec.titleAr,titleEn:spec.titleEn,
+  sourceRef:{
+   book:'فهرس منهج الرياضيات للصف الخامس الابتدائي 2026/2027 — الفصل الدراسي الأول',
+   bookAr:'الرياضيات — الصف الخامس — الفصل الدراسي الأول 2026/2027',
+   bookEn:'Grade 5 Mathematics Curriculum Index — Term 1 2026/2027',
+   grade:'الصف الخامس',term:'الفصل الدراسي الأول 2026/2027',
+   unit:unit[0],lesson:spec.titleAr,page:'غير محدد في الفهرس الإلكتروني',isAvailable:true,
+  },
+  objectives:[
+   'يفسر '+spec.titleAr+' ويشرح خطوات تطبيقها باستخدام أمثلة مناسبة للصف الخامس.',
+   'يحل تدريبات متنوعة على '+spec.titleAr+' ويتحقق من معقولية الناتج.',
+   'يوظف '+spec.titleAr+' في موقف حياتي ويشرح طريقة الحل بترتيب واضح.',
+  ],
+  readingText:spec.paragraphs.join('\n\n'),
+  vocabulary:spec.vocabulary,
+  exercises:spec.questions.map(q=>({type:'multiple_choice' as const,question:q.question,options:q.options,expectedAnswer:q.answer})),
+  originTag:'official',language:'ar',instructionLanguage:'ar',contentLanguage:'ar',assessmentLanguage:'ar',isAvailable:true,
+  concepts:[{
+   id:spec.id+'_c1',conceptNumber:1,titleAr:conceptTitle,titleEn:spec.titleEn,
+   sourceText:spec.paragraphs.join(' '),keyPoints:spec.keyPoints,
+   dailyLifeExampleAr:spec.exampleAr,dailyLifeExampleEn:spec.exampleEn,
+   storyAnalogyAr:spec.analogyAr,storyAnalogyEn:spec.analogyEn,
+   prerequisiteAr:'إتقان العمليات الحسابية الأساسية والقيمة المكانية للأعداد.',
+   prerequisiteEn:'Fluency with basic arithmetic and place value.',
+   visualType:'diagram',misconceptions:wrong,
+   distractors:wrong.map(m=>m.trigger+'|'+m.id),
+  }],
+ };
+}
+const MATH_TERM_1_GAP_LESSONS:OfficialCurriculumLesson[]=[
+/* Unit 4 — five lessons */
+makeMathGapLesson({
+id:'off_math_u4_l1_division_area_model',unitNumber:4,lessonNumber:1,
+titleAr:'القسمة باستخدام نموذج مساحة المستطيل',titleEn:'Division Using an Area Model',
+paragraphs:[
+'يساعدنا نموذج مساحة المستطيل على فهم القسمة بتقسيم العدد إلى أجزاء يسهل قسمتها. نمثل المقسوم بمساحة المستطيل، ونكتب المقسوم عليه على أحد الأضلاع، ثم نبحث عن الأجزاء التي تكوّن المساحة.',
+'مثلاً لإيجاد 156 ÷ 12 يمكن تقسيم 156 إلى 120 و36. نقسم 120 ÷ 12 = 10، ثم 36 ÷ 12 = 3، ونجمع الجزأين: 10 + 3 = 13. إذن خارج القسمة 13.',
+'يمكن استخدام النموذج عندما تكون القسمة على عدد من رقمين؛ فهو يوضح كيف نجزئ العدد ونحسب خارج القسمة خطوة خطوة بدلاً من تخمين الناتج.'
+],
+vocabulary:[{word:'المقسوم',definition:'العدد الذي نريد تقسيمه.'},{word:'المقسوم عليه',definition:'العدد الذي نقسم عليه.'},{word:'خارج القسمة',definition:'الناتج الذي نحصل عليه بعد القسمة.'}],
+questions:[
+{question:'باستخدام التجزئة، ما ناتج 156 ÷ 12 إذا قسمنا 156 إلى 120 و36؟',options:['13','12','14','23'],answer:'13'},
+{question:'في نموذج مساحة المستطيل للقسمة، ماذا يمثل مجموع الأجزاء أعلى المستطيل؟',options:['خارج القسمة','المقسوم عليه','الباقي دائماً','المقسوم فقط'],answer:'خارج القسمة'}
+],
+keyPoints:['نقسم المقسوم إلى أجزاء مناسبة للقسمة على العدد نفسه.','نحسب خارج قسمة كل جزء ثم نجمع النواتج.','النموذج يوضح العلاقة بين المساحة والضرب والقسمة.'],
+exampleAr:'تقسيم 240 كتاباً بالتساوي على 12 رفاً: نستخدم النموذج لإيجاد 240 ÷ 12 = 20 كتاباً لكل رف.',
+exampleEn:'Sharing 240 books equally across 12 shelves gives 20 books per shelf.',
+analogyAr:'النموذج مثل تقسيم فطيرة كبيرة إلى قطع معروفة؛ نحسب كل جزء ثم نجمع الأجزاء.',
+analogyEn:'The model is like splitting a large pie into known pieces and adding the pieces.',
+correction:'جزّئ المقسوم إلى مضاعفات سهلة للمقسوم عليه، اقسم كل جزء، ثم اجمع نواتج القسمة.'
+}),
+makeMathGapLesson({
+id:'off_math_u4_l2_estimate_quotients',unitNumber:4,lessonNumber:2,
+titleAr:'تقدير خارج القسمة',titleEn:'Estimating Quotients',
+paragraphs:[
+'التقدير يساعدنا على توقع ناتج القسمة قبل إجراء الحساب الدقيق. نختار أعداداً قريبة وسهلة القسمة، مع المحافظة على قيمة تقريبية مناسبة للمقسوم والمقسوم عليه.',
+'مثلاً يمكن تقدير 5,600 ÷ 70 باستخدام 56 ÷ 7، ثم نعيد النظر في قيمة المنازل: 5,600 ÷ 70 = 80. يساعد التقدير على اكتشاف الإجابات غير المعقولة.',
+'التقدير لا يعطي الناتج الدقيق دائماً، لكنه يقدم قيمة قريبة نستخدمها للتحقق من أن الناتج الفعلي منطقي.'
+],
+vocabulary:[{word:'التقدير',definition:'إيجاد قيمة قريبة من الناتج دون حساب دقيق.'},{word:'عدد متوافق',definition:'عدد يسهل إجراء العملية الحسابية عليه.'},{word:'معقولية الناتج',definition:'مدى قرب الناتج من القيمة المتوقعة.'}],
+questions:[
+{question:'ما التقدير المناسب لناتج 5,600 ÷ 70؟',options:['80','8','800','70'],answer:'80'},
+{question:'ما فائدة تقدير خارج القسمة؟',options:['التحقق من معقولية الناتج','إلغاء الحاجة إلى القسمة دائماً','الحصول على الناتج الدقيق في كل مرة','تغيير المقسوم عليه'],answer:'التحقق من معقولية الناتج'}
+],
+keyPoints:['نستخدم أعداداً متوافقة لتسهيل القسمة ذهنياً.','نحافظ على قيمة المنازل عند التقدير.','التقدير للتحقق وليس بديلاً دائماً عن الحل الدقيق.'],
+exampleAr:'قبل حساب تكلفة تقسيم 1,200 قطعة على 30 صندوقاً، نتوقع أن يكون الناتج قريباً من 40 قطعة للصندوق.',
+exampleEn:'Before dividing 1,200 items into 30 boxes, we estimate about 40 items per box.',
+analogyAr:'التقدير مثل النظر إلى الخريطة قبل الرحلة؛ يعطينا فكرة عن المسافة ولا يغني عن الطريق الدقيق.',
+analogyEn:'Estimation is like checking a map before a trip: it gives a useful idea, not every exact turn.',
+correction:'اختاري أعداداً قريبة سهلة القسمة، وانتبهِي إلى الأصفار وقيمة المنازل.'
+}),
+makeMathGapLesson({
+id:'off_math_u4_l3_division_algorithm',unitNumber:4,lessonNumber:3,
+titleAr:'استخدام خوارزمية القسمة',titleEn:'Using the Division Algorithm',
+paragraphs:[
+'الخوارزمية المعيارية للقسمة طريقة منظمة لقسمة عدد على عدد آخر. نبدأ بتقدير كم مرة يدخل المقسوم عليه في الجزء الأول من المقسوم، ثم نضرب ونطرح وننزل الرقم التالي.',
+'تتكرر الخطوات: اقسم، اضرب، اطرح، ثم أنزل الرقم التالي. يجب أن يكون كل رقم في خارج القسمة في مكانه الصحيح، وأن يكون الباقي في نهاية العملية أصغر من المقسوم عليه.',
+'يمكن التحقق من الإجابة باستخدام العلاقة: المقسوم = المقسوم عليه × خارج القسمة + الباقي. إذا لم تتحقق العلاقة نراجع خطواتنا.'
+],
+vocabulary:[{word:'الخوارزمية المعيارية',definition:'خطوات مرتبة وثابتة لإجراء عملية حسابية.'},{word:'الباقي',definition:'الكمية التي تبقى بعد القسمة ولا تكوّن مجموعة كاملة.'},{word:'التحقق',definition:'إعادة فحص الإجابة باستخدام عملية عكسية.'}],
+questions:[
+{question:'ما ناتج 756 ÷ 22؟',options:['34 والباقي 8','33 والباقي 10','35 والباقي 4','32 والباقي 12'],answer:'34 والباقي 8'},
+{question:'أي ترتيب يصف خطوات القسمة المطولة؟',options:['اقسم ثم اضرب ثم اطرح ثم أنزل','اجمع ثم اضرب ثم اقسم ثم اطرح','اضرب ثم اجمع ثم أنزل ثم اطرح','اطرح ثم اجمع ثم اضرب ثم اقسم'],answer:'اقسم ثم اضرب ثم اطرح ثم أنزل'}
+],
+keyPoints:['نكرر خطوات القسمة بترتيب ثابت.','يجب أن يكون الباقي النهائي أصغر من المقسوم عليه.','نستخدم الضرب والجمع للتحقق من الناتج والباقي.'],
+exampleAr:'قسمة 756 قطعة بالتساوي على 22 مجموعة تعطي 34 قطعة لكل مجموعة ويتبقى 8.',
+exampleEn:'Dividing 756 items into groups of 22 gives 34 full groups with 8 left over.',
+analogyAr:'الخوارزمية مثل وصفة طبخ؛ ترتيب الخطوات مهم حتى نحصل على نتيجة صحيحة.',
+analogyEn:'The algorithm is like a recipe: the order of steps matters.',
+correction:'اتبعي الترتيب اقسم، اضرب، اطرح، أنزل، ثم تحققي من أن الباقي أصغر من المقسوم عليه.'
+}),
+makeMathGapLesson({
+id:'off_math_u4_l4_division_multiplication_inverse',unitNumber:4,lessonNumber:4,
+titleAr:'علاقة القسمة بالضرب',titleEn:'The Relationship Between Division and Multiplication',
+paragraphs:[
+'الضرب والقسمة عمليتان عكسيتان؛ فالضرب يكوّن مجموعات متساوية، والقسمة تساعدنا على معرفة عدد المجموعات أو عدد العناصر في كل مجموعة.',
+'إذا عرفنا أن 12 × 8 = 96، فيمكننا معرفة أن 96 ÷ 12 = 8 وأن 96 ÷ 8 = 12. تساعدنا حقائق الضرب على حل القسمة بسرعة والتحقق من الإجابة.',
+'عند وجود باقٍ نستخدم العلاقة: المقسوم = المقسوم عليه × خارج القسمة + الباقي. ويجب أن يكون الباقي أقل من المقسوم عليه.'
+],
+vocabulary:[{word:'عملية عكسية',definition:'عملية تساعد على الرجوع من الناتج إلى أحد العوامل.'},{word:'حقيقة الضرب',definition:'جملة ضرب صحيحة تربط ثلاثة أعداد.'},{word:'الباقي',definition:'ما يتبقى بعد تكوين مجموعات متساوية كاملة.'}],
+questions:[
+{question:'إذا كان 12 × 8 = 96، فما ناتج 96 ÷ 12؟',options:['8','12','84','108'],answer:'8'},
+{question:'أي جملة تتحقق من قسمة 200 على 17 خارجها 11 والباقي 13؟',options:['17 × 11 + 13 = 200','17 + 11 + 13 = 200','17 × 13 + 11 = 200','200 × 17 = 11'],answer:'17 × 11 + 13 = 200'}
+],
+keyPoints:['الضرب والقسمة عمليتان عكسيتان.','حقائق الضرب تساعد على إيجاد خارج القسمة.','التحقق مع الباقي يكون بضرب المقسوم عليه في الخارج ثم إضافة الباقي.'],
+exampleAr:'إذا وزعنا 48 قلماً على 6 تلاميذ، نستخدم 6 × 8 = 48 لنعرف أن كل تلميذ يأخذ 8 أقلام.',
+exampleEn:'Sharing 48 pencils among 6 pupils gives 8 each because 6 × 8 = 48.',
+analogyAr:'الضرب والقسمة مثل طريقين متعاكسين يصلان بين الأعداد نفسها.',
+analogyEn:'Multiplication and division are two opposite routes connecting the same numbers.',
+correction:'حوّلي القسمة إلى سؤال ضرب، ثم استخدمي العلاقة العكسية للتحقق.'
+}),
+makeMathGapLesson({
+id:'off_math_u4_l5_multistep_word_problems',unitNumber:4,lessonNumber:5,
+titleAr:'مسائل كلامية متعددة الخطوات',titleEn:'Multi-step Word Problems',
+paragraphs:[
+'المسألة متعددة الخطوات تحتاج إلى أكثر من عملية حسابية للوصول إلى الإجابة. نقرأ المسألة بعناية، ونحدد المعلومات المعطاة والمطلوب، ثم نختار العمليات بالترتيب المناسب.',
+'قد نحتاج إلى الجمع أو الطرح قبل القسمة، أو إلى الضرب ثم القسمة. من المهم كتابة خطوة وسيطة وتفسير معناها، وعدم اختيار العملية اعتماداً على كلمة واحدة فقط.',
+'بعد الحل نراجع الوحدة والسياق: هل المطلوب عدد مجموعات كاملة أم عدد عناصر في كل مجموعة؟ وهل للباقي معنى في الموقف؟'
+],
+vocabulary:[{word:'مسألة متعددة الخطوات',definition:'مسألة تحتاج إلى عمليتين أو أكثر لحلها.'},{word:'المعطيات',definition:'الأعداد والمعلومات الواردة في المسألة.'},{word:'المطلوب',definition:'السؤال الذي نبحث عن إجابته.'}],
+questions:[
+{question:'لدى متجر 350 كعكة، وضع 12 كعكة في كل كيس. كم كيساً ممتلئاً يمكن تكوينه؟',options:['29','28','30','31'],answer:'29'},
+{question:'ما أول خطوة مناسبة قبل حل مسألة كلامية متعددة الخطوات؟',options:['تحديد المعطيات والمطلوب','اختيار أكبر عدد','إجراء كل العمليات عشوائياً','تجاهل وحدات القياس'],answer:'تحديد المعطيات والمطلوب'}
+],
+keyPoints:['نحدد المعطيات والمطلوب قبل اختيار العمليات.','نكتب الحل على خطوات ونفسر كل ناتج وسيط.','نفسر الباقي وفق سياق المسألة.'],
+exampleAr:'لحساب عدد الصناديق المطلوبة، نحسب أولاً عدد القطع ثم نقسمه على سعة الصندوق.',
+exampleEn:'To find the number of boxes needed, first count the items, then divide by each box capacity.',
+analogyAr:'حل المسألة مثل ترتيب قطع الأحجية؛ نضع كل معلومة في مكانها قبل رؤية الصورة كاملة.',
+analogyEn:'Solving a word problem is like assembling a puzzle: each piece must fit.',
+correction:'اقرئي المطلوب، اكتبي المعطيات، حددي ترتيب العمليات، ثم فسري الناتج والباقي.'
+}),
+/* Unit 5 — thirteen lessons */
+makeMathGapLesson({
+id:'off_math_u5_l1_multiply_powers_ten',unitNumber:5,lessonNumber:1,
+titleAr:'الضرب في قوى العدد 10',titleEn:'Multiplying by Powers of Ten',
+paragraphs:[
+'عند ضرب عدد عشري في 10 أو 100 أو 1000 تتغير قيمة منازله؛ فينتقل كل رقم إلى منزلة أكبر، وتصبح قيمة العدد أكبر عشر مرات أو مئة مرة أو ألف مرة.',
+'مثلاً 4.25 × 10 = 42.5، و4.25 × 100 = 425. نستخدم القيمة المكانية لفهم انتقال الأرقام بدلاً من الاعتماد على تحريك العلامة العشرية دون فهم.',
+'عند الضرب في 0.1 أو 0.01 تقل قيمة العدد؛ فالضرب في 0.1 يكافئ القسمة على 10.'
+],
+vocabulary:[{word:'قوة العدد 10',definition:'عدد مثل 10 أو 100 أو 1000 نستخدمه لتغيير قيمة المنازل.'},{word:'القيمة المكانية',definition:'قيمة الرقم بحسب مكانه في العدد.'},{word:'جزء من عشرة',definition:'واحد من عشرة أجزاء متساوية من الواحد الصحيح.'}],
+questions:[
+{question:'ما ناتج 4.25 × 10؟',options:['42.5','0.425','4.025','4250'],answer:'42.5'},
+{question:'الضرب في 100 يجعل العدد أكبر بمقدار:',options:['100 مرة','10 مرات','مرة واحدة','1000 مرة'],answer:'100 مرة'}
+],
+keyPoints:['الضرب في 10 ينقل كل رقم منزلة إلى اليسار في جدول القيمة المكانية.','الضرب في 100 أو 1000 يغير القيمة بمقدار 100 أو 1000 مرة.','الضرب في 0.1 يعادل القسمة على 10.'],
+exampleAr:'إذا كان طول شريط 1.25 متر، فإن طوله بالسنتيمترات 125 سم لأننا نضرب في 100.',
+exampleEn:'A 1.25-metre ribbon is 125 centimetres because we multiply by 100.',
+analogyAr:'القيمة المكانية مثل مصعد؛ كل انتقال لمنزلة أكبر يجعل قيمة الرقم أكبر عشر مرات.',
+analogyEn:'Place value is like an elevator: moving one place to a larger unit multiplies value by ten.',
+correction:'حددي قوة العدد 10 أولاً، ثم راقبي عدد المنازل التي تتغير قيمتها.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l2_decimal_times_whole',unitNumber:5,lessonNumber:2,
+titleAr:'ضرب الكسور العشرية في أعداد صحيحة',titleEn:'Multiplying Decimals by Whole Numbers',
+paragraphs:[
+'يمكن ضرب كسر عشري في عدد صحيح باستخدام معنى الضرب بوصفه جمعاً متكرراً. فإذا كان ثمن القلم 2.5 جنيه واشترينا 4 أقلام، نحسب 2.5 × 4.',
+'نضرب الأعداد كما لو كانت أعداداً صحيحة، ثم نحدد موضع العلامة العشرية وفق عدد المنازل العشرية في العوامل. ويمكن التحقق بالتقدير أو باستخدام الجمع المتكرر.',
+'من المهم تقدير الناتج قبل الحساب؛ فـ 2.5 × 4 قريب من 2 × 4 وأكثر من ذلك بقليل، لذلك الناتج 10 معقول.'
+],
+vocabulary:[{word:'كسر عشري',definition:'عدد يحتوي على علامة عشرية ويمثل أجزاء من الواحد.'},{word:'الضرب',definition:'جمع مجموعات متساوية أو إيجاد حاصل تكرار عدد.'},{word:'الناتج',definition:'القيمة التي نحصل عليها بعد إجراء العملية.'}],
+questions:[
+{question:'ما ناتج 2.5 × 4؟',options:['10','1','100','6.5'],answer:'10'},
+{question:'ما الطريقة المناسبة للتحقق من ناتج ضرب 3.2 × 5؟',options:['تقدير الناتج أو الجمع المتكرر','طرح 5 من 3.2','قسمة 3.2 على 5 فقط','تجاهل العلامة العشرية'],answer:'تقدير الناتج أو الجمع المتكرر'}
+],
+keyPoints:['يمكن تفسير الضرب في عدد صحيح بوصفه جمعاً متكرراً.','نضرب الأرقام ثم نضع العلامة العشرية في موضعها الصحيح.','التقدير يساعد على كشف الأخطاء.'],
+exampleAr:'شراء 4 زجاجات ماء ثمن الواحدة 2.5 جنيه يكلف 10 جنيهات.',
+exampleEn:'Four water bottles at 2.5 pounds each cost 10 pounds.',
+analogyAr:'ضرب الكسر العشري في عدد صحيح مثل تكرار كوب عصير نصف لتر عدة مرات.',
+analogyEn:'Multiplying a decimal by a whole number is like repeating a half-litre serving.',
+correction:'اضربي القيمة دون العلامة أولاً، ثم راجعي عدد المنازل العشرية وقدّري الناتج.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l3_tenths_times_tenths',unitNumber:5,lessonNumber:3,
+titleAr:'ضرب الأجزاء من عشرة في أجزاء من عشرة',titleEn:'Multiplying Tenths by Tenths',
+paragraphs:[
+'الجزء من عشرة يساوي 0.1. وعند ضرب 0.1 في 0.1 نحصل على 0.01، أي جزء من مائة؛ لأننا نأخذ عُشر عُشر.',
+'يمكن تمثيل ذلك بشبكة من 100 مربع: تظليل عُشر الصف ثم عُشر العمود يحدد مربعاً واحداً من مائة. ويساعد النموذج على فهم سبب وجود منزلتين عشريتين في الناتج.',
+'عند ضرب كسرين عشريين نضرب الأرقام أولاً، ثم نضع العلامة العشرية بحيث يساوي عدد المنازل العشرية في الناتج مجموع المنازل في العاملين.'
+],
+vocabulary:[{word:'عُشر',definition:'جزء واحد من عشرة أجزاء متساوية.'},{word:'جزء من مائة',definition:'جزء واحد من مئة جزء متساوٍ.'},{word:'شبكة المائة',definition:'مربع مقسم إلى 100 جزء متساوٍ لتمثيل الكسور.'}],
+questions:[
+{question:'ما ناتج 0.3 × 0.4؟',options:['0.12','1.2','0.012','12'],answer:'0.12'},
+{question:'ما ناتج 0.1 × 0.1؟',options:['0.01','0.1','1','0.001'],answer:'0.01'}
+],
+keyPoints:['عُشر عُشر يساوي جزءاً من مائة.','نموذج شبكة المائة يوضح ناتج الضرب بصرياً.','عدد المنازل العشرية في الناتج يساوي مجموعها في العاملين.'],
+exampleAr:'إذا كان طول قطعة 0.3 متر وعرضها 0.4 متر، فمساحتها 0.12 متر مربع.',
+exampleEn:'A rectangle 0.3 m by 0.4 m has an area of 0.12 square metres.',
+analogyAr:'العُشر مثل تقسيم لوح إلى عشرة أجزاء؛ وعُشر هذا الجزء يصبح جزءاً صغيراً من مائة.',
+analogyEn:'A tenth is one strip out of ten; a tenth of that strip is one hundredth.',
+correction:'عدّي المنازل العشرية في العاملين واجمعيها، ثم مثّلي الناتج على شبكة المائة.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l4_decimal_area_model',unitNumber:5,lessonNumber:4,
+titleAr:'ضرب الكسور العشرية باستخدام نموذج مساحة المستطيل',titleEn:'Multiplying Decimals with an Area Model',
+paragraphs:[
+'نموذج مساحة المستطيل يساعد على ضرب كسرين عشريين بتقسيم كل ضلع إلى أجزاء صحيحة وأجزاء عشرية. نضرب كل جزء في الجزء المقابل له، ثم نجمع المساحات الصغيرة.',
+'مثلاً في 1.2 × 1.3 نقسم 1.2 إلى 1 و0.2، ونقسم 1.3 إلى 1 و0.3. نوجد مساحات الأجزاء الأربع ثم نجمعها للحصول على 1.56.',
+'يعرض النموذج معنى الضرب بوصفه مساحة، ويساعد على فهم موضع العلامة العشرية بدلاً من حفظ قاعدة دون تفسير.'
+],
+vocabulary:[{word:'المساحة',definition:'مقدار السطح الذي يغطيه شكل مستوٍ.'},{word:'نموذج المساحة',definition:'رسم يقسم المستطيل إلى أجزاء لتوضيح الضرب.'},{word:'التجزئة',definition:'تقسيم العدد إلى أجزاء يسهل التعامل معها.'}],
+questions:[
+{question:'ما ناتج 1.2 × 1.3؟',options:['1.56','15.6','0.156','2.5'],answer:'1.56'},
+{question:'في نموذج مساحة المستطيل، ماذا نفعل بعد حساب مساحات الأجزاء؟',options:['نجمع مساحات الأجزاء','نطرح كل المساحات','نقسم على أحد الأضلاع فقط','نحذف الأجزاء العشرية'],answer:'نجمع مساحات الأجزاء'}
+],
+keyPoints:['نقسم كل عامل إلى أجزاء صحيحة وعشرية.','نحسب مساحة كل مستطيل صغير.','نجمع المساحات الجزئية للحصول على الناتج.'],
+exampleAr:'لحساب مساحة لوحة طولها 1.2 متر وعرضها 1.3 متر نستخدم نموذج المساحة ونحصل على 1.56 متر مربع.',
+exampleEn:'A 1.2 m by 1.3 m board has an area of 1.56 square metres.',
+analogyAr:'النموذج مثل تقسيم حديقة إلى أحواض صغيرة؛ نحسب مساحة كل حوض ثم نجمعها.',
+analogyEn:'The model is like dividing a garden into smaller beds and adding their areas.',
+correction:'قسّمي الضلعين، احسبي نواتج الضرب الجزئية، ثم اجمعيها كلها.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l5_decimal_hundredths',unitNumber:5,lessonNumber:5,
+titleAr:'ضرب الكسور العشرية حتى جزء من مائة',titleEn:'Multiplying Decimals to Hundredths',
+paragraphs:[
+'عند ضرب كسور عشرية قد يحتوي كل عامل على منزلتين عشريتين أو أقل. نضرب الأرقام كما لو كانت صحيحة، ثم نحدد عدد المنازل العشرية في الناتج بجمع منازل العاملين.',
+'مثلاً 0.25 × 0.4: نضرب 25 × 4 = 100، وفي العاملين ثلاث منازل عشرية معاً، فيكون الناتج 0.100 أي 0.1.',
+'يجب أن نميز بين قيمة الرقم وعدد الأرقام المكتوبة بعد العلامة؛ فالأصفار في نهاية الكسر العشري لا تغير قيمته.'
+],
+vocabulary:[{word:'جزء من مائة',definition:'منزلة الرقم الثانية يمين العلامة العشرية.'},{word:'عامل',definition:'عدد يدخل في عملية الضرب.'},{word:'منزلة عشرية',definition:'موضع رقم بعد العلامة العشرية.'}],
+questions:[
+{question:'ما ناتج 0.25 × 0.4؟',options:['0.1','1.0','0.01','10'],answer:'0.1'},
+{question:'كم منزلة عشرية توجد في ناتج ضرب 0.25 × 0.4 قبل حذف الصفر النهائي؟',options:['ثلاث منازل','منزلة واحدة','منزلتان','أربع منازل'],answer:'ثلاث منازل'}
+],
+keyPoints:['نضرب الأرقام أولاً دون العلامة العشرية.','نجمع عدد المنازل العشرية في العاملين.','يمكن حذف الصفر النهائي دون تغيير القيمة.'],
+exampleAr:'إذا كان ثمن 0.4 كجم من الفاكهة 0.25 من سعر الكيلو، نستخدم الضرب لإيجاد الجزء المناسب من السعر.',
+exampleEn:'Decimal multiplication can calculate a fractional part of a unit price.',
+analogyAr:'العلامة العشرية مثل الفاصل بين الوحدات والأجزاء؛ لا نضعها عشوائياً.',
+analogyEn:'The decimal point separates whole units from parts and must be placed carefully.',
+correction:'اجمعي المنازل العشرية في العاملين، ثم ضعي العلامة في الناتج مع الحفاظ على قيمته.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l6_decimal_thousandths',unitNumber:5,lessonNumber:6,
+titleAr:'ضرب الكسور العشرية حتى جزء من ألف',titleEn:'Multiplying Decimals to Thousandths',
+paragraphs:[
+'قد نحتاج إلى ضرب أعداد تحتوي على أجزاء من ألف، مثل 0.125. نتبع الخطوات نفسها: نضرب الأرقام ثم نحدد عدد المنازل العشرية في الناتج.',
+'إذا ضربنا 0.125 × 2 فإن الناتج 0.250، وهو يساوي 0.25. وإذا ضربنا 0.125 × 0.4 فيجب جمع ثلاث منازل في العامل الأول ومنزلة في الثاني.',
+'تساعدنا الأجزاء من ألف في التعبير عن قياسات دقيقة مثل الكتل والأطوال، لذلك يجب الانتباه إلى القيمة المكانية وعدم حذف أرقام مؤثرة.'
+],
+vocabulary:[{word:'جزء من ألف',definition:'جزء واحد من ألف جزء متساوٍ من الواحد الصحيح.'},{word:'الدقة',definition:'مدى قرب القياس أو الناتج من القيمة الحقيقية.'},{word:'صفر نهائي',definition:'صفر في نهاية كسر عشري لا يغير قيمته.'}],
+questions:[
+{question:'ما ناتج 0.125 × 2؟',options:['0.25','2.5','0.025','0.0125'],answer:'0.25'},
+{question:'أي عدد يساوي 0.250؟',options:['0.25','2.50','0.025','25'],answer:'0.25'}
+],
+keyPoints:['نستخدم القيمة المكانية حتى الأجزاء من ألف.','عدد المنازل العشرية في الناتج يساوي مجموعها في العاملين.','يمكن حذف الأصفار النهائية فقط إذا لم تتغير القيمة.'],
+exampleAr:'ميزان دقيق قد يعرض كتلة 0.125 كجم؛ ضربها في 2 يعطي 0.25 كجم.',
+exampleEn:'Doubling a 0.125 kg measurement gives 0.25 kg.',
+analogyAr:'الأجزاء من ألف مثل تقسيم متر إلى ألف جزء صغير لقياس طول بدقة.',
+analogyEn:'Thousandths are like splitting a metre into a thousand tiny parts.',
+correction:'احتفظي بجميع المنازل أثناء الضرب، ثم تحققي من قيمة الناتج قبل حذف أي صفر.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l7_decimals_metric_system',unitNumber:5,lessonNumber:7,
+titleAr:'الكسور العشرية والنظام المتري',titleEn:'Decimals and the Metric System',
+paragraphs:[
+'يعتمد النظام المتري على وحدات مرتبطة بقوى العدد 10، مثل المتر والسنتيمتر والمليمتر، واللتر والمليلتر، والكيلوجرام والجرام. لذلك يمكن كتابة التحويلات باستخدام الكسور العشرية.',
+'في الطول: 1 متر = 100 سنتيمتر، و1 سنتيمتر = 10 مليمترات. وفي الكتلة: 1 كيلوجرام = 1000 جرام. نختار الضرب أو القسمة بحسب الانتقال إلى وحدة أصغر أو أكبر.',
+'عند التحويل من وحدة كبيرة إلى وحدة أصغر تزداد القيمة العددية، وعند التحويل إلى وحدة أكبر تقل القيمة العددية مع بقاء المقدار نفسه.'
+],
+vocabulary:[{word:'النظام المتري',definition:'نظام قياس يستخدم وحدات مترابطة بعوامل العدد 10.'},{word:'سنتيمتر',definition:'جزء من مائة من المتر.'},{word:'مليمتر',definition:'جزء من ألف من المتر.'}],
+questions:[
+{question:'كم سنتيمتراً في 1.5 متر؟',options:['150 سم','15 سم','1.5 سم','1500 سم'],answer:'150 سم'},
+{question:'كم جراماً في 2 كيلوجرام؟',options:['2000 جرام','200 جرام','20 جراماً','2 جرام'],answer:'2000 جرام'}
+],
+keyPoints:['وحدات النظام المتري ترتبط بقوى العدد 10.','التحويل إلى وحدة أصغر يزيد العدد، وإلى أكبر يقلله.','نكتب الوحدة في الإجابة حتى لا نخلط بين القياسات.'],
+exampleAr:'زجاجة سعتها 1.5 لتر تساوي 1500 مليلتر.',
+exampleEn:'A 1.5-litre bottle holds 1,500 millilitres.',
+analogyAr:'الوحدات مثل درجات سلم؛ كل درجة تغير مقدار الوحدة بعشرة أو مائة أو ألف.',
+analogyEn:'Metric units are like steps on a ladder, changing by tens, hundreds, or thousands.',
+correction:'حددي الوحدة التي تبدأين منها والوحدة المطلوبة، ثم اختاري الضرب أو القسمة بقوة العدد 10.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l8_measurement_decimals_powers_ten',unitNumber:5,lessonNumber:8,
+titleAr:'القياس والكسور العشرية وقوى العدد 10',titleEn:'Measurement, Decimals, and Powers of Ten',
+paragraphs:[
+'تظهر الكسور العشرية في القياس اليومي للأطوال والكتل والسعات. نستخدم قوى العدد 10 للتحويل بين وحدات النظام المتري أو لتغيير طريقة كتابة القياس.',
+'مثلاً 0.75 متر يساوي 75 سنتيمتراً، لأننا نضرب في 100. و3500 جرام تساوي 3.5 كيلوجرام، لأننا نقسم على 1000.',
+'قبل إجراء التحويل نكتب الوحدة الأصلية والوحدة المطلوبة، ثم نحدد عامل التحويل ونراجع أن العدد الناتج يناسب حجم القياس.'
+],
+vocabulary:[{word:'عامل التحويل',definition:'عدد نضرب أو نقسم به للانتقال بين وحدات القياس.'},{word:'السعة',definition:'مقدار ما يمكن أن يحتويه الوعاء من سائل.'},{word:'الكتلة',definition:'مقدار ما يحتويه الجسم من مادة.'}],
+questions:[
+{question:'ما قيمة 0.75 متر بالسنتيمتر؟',options:['75 سم','7.5 سم','750 سم','0.075 سم'],answer:'75 سم'},
+{question:'ما قيمة 3500 جرام بالكيلوجرام؟',options:['3.5 كجم','35 كجم','350 كجم','0.35 كجم'],answer:'3.5 كجم'}
+],
+keyPoints:['نستخدم قوى العدد 10 للتحويل بين وحدات القياس.','التحويل من متر إلى سنتيمتر يكون بالضرب في 100.','التحويل من جرام إلى كيلوجرام يكون بالقسمة على 1000.'],
+exampleAr:'طول طاولة 0.8 متر يساوي 80 سنتيمتراً.',
+exampleEn:'A table that is 0.8 metres long is 80 centimetres long.',
+analogyAr:'عامل التحويل مثل مفتاح يبدل اسم الوحدة مع الحفاظ على المقدار نفسه.',
+analogyEn:'A conversion factor is like a key that changes the unit while preserving the amount.',
+correction:'اكتبي عامل التحويل المناسب، ونفذي العملية، ثم تأكدي أن الوحدة النهائية هي المطلوبة.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l9_multistep_decimal_word_problems',unitNumber:5,lessonNumber:9,
+titleAr:'حل مسائل كلامية متعددة الخطوات',titleEn:'Multi-step Decimal Word Problems',
+paragraphs:[
+'تجمع المسائل الكلامية متعددة الخطوات بين أكثر من مهارة، مثل ضرب الكسور العشرية وتحويل الوحدات والجمع أو الطرح. نقرأ المطلوب ونحدد البيانات قبل البدء.',
+'إذا اشترى شخص 1.5 متر من القماش بسعر 10 جنيهات للمتر، نحسب ثمن القماش بالضرب. وإذا اشترى أيضاً 2.5 كجم من الفاكهة بسعر 20 جنيهاً للكيلوجرام، نحسب ثمنها ثم نجمع المبلغين.',
+'نكتب كل خطوة مع وحدتها ونراجع أن الإجمالي منطقي. قد نحتاج إلى تحويل المتر أو الكيلوجرام قبل الحساب إذا كانت الوحدات مختلفة.'
+],
+vocabulary:[{word:'المسألة الكلامية',definition:'سؤال يصف موقفاً حياتياً ونستخدم الرياضيات لحله.'},{word:'الإجمالي',definition:'المجموع الكلي للقيم أو التكاليف.'},{word:'الوحدة',definition:'اسم القياس مثل متر أو كيلوجرام أو جنيه.'}],
+questions:[
+{question:'اشترى شخص 1.5 متر قماش بسعر 10 جنيهات للمتر. ما الثمن؟',options:['15 جنيهاً','150 جنيهاً','1.5 جنيه','10 جنيهات'],answer:'15 جنيهاً'},
+{question:'إذا كان ثمن القماش 15 جنيهاً وثمن الفاكهة 50 جنيهاً، فما الإجمالي؟',options:['65 جنيهاً','35 جنيهاً','750 جنيهاً','50 جنيهاً'],answer:'65 جنيهاً'}
+],
+keyPoints:['نحدد البيانات والمطلوب ونرتب العمليات.','نضرب الكمية في سعر الوحدة لإيجاد التكلفة.','نجمع التكاليف ونكتب الوحدة المناسبة.'],
+exampleAr:'حساب ثمن عدة مشتريات يتطلب إيجاد تكلفة كل نوع أولاً ثم جمعها.',
+exampleEn:'To calculate a shopping total, find each item cost first, then add them.',
+analogyAr:'المسألة مثل فاتورة متجر؛ نحسب كل بند ثم نجمع البنود في النهاية.',
+analogyEn:'A word problem is like a shop receipt: calculate each line, then total them.',
+correction:'احسبي كل كمية في خطوة منفصلة، واكتبي الوحدة، ثم اجمعي النتائج المطلوبة.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l10_divide_powers_ten',unitNumber:5,lessonNumber:10,
+titleAr:'القسمة على قوى العدد 10',titleEn:'Dividing by Powers of Ten',
+paragraphs:[
+'عند قسمة عدد عشري على 10 أو 100 أو 1000 تقل قيمة العدد؛ فتنتقل الأرقام إلى منازل أصغر في جدول القيمة المكانية.',
+'مثلاً 5.7 ÷ 10 = 0.57، و5.7 ÷ 100 = 0.057. يجب أن نفهم أثر القسمة في قيمة المنازل، لا أن نحرك العلامة العشرية بلا تفسير.',
+'القسمة على 0.1 تختلف عن القسمة على 10؛ فالقسمة على 0.1 تكافئ الضرب في 10 لأننا نقسم على جزء صغير من الواحد.'
+],
+vocabulary:[{word:'القسمة',definition:'توزيع كمية إلى مجموعات متساوية أو إيجاد عدد المجموعات.'},{word:'قوى العدد 10',definition:'أعداد مثل 10 و100 و1000.'},{word:'منزلة عشرية',definition:'موضع رقم على يمين العلامة العشرية.'}],
+questions:[
+{question:'ما ناتج 5.7 ÷ 100؟',options:['0.057','0.57','57','570'],answer:'0.057'},
+{question:'ما ناتج 2500 ÷ 10؟',options:['250','25','25000','2.5'],answer:'250'}
+],
+keyPoints:['القسمة على 10 أو 100 أو 1000 تقلل القيمة العددية.','نستخدم جدول القيمة المكانية لتحديد الناتج.','القسمة على 0.1 تكافئ الضرب في 10.'],
+exampleAr:'تحويل 570 سنتيمتراً إلى أمتار يتطلب القسمة على 100، فيكون 5.7 أمتار.',
+exampleEn:'570 centimetres equals 5.7 metres after dividing by 100.',
+analogyAr:'القسمة على 10 مثل الانتقال درجة إلى وحدة أكبر؛ نحتاج عدداً أقل لتمثيل المقدار نفسه.',
+analogyEn:'Dividing by ten is like moving to a larger unit, so fewer units represent the same amount.',
+correction:'حددي المقسوم عليه بدقة: 10 أم 100 أم 1000 أم 0.1، ثم راقبي أثره في القيمة.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l11_patterns_powers_ten',unitNumber:5,lessonNumber:11,
+titleAr:'الأنماط والعلاقات في قوى العدد 10',titleEn:'Patterns and Relationships with Powers of Ten',
+paragraphs:[
+'تساعدنا الأنماط على ملاحظة ما يحدث للأعداد عند الضرب أو القسمة في قوى العدد 10. عند الضرب في 10 تتضاعف قيمة كل منزلة عشر مرات، وعند القسمة على 10 تصبح عُشر قيمتها.',
+'يمكن مقارنة 0.6 و6 و60 و600؛ كل انتقال إلى اليمين في هذا التسلسل يعني الضرب في 10. والانتقال في الاتجاه العكسي يعني القسمة على 10.',
+'نستخدم النمط للتنبؤ بنتائج جديدة، ثم نتحقق من التوقع باستخدام القيمة المكانية أو الحساب المباشر.'
+],
+vocabulary:[{word:'نمط عددي',definition:'تتابع أعداد تربطها قاعدة تتكرر.'},{word:'قاعدة النمط',definition:'العملية التي نكررها للانتقال من حد إلى الحد التالي.'},{word:'التنبؤ',definition:'توقع نتيجة اعتماداً على قاعدة معروفة.'}],
+questions:[
+{question:'ما العدد التالي في النمط 0.6، 6، 60، ...؟',options:['600','66','6.1','0.06'],answer:'600'},
+{question:'ما القاعدة المستخدمة للانتقال من 8 إلى 0.8؟',options:['القسمة على 10','الضرب في 10','الجمع 10','الطرح 10'],answer:'القسمة على 10'}
+],
+keyPoints:['الضرب في 10 يزيد قيمة العدد عشرة أضعاف.','القسمة على 10 تقلل قيمة العدد إلى عُشرها.','نستنتج قاعدة النمط ثم نستخدمها للتنبؤ بالحد التالي.'],
+exampleAr:'إذا كان سعر وحدة 0.8 جنيه، فإن سعر عشر وحدات يساوي 8 جنيهات.',
+exampleEn:'If one unit costs 0.8 pounds, ten units cost 8 pounds.',
+analogyAr:'النمط مثل خطوات منتظمة على سلم؛ كل خطوة تتبع القاعدة نفسها.',
+analogyEn:'A number pattern is like regular steps on a staircase.',
+correction:'قارني كل حد بالذي قبله، وحددي هل نضرب في 10 أم نقسم على 10.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l12_decimal_divide_whole',unitNumber:5,lessonNumber:12,
+titleAr:'قسمة كسور عشرية على أعداد صحيحة',titleEn:'Dividing Decimals by Whole Numbers',
+paragraphs:[
+'عند قسمة كسر عشري على عدد صحيح نقسم كما نفعل مع الأعداد الصحيحة، مع وضع العلامة العشرية في خارج القسمة فوق موضعها في المقسوم.',
+'مثلاً 51.65 ÷ 5 = 10.33. نبدأ من اليسار، ونقسم كل منزلة بالترتيب، ونضع العلامة العشرية في خارج القسمة عندما نصل إليها في المقسوم.',
+'يمكن التحقق بضرب خارج القسمة في المقسوم عليه؛ فإذا أعادنا إلى المقسوم تكون الإجابة صحيحة.'
+],
+vocabulary:[{word:'خارج القسمة',definition:'الناتج الذي نحصل عليه بعد القسمة.'},{word:'العلامة العشرية',definition:'علامة تفصل الجزء الصحيح عن الجزء العشري.'},{word:'التحقق بالضرب',definition:'ضرب الناتج في المقسوم عليه للتأكد من المقسوم.'}],
+questions:[
+{question:'ما ناتج 51.65 ÷ 5؟',options:['10.33','1.033','103.3','10.3'],answer:'10.33'},
+{question:'أين نضع العلامة العشرية في خارج القسمة؟',options:['فوق موضعها في المقسوم','في بداية الناتج دائماً','بعد آخر رقم دائماً','نحذفها'],answer:'فوق موضعها في المقسوم'}
+],
+keyPoints:['نقسم الأرقام بالترتيب كما في القسمة المعتادة.','نضع العلامة العشرية في خارج القسمة فوق موضعها في المقسوم.','نستخدم الضرب للتحقق من الناتج.'],
+exampleAr:'تقسيم 12.6 لتراً من العصير على 3 أوعية بالتساوي يعطي 4.2 لتر لكل وعاء.',
+exampleEn:'Sharing 12.6 litres equally among 3 containers gives 4.2 litres each.',
+analogyAr:'العلامة العشرية مثل علامة طريق؛ نحافظ على موضعها حتى لا تتغير قيمة العدد.',
+analogyEn:'The decimal point is a road marker that keeps the number’s value in place.',
+correction:'ابدئي بالقسمة من اليسار، وضعي العلامة فوق موضعها، ثم تحققي بالضرب.'
+}),
+makeMathGapLesson({
+id:'off_math_u5_l13_decimal_divide_decimal',unitNumber:5,lessonNumber:13,
+titleAr:'قسمة كسور عشرية على كسور عشرية',titleEn:'Dividing a Decimal by a Decimal',
+paragraphs:[
+'عند قسمة عدد عشري على عدد عشري آخر، نجعل المقسوم عليه عدداً صحيحاً بضرب المقسوم والمقسوم عليه في القوة نفسها من 10.',
+'مثلاً 26.4 ÷ 2.2 تصبح 264 ÷ 22 بعد ضرب العددين في 10، والناتج 12. تغيير العددين بالعامل نفسه لا يغير خارج القسمة.',
+'بعد تحويل المقسوم عليه إلى عدد صحيح نستخدم خوارزمية القسمة، ثم نتحقق بضرب الناتج في المقسوم عليه الأصلي.'
+],
+vocabulary:[{word:'المقسوم عليه',definition:'العدد الذي نقسم عليه.'},{word:'عدد صحيح',definition:'عدد لا يحتوي على جزء عشري.'},{word:'عامل مشترك للتحويل',definition:'عدد نضرب به المقسوم والمقسوم عليه معاً.'}],
+questions:[
+{question:'ما ناتج 26.4 ÷ 2.2؟',options:['12','1.2','120','0.12'],answer:'12'},
+{question:'لتحويل 2.2 إلى عدد صحيح في 26.4 ÷ 2.2، نضرب العددين في:',options:['10','2','100','0.1'],answer:'10'}
+],
+keyPoints:['نحوّل المقسوم عليه إلى عدد صحيح.','نضرب المقسوم والمقسوم عليه في القوة نفسها من 10.','نحسب القسمة ثم نتحقق باستخدام الأعداد الأصلية.'],
+exampleAr:'إذا كان طول شريط 2.4 متر ونقسمه إلى قطع طول كل منها 0.6 متر، نحسب 2.4 ÷ 0.6 = 4 قطع.',
+exampleEn:'A 2.4-metre ribbon cut into 0.6-metre pieces makes 4 pieces.',
+analogyAr:'نحوّل الوحدتين معاً مثل تكبير صورة؛ يكبر الطرفان بالمقدار نفسه وتبقى النسبة ثابتة.',
+analogyEn:'Scaling both numbers equally is like enlarging both sides of a picture while keeping the ratio.',
+correction:'اضربي العددين في 10 أو 100 حتى يصبح المقسوم عليه صحيحاً، ثم اقسمي.'
+}),
+/* Unit 6 — lessons 2–4; lesson 1 already exists */
+makeMathGapLesson({
+id:'off_math_u6_l2_parentheses_expressions',unitNumber:6,lessonNumber:2,
+titleAr:'تعبيرات عددية تتضمن أقواساً',titleEn:'Numerical Expressions with Parentheses',
+paragraphs:[
+'الأقواس في التعبير العددي تحدد العملية التي يجب تنفيذها أولاً. نبدأ بحساب ما داخل الأقواس، ثم نكمل بقية العمليات وفق ترتيبها.',
+'في التعبير 3 × (4 + 2) نجمع داخل القوس أولاً: 4 + 2 = 6، ثم نضرب 3 × 6 = 18. إذا تجاهلنا الأقواس قد نحصل على ناتج مختلف.',
+'تساعدنا الأقواس على تمثيل مواقف الحياة بدقة، مثل حساب تكلفة عدة أشياء معاً قبل إضافة تكلفة أخرى.'
+],
+vocabulary:[{word:'تعبير عددي',definition:'أعداد وعمليات حسابية تمثل قيمة أو موقفاً.'},{word:'الأقواس',definition:'علامات تحدد جزءاً من التعبير ينفذ أولاً.'},{word:'ترتيب العمليات',definition:'قواعد تحدد تسلسل تنفيذ العمليات الحسابية.'}],
+questions:[
+{question:'ما قيمة 3 × (4 + 2)؟',options:['18','14','20','24'],answer:'18'},
+{question:'ما العملية التي تنفذ أولاً في 8 + (6 ÷ 2)؟',options:['القسمة داخل القوس','الجمع خارج القوس','الضرب في 2','الطرح'],answer:'القسمة داخل القوس'}
+],
+keyPoints:['نحسب ما داخل الأقواس أولاً.','بعد الأقواس نطبق قواعد أسبقية العمليات.','الأقواس قد تغير قيمة التعبير إذا تغير ترتيب التنفيذ.'],
+exampleAr:'ثمن 3 ألعاب سعر كل منها 20 جنيهاً مع إضافة 10 جنيهات للتوصيل: (3 × 20) + 10.',
+exampleEn:'Three toys at 20 pounds each plus 10 delivery is (3 × 20) + 10.',
+analogyAr:'الأقواس مثل غرفة مغلقة نرتب ما بداخلها أولاً قبل الخروج لبقية العمل.',
+analogyEn:'Parentheses are like a room we finish organizing before moving to the rest of the task.',
+correction:'ابدئي بما داخل القوس، ثم انتقلي إلى الضرب والقسمة، وبعدها الجمع والطرح.'
+}),
+makeMathGapLesson({
+id:'off_math_u6_l3_write_numeric_expression',unitNumber:6,lessonNumber:3,
+titleAr:'كتابة تعبير عددي لتمثيل موقف ما',titleEn:'Writing a Numerical Expression for a Situation',
+paragraphs:[
+'يمكن تمثيل موقف حياتي بتعبير عددي يوضح العمليات اللازمة للحل. نحدد الكميات والعلاقات بينها، ثم نختار الرموز المناسبة للجمع أو الطرح أو الضرب أو القسمة.',
+'إذا اشترينا 4 دفاتر ثمن الواحد 12 جنيهاً، ثم أضفنا قلماً ثمنه 5 جنيهات، يمكن تمثيل الموقف بالتعبير 4 × 12 + 5.',
+'يجب أن يعكس التعبير ترتيب الأحداث والمعنى المطلوب، وقد نستخدم الأقواس إذا احتجنا إلى تنفيذ مجموعة عمليات معاً.'
+],
+vocabulary:[{word:'تمثيل رياضي',definition:'استخدام الأعداد والرموز لوصف موقف.'},{word:'تعبير عددي',definition:'جملة رياضية تحتوي على أعداد وعمليات دون علامة مساواة.'},{word:'رمز العملية',definition:'علامة مثل + أو − أو × أو ÷.'}],
+questions:[
+{question:'اشترى سامي 4 دفاتر ثمن الواحد 12 جنيهاً وقلمًا بـ5 جنيهات. أي تعبير يمثل التكلفة؟',options:['4 × 12 + 5','4 + 12 × 5','4 × (12 + 5)','12 ÷ 4 + 5'],answer:'4 × 12 + 5'},
+{question:'أي عملية تمثل توزيع 36 قطعة بالتساوي على 6 أطفال؟',options:['36 ÷ 6','36 + 6','36 × 6','36 − 6'],answer:'36 ÷ 6'}
+],
+keyPoints:['نحدد الكميات والعلاقة بينها قبل كتابة التعبير.','نختار العملية التي تمثل الموقف بدقة.','نستخدم الأقواس عندما تتطلب المسألة ترتيباً خاصاً.'],
+exampleAr:'ثمن 2 كتاب بسعر 30 جنيهاً لكل كتاب مع خصم 5 جنيهات يمثله 2 × 30 − 5.',
+exampleEn:'Two books at 30 pounds each with a 5-pound discount is 2 × 30 − 5.',
+analogyAr:'التعبير العددي مثل خريطة للموقف؛ كل رمز يوضح خطوة من خطواته.',
+analogyEn:'A numerical expression is a map of the situation, with each symbol showing a step.',
+correction:'حوّلي الكلمات إلى عمليات: مجموع يعني جمعاً، لكل يعني ضرباً غالباً، والتوزيع بالتساوي يعني قسمة.'
+}),
+makeMathGapLesson({
+id:'off_math_u6_l4_number_patterns',unitNumber:6,lessonNumber:4,
+titleAr:'تحديد الأنماط العددية',titleEn:'Identifying Number Patterns',
+paragraphs:[
+'النمط العددي سلسلة من الأعداد تتبع قاعدة محددة. قد نضيف العدد نفسه كل مرة، أو نطرح، أو نضرب، أو نقسم وفق قاعدة تتكرر.',
+'لإيجاد القاعدة نقارن كل حد بالحد الذي يليه. في النمط 4، 8، 12، 16 نضيف 4 كل مرة، لذلك العدد التالي 20.',
+'بعض الأنماط تحتاج إلى ملاحظة أكثر من خطوة؛ نتحقق من القاعدة باستخدام عدة حدود قبل التنبؤ بالعدد التالي.'
+],
+vocabulary:[{word:'نمط عددي',definition:'سلسلة أعداد تتبع قاعدة متكررة.'},{word:'حد',definition:'عدد واحد في سلسلة النمط.'},{word:'قاعدة',definition:'العملية التي تحدد الانتقال من حد إلى آخر.'}],
+questions:[
+{question:'ما العدد التالي في النمط 4، 8، 12، 16، ...؟',options:['20','18','22','24'],answer:'20'},
+{question:'ما قاعدة النمط 3، 6، 12، 24، ...؟',options:['الضرب في 2','الجمع 2','الطرح 3','القسمة على 2'],answer:'الضرب في 2'}
+],
+keyPoints:['نقارن الحدود المتتالية لاكتشاف القاعدة.','قد تكون القاعدة جمعاً أو طرحاً أو ضرباً أو قسمة.','نتحقق من القاعدة على أكثر من حد قبل التنبؤ.'],
+exampleAr:'إذا ادخر طفل 5 جنيهات كل أسبوع، فإن مدخراته تتبع نمطاً يزيد 5 كل مرة.',
+exampleEn:'Saving 5 pounds each week creates a pattern that increases by 5 each time.',
+analogyAr:'النمط مثل إيقاع الموسيقى؛ تتكرر الحركة نفسها فنستطيع توقع النغمة التالية.',
+analogyEn:'A pattern is like a musical rhythm: repeated steps help predict what comes next.',
+correction:'قارني كل عدد بالذي يليه، واختبري القاعدة على جميع الحدود قبل اختيار العدد التالي.'
+})
+];
+MATH_CURRICULUM_LESSONS.push(...MATH_TERM_1_GAP_LESSONS);
