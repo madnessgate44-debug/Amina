@@ -331,15 +331,15 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   ),
   '4-1': makeGuide(
     '44–45',
-    'Après la germination, la plante a besoin de lumière du Soleil pour grandir sainement et fabriquer sa nourriture. Pour étudier ce rôle, on compare deux jeunes plants de taille semblable : l’un reçoit une lumière convenable et l’autre est placé dans l’obscurité. On garde l’eau, la température, le type de plante et les autres conditions comparables. Après plusieurs jours, on observe la couleur des feuilles et l’épaisseur de la tige. Une plante qui reçoit une lumière convenable présente généralement des feuilles plus vertes et une tige plus forte.',
-    'Place deux jeunes plants semblables dans des conditions identiques. Mets A à la lumière et couvre B avec une boîte sombre. Arrose-les de façon comparable pendant environ une semaine, puis compare la couleur des feuilles et l’épaisseur des tiges.',
+    'Après la germination, la plante a besoin de lumière du Soleil pour grandir sainement et fabriquer sa nourriture. Pour étudier ce rôle, on compare deux jeunes plants de taille semblable : l’un reçoit une lumière convenable et l’autre est placé dans l’obscurité. On garde l’eau, l’air, la température, l’engrais, le type de sol et le type de plante constants ; seule la lumière change. Après plusieurs jours, on observe la couleur des feuilles et l’épaisseur de la tige. Une plante qui reçoit une lumière convenable présente généralement des feuilles plus vertes et une tige plus forte.',
+    'Place deux jeunes plants semblables dans des conditions identiques. Mets A à la lumière et couvre B avec une boîte sombre. Utilise la même quantité d’eau, le même type de sol et le même type de plante ; garde l’air, la température et l’engrais comparables pendant environ une semaine, puis compare la couleur des feuilles et l’épaisseur des tiges.',
     [
       { prompt: 'Quelle condition change dans cette expérience ?', expectedAnswer: 'La présence ou l’absence de lumière du Soleil.' },
       { prompt: 'Quels éléments observe-t-on pour comparer les deux plants ?', expectedAnswer: 'La couleur des feuilles et l’épaisseur des tiges.' },
     ],
     [
       { prompt: 'Comment peut apparaître une plante qui grandit sans lumière ?', expectedAnswer: 'Ses feuilles peuvent jaunir et ses tiges devenir longues, fines et faibles.' },
-      { prompt: 'Pourquoi faut-il donner la même quantité d’eau aux deux plants ?', expectedAnswer: 'Pour isoler l’effet de la lumière.' },
+      { prompt: 'Pourquoi faut-il garder l’eau, l’air, la température, l’engrais, le type de sol et le type de plante identiques ?', expectedAnswer: 'Pour isoler l’effet de la lumière et rendre la comparaison équitable.' },
     ],
     ['Les feuilles peuvent jaunir et les tiges devenir longues, fines et faibles.', 'Pour que la lumière soit la seule variable modifiée.'],
     [
@@ -357,14 +357,14 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   ),
   '4-2': makeGuide(
     '46–49',
-    'Les plantes absorbent dans le sol des nutriments qui contribuent à leur croissance. Un engrais peut apporter ces nutriments et aider les feuilles et les tiges à se développer. Pour vérifier son effet, on compare deux plants semblables : l’un reçoit de l’eau mélangée à une quantité déterminée d’engrais et l’autre reçoit seulement de l’eau. Les deux plants doivent recevoir une lumière et une température comparables, et être cultivés dans le même type de sol. On mesure leur hauteur à intervalles réguliers. L’engrais ne remplace ni l’eau ni la lumière.',
-    'Prépare deux plants de haricot semblables. Donne à A de l’eau avec une quantité fixe d’engrais et à B seulement de l’eau. Place-les au même endroit et mesure leur hauteur tous les quelques jours.',
+    'Les plantes absorbent dans le sol des nutriments qui contribuent à leur croissance. Un engrais peut apporter ces nutriments et aider les feuilles et les tiges à se développer. Pour vérifier son effet, on compare deux plants semblables : l’un reçoit de l’eau mélangée à une quantité déterminée d’engrais et l’autre reçoit seulement de l’eau. On garde la même quantité d’eau, la lumière du Soleil, l’air, la température, le type de sol et le type de plante constants ; seule la présence d’engrais change. On mesure leur hauteur à intervalles réguliers. L’engrais ne remplace ni l’eau ni la lumière.',
+    'Prépare deux plants de haricot semblables. Donne à A de l’eau avec une quantité fixe d’engrais et à B seulement de l’eau. Garde la même quantité d’eau, le même éclairage, le même air, la même température, le même type de sol et le même type de plante ; seule la présence d’engrais change. Mesure leur hauteur tous les quelques jours.',
     [
       { prompt: 'Quelle condition change entre les deux plants ?', expectedAnswer: 'La présence ou l’absence d’engrais.' },
-      { prompt: 'Que faut-il mesurer pour suivre leur croissance ?', expectedAnswer: 'La hauteur des plants ; on peut aussi observer les feuilles et les tiges.' },
+      { prompt: 'Quelles conditions doivent rester identiques entre les deux plants ?', expectedAnswer: 'La quantité d’eau, la lumière, l’air, la température, le type de sol et le type de plante.' },
     ],
     [
-      { prompt: 'Pourquoi les deux plants doivent-ils recevoir la même lumière ?', expectedAnswer: 'Pour que la différence observée soit liée à l’engrais et non à la lumière.' },
+      { prompt: 'Pourquoi faut-il garder l’eau, la lumière, l’air, la température, le type de sol et le type de plante identiques ?', expectedAnswer: 'Pour que la différence observée soit due à la présence ou à l’absence d’engrais.' },
       { prompt: 'L’engrais peut-il remplacer l’eau ?', expectedAnswer: 'Non. L’engrais apporte des nutriments, mais la plante a toujours besoin d’eau.' },
     ],
     ['Pour isoler l’effet de l’engrais.', 'Non. L’engrais ne remplace pas l’eau.'],
