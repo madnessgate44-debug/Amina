@@ -3,9 +3,9 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Subject:** Sciences taught in French  
-**Source book:** Ministry student book, 109 pages  
-**Evidence:** [VERIFIED] Direct extraction of the uploaded 109-page book, including pages 1–109. Ministry copyright/edition statement appears on printed page 3 (2026/2027).  
-**Status:** [VERIFIED] Source inventory and all 28 numbered lesson page ranges are reconciled. App-authored French teaching plans now cover all 28 lessons. CI/runtime verification is pending. This is not a full-year completion declaration.
+**Source content:** 109 book pages bearing the Ministry imprint; inspected Library PDF copy is 110 pages because a third-party promotional page is appended  
+**Evidence:** [VERIFIED] PDF pages 1–109 contain the book copy; PDF page 110 is a third-party promotional insert and is excluded. The Ministry/Central Administration copyright and 2026–2027 edition statement appears on PDF page 3 (front matter, not a numbered textbook page); the final imprint is PDF page 109. The copy is third-party assembled; its byte-level identity with the canonical Ministry URL is [UNPROVEN].  
+**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected book copy. App-authored French teaching plans cover all 28 lessons. CI, tests and production build passed on current `main` (`d094933379dddf7db6b37cfd419dae06caf3174d`); a live phone-sized walkthrough remains [UNPROVEN]. This is not a full-year completion declaration.
 
 ## Source identity and scope
 
@@ -13,6 +13,7 @@
 - Catalogue: https://miskeg.app/books/general-primary-5/
 - The catalogue identifies the Grade 5 French Science student book as a Term 1 Ministry book. Its listing currently contains Term 1 books only; Term 2 remains unverified.
 - The book's table of contents lists nine chapters beginning on printed pages 6, 20, 28, 44, 52, 64, 72, 80 and 92.
+- PDF pages 7–108 correspond to printed textbook pages 6–107. Use printed textbook page numbers in lesson records; PDF page 3 is unnumbered front matter, PDF page 109 is the final imprint, and PDF page 110 is the appended third-party advertisement.
 - The book also contains enrichment features and a scientific-method appendix on printed pages 104–107. These are required teaching material, not disposable decoration.
 - Do not cite any other-country or older teacher guide as an Egyptian 2026–2027 Ministry guide. No matching teacher guide was located in the sources checked. The Miss Noor guide must be labelled “derived from the Ministry student book”.
 
@@ -40,7 +41,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 
 | Lesson | Book title | Pages | Required teaching content |
 |---|---|---:|---|
-| 2-1 | Les changements au cours de l’année | 20–21 | Annual plant cycle; seasonal temperature changes; luffa seeds germinate in warm conditions; plant grows, flowers and produces fruits/seeds; winter dormancy/withering does not mean the cycle has ended. |
+| 2-1 | Les changements au cours de l’année | 20–21 | Annual plant cycle; seasonal temperature changes; luffa seeds germinate in warm conditions; plant grows, flowers and produces fruits/seeds; winter withering does not mean the cycle has ended because seeds remain for the next generation. |
 | 2-2 | Les animaux et la température | 22–25 | Activity of lizards, snakes and frogs changes with temperature; warm conditions increase activity; cold slows movement and some animals hibernate; some birds migrate to Egypt in winter. |
 | Enrichment | Le renard fennec et les vêtements traditionnels | 26–27 | Fennec ears help lose heat; fur under paws protects from hot sand; loose galabeya allows air circulation; light colour reflects more sunlight. |
 
@@ -56,11 +57,13 @@ Page ranges below are the printed page numbers visible in the student book. Each
 |---|---|---:|---|
 | 3-1 | À l’intérieur de la graine | 28–29 | Seed contains an embryo and cotyledons; cotyledons store starch; iodine solution turns dark blue in the presence of starch; germination is the emergence of a seedling and beginning of growth. |
 | 3-2 | L’eau et la germination | 30–33 | Fair test: compare moist and dry cotton; change only water availability; keep air, temperature and light conditions equivalent; seeds need water to germinate. |
-| 3-3 | L’air et la germination | 34–35 | Compare moist cotton exposed to air with seeds fully submerged; change air exposure only; keep water and temperature comparable; seeds need air. |
+| 3-3 | L’air et la germination | 34–35 | Compare moist cotton exposed to air with seeds fully submerged; change air exposure only; keep water, temperature and lighting comparable; seeds need air. |
 | 3-4 | La température et la germination | 36–39 | Compare warm and cold conditions; keep water, air and light comparable; appropriate warmth is needed for germination. |
 | 3-5 | Résumé de la germination | 40–42 | Three conditions: water, air and suitable temperature; if one is missing, seeds do not germinate; sunlight and fertilizer are needed for later plant growth, not for germination itself. |
 | Enrichment | Comparer les graines familières | 43 | Compare the shapes and colours of pea, date-palm, wheat, sunflower, cotton and maize seeds. |
-| Enrichment | Les graines et la dormance | 50–51 | Seed dormancy; dry conditions can preserve seeds; Nile floodplain soil and nutrient-rich silt support plant growth. |
+
+
+**Shared enrichment:** printed pp. 50–51 is one two-page feature for Chapters 3 and 4; it is listed once under Chapter 4, not counted twice.
 
 **Miss Noor lesson sequence:** inspect a soaked bean seed; identify seed coat, cotyledons and embryo; predict each experiment; explicitly name the changed variable and controlled variables; ask learner to interpret results; build a three-condition summary table. Use iodine only with adult supervision and never taste it.
 
@@ -74,9 +77,9 @@ Page ranges below are the printed page numbers visible in the student book. Each
 
 | Lesson | Book title | Pages | Required teaching content |
 |---|---|---:|---|
-| 4-1 | La lumière du Soleil et la croissance | 44–45 | Compare similar seedlings with and without sunlight; keep water and temperature similar; plants receiving appropriate sunlight develop greener leaves and stronger/thicker stems; sunlight supports food production for growth. |
-| 4-2 | L’engrais et la croissance | 46–49 | Compare similar plants with and without fertilizer; keep water, sunlight, temperature, soil and plant type consistent; nutrients in fertilizer support stronger/larger growth. |
-| Enrichment | Les graines anciennes et le Nil | 50–51 | Dormant seeds may remain inactive until conditions are suitable; Nile silt contains nutrients that support agriculture. |
+| 4-1 | La lumière du Soleil et la croissance | 44–45 | Compare similar seedlings with and without sunlight; keep water, air, temperature, fertilizer, soil and plant type constant; plants receiving appropriate sunlight develop greener leaves and stronger/thicker stems; sunlight supports food production for growth. |
+| 4-2 | L’engrais et la croissance | 46–49 | Compare similar plants with and without fertilizer; keep water, sunlight, air, temperature, soil and plant type consistent; nutrients in fertilizer support stronger/larger growth. |
+| Shared enrichment (Chapters 3 and 4) | Les graines magiques qui voyagent à travers des milliers d’années | 50–51 | Dormant seeds may remain inactive until conditions are suitable; Egypt’s dry conditions can preserve seeds; Nile silt contains nutrients that support agriculture. |
 
 **Miss Noor lesson sequence:** ask what a seedling needs after germination; contrast germination conditions with growth conditions; design two fair comparisons; record plant height/leaf colour; explain why fertilizer is not a substitute for light or water.
 
@@ -101,7 +104,7 @@ Page ranges below are the printed page numbers visible in the student book. Each
 
 **Book practice:** pp. 54, 59, 62–63.
 
-### Chapter 6 — La croissance et la reproduction chez l’être humain (pp. 64–71)
+### Chapter 6 — La croissance et la reproduction humaines (pp. 64–71)
 
 | Lesson | Book title | Pages | Required teaching content |
 |---|---|---:|---|
@@ -203,7 +206,18 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 
 ## Evidence boundary
 
-- **[VERIFIED]** The inspected 109-page student-book copy carries the Ministry 2026–2027 imprint; all nine chapter headings, 28 numbered lesson page ranges, enrichment sections and pp. 104–107 scientific skills are reconciled.
+- **[VERIFIED]** The inspected 109 book-content pages in a 110-page third-party-assembled PDF copy carry the Ministry 2026–2027 imprint; all nine chapter headings, 28 numbered lesson page ranges, enrichment sections and pp. 104–107 scientific skills are reconciled. The file's direct Ministry origin is not byte-verified.
 - **[VERIFIED]** The 28 lesson plans are app-authored teaching material derived from the student book, not official Ministry teacher-guide instructions.
 - **[BLOCKED]** Term 2 Science book; matching official teacher guide; question-by-question assessment-book inspection.
-- **[NOT YET VERIFIED]** CI, production build, deployment and phone-sized runtime lesson walkthrough.
+- **[VERIFIED]** CI, the full test suite, production build and Engineering Execution OS compliance passed on current main commit `d094933379dddf7db6b37cfd419dae06caf3174d`; Vercel's commit status reports success.
+- **[UNPROVEN]** Phone-sized runtime lesson walkthrough and direct verification of the custom-domain learner experience.
+
+
+## Addendum — 14 November 2026: source-copy and mainline verification
+
+- **[VERIFIED]** The Library PDF copy has 110 pages: 109 pages of book content plus a third-party promotional page at PDF page 110. The copy is 59,040,102 bytes; its SHA-256 is `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`.
+- **[VERIFIED]** The Ministry/Central Administration 2026–2027 imprint is visible on PDF page 3 (front matter) and the ISBN is visible on PDF page 109. The file metadata identifies PDFsharp and third-party site keywords. The canonical Ministry URL has not been hash-compared, so untouched official-file provenance remains [UNPROVEN].
+- **[VERIFIED]** The chapter 6 heading is now recorded exactly as `La croissance et la reproduction humaines`. The pp. 50–51 enrichment is recorded once as a joint Chapters 3–4 feature. The fair-test controls in lessons 3-3, 4-1 and 4-2 are aligned to the student-book instructions.
+- **[VERIFIED]** Current main commit `d094933379dddf7db6b37cfd419dae06caf3174d` passed CI run [43535411225](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411225) and compliance run [43535411162](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411162). `npm run lint`, `npm test` (39 suite summaries, 0 failures; curriculum registry 23 passed, 0 failed), and `npm run build` (1,792 modules; 575 ms) passed.
+- **[BLOCKED]** No matching 2026–2027 Egyptian Ministry French Science teacher guide or Term 2 student book is verified. The teaching pack remains app-authored; this is Term 1 only.
+- **[UNPROVEN]** Phone-sized learner walkthrough and custom-domain lesson behavior remain to be checked.
