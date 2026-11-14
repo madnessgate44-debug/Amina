@@ -82,7 +82,7 @@ export const MissionsScreen: React.FC<MissionsScreenProps> = ({ mode }) => {
   const homeworkAssignments = currentDayRecord?.homeworkAssigned || [];
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="mn-page flex-1 overflow-y-auto pb-24 space-y-5" dir={isAr ? 'rtl' : 'ltr'}>
       <div>
         <h1 className="text-2xl font-black">
           {mode === 'homework'

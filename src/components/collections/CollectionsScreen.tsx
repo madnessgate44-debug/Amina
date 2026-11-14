@@ -28,7 +28,7 @@ export const CollectionsScreen: React.FC = () => {
   const visible = selected ? items.filter((item) => selected.itemIds.includes(item.id)) : items;
 
   return (
-    <div className="flex-1 overflow-y-auto p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="mn-page flex-1 overflow-y-auto pb-24 space-y-5" dir={isAr ? 'rtl' : 'ltr'}>
       <div>
         <h1 className="text-2xl font-black">{isAr ? 'المحفوظات والمجموعات' : 'Saved & Collections'}</h1>
         <p className="text-xs text-slate-500 mt-1">{isAr ? 'كل ما حفظتيه من عالمك الدراسي في مكان واحد.' : 'Everything you saved from your learning world, in one place.'}</p>

@@ -147,7 +147,7 @@ export const CurriculumBrowser: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col p-3 sm:p-4 space-y-4 max-w-lg mx-auto w-full pb-24" dir={isAr ? 'rtl' : 'ltr'}>
+    <div className="mn-page flex-1 flex flex-col space-y-5 pb-24" dir={isAr ? 'rtl' : 'ltr'}>
       {/* 1. Header & Virtual Bookshelf Badge */}
       <div className="p-4 rounded-3xl bg-linear-to-br from-indigo-950 via-indigo-900 to-purple-950 text-white shadow-xl border border-indigo-700/60 space-y-3">
         <div className="flex items-center justify-between">

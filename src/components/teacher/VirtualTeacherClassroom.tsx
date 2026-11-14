@@ -1249,7 +1249,7 @@ export const VirtualTeacherClassroom: React.FC = () => {
 
   return (
     <div
-      className="flex-1 flex flex-col p-3 sm:p-4 max-w-lg mx-auto w-full pb-24 select-none space-y-2.5"
+      className="mn-page mn-classroom flex-1 flex flex-col pb-24 select-none space-y-3"
       dir={isArabic ? 'rtl' : 'ltr'}
     >
       {/* 1. TOP CLASSROOM BANNER: TEACHER BADGE, STARS JAR, AUDIO TEST & BELL */}

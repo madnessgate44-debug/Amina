@@ -79,7 +79,7 @@ export const ReviewScreen: React.FC = () => {
   };
 
   return (
-    <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4">
+    <div className="mn-page flex-1 flex flex-col pb-24 space-y-5">
       {/* Screen Header */}
       <div className="space-y-1">
         <div className="flex items-center justify-between">

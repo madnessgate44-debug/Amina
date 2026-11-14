@@ -1,4 +1,7 @@
 @import "tailwindcss";
+@import "./miss-noor-redesign.css";
+
+
 
 /* Miss Noor brand tokens (docs/BRAND_AND_PRODUCT_VISUAL_DIRECTION.md).
    Names are additive: the palette below is exposed as Tailwind utilities

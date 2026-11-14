@@ -29,8 +29,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ overlay = false }) => {
   ];
 
   return (
-    <nav className={`${overlay ? 'fixed bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md md:max-w-lg bg-slate-950/70 text-white/90 backdrop-blur-xl border-t border-white/10' : 'sticky bottom-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl border-t border-slate-200 dark:border-slate-800'} z-40 py-1.5 px-3 safe-bottom`}>
-      <div className="max-w-lg mx-auto grid grid-cols-4 gap-1">
+    <nav className={`${overlay ? 'mn-bottom-nav fixed bottom-0 left-1/2 -translate-x-1/2 w-full' : 'mn-bottom-nav sticky bottom-0'} z-40 py-1.5 px-3 safe-bottom`}>
+      <div className="mn-nav-grid grid grid-cols-4">
         {navItems.map((item) => {
           const isActive = activeTab === item.id;
           return (
@@ -38,7 +38,8 @@ export const BottomNav: React.FC<BottomNavProps> = ({ overlay = false }) => {
               key={item.id}
               type="button"
               onClick={() => setActiveTab(item.id)}
-              className={`flex flex-col items-center justify-center py-2 rounded-2xl transition-all cursor-pointer ${
+              aria-current={isActive ? "page" : undefined}
+              className={`mn-nav-item flex flex-col items-center justify-center cursor-pointer ${
                 isActive
                   ? overlay
                     ? 'text-white bg-white/20'

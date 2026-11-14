@@ -1,0 +1,146 @@
+/* Miss Noor Learning Studio — shared visual system.
+   Screen content and learning state remain owned by their existing components. */
+:root {
+  --mn-ink: #203b3a;
+  --mn-ink-soft: #526765;
+  --mn-paper: #fbf8f0;
+  --mn-paper-deep: #f2ede1;
+  --mn-teal: #176b63;
+  --mn-teal-dark: #104f4a;
+  --mn-mint: #dcefe5;
+  --mn-coral: #e9785d;
+  --mn-gold: #e7b85c;
+  --mn-lilac: #e9e4f4;
+  --mn-line: #e7e1d5;
+  --mn-shadow: 0 18px 48px rgba(32, 59, 58, .09);
+}
+html, body, #root { min-height: 100%; }
+body { color: var(--mn-ink); background: var(--mn-paper); }
+.mn-app-outer {
+  background:
+    radial-gradient(ellipse at 8% 0%, rgba(220,239,229,.72), transparent 34rem),
+    var(--mn-paper);
+  color: var(--mn-ink);
+}
+.mn-app-frame {
+  width: 100%;
+  max-width:  min(100%, 76rem);
+  min-height: 100dvh;
+  background: rgba(255,253,248,.94);
+  border-inline: 1px solid rgba(32,59,58,.07);
+  box-shadow: 0 0 70px rgba(32,59,58,.07);
+}
+.mn-topbar {
+  min-height: 72px;
+  padding: .75rem clamp(1rem, 3vw, 2rem);
+  background: rgba(255,253,248,.94);
+  border-bottom: 1px solid var(--mn-line);
+  backdrop-filter: blur(16px);
+}
+.mn-brand-mark {
+  width: 42px; height: 42px; border-radius: 15px;
+  display: grid; place-items: center;
+  color: #fff; background: var(--mn-teal);
+  box-shadow: 0 6px 14px rgba(23,107,99,.18);
+}
+.mn-brand-title { color: var(--mn-ink); letter-spacing: -.035em; }
+.mn-brand-subtitle { color: var(--mn-ink-soft); }
+.mn-page {
+  width: 100%; max-width: 72rem; margin-inline: auto;
+  padding: clamp(1rem, 3vw, 2rem);
+  padding-bottom: 7rem;
+  color: var(--mn-ink);
+}
+.mn-page h1, .mn-page h2, .mn-page h3 { letter-spacing: -.035em; }
+.mn-page h1 { font-size: clamp(1.65rem, 4vw, 2.35rem); line-height: 1.15; }
+.mn-page > header, .mn-page > .mn-page-heading { margin-bottom: 1.25rem; }
+.mn-panel {
+  border: 1px solid var(--mn-line);
+  border-radius: 1.5rem;
+  background: #fffdf8;
+  box-shadow: 0 8px 24px rgba(32,59,58,.045);
+}
+.mn-bottom-nav {
+  border-top: 1px solid var(--mn-line);
+  background: rgba(255,253,248,.96);
+  color: var(--mn-ink-soft);
+  box-shadow: 0 -8px 28px rgba(32,59,58,.045);
+  backdrop-filter: blur(18px);
+  padding: .45rem .75rem max(.5rem, env(safe-area-inset-bottom));
+}
+.mn-nav-grid { max-width: 42rem; margin-inline: auto; gap: .35rem; }
+.mn-nav-item {
+  min-height: 54px; border-radius: 17px; padding: .45rem .3rem;
+  color: var(--mn-ink-soft); transition: background .18s ease, color .18s ease;
+}
+.mn-nav-item[aria-current="page"] {
+  color: var(--mn-teal-dark); background: var(--mn-mint);
+}
+.mn-nav-item span { font-size: .72rem; font-weight: 800; }
+.mn-app-frame button { -webkit-tap-highlight-color: transparent; }
+.mn-app-frame button:focus-visible { outline: 3px solid var(--mn-coral); outline-offset: 3px; }
+.mn-app-frame :is(input, textarea, select) {
+  border-color: var(--mn-line);
+  border-radius: 14px;
+}
+@media (min-width: 768px) {
+  .mn-app-frame { border-radius: 0; }
+  .mn-page { padding-inline: 2.5rem; }
+}
+@media (max-width: 767px) {
+  .mn-app-frame { border: 0; }
+  .mn-topbar { min-height: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mn-app-frame *, .mn-app-frame *::before, .mn-app-frame *::after {
+    scroll-behavior: auto !important; transition-duration: .01ms !important;
+  }
+}
+
+/* The teacher-led home welcome is an editorial lesson invitation, not a KPI tile. */
+.mn-home-hero {
+  position: relative; overflow: hidden; isolation: isolate;
+  color: #fff; background: var(--mn-teal-dark);
+  border: 0; border-radius: 2rem;
+  box-shadow: var(--mn-shadow);
+}
+.mn-home-hero::after {
+  content: ""; position: absolute; inset: auto -3rem -5rem auto;
+  width: 17rem; height: 17rem; border: 1px solid rgba(255,255,255,.16);
+  border-radius: 50%; box-shadow: 0 0 0 2rem rgba(255,255,255,.035), 0 0 0 4rem rgba(255,255,255,.025);
+  pointer-events: none; z-index: -1;
+}
+.mn-home-hero p { color: rgba(255,255,255,.84); }
+.mn-home-hero .mn-teacher-kicker {
+  color: #f6d99a; font-size: .72rem; font-weight: 900; letter-spacing: .09em;
+}
+.mn-home-hero button { background: #f4d58e; color: #203b3a; border: 0; }
+.mn-page [class*="rounded-3xl"][class*="bg-white"],
+.mn-page [class*="rounded-2xl"][class*="bg-white"] {
+  border-color: var(--mn-line);
+}
+.mn-page [class*="text-slate-500"] { color: var(--mn-ink-soft); }
+
+.mn-feed-surface { background: #123e3b; }
+.mn-feed-surface > section:first-child > div:first-child {
+  background: linear-gradient(180deg, #1d5b53 0%, #123e3b 100%);
+}
+.mn-feed-surface [class*="bg-white/10"] {
+  background: rgba(255,253,248,.10);
+  border-color: rgba(255,253,248,.18);
+}
+
+/* Classroom keeps its teaching stations and state machine, but moves away from
+   the old indigo utility-panel palette. */
+.mn-classroom { background: transparent; }
+.mn-classroom [class*="bg-indigo-50"],
+.mn-classroom [class*="from-indigo-50"],
+.mn-classroom [class*="via-amber-50"],
+.mn-classroom [class*="to-purple-50"] {
+  background-color: #f4efe4;
+}
+.mn-classroom [class*="border-indigo-"] { border-color: #d9cdb8; }
+.mn-classroom [class*="text-indigo-"] { color: var(--mn-teal-dark); }
+.mn-classroom [class*="rounded-2xl"] { border-radius: 1.25rem; }
+.mn-classroom button { min-height: 44px; }
+.mn-classroom [class*="bg-white"] { background-color: #fffdf8; }
