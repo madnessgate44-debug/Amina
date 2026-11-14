@@ -3,7 +3,7 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Language:** French  
-**Status:** [VERIFIED] The 109-page Grade 5 French Science student-book copy has been inspected; all nine chapters, 28 numbered lessons, printed page ranges, enrichment sections and scientific-method appendix skills are reconciled. Maths remains TOC-only/partial.  
+**Status:** [VERIFIED] The 109 book-content pages in the inspected Library copy have been reconciled to all nine chapters, 28 numbered lessons, printed page ranges, enrichment sections and the scientific-method appendix. The PDF container has 110 pages because a third-party promotional page is appended. The copy carries the Ministry 2026–2027 imprint, but byte-for-byte identity with the canonical Ministry endpoint is [UNPROVEN]. Maths remains TOC-only/partial.  
 **Important:** This is a source manifest, not proof that Girard assigns every book or that the app already covers it.
 
 ## Official source files
@@ -12,7 +12,7 @@
 - **Sciences — livre de l'élève, semestre 1:** [Official Ministry PDF](https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf)
 - Catalogue reference: [Grade 5 2026–2027 Ministry first-term book list](https://miskeg.app/books/general-primary-5/)
 
-The canonical Ministry-hosted URLs above remain the source references. The inspected Science copy contains 109 PDF pages and carries the Ministry / Central Administration of Curriculum Development imprint and 2026–2027 edition on printed page 3; the final imprint page records ISBN 978-633-8530-17-4. The large Ministry Science endpoint was not directly retrievable through the browser tool in this run, so the copy's edition identity is grounded in its imprint and the canonical URL recorded above, not a byte-for-byte hash comparison. The full Science page-by-page inventory is now documented in grade-5-science-fr-term1-verified-lesson-map.md and grade-5-science-fr-term1-miss-noor-teacher-guide-2026-2027.md.
+The canonical Ministry-hosted URL remains the reference source. The Library copy inspected on 14 November 2026 is a 110-page PDF (59,040,102 bytes): PDF pages 1–109 contain the student-book copy; PDF page 110 is a third-party promotional insert and is excluded. The Ministry/Central Administration copyright and 2026–2027 edition statement appears on PDF page 3 (front matter, not a numbered textbook page); the final book imprint is on PDF page 109 and records ISBN 978-633-8530-17-4. PDF metadata identifies PDFsharp 1.50.4000-netstandard and third-party site keywords, so this is a third-party-assembled copy, not a verified direct Ministry download. Local-copy SHA-256: `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`. The canonical Ministry endpoint was not byte-for-byte compared; exact file identity remains [UNPROVEN]. The full Science page-by-page inventory is documented in grade-5-science-fr-term1-verified-lesson-map.md and grade-5-science-fr-term1-miss-noor-teacher-guide-2026-2027.md.
 
 ## 1. Maths — 46 listed lessons across 6 units
 
@@ -96,7 +96,7 @@ The canonical Ministry-hosted URLs above remain the source references. The inspe
 
 ## 2. Sciences — 9 chapters listed
 
-Full-page inspection of the 109-page student-book copy verifies the nine chapter headings, 28 numbered lessons, their printed page ranges, the activities and chapter exercises, six enrichment sections, and the scientific-method appendix on printed pages 104–107.
+Full-page inspection of the 109 book-content pages in the 110-page Library PDF copy verifies the nine chapter headings, 28 numbered lessons, their printed page ranges, the activities and chapter exercises, six enrichment sections, and the scientific-method appendix on printed pages 104–107.
 
 | Chapitre | Titre du livre (French) | Page |
 |---:|---|---:|
@@ -157,7 +157,7 @@ The four current Miss Noor French-language lessons therefore remain **UNVERIFIED
 - **[VERIFIED]** The 28 current-edition lessons have app-authored French teaching plans, separate from the Ministry student-book questions.
 - **[BLOCKED]** A matching 2026–2027 Ministry French Science teacher guide and the Term 2 Science student book.
 - **[UNVERIFIED]** Girard's exact assigned book/track and the separate assessment-book question alignment.
-- **[NOT YET VERIFIED]** CI, app runtime and deployment for the new teaching-pack integration.
+- **[VERIFIED]** Current-main CI, tests, production build and Engineering Execution OS compliance passed on `d094933379dddf7db6b37cfd419dae06caf3174d` on 14 November 2026. The Vercel commit status also reports success. **[UNPROVEN]** Phone-sized learner walkthrough and live lesson usability.
 
 
 ## 8. Separate Science assessment-book source discovery — 13 November 2026
@@ -188,3 +188,25 @@ The four current Miss Noor French-language lessons therefore remain **UNVERIFIED
 ## 11. Official teacher-guide search boundary
 
 **[BLOCKED]** Searches for the exact Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide did not locate a matching document. Search results for the Ministry's National International Curriculum (NIC) teaching guides describe a different curriculum and are not acceptable substitutes. The current Miss Noor guide remains app-authored from the student-book copy. If an exact Ministry guide is later found, reconcile it lesson by lesson and preserve provenance; do not overwrite app-authored material without source comparison.
+
+
+## 12. Source-copy provenance and release verification — 14 November 2026
+
+### Student-book copy provenance
+
+- **[VERIFIED]** The inspected Library file is `تحميل كتاب Science بالفرنساوي للصف الخامس الابتدائي الترم الاول PDF 2027.pdf`, 59,040,102 bytes, 110 PDF pages. PDF pages 1–109 contain the student-book copy; PDF page 110 is a third-party promotional insert and is excluded from the curriculum denominator.
+- **[VERIFIED]** The Ministry / Central Administration copyright and 2026–2027 edition statement appears on PDF page 3 (front matter; it is not a numbered textbook page). The final book imprint is PDF page 109 and records ISBN 978-633-8530-17-4. Printed lesson pages remain the page references used in the 28-lesson map; PDF pages 7–108 correspond to printed textbook pages 6–107.
+- **[VERIFIED]** PDF metadata identifies `PDFsharp 1.50.4000-netstandard`, and its keywords plus the appended page identify a third-party educational-download site. Local-copy SHA-256: `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`.
+- **[UNPROVEN]** The inspected third-party-assembled copy has not been byte-for-byte compared with the canonical Ministry-hosted PDF URL. The Ministry imprint is visible in the copy; this does not establish that the downloaded file is an untouched Ministry distribution.
+
+### Teacher-guide search
+
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide was verified. A third-party listing for a 2026–2027 `دفتر تحضير Science` is not enough to authenticate it as a Ministry teacher guide and is not substituted. The 28 lesson plans remain explicitly app-authored Miss Noor material derived from the inspected student-book copy.
+
+### Current-main verification
+
+- **[VERIFIED]** PR [#175](https://github.com/madnessgate44-debug/Amina/pull/175) is merged at `6a345c3f8543f6f4a42b8a5096d4dced587cd6b9`. Current `main` is `d094933379dddf7db6b37cfd419dae06caf3174d`.
+- **[PASS]** GitHub Actions CI run [43535411225](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411225): `npm run lint` (`tsc --noEmit`), `npm test` (39 suite summaries passed, 0 failed; curriculum registry 23 passed, 0 failed), and `npm run build` (Vite 8.3.5, 1,792 modules, 575 ms).
+- **[PASS]** Engineering Execution OS compliance run [43535411162](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411162).
+- **[VERIFIED]** GitHub's Vercel status for the current main commit is `success` with description `Deployment has completed`. This status alone does not prove a phone-sized learner walkthrough or independently verify the custom-domain experience.
+- **[UNPROVEN]** A live phone-sized French lesson walkthrough remains outstanding. No Term 2 or full-year completion claim is made.
