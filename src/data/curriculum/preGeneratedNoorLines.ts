@@ -312,6 +312,28 @@ const BASE_PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
  * They use the authored lesson concept and examples, so lesson start remains
  * available without a live model key or paid generation quota.
  */
+// Offline-first teacher lines for the four Grade 5 Unit 2 Social Studies lessons.
+BASE_PRE_GENERATED_NOOR_LINES["ar:off_soc_u2_l1_ancient_civilization_factors:0"] = {
+  intro: "أهلاً يا بطل! النهارده هنعرف إزاي اجتمعت عوامل الطبيعة وشغل الإنسان علشان تقوم الحضارة المصرية القديمة.",
+  explanation: "نهر النيل وفر الماء والتربة الخصبة، وساعد الموقع والمناخ على الاستقرار. لكن الحضارة احتاجت كمان لجهد الناس والجيش والحكومة المركزية وتنظيم الموارد. يعني الطبيعة وفرت الإمكانات والإنسان استخدمها بالتعاون والتخطيط.",
+  check: "اذكر عامل طبيعي وعامل بشري ساعدا على قيام الحضارة المصرية القديمة."
+};
+BASE_PRE_GENERATED_NOOR_LINES["ar:off_soc_u2_l2_prehistory:0"] = {
+  intro: "أهلاً يا بطل! هنرجع بالزمن ونتعرف على حياة الإنسان المصري قبل ما يعرف الكتابة.",
+  explanation: "في العصر الحجري القديم اعتمد الإنسان على الصيد وجمع النباتات وكان يتنقل بحثاً عن الغذاء. وبعدها تعلم الزراعة وتربية الحيوانات في العصر الحجري الحديث، فبدأ يستقر قرب نهر النيل. ومعرفة المعادن ساعدته يطور أدواته.",
+  check: "إيه الفرق بين طريقة الحصول على الغذاء في العصر الحجري القديم والعصر الحجري الحديث؟"
+};
+BASE_PRE_GENERATED_NOOR_LINES["ar:off_soc_u2_l3_historical_ages:0"] = {
+  intro: "أهلاً يا بطل! النهارده هنرتب أهم محطات تاريخ مصر القديمة ونشوف كل عصر اشتهر بإيه.",
+  explanation: "بدأ التاريخ المصري بتوحيد الشمال والجنوب على يد نعرمر. اشتهرت الدولة القديمة ببناء الأهرامات، وارتبطت الدولة الوسطى بالرخاء الاقتصادي، أما الدولة الحديثة فشهدت قوة وانتصارات عسكرية. الخط الزمني بيساعدنا نرتب الأحداث من الأقدم للأحدث.",
+  check: "ليه اتسمت الدولة القديمة بعصر بناة الأهرامات؟"
+};
+BASE_PRE_GENERATED_NOOR_LINES["ar:off_soc_u2_l4_ptolemaic_roman:0"] = {
+  intro: "أهلاً يا بطل! هنكمل رحلة تاريخ مصر ونتعرف على عصر البطالمة والرومان.",
+  explanation: "دخل الإسكندر الأكبر مصر وأسس الإسكندرية، وبعد وفاته حكم البطالمة مصر واهتموا بالعلم ومكتبة الإسكندرية. انتهى حكمهم بعد معركة أكتيوم، ثم أصبحت مصر تحت الحكم الروماني. ترتيب الأحداث بيوضح إزاي تعاقبت العصور على بلدنا.",
+  check: "اربط بين الإسكندر الأكبر ومدينة الإسكندرية، واذكر المعركة التي انتهى بعدها حكم البطالمة."
+};
+
 const CURRENT_SCIENCE_NOOR_LINES = Object.fromEntries(
   SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
     lesson.concepts.map((concept, index) => {
