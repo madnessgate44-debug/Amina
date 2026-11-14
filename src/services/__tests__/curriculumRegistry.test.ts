@@ -15,6 +15,7 @@ import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
+import { SCIENCE_FR_TEACHER_GUIDE_2026 } from '../../data/curriculum/scienceFrTeachingGuide2026';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
 import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
@@ -308,6 +309,28 @@ const teacherSequenceUiFields = ["activeTab === 'practice'", 'guidedPracticeFr',
 check(
   '2.10 learner lesson view exposes the complete teacher-plan practice sequence',
   teacherSequenceUiFields.every((field) => lessonStudyModalSource.includes(field)),
+);
+
+// 9. Plant-growth comparisons must name the exact controlled variables
+//    recorded in the student book, not rely on an ambiguous 'other conditions'.
+const sunlightPlan = SCIENCE_FR_TEACHER_GUIDE_2026['4-1'];
+const fertilizerPlan = SCIENCE_FR_TEACHER_GUIDE_2026['4-2'];
+const lowerFr = (value: string) => value.toLocaleLowerCase('fr');
+const sunlightControls = ['eau', 'air', 'température', 'engrais', 'type de sol', 'type de plante'];
+const fertilizerControls = ['eau', 'lumière du soleil', 'air', 'température', 'type de sol', 'type de plante'];
+const sunlightControlPrompt = sunlightPlan.independentPracticeFr[1]?.prompt ?? '';
+const fertilizerControlPrompt = fertilizerPlan.guidedPracticeFr[1]?.prompt ?? '';
+const fertilizerControlAnswer = fertilizerPlan.guidedPracticeFr[1]?.expectedAnswer ?? '';
+check(
+  '9.1 sunlight-growth lesson explicitly lists every controlled condition from the student book',
+  sunlightControls.every((term) => lowerFr(sunlightPlan.explanationFr).includes(term)) &&
+    sunlightControls.every((term) => lowerFr(sunlightControlPrompt).includes(term)),
+);
+check(
+  '9.2 fertilizer-growth lesson explicitly lists every controlled condition from the student book',
+  fertilizerControls.every((term) => lowerFr(fertilizerPlan.explanationFr).includes(term)) &&
+    fertilizerControls.every((term) => lowerFr(fertilizerControlPrompt).includes(term)) &&
+    fertilizerControls.every((term) => lowerFr(fertilizerControlAnswer).includes(term)),
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
