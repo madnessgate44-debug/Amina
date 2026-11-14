@@ -1,17 +1,17 @@
 # Grade 5 Sciences en français — Term 1 Miss Noor teaching pack
 
 **Edition:** Egypt Ministry of Education, Primary 5, 2026–2027, Term 1  
-**Source:** 109-page French Science student-book copy  
+**Source:** Third-party-assembled Library PDF containing 109 book-content pages plus an appended promotional page (110 PDF pages)  
 **Scope:** The nine chapters in the supplied Term 1 table of contents only  
-**Teaching-pack status:** [VERIFIED] 28 lesson plans are now represented in the app data; automated validation and deployment verification remain pending until CI completes.
+**Teaching-pack status:** [VERIFIED] All 28 app-authored lesson plans are represented in the app data. Current-main CI, tests, production build and compliance passed on 14 November 2026; phone-sized learner verification remains [UNPROVEN].
 
 ## Provenance and evidence boundary
 
-- The inspected student-book copy carries the Ministry of Education / Central Administration of Curriculum Development imprint and 2026–2027 edition information on printed page 3.
-- The final imprint page records ISBN **978-633-8530-17-4** and 112 as the printed book code; the PDF copy inspected in the Library contains 109 PDF pages, including front/back matter.
+- The inspected copy carries the Ministry of Education / Central Administration of Curriculum Development imprint and 2026–2027 edition information on PDF page 3 (front matter, not a numbered textbook page).
+- The final book imprint is PDF page 109 and records ISBN **978-633-8530-17-4**; its production table shows 112 in the page-count field. The Library PDF has 110 pages: pages 1–109 are the book copy and page 110 is a third-party promotional insert.
 - The canonical Ministry-hosted student-book endpoint is recorded in the source manifest:  
   https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf
-- The 109-page copy was inspected page by page for its nine chapter headings, lesson activities, questions, enrichment sections and scientific-skills appendix. The browser fetch of the large Ministry endpoint was not available in this run; the edition identity is grounded in the inspected book imprint and the canonical endpoint already recorded in the source manifest.
+- The 109 book-content pages in the 110-page Library PDF copy were inspected for the nine chapter headings, lesson activities, questions, enrichment sections and scientific-skills appendix. PDF metadata identifies PDFsharp and third-party site keywords. The canonical Ministry endpoint has not been byte-for-byte compared; the inspected copy's direct Ministry origin remains [UNPROVEN].
 - **[BLOCKED]** No matching Egyptian Ministry 2026–2027 French Science teacher guide was verified. Do not substitute a prior-year guide, an Arabic-only guide, a Moroccan guide, or another country's teacher guide.
 - The lesson plans below are **app-authored Miss Noor teaching material derived from the student book**. They are not Ministry teacher-guide content and are not textbook quotations.
 - The source book's own “Essaye”, “Entraîne-toi”, review and experiment questions remain distinct from the new app-authored practice and answer keys.
@@ -115,12 +115,12 @@ These four skills are indexed in SCIENCE_FR_TERM1_METHOD_SKILLS_2026.
 1. **[BLOCKED] Ministry teacher guide:** no matching 2026–2027 French Grade 5 Science guide has been verified. Continue using the clearly labelled app-authored guide until an exact matching source is found.
 2. **[BLOCKED] Term 2 Science:** the Term 2 student book and any matching teacher guide remain unsourced. Do not claim full-year completion.
 3. **[UNPROVEN] Assessment-book alignment:** the separate assessment-book PDF has not yet been inspected question by question in this work item.
-4. **[NOT YET VERIFIED] Runtime:** the new teaching-plan fields and French modal changes require CI, build and a phone-sized lesson walkthrough before deployment can be claimed.
+4. **[VERIFIED] CI/build:** current main passed typecheck, the full test suite, production build and Engineering Execution OS compliance. **[UNPROVEN] Runtime:** a phone-sized French lesson walkthrough is still required before learner usability is claimed.
 5. **[VERIFIED] Scope:** this work is Grade 5 Science only; no unrelated subject was changed.
 
 ## Evidence labels
 
-- **[VERIFIED]** The inspected student-book copy's Ministry imprint and 2026–2027 edition; 109 PDF pages; nine chapter headings; 28 numbered lesson page ranges; six enrichment sections; and four scientific-method appendix skills.
+- **[VERIFIED]** The inspected copy's Ministry imprint and 2026–2027 edition; 109 book-content pages in a 110-page PDF; nine chapter headings; 28 numbered lesson page ranges; six enrichment sections; and four scientific-method appendix skills. The direct Ministry-file provenance remains [UNPROVEN].
 - **[VERIFIED]** The app-authored teaching-plan data structure now contains a complete French explanation, worked example, guided practice, independent practice, answer key, misconception diagnosis, remediation and mastery checks for each of the 28 Term 1 lessons.
 - **[BLOCKED]** Matching Ministry teacher guide and Term 2 Science student book.
 - **[UNPROVEN]** Production deployment and live learner walkthrough until CI and runtime evidence are available.
@@ -137,3 +137,21 @@ The current-mainline integration adds a dedicated **Practice / Pratique** tab to
 - Mastery-check prompts, success criteria and revealable expected answers.
 
 The teaching plan remains original Miss Noor material. This interface does not turn it into an official Ministry teacher guide. Automated CI and a live French learner walkthrough on a phone are still required before the integration is declared verified in production.
+
+
+## Verification and source-copy addendum — 14 November 2026
+
+### Source provenance
+
+The Library PDF is 110 pages, 59,040,102 bytes. Pages 1–109 contain the book copy; page 110 is a third-party promotional insert. PDF page 3 contains the Ministry/Central Administration 2026–2027 copyright statement; PDF page 109 contains ISBN 978-633-8530-17-4. The PDF metadata identifies PDFsharp 1.50.4000-netstandard and third-party site keywords. Local SHA-256: `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`.
+
+**[UNPROVEN]** The Library copy has not been byte-for-byte compared with the canonical Ministry-hosted endpoint. It is a third-party-assembled copy bearing the Ministry imprint, not a verified untouched Ministry download.
+
+### Mainline verification
+
+- **[VERIFIED]** PR [#175](https://github.com/madnessgate44-debug/Amina/pull/175) merged at `6a345c3f8543f6f4a42b8a5096d4dced587cd6b9`; current main is `d094933379dddf7db6b37cfd419dae06caf3174d`.
+- **[PASS]** CI [43535411225](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411225): `npm run lint`, `npm test` (39 suite summaries passed, 0 failed; curriculum registry 23 passed, 0 failed), and `npm run build` (Vite 8.3.5, 1,792 modules, 575 ms).
+- **[PASS]** Engineering Execution OS compliance [43535411162](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411162).
+- **[VERIFIED]** Vercel's status check on current main reports `success` / `Deployment has completed`; the status does not replace a live learner walkthrough.
+- **[BLOCKED]** No matching 2026–2027 Egyptian Ministry French Science teacher guide or Term 2 student book is verified. The 28-lesson pack remains app-authored and Term 1 only.
+- **[UNPROVEN]** Phone-sized French learner walkthrough and custom-domain behavior.

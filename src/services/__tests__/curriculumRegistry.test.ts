@@ -15,6 +15,7 @@ import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
+import { SCIENCE_FR_TEACHER_GUIDE_2026 } from '../../data/curriculum/scienceFrTeachingGuide2026';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
 import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
@@ -308,6 +309,58 @@ const teacherSequenceUiFields = ["activeTab === 'practice'", 'guidedPracticeFr',
 check(
   '2.10 learner lesson view exposes the complete teacher-plan practice sequence',
   teacherSequenceUiFields.every((field) => lessonStudyModalSource.includes(field)),
+);
+
+// 9. Plant-growth comparisons must name the exact controlled variables
+//    recorded in the student book, not rely on an ambiguous 'other conditions'.
+const sunlightPlan = SCIENCE_FR_TEACHER_GUIDE_2026['4-1'];
+const fertilizerPlan = SCIENCE_FR_TEACHER_GUIDE_2026['4-2'];
+const lowerFr = (value: string) => value.toLocaleLowerCase('fr');
+const sunlightControls = ['eau', 'air', 'température', 'engrais', 'type de sol', 'type de plante'];
+const fertilizerControls = ['eau', 'lumière', 'air', 'température', 'type de sol', 'type de plante'];
+const sunlightControlPrompt = sunlightPlan.independentPracticeFr[1]?.prompt ?? '';
+const fertilizerControlAnswer = fertilizerPlan.guidedPracticeFr[1]?.expectedAnswer ?? '';
+check(
+  '9.1 sunlight-growth lesson explicitly lists every controlled condition from the student book',
+  sunlightControls.every((term) => lowerFr(sunlightPlan.explanationFr).includes(term)) &&
+    sunlightControls.every((term) => lowerFr(sunlightControlPrompt).includes(term)),
+);
+check(
+  '9.2 fertilizer-growth lesson explicitly lists every controlled condition from the student book',
+  fertilizerControls.every((term) => lowerFr(fertilizerPlan.explanationFr).includes(term)) &&
+    fertilizerControls.every((term) => lowerFr(fertilizerControlAnswer).includes(term)),
+);
+
+const expectedTeacherSourcePages: Record<string, string> = {
+  '1-1': '6–7', '1-2': '8–11', '1-3': '12–13', '1-4': '14–17',
+  '2-1': '20–21', '2-2': '22–25',
+  '3-1': '28–29', '3-2': '30–33', '3-3': '34–35', '3-4': '36–39', '3-5': '40–42',
+  '4-1': '44–45', '4-2': '46–49',
+  '5-1': '52–54', '5-2': '55–59', '5-3': '60–62',
+  '6-1': '64–65', '6-2': '66–67', '6-3': '68–71',
+  '7-1': '72–73', '7-2': '74–75', '7-3': '76–79',
+  '8-1': '80–81', '8-2': '82–85', '8-3': '86–89',
+  '9-1': '92–93', '9-2': '94–97', '9-3': '98–101',
+};
+const teacherSourceRangeMismatches = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) => {
+  const key = `${lesson.unitNumber}-${lesson.lessonNumber}`;
+  const expected = expectedTeacherSourcePages[key];
+  const plan = SCIENCE_FR_TEACHER_GUIDE_2026[key];
+  const expectedStartPage = expected ? Number(expected.split('–')[0]) : Number.NaN;
+  return !expected || !plan || plan.sourcePages !== expected || lesson.sourceRef.page !== expectedStartPage;
+});
+check(
+  '9.3 all 28 French Science lessons retain their exact audited printed page ranges',
+  Object.keys(expectedTeacherSourcePages).length === 28 &&
+    SCIENCE_FR_CURRICULUM_2026_LESSONS.length === 28 &&
+    teacherSourceRangeMismatches.length === 0,
+);
+const teacherPlansWithWrongProvenance = Object.values(SCIENCE_FR_TEACHER_GUIDE_2026).filter(
+  (plan) => plan.provenance !== 'app_authored' || !plan.sourceEdition.includes('2026–2027'),
+);
+check(
+  '9.4 all 28 teacher plans remain labelled app-authored for the 2026–2027 source edition',
+  Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && teacherPlansWithWrongProvenance.length === 0,
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
