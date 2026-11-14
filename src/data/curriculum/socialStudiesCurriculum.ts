@@ -263,10 +263,10 @@ export const SOCIAL_STUDIES_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     subjectId: 'subj_social_studies',
     subjectNameAr: 'الدراسات الاجتماعية',
     subjectNameEn: 'Social Studies',
-    unitNumber: 2,
-    unitNameAr: 'الوحدة الثانية: الموارد والتنمية في بلدي مصر',
-    unitNameEn: 'Unit 2: Resources & Development in Egypt',
-    lessonNumber: 1,
+    unitNumber: 3,
+    unitNameAr: 'الوحدة الثالثة: كنوز مصر',
+    unitNameEn: 'Unit 3: Egypt’s Treasures',
+    lessonNumber: 2,
     titleAr: 'الموارد المائية وترشيدها في مصر',
     titleEn: 'Water Resources & Modern Conservation in Egypt',
     originTag: 'official',
@@ -387,3 +387,157 @@ export const SOCIAL_STUDIES_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     ],
   },
 ];
+
+/**
+ * 2026/2027 Unit 2 gap fill. Lesson titles and scope are cross-checked against
+ * the current Grade 5 Social Studies index; explanations are Miss Noor-authored.
+ */
+type SocialGapSpec = {
+  id:string; lessonNumber:number; titleAr:string; titleEn:string;
+  objectives:string[]; readingText:string;
+  vocabulary:{word:string;definition:string}[];
+  questions:{question:string;options:string[];answer:string}[];
+  keyPoints:string[]; exampleAr:string; exampleEn:string;
+  analogyAr:string; analogyEn:string; correction:string;
+};
+function makeSocialGapLesson(spec:SocialGapSpec):OfficialCurriculumLesson {
+  const wrong=spec.questions.flatMap((q,qi)=>q.options.filter(o=>o!==q.answer).map((option,wi)=>({
+    id:spec.id+'_mis_'+(qi+1)+'_'+(wi+1),trigger:option,
+    explanation:'اختيار «'+option+'» لا يطابق الدليل التاريخي أو الجغرافي الذي يسأل عنه السؤال.',
+    remediation:'بص يا بطل، '+spec.correction,
+  })));
+  return {
+    id:spec.id,subjectId:'subj_social_studies',
+    subjectNameAr:'الدراسات الاجتماعية',subjectNameEn:'Social Studies',
+    unitNumber:2,unitNameAr:'الوحدة الثانية: الحضارة المصرية القديمة',
+    unitNameEn:'Unit 2: Ancient Egyptian Civilization',
+    lessonNumber:spec.lessonNumber,titleAr:spec.titleAr,titleEn:spec.titleEn,
+    originTag:'official',isAvailable:true,
+    sourceRef:{
+      book:'كتاب الدراسات الاجتماعية 1 — الصف الخامس الابتدائي — الفصل الدراسي الأول 2026/2027',
+      bookAr:'الدراسات الاجتماعية — الوحدة الثانية: الحضارة المصرية القديمة',
+      bookEn:'Social Studies 1 — Unit 2: Ancient Egyptian Civilization',
+      grade:'الصف الخامس',term:'الفصل الدراسي الأول 2026/2027',
+      unit:'الوحدة الثانية',lesson:spec.titleAr,
+      page:'غير محدد في الفهرس الإلكتروني المتاح',isAvailable:true,
+    },
+    objectives:spec.objectives,readingText:spec.readingText,vocabulary:spec.vocabulary,
+    exercises:spec.questions.map(q=>({type:'multiple_choice' as const,question:q.question,options:q.options,expectedAnswer:q.answer})),
+    concepts:[{
+      id:spec.id+'_c1',conceptNumber:1,titleAr:spec.titleAr,titleEn:spec.titleEn,
+      sourceText:spec.readingText,keyPoints:spec.keyPoints,
+      dailyLifeExampleAr:spec.exampleAr,dailyLifeExampleEn:spec.exampleEn,
+      storyAnalogyAr:spec.analogyAr,storyAnalogyEn:spec.analogyEn,
+      prerequisiteAr:'معرفة موقع مصر ونهر النيل وقراءة خط زمني بسيط.',
+      prerequisiteEn:'Basic knowledge of Egypt, the Nile, and simple timelines.',
+      visualType:'timeline',misconceptions:wrong,
+      distractors:wrong.map(m=>m.trigger+'|'+m.id),
+    }],
+  };
+}
+const SOCIAL_UNIT_2_GAP_LESSONS:OfficialCurriculumLesson[]=[
+makeSocialGapLesson({
+id:'off_soc_u2_l1_ancient_civilization_factors',lessonNumber:1,
+titleAr:'عوامل قيام الحضارة المصرية القديمة',titleEn:'Factors Behind the Rise of Ancient Egyptian Civilization',
+objectives:[
+'يحدد العوامل الطبيعية التي ساعدت على قيام الحضارة المصرية القديمة، وفي مقدمتها نهر النيل والموقع والمناخ.',
+'يميز بين العوامل الطبيعية والعوامل البشرية مثل الجيش والحكومة المركزية والعمل المنظم.',
+'يفسر كيف ساعد استقرار مياه النيل وقياس الفيضان على الزراعة وتنظيم حياة السكان.'
+],
+readingText:"قامت الحضارة المصرية القديمة في وادي النيل؛ فقد وفر النهر الماء اللازم للشرب والزراعة، وترك الفيضان تربة خصبة تساعد على نمو المحاصيل. كما ساعد الموقع والمناخ والموارد الطبيعية على استقرار السكان وتكوين مجتمعات متعاونة.\n\nلم تكن الطبيعة وحدها كافية لبناء حضارة عظيمة. فقد احتاج المصريون إلى العمل والتعاون، وإلى جيش يحمي البلاد، وحكومة مركزية تنظم شؤون الناس وتدير الموارد والمشروعات.\n\nوكان قياس مستوى مياه النيل مهماً لمعرفة قوة الفيضان وتوقع أثره في الزراعة. وعندما اجتمعت الموارد الطبيعية مع التنظيم والعمل البشري، استطاع المصريون بناء مجتمع مستقر وترك آثار عظيمة.",
+vocabulary:[
+{word:'الحضارة',definition:'إنجازات الإنسان في العلم والعمل والتنظيم والفنون عبر الزمن.'},
+{word:'الحكومة المركزية',definition:'جهة تتولى إدارة شؤون الدولة وتنظيمها وتطبيق القوانين.'},
+{word:'الفيضان',definition:'ارتفاع مياه النهر وخروجها إلى الأراضي المجاورة في موسم معين.'}
+],
+questions:[
+{question:'أي عامل طبيعي وفر الماء والتربة الخصبة للزراعة في مصر القديمة؟',options:['نهر النيل','الجيش','الحكومة المركزية','الكتابة الهيروغليفية'],answer:'نهر النيل'},
+{question:'أي مما يلي يعد عاملاً بشرياً ساعد على تنظيم الدولة؟',options:['الحكومة المركزية','التربة الطينية','مياه النيل','المناخ'],answer:'الحكومة المركزية'}
+],
+keyPoints:['نهر النيل وفر الماء والتربة الخصبة وساعد على الاستقرار.','الجيش والحكومة المركزية من العوامل البشرية.','التنظيم وقياس الفيضان ساهما في إدارة الزراعة والموارد.'],
+exampleAr:'عندما يتعاون سكان القرية لتنظيم الري وتقسيم المياه بعدل، فهم يستخدمون التنظيم لخدمة المجتمع.',
+exampleEn:'A village coordinating irrigation fairly is using organization to support its community.',
+analogyAr:'الحضارة مثل بيت كبير؛ الطبيعة توفر الأرض والماء، والناس يبنونه بالتعاون والتنظيم.',
+analogyEn:'Civilization is like a large home: nature provides the land and water, while people build it through cooperation.',
+correction:'فرّق بين ما توفره الطبيعة مثل النيل والتربة، وما يصنعه الإنسان مثل الجيش والحكومة والتنظيم.'
+}),
+makeSocialGapLesson({
+id:'off_soc_u2_l2_prehistory',lessonNumber:2,
+titleAr:'حياة المصري القديم: عصور ما قبل التاريخ',titleEn:'Life of Ancient Egyptians: Prehistoric Periods',
+objectives:[
+'يرتب بصورة عامة العصر الحجري القديم والعصر الحجري الحديث وعصر المعادن ضمن عصور ما قبل التاريخ.',
+'يصف بعض أنشطة الإنسان المصري القديم مثل الصيد وجمع الغذاء ثم الزراعة والاستقرار وصناعة الأدوات.',
+'يفسر ارتباط انتقال الإنسان إلى وادي النيل بتغير الظروف البيئية وتوافر الماء والغذاء.'
+],
+readingText:"عصور ما قبل التاريخ هي الفترات التي سبقت معرفة الإنسان بالكتابة. في العصر الحجري القديم عاش الإنسان في جماعات صغيرة، واعتمد على الصيد وجمع النباتات والثمار، وصنع أدوات بسيطة من الحجر. وكان يبحث عن الماء والغذاء ويتنقل من مكان إلى آخر.\n\nومع تغير المناخ وقلة الأمطار في بعض المناطق، اتجه الإنسان إلى وادي النيل حيث الماء والحياة. وفي العصر الحجري الحديث تعلم الزراعة وتربية الحيوانات، فبدأ يستقر في مساكن وقرى، وصنع أدوات أكثر ملاءمة لأعماله.\n\nثم عرف الإنسان استخدام المعادن في صناعة أدوات وأشياء أكثر قوة. وتطورت التجمعات البشرية في مصر حتى ظهرت مجتمعات منظمة وممالك في الشمال والجنوب، ومهد ذلك لقيام الدولة المصرية القديمة.",
+vocabulary:[
+{word:'ما قبل التاريخ',definition:'الزمن الذي سبق معرفة الإنسان بالكتابة وتسجيل الأحداث.'},
+{word:'الصيد',definition:'الحصول على الحيوانات البرية لتوفير الغذاء.'},
+{word:'الاستقرار',definition:'الإقامة في مكان واحد بدلاً من التنقل المستمر.'},
+{word:'عصر المعادن',definition:'مرحلة عرف فيها الإنسان استخدام المعادن لصناعة الأدوات.'}
+],
+questions:[
+{question:'كيف كان الإنسان يحصل غالباً على غذائه في العصر الحجري القديم؟',options:['الصيد وجمع النباتات','الزراعة المنظمة فقط','المصانع الحديثة','التجارة البحرية الواسعة'],answer:'الصيد وجمع النباتات'},
+{question:'ما الذي ساعد الإنسان على الاستقرار في وادي النيل؟',options:['توافر الماء والغذاء','اختفاء الأنهار','قلة النباتات','عدم وجود حيوانات'],answer:'توافر الماء والغذاء'}
+],
+keyPoints:['ما قبل التاريخ سبق معرفة الكتابة.','اعتمد الإنسان القديم على الصيد والجمع ثم تعلم الزراعة والاستقرار.','ساعد وادي النيل على قيام تجمعات بشرية أكثر استقراراً.'],
+exampleAr:'عندما يزرع الإنسان حديقة صغيرة ويعتني بها بدلاً من البحث كل يوم عن طعامه، فهذا يشبه الانتقال إلى الاستقرار.',
+exampleEn:'Growing and caring for a garden instead of constantly searching for food illustrates settled life.',
+analogyAr:'تطور حياة الإنسان مثل تعلم مهارة جديدة: يبدأ بأدوات بسيطة ثم يطورها مع الخبرة.',
+analogyEn:'Human development is like learning a skill: people begin with simple tools and improve them over time.',
+correction:'رتّب الفترات وتذكر أن الصيد والجمع ارتبطا بالعصر الحجري القديم، والزراعة والاستقرار بالعصر الحجري الحديث.'
+}),
+makeSocialGapLesson({
+id:'off_soc_u2_l3_historical_ages',lessonNumber:3,
+titleAr:'حياة المصري القديم: العصور التاريخية',titleEn:'Life of Ancient Egyptians: Historical Periods',
+objectives:[
+'يشرح أهمية توحيد مملكتي الشمال والجنوب في بداية التاريخ المصري القديم.',
+'يميز بصورة عامة بين العصر العتيق والدولة القديمة والدولة الوسطى والدولة الحديثة.',
+'يربط بعض إنجازات الملوك بعصورهم مثل بناء الأهرامات والرخاء الاقتصادي والانتصارات العسكرية.'
+],
+readingText:"بدأت العصور التاريخية عندما عرف الإنسان الكتابة وأصبح قادراً على تسجيل الأحداث. ومن الأحداث المهمة في بداية تاريخ مصر توحيد مملكتي الشمال والجنوب على يد الملك نعرمر المعروف أيضاً بمينا، فبدأت مرحلة جديدة من وحدة البلاد وتنظيم الحكم.\n\nاشتهرت الدولة القديمة ببناء الأهرامات، لذلك عُرفت بعصر بناة الأهرام. أما الدولة الوسطى فارتبطت بالرخاء الاقتصادي والمشروعات التي دعمت الزراعة والري. وتوضح هذه العصور كيف تطورت الدولة وأعمال ملوكها عبر الزمن.\n\nوفي الدولة الحديثة اتسعت قوة مصر وحققت انتصارات عسكرية، وبرز ملوك مثل تحتمس الثالث ورمسيس الثاني. ويساعد الخط الزمني على ترتيب الأحداث من الأقدم إلى الأحدث وفهم أن لكل عصر خصائصه وإنجازاته.",
+vocabulary:[
+{word:'العصور التاريخية',definition:'الفترات التي بدأت بعد معرفة الإنسان بالكتابة وتسجيل الأحداث.'},
+{word:'التوحيد',definition:'جمع مملكتي الشمال والجنوب في دولة واحدة.'},
+{word:'الخط الزمني',definition:'وسيلة لترتيب الأحداث بحسب زمن وقوعها.'},
+{word:'بناة الأهرام',definition:'اسم اشتهرت به الدولة القديمة بسبب بناء الأهرامات.'}
+],
+questions:[
+{question:'من الملك الذي ارتبط بتوحيد مملكتي الشمال والجنوب؟',options:['نعرمر (مينا)','تحتمس الثالث','كليوباترا السابعة','بطلميوس الأول'],answer:'نعرمر (مينا)'},
+{question:'لماذا سميت الدولة القديمة بعصر بناة الأهرام؟',options:['لإنشاء الأهرامات الضخمة','لاكتشاف الطباعة','لبناء مكتبة الإسكندرية','لإنشاء قناة السويس'],answer:'لإنشاء الأهرامات الضخمة'}
+],
+keyPoints:['توحيد الشمال والجنوب أسس دولة مصرية موحدة.','الدولة القديمة اشتهرت ببناء الأهرامات.','الدولة الوسطى ارتبطت بالرخاء، والحديثة بالانتصارات والتوسع.'],
+exampleAr:'ترتيب أحداث حياة الأسرة على خط زمني يساعدنا على فهم أيها حدث أولاً وأيها جاء بعده.',
+exampleEn:'Placing family events on a timeline helps show which happened first and which came later.',
+analogyAr:'الخط الزمني مثل سلم درجات؛ كل درجة تمثل فترة، ونصعد عليه من الأقدم إلى الأحدث.',
+analogyEn:'A timeline is like a staircase, with each step representing a period from earlier to later.',
+correction:'استخدم الخط الزمني: مينا والتوحيد أولاً، ثم عصور الدولة القديمة والوسطى والحديثة بإنجازاتها المختلفة.'
+}),
+makeSocialGapLesson({
+id:'off_soc_u2_l4_ptolemaic_roman',lessonNumber:4,
+titleAr:'مصر في عصري البطالمة والرومان',titleEn:'Egypt under the Ptolemies and Romans',
+objectives:[
+'يتتبع بصورة مبسطة انتقال الحكم في مصر بعد دخول الإسكندر الأكبر ثم قيام دولة البطالمة.',
+'يتعرف دور الإسكندر في تأسيس مدينة الإسكندرية ودور البطالمة في إنشاء مكتبتها القديمة.',
+'يفسر انتهاء حكم البطالمة بعد معركة أكتيوم البحرية ووقوع مصر تحت الحكم الروماني.'
+],
+readingText:"دخل الإسكندر الأكبر مصر في القرن الرابع قبل الميلاد، وأسس مدينة الإسكندرية التي أصبحت مركزاً مهماً للتجارة والثقافة. وبعد وفاته تولى بطلميوس الأول حكم مصر، وبدأ عصر البطالمة الذين اهتموا بالإدارة والعلم، ومن أشهر إنجازاتهم مكتبة الإسكندرية القديمة.\n\nكانت كليوباترا السابعة آخر ملوك البطالمة. وفي عام 31 قبل الميلاد هُزمت قواتها في معركة أكتيوم البحرية أمام الرومان، وانتهى بذلك حكم البطالمة وأصبحت مصر ولاية رومانية. وخلال الحكم الروماني تعرض المصريون لضرائب وظلم، وضعفت أحوال كثير منهم.\n\nدخل الإسلام مصر عام 641 ميلادياً بقيادة عمرو بن العاص، ورحب كثير من المصريين بالفتح بعد معاناتهم من الحكم البيزنطي. ويساعد ترتيب هذه الأحداث على فهم تعاقب العصور وتأثيرها في تاريخ مصر.",
+vocabulary:[
+{word:'الإمبراطورية',definition:'دولة واسعة تسيطر على أقاليم وشعوب متعددة.'},
+{word:'البطالمة',definition:'أسرة حكمت مصر بعد وفاة الإسكندر الأكبر.'},
+{word:'أكتيوم',definition:'معركة بحرية عام 31 ق.م انتهى بعدها حكم البطالمة في مصر.'},
+{word:'ولاية رومانية',definition:'إقليم خاضع لحكم الدولة الرومانية.'}
+],
+questions:[
+{question:'من أسس مدينة الإسكندرية بعد دخوله مصر؟',options:['الإسكندر الأكبر','نعرمر','رمسيس الثاني','عمرو بن العاص'],answer:'الإسكندر الأكبر'},
+{question:'ما المعركة التي انتهى بعدها حكم البطالمة في مصر؟',options:['أكتيوم البحرية','قادش','مجدو','حطين'],answer:'أكتيوم البحرية'}
+],
+keyPoints:['أسس الإسكندر مدينة الإسكندرية، ثم حكم البطالمة مصر بعد وفاته.','اشتهرت مكتبة الإسكندرية القديمة بالعلم والثقافة.','هزيمة كليوباترا في أكتيوم أنهت حكم البطالمة وبدأ الحكم الروماني.'],
+exampleAr:'زيارة مكتبة عامة اليوم تذكرنا بأهمية المؤسسات الثقافية التي تجمع الكتب والمعرفة مثل مكتبة الإسكندرية القديمة.',
+exampleEn:'A modern public library reminds us why cultural institutions such as the ancient Library of Alexandria mattered.',
+analogyAr:'تعاقب العصور مثل فصول كتاب التاريخ؛ كل فصل له حكامه وأحداثه، لكنه يكمل ما قبله.',
+analogyEn:'Historical periods are like chapters in a history book: each has its own rulers and events.',
+correction:'اربط الإسكندر بتأسيس الإسكندرية، والبطالمة بمكتبتها، وأكتيوم بنهاية حكمهم وبداية الحكم الروماني.'
+})
+];
+SOCIAL_STUDIES_CURRICULUM_LESSONS.push(...SOCIAL_UNIT_2_GAP_LESSONS);
