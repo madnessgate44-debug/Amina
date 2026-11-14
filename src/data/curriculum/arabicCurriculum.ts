@@ -568,3 +568,134 @@ export const ARABIC_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     ],
   },
 ];
+
+/**
+ * Verified 2026/2027 Term 1 gaps. Lesson titles are taken from the current
+ * curriculum outline; explanations and exercises are Miss Noor-authored.
+ * المفعول المطلق والاسم المجرور are Term 2 topics in the available 2025/2026
+ * sources, so they are intentionally not mislabeled as 2026/2027 Term 1.
+ */
+type ArabicGapSpec = {
+ id:string; unitNumber:number; unitNameAr:string; unitNameEn:string;
+ lessonNumber:number; titleAr:string; titleEn:string; lessonLabel:string;
+ objectives:string[]; readingText:string; vocabulary:{word:string;definition:string}[];
+ questions:{question:string;options:string[];answer:string}[];
+ keyPoints:string[]; exampleAr:string; exampleEn:string; analogyAr:string; analogyEn:string; correction:string;
+};
+function makeArabicGapLesson(spec:ArabicGapSpec):OfficialCurriculumLesson {
+ const wrong=spec.questions.flatMap((q,qi)=>q.options.filter(o=>o!==q.answer).map((option,wi)=>({
+  id:spec.id+'_mis_'+(qi+1)+'_'+(wi+1),trigger:option,
+  explanation:'اختيار «'+option+'» لا يحقق القاعدة أو الغرض المطلوب في السؤال.',
+  remediation:'بصي يا بطلة، '+spec.correction,
+ })));
+ return {
+  id:spec.id,subjectId:'subj_arabic',subjectNameAr:'اللغة العربية',subjectNameEn:'Arabic Language',
+  unitNumber:spec.unitNumber,unitNameAr:spec.unitNameAr,unitNameEn:spec.unitNameEn,
+  lessonNumber:spec.lessonNumber,titleAr:spec.titleAr,titleEn:spec.titleEn,
+  originTag:'official',isAvailable:true,
+  sourceRef:{
+   book:'كتاب اللغة العربية — الصف الخامس الابتدائي — الفصل الدراسي الأول 2026/2027',
+   bookAr:'اللغة العربية — كتاب الوزارة — الفصل الدراسي الأول',
+   bookEn:'Arabic Ministry Student Book — Grade 5 — Term 1',
+   grade:'الصف الخامس',term:'الفصل الدراسي الأول 2026/2027',
+   unit:spec.unitNameAr,lesson:spec.lessonLabel,
+   page:'غير محدد في الفهرس المفتوح',isAvailable:true,
+  },
+  objectives:spec.objectives,readingText:spec.readingText,vocabulary:spec.vocabulary,
+  exercises:spec.questions.map(q=>({type:'multiple_choice' as const,question:q.question,options:q.options,expectedAnswer:q.answer})),
+  concepts:[{
+   id:spec.id+'_c1',conceptNumber:1,titleAr:spec.titleAr,titleEn:spec.titleEn,
+   sourceText:spec.readingText,keyPoints:spec.keyPoints,
+   dailyLifeExampleAr:spec.exampleAr,dailyLifeExampleEn:spec.exampleEn,
+   storyAnalogyAr:spec.analogyAr,storyAnalogyEn:spec.analogyEn,
+   prerequisiteAr:'معرفة الجملة الاسمية والفعلية والتمييز بين الاسم والفعل والحرف.',
+   prerequisiteEn:'Recognizing nouns, verbs, particles, and basic sentence structure.',
+   visualType:'diagram',misconceptions:wrong,
+   distractors:wrong.map(m=>m.trigger+'|'+m.id),
+  }],
+ };
+}
+const ARABIC_TERM_1_GAP_LESSONS:OfficialCurriculumLesson[]=[
+makeArabicGapLesson({
+ id:'off_ar_u1_l4_writing_official_letter',unitNumber:1,
+ unitNameAr:'الوحدة الأولى: نيلنا أمانة',unitNameEn:'Unit 1: Our Nile Is a Trust',
+ lessonNumber:4,titleAr:'التعبير الكتابي: الرسالة الرسمية',
+ titleEn:'Writing: The Formal Letter',lessonLabel:'التعبير الكتابي: الرسالة الرسمية',
+ objectives:[
+ 'يحدد عناصر الرسالة الرسمية مثل المرسل إليه والتحية والمقدمة والموضوع والخاتمة والتوقيع.',
+ 'يرتب أفكاره في فقرات واضحة ويستخدم لغة مهذبة ومناسبة للجهة المرسل إليها.',
+ 'يكتب رسالة قصيرة يطلب فيها إجراءً يحافظ على نظافة نهر النيل أو البيئة المدرسية.'
+ ],
+ readingText:"الرسالة الرسمية نص نكتبه إلى جهة أو شخص في موقع مسؤولية لعرض طلب أو اقتراح أو شكوى بأسلوب مهذب وواضح. ويجب أن نحدد الهدف من الرسالة قبل الكتابة حتى تكون الأفكار مرتبة ومباشرة.\n\nتبدأ الرسالة بذكر الجهة المرسل إليها والتحية المناسبة، ثم مقدمة قصيرة توضح سبب الكتابة، يليها الموضوع وفيه التفاصيل والطلب أو الاقتراح. وتنتهي الرسالة بعبارة احترام واسم المرسل وتاريخ الكتابة عند الحاجة.\n\nعند كتابة رسالة عن حماية النيل، يمكن أن نعرض مشكلة إلقاء المخلفات، ونوضح أثرها في الماء والكائنات الحية، ثم نقترح وضع سلال للقمامة وتنظيم حملة توعية. نراجع في النهاية وضوح الأفكار والإملاء وعلامات الترقيم.",
+ vocabulary:[
+ {word:'المرسل إليه',definition:'الشخص أو الجهة التي نوجه إليها الرسالة.'},
+ {word:'المقدمة',definition:'بداية قصيرة توضح سبب كتابة الرسالة.'},
+ {word:'الخاتمة',definition:'الجزء الأخير الذي يتضمن الشكر أو التحية الختامية.'}
+ ],
+ questions:[
+ {question:'أي جزء يوضح سبب كتابة الرسالة الرسمية؟',options:['المقدمة','التوقيع فقط','عنوان المرسل إليه فقط','التاريخ وحده'],answer:'المقدمة'},
+ {question:'ما الأسلوب الأنسب في رسالة رسمية إلى مسؤول المدرسة؟',options:['لغة مهذبة وواضحة','ألفاظ عامية جارحة','جمل غير مرتبة','أوامر بلا تحية'],answer:'لغة مهذبة وواضحة'}
+ ],
+ keyPoints:['تتكون الرسالة من عناصر مرتبة تبدأ بالجهة والتحية وتنتهي بالتوقيع.','يجب أن يكون الهدف واضحاً واللغة مهذبة.','تراجع الرسالة للتأكد من ترتيب الأفكار وصحة الكتابة.'],
+ exampleAr:'كتابة رسالة إلى إدارة المدرسة لطلب زيادة صناديق القمامة في الفناء.',
+ exampleEn:'Writing to the school administration to request more waste bins in the playground.',
+ analogyAr:'الرسالة الرسمية مثل طريق له محطات مرتبة؛ إذا نسينا محطة قد لا تصل الفكرة بوضوح.',
+ analogyEn:'A formal letter is like a route with ordered stops; missing one can make the message unclear.',
+ correction:'ابدئي بالجهة والتحية، ثم اشرحي السبب والطلب، واختمي بالشكر واسمك.'
+}),
+makeArabicGapLesson({
+ id:'off_ar_u3_l2_grammar_causative_object',unitNumber:3,
+ unitNameAr:'الوحدة الثالثة: جمال الاختلاف',unitNameEn:'Unit 3: The Beauty of Difference',
+ lessonNumber:2,titleAr:'القواعد النحوية: المفعول لأجله',
+ titleEn:'Grammar: The Causal Object',lessonLabel:'القواعد النحوية: المفعول لأجله',
+ objectives:[
+ 'يتعرف المفعول لأجله بوصفه اسماً منصوباً يبين سبب حدوث الفعل.',
+ 'يميز المفعول لأجله من المفعول به والظرف في جمل قصيرة.',
+ 'يوظف المفعول لأجله في جمل تعبر عن دوافع التعاون واحترام الاختلاف.'
+ ],
+ readingText:"المفعول لأجله اسم منصوب يذكر في الجملة ليبين سبب حدوث الفعل. نسأل عنه غالباً بكلمة «لماذا؟» أو «لأي سبب؟». ففي جملة «ساعدتُ زميلي احتراماً له» جاءت كلمة «احتراماً» لتوضح سبب المساعدة.\n\nيكون المفعول لأجله مصدراً يدل على معنى قلبي أو دافع للفعل، مثل حباً أو رغبةً أو خوفاً أو تقديراً. ونلاحظ أنه يجيب عن سؤال السبب، وليس عن سؤال «ماذا؟» الذي يساعدنا على معرفة المفعول به.\n\nيمكن أن نقول: «تعاون التلاميذ رغبةً في النجاح» و«نحافظ على البيئة حباً لوطننا». عند الإعراب نقول إن الكلمة التي تبين السبب مفعول لأجله منصوب، ونبحث عن الفعل الذي تفسر سببه.",
+ vocabulary:[
+ {word:'المفعول لأجله',definition:'مصدر منصوب يبين سبب وقوع الفعل.'},
+ {word:'المصدر',definition:'اسم يدل على الحدث دون ارتباط بزمن.'},
+ {word:'الدافع',definition:'السبب الذي يشجع الإنسان على القيام بالفعل.'}
+ ],
+ questions:[
+ {question:'في جملة «تعاونتُ مع زملائي رغبةً في النجاح»، ما المفعول لأجله؟',options:['رغبةً','زملائي','تعاونتُ','النجاح'],answer:'رغبةً'},
+ {question:'أي جملة تحتوي على مفعول لأجله؟',options:['أحترم الآخرين تقديراً لهم','قرأتُ القصة مساءً','شاهدتُ المباراة','وضعتُ الكتاب على المكتب'],answer:'أحترم الآخرين تقديراً لهم'}
+ ],
+ keyPoints:['المفعول لأجله يوضح سبب حدوث الفعل.','يكون اسماً منصوباً، وغالباً مصدراً يدل على دافع.','السؤال الذي يساعد على اكتشافه هو: لماذا حدث الفعل؟'],
+ exampleAr:'أراجع دروسي رغبةً في التفوق؛ فكلمة رغبةً توضح سبب المراجعة.',
+ exampleEn:'I revise my lessons out of a desire to do well; the phrase explains why I revise.',
+ analogyAr:'المفعول لأجله مثل بطاقة صغيرة تشرح لماذا بدأ الفعل.',
+ analogyEn:'The causal object is like a small label explaining why an action happened.',
+ correction:'اسألي «لماذا حدث الفعل؟» وابحثي عن المصدر المنصوب الذي يوضح السبب.'
+}),
+makeArabicGapLesson({
+ id:'off_ar_u3_l3_grammar_time_place_adverbs',unitNumber:3,
+ unitNameAr:'الوحدة الثالثة: جمال الاختلاف',unitNameEn:'Unit 3: The Beauty of Difference',
+ lessonNumber:3,titleAr:'القواعد النحوية: ظرفا الزمان والمكان',
+ titleEn:'Grammar: Adverbs of Time and Place',lessonLabel:'القواعد النحوية: إعراب ظرفي الزمان والمكان',
+ objectives:[
+ 'يميز ظرف الزمان الذي يحدد وقت الفعل من ظرف المكان الذي يحدد موضعه.',
+ 'يستخرج ظرفي الزمان والمكان من جمل بسيطة ويحدد ما يدل عليه كل منهما.',
+ 'يوظف ظروفاً مناسبة في جمل تصف أنشطة يومية ومواقف تحترم التنوع.'
+ ],
+ readingText:"الظرف اسم منصوب يوضح زمان حدوث الفعل أو مكان حدوثه. فإذا أجاب عن سؤال «متى؟» فهو ظرف زمان، مثل: صباحاً أو مساءً أو اليوم. وإذا أجاب عن سؤال «أين؟» فهو ظرف مكان، مثل: أمام أو خلف أو فوق أو تحت.\n\nفي جملة «نلتقي صباحاً» تخبرنا كلمة «صباحاً» بوقت اللقاء، فهي ظرف زمان. وفي جملة «وقفتُ أمام المدرسة» تخبرنا كلمة «أمام» بمكان الوقوف، فهي ظرف مكان.\n\nيساعدنا الظرف على جعل الجملة أكثر دقة؛ فنستطيع أن نحدد متى حدث النشاط وأين وقع. وعند الإعراب نذكر نوع الظرف وعلامة نصبه، مع الانتباه إلى أن بعض الظروف أسماء مبنية في محل نصب.",
+ vocabulary:[
+ {word:'ظرف الزمان',definition:'اسم يبين وقت حدوث الفعل ويجيب عن سؤال متى.'},
+ {word:'ظرف المكان',definition:'اسم يبين مكان حدوث الفعل ويجيب عن سؤال أين.'},
+ {word:'منصوب',definition:'حالة إعرابية تظهر غالباً بالفتحة في الاسم المفرد.'}
+ ],
+ questions:[
+ {question:'في جملة «أزور جدتي مساءً»، كلمة «مساءً» تعرب:',options:['ظرف زمان','ظرف مكان','مفعولاً به','فاعلاً'],answer:'ظرف زمان'},
+ {question:'في جملة «جلستُ تحت الشجرة»، كلمة «تحت» تدل على:',options:['ظرف مكان','ظرف زمان','مفعول لأجله','مبتدأ'],answer:'ظرف مكان'}
+ ],
+ keyPoints:['ظرف الزمان يجيب عن متى ويحدد وقت الفعل.','ظرف المكان يجيب عن أين ويحدد موضع الفعل.','الظرف منصوب أو في محل نصب بحسب نوعه.'],
+ exampleAr:'نلتقي صباحاً في المكتبة؛ صباحاً زمان، وفي المكتبة مكان.',
+ exampleEn:'We meet in the library in the morning: the morning is time and the library is place.',
+ analogyAr:'ظرف الزمان والمكان مثل دبوسين على خريطة الحدث: واحد يحدد الوقت والآخر يحدد الموقع.',
+ analogyEn:'Time and place adverbs are like two pins on an event map: one marks when and the other where.',
+ correction:'اسألي «متى؟» للزمان و«أين؟» للمكان، ثم حددي الكلمة التي تجيب عن السؤال.'
+})
+];
+ARABIC_CURRICULUM_LESSONS.push(...ARABIC_TERM_1_GAP_LESSONS);
