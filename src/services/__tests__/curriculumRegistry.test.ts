@@ -307,6 +307,10 @@ if (incorrectlyTaggedFrenchLessons.length > 0) {
 const lessonStudyModalSource = readFileSync(new URL('../../components/curriculum/LessonStudyModal.tsx', import.meta.url), 'utf8');
 const teacherSequenceUiFields = [
   "activeTab === 'practice'",
+  "activeTab === 'resources'",
+  'lesson.supplementarySections',
+  'section.summaryFr',
+  'section.sourcePages',
   'teacherGuide.explanationFr',
   'teacherGuide.workedExampleFr',
   'teacherGuide.sourceEdition',
@@ -570,6 +574,42 @@ check(
   '12.8 page 106 method skill records concrete plant indicators and iodine observations',
   !!methodByPage['106'] &&
     ['nombre de feuilles', 'hauteur de la tige', 'couleur', 'solution d’iode', 'tableau', 'graphique'].every((term) => methodByPage['106'].includes(term)),
+);
+
+// 12.9 Separate textbook enrichment, review and method pages must be reachable
+//      from the learner lesson screen, not merely stored in an unused data export.
+const lessonsWithSupplementarySections = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
+  (lesson) => (lesson.supplementarySections?.length ?? 0) > 0,
+);
+const attachedSupplementarySections = lessonsWithSupplementarySections.flatMap(
+  (lesson) => lesson.supplementarySections ?? [],
+);
+const attachedEnrichmentPages = new Set(
+  attachedSupplementarySections.filter((section) => section.kind === 'enrichment').map((section) => section.sourcePages),
+);
+const attachedReviewPages = attachedSupplementarySections.filter((section) => section.kind === 'review').map((section) => section.sourcePages);
+const attachedMethodPages = attachedSupplementarySections.filter((section) => section.kind === 'method').map((section) => section.sourcePages);
+check(
+  '12.9 all six distinct enrichment sections are attached to the relevant chapter-ending learner lessons',
+  ['18–19', '26–27', '43', '50–51', '90–91', '102–103'].every((page) => attachedEnrichmentPages.has(page)) &&
+    attachedEnrichmentPages.size === 6,
+);
+check(
+  '12.10 the separate chapter-5 review is reachable from lesson 5-3',
+  attachedReviewPages.length === 1 && attachedReviewPages[0] === '63' &&
+    (SCIENCE_FR_CURRICULUM_2026_LESSONS.find((lesson) => lesson.unitNumber === 5 && lesson.lessonNumber === 3)
+      ?.supplementarySections?.some((section) => section.kind === 'review' && section.sourcePages === '63') ?? false),
+);
+check(
+  '12.11 all four scientific-method appendix pages are attached to the lessons where the methods are practised',
+  ['104', '105', '106', '107'].every((page) => attachedMethodPages.includes(page)) &&
+    attachedMethodPages.length === 4,
+);
+check(
+  '12.12 the lesson modal renders an accessible Resources tab with app-authored summaries and printed page labels',
+  ["activeTab === 'resources'", 'lesson.supplementarySections.map', 'section.summaryFr', 'section.sourcePages',
+    'Pages complémentaires du manuel', 'not reproduced textbook text or an official Ministry teacher guide']
+    .every((field) => lessonStudyModalSource.includes(field)),
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);

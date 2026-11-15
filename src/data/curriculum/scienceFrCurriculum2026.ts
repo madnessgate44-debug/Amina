@@ -7,8 +7,13 @@
  * student book. Explanations and checks are Miss Noor teaching adaptations,
  * not an official Ministry teacher guide.
  */
-import { OfficialCurriculumLesson } from '../../types/teachingSession';
-import { SCIENCE_FR_TEACHER_GUIDE_2026 } from './scienceFrTeachingGuide2026';
+import { CurriculumSupplementarySection, OfficialCurriculumLesson } from '../../types/teachingSession';
+import {
+  SCIENCE_FR_TEACHER_GUIDE_2026,
+  SCIENCE_FR_TERM1_ENRICHMENT_2026,
+  SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026,
+  SCIENCE_FR_TERM1_METHOD_SKILLS_2026,
+} from './scienceFrTeachingGuide2026';
 
 type Spec = {
   u:number; n:number; page:number; pages:string; fr:string; en:string; ar:string;
@@ -59,6 +64,69 @@ const SCIENCE_FR_CHAPTER_TITLES_2026: Record<number,string> = {
   9:'Le cycle de l’eau'
 };
 
+const LAST_LESSON_BY_CHAPTER: Record<number, number> = {
+  1: 4, 2: 2, 3: 5, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3,
+};
+
+function getSupplementarySections(s: Spec): CurriculumSupplementarySection[] {
+  const sections: CurriculumSupplementarySection[] = [];
+
+  if (s.n === LAST_LESSON_BY_CHAPTER[s.u]) {
+    for (const item of SCIENCE_FR_TERM1_ENRICHMENT_2026.filter((entry) => (entry.chapters as readonly number[]).includes(s.u))) {
+      sections.push({
+        id: `science-fr-enrichment-${item.sourcePages.replace(/[^0-9]/g, '-')}`,
+        kind: 'enrichment',
+        sourcePages: item.sourcePages,
+        titleFr: item.titleFr,
+        summaryFr: item.appAuthoredSummaryFr,
+      });
+    }
+  }
+
+  if (s.u === 5 && s.n === 3) {
+    for (const item of SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026) {
+      sections.push({
+        id: `science-fr-review-${item.sourcePages}`,
+        kind: 'review',
+        sourcePages: item.sourcePages,
+        titleFr: item.titleFr,
+        summaryFr: item.appAuthoredSummaryFr,
+      });
+    }
+  }
+
+  // The general scientific-method appendix is linked from the lessons where
+  // its procedures are directly practised: fair tests and observation records
+  // from seed germination; microscope operation from lesson 5-2.
+  if (s.u === 3 && s.n === 2) {
+    for (const item of SCIENCE_FR_TERM1_METHOD_SKILLS_2026.filter((entry) =>
+      ['104', '106', '107'].includes(entry.sourcePages),
+    )) {
+      sections.push({
+        id: `science-fr-method-${item.sourcePages}`,
+        kind: 'method',
+        sourcePages: item.sourcePages,
+        titleFr: item.titleFr,
+        summaryFr: `${item.objectiveFr} ${item.teachingSequenceFr}`,
+      });
+    }
+  }
+
+  if (s.u === 5 && s.n === 2) {
+    for (const item of SCIENCE_FR_TERM1_METHOD_SKILLS_2026.filter((entry) => entry.sourcePages === '105')) {
+      sections.push({
+        id: `science-fr-method-${item.sourcePages}`,
+        kind: 'method',
+        sourcePages: item.sourcePages,
+        titleFr: item.titleFr,
+        summaryFr: `${item.objectiveFr} ${item.teachingSequenceFr}`,
+      });
+    }
+  }
+
+  return sections;
+}
+
 function makeLesson(s:Spec):OfficialCurriculumLesson {
  const teacherGuide = SCIENCE_FR_TEACHER_GUIDE_2026[`${s.u}-${s.n}`];
  if (!teacherGuide) throw new Error(`Missing app-authored teacher guide for Science lesson ${s.u}-${s.n}`);
@@ -98,6 +166,7 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
   objectives:s.objectives,
   readingText:teacherGuide.explanationFr+'\n\nDémonstration : '+teacherGuide.workedExampleFr+'\n\nExplique ensuite cette idée avec tes propres mots.',
   teacherGuide,
+  supplementarySections: getSupplementarySections(s),
   vocabulary:s.vocab.map(([word,definition])=>({word,definition})),
   exercises:[mc,qa],exercisesByLanguage:{fr:[mc,qa]},concepts:[concept]
  };
