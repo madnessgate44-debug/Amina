@@ -559,7 +559,7 @@ check(
 check(
   '12.6 pages 90–91 enrichment covers Egyptian cloud patterns and khamsin mechanism',
   !!enrichmentByPage['90–91'] &&
-    ['0 à 1', 'ouest en est', 'méditerranéenne', 'khamsin', 'dépression', 'vapeur d’eau'].every((term) => enrichmentByPage['90–91'].includes(term)),
+    ['zéro à une part sur huit', 'ouest en est', 'méditerranéenne', 'khamsin', 'dépression', 'vapeur d’eau'].every((term) => enrichmentByPage['90–91'].includes(term)),
 );
 check(
   '12.7 pages 102–103 enrichment covers desert condensation, African water route and Aswan storage',
