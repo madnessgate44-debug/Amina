@@ -1,6 +1,6 @@
 {
   "audit_kind": "official_grade5_2026_2027_term1_source_retrieval_and_page_text_fingerprints",
-  "generated_at_utc": "2026-11-15T12:27:50.145094+00:00",
+  "generated_at_utc": "2026-11-15T12:30:56.407484+00:00",
   "sources_attempted": 21,
   "sources_pdf_retrieved": 17,
   "sources": [
@@ -10,7 +10,7 @@
       "track": "English",
       "kind": "performance_assessment",
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/English_prim5_t1_Assmt.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:06.068162+00:00",
+      "retrieved_at_utc": "2026-11-15T12:29:11.207281+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -41,11 +41,15 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 74,
+      "ocr_pages_attempted": 73,
+      "ocr_pages_with_text": 71,
+      "ocr_languages": "eng+ara",
+      "extraction_method": "pdftotext with Tesseract OCR fallback",
       "fingerprinted_pages": 74,
       "page_fingerprints_complete": true,
       "text_markers": {
-        "french_common_words": false,
-        "english_common_words": false,
+        "french_common_words": true,
+        "english_common_words": true,
         "isbn_marker": false
       }
     },
@@ -55,7 +59,7 @@
       "track": "French",
       "kind": "performance_assessment_candidate",
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/Math_FR_prim5_t1_Assmt.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:08.430334+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:34.166869+00:00",
       "http_status": 404,
       "result": "HTTP_ERROR",
       "error_reason": "The specified blob does not exist."
@@ -66,7 +70,7 @@
       "track": "French",
       "kind": "performance_assessment_candidate",
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/Math_fr_prim5_t1_Assmt.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:08.779708+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:34.542841+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -97,6 +101,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 74,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 74,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -111,7 +116,7 @@
       "track": "French1",
       "kind": "performance_assessment_candidate",
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/French1_prim5_t1_Assmt.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:11.782458+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:36.378520+00:00",
       "http_status": 404,
       "result": "HTTP_ERROR",
       "error_reason": "The specified blob does not exist."
@@ -122,7 +127,7 @@
       "track": "French2",
       "kind": "performance_assessment_candidate",
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/French2_prim5_t1_Assmt.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:12.175867+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:36.739495+00:00",
       "http_status": 404,
       "result": "HTTP_ERROR",
       "error_reason": "The specified blob does not exist."
@@ -133,7 +138,7 @@
       "track": "French",
       "kind": "student_book",
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Math_FR_prim5_TR1.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:12.552081+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:37.109172+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -164,6 +169,7 @@
         "PDF version": "1.4"
       },
       "pdf_pages": 141,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 141,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -178,7 +184,7 @@
       "track": "English",
       "kind": "student_book",
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/English_language_prim5_t1.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:16.678553+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:39.876538+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -205,6 +211,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 113,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 113,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -220,7 +227,7 @@
       "kind": "weekly_assessment",
       "week": 1,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French1_prim5_tr1_w1.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:22.499050+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:43.091421+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -248,6 +255,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 4,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 4,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -263,7 +271,7 @@
       "kind": "weekly_assessment",
       "week": 2,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French1_prim5_tr1_w2.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:25.111977+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:44.056972+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -291,6 +299,7 @@
         "PDF version": "1.5"
       },
       "pdf_pages": 4,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 4,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -306,7 +315,7 @@
       "kind": "weekly_assessment",
       "week": 3,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French1_prim5_tr1_w3.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:28.541396+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:45.059587+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -334,6 +343,7 @@
         "PDF version": "1.5"
       },
       "pdf_pages": 4,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 4,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -349,7 +359,7 @@
       "kind": "weekly_assessment",
       "week": 4,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French1_prim5_tr1_w4.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:29.934452+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:46.137804+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -377,6 +387,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 4,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 4,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -392,7 +403,7 @@
       "kind": "weekly_assessment",
       "week": 5,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French1_prim5_tr1_w5.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:32.183140+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:47.113653+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -420,6 +431,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 4,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 4,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -435,7 +447,7 @@
       "kind": "weekly_assessment",
       "week": 6,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French1_prim5_tr1_w6.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:35.193984+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:48.181241+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -463,6 +475,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 4,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 4,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -478,7 +491,7 @@
       "kind": "weekly_assessment",
       "week": 7,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French1_prim5_tr1_w7.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:38.053214+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:49.182365+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -506,6 +519,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 4,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 4,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -521,7 +535,7 @@
       "kind": "weekly_assessment",
       "week": 1,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French2_prim5_tr1_w1.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:39.362506+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:50.092893+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -549,6 +563,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 3,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 3,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -564,7 +579,7 @@
       "kind": "weekly_assessment",
       "week": 2,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French2_prim5_tr1_w2.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:40.536546+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:51.046649+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -592,6 +607,7 @@
         "PDF version": "1.5"
       },
       "pdf_pages": 3,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 3,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -607,7 +623,7 @@
       "kind": "weekly_assessment",
       "week": 3,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French2_prim5_tr1_w3.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:43.110051+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:52.014931+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -635,6 +651,7 @@
         "PDF version": "1.5"
       },
       "pdf_pages": 3,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 3,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -650,7 +667,7 @@
       "kind": "weekly_assessment",
       "week": 4,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French2_prim5_tr1_w4.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:45.717441+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:53.068364+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -678,6 +695,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 3,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 3,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -693,7 +711,7 @@
       "kind": "weekly_assessment",
       "week": 5,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French2_prim5_tr1_w5.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:47.199898+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:54.035586+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -721,6 +739,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 3,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 3,
       "page_fingerprints_complete": true,
       "text_markers": {
@@ -736,7 +755,7 @@
       "kind": "weekly_assessment",
       "week": 6,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French2_prim5_tr1_w6.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:48.684225+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:55.108856+00:00",
       "http_status": 404,
       "result": "HTTP_ERROR",
       "error_reason": "The specified blob does not exist."
@@ -748,7 +767,7 @@
       "kind": "weekly_assessment",
       "week": 7,
       "url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/ClassrHomeAssessmentsTest/French2_prim5_tr1_w7.pdf",
-      "retrieved_at_utc": "2026-11-15T12:27:49.032225+00:00",
+      "retrieved_at_utc": "2026-11-15T12:30:55.477933+00:00",
       "http_status": 200,
       "content_type": "application/pdf",
       "result": "PDF_RETRIEVED",
@@ -776,6 +795,7 @@
         "PDF version": "1.7"
       },
       "pdf_pages": 3,
+      "extraction_method": "pdftotext -layout",
       "fingerprinted_pages": 3,
       "page_fingerprints_complete": true,
       "text_markers": {
