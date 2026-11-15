@@ -239,3 +239,14 @@ The four current Miss Noor French-language lessons therefore remain **UNVERIFIED
 - **[UNPROVEN]** Byte-for-byte identity of the inspected third-party-assembled student-book copy with the canonical Ministry-hosted PDF remains unverified.
 
 This is a Grade 5 French Science Term 1 reconstruction only. It is not a full-year or full-book completion declaration.
+
+
+## 14. Canonical Ministry-hosted student-book endpoint retrieval — 15 November 2026
+
+- **[VERIFIED]** The Grade 5 French Science Term 1 student-book link is listed in the 2026–2027 Grade 5 catalogue at https://miskeg.app/books/general-primary-5/ under “العلوم باللغة الفرنسية”. The catalogue says its book links open PDFs on the Ministry's own e-learning content server; the catalogue itself is a third-party index, not the issuing authority.
+- **[VERIFIED]** Following that catalogue entry resolves to this exact Ministry-hosted endpoint: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf . The host is elearnningcontent.blob.core.windows.net, and the path identifies 2026_2027 / Primary5 / Term1 / StudentBook / French Science.
+- **[BLOCKED]** The web retrieval service rejected the PDF with HTTP/content-fetch error 400: Content length is too large: 62976199 (62,976,199 bytes). A separate direct download attempt also failed. The canonical endpoint has therefore been located, but its bytes were not retrieved in this run.
+- **[UNPROVEN]** Because the Ministry-hosted bytes could not be downloaded, no SHA-256 comparison against the inspected third-party-assembled Library copy was possible. The third-party copy's 2026–2027 imprint and ISBN remain evidence about that copy only; they do not establish byte identity with the Ministry-hosted object.
+- **Next action:** retrieve the exact URL from a browser/device or download route capable of handling the 62,976,199-byte PDF, then record file size, PDF page count, SHA-256, imprint/ISBN and a byte-for-byte comparison. Do not alter the source-copy status or remove its [UNPROVEN] note until that comparison succeeds.
+
+The catalogue entry is a discovery route only. It does not authenticate the third-party index as a Ministry source, and no Ministry teacher guide was discovered by this retrieval attempt.
