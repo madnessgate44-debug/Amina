@@ -409,8 +409,8 @@ const incompleteTeachingComponents = SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap(
   const key = `${lesson.unitNumber}-${lesson.lessonNumber}`;
   const plan = SCIENCE_FR_TEACHER_GUIDE_2026[key];
   const missing: string[] = [];
-  if (!plan || plan.explanationFr.trim().split(/\\s+/).length < 50) missing.push('explanation');
-  if (!plan?.workedExampleFr.trim() || plan.workedExampleFr.trim().split(/\\s+/).length < 20) missing.push('worked example');
+  if (!plan || plan.explanationFr.trim().split(/\s+/).length < 50) missing.push('explanation');
+  if (!plan?.workedExampleFr.trim() || plan.workedExampleFr.trim().split(/\s+/).length < 20) missing.push('worked example');
   if (!plan || plan.guidedPracticeFr.length < 2 ||
       plan.guidedPracticeFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim())) missing.push('guided practice');
   if (!plan || plan.independentPracticeFr.length < 2 ||
