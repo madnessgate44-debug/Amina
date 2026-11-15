@@ -360,3 +360,27 @@ This remains a Term 1 reconstruction, not a full-year completion declaration.
 - **[VERIFIED]** The nine Term 1 chapters and 28 lesson plans are present on main. The plans are app-authored Miss Noor material derived from the inspected student-book copy, not official Ministry teacher-guide content.
 - **[BLOCKED]** No matching 2026–2027 Egyptian Ministry French Science teacher guide or Term 2 student book is verified. The separate assessment-book PDF remains unverified question by question.
 - **[UNPROVEN]** Phone-sized French learner walkthrough and custom-domain lesson behavior. No full-year or full-book completion claim is made.
+
+
+## Science Term 1 execution update — 15 November 2026
+
+### Changes merged
+
+- **[VERIFIED]** PR [#184](https://github.com/madnessgate44-debug/Amina/pull/184) merged into `main`; merge commit `b635bfa10657d59db65ef0dcd70eae670c5be9fb`.
+- **[VERIFIED]** The exact nine French TOC chapter headings are now stored on every current-edition lesson record as `unitNameFr = Chapitre N : [exact heading]`.
+- **[VERIFIED]** The 28 lesson records are structurally checked for objectives and French vocabulary; the 28 app-authored plans are checked for explanation, demonstration, guided practice, independent practice, answer key, misconception diagnosis, remediation and mastery criteria.
+- **[VERIFIED]** The source-copy caveat is now stored in every lesson's `sourceRef.notes`, not only in documentation.
+- **[VERIFIED]** Regression checks protect all six enrichment page ranges, the separate Chapter 5 review on p. 63, and the scientific-method appendix on pp. 104–107.
+
+### Verification evidence
+
+- **[PASS]** CI [43688746038](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746038): `npm run lint` passed; `npm test` passed (39 suite summaries, 0 failures; curriculum registry 35 passed, 0 failed); `npm run build` passed (Vite 8.3.5, 1,792 modules, 491 ms).
+- **[PASS]** Engineering Execution OS compliance [43688746047](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746047).
+- **[PENDING]** Vercel's status on merge commit `b635bfa10657d59db65ef0dcd70eae670c5be9fb` was pending when checked. Production deployment is therefore not claimed.
+- **[UNPROVEN]** Phone-sized learner walkthrough and custom-domain French lesson behavior.
+
+### Scope and unresolved blockers
+
+The 28 lesson plans remain **Miss Noor app-authored** material derived from the inspected student-book copy. The exact Ministry teacher guide remains [BLOCKED]; direct byte-level identity of the third-party-assembled PDF with the canonical Ministry endpoint remains [UNPROVEN]. Term 2 Science remains [BLOCKED] until the exact 2026–2027 source is published and accessible. The assessment-book PDF remains [UNPROVEN] pending retrieval and question-by-question review.
+
+This is Term 1 only. No full-year or full-book completion claim is made.
