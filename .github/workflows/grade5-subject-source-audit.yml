@@ -1,0 +1,38 @@
+name: Grade 5 Term 1 subject source audit
+run-name: Grade 5 subject source audit — ${{ github.run_id }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - audit/grade5-term1-subject-source-audit-2026-11-15
+    paths:
+      - .github/workflows/grade5-subject-source-audit.yml
+      - scripts/audits/grade5_subject_source_audit.py
+
+permissions:
+  contents: read
+
+jobs:
+  retrieve-and-fingerprint:
+    name: Retrieve official subject PDFs and fingerprint pages
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out audit branch
+        uses: actions/checkout@v4
+      - name: Install PDF inspection utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends poppler-utils
+      - name: Retrieve sources and build page fingerprints
+        run: python3 scripts/audits/grade5_subject_source_audit.py
+      - name: Upload metadata and fingerprints only
+        uses: actions/upload-artifact@v4
+        with:
+          name: grade5-term1-subject-source-audit
+          path: |
+            audit-output/grade5-subject-source-audit.json
+            audit-output/grade5-subject-page-fingerprints.csv
+          if-no-files-found: error
+          retention-days: 30
