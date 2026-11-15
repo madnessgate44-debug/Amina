@@ -425,7 +425,7 @@ const radarTerms = ['radar météorologique', 'ondes radio', 'précipitations'];
 check(
   '10.4 lesson 8-3 includes the page 89 weather-radar concept in its learner curriculum',
   !!weatherRadarLesson &&
-    weatherRadarLesson.focus.toLocaleLowerCase('fr').includes('radar météorologique') &&
+    weatherRadarLesson.concepts.some((concept) => concept.sourceText.toLocaleLowerCase('fr').includes('radar météorologique')) &&
     weatherRadarLesson.objectives.some((item) => item.toLocaleLowerCase('fr').includes('radar')) &&
     weatherRadarLesson.vocabulary.some((item) => item.word.toLocaleLowerCase('fr').includes('radar')),
 );
