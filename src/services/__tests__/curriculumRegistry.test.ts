@@ -15,7 +15,7 @@ import { OFFICIAL_CURRICULUM_LESSONS } from '../../data/officialCurriculum';
 import { MATH_CURRICULUM_LESSONS } from '../../data/curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from '../../data/curriculum/scienceCurriculum';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
-import { SCIENCE_FR_TEACHER_GUIDE_2026 } from '../../data/curriculum/scienceFrTeachingGuide2026';
+import { SCIENCE_FR_TEACHER_GUIDE_2026, SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026, SCIENCE_FR_TERM1_ENRICHMENT_2026, SCIENCE_FR_TERM1_METHOD_SKILLS_2026 } from '../../data/curriculum/scienceFrTeachingGuide2026';
 import { MATH_FR_CURRICULUM_LESSONS } from '../../data/curriculum/mathFrCurriculum';
 import { FRENCH_ASSESSMENTS } from '../../data/curriculum/frenchAssessment';
 import { FRENCH_TRACK_CONTENT } from '../../data/curriculum/frenchTrackContent';
@@ -361,6 +361,105 @@ const teacherPlansWithWrongProvenance = Object.values(SCIENCE_FR_TEACHER_GUIDE_2
 check(
   '9.4 all 28 teacher plans remain labelled app-authored for the 2026–2027 source edition',
   Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && teacherPlansWithWrongProvenance.length === 0,
+);
+
+
+// 10. The exact nine chapter headings and per-lesson objectives/vocabulary
+//     remain represented in the learner-facing French curriculum records.
+const expectedChapterTitlesFr: Record<number, string> = {
+  1: 'Les os et les muscles',
+  2: 'Les changements des saisons',
+  3: 'Les conditions de germination',
+  4: 'Les conditions de croissance',
+  5: 'De la fleur au fruit',
+  6: 'La croissance et la reproduction humaines',
+  7: 'La croissance et la reproduction des animaux',
+  8: 'Les changements météorologiques',
+  9: 'Le cycle de l’eau',
+};
+const chapterTitleMismatches = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter((lesson) =>
+  lesson.unitNameFr !== `Chapitre ${lesson.unitNumber} : ${expectedChapterTitlesFr[lesson.unitNumber] ?? ''}`,
+);
+check(
+  '10.1 all 28 French Science lesson records carry the exact 2026–2027 TOC chapter heading',
+  Object.keys(expectedChapterTitlesFr).length === 9 &&
+    SCIENCE_FR_CURRICULUM_2026_LESSONS.length === 28 &&
+    chapterTitleMismatches.length === 0,
+);
+const lessonsMissingObjectives = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
+  (lesson) => !lesson.objectives || lesson.objectives.length < 2 || lesson.objectives.some((item) => !item.trim()),
+);
+const lessonsMissingVocabulary = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
+  (lesson) => !lesson.vocabulary || lesson.vocabulary.length < 3 ||
+    lesson.vocabulary.some((item) => !item.word.trim() || !item.definition.trim()),
+);
+check(
+  `10.2 every lesson has at least two explicit learning objectives (${lessonsMissingObjectives.length} incomplete)`,
+  lessonsMissingObjectives.length === 0,
+);
+check(
+  `10.3 every lesson has at least three French vocabulary terms with definitions (${lessonsMissingVocabulary.length} incomplete)`,
+  lessonsMissingVocabulary.length === 0,
+);
+
+// 11. The full teacher-ready sequence must be present for every numbered lesson.
+//     This is a structural contract, not a claim that an official Ministry
+//     teacher guide has been found.
+const incompleteTeachingComponents = SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) => {
+  const key = `${lesson.unitNumber}-${lesson.lessonNumber}`;
+  const plan = SCIENCE_FR_TEACHER_GUIDE_2026[key];
+  const missing: string[] = [];
+  if (!plan || plan.explanationFr.trim().split(/\\s+/).length < 50) missing.push('explanation');
+  if (!plan?.workedExampleFr.trim() || plan.workedExampleFr.trim().split(/\\s+/).length < 20) missing.push('worked example');
+  if (!plan || plan.guidedPracticeFr.length < 2 ||
+      plan.guidedPracticeFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim())) missing.push('guided practice');
+  if (!plan || plan.independentPracticeFr.length < 2 ||
+      plan.independentPracticeFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim())) missing.push('independent practice');
+  if (!plan || plan.answerKeyFr.length !== plan.independentPracticeFr.length ||
+      plan.answerKeyFr.some((answer, index) => answer !== plan.independentPracticeFr[index]?.expectedAnswer)) missing.push('answer key');
+  if (!plan || plan.misconceptionDiagnosisFr.length < 2 ||
+      plan.misconceptionDiagnosisFr.some((item) => !item.observedResponse.trim() || !item.diagnosis.trim() || !item.correctivePrompt.trim())) missing.push('misconception diagnosis');
+  if (!plan || plan.remediationFr.length < 2 || plan.remediationFr.some((item) => !item.trim())) missing.push('remediation');
+  if (!plan || plan.masteryCheckFr.length < 2 ||
+      plan.masteryCheckFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim() || !item.successCriterion.trim())) missing.push('mastery check');
+  return missing.map((component) => `${key}: ${component}`);
+});
+check(
+  `11.1 all 28 lessons contain every teacher-ready component (${incompleteTeachingComponents.length} gaps)`,
+  Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && incompleteTeachingComponents.length === 0,
+);
+if (incompleteTeachingComponents.length > 0) console.error('   incomplete plans:', incompleteTeachingComponents);
+const lessonsMissingSourceCopyNote = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
+  (lesson) => !lesson.sourceRef.notes?.includes('[UNPROVEN]') ||
+    !lesson.sourceRef.notes?.includes('third-party-assembled'),
+);
+check(
+  `11.2 all 28 lesson source records disclose the unverified direct-file provenance (${lessonsMissingSourceCopyNote.length} missing)`,
+  lessonsMissingSourceCopyNote.length === 0,
+);
+
+// 12. Enrichment, the separate chapter-5 review, and scientific-method appendix
+//     remain distinct source-book sections, with their own printed page ranges.
+const expectedEnrichmentPages = ['18–19', '26–27', '43', '50–51', '90–91', '102–103'];
+const enrichmentPagesMatch = SCIENCE_FR_TERM1_ENRICHMENT_2026.map((item) => item.sourcePages).join('|') === expectedEnrichmentPages.join('|');
+check(
+  '12.1 all six source-book enrichment sections retain their exact printed page ranges',
+  SCIENCE_FR_TERM1_ENRICHMENT_2026.length === 6 && enrichmentPagesMatch &&
+    SCIENCE_FR_TERM1_ENRICHMENT_2026.every((item) => item.titleFr.trim() && item.appAuthoredSummaryFr.trim()),
+);
+check(
+  '12.2 the chapter-5 review on printed page 63 remains separate from lesson 5-3',
+  SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026.length === 1 &&
+    SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026[0].sourcePages === '63' &&
+    SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026[0].appAuthoredSummaryFr.trim() !== '' &&
+    SCIENCE_FR_TEACHER_GUIDE_2026['5-3'].sourcePages === '60–62',
+);
+const expectedMethodSkillPages = ['104', '105', '106', '107'];
+check(
+  '12.3 all four scientific-method appendix skills retain their exact printed page ranges',
+  SCIENCE_FR_TERM1_METHOD_SKILLS_2026.length === 4 &&
+    SCIENCE_FR_TERM1_METHOD_SKILLS_2026.map((item) => item.sourcePages).join('|') === expectedMethodSkillPages.join('|') &&
+    SCIENCE_FR_TERM1_METHOD_SKILLS_2026.every((item) => item.objectiveFr.trim() && item.teachingSequenceFr.trim()),
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
