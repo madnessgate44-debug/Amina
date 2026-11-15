@@ -70,7 +70,7 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                 for number, text in enumerate(pages,1):
                     normalized=" ".join(text.split())
                     digest=hashlib.sha256(normalized.encode("utf-8")).hexdigest()
-                    heading_lines = [re.sub(r"\\s+", " ", line).strip() for line in text.splitlines() if line.strip()]
+                    heading_lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines() if line.strip()]
                     heading = next((line for line in heading_lines if len(line) <= 140 and not line.isdigit()), "")
                     page_rows.append({
                         "source_id":source["id"],"subject":source["subject"],
