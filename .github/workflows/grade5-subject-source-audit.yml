@@ -46,14 +46,10 @@ jobs:
             git commit -m "Publish Grade 5 subject source audit results"
             git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
-      - name: Upload metadata and fingerprints only
+      - name: Upload source metadata, page indexes and limited TOC review extract
         uses: actions/upload-artifact@v4
         with:
           name: grade5-term1-subject-source-audit
-          path: |
-            audit-output/grade5-subject-source-audit.json
-            audit-output/grade5-subject-page-fingerprints.csv
-            audit-output/grade5-subject-page-headings.csv
-            audit-output/grade5-subject-page-headings.csv
+          path: audit-output/
           if-no-files-found: error
-          retention-days: 30
+          retention-days: 1
