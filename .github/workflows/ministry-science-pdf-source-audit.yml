@@ -71,6 +71,8 @@ jobs:
           normalized = re.sub(r"[\s\-\u2010-\u2015]", "", extracted_text)
           markers = {
               "isbn_9786338530174": "9786338530174" in normalized,
+              "french_ministry_imprint": bool(re.search(r"Le ministère de l['’]Éducation et de l['’]Enseignement technique", extracted_text, re.I)),
+              "french_rights_notice": bool(re.search(r"Tous droits réservés au ministère", extracted_text, re.I)),
               "arabic_ministry_imprint": "وزارة التربية والتعليم" in extracted_text,
               "english_ministry_imprint": bool(re.search(r"Ministry of Education", extracted_text, re.I)),
               "science_text_present": bool(re.search(r"science", extracted_text, re.I)),
@@ -118,6 +120,8 @@ jobs:
           pages = int(metadata.get("Pages", "0"))
           if pages < 1 or len(page_fingerprints) != pages:
               raise SystemExit("PDF page count or page fingerprint inventory is invalid")
+          if not markers["isbn_9786338530174"] or not markers["french_ministry_imprint"]:
+              raise SystemExit("Expected French Ministry imprint or ISBN marker is missing")
           PY
 
       - name: Remove downloaded source PDF and extracted text
