@@ -41,7 +41,7 @@ jobs:
           sha256sum "$PDF_PATH" > audit-output/sha256.txt
           stat --format='file_size_bytes=%s' "$PDF_PATH" > audit-output/file-size.txt
 
-      - name: Extract PDF metadata and source markers
+      - name: Extract metadata, source markers and per-page fingerprints
         env:
           PDF_PATH: ${{ runner.temp }}/ministry-science-fr-grade5-term1.pdf
           TEXT_PATH: ${{ runner.temp }}/ministry-science-fr-grade5-term1.txt
@@ -54,12 +54,12 @@ jobs:
           import json
           import os
           import re
+          import subprocess
           from pathlib import Path
 
           pdf = Path(os.environ["PDF_PATH"])
           text_path = Path(os.environ["TEXT_PATH"])
-          info_path = Path("audit-output/pdfinfo.txt")
-          info_text = info_path.read_text(encoding="utf-8", errors="replace")
+          info_text = Path("audit-output/pdfinfo.txt").read_text(encoding="utf-8", errors="replace")
           extracted_text = text_path.read_text(encoding="utf-8", errors="replace")
 
           metadata = {}
@@ -77,30 +77,47 @@ jobs:
               "french_text_present": bool(re.search(r"\b(les|des|une|et)\b", extracted_text, re.I)),
           }
 
+          page_count = int(metadata.get("Pages", "0"))
+          page_fingerprints = []
+          for page_number in range(1, page_count + 1):
+              page_text = subprocess.check_output(
+                  ["pdftotext", "-layout", "-f", str(page_number), "-l", str(page_number), str(pdf), "-"],
+                  text=True,
+                  encoding="utf-8",
+                  errors="replace"
+              )
+              page_normalized = " ".join(page_text.split())
+              page_fingerprints.append({
+                  "pdf_page": page_number,
+                  "normalized_text_characters": len(page_normalized),
+                  "normalized_text_sha256": hashlib.sha256(page_normalized.encode("utf-8")).hexdigest()
+              })
+
           digest = hashlib.sha256()
           with pdf.open("rb") as stream:
               for chunk in iter(lambda: stream.read(1024 * 1024), b""):
                   digest.update(chunk)
 
           report = {
-              "audit_kind": "download_and_structural_inspection_only",
+              "audit_kind": "download_structural_inspection_and_page_text_fingerprints",
               "source_url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf",
               "downloaded_at_utc": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
               "file_size_bytes": pdf.stat().st_size,
               "sha256": digest.hexdigest(),
               "pdf_metadata": metadata,
               "text_markers": markers,
+              "page_text_fingerprints": page_fingerprints,
               "manual_content_review_required": True,
-              "important_limit": "A successful download and text-marker scan do not establish lesson-by-lesson curriculum equivalence or authenticate a teacher guide."
+              "important_limit": "Page fingerprints compare extracted text only; they do not prove visual identity, source authenticity, or pedagogical equivalence."
           }
           Path("audit-output/source-audit.json").write_text(
               json.dumps(report, ensure_ascii=False, indent=2),
               encoding="utf-8"
           )
-          print(json.dumps(report, ensure_ascii=False, indent=2))
+          print(json.dumps({k:v for k,v in report.items() if k != "page_text_fingerprints"}, ensure_ascii=False, indent=2))
           pages = int(metadata.get("Pages", "0"))
-          if pages < 1:
-              raise SystemExit("PDF page count is missing or invalid")
+          if pages < 1 or len(page_fingerprints) != pages:
+              raise SystemExit("PDF page count or page fingerprint inventory is invalid")
           PY
 
       - name: Remove downloaded source PDF and extracted text
