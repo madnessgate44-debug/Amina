@@ -595,8 +595,9 @@ check(
     attachedEnrichmentPages.size === 6,
 );
 check(
-  '12.10 the Chapter 5 review and Chapter 6 review practice are attached to their correct lessons',
-  attachedReviewPages.length === 2 && attachedReviewPages.includes('63') && attachedReviewPages.includes('69–71') &&
+  '12.10 the Chapter 5, Chapter 6 and Chapter 7 review sets are attached to their correct lessons',
+  attachedReviewPages.length === 3 && attachedReviewPages.includes('63') &&
+    attachedReviewPages.includes('69–71') && attachedReviewPages.includes('78–79') &&
     (SCIENCE_FR_CURRICULUM_2026_LESSONS.find((lesson) => lesson.unitNumber === 5 && lesson.lessonNumber === 3)
       ?.supplementarySections?.some((section) =>
         section.kind === 'review' && section.sourcePages === '63' && section.practiceItemsFr?.length === 5,
@@ -643,6 +644,22 @@ check(
     ['alimentation', 'sommeil', 'activité physique', 'petite enfance', 'père et d’une mère', 'héritent',
       'parents', 'plus grand', 'collations'].every((term) =>
       chapterSixReview.practiceItemsFr?.some((item) =>
+        (item.prompt + ' ' + item.expectedAnswer).toLocaleLowerCase('fr').includes(term),
+      ),
+    ),
+);
+
+// 12.15 Pages 78–79 review all major Chapter 7 reproduction and conservation concepts.
+const chapterSevenReview = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 7 && lesson.lessonNumber === 3,
+)?.supplementarySections?.find((section) => section.kind === 'review' && section.sourcePages === '78–79');
+check(
+  '12.15 lesson 7-3 exposes all eleven app-authored review questions from pages 78–79',
+  !!chapterSevenReview &&
+    chapterSevenReview.practiceItemsFr?.length === 11 &&
+    ['donne naissance', 'lait maternel', 'tilapia', 'éclosion', 'dromadaire', 'grenouille',
+      'reproduction', 'à l’intérieur', 'survie', 'réserves naturelles', 'dans l’eau'].every((term) =>
+      chapterSevenReview.practiceItemsFr?.some((item) =>
         (item.prompt + ' ' + item.expectedAnswer).toLocaleLowerCase('fr').includes(term),
       ),
     ),
