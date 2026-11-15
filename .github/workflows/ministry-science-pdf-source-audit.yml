@@ -31,7 +31,7 @@ jobs:
             --connect-timeout 30 --max-time 600 \
             --proto '=https' --proto-redir '=https' \
             --output "$PDF_PATH" \
-            --write-out 'http_code=%{http_code}\ncontent_type=%{content_type}\nsize_download=%{size_download}\nurl_effective=%{url_effective}\n' \
+            --write-out 'http_code=%{http_code}\ncontent_type=%{content_type}\nsize_download=%{size_download}\n' \
             "$SOURCE_URL" > audit-output/download.txt
           test "$(head -c 5 "$PDF_PATH")" = '%PDF-'
           sha256sum "$PDF_PATH" > audit-output/sha256.txt
