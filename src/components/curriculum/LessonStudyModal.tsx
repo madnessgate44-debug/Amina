@@ -413,6 +413,8 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                           ? (isAr ? 'إثراء' : isFr ? 'Enrichissement' : 'Enrichment')
                           : section.kind === 'review'
                           ? (isAr ? 'مراجعة' : isFr ? 'Révision' : 'Review')
+                          : section.kind === 'practice'
+                          ? (isAr ? 'تدريبات' : isFr ? 'Exercices du manuel' : 'Textbook exercises')
                           : (isAr ? 'مهارة علمية' : isFr ? 'Méthode scientifique' : 'Scientific method')}
                       </span>
                       <h3 className="text-sm font-black text-slate-900 dark:text-slate-100">{section.titleFr}</h3>

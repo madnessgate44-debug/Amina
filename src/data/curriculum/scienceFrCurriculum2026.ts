@@ -148,6 +148,100 @@ function getSupplementarySections(s: Spec): CurriculumSupplementarySection[] {
     });
   }
 
+  if (s.u === 1 && s.n === 4) {
+    sections.push({
+      id: 'science-fr-practice-16-17',
+      kind: 'practice',
+      sourcePages: '16–17',
+      titleFr: 'Exercices sur le squelette et le mouvement',
+      summaryFr: 'Ces exercices vérifient les rôles du squelette, du crâne et de la cage thoracique, ainsi que le mouvement produit par les muscles et les os et l’adaptation des membres des animaux.',
+      practiceItemsFr: [
+        { prompt: 'Comment appelle-t-on la structure osseuse qui donne sa forme au corps ?', expectedAnswer: 'Le squelette.' },
+        { prompt: 'Quels deux organes la cage thoracique protège-t-elle ?', expectedAnswer: 'Le cœur et les poumons.' },
+        { prompt: 'Comment les chiens et les chevaux déplacent-ils leurs membres ?', expectedAnswer: 'Les muscles se contractent et tirent sur les os.' },
+        { prompt: 'Pourquoi la longueur et la forme des os diffèrent-elles selon les animaux ?', expectedAnswer: 'Elles sont adaptées à leur mode de vie et à leurs mouvements, comme courir ou voler.' },
+        { prompt: 'Quel organe le crâne protège-t-il ?', expectedAnswer: 'Le cerveau.' },
+        { prompt: 'De quoi la colonne vertébrale est-elle composée et pourquoi permet-elle de plier le corps ?', expectedAnswer: 'Elle est composée de nombreux petits os reliés entre eux, ce qui permet au corps de se plier.' },
+        { prompt: 'Qu’est-ce qui permet aux pattes antérieures du chien de se plier ?', expectedAnswer: 'Elles possèdent des articulations.' },
+        { prompt: 'Pourquoi les os des animaux ont-ils des formes différentes ?', expectedAnswer: 'Parce que leur forme est adaptée aux types de mouvements de chaque animal.' },
+      ],
+    });
+  }
+
+  if (s.u === 2 && s.n === 2) {
+    sections.push({
+      id: 'science-fr-practice-24-25',
+      kind: 'practice',
+      sourcePages: '24–25',
+      titleFr: 'Exercices sur les changements saisonniers',
+      summaryFr: 'Ces exercices relient la température aux changements de la plante de luffa et à l’activité des lézards, puis vérifient l’ordre du cycle annuel de la plante et la dormance hivernale.',
+      practiceItemsFr: [
+        { prompt: 'Quand les graines de luffa germent-elles et se développent-elles rapidement ?', expectedAnswer: 'Lorsque la température augmente.' },
+        { prompt: 'Que reste-t-il après le flétrissement du luffa en hiver pour produire la génération suivante ?', expectedAnswer: 'Les graines.' },
+        { prompt: 'Quand les lézards sont-ils les plus actifs ?', expectedAnswer: 'Lorsque la température est élevée.' },
+        { prompt: 'Comment les lézards passent-ils généralement l’hiver froid ?', expectedAnswer: 'Ils restent immobiles dans le sol ou dans les fissures des roches.' },
+        { prompt: 'Que font de nombreuses plantes lorsque la température devient plus élevée en été ?', expectedAnswer: 'Elles développent largement leurs feuilles et produisent des fleurs.' },
+        { prompt: 'Ordonne le cycle annuel de la plante : germination, floraison, développement des fruits.', expectedAnswer: 'Les graines germent → les fleurs s’épanouissent → les fruits se développent.' },
+        { prompt: 'Comment la température influence-t-elle le mouvement des lézards ?', expectedAnswer: 'Ils deviennent lents lorsque la température est basse et peuvent bouger rapidement lorsqu’elle est élevée.' },
+        { prompt: 'Comment appelle-t-on l’état d’inactivité de certains animaux pendant l’hiver pour conserver leur énergie ?', expectedAnswer: 'L’hibernation.' },
+      ],
+    });
+  }
+
+  if (s.u === 3 && s.n === 5) {
+    sections.push({
+      id: 'science-fr-practice-42',
+      kind: 'practice',
+      sourcePages: '42',
+      titleFr: 'Exercices de synthèse sur la germination',
+      summaryFr: 'Les exercices vérifient les trois conditions de germination et distinguent la germination de la croissance ultérieure, qui nécessite notamment la lumière du Soleil et des nutriments.',
+      practiceItemsFr: [
+        { prompt: 'Que se passe-t-il si l’une des trois conditions nécessaires à la germination manque ?', expectedAnswer: 'Les graines ne germent pas.' },
+        { prompt: 'Quel autre facteur, en plus de la lumière du Soleil, est nécessaire à la croissance après la germination mais pas à la germination elle-même ?', expectedAnswer: 'L’engrais.' },
+        { prompt: 'Des graines placées sur du coton humide, dans une boîte obscure et dans une pièce chaude peuvent-elles germer ?', expectedAnswer: 'Oui, si elles disposent d’eau, d’air et d’une température appropriée ; la lumière n’est pas nécessaire à la germination.' },
+        { prompt: 'Quelles sont les trois conditions nécessaires à la germination ?', expectedAnswer: 'L’eau, l’air et une température appropriée.' },
+        { prompt: 'Dans l’expérience qui compare un endroit chaud et un réfrigérateur, quelle condition est modifiée ?', expectedAnswer: 'La température.' },
+        { prompt: 'Des graines placées sur du coton humide dans un réfrigérateur germent-elles dans les conditions de l’expérience ?', expectedAnswer: 'Non, car la température froide n’est pas appropriée à la germination.' },
+      ],
+    });
+  }
+
+  if (s.u === 4 && s.n === 2) {
+    sections.push({
+      id: 'science-fr-practice-48-49',
+      kind: 'practice',
+      sourcePages: '48–49',
+      titleFr: 'Exercices sur la lumière et l’engrais',
+      summaryFr: 'Ces exercices vérifient les effets de la lumière du Soleil et de l’engrais sur la croissance des plantes, ainsi que les variables à maintenir constantes pendant les expériences.',
+      practiceItemsFr: [
+        { prompt: 'À quoi ressemblent les feuilles et les tiges d’une plante qui reçoit une quantité appropriée de lumière ?', expectedAnswer: 'Les feuilles sont vert foncé et les tiges sont épaisses et fortes.' },
+        { prompt: 'Quelle condition est modifiée dans l’expérience qui étudie l’effet de la lumière du Soleil ?', expectedAnswer: 'La présence ou la quantité de lumière du Soleil.' },
+        { prompt: 'Comment les plants avec engrais grandissent-ils par rapport aux plants sans engrais ?', expectedAnswer: 'Ils grandissent davantage.' },
+        { prompt: 'Quelles deux conditions doivent rester identiques dans l’expérience sur l’engrais ?', expectedAnswer: 'La quantité d’eau et la façon dont la lumière du Soleil arrive.' },
+        { prompt: 'Que devient une plante qui pousse sans lumière du Soleil ?', expectedAnswer: 'Ses feuilles tendent à jaunir et ses tiges deviennent fines et longues.' },
+        { prompt: 'Pourquoi les plantes ont-elles besoin de la lumière du Soleil ?', expectedAnswer: 'La lumière du Soleil les aide à grandir fortes et en bonne santé.' },
+        { prompt: 'Quel élément n’est pas un effet attendu de l’engrais dans les choix du manuel ?', expectedAnswer: 'La diminution du nombre de feuilles.' },
+        { prompt: 'De quoi les plantes ont-elles besoin pour fabriquer leurs nutriments et poursuivre leur croissance ?', expectedAnswer: 'Elles utilisent la lumière du Soleil et absorbent de l’eau.' },
+      ],
+    });
+  }
+
+  if (s.u === 5 && s.n === 3) {
+    sections.push({
+      id: 'science-fr-practice-62',
+      kind: 'practice',
+      sourcePages: '62',
+      titleFr: 'Exercices sur la pollinisation et le fruit',
+      summaryFr: 'Ces exercices vérifient la définition de la pollinisation, l’ordre des changements après la pollinisation, le rôle des insectes et le devenir d’une fleur femelle non pollinisée.',
+      practiceItemsFr: [
+        { prompt: 'Comment appelle-t-on le processus au cours duquel les grains de pollen adhèrent au sommet du carpelle ?', expectedAnswer: 'La pollinisation.' },
+        { prompt: 'Quel est l’ordre correct des changements après la pollinisation ?', expectedAnswer: 'La pollinisation → le renflement à la base de la fleur femelle se développe → les graines se forment à l’intérieur du fruit.' },
+        { prompt: 'Quels êtres vivants transportent souvent le pollen des fleurs mâles vers les fleurs femelles du luffa ?', expectedAnswer: 'Des insectes comme les abeilles.' },
+        { prompt: 'Que devient une fleur femelle de luffa qui n’a pas été pollinisée ?', expectedAnswer: 'Elle jaunit et tombe sans que le fruit se développe.' },
+      ],
+    });
+  }
+
   // The general scientific-method appendix is linked from the lessons where
   // its procedures are directly practised: fair tests and observation records
   // from seed germination; microscope operation from lesson 5-2.
