@@ -669,31 +669,30 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   ),
   '8-3': makeGuide(
     '86–89',
-    'Les satellites météorologiques prennent des images d’une grande région depuis l’espace. Sur les images présentées dans le manuel, les zones blanches représentent les nuages. Pour prévoir le temps, on observe où se trouvent les nuages et dans quelle direction ils se déplacent, puis on combine ces informations avec celles sur les vents. Si une grande masse nuageuse située à l’Ouest s’approche, le temps peut devenir plus nuageux ou pluvieux. Une prévision est une estimation fondée sur des observations ; elle n’est pas une certitude.',
-    'Sur une carte simplifiée, place une masse blanche à l’Ouest de l’Égypte. Fais tracer sa direction habituelle vers l’Est. Demande à l’élève de prévoir ce qui pourrait arriver et de citer l’indice utilisé.',
+    'Les satellites météorologiques prennent des images d’une grande région depuis l’espace. Sur les images présentées dans le manuel, les zones blanches représentent les nuages. Le radar météorologique complète ces images : il utilise des ondes radio pour repérer en temps réel les précipitations (pluie ou neige), leur emplacement et leur intensité. Il aide aux prévisions à court terme et à la prévention des risques. En combinant la position et le déplacement des nuages avec les informations sur le vent et les données du radar, on peut estimer l’évolution du temps et la quantité de pluie dans les prochaines heures. Une prévision reste une estimation fondée sur des observations ; elle n’est pas une certitude.',
+    'Sur une carte simplifiée, place une masse blanche à l’Ouest de l’Égypte. Ajoute un symbole de radar indiquant une zone de pluie et son intensité. Demande à l’élève d’expliquer ce que l’image satellite montre, ce que le radar mesure et quelle évolution du temps pourrait être prévue.',
     [
       { prompt: 'Que représentent les zones blanches sur une image satellite météorologique ?', expectedAnswer: 'Les nuages.' },
-      { prompt: 'Quelle information complète l’observation des nuages pour faire une prévision ?', expectedAnswer: 'Les informations sur le vent.' },
+      { prompt: 'Que permet au radar météorologique d’observer ?', expectedAnswer: 'Il repère en temps réel où et avec quelle intensité il pleut ou neige, grâce aux ondes radio.' },
     ],
     [
-      { prompt: 'Une grande masse nuageuse arrive de l’Ouest. Quel changement peut-on prévoir ?', expectedAnswer: 'Le temps peut devenir plus nuageux ou pluvieux.' },
-      { prompt: 'Pourquoi une prévision météorologique n’est-elle pas une certitude ?', expectedAnswer: 'Parce qu’elle est fondée sur des observations et des informations qui peuvent évoluer.' },
+      { prompt: 'Quelle différence existe entre une image satellite et les données d’un radar météorologique ?', expectedAnswer: 'L’image satellite montre les nuages à grande échelle ; le radar repère où et avec quelle intensité il pleut ou neige.' },
+      { prompt: 'Pourquoi une prévision météorologique n’est-elle pas une certitude ?', expectedAnswer: 'Parce qu’elle combine des observations et des informations qui peuvent évoluer.' },
     ],
-    ['Le temps peut devenir plus nuageux ou pluvieux.', 'Parce que les conditions météorologiques peuvent évoluer après l’observation.'],
+    ['Les nuages.', 'L’image satellite montre les nuages ; le radar repère les précipitations et leur intensité.'],
     [
-      { observedResponse: 'Les zones blanches représentent la mer.', diagnosis: 'L’élève ne connaît pas la convention de lecture de l’image utilisée dans le manuel.', correctivePrompt: 'Quelle couleur le manuel associe-t-il aux nuages sur l’image satellite ?' },
-      { observedResponse: 'La prévision annonce exactement ce qui va arriver.', diagnosis: 'L’élève confond une prévision avec une certitude.', correctivePrompt: 'Pourquoi faut-il observer les nuages et le vent à nouveau ?' },
+      { observedResponse: 'Le radar et le satellite font exactement la même chose.', diagnosis: 'L’élève confond l’observation des nuages à grande échelle et la détection des précipitations par radar.', correctivePrompt: 'Quel outil montre les nuages depuis l’espace et lequel repère où il pleut ou neige ?' },
+      { observedResponse: 'La prévision annonce exactement ce qui va arriver.', diagnosis: 'L’élève confond une prévision avec une certitude.', correctivePrompt: 'Pourquoi faut-il continuer à observer les nuages, le vent et les données radar ?' },
     ],
     [
       'Fais lire une image satellite simplifiée en commençant par identifier les zones blanches.',
-      'Demande à l’élève de formuler une prévision avec la structure « Je prévois… parce que j’observe… ».',
+      'Présente un schéma simple de radar et fais associer les informations « lieu des précipitations » et « intensité ».',
     ],
     [
-      { prompt: 'Quelles données sont combinées pour prévoir le temps ?', expectedAnswer: 'La position et le mouvement des nuages ainsi que les informations sur le vent.', successCriterion: 'La réponse mentionne nuages et vent.' },
-      { prompt: 'Comment justifier une prévision ?', expectedAnswer: 'En citant les nuages observés, leur direction et les informations sur le vent.', successCriterion: 'La justification s’appuie sur des indices observables.' },
+      { prompt: 'Quelle information donne le radar météorologique ?', expectedAnswer: 'L’endroit où il pleut ou neige et l’intensité des précipitations.', successCriterion: 'La réponse mentionne le lieu et l’intensité des précipitations.' },
+      { prompt: 'Quelles données peuvent être combinées pour prévoir le temps à court terme ?', expectedAnswer: 'Les images satellites, le mouvement des nuages, les informations sur le vent et les données radar.', successCriterion: 'La réponse cite les nuages, le vent et le radar.' },
     ],
-  ),
-  '9-1': makeGuide(
+  ),  '9-1': makeGuide(
     '92–93',
     'L’évaporation est le passage de l’eau liquide à la vapeur d’eau invisible qui se mélange à l’air. L’eau d’une flaque ou d’un vêtement mouillé ne disparaît pas : elle change d’état et passe dans l’air. L’évaporation est plus rapide lorsque la température est élevée, lorsque le temps est ensoleillé et lorsqu’il y a du vent. Pour l’étudier, on peut comparer deux récipients contenant la même quantité d’eau, dont un seul est couvert, puis observer la quantité d’eau après deux ou trois jours.',
     'Verse la même quantité d’eau dans deux verres. Couvre l’un avec un film plastique fixé par un élastique et laisse l’autre ouvert. Place-les dans le même endroit. Après deux ou trois jours, compare les quantités d’eau restantes.',

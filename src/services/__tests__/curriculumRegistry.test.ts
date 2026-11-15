@@ -415,6 +415,30 @@ check(
   lessonsMissingVocabulary.length === 0,
 );
 
+// 10.4 Page 89 includes weather radar as well as satellite imagery.
+//      Guard the source-backed concept across curriculum and teaching UI data.
+const weatherRadarLesson = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 8 && lesson.lessonNumber === 3,
+);
+const weatherRadarPlan = SCIENCE_FR_TEACHER_GUIDE_2026['8-3'];
+const radarTerms = ['radar météorologique', 'ondes radio', 'précipitations'];
+check(
+  '10.4 lesson 8-3 includes the page 89 weather-radar concept in its learner curriculum',
+  !!weatherRadarLesson &&
+    weatherRadarLesson.concepts.some((concept) => concept.sourceText.toLocaleLowerCase('fr').includes('radar météorologique')) &&
+    weatherRadarLesson.objectives.some((item) => item.toLocaleLowerCase('fr').includes('radar')) &&
+    weatherRadarLesson.vocabulary.some((item) => item.word.toLocaleLowerCase('fr').includes('radar')),
+);
+check(
+  '10.5 lesson 8-3 teaches radar operation, use, practice and mastery',
+  !!weatherRadarPlan &&
+    radarTerms.every((term) => weatherRadarPlan.explanationFr.toLocaleLowerCase('fr').includes(term)) &&
+    weatherRadarPlan.workedExampleFr.toLocaleLowerCase('fr').includes('radar') &&
+    weatherRadarPlan.guidedPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('ondes radio')) &&
+    weatherRadarPlan.independentPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('intensité')) &&
+    weatherRadarPlan.masteryCheckFr.some((item) => item.prompt.toLocaleLowerCase('fr').includes('radar')),
+);
+
 // 11. The full teacher-ready sequence must be present for every numbered lesson.
 //     This is a structural contract, not a claim that an official Ministry
 //     teacher guide has been found.
