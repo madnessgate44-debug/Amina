@@ -90,7 +90,7 @@ jobs:
               "important_limit": "A successful download and text-marker scan do not establish lesson-by-lesson curriculum equivalence or authenticate a teacher guide."
           }
           Path("audit-output/source-audit.json").write_text(
-              json.dumps(report, ensure_ascii=False, indent=2) + "\\n",
+              json.dumps(report, ensure_ascii=False, indent=2) + "\n",
               encoding="utf-8"
           )
           print(json.dumps(report, ensure_ascii=False, indent=2))
