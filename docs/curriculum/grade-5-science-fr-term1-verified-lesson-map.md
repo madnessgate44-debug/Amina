@@ -245,7 +245,8 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 - **[VERIFIED]** The 28 app lesson IDs and printed page ranges in `scienceFrCurriculum2026.ts` / `scienceFrTeachingGuide2026.ts` correspond to the 28 numbered lesson ranges in the source map: 1-1 through 9-3.
 - **[VERIFIED]** Spot review of the source pages confirms the principal teaching facts sampled across Chapters 1–9, including paired muscle action, joint/cartilage function, seed germination conditions and fair tests, plant growth conditions, flower structure/pollination, human growth and inherited traits, animal reproduction, cloud observation/forecasting, evaporation/condensation and the water cycle.
 - **[GAP FOUND]** The app-authored enrichment summary for pp. 18–19 previously omitted the textbook's explanation that concentrating fat in the camel's hump, rather than distributing it across the body, is presented as helping the rest of the body release heat. The summary and a regression check are being updated to retain that source detail.
-- **[LIMIT]** This is a text-based source reconciliation plus targeted pedagogical review. It is not a visual comparison of every illustration/diagram, an independent scientific fact-check of every claim in the textbook, or a phone-sized learner walkthrough.
+- **[VERIFIED]** Raster contact sheets covering PDF pages 1–109 were reviewed. The cover, French Ministry imprint, contents page, all numbered lesson pages, enrichment pages and scientific-method appendix pages are present; no obvious blank or missing instructional page was seen at thumbnail scale.
+- **[LIMIT]** This is not a high-resolution inspection of every diagram/illustration or a pixel-level comparison of the Ministry-hosted PDF against the Library copy. It is not an independent scientific fact-check of every textbook claim or a phone-sized learner walkthrough.
 
 ### Updated status
 
