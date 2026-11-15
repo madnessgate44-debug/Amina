@@ -788,7 +788,7 @@ export const SCIENCE_FR_TERM1_ENRICHMENT_2026 = [
     chapters: [2],
     sourcePages: '26–27',
     titleFr: 'Le renard fennec et les vêtements traditionnels',
-    appAuthoredSummaryFr: 'Le manuel présente les grandes oreilles du fennec comme une aide à la perte de chaleur et les poils sous ses pattes comme une protection contre le sable chaud. Il compare aussi la galabeya ample et la couleur des vêtements à la circulation de l’air et à la gestion de la chaleur. Utiliser cette page comme étude d’adaptations, sans généraliser chaque détail à tous les vêtements.',
+    appAuthoredSummaryFr: 'Le manuel explique que les grandes oreilles du fennec contiennent un réseau de fins vaisseaux sanguins : le vent qui passe sur les oreilles aide à évacuer la chaleur du sang. Les longs poils sous ses pattes forment une barrière contre le sable brûlant. La galabeya ample laisse circuler l’air entre le vêtement et le corps ; l’air chauffé monte et l’air plus frais entre par le bas, ce qui aide la sueur à s’évaporer. Le manuel indique aussi que le blanc réfléchit la lumière solaire, tandis que le noir favorise une circulation d’air plus rapide à l’intérieur du vêtement et le séchage de la sueur. Présenter ces mécanismes comme les explications données dans le manuel, sans généraliser à tous les vêtements.',
   },
   {
     chapters: [3],
@@ -800,19 +800,19 @@ export const SCIENCE_FR_TERM1_ENRICHMENT_2026 = [
     chapters: [3, 4],
     sourcePages: '50–51',
     titleFr: 'Dormance des graines et sol du Nil',
-    appAuthoredSummaryFr: 'Le manuel présente la dormance comme un état pendant lequel une graine reste inactive jusqu’à ce que les conditions de germination soient réunies. Il relie aussi les nutriments transportés par le Nil à la fertilité des sols agricoles. Distinguer ces exemples d’une condition supplémentaire de germination.',
+    appAuthoredSummaryFr: 'Le manuel raconte que des graines de blé âgées de plus de 3 000 ans auraient été retrouvées dans des récipients en poterie de tombeaux anciens et rapporte que leur amidon était préservé. Il explique que la dormance maintient les graines inactives tant que l’eau, l’air et une température appropriée ne sont pas réunis, et que l’air sec a limité la moisissure des graines. La page relie aussi les crues du Nil aux dépôts de sols riches en nutriments venus des hauts plateaux d’Éthiopie. Elle décrit l’érosion des roches transportées par le fleuve, qui deviennent de fines particules de limon facilitant l’extension des racines. Présenter l’histoire des graines comme un récit rapporté par le manuel, et non comme une vérification indépendante de leur âge ou de leur viabilité.',
   },
   {
     chapters: [8],
     sourcePages: '90–91',
     titleFr: 'Satellites, radar et khamsin',
-    appAuthoredSummaryFr: 'Le manuel explique que les satellites observent les nuages sur de vastes régions et que le radar météorologique suit les précipitations. Il présente le khamsin comme un vent chaud et sec accompagné de poussière, entre l’hiver et l’été en Égypte.',
+    appAuthoredSummaryFr: 'Le manuel indique que l’Égypte présente généralement une couverture nuageuse faible, d’environ zéro à une part sur huit, tandis que la côte méditerranéenne reçoit davantage de nuages et parfois de pluie en hiver. Il décrit le déplacement général des nuages autour de l’Égypte d’Ouest en Est et le rôle des satellites dans leur suivi. Il présente ensuite le khamsin comme une tempête de sable chaude et sèche entre l’hiver et l’été : une forte dépression venant de l’Ouest soulève le sable du Sahara et fait rapidement monter la température. Enfin, il explique que la vapeur d’eau présente près du Nil favorise la formation des nuages. Les satellites observent les nuages à grande échelle ; le radar, étudié page 89, suit les précipitations.',
   },
   {
     chapters: [9],
     sourcePages: '102–103',
     titleFr: 'Le cycle de l’eau du Nil',
-    appAuthoredSummaryFr: 'Le manuel relie l’évaporation, la condensation et les pluies au trajet de l’eau en Afrique et au Nil. Il évoque le stockage de l’eau derrière le Haut Barrage d’Assouan. Utiliser ce passage comme enrichissement du cycle de l’eau et de la préservation de la ressource.',
+    appAuthoredSummaryFr: 'Le manuel explique que le Soleil provoque l’évaporation de l’eau du Nil et que l’air sec favorise le séchage rapide du linge et la baisse progressive du niveau de l’eau. Il décrit aussi la condensation nocturne : lorsque l’air du désert refroidit, la vapeur d’eau forme de petites gouttelettes sur les plantes, qui constituent une source d’eau pour de petits êtres vivants. À l’échelle de l’Afrique, l’eau s’évapore de l’océan Indien et de la mer Rouge, les vents transportent les nuages vers le plateau éthiopien et le Soudan, puis les pluies alimentent des rivières qui rejoignent le Nil en traversant le Soudan et l’Égypte. Le manuel présente enfin le Haut Barrage d’Assouan comme un moyen de stocker de l’eau pour la rendre disponible toute l’année, notamment pour l’agriculture, et rappelle que l’eau consommée par les êtres humains participe aussi au cycle.',
   },
 ] as const;
 
@@ -830,7 +830,7 @@ export const SCIENCE_FR_TERM1_METHOD_SKILLS_2026 = [
     sourcePages: '104',
     titleFr: 'Réaliser une expérience équitable',
     objectiveFr: 'Modifier un seul facteur à la fois et maintenir les autres conditions constantes.',
-    teachingSequenceFr: 'Poser la question, identifier le facteur à tester, nommer les conditions constantes, puis comparer les résultats.',
+    teachingSequenceFr: 'Poser une question, identifier le seul facteur à modifier et énumérer les conditions à maintenir constantes. Pour tester le besoin d’eau des graines, modifier la présence d’eau tout en gardant comparables la température et l’air ; pour tester la lumière, modifier la présence de lumière en gardant notamment l’eau, l’air et la température constants. Comparer ensuite les résultats sans changer plusieurs facteurs à la fois.',
   },
   {
     sourcePages: '105',
@@ -842,7 +842,7 @@ export const SCIENCE_FR_TERM1_METHOD_SKILLS_2026 = [
     sourcePages: '106',
     titleFr: 'Enregistrer les observations',
     objectiveFr: 'Suivre un changement au cours du temps avec des notes, des dessins, des tableaux et des graphiques.',
-    teachingSequenceFr: 'Observer à intervalles réguliers, noter les mêmes indicateurs, comparer les mesures et présenter les résultats clairement.',
+    teachingSequenceFr: 'Observer la plante après la germination à intervalles réguliers. Enregistrer dans un tableau le nombre de feuilles, la hauteur de la tige et sa couleur ; utiliser des dessins pour conserver une trace des observations. Le manuel propose aussi une solution d’iode pour rechercher l’amidon dans les graines ou les feuilles : noter le changement observé et dessiner le résultat. Organiser les mesures dans un tableau ou un graphique afin de suivre la croissance sur plusieurs semaines.',
   },
   {
     sourcePages: '107',
