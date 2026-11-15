@@ -210,3 +210,32 @@ The four current Miss Noor French-language lessons therefore remain **UNVERIFIED
 - **[PASS]** Engineering Execution OS compliance run [43535411162](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411162).
 - **[VERIFIED]** GitHub's Vercel status for the current main commit is `success` with description `Deployment has completed`. This status alone does not prove a phone-sized learner walkthrough or independently verify the custom-domain experience.
 - **[UNPROVEN]** A live phone-sized French lesson walkthrough remains outstanding. No Term 2 or full-year completion claim is made.
+
+
+## 13. Teaching-plan contract audit and chapter-title integration — 15 November 2026
+
+### App data and structural verification
+
+- **[VERIFIED]** PR [#184](https://github.com/madnessgate44-debug/Amina/pull/184) is merged. Main commit: `b635bfa10657d59db65ef0dcd70eae670c5be9fb`.
+- **[VERIFIED]** All 28 current-edition French Science lesson records now carry the exact French chapter heading from the Term 1 table of contents in `unitNameFr`, formatted as `Chapitre N : [heading]`. The nine headings are the ones listed in this manifest's Science TOC.
+- **[VERIFIED]** Each of the 28 lesson records has at least two explicit learning objectives and at least three French vocabulary terms with definitions.
+- **[VERIFIED]** Each of the 28 app-authored teaching plans has a non-empty French explanation (at least 50 words), a worked example/demonstration (at least 20 words), at least two guided-practice items with expected responses, at least two independent-practice items, a one-to-one answer key, at least two misconception diagnoses, at least two remediation steps, and at least two mastery checks with success criteria.
+- **[VERIFIED]** Regression checks also protect the six enrichment page ranges (pp. 18–19, 26–27, 43, 50–51, 90–91, 102–103), the separate Chapter 5 review on p. 63, and the four scientific-method appendix skills on pp. 104–107.
+- **[VERIFIED]** The app data now carries an explicit `[UNPROVEN]` source-copy note on every current-edition lesson record: the inspected Library PDF is third-party assembled, bears the Ministry 2026–2027 imprint, and has not been byte-compared with the canonical Ministry-hosted PDF.
+- **[LIMITATION]** These are structural completeness checks, not an independent pedagogical peer review of every French sentence, answer key, or classroom demonstration. The plans remain Miss Noor app-authored content, not Ministry teacher-guide material.
+
+### Mainline verification
+
+- **[PASS]** GitHub Actions CI [run 43688746038](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746038): `npm run lint` passed; `npm test` passed (39 suite summaries, 0 failures; curriculum registry 35 passed, 0 failed); `npm run build` passed (Vite 8.3.5, 1,792 modules, 491 ms).
+- **[PASS]** Engineering Execution OS compliance [run 43688746047](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746047).
+- **[PENDING]** The Vercel status on the merged main commit was still `pending` at the time this addendum was written. No deployment-success claim is made from this status.
+- **[UNPROVEN]** A phone-sized learner walkthrough and direct custom-domain verification have not been completed.
+
+### Remaining source and scope boundaries
+
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. Do not substitute a third-party preparation notebook or another curriculum.
+- **[BLOCKED]** The exact 2026–2027 Term 2 French Science student book is not yet verified or available in the checked catalogue.
+- **[UNPROVEN]** The separate assessment-book PDF has not been retrieved and audited question by question; its third-party listings disagree on page count.
+- **[UNPROVEN]** Byte-for-byte identity of the inspected third-party-assembled student-book copy with the canonical Ministry-hosted PDF remains unverified.
+
+This is a Grade 5 French Science Term 1 reconstruction only. It is not a full-year or full-book completion declaration.
