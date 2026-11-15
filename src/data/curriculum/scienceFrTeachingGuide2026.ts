@@ -461,17 +461,20 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   ),
   '6-1': makeGuide(
     '64–65',
-    'La croissance est un changement qui se produit au fil du temps : le corps devient plus grand, plus fort et plus complexe. Le manuel présente plusieurs étapes de la vie humaine : petite enfance, enfance, adolescence, jeunesse et vieillesse. La petite enfance commence à la naissance ; le nourrisson dépend des adultes pour la nourriture, les soins et la protection. Pendant l’enfance, l’enfant apprend notamment à marcher, à parler et à aller à l’école, tandis que ses os et ses muscles deviennent plus forts. Les étapes se succèdent au cours de la vie.',
-    'Place cinq cartes dans l’ordre : nourrisson, enfant, adolescent, jeune adulte, personne âgée. Pour chaque carte, demande un changement général observable, sans demander à l’élève de raconter des informations personnelles.',
+    'La croissance est un changement qui se produit au fil du temps : le corps devient plus grand, plus fort et plus complexe. Le manuel présente cinq étapes : petite enfance, enfance, adolescence, jeunesse et vieillesse. La petite enfance commence à la naissance, après environ neuf mois de développement dans le corps de la mère. Le nourrisson dépend entièrement de sa mère pour la nourriture, les soins et la protection. Pendant l’enfance, l’enfant apprend notamment à marcher, à parler et à aller à l’école, tandis que ses os et ses muscles deviennent plus forts. Le manuel rappelle aussi que la reproduction permet la continuité de la vie et la préservation de l’espèce à travers les générations.',
+    'Place cinq cartes dans l’ordre : nourrisson, enfant, adolescent, jeune adulte, personne âgée. Ajoute une carte « naissance » précédée d’une frise indiquant environ neuf mois de développement dans le corps de la mère. Fais expliquer que la reproduction permet à une espèce de continuer à exister. Utilise uniquement des schémas simples et ne demande aucune information personnelle.',
     [
       { prompt: 'Quelle étape commence à la naissance ?', expectedAnswer: 'La petite enfance.' },
+      { prompt: 'Combien de temps environ le bébé se développe-t-il dans le corps de sa mère avant la naissance, selon le manuel ?', expectedAnswer: 'Environ neuf mois.' },
+      { prompt: 'Pourquoi la reproduction est-elle importante ?', expectedAnswer: 'Elle permet la continuité de la vie et la préservation de l’espèce.' },
       { prompt: 'Cite deux capacités que l’enfant développe pendant l’enfance.', expectedAnswer: 'Il apprend notamment à marcher et à parler.' },
     ],
     [
       { prompt: 'Ordonne les étapes de la vie présentées dans le manuel.', expectedAnswer: 'Petite enfance → enfance → adolescence → jeunesse → vieillesse.' },
       { prompt: 'Que signifie grandir ?', expectedAnswer: 'Le corps change au fil du temps et devient plus grand, plus fort et plus complexe.' },
+      { prompt: 'Quel est le lien entre la reproduction et la continuité de la vie ?', expectedAnswer: 'La reproduction permet l’arrivée de nouveaux individus et la continuité de l’espèce.' },
     ],
-    ['Petite enfance → enfance → adolescence → jeunesse → vieillesse.', 'Le corps change au fil du temps et devient plus grand, plus fort et plus complexe.'],
+    ['Petite enfance → enfance → adolescence → jeunesse → vieillesse.', 'Le corps change au fil du temps et devient plus grand, plus fort et plus complexe.', 'La reproduction permet la continuité de la vie et la préservation de l’espèce.'],
     [
       { observedResponse: 'La jeunesse vient avant l’enfance.', diagnosis: 'L’élève ne maîtrise pas l’ordre chronologique des étapes.', correctivePrompt: 'Quelle étape vient juste après la naissance ? Et après l’enfance ?' },
       { observedResponse: 'La croissance signifie seulement devenir plus grand.', diagnosis: 'L’élève réduit la croissance à la taille.', correctivePrompt: 'Le manuel parle aussi de force et de complexité : que signifient ces changements ?' },
@@ -487,17 +490,19 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   ),
   '6-2': makeGuide(
     '66–67',
-    'Les enfants ressemblent souvent à leurs parents parce qu’ils héritent de caractères de leur père et de leur mère. Des membres d’une même famille peuvent partager certains traits et présenter aussi des différences. La ressemblance ne signifie pas que deux personnes sont identiques. Pour étudier cette idée en classe, on peut utiliser des personnages fictifs ou des dessins, sans demander à l’enfant de révéler des informations personnelles sur sa famille.',
-    'Montre un dessin de deux parents fictifs et de deux enfants fictifs. Demande aux élèves de repérer un trait partagé, puis un trait différent. Explique que les enfants héritent de caractères des deux parents.',
+    'Le manuel explique que la vie de chaque être humain commence avec un père et une mère. Les parents prennent soin de leurs enfants et les protègent jusqu’à ce qu’ils grandissent. Les enfants ressemblent à leurs parents parce qu’ils héritent de caractères de leur père et de leur mère. Des membres d’une même famille peuvent partager certains traits et présenter aussi des différences : la ressemblance ne signifie pas que deux personnes sont identiques. Pour étudier ces idées, utilise des personnages fictifs ou des dessins, sans demander à l’enfant de révéler des informations personnelles sur sa famille.',
+    'Montre un dessin de deux parents fictifs et de deux enfants fictifs. Repère un trait partagé et un trait différent, puis demande qui prend soin des enfants et les protège pendant leur croissance. Explique que les enfants héritent de caractères de leur père et de leur mère, tandis que les parents assurent leurs soins et leur protection.',
     [
       { prompt: 'Pourquoi des enfants peuvent-ils ressembler à leurs parents ?', expectedAnswer: 'Parce qu’ils héritent de caractères de leur père et de leur mère.' },
+      { prompt: 'Quel rôle les parents jouent-ils pendant que leurs enfants grandissent ?', expectedAnswer: 'Ils prennent soin de leurs enfants et leur assurent la protection.' },
       { prompt: 'Deux enfants d’une même famille sont-ils toujours identiques ?', expectedAnswer: 'Non. Ils peuvent partager certains traits et avoir aussi des différences.' },
     ],
     [
       { prompt: 'Complète : les enfants héritent de caractères de leur ______ et de leur ______.', expectedAnswer: 'père ; mère.' },
+      { prompt: 'Complète : les parents prennent soin de leurs enfants et leur assurent la ______.', expectedAnswer: 'protection.' },
       { prompt: 'Donne un exemple de ressemblance et un exemple de différence dans une famille fictive.', expectedAnswer: 'Réponse variable, avec au moins un trait partagé et un trait différent clairement décrits.' },
     ],
-    ['père ; mère.', 'Réponse variable : un trait partagé et un trait différent doivent être décrits sans affirmer que les personnes sont identiques.'],
+    ['père ; mère.', 'protection.', 'Réponse variable : un trait partagé et un trait différent doivent être décrits sans affirmer que les personnes sont identiques.'],
     [
       { observedResponse: 'Les enfants ressemblent à leurs parents uniquement parce qu’ils vivent ensemble.', diagnosis: 'L’élève confond l’héritage des caractères avec les habitudes partagées.', correctivePrompt: 'Le manuel parle-t-il de caractères hérités ou seulement d’habitudes apprises ?' },
       { observedResponse: 'Tous les enfants d’une famille sont identiques.', diagnosis: 'L’élève confond ressemblance et identité parfaite.', correctivePrompt: 'Peux-tu trouver à la fois une ressemblance et une différence dans le dessin ?' },
