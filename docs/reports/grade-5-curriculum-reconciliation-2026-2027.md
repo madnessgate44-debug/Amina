@@ -376,7 +376,7 @@ This remains a Term 1 reconstruction, not a full-year completion declaration.
 
 - **[PASS]** CI [43688746038](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746038): `npm run lint` passed; `npm test` passed (39 suite summaries, 0 failures; curriculum registry 35 passed, 0 failed); `npm run build` passed (Vite 8.3.5, 1,792 modules, 491 ms).
 - **[PASS]** Engineering Execution OS compliance [43688746047](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746047).
-- **[PENDING]** Vercel's status on merge commit `b635bfa10657d59db65ef0dcd70eae670c5be9fb` was pending when checked. Production deployment is therefore not claimed.
+- **[VERIFIED]** Vercel's status on merge commit `b635bfa10657d59db65ef0dcd70eae670c5be9fb` was initially pending and subsequently returned `success` (https://vercel.com/forge-fe22/amina/BkLHWqoU2cUxndGfs4eyosKef6Q1). This is a verified deployment status, not a phone-sized learner walkthrough or custom-domain verification.
 - **[UNPROVEN]** Phone-sized learner walkthrough and custom-domain French lesson behavior.
 
 ### Scope and unresolved blockers
