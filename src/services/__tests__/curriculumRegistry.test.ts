@@ -539,5 +539,38 @@ check(
     SCIENCE_FR_TERM1_METHOD_SKILLS_2026.every((item) => item.objectiveFr.trim() && item.teachingSequenceFr.trim()),
 );
 
+// 12.4 Guard the substantive details in enrichment pages and the methods appendix.
+const enrichmentByPage = Object.fromEntries(
+  SCIENCE_FR_TERM1_ENRICHMENT_2026.map((item) => [item.sourcePages, item.appAuthoredSummaryFr.toLocaleLowerCase('fr')]),
+);
+const methodByPage = Object.fromEntries(
+  SCIENCE_FR_TERM1_METHOD_SKILLS_2026.map((item) => [item.sourcePages, item.teachingSequenceFr.toLocaleLowerCase('fr')]),
+);
+check(
+  '12.4 page 26–27 enrichment covers fennec heat loss and galabeya airflow/colour',
+  !!enrichmentByPage['26–27'] &&
+    ['oreilles', 'vaisseaux sanguins', 'poils', 'galabeya', 'air plus frais', 'réfléchit'].every((term) => enrichmentByPage['26–27'].includes(term)),
+);
+check(
+  '12.5 pages 50–51 enrichment covers seed dormancy and Nile sediment formation',
+  !!enrichmentByPage['50–51'] &&
+    ['3 000 ans', 'amidon', 'dormance', 'air sec', 'hauts plateaux', 'limon'].every((term) => enrichmentByPage['50–51'].includes(term)),
+);
+check(
+  '12.6 pages 90–91 enrichment covers Egyptian cloud patterns and khamsin mechanism',
+  !!enrichmentByPage['90–91'] &&
+    ['0 à 1', 'ouest en est', 'méditerranéenne', 'khamsin', 'dépression', 'vapeur d’eau'].every((term) => enrichmentByPage['90–91'].includes(term)),
+);
+check(
+  '12.7 pages 102–103 enrichment covers desert condensation, African water route and Aswan storage',
+  !!enrichmentByPage['102–103'] &&
+    ['gouttelettes', 'océan indien', 'mer rouge', 'plateau éthiopien', 'soudan', 'haut barrage d’assouan'].every((term) => enrichmentByPage['102–103'].includes(term)),
+);
+check(
+  '12.8 page 106 method skill records concrete plant indicators and iodine observations',
+  !!methodByPage['106'] &&
+    ['nombre de feuilles', 'hauteur de la tige', 'couleur', 'solution d’iode', 'tableau', 'graphique'].every((term) => methodByPage['106'].includes(term)),
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
