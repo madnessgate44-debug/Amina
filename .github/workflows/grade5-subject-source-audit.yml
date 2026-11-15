@@ -36,9 +36,10 @@ jobs:
           mkdir -p "$DEST"
           cp audit-output/grade5-subject-source-audit.json "$DEST/subject-source-audit.json"
           cp audit-output/grade5-subject-page-fingerprints.csv "$DEST/subject-page-fingerprints.csv"
+          cp audit-output/grade5-subject-page-fingerprints.csv "$DEST/subject-page-headings.csv"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "$DEST/subject-source-audit.json" "$DEST/subject-page-fingerprints.csv"
+          git add "$DEST/subject-source-audit.json" "$DEST/subject-page-fingerprints.csv" "$DEST/subject-page-headings.csv"
           if git diff --cached --quiet; then
             echo "No audit data changes to publish."
           else
@@ -52,5 +53,6 @@ jobs:
           path: |
             audit-output/grade5-subject-source-audit.json
             audit-output/grade5-subject-page-fingerprints.csv
+            audit-output/grade5-subject-page-headings.csv
           if-no-files-found: error
           retention-days: 30
