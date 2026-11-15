@@ -518,28 +518,33 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   ),
   '6-3': makeGuide(
     '68–71',
-    'Pour grandir en bonne santé, le manuel présente trois conditions importantes. Une alimentation saine apporte au corps les éléments nutritifs dont il a besoin. Un sommeil suffisant permet au cerveau de se reposer et accompagne la construction et le développement du corps. Une activité physique adaptée fait bouger le corps et contribue à renforcer le cœur et les muscles. Ces trois habitudes se complètent : aucune ne remplace les deux autres.',
-    'Présente trois cartes : repas varié, sommeil suffisant, activité physique. Pour chaque carte, demande à l’élève d’expliquer en une phrase comment cette habitude soutient la croissance.',
+    'Pour grandir en bonne santé, le manuel présente trois conditions importantes. Une alimentation saine apporte au corps les éléments nutritifs dont il a besoin ; le manuel donne comme exemples le lait, les légumes et les fruits, que l’on doit bien laver avant de les manger. Un sommeil suffisant permet au cerveau de se reposer et accompagne la construction et le développement du corps. Une activité physique adaptée fait bouger le corps et contribue à renforcer le cœur et les muscles. Ces trois habitudes se complètent : aucune ne remplace les deux autres.',
+    'Présente trois cartes : repas varié avec des fruits et légumes bien lavés, sommeil suffisant, activité physique. Pour chaque carte, demande à l’élève d’expliquer en une phrase comment cette habitude soutient la croissance.',
     [
       { prompt: 'Quel est le rôle du sommeil suffisant ?', expectedAnswer: 'Il permet au cerveau de se reposer et aide le corps à se construire et à se développer.' },
       { prompt: 'Que renforce l’activité physique adaptée ?', expectedAnswer: 'Le cœur et les muscles.' },
+      { prompt: 'Que faut-il faire aux fruits et légumes avant de les manger, selon le manuel ?', expectedAnswer: 'Il faut bien les laver.' },
     ],
     [
-      { prompt: 'Associe chaque action à une condition : manger des fruits et légumes, dormir suffisamment, bouger régulièrement.', expectedAnswer: 'Fruits et légumes : alimentation saine ; dormir : sommeil suffisant ; bouger : activité physique adaptée.' },
+      { prompt: 'Associe chaque action à une condition : manger des fruits et légumes, dormir suffisamment, bouger régulièrement.', expectedAnswer: 'Fruits et légumes bien lavés : alimentation saine ; dormir : sommeil suffisant ; bouger : activité physique adaptée.' },
+      { prompt: 'Que faut-il faire avant de manger des fruits et légumes ?', expectedAnswer: 'Il faut les laver soigneusement.' },
       { prompt: 'Pourquoi ces trois conditions doivent-elles être équilibrées ?', expectedAnswer: 'Parce qu’elles ont des rôles différents et complémentaires dans une croissance saine.' },
     ],
-    ['Fruits et légumes : alimentation saine ; dormir : sommeil suffisant ; bouger : activité physique adaptée.', 'Elles ont des rôles différents et complémentaires.'],
+    ['Fruits et légumes bien lavés : alimentation saine ; dormir : sommeil suffisant ; bouger : activité physique adaptée.', 'Il faut laver soigneusement les fruits et les légumes.', 'Elles ont des rôles différents et complémentaires.'],
     [
       { observedResponse: 'Faire du sport remplace le sommeil.', diagnosis: 'L’élève pense qu’une seule habitude suffit.', correctivePrompt: 'Quel rôle le manuel attribue-t-il séparément au sommeil et à l’activité physique ?' },
       { observedResponse: 'Manger seulement des collations suffit pour grandir.', diagnosis: 'L’élève ne relie pas la diversité alimentaire aux besoins du corps.', correctivePrompt: 'Quels exemples d’aliments sains le manuel propose-t-il ?' },
+      { observedResponse: 'Il n’est pas nécessaire de laver les fruits et légumes.', diagnosis: 'L’élève oublie la consigne d’hygiène alimentaire donnée dans le manuel.', correctivePrompt: 'Que demande le manuel de faire avant de manger les fruits et les légumes ?' },
     ],
     [
       'Fais classer des exemples d’habitudes dans les trois catégories avant de demander une explication.',
       'Construis avec l’élève une journée fictive équilibrée comportant repas, repos et mouvement.',
+      'Fais verbaliser la consigne de laver soigneusement les fruits et légumes avant de les manger.',
     ],
     [
       { prompt: 'Cite les trois conditions d’une croissance saine présentées dans le manuel.', expectedAnswer: 'Alimentation saine, sommeil suffisant et activité physique adaptée.', successCriterion: 'Les trois conditions sont nommées.' },
       { prompt: 'Explique le rôle de l’une de ces conditions.', expectedAnswer: 'Réponse cohérente : nutriments pour l’alimentation, repos du cerveau et développement pour le sommeil, renforcement du cœur et des muscles pour l’activité.', successCriterion: 'L’explication correspond au bon facteur.' },
+      { prompt: 'Quelle précaution faut-il prendre avant de manger des fruits et légumes ?', expectedAnswer: 'Les laver soigneusement.', successCriterion: 'La réponse mentionne le lavage avant consommation.' },
     ],
   ),
   '7-1': makeGuide(
