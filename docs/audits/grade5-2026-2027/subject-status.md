@@ -80,6 +80,16 @@ These counts describe source and repository coverage only. They do not measure l
 - [V] An intermediate publish run failed because two audit runs raced to push the same branch; the next run published successfully. Earlier heading-index attempts also exposed a missing-output/schema bug, which was corrected before the final successful run.
 - [V] The durable evidence is on this feature branch, not main.
 
+
+## Verification ledger
+
+- [V] Source audit workflow [43713024112](https://github.com/madnessgate44-debug/Amina/actions/runs/43713024112): PASS; all retrieval/fingerprint/publish/artifact steps completed; 15 PDFs retrieved and 300 pages fingerprinted.
+- [V] Engineering Execution OS compliance [43713569965](https://github.com/madnessgate44-debug/Amina/actions/runs/43713569965): PASS on PR #201.
+- [V] PR CI [43713569942](https://github.com/madnessgate44-debug/Amina/actions/runs/43713569942): PASS. `npm ci --legacy-peer-deps` -> exit 0 (185 packages added; 186 audited; 0 vulnerabilities); `npm run lint` -> exit 0 (`tsc --noEmit`); `npm test` -> exit 0 (assembly 53 passed/0 failed; adaptiveScenarios 27 passed/0 failed; jobPersistence 19 passed/0 failed); `npm run build` -> exit 0 (`vite v8.3.5`, built in 697 ms).
+- [V] The build/test run emitted warnings: PDF.js `standardFontDataUrl` warning during tests, Vite configuration/chunk-size warnings, Node `punycode` deprecation, and GitHub Actions Node 20 deprecation notices. They did not fail the run and were not changed in this docs/audit PR.
+- [V] Intermediate audit attempts were repaired before the final PASS: runs 43712228780 and 43713013053 hit non-fast-forward pushes while concurrent runs updated the same branch; runs 43712263446, 43712266481 and 43712392526 exposed a CSV DictWriter field-schema mismatch. The publisher now succeeded on run 43713024112. No main-branch write occurred.
+- [U] Physical-phone walkthrough, visual diagram review and teacher-guide verification remain unperformed.
+
 ## Requirements and next gates
 
 | Requirement | Acceptance criterion | Current result |
@@ -89,7 +99,7 @@ These counts describe source and repository coverage only. They do not measure l
 | R3 French language | Review weekly assessments by track; do not invent textbook or school track | [PARTIAL] 13 assessments retrieved; French2 week 6 missing; track assignment unknown |
 | R4 English | Reconcile six units and all lessons/pages, examples/exercises and assessment coverage | [PARTIAL] Six units verified; only two app records; four units absent |
 | R5 Durable evidence | Preserve source JSON, page fingerprints, heading index and matrices on feature branch | [PASS] Source audit and publishing step passed |
-| R6 App/runtime validation | Lint, tests, build, registry tests and phone-sized learner walkthrough | [NOT RUN in this audit branch] |
+| R6 App/runtime validation | Lint, tests, build, registry tests and phone-sized learner walkthrough | [PASS] npm lint/test/build in PR CI #43713569942; [NOT RUN] physical-phone walkthrough |
 
 ## Explicit limits
 
