@@ -1,0 +1,115 @@
+name: Ministry Grade 5 French Science PDF source audit
+run-name: Ministry Science PDF source audit — ${{ github.run_id }}
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-audit:
+    name: Download and inspect the canonical Ministry PDF
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Install PDF inspection utility
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends poppler-utils
+
+      - name: Download canonical Ministry PDF
+        env:
+          SOURCE_URL: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf
+          PDF_PATH: ${{ runner.temp }}/ministry-science-fr-grade5-term1.pdf
+        run: |
+          set -euo pipefail
+          mkdir -p audit-output
+          curl \
+            --fail --show-error --location \
+            --retry 3 --retry-delay 5 \
+            --connect-timeout 30 --max-time 600 \
+            --proto '=https' --proto-redir '=https' \
+            --output "$PDF_PATH" \
+            --write-out 'http_code=%{http_code}\ncontent_type=%{content_type}\nsize_download=%{size_download}\nurl_effective=%{url_effective}\n' \
+            "$SOURCE_URL" > audit-output/download.txt
+          test "$(head -c 5 "$PDF_PATH")" = '%PDF-'
+          sha256sum "$PDF_PATH" > audit-output/sha256.txt
+          stat --format='file_size_bytes=%s' "$PDF_PATH" > audit-output/file-size.txt
+
+      - name: Extract PDF metadata and source markers
+        env:
+          PDF_PATH: ${{ runner.temp }}/ministry-science-fr-grade5-term1.pdf
+          TEXT_PATH: ${{ runner.temp }}/ministry-science-fr-grade5-term1.txt
+        run: |
+          set -euo pipefail
+          pdfinfo "$PDF_PATH" > audit-output/pdfinfo.txt
+          pdftotext -layout "$PDF_PATH" "$TEXT_PATH"
+          python3 - <<'PY'
+          import hashlib
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          pdf = Path(os.environ["PDF_PATH"])
+          text_path = Path(os.environ["TEXT_PATH"])
+          info_path = Path("audit-output/pdfinfo.txt")
+          info_text = info_path.read_text(encoding="utf-8", errors="replace")
+          extracted_text = text_path.read_text(encoding="utf-8", errors="replace")
+
+          metadata = {}
+          for line in info_text.splitlines():
+              if ":" in line:
+                  key, value = line.split(":", 1)
+                  metadata[key.strip()] = value.strip()
+
+          normalized = re.sub(r"[\s\-\u2010-\u2015]", "", extracted_text)
+          markers = {
+              "isbn_9786338530174": "9786338530174" in normalized,
+              "arabic_ministry_imprint": "وزارة التربية والتعليم" in extracted_text,
+              "english_ministry_imprint": bool(re.search(r"Ministry of Education", extracted_text, re.I)),
+              "science_text_present": bool(re.search(r"science", extracted_text, re.I)),
+              "french_text_present": bool(re.search(r"\b(les|des|une|et)\b", extracted_text, re.I)),
+          }
+
+          digest = hashlib.sha256()
+          with pdf.open("rb") as stream:
+              for chunk in iter(lambda: stream.read(1024 * 1024), b""):
+                  digest.update(chunk)
+
+          report = {
+              "audit_kind": "download_and_structural_inspection_only",
+              "source_url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf",
+              "downloaded_at_utc": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+              "file_size_bytes": pdf.stat().st_size,
+              "sha256": digest.hexdigest(),
+              "pdf_metadata": metadata,
+              "text_markers": markers,
+              "manual_content_review_required": True,
+              "important_limit": "A successful download and text-marker scan do not establish lesson-by-lesson curriculum equivalence or authenticate a teacher guide."
+          }
+          Path("audit-output/source-audit.json").write_text(
+              json.dumps(report, ensure_ascii=False, indent=2)
+              encoding="utf-8"
+          )
+          print(json.dumps(report, ensure_ascii=False, indent=2))
+          pages = int(metadata.get("Pages", "0"))
+          if pages < 1:
+              raise SystemExit("PDF page count is missing or invalid")
+          PY
+
+      - name: Remove downloaded source PDF and extracted text
+        if: always()
+        run: |
+          rm -f "${{ runner.temp }}/ministry-science-fr-grade5-term1.pdf"
+          rm -f "${{ runner.temp }}/ministry-science-fr-grade5-term1.txt"
+
+      - name: Upload the small audit report only
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ministry-science-fr-grade5-source-audit
+          path: audit-output/
+          if-no-files-found: warn
+          retention-days: 7
