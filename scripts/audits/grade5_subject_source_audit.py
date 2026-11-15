@@ -113,6 +113,9 @@ report={
 with (OUT/"grade5-subject-page-fingerprints.csv").open("w",newline="",encoding="utf-8") as f:
     fields=["source_id","subject","track","kind","week","pdf_page","page_heading_candidate","normalized_text_characters","normalized_text_sha256"]
     w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(page_rows)
+with (OUT/"grade5-subject-page-headings.csv").open("w",newline="",encoding="utf-8") as f:
+    fields=["source_id","subject","track","kind","week","pdf_page","page_heading_candidate"]
+    w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(page_rows)
 print(json.dumps({
     "sources_attempted":len(reports),
     "sources_pdf_retrieved":report["sources_pdf_retrieved"],
