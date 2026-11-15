@@ -242,6 +242,38 @@ function getSupplementarySections(s: Spec): CurriculumSupplementarySection[] {
     });
   }
 
+  if (s.u === 8 && s.n === 3) {
+    sections.push({
+      id: 'science-fr-practice-88',
+      kind: 'practice',
+      sourcePages: '88',
+      titleFr: 'Exercices sur les images satellites',
+      summaryFr: 'Ces exercices vérifient la lecture des images satellites, la représentation des nuages, leur déplacement général d’Ouest en Est et l’utilisation de ces observations pour prévoir le temps à court terme.',
+      practiceItemsFr: [
+        { prompt: 'Dans quelle direction les nuages se déplacent-ils généralement selon le manuel ?', expectedAnswer: 'D’Ouest en Est.' },
+        { prompt: 'Quel temps est probable lorsqu’il n’y a aucun nuage au-dessus de l’Égypte sur l’image satellite ?', expectedAnswer: 'Un temps ensoleillé.' },
+        { prompt: 'Que représentent les zones blanches sur les images des satellites météorologiques ?', expectedAnswer: 'Les nuages.' },
+        { prompt: 'Quel temps peut-on prévoir si une grande masse de nuages arrive de l’Ouest ?', expectedAnswer: 'Le temps risque de se dégrader et de devenir nuageux ou pluvieux.' },
+      ],
+    });
+  }
+
+  if (s.u === 9 && s.n === 3) {
+    sections.push({
+      id: 'science-fr-practice-100-101',
+      kind: 'practice',
+      sourcePages: '100–101',
+      titleFr: 'Exercices sur le cycle de l’eau',
+      summaryFr: 'Ces exercices vérifient le trajet circulaire de l’eau entre la mer, le ciel et la terre, la forme invisible de la vapeur d’eau et le rôle de la chaleur du Soleil dans l’évaporation.',
+      practiceItemsFr: [
+        { prompt: 'Comment appelle-t-on le trajet circulaire de l’eau entre la mer, les nuages, la pluie et les rivières ?', expectedAnswer: 'Le cycle de l’eau.' },
+        { prompt: 'Sous quelle forme l’eau des mers et des rivières monte-t-elle vers le ciel ?', expectedAnswer: 'Sous forme de vapeur d’eau invisible.' },
+        { prompt: 'Quel est l’ordre correct du cycle de l’eau à partir de la mer ?', expectedAnswer: 'L’eau s’évapore de la mer → elle forme des nuages → la pluie tombe → l’eau retourne à la mer.' },
+        { prompt: 'Quelle source d’énergie est nécessaire pour que l’eau s’évapore ?', expectedAnswer: 'La chaleur du Soleil.' },
+      ],
+    });
+  }
+
   // The general scientific-method appendix is linked from the lessons where
   // its procedures are directly practised: fair tests and observation records
   // from seed germination; microscope operation from lesson 5-2.

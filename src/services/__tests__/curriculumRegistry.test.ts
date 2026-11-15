@@ -679,15 +679,17 @@ const expectedPracticeResources = [
   { unit: 3, lesson: 5, page: '42', count: 6 },
   { unit: 4, lesson: 2, page: '48–49', count: 8 },
   { unit: 5, lesson: 3, page: '62', count: 4 },
+  { unit: 8, lesson: 3, page: '88', count: 4 },
+  { unit: 9, lesson: 3, page: '100–101', count: 4 },
 ];
 check(
-  '12.16 all five Chapter 1–5 printed exercise sets are attached to the matching lesson with complete answer keys',
+  '12.16 all seven printed exercise sets from Chapters 1–5 and 8–9 are attached to the matching lessons with complete answer keys',
   expectedPracticeResources.every((expected) => {
     const section = practiceResource(expected.unit, expected.lesson, expected.page);
     return !!section && section.practiceItemsFr?.length === expected.count;
   }) &&
-    ['16–17', '24–25', '42', '48–49', '62'].every((page) => attachedPracticePages.includes(page)) &&
-    attachedPracticePages.length === 5,
+    ['16–17', '24–25', '42', '48–49', '62', '88', '100–101'].every((page) => attachedPracticePages.includes(page)) &&
+    attachedPracticePages.length === 7,
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
