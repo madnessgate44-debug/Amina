@@ -11,6 +11,11 @@ OUT = Path("audit-output")
 OUT.mkdir(exist_ok=True)
 BASE = "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1"
 SOURCES = [
+    {"id":"english_performance_assessments","subject":"English","track":"English","kind":"performance_assessment","url":f"{BASE}/Book_of_Performance_and_Evaluations/English_prim5_t1_Assmt.pdf"},
+    {"id":"math_fr_performance_assessments_candidate","subject":"Mathematics","track":"French","kind":"performance_assessment_candidate","url":f"{BASE}/Book_of_Performance_and_Evaluations/Math_FR_prim5_t1_Assmt.pdf"},
+    {"id":"math_fr_performance_assessments_lowercase_candidate","subject":"Mathematics","track":"French","kind":"performance_assessment_candidate","url":f"{BASE}/Book_of_Performance_and_Evaluations/Math_fr_prim5_t1_Assmt.pdf"},
+    {"id":"french1_performance_assessments_candidate","subject":"French language","track":"French1","kind":"performance_assessment_candidate","url":f"{BASE}/Book_of_Performance_and_Evaluations/French1_prim5_t1_Assmt.pdf"},
+    {"id":"french2_performance_assessments_candidate","subject":"French language","track":"French2","kind":"performance_assessment_candidate","url":f"{BASE}/Book_of_Performance_and_Evaluations/French2_prim5_t1_Assmt.pdf"},
     {"id":"math_fr_student_book","subject":"Mathematics","track":"French","kind":"student_book","url":f"{BASE}/StudentBook/Math_FR_prim5_TR1.pdf"},
     {"id":"english_student_book","subject":"English","track":"English","kind":"student_book","url":f"{BASE}/StudentBook/English_language_prim5_t1.pdf"},
 ]
