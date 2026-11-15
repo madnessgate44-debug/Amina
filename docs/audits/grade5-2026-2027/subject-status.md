@@ -3,8 +3,8 @@
 **Repository baseline:** `main` at `527df4fb7da32d6f3badb5f31d1172ffc0de6eec` (inspected 15 Nov 2026 UTC).  
 **Audit branch:** `audit/grade5-term1-subject-source-audit-2026-11-15`.  
 **Latest source audit:** [43714053006](https://github.com/madnessgate44-debug/Amina/actions/runs/43714053006) — [PASS] 17/21 PDFs retrieved; 448 pages fingerprinted, including OCR fallback for English assessments.  
-**Latest PR CI:** [43714058256](https://github.com/madnessgate44-debug/Amina/actions/runs/43714058256) — [PASS].  
-**Latest compliance:** [43714052995](https://github.com/madnessgate44-debug/Amina/actions/runs/43714052995) — [PASS].  
+**PR CI validation:** [43714399890](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399890) — [PASS] on the latest code/docs revision before this status-ledger update.  
+**Compliance validation:** [43714399881](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399881) — [PASS] on the same revision.  
 **Scope:** Egyptian Primary Grade 5, academic year 2026–2027, Term 1. Mathematics is the French-track book. School-specific pacing and the school's exact French1/French2 assignment remain unverified.
 
 ## Executive status
@@ -93,8 +93,8 @@ These counts describe source and repository coverage only. They do not measure l
 ## Verification ledger
 
 - [V] Source audit [43714053006](https://github.com/madnessgate44-debug/Amina/actions/runs/43714053006): PASS; 21 source URLs attempted, 17 PDFs retrieved, 448 pages fingerprinted, English assessment OCR fallback completed.
-- [V] Engineering Execution OS compliance [43714052995](https://github.com/madnessgate44-debug/Amina/actions/runs/43714052995): PASS on the OCR/source-audit branch.
-- [V] PR CI [43714058256](https://github.com/madnessgate44-debug/Amina/actions/runs/43714058256): PASS. `npm ci --legacy-peer-deps`, `npm run lint` (`tsc --noEmit`), `npm test`, and `npm run build` all completed successfully. Earlier logs showed 185 packages added, 186 audited, 0 vulnerabilities; test subsystem summaries included assembly 53/0, adaptiveScenarios 27/0, jobPersistence 19/0; Vite built in 697 ms.
+- [V] Engineering Execution OS compliance [43714399881](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399881): PASS on the OCR/source-audit PR revision.
+- [V] PR CI [43714399890](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399890): PASS. `npm ci --legacy-peer-deps` added 185 packages, audited 186 and found 0 vulnerabilities; blocking type check passed; `npm test` passed (representative summaries: integrity 86/0, curriculum registry 52/0, media 17/0, assembly 53/0, adaptive scenarios 27/0, job persistence 19/0); `npm run build` passed with Vite built in 607 ms.
 - [V] The build/test run emitted non-blocking warnings: PDF.js `standardFontDataUrl`, Vite configuration/chunk-size, Node `punycode` deprecation, and GitHub Actions Node 20 deprecation notices.
 - [U] Physical-phone walkthrough, visual diagram review and teacher-guide verification remain unperformed.
 
