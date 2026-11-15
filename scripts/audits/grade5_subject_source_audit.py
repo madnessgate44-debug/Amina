@@ -72,6 +72,31 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                 extracted=command(["pdftotext","-layout",str(pdf),"-"])
                 pages=extracted.split("\f")
                 if pages and not pages[-1].strip(): pages.pop()
+                ocr_pages_attempted = 0
+                ocr_pages_with_text = 0
+                if source["id"] == "english_performance_assessments":
+                    for page_index, page_text in enumerate(pages):
+                        if len(" ".join(page_text.split())) < 20:
+                            page_number = page_index + 1
+                            prefix = tmpdir / f"english-assessment-page-{page_number}"
+                            subprocess.run(
+                                ["pdftoppm","-f",str(page_number),"-l",str(page_number),"-r","110","-png","-singlefile",str(pdf),str(prefix)],
+                                check=True,capture_output=True
+                            )
+                            png = Path(str(prefix)+".png")
+                            ocr_text = command(["tesseract",str(png),"stdout","-l","eng+ara","--psm","6"])
+                            pages[page_index] = ocr_text
+                            ocr_pages_attempted += 1
+                            if len(" ".join(ocr_text.split())) >= 20:
+                                ocr_pages_with_text += 1
+                            png.unlink(missing_ok=True)
+                    item["ocr_pages_attempted"] = ocr_pages_attempted
+                    item["ocr_pages_with_text"] = ocr_pages_with_text
+                    item["ocr_languages"] = "eng+ara"
+                    item["extraction_method"] = "pdftotext with Tesseract OCR fallback"
+                    extracted = "\\n".join(pages)
+                else:
+                    item["extraction_method"] = "pdftotext -layout"
                 item["fingerprinted_pages"]=len(pages)
                 toc_pages = {"math_fr_student_book": [2, 3, 4], "english_student_book": [3, 4, 5]}.get(source["id"], [])
                 for page_number in toc_pages:

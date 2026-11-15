@@ -24,7 +24,7 @@ jobs:
       - name: Install PDF inspection utilities
         run: |
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends poppler-utils
+          sudo apt-get install --yes --no-install-recommends poppler-utils tesseract-ocr tesseract-ocr-eng tesseract-ocr-ara
       - name: Retrieve sources and build page fingerprints
         run: python3 scripts/audits/grade5_subject_source_audit.py
       - name: Publish metadata and fingerprints to the audit branch
