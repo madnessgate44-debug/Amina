@@ -3,6 +3,10 @@ run-name: Ministry Science PDF source audit — ${{ github.run_id }}
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - .github/workflows/ministry-science-pdf-source-audit.yml
 
 permissions:
   contents: read
@@ -64,13 +68,13 @@ jobs:
                   key, value = line.split(":", 1)
                   metadata[key.strip()] = value.strip()
 
-          normalized = re.sub(r"[\s\-\u2010-\u2015]", "", extracted_text)
+          normalized = re.sub(r"[\\s\\-\\u2010-\\u2015]", "", extracted_text)
           markers = {
               "isbn_9786338530174": "9786338530174" in normalized,
               "arabic_ministry_imprint": "وزارة التربية والتعليم" in extracted_text,
               "english_ministry_imprint": bool(re.search(r"Ministry of Education", extracted_text, re.I)),
               "science_text_present": bool(re.search(r"science", extracted_text, re.I)),
-              "french_text_present": bool(re.search(r"\b(les|des|une|et)\b", extracted_text, re.I)),
+              "french_text_present": bool(re.search(r"\\b(les|des|une|et)\\b", extracted_text, re.I)),
           }
 
           digest = hashlib.sha256()
