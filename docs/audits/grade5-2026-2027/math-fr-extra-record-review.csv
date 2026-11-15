@@ -1,0 +1,5 @@
+app_record_id,app_title,app_page,review_status,review_note
+"off_mathfr_u1_l1_decimaux","Les nombres décimaux jusqu’aux millièmes","3","DUPLICATE_OF_U1_L1","Same title and page as the exact national record off_math_u1_l1; do not count as a second source lesson."
+"off_mathfr_u1_l2_comparer","Comparer et ordonner les nombres décimaux","9","PAGE_AND_LESSON_MISMATCH","TOC comparison lesson is Unit 1 Lesson 4 at printed page 15, not Lesson 2 page 9."
+"off_mathfr_u2_l1_fractions","Fractions équivalentes et simplification","25","NOT_IN_OFFICIAL_TOC","Unit 2 begins at printed page 44 with expressions/equations; no fractions lesson appears in the 46-entry TOC."
+"off_mathfr_u3_l1_division","Multiplier les décimaux par 10, 100 et 1000","45","UNIT_AND_PAGE_MISMATCH","Related TOC content is Unit 5 Lesson 1, Multiplication par des puissances de dix, printed page 92."
