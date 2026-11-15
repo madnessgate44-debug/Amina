@@ -71,7 +71,7 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                     normalized=" ".join(text.split())
                     digest=hashlib.sha256(normalized.encode("utf-8")).hexdigest()
                     heading_lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines() if line.strip()]
-                    heading = next((line for line in heading_lines if len(line) <= 140 and not line.isdigit()), "")
+                    heading = " | ".join(line[:100] for line in heading_lines[:3] if len(line) <= 140 and not line.isdigit())
                     page_rows.append({
                         "source_id":source["id"],"subject":source["subject"],
                         "track":source["track"],"kind":source["kind"],
