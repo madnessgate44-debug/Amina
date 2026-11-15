@@ -34,6 +34,7 @@ def command(args):
 
 reports=[]
 page_rows=[]
+toc_reviews=[]
 with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
     tmpdir=Path(tmp)
     for source in SOURCES:
@@ -67,6 +68,10 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                 pages=extracted.split("\f")
                 if pages and not pages[-1].strip(): pages.pop()
                 item["fingerprinted_pages"]=len(pages)
+                toc_pages = {"math_fr_student_book": [2, 3, 4], "english_student_book": [3, 4, 5]}.get(source["id"], [])
+                for page_number in toc_pages:
+                    if page_number <= len(pages):
+                        toc_reviews.append(f"## {source['id']} — PDF page {page_number}\\n{pages[page_number-1].strip()}\\n")
                 for number, text in enumerate(pages,1):
                     normalized=" ".join(text.split())
                     digest=hashlib.sha256(normalized.encode("utf-8")).hexdigest()
@@ -109,6 +114,7 @@ report={
         "No full PDF or extracted textbook text is retained in the repository."
     ]
 }
+(OUT/"toc-review.txt").write_text("\\n".join(toc_reviews)+"\\n",encoding="utf-8")
 (OUT/"grade5-subject-source-audit.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 with (OUT/"grade5-subject-page-fingerprints.csv").open("w",newline="",encoding="utf-8") as f:
     fields=["source_id","subject","track","kind","week","pdf_page","page_heading_candidate","normalized_text_characters","normalized_text_sha256"]
