@@ -640,7 +640,7 @@ check(
   '12.14 lesson 6-3 exposes all fourteen app-authored advice and review questions from pages 69–71',
   !!chapterSixReview &&
     chapterSixReview.practiceItemsFr?.length === 14 &&
-    ['alimentation', 'sommeil', 'activité physique', 'petite enfance', 'père et mère', 'héritent',
+    ['alimentation', 'sommeil', 'activité physique', 'petite enfance', 'père et d’une mère', 'héritent',
       'parents', 'plus grand', 'collations'].every((term) =>
       chapterSixReview.practiceItemsFr?.some((item) =>
         (item.prompt + ' ' + item.expectedAnswer).toLocaleLowerCase('fr').includes(term),
