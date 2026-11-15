@@ -439,6 +439,46 @@ check(
     weatherRadarPlan.masteryCheckFr.some((item) => item.prompt.toLocaleLowerCase('fr').includes('radar')),
 );
 
+// 10.6 Pages 65–67 connect human growth to reproduction, birth and parent care.
+const humanGrowthLesson = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 6 && lesson.lessonNumber === 1,
+);
+const humanGrowthPlan = SCIENCE_FR_TEACHER_GUIDE_2026['6-1'];
+const parentCareLesson = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 6 && lesson.lessonNumber === 2,
+);
+const parentCarePlan = SCIENCE_FR_TEACHER_GUIDE_2026['6-2'];
+check(
+  '10.6 lesson 6-1 includes the source-book pregnancy timeframe and reproduction continuity concepts',
+  !!humanGrowthLesson &&
+    humanGrowthLesson.concepts.some((concept) =>
+      concept.sourceText.toLocaleLowerCase('fr').includes('neuf mois')) &&
+    humanGrowthLesson.concepts.some((concept) =>
+      concept.sourceText.toLocaleLowerCase('fr').includes('reproduction')) &&
+    !!humanGrowthPlan &&
+    humanGrowthPlan.explanationFr.toLocaleLowerCase('fr').includes('environ neuf mois') &&
+    humanGrowthPlan.explanationFr.toLocaleLowerCase('fr').includes('continuité de la vie') &&
+    humanGrowthPlan.guidedPracticeFr.some((item) =>
+      item.expectedAnswer.toLocaleLowerCase('fr').includes('neuf mois')) &&
+    humanGrowthPlan.independentPracticeFr.some((item) =>
+      item.expectedAnswer.toLocaleLowerCase('fr').includes('continuité de l’espèce')),
+);
+check(
+  '10.7 lesson 6-2 includes parents’ role in care and protection as well as inherited traits',
+  !!parentCareLesson &&
+    parentCareLesson.concepts.some((concept) =>
+      concept.sourceText.toLocaleLowerCase('fr').includes('prennent soin')) &&
+    parentCareLesson.objectives.some((item) =>
+      item.toLocaleLowerCase('fr').includes('protection')) &&
+    !!parentCarePlan &&
+    parentCarePlan.explanationFr.toLocaleLowerCase('fr').includes('prennent soin') &&
+    parentCarePlan.explanationFr.toLocaleLowerCase('fr').includes('protègent') &&
+    parentCarePlan.guidedPracticeFr.some((item) =>
+      item.expectedAnswer.toLocaleLowerCase('fr').includes('protection')) &&
+    parentCarePlan.independentPracticeFr.some((item) =>
+      item.expectedAnswer.toLocaleLowerCase('fr').includes('protection')),
+);
+
 // 11. The full teacher-ready sequence must be present for every numbered lesson.
 //     This is a structural contract, not a claim that an official Ministry
 //     teacher guide has been found.
