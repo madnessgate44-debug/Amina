@@ -177,7 +177,7 @@ export interface CurriculumTeacherGuide {
 
 export interface CurriculumSupplementarySection {
   id: string;
-  kind: 'enrichment' | 'review' | 'method';
+  kind: 'enrichment' | 'review' | 'practice' | 'method';
   sourcePages: string;
   titleFr: string;
   summaryFr: string;
