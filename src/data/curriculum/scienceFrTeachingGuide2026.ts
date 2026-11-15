@@ -827,6 +827,13 @@ export const SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026 = [
     sourcePages: '63',
     titleFr: 'Révision et exercices',
     appAuthoredSummaryFr: 'Cette page de révision vérifie les acquis du chapitre 5 : l’ordre des parties de la fleur, la distinction entre fleurs mâles et femelles, le pollen, la mise au point du microscope et la pollinisation. Elle est indexée séparément de la leçon 5-3, qui se termine à la page 62.',
+    practiceItemsFr: [
+      { prompt: 'Ordonne ces parties de la fleur de l’extérieur vers l’intérieur : sépale, pétale, carpelle.', expectedAnswer: 'Sépale → pétale → carpelle.' },
+      { prompt: 'Quelle fleur de luffa porte un renflement à la base qui peut devenir un fruit ?', expectedAnswer: 'La fleur femelle.' },
+      { prompt: 'Comment appelle-t-on la poudre jaune produite par l’étamine ?', expectedAnswer: 'Le pollen.' },
+      { prompt: 'Pendant la mise au point, dans quelle direction éloigne-t-on l’objectif de la lame préparée ?', expectedAnswer: 'On éloigne l’objectif de la lame préparée en regardant à travers l’oculaire.' },
+      { prompt: 'Quel est le nom du dépôt des grains de pollen d’une fleur mâle sur le sommet du carpelle d’une fleur femelle ?', expectedAnswer: 'La pollinisation.' },
+    ],
   },
 ] as const;
 

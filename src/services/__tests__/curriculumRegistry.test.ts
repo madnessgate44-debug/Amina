@@ -598,7 +598,9 @@ check(
   '12.10 the separate chapter-5 review is reachable from lesson 5-3',
   attachedReviewPages.length === 1 && attachedReviewPages[0] === '63' &&
     (SCIENCE_FR_CURRICULUM_2026_LESSONS.find((lesson) => lesson.unitNumber === 5 && lesson.lessonNumber === 3)
-      ?.supplementarySections?.some((section) => section.kind === 'review' && section.sourcePages === '63') ?? false),
+      ?.supplementarySections?.some((section) =>
+        section.kind === 'review' && section.sourcePages === '63' && section.practiceItemsFr?.length === 5,
+      ) ?? false),
 );
 check(
   '12.11 all four scientific-method appendix pages are attached to the lessons where the methods are practised',
@@ -608,7 +610,8 @@ check(
 check(
   '12.12 the lesson modal renders an accessible Resources tab with app-authored summaries and printed page labels',
   ["activeTab === 'resources'", 'lesson.supplementarySections.map', 'section.summaryFr', 'section.sourcePages',
-    'Pages complémentaires du manuel', 'not reproduced textbook text or an official Ministry teacher guide']
+    'Pages complémentaires du manuel', 'not reproduced textbook text or an official Ministry teacher guide',
+    'section.practiceItemsFr.map', 'Questions de révision', 'Reveal expected answer']
     .every((field) => lessonStudyModalSource.includes(field)),
 );
 

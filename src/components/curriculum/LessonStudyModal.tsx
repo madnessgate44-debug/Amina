@@ -424,6 +424,37 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   <p lang="fr" className="text-sm leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line">
                     {section.summaryFr}
                   </p>
+                  {section.practiceItemsFr && section.practiceItemsFr.length > 0 && (
+                    <div className="border-t border-slate-200 dark:border-slate-700 pt-3 space-y-2">
+                      <h4 className="text-xs font-black text-indigo-700 dark:text-indigo-300">
+                        {isAr ? 'أسئلة المراجعة' : isFr ? 'Questions de révision' : 'Review questions'}
+                      </h4>
+                      {section.practiceItemsFr.map((item, index) => {
+                        const key = `resource-${section.id}-${index}`;
+                        return (
+                          <div key={key} className="rounded-xl bg-slate-50 dark:bg-slate-700/50 p-3 space-y-2">
+                            <p lang="fr" className="text-xs font-semibold text-slate-800 dark:text-slate-100">
+                              {index + 1}. {item.prompt}
+                            </p>
+                            <button
+                              type="button"
+                              onClick={() => toggleGuideAnswer(key)}
+                              className="text-xs font-bold text-indigo-600 dark:text-indigo-300 underline"
+                            >
+                              {revealedGuideAnswers[key]
+                                ? (isFr ? 'Masquer la réponse' : isAr ? 'إخفاء الإجابة' : 'Hide answer')
+                                : (isFr ? 'Voir la réponse attendue' : isAr ? 'إظهار الإجابة المتوقعة' : 'Reveal expected answer')}
+                            </button>
+                            {revealedGuideAnswers[key] && (
+                              <p lang="fr" className="rounded-lg bg-indigo-50 dark:bg-indigo-950/30 p-2 text-xs leading-relaxed text-slate-800 dark:text-slate-100">
+                                {item.expectedAnswer}
+                              </p>
+                            )}
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </section>
               ))}
             </div>
