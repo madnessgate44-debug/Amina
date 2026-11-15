@@ -395,3 +395,48 @@ This is Term 1 only. No full-year or full-book completion claim is made.
 - **Next action:** obtain the 62,976,199-byte canonical PDF through a capable browser/download path, compute SHA-256, inspect its page count and imprint, and compare it against the existing Library copy. Then resume page-by-page pedagogical validation.
 
 This is still Grade 5 French Science Term 1 only; no full-book or full-year completion is claimed.
+
+
+## Science Term 1 source audit and learner-resource release — 15 November 2026
+
+### Merged changes since the previous release record
+
+- **[VERIFIED]** PR [#186](https://github.com/madnessgate44-debug/Amina/pull/186) makes the app-authored French explanation and worked demonstration visible in the learner lesson modal, with source-page and provenance labels.
+- **[VERIFIED]** PR [#187](https://github.com/madnessgate44-debug/Amina/pull/187) records the canonical Ministry student-book endpoint and the failed 62,976,199-byte retrieval attempt. The byte-identity comparison remains [UNPROVEN].
+- **[VERIFIED]** PR [#188](https://github.com/madnessgate44-debug/Amina/pull/188) adds the weather-radar concept from printed page 89 to lesson 8-3.
+- **[VERIFIED]** PR [#189](https://github.com/madnessgate44-debug/Amina/pull/189) completes source coverage in lessons 6-1 and 6-2 for the approximately nine-month development period, reproduction and continuity of life, inherited traits, and parental care/protection.
+- **[VERIFIED]** PR [#190](https://github.com/madnessgate44-debug/Amina/pull/190) expands the six enrichment-page summaries and the scientific-method appendix summaries, including the textbook-attributed ancient-seed account, Nile sediment, Egyptian cloud patterns, khamsin, desert condensation, the African water route and plant observation records.
+- **[VERIFIED]** PR [#191](https://github.com/madnessgate44-debug/Amina/pull/191) connects enrichment, review and method content to the learner lesson modal through a conditional **Ressources** tab. Resources show printed page labels and state that their summaries are Miss Noor-authored, not official Ministry teacher-guide text.
+- **[VERIFIED]** PR [#192](https://github.com/madnessgate44-debug/Amina/pull/192) adds the page-69 instruction to wash fruit and vegetables before eating them to lesson 6-3.
+- **[VERIFIED]** PR [#193](https://github.com/madnessgate44-debug/Amina/pull/193) adds five answer-reveal questions for the separate Chapter 5 review on page 63.
+- **[VERIFIED]** PR [#194](https://github.com/madnessgate44-debug/Amina/pull/194) adds fourteen app-authored advice/review questions for pages 69–71 to lesson 6-3.
+- **[VERIFIED]** PR [#195](https://github.com/madnessgate44-debug/Amina/pull/195) adds eleven app-authored review questions for pages 78–79 to lesson 7-3.
+- **[VERIFIED]** PR [#196](https://github.com/madnessgate44-debug/Amina/pull/196) adds 34 answer-reveal exercises for printed pages 16–17, 24–25, 42, 48–49 and 62, attached to the matching lessons.
+- **[VERIFIED]** PR [#197](https://github.com/madnessgate44-debug/Amina/pull/197) adds eight answer-reveal exercises for pages 88 and 100–101, attached to lessons 8-3 and 9-3.
+
+### Current learner-facing coverage
+
+- **[VERIFIED]** Nine chapters and 28 numbered lessons remain the Term 1 scope.
+- **[VERIFIED]** All 28 lesson plans are structurally checked for French explanation, worked demonstration, guided practice, independent practice, answer key, misconception diagnosis, remediation and mastery criteria.
+- **[VERIFIED]** The learner lesson modal exposes the explanation and worked example, plus a conditional **Ressources** tab for the relevant lesson.
+- **[VERIFIED]** The Resources tab now exposes six distinct enrichment page ranges: pp. 18–19, 26–27, 43, 50–51, 90–91 and 102–103; the separate Chapter 5 review on p. 63; the scientific-method appendix pp. 104–107; and the added textbook exercise sets.
+- **[VERIFIED]** The exercise resources contain 72 app-authored French questions with expected answers: 34 from the five Chapter 1–5 exercise sets, 5 from the Chapter 5 review, 14 from Chapter 6, 11 from Chapter 7, and 8 from Chapters 8–9. These are paraphrases, not copied textbook text.
+- **[VERIFIED]** The curriculum registry regression suite reports 52 passed, 0 failed on the PR #197 head.
+
+### Verification and production release
+
+- **[PASS]** CI [43693747906](https://github.com/madnessgate44-debug/Amina/actions/runs/43693747906): blocking TypeScript check, full `npm test`, and `npm run build) passed.
+- **[PASS]** Engineering Execution OS compliance [43693747874](https://github.com/madnessgate44-debug/Amina/actions/runs/43693747874).
+- **[VERIFIED]** PR #197 merged at `f7c06d2fd518e6b6e88036f7ddff2547b9bb4fea`. Vercel production deployment `dpl_GeVvbwtnbPxMExjVY8Aw61qPC8Qr` reached READY and updated the stable alias `amina-nine-sepia.vercel.app).
+- **[UNRESOLVED WARNING]** Vercel build events continue to report `TS2688: Cannot find type definition file for 'vite/client'` during its TypeScript 7.0.2 transpilation step. This has not failed the deployment; GitHub's blocking TypeScript check and Vite production build pass. The Vite config also reports the existing `__dirname` native-loader warning and a large JavaScript chunk warning. These are recorded, not marked fixed.
+- **[UNPROVEN]** A human phone-sized walkthrough has not yet been performed. The production deployment being READY is not evidence that every resource tab and answer-reveal interaction has been manually exercised on a physical phone.
+
+### Remaining blockers and completion boundary
+
+- **[BLOCKED]** The canonical Ministry-hosted PDF endpoint is located, but the 62,976,199-byte file has not been retrieved. The third-party-assembled Library copy remains unverified against the canonical file by SHA-256 comparison.
+- **[BLOCKED]** No exact 2026–2027 Grade 5 French Science Ministry teacher guide has been authenticated. The plans and resource summaries remain Miss Noor-authored.
+- **[BLOCKED]** Term 2 source reconstruction remains outside this release until the exact 2026–2027 student book is available.
+- **[UNPROVEN]** The separate assessment-book PDF has not been retrieved and audited question by question.
+- **[UNPROVEN]** Full independent pedagogical review and the physical-phone learner walkthrough remain open.
+
+This release improves Grade 5 French Science **Term 1 only**. It is not a full-year completion declaration and does not claim byte-authenticated official source files or an official Ministry teacher guide.
