@@ -125,6 +125,29 @@ function getSupplementarySections(s: Spec): CurriculumSupplementarySection[] {
     });
   }
 
+  if (s.u === 7 && s.n === 3) {
+    sections.push({
+      id: 'science-fr-review-78-79',
+      kind: 'review',
+      sourcePages: '78–79',
+      titleFr: 'Révision et entraînement du chapitre 7',
+      summaryFr: 'Les pages 78–79 vérifient la distinction entre naissance et ponte, les soins aux chatons, la ponte et l’éclosion des poissons, la définition de la reproduction, le classement des animaux et le rôle des réserves naturelles.',
+      practiceItemsFr: [
+        { prompt: 'Comment la chatte met-elle ses petits au monde ?', expectedAnswer: 'Elle donne naissance à des petits.' },
+        { prompt: 'Que boivent les chatons nouveau-nés pour grandir ?', expectedAnswer: 'Le lait maternel.' },
+        { prompt: 'Comment les poissons comme le tilapia se reproduisent-ils ?', expectedAnswer: 'Ils pondent des œufs dans l’eau.' },
+        { prompt: 'Comment appelle-t-on la sortie du petit poisson hors de l’œuf ?', expectedAnswer: 'L’éclosion.' },
+        { prompt: 'Classe le dromadaire, la poule, le chat et la grenouille : qui donne naissance et qui pond des œufs ?', expectedAnswer: 'Le dromadaire et le chat donnent naissance à des petits ; la poule et la grenouille pondent des œufs.' },
+        { prompt: 'Comment appelle-t-on le processus qui permet à un mâle et une femelle de produire un nouvel individu ?', expectedAnswer: 'La reproduction.' },
+        { prompt: 'Où la chatte porte-t-elle ses petits avant leur naissance ?', expectedAnswer: 'À l’intérieur de son corps.' },
+        { prompt: 'Pourquoi les poissons pondent-ils un très grand nombre d’œufs dans l’eau ?', expectedAnswer: 'Pour augmenter les chances de survie du plus grand nombre possible de petits poissons.' },
+        { prompt: 'Que signifie la reproduction chez les êtres vivants ?', expectedAnswer: 'C’est la capacité de produire de nouveaux individus de la même espèce ; elle contribue à leur survie et à la continuité de l’espèce.' },
+        { prompt: 'Comment appelle-t-on les lieux protégés où les animaux peuvent vivre et se reproduire en sécurité ?', expectedAnswer: 'Les réserves naturelles.' },
+        { prompt: 'Cite un animal qui pond des œufs et indique où il les pond.', expectedAnswer: 'Exemples : la poule pond sur la terre ; le poisson pond dans l’eau ; la grenouille pond dans l’eau.' },
+      ],
+    });
+  }
+
   // The general scientific-method appendix is linked from the lessons where
   // its procedures are directly practised: fair tests and observation records
   // from seed germination; microscope operation from lesson 5-2.
