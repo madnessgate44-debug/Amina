@@ -412,6 +412,39 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
           {/* TAB 3: APP-AUTHORED TEACHING SEQUENCE */}
           {activeTab === 'practice' && teacherGuide && (
             <div className="space-y-5 animate-in fade-in duration-200">
+              <section className="rounded-2xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50/70 dark:bg-indigo-950/20 p-3 space-y-1">
+                <p className="text-xs font-black text-indigo-800 dark:text-indigo-200">
+                  {isFr ? 'Support pédagogique créé par Miss Noor' : isAr ? 'مادة تعليمية من إعداد مس نور' : 'Miss Noor-authored teaching material'}
+                </p>
+                <p className="text-[11px] text-slate-700 dark:text-slate-300">
+                  {isFr
+                    ? 'Ce contenu est une adaptation pédagogique de l’application, et non un guide officiel du ministère.'
+                    : isAr
+                    ? 'هذا المحتوى إعداد تعليمي خاص بالتطبيق، وليس دليلاً رسمياً للمعلم من الوزارة.'
+                    : 'This is app-authored teaching support, not an official Ministry teacher guide.'}
+                </p>
+                <p className="text-[11px] text-slate-600 dark:text-slate-400">
+                  {teacherGuide.sourceEdition} · {isFr ? 'Pages du manuel :' : isAr ? 'صفحات كتاب الطالب:' : 'Student-book pages:'} {teacherGuide.sourcePages}
+                </p>
+              </section>
+
+              <section className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 space-y-2">
+                <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">
+                  {isFr ? 'Explication de Miss Noor' : isAr ? 'شرح مس نور' : 'Miss Noor explanation'}
+                </h3>
+                <p lang="fr" className="text-sm leading-relaxed text-slate-800 dark:text-slate-100 whitespace-pre-line">
+                  {teacherGuide.explanationFr}
+                </p>
+              </section>
+
+              <section className="rounded-2xl border border-emerald-200 dark:border-emerald-900 bg-emerald-50/50 dark:bg-emerald-950/15 p-4 space-y-2">
+                <h3 className="text-sm font-black text-emerald-700 dark:text-emerald-300">
+                  {isFr ? 'Exemple guidé / démonstration' : isAr ? 'مثال محلول / تجربة توضيحية' : 'Worked example / demonstration'}
+                </h3>
+                <p lang="fr" className="text-sm leading-relaxed text-slate-800 dark:text-slate-100 whitespace-pre-line">
+                  {teacherGuide.workedExampleFr}
+                </p>
+              </section>
               <section className="space-y-3">
                 <h3 className="text-sm font-black text-indigo-700 dark:text-indigo-300">{isAr ? 'التدريب الموجّه' : isFr ? 'Pratique guidée' : 'Guided practice'}</h3>
                 {teacherGuide.guidedPracticeFr.map((item, index) => {

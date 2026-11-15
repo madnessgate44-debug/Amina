@@ -305,7 +305,20 @@ if (incorrectlyTaggedFrenchLessons.length > 0) {
 }
 
 const lessonStudyModalSource = readFileSync(new URL('../../components/curriculum/LessonStudyModal.tsx', import.meta.url), 'utf8');
-const teacherSequenceUiFields = ["activeTab === 'practice'", 'guidedPracticeFr', 'independentPracticeFr', 'answerKeyFr', 'misconceptionDiagnosisFr', 'remediationFr', 'masteryCheckFr'];
+const teacherSequenceUiFields = [
+  "activeTab === 'practice'",
+  'teacherGuide.explanationFr',
+  'teacherGuide.workedExampleFr',
+  'teacherGuide.sourceEdition',
+  'teacherGuide.sourcePages',
+  'app-authored teaching support',
+  'guidedPracticeFr',
+  'independentPracticeFr',
+  'answerKeyFr',
+  'misconceptionDiagnosisFr',
+  'remediationFr',
+  'masteryCheckFr',
+];
 check(
   '2.10 learner lesson view exposes the complete teacher-plan practice sequence',
   teacherSequenceUiFields.every((field) => lessonStudyModalSource.includes(field)),
