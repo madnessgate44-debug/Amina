@@ -228,7 +228,7 @@ The four current Miss Noor French-language lessons therefore remain **UNVERIFIED
 
 - **[PASS]** GitHub Actions CI [run 43688746038](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746038): `npm run lint` passed; `npm test` passed (39 suite summaries, 0 failures; curriculum registry 35 passed, 0 failed); `npm run build` passed (Vite 8.3.5, 1,792 modules, 491 ms).
 - **[PASS]** Engineering Execution OS compliance [run 43688746047](https://github.com/madnessgate44-debug/Amina/actions/runs/43688746047).
-- **[PENDING]** The Vercel status on the merged main commit was still `pending` at the time this addendum was written. No deployment-success claim is made from this status.
+- **[VERIFIED]** The Vercel status on the merged main commit was `pending` at the first check, then returned `success` on a subsequent check (deployment target: https://vercel.com/forge-fe22/amina/BkLHWqoU2cUxndGfs4eyosKef6Q1). This verifies the Vercel commit status only; it does not replace a phone-sized learner walkthrough or custom-domain check.
 - **[UNPROVEN]** A phone-sized learner walkthrough and direct custom-domain verification have not been completed.
 
 ### Remaining source and scope boundaries
