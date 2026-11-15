@@ -16,7 +16,7 @@ This directory contains the evidence-first subject audit for Egyptian Primary Gr
 
 Source retrieval and page fingerprints were generated on GitHub Actions run [43713024112](https://github.com/madnessgate44-debug/Amina/actions/runs/43713024112), using Ubuntu 24.04, Poppler `pdfinfo` / `pdftotext`, and SHA-256. The run attempted 16 Ministry-hosted URLs and retrieved 15 PDFs. It fingerprinted 300 pages across the successful Math, English, French1 and French2 PDFs.
 
-The Math TOC (PDF pages 2–4) and English Term 1 scope-and-sequence (PDF pages 3–5) were extracted to a short-lived, one-day Actions artifact for review. The repository retains only metadata, hashes, concise page-heading candidates and original reconciliation matrices. It does not contain source PDFs or full extracted textbook text.
+The Math TOC (PDF pages 2–4) and English Term 1 scope-and-sequence (PDF pages 3–5) were extracted to a short-lived, one-day Actions artifact for review. The repository retains only metadata, hashes, concise page-heading candidates and reconciliation matrices. Lesson titles in the Math matrix are normalized from extracted TOC text to remove duplicate extraction lines and line-wrap artifacts; visual review of the printed TOC has not been performed. It does not contain source PDFs or full extracted textbook text.
 
 ## Interpretation limits
 
