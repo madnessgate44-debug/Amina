@@ -612,5 +612,22 @@ check(
     .every((field) => lessonStudyModalSource.includes(field)),
 );
 
+// 12.13 Page 69 explicitly instructs learners to wash fruit and vegetables before eating.
+const healthyGrowthLesson = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 6 && lesson.lessonNumber === 3,
+);
+const healthyGrowthPlan = SCIENCE_FR_TEACHER_GUIDE_2026['6-3'];
+check(
+  '12.13 lesson 6-3 teaches the source-book instruction to wash fruit and vegetables',
+  !!healthyGrowthLesson &&
+    healthyGrowthLesson.concepts.some((concept) => concept.sourceText.toLocaleLowerCase('fr').includes('bien lavés')) &&
+    healthyGrowthLesson.vocabulary.some((item) => item.word.toLocaleLowerCase('fr').includes('hygiène alimentaire')) &&
+    !!healthyGrowthPlan &&
+    healthyGrowthPlan.explanationFr.toLocaleLowerCase('fr').includes('bien laver') &&
+    healthyGrowthPlan.guidedPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('laver')) &&
+    healthyGrowthPlan.independentPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('laver soigneusement')) &&
+    healthyGrowthPlan.masteryCheckFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('laver soigneusement')),
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
