@@ -511,11 +511,14 @@ check(
 );
 if (incompleteTeachingComponents.length > 0) console.error('   incomplete plans:', incompleteTeachingComponents);
 const lessonsMissingSourceCopyNote = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
-  (lesson) => !lesson.sourceRef.notes?.includes('[UNPROVEN]') ||
+  (lesson) => !lesson.sourceRef.notes?.includes('[VERIFIED]') ||
+    !lesson.sourceRef.notes?.includes('109 book pages') ||
+    !lesson.sourceRef.notes?.includes('[UNPROVEN]') ||
+    !lesson.sourceRef.notes?.includes('visual/layout identity') ||
     !lesson.sourceRef.notes?.includes('third-party-assembled'),
 );
 check(
-  `11.2 all 28 lesson source records disclose the unverified direct-file provenance (${lessonsMissingSourceCopyNote.length} missing)`,
+  `11.2 all 28 lesson source records disclose verified page-text equivalence and remaining PDF identity limits (${lessonsMissingSourceCopyNote.length} missing)`,
   lessonsMissingSourceCopyNote.length === 0,
 );
 
