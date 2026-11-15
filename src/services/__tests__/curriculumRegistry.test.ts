@@ -556,6 +556,13 @@ check(
     ['oreilles', 'vaisseaux sanguins', 'poils', 'galabeya', 'air plus frais', 'réfléchit'].every((term) => enrichmentByPage['26–27'].includes(term)),
 );
 check(
+  '12.4a pages 18–19 enrichment covers the camel foot adaptations, fat reserve and heat-loss explanation',
+  !!enrichmentByPage['18–19'] &&
+    ['orteils', 'répartissent le poids', 'callosités', 'graisse', 'libération de chaleur'].every((term) =>
+      enrichmentByPage['18–19'].includes(term),
+    ),
+);
+check(
   '12.5 pages 50–51 enrichment covers seed dormancy and Nile sediment formation',
   !!enrichmentByPage['50–51'] &&
     ['3 000 ans', 'amidon', 'dormance', 'air sec', 'hauts plateaux', 'limon'].every((term) => enrichmentByPage['50–51'].includes(term)),
