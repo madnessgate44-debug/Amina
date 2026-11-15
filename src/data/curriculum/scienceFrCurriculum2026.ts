@@ -99,6 +99,32 @@ function getSupplementarySections(s: Spec): CurriculumSupplementarySection[] {
     }
   }
 
+  if (s.u === 6 && s.n === 3) {
+    sections.push({
+      id: 'science-fr-review-69-71',
+      kind: 'review',
+      sourcePages: '69–71',
+      titleFr: 'Conseils, révision et entraînement',
+      summaryFr: 'Les pages 69–71 proposent de formuler des conseils sur l’alimentation, le sommeil et l’activité physique, puis de vérifier les acquis du chapitre : étapes de croissance, début de la vie humaine, héritage des caractères, rôle des parents et conditions d’une croissance saine.',
+      practiceItemsFr: [
+        { prompt: 'Donne un conseil concernant l’alimentation saine.', expectedAnswer: 'Boire du lait et manger des légumes et des fruits bien lavés.' },
+        { prompt: 'Donne un conseil concernant le sommeil.', expectedAnswer: 'Dormir suffisamment et éviter de veiller tard.' },
+        { prompt: 'Donne un conseil concernant l’activité physique.', expectedAnswer: 'Bouger et pratiquer des jeux ou des exercices physiques adaptés.' },
+        { prompt: 'Ordonne les cinq étapes de la croissance humaine.', expectedAnswer: 'Petite enfance → enfance → adolescence → jeunesse → vieillesse.' },
+        { prompt: 'Comment appelle-t-on l’étape qui commence juste après la naissance ?', expectedAnswer: 'La petite enfance.' },
+        { prompt: 'Selon le manuel, de qui commence la vie d’un être humain ?', expectedAnswer: 'D’un père et d’une mère.' },
+        { prompt: 'Pourquoi les enfants peuvent-ils ressembler à leurs parents ?', expectedAnswer: 'Parce qu’ils héritent de caractères de leurs parents.' },
+        { prompt: 'Quelles sont les trois conditions d’une croissance saine ?', expectedAnswer: 'Une alimentation saine, un sommeil suffisant et une activité physique adaptée.' },
+        { prompt: 'Quel est le rôle du sommeil suffisant ?', expectedAnswer: 'Le cerveau se repose et le corps se construit et se développe.' },
+        { prompt: 'Quelle caractéristique correspond à l’étape de l’enfance ?', expectedAnswer: 'L’enfant commence à marcher, à parler et à aller à l’école.' },
+        { prompt: 'Quels changements le corps connaît-il pendant la croissance ?', expectedAnswer: 'Au fil du temps, il devient plus grand, plus fort et plus complexe.' },
+        { prompt: 'Quel rôle les parents jouent-ils envers leurs enfants ?', expectedAnswer: 'Ils prennent soin de leurs enfants et les protègent jusqu’à ce qu’ils grandissent.' },
+        { prompt: 'Associe chaque action à la bonne condition : boire du lait et manger des fruits et légumes ; bouger ; se reposer la nuit.', expectedAnswer: 'Boire du lait et manger des fruits et légumes : alimentation saine ; bouger : activité physique adaptée ; se reposer la nuit : sommeil suffisant.' },
+        { prompt: 'Que peut-il arriver à la croissance si un enfant ne mange que des collations, veille tard et ne fait pas d’exercice ?', expectedAnswer: 'Sa croissance peut être moins saine, car son corps ne reçoit pas une alimentation adaptée, ne se repose pas assez et manque d’activité physique.' },
+      ],
+    });
+  }
+
   // The general scientific-method appendix is linked from the lessons where
   // its procedures are directly practised: fair tests and observation records
   // from seed germination; microscope operation from lesson 5-2.
