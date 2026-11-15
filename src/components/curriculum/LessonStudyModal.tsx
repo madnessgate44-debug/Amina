@@ -38,7 +38,7 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
   const teacherGuide = lesson.teacherGuide;
   const studentName = student?.name || (isAr ? 'صديقي' : isFr ? 'ami' : 'friend');
 
-  const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'practice' | 'exercises'>('explanation');
+  const [activeTab, setActiveTab] = useState<'explanation' | 'vocab' | 'practice' | 'resources' | 'exercises'>('explanation');
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({});
   const [revealedGuideAnswers, setRevealedGuideAnswers] = useState<Record<string, boolean>>({});
   const toggleGuideAnswer = (key: string) => setRevealedGuideAnswers((previous) => ({ ...previous, [key]: !previous[key] }));
@@ -166,6 +166,12 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                   : isFr
                   ? 'Suis la pratique guidée, essaie seule, puis révèle la réponse pour te corriger.'
                   : 'Follow the guided practice, try independently, then reveal the answer to check your work.'
+                : activeTab === 'resources'
+                ? isAr
+                  ? 'افتحي الموارد الإضافية لمراجعة صفحات الإثراء وطرق البحث العلمي.'
+                  : isFr
+                  ? 'Consulte les pages d’enrichissement, la révision et les méthodes scientifiques associées à cette leçon.'
+                  : 'Explore the enrichment pages, review and scientific-method resources linked to this lesson.'
                 : isAr
                 ? `والآن مع التحدي والتمارين التفاعلية! اختاري الإجابة الصحيحة واستمعي للتشجيع!`
                 : isFr
@@ -230,6 +236,25 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
             >
               <BookOpen className="w-3.5 h-3.5" />
               <span>{isAr ? 'التدريب والإتقان' : isFr ? 'Pratique' : 'Practice'}</span>
+            </button>
+          )}
+
+          {lesson.supplementarySections && lesson.supplementarySections.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                soundEffects.playPop();
+                setActiveTab('resources');
+                setEncouragingFeedback(null);
+              }}
+              className={`flex-1 py-2 px-3 rounded-xl text-xs font-black transition-all flex items-center justify-center gap-1.5 cursor-pointer ${
+                activeTab === 'resources'
+                  ? 'bg-white dark:bg-slate-700 text-indigo-600 dark:text-indigo-400 shadow-xs'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900'
+              }`}
+            >
+              <FileText className="w-3.5 h-3.5" />
+              <span>{isAr ? `الموارد (${lesson.supplementarySections.length})` : isFr ? `Ressources (${lesson.supplementarySections.length})` : `Resources (${lesson.supplementarySections.length})`}</span>
             </button>
           )}
 
@@ -359,6 +384,47 @@ export const LessonStudyModal: React.FC<LessonStudyModalProps> = ({ lesson, onCl
                     )}
                   </div>
                 </div>
+              ))}
+            </div>
+          )}
+
+          {/* SUPPLEMENTARY TEXTBOOK PAGES AND SCIENTIFIC-METHOD APPENDIX */}
+          {activeTab === 'resources' && lesson.supplementarySections && (
+            <div className="space-y-3 animate-in fade-in duration-200">
+              <section className="rounded-2xl border border-indigo-200 dark:border-indigo-900 bg-indigo-50/70 dark:bg-indigo-950/20 p-3 space-y-1">
+                <p className="text-xs font-black text-indigo-800 dark:text-indigo-200">
+                  {isAr ? 'موارد إضافية من كتاب الطالب' : isFr ? 'Pages complémentaires du manuel' : 'Additional student-book pages'}
+                </p>
+                <p className="text-[11px] text-slate-700 dark:text-slate-300">
+                  {isAr
+                    ? 'هذه ملخصات تعليمية من إعداد مس نور، وليست نصوصاً منقولة أو دليلاً رسمياً للمعلم.'
+                    : isFr
+                    ? 'Ces résumés sont créés par Miss Noor à partir des pages indiquées. Ils ne sont ni des reproductions du manuel ni un guide officiel du ministère.'
+                    : 'These are Miss Noor-authored summaries of the cited pages, not reproduced textbook text or an official Ministry teacher guide.'}
+                </p>
+              </section>
+
+              {lesson.supplementarySections.map((section) => (
+                <section key={section.id} className="rounded-2xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 p-4 space-y-2">
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="space-y-1">
+                      <span className="text-[10px] font-black uppercase tracking-wide text-indigo-600 dark:text-indigo-300">
+                        {section.kind === 'enrichment'
+                          ? (isAr ? 'إثراء' : isFr ? 'Enrichissement' : 'Enrichment')
+                          : section.kind === 'review'
+                          ? (isAr ? 'مراجعة' : isFr ? 'Révision' : 'Review')
+                          : (isAr ? 'مهارة علمية' : isFr ? 'Méthode scientifique' : 'Scientific method')}
+                      </span>
+                      <h3 className="text-sm font-black text-slate-900 dark:text-slate-100">{section.titleFr}</h3>
+                    </div>
+                    <span className="shrink-0 rounded-lg bg-slate-100 dark:bg-slate-700 px-2 py-1 text-[10px] font-bold text-slate-600 dark:text-slate-300">
+                      {isAr ? 'صفحات' : isFr ? 'Pages' : 'Pages'} {section.sourcePages}
+                    </span>
+                  </div>
+                  <p lang="fr" className="text-sm leading-relaxed text-slate-700 dark:text-slate-200 whitespace-pre-line">
+                    {section.summaryFr}
+                  </p>
+                </section>
               ))}
             </div>
           )}
