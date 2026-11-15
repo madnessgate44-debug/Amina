@@ -384,3 +384,14 @@ This remains a Term 1 reconstruction, not a full-year completion declaration.
 The 28 lesson plans remain **Miss Noor app-authored** material derived from the inspected student-book copy. The exact Ministry teacher guide remains [BLOCKED]; direct byte-level identity of the third-party-assembled PDF with the canonical Ministry endpoint remains [UNPROVEN]. Term 2 Science remains [BLOCKED] until the exact 2026–2027 source is published and accessible. The assessment-book PDF remains [UNPROVEN] pending retrieval and question-by-question review.
 
 This is Term 1 only. No full-year or full-book completion claim is made.
+
+
+## Canonical Science student-book endpoint retrieval — 15 November 2026
+
+- **[VERIFIED]** Located the exact Ministry-hosted Grade 5 French Science Term 1 student-book URL through the French Science entry in the 2026–2027 Grade 5 book catalogue: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf . The discovery catalogue is third-party; the resolved PDF endpoint itself is on the Ministry e-learning content blob host.
+- **[BLOCKED]** Retrieval failed with a content-size error (400: Content length is too large: 62976199); the independent direct-download attempt also failed. No Ministry PDF bytes were available for inspection or hashing.
+- **[UNPROVEN]** The existing 59,040,102-byte third-party-assembled Library copy cannot yet be byte-compared with the 62,976,199-byte Ministry endpoint. Keep all lesson source-copy caveats in place.
+- **[BLOCKED]** No exact 2026–2027 Grade 5 French Science Ministry teacher guide was established by this search. The app-authored teaching plans remain clearly distinct from an official guide.
+- **Next action:** obtain the 62,976,199-byte canonical PDF through a capable browser/download path, compute SHA-256, inspect its page count and imprint, and compare it against the existing Library copy. Then resume page-by-page pedagogical validation.
+
+This is still Grade 5 French Science Term 1 only; no full-book or full-year completion is claimed.
