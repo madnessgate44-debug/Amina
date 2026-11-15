@@ -175,6 +175,14 @@ export interface CurriculumTeacherGuide {
   masteryCheckFr: CurriculumTeacherGuideMasteryCheck[];
 }
 
+export interface CurriculumSupplementarySection {
+  id: string;
+  kind: 'enrichment' | 'review' | 'method';
+  sourcePages: string;
+  titleFr: string;
+  summaryFr: string;
+}
+
 export interface OfficialCurriculumLesson {
   id: string;
   subjectId: string;
@@ -207,6 +215,8 @@ export interface OfficialCurriculumLesson {
   isAvailable: boolean;
   contentStatus?: 'available' | 'pending_materials';
   supplementaryResources?: SupplementaryResource[];
+  /** App-authored French summaries of separate textbook enrichment, review and appendix pages. */
+  supplementarySections?: CurriculumSupplementarySection[];
   teacherGuide?: CurriculumTeacherGuide;
 }
 
