@@ -91,6 +91,10 @@ function getSupplementarySections(s: Spec): CurriculumSupplementarySection[] {
         sourcePages: item.sourcePages,
         titleFr: item.titleFr,
         summaryFr: item.appAuthoredSummaryFr,
+        practiceItemsFr: item.practiceItemsFr.map((practice) => ({
+          prompt: practice.prompt,
+          expectedAnswer: practice.expectedAnswer,
+        })),
       });
     }
   }
