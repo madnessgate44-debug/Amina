@@ -75,7 +75,7 @@ jobs:
                   key, value = line.split(":", 1)
                   metadata[key.strip()] = value.strip()
 
-          normalized = re.sub(r"[\\s\\-\\u2010-\\u2015]", "", extracted_text)
+          normalized = re.sub(r"[\s\-\u2010-\u2015]", "", extracted_text)
           markers = {
               "isbn_9786338530174": "9786338530174" in normalized,
               "french_ministry_imprint": bool(re.search(r"Le ministère de l['’]Éducation et de l['’]Enseignement technique", extracted_text, re.I)),
@@ -83,7 +83,7 @@ jobs:
               "arabic_ministry_imprint": "وزارة التربية والتعليم" in extracted_text,
               "english_ministry_imprint": bool(re.search(r"Ministry of Education", extracted_text, re.I)),
               "science_text_present": bool(re.search(r"science", extracted_text, re.I)),
-              "french_text_present": bool(re.search(r"\\b(les|des|une|et)\\b", extracted_text, re.I)),
+              "french_text_present": bool(re.search(r"\b(les|des|une|et)\b", extracted_text, re.I)),
           }
 
           page_count = int(metadata.get("Pages", "0"))
@@ -120,7 +120,7 @@ jobs:
               "important_limit": "Page fingerprints compare extracted text only; they do not prove visual identity, source authenticity, or pedagogical equivalence."
           }
           Path("audit-output/source-audit.json").write_text(
-              json.dumps(report, ensure_ascii=False, indent=2) + "\\n",
+              json.dumps(report, ensure_ascii=False, indent=2) + "\n",
               encoding="utf-8"
           )
           with Path("audit-output/ministry-page-fingerprints.csv").open("w", newline="", encoding="utf-8") as stream:
