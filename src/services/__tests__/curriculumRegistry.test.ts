@@ -595,8 +595,8 @@ check(
     attachedEnrichmentPages.size === 6,
 );
 check(
-  '12.10 the separate chapter-5 review is reachable from lesson 5-3',
-  attachedReviewPages.length === 1 && attachedReviewPages[0] === '63' &&
+  '12.10 the Chapter 5 review and Chapter 6 review practice are attached to their correct lessons',
+  attachedReviewPages.length === 2 && attachedReviewPages.includes('63') && attachedReviewPages.includes('69–71') &&
     (SCIENCE_FR_CURRICULUM_2026_LESSONS.find((lesson) => lesson.unitNumber === 5 && lesson.lessonNumber === 3)
       ?.supplementarySections?.some((section) =>
         section.kind === 'review' && section.sourcePages === '63' && section.practiceItemsFr?.length === 5,
@@ -630,6 +630,22 @@ check(
     healthyGrowthPlan.guidedPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('laver')) &&
     healthyGrowthPlan.independentPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('laver soigneusement')) &&
     healthyGrowthPlan.masteryCheckFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('laver soigneusement')),
+);
+
+// 12.14 Pages 69–71 practice questions and advice activities must be answerable in lesson 6-3.
+const chapterSixReview = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 6 && lesson.lessonNumber === 3,
+)?.supplementarySections?.find((section) => section.kind === 'review' && section.sourcePages === '69–71');
+check(
+  '12.14 lesson 6-3 exposes all fourteen app-authored advice and review questions from pages 69–71',
+  !!chapterSixReview &&
+    chapterSixReview.practiceItemsFr?.length === 14 &&
+    ['alimentation', 'sommeil', 'activité physique', 'petite enfance', 'père et d’une mère', 'héritent',
+      'parents', 'plus grand', 'collations'].every((term) =>
+      chapterSixReview.practiceItemsFr?.some((item) =>
+        (item.prompt + ' ' + item.expectedAnswer).toLocaleLowerCase('fr').includes(term),
+      ),
+    ),
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
