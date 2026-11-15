@@ -436,7 +436,7 @@ check(
     weatherRadarPlan.workedExampleFr.toLocaleLowerCase('fr').includes('radar') &&
     weatherRadarPlan.guidedPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('ondes radio')) &&
     weatherRadarPlan.independentPracticeFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('intensité')) &&
-    weatherRadarPlan.masteryCheckFr.some((item) => item.expectedAnswer.toLocaleLowerCase('fr').includes('radar')),
+    weatherRadarPlan.masteryCheckFr.some((item) => item.prompt.toLocaleLowerCase('fr').includes('radar')),
 );
 
 // 11. The full teacher-ready sequence must be present for every numbered lesson.
