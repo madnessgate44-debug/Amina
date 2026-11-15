@@ -64,13 +64,13 @@ jobs:
                   key, value = line.split(":", 1)
                   metadata[key.strip()] = value.strip()
 
-          normalized = re.sub(r"[\s\-\u2010-\u2015]", "", extracted_text)
+          normalized = re.sub(r"[\\s\\-\\u2010-\\u2015]", "", extracted_text)
           markers = {
               "isbn_9786338530174": "9786338530174" in normalized,
               "arabic_ministry_imprint": "وزارة التربية والتعليم" in extracted_text,
               "english_ministry_imprint": bool(re.search(r"Ministry of Education", extracted_text, re.I)),
               "science_text_present": bool(re.search(r"science", extracted_text, re.I)),
-              "french_text_present": bool(re.search(r"\b(les|des|une|et)\b", extracted_text, re.I)),
+              "french_text_present": bool(re.search(r"\\b(les|des|une|et)\\b", extracted_text, re.I)),
           }
 
           digest = hashlib.sha256()
@@ -90,7 +90,7 @@ jobs:
               "important_limit": "A successful download and text-marker scan do not establish lesson-by-lesson curriculum equivalence or authenticate a teacher guide."
           }
           Path("audit-output/source-audit.json").write_text(
-              json.dumps(report, ensure_ascii=False, indent=2)
+              json.dumps(report, ensure_ascii=False, indent=2),
               encoding="utf-8"
           )
           print(json.dumps(report, ensure_ascii=False, indent=2))
