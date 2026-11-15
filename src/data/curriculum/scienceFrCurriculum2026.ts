@@ -47,12 +47,7 @@ const S:Spec[] = [
 {u:9,n:3,page:98,pages:'98–101',fr:'Où va l’eau ? Le cycle de l’eau',en:'Where does water go? The water cycle',ar:'إلى أين يذهب الماء؟ دورة الماء',focus:'Le Soleil chauffe l’eau des mers, des lacs et des rivières. Une partie s’évapore et monte dans l’air. En se refroidissant, la vapeur se condense et forme des gouttelettes dans les nuages. L’eau retombe sous forme de précipitations et rejoint les rivières, les lacs et les mers. Le cycle recommence.',objectives:['Ordonner évaporation, condensation et précipitation.','Expliquer le rôle du Soleil.','Décrire le retour de l’eau vers les rivières et les mers.'],vocab:[['précipitation','Eau qui tombe des nuages.'],['cycle','Suite d’étapes qui se répète.'],['condensation','Formation de gouttelettes à partir de vapeur refroidie.']],q:'Quelle étape suit la condensation ?',options:['Les précipitations.','La germination.','La pollinisation.','La migration.'],answer:'Les précipitations.',why:'Après la formation des nuages par condensation, l’eau peut retomber.',exampleFr:'La pluie rejoint les cours d’eau puis retourne vers les mers.',exampleEn:'Rain flows into waterways and eventually returns to seas.',exampleAr:'يصل المطر إلى المجاري المائية ثم يعود في النهاية إلى البحار.'}
 ];
 
-function makeLesson(s:Spec):OfficialCurriculumLesson {
- const teacherGuide = SCIENCE_FR_TEACHER_GUIDE_2026[`${s.u}-${s.n}`];
- if (!teacherGuide) throw new Error(`Missing app-authored teacher guide for Science lesson ${s.u}-${s.n}`);
- const id='off_scifr_2026_u'+s.u+'_l'+s.n;
- const conceptId='conc_scifr_2026_u'+s.u+'_l'+s.n;
- const chapterTitlesFr: Record<number,string> = {
+const SCIENCE_FR_CHAPTER_TITLES_2026: Record<number,string> = {
   1:'Les os et les muscles',
   2:'Les changements des saisons',
   3:'Les conditions de germination',
@@ -62,8 +57,14 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
   7:'La croissance et la reproduction des animaux',
   8:'Les changements météorologiques',
   9:'Le cycle de l’eau'
- };
- const chapterTitleFr=chapterTitlesFr[s.u];
+};
+
+function makeLesson(s:Spec):OfficialCurriculumLesson {
+ const teacherGuide = SCIENCE_FR_TEACHER_GUIDE_2026[`${s.u}-${s.n}`];
+ if (!teacherGuide) throw new Error(`Missing app-authored teacher guide for Science lesson ${s.u}-${s.n}`);
+ const id='off_scifr_2026_u'+s.u+'_l'+s.n;
+ const conceptId='conc_scifr_2026_u'+s.u+'_l'+s.n;
+ const chapterTitleFr=SCIENCE_FR_CHAPTER_TITLES_2026[s.u];
  if (!chapterTitleFr) throw new Error(`Missing French chapter title for Science chapter ${s.u}`);
  const unit='Chapitre '+s.u;
  const lesson='Leçon '+s.u+'-'+s.n;
