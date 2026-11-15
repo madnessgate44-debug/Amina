@@ -181,6 +181,7 @@ export interface CurriculumSupplementarySection {
   sourcePages: string;
   titleFr: string;
   summaryFr: string;
+  practiceItemsFr?: CurriculumTeacherGuidePracticeItem[];
 }
 
 export interface OfficialCurriculumLesson {
