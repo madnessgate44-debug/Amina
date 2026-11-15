@@ -70,10 +70,13 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                 for number, text in enumerate(pages,1):
                     normalized=" ".join(text.split())
                     digest=hashlib.sha256(normalized.encode("utf-8")).hexdigest()
+                    heading_lines = [re.sub(r"\\s+", " ", line).strip() for line in text.splitlines() if line.strip()]
+                    heading = next((line for line in heading_lines if len(line) <= 140 and not line.isdigit()), "")
                     page_rows.append({
                         "source_id":source["id"],"subject":source["subject"],
                         "track":source["track"],"kind":source["kind"],
                         "week":source.get("week",""),"pdf_page":number,
+                        "page_heading_candidate":heading[:140],
                         "normalized_text_characters":len(normalized),
                         "normalized_text_sha256":digest,
                     })
@@ -108,7 +111,7 @@ report={
 }
 (OUT/"grade5-subject-source-audit.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 with (OUT/"grade5-subject-page-fingerprints.csv").open("w",newline="",encoding="utf-8") as f:
-    fields=["source_id","subject","track","kind","week","pdf_page","normalized_text_characters","normalized_text_sha256"]
+    fields=["source_id","subject","track","kind","week","pdf_page","page_heading_candidate","normalized_text_characters","normalized_text_sha256"]
     w=csv.DictWriter(f,fieldnames=fields); w.writeheader(); w.writerows(page_rows)
 print(json.dumps({
     "sources_attempted":len(reports),
