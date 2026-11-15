@@ -72,7 +72,7 @@ function getSupplementarySections(s: Spec): CurriculumSupplementarySection[] {
   const sections: CurriculumSupplementarySection[] = [];
 
   if (s.n === LAST_LESSON_BY_CHAPTER[s.u]) {
-    for (const item of SCIENCE_FR_TERM1_ENRICHMENT_2026.filter((entry) => entry.chapters.includes(s.u))) {
+    for (const item of SCIENCE_FR_TERM1_ENRICHMENT_2026.filter((entry) => (entry.chapters as readonly number[]).includes(s.u))) {
       sections.push({
         id: `science-fr-enrichment-${item.sourcePages.replace(/[^0-9]/g, '-')}`,
         kind: 'enrichment',
