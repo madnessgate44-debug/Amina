@@ -52,9 +52,22 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
  if (!teacherGuide) throw new Error(`Missing app-authored teacher guide for Science lesson ${s.u}-${s.n}`);
  const id='off_scifr_2026_u'+s.u+'_l'+s.n;
  const conceptId='conc_scifr_2026_u'+s.u+'_l'+s.n;
+ const chapterTitlesFr: Record<number,string> = {
+  1:'Les os et les muscles',
+  2:'Les changements des saisons',
+  3:'Les conditions de germination',
+  4:'Les conditions de croissance',
+  5:'De la fleur au fruit',
+  6:'La croissance et la reproduction humaines',
+  7:'La croissance et la reproduction des animaux',
+  8:'Les changements météorologiques',
+  9:'Le cycle de l’eau'
+ };
+ const chapterTitleFr=chapterTitlesFr[s.u];
+ if (!chapterTitleFr) throw new Error(`Missing French chapter title for Science chapter ${s.u}`);
  const unit='Chapitre '+s.u;
  const lesson='Leçon '+s.u+'-'+s.n;
- const sourceRef={book:'Manuel de Sciences 5e Primaire — Ministère de l’Éducation, 2026–2027, Term 1',bookAr:'كتاب الوزارة للعلوم بالفرنسية — الصف الخامس — الفصل الدراسي الأول',bookEn:'Egypt Ministry Grade 5 Science in French — Term 1 (2026–2027)',grade:'Primary 5 / Grade 5',term:'Term 1 — 2026–2027',unit,lesson,page:s.page,isAvailable:true};
+ const sourceRef={book:'Manuel de Sciences 5e Primaire — Ministère de l’Éducation, 2026–2027, Term 1',bookAr:'كتاب الوزارة للعلوم بالفرنسية — الصف الخامس — الفصل الدراسي الأول',bookEn:'Egypt Ministry Grade 5 Science in French — Term 1 (2026–2027)',grade:'Primary 5 / Grade 5',term:'Term 1 — 2026–2027',unit,lesson,page:s.page,notes:'[UNPROVEN] The inspected source is a third-party-assembled Library PDF bearing the Ministry 2026–2027 imprint; byte-level identity with the canonical Ministry-hosted PDF is not verified.',isAvailable:true};
  const concept={
   id:conceptId,conceptNumber:1,titleAr:s.ar,titleEn:s.en,titleFr:s.fr,
   sourceText:s.focus,sourceTextFr:teacherGuide.explanationFr,keyPoints:s.objectives,keyPointsFr:s.objectives,
@@ -77,7 +90,7 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
  const qa={type:'qa' as const,question:'Explique avec tes propres mots : '+s.objectives[0],expectedAnswer:s.why,page:s.page};
  return {
   id,subjectId:'subj_science_fr',subjectNameAr:'العلوم (بالفرنسية)',subjectNameEn:'Science (French section)',subjectNameFr:'Sciences',
-  unitNumber:s.u,unitNameAr:'الفصل '+s.u,unitNameEn:'Chapter '+s.u,unitNameFr:unit,lessonNumber:s.n,
+  unitNumber:s.u,unitNameAr:'الفصل '+s.u,unitNameEn:'Chapter '+s.u,unitNameFr:unit+' : '+chapterTitleFr,lessonNumber:s.n,
   titleAr:s.ar,titleEn:s.en,titleFr:s.fr,originTag:'official',language:'fr',
   instructionLanguage:'fr',contentLanguage:'fr',assessmentLanguage:'fr',curriculumSource:'egyptian_national',track:'french_bilingual',
   isAvailable:true,contentStatus:'available',sourceRef,
