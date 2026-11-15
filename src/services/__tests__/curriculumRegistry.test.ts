@@ -589,6 +589,7 @@ const attachedEnrichmentPages = new Set(
 );
 const attachedReviewPages = attachedSupplementarySections.filter((section) => section.kind === 'review').map((section) => section.sourcePages);
 const attachedMethodPages = attachedSupplementarySections.filter((section) => section.kind === 'method').map((section) => section.sourcePages);
+const attachedPracticePages = attachedSupplementarySections.filter((section) => section.kind === 'practice').map((section) => section.sourcePages);
 check(
   '12.9 all six distinct enrichment sections are attached to the relevant chapter-ending learner lessons',
   ['18–19', '26–27', '43', '50–51', '90–91', '102–103'].every((page) => attachedEnrichmentPages.has(page)) &&
@@ -612,7 +613,7 @@ check(
   '12.12 the lesson modal renders an accessible Resources tab with app-authored summaries and printed page labels',
   ["activeTab === 'resources'", 'lesson.supplementarySections.map', 'section.summaryFr', 'section.sourcePages',
     'Pages complémentaires du manuel', 'not reproduced textbook text or an official Ministry teacher guide',
-    'section.practiceItemsFr.map', 'Questions de révision', 'Reveal expected answer']
+    'section.practiceItemsFr.map', 'Questions de révision', 'Exercices du manuel', 'Reveal expected answer']
     .every((field) => lessonStudyModalSource.includes(field)),
 );
 
@@ -663,6 +664,30 @@ check(
         (item.prompt + ' ' + item.expectedAnswer).toLocaleLowerCase('fr').includes(term),
       ),
     ),
+);
+
+// 12.16 Printed exercise pages from Chapters 1–5 must be attached as answer-reveal resources.
+const practiceResource = (unitNumber: number, lessonNumber: number, page: string) =>
+  SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+    (lesson) => lesson.unitNumber === unitNumber && lesson.lessonNumber === lessonNumber,
+  )?.supplementarySections?.find((section) =>
+    section.kind === 'practice' && section.sourcePages === page,
+  );
+const expectedPracticeResources = [
+  { unit: 1, lesson: 4, page: '16–17', count: 8 },
+  { unit: 2, lesson: 2, page: '24–25', count: 8 },
+  { unit: 3, lesson: 5, page: '42', count: 6 },
+  { unit: 4, lesson: 2, page: '48–49', count: 8 },
+  { unit: 5, lesson: 3, page: '62', count: 4 },
+];
+check(
+  '12.16 all five Chapter 1–5 printed exercise sets are attached to the matching lesson with complete answer keys',
+  expectedPracticeResources.every((expected) => {
+    const section = practiceResource(expected.unit, expected.lesson, expected.page);
+    return !!section && section.practiceItemsFr?.length === expected.count;
+  }) &&
+    ['16–17', '24–25', '42', '48–49', '62'].every((page) => attachedPracticePages.includes(page)) &&
+    attachedPracticePages.length === 5,
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
