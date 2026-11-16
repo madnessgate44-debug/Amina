@@ -117,3 +117,16 @@ These counts describe source and repository coverage only. They do not measure l
 - No physical-phone learner walkthrough was performed.
 - No PR was merged and no deployment was performed.
 - Page hashes and TOC/scope-sequence/OCR extraction are not a substitute for reviewing every instructional page, exercise, answer, diagram and teaching interaction.
+
+
+## Continuation checkpoint — 16 November 2026
+
+- [V] Current main baseline remains `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`; root policy remains Engineering Execution OS v2.2.
+- [V] Science PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) now carries an explicit `sourceRef.pageRange` for all 28 current-edition French Science lessons and a 28-entry regression map. Latest head: `8c7f5d760d420a22678798f222342fdf52981548`; CI [43821315922](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315922) and compliance [43821315933](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315933) both passed. The registry suite reports 54 passed, 0 failed; test workflow reports 39 suites passed, 0 failed; type check, lint and build passed.
+- [V] PR [#170](https://github.com/madnessgate44-debug/Amina/pull/170) remains stale/diverged (38 ahead, 27 behind) and GitHub reports it non-mergeable. Its separate Chapter 1 teacher-guide file duplicates material already represented by the current main 28-plan registry. The exact page-range idea was ported safely to PR #200; no merge or branch rewrite was performed.
+- [V] PR [#182](https://github.com/madnessgate44-debug/Amina/pull/182) remains a separate Arabic Science draft; PR [#180](https://github.com/madnessgate44-debug/Amina/pull/180) remains an Arabic Maths draft. Neither is part of the French-taught Science/Math request.
+- [V] Math French remains at 46 StudentBook TOC lessons across six units: 11 exact app matches, one title/page discrepancy, 34 missing; four extra extract records remain separately reviewed. Full instructional-page, worked-example, exercise and answer-key review has not been completed.
+- [V] French language: the audit retrieved French1 weekly assessments 7/7 and French2 6/7 (week 6 returned HTTP 404). Headers identify Bien joué 1 and Alex et Zoé 2. This proves two assessment tracks exist, not which the school assigns. No separate 2026–2027 French StudentBook or standalone assessment book was verified. See `french-language-assessment-track-matrix.csv`.
+- [V] English: the 113-page StudentBook and 74-page performance-assessment book were retrieved and fingerprinted. The retained page-heading index supports a provisional 23-segment lesson/story index across six units; two app records remain unverified (one title mismatch, one unmatched app-only record). See `english-lesson-reconciliation.csv`. The index uses PDF page positions, not verified printed pagination.
+- [U] No visual inspection of every Math/English lesson page, no complete exercise/answer-key audit, no French1/French2 school-track confirmation, no school-specific pacing confirmation, and no physical-phone walkthrough have been completed.
+- [B] PR #200 and PR #201 remain open; no merge or production deployment was performed. Owner approval remains required.
