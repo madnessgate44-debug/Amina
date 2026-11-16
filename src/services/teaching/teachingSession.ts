@@ -52,17 +52,76 @@ function sourceBookLabel(lesson: OfficialCurriculumLesson, isFr: boolean): strin
 
 function conceptSourceText(concept: CurriculumLessonConcept, isFr: boolean): string {
   return isFr
-    ? (concept.sourceTextFr || concept.titleFr || 'Contenu du manuel à vérifier.')
+    ? (concept.sourceTextFr || concept.titleFr || concept.sourceText || 'Contenu du manuel à vérifier.')
     : concept.sourceText;
 }
 
 function conceptKeyPoints(concept: CurriculumLessonConcept, isFr: boolean): string[] {
   if (!isFr) return concept.keyPoints;
-  // Never leak Arabic key-point text into the French teaching path. A concise
-  // French source summary is safer than silently falling back to Arabic.
+  // Prefer French-authored key points; for an English lesson in French support
+  // mode, use the English source summary rather than leaking Arabic or inventing text.
   return concept.keyPointsFr?.length
     ? concept.keyPointsFr
-    : [concept.sourceTextFr || concept.titleFr || 'Retenons les idées essentielles de cette notion.'];
+    : [concept.sourceTextFr || concept.sourceText || concept.titleFr || 'Retenons les idées essentielles de cette notion.'];
+}
+
+function conceptSourceLabel(lesson: OfficialCurriculumLesson, language: 'ar' | 'en' | 'fr'): string {
+  if (lesson.teacherGuide?.provenance === 'app_authored') {
+    return language === 'fr'
+      ? 'Explication de Miss Noor, rédigée à partir du manuel'
+      : language === 'ar'
+      ? 'شرح نور المُعدّ اعتماداً على الكتاب المدرسي'
+      : "Miss Noor's app-authored explanation based on the StudentBook";
+  }
+  if (lesson.teacherGuideEn?.provenance === 'app_authored') {
+    return language === 'fr'
+      ? 'Explication de Miss Noor basée sur le StudentBook'
+      : language === 'ar'
+      ? 'شرح نور المُعدّ اعتماداً على كتاب الطالب'
+      : "Miss Noor's app-authored explanation based on the StudentBook";
+  }
+  return language === 'fr' ? 'Texte du manuel' : language === 'ar' ? 'نص الكتاب المدرسي' : 'From the textbook';
+}
+
+function conceptSourcePresentation(
+  lesson: OfficialCurriculumLesson,
+  concept: CurriculumLessonConcept,
+  language: 'ar' | 'en' | 'fr',
+): string {
+  const text = conceptSourceText(concept, language === 'fr');
+  const appAuthored = lesson.teacherGuide?.provenance === 'app_authored' ||
+    lesson.teacherGuideEn?.provenance === 'app_authored';
+  return appAuthored ? text : '"' + text + '"';
+}
+
+function conceptPracticeScaffold(lesson: OfficialCurriculumLesson, language: 'ar' | 'en' | 'fr'): string {
+  const fr = lesson.teacherGuide;
+  if (fr?.provenance === 'app_authored') {
+    const sections = [
+      fr.workedExampleFr ? '🧪 Démonstration :\n' + fr.workedExampleFr : '',
+      fr.guidedPracticeFr?.length ? '✏️ Pratique guidée :\n' + fr.guidedPracticeFr.map((item) => '• ' + item.prompt).join('\n') : '',
+      fr.independentPracticeFr?.length ? '📝 Pratique autonome :\n' + fr.independentPracticeFr.map((item) => '• ' + item.prompt).join('\n') : '',
+      fr.masteryCheckFr?.length ? '🎯 Vérification :\n' + fr.masteryCheckFr.map((item) => '• ' + item.prompt).join('\n') : '',
+    ].filter(Boolean);
+    return sections.join('\n\n');
+  }
+
+  const en = lesson.teacherGuideEn;
+  if (en?.provenance === 'app_authored') {
+    const labels = language === 'fr'
+      ? { demo: '🧪 Exemple travaillé', guided: '✏️ Pratique guidée', independent: '📝 Pratique autonome', mastery: '🎯 Vérification' }
+      : language === 'ar'
+      ? { demo: '🧪 مثال محلول', guided: '✏️ تدريب موجّه', independent: '📝 تدريب مستقل', mastery: '🎯 تحقق من الفهم' }
+      : { demo: '🧪 Worked example', guided: '✏️ Guided practice', independent: '📝 Independent practice', mastery: '🎯 Mastery check' };
+    const sections = [
+      en.workedExampleEn ? labels.demo + ':\n' + en.workedExampleEn : '',
+      en.guidedPracticeEn.length ? labels.guided + ':\n' + en.guidedPracticeEn.map((item) => '• ' + item.prompt).join('\n') : '',
+      en.independentPracticeEn.length ? labels.independent + ':\n' + en.independentPracticeEn.map((item) => '• ' + item.prompt).join('\n') : '',
+      en.masteryCheckEn.length ? labels.mastery + ':\n' + en.masteryCheckEn.map((item) => '• ' + item.prompt).join('\n') : '',
+    ].filter(Boolean);
+    return sections.join('\n\n');
+  }
+  return '';
 }
 
 function tokens(s: string): Set<string> {
@@ -314,11 +373,14 @@ export class TeachingSessionEngine {
         // Step 2 -> Step 3: Teach Concept from Source
         nextStep = 'teach';
         modalityUsed = 'source_explanation';
+        const sourceLabel = conceptSourceLabel(lesson, effectiveLang);
+        const sourcePresentation = conceptSourcePresentation(lesson, currentConcept, effectiveLang);
+        const practiceScaffold = conceptPracticeScaffold(lesson, effectiveLang);
         replyText = isFr
-          ? `Très bien ! Ouvrons notre manuel (${sourceBookLabel(lesson, isFr)}) pour notre première notion : «${conceptTitle(currentConcept, isFr)}».\n\n📖 Texte du manuel :\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Points clés :\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
+          ? `Très bien ! Ouvrons notre manuel (${sourceBookLabel(lesson, isFr)}) pour notre première notion : «${conceptTitle(currentConcept, isFr)}».\n\n📖 ${sourceLabel} :\n${sourcePresentation}\n\n📌 Points clés :\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}${practiceScaffold ? '\n\n' + practiceScaffold : ''}\n\nPrends le temps d'assimiler ceci, et dis-moi quand tu es prêt !`
           : isAr
-          ? `رائع جداً! الآن لنفتح كتابنا (${lesson.sourceRef.bookAr}) ونبدأ بالفكرة الأولى: «${currentConcept.titleAr}».\n\n📖 من نص الكتاب المدرسي:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 النقاط الجوهرية:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\n(خذ نفساً هادئاً، وعندما تكون مستعداً اخبرني لننتقل للخطوة التالية!)`
-          : `Great! Now let’s open our textbook (${sourceBookLabel(lesson, isFr)}) to our first concept: "${conceptTitle(currentConcept, isFr)}".\n\n📖 From the textbook:\n"${conceptSourceText(currentConcept, isFr)}"\n\n📌 Key Points:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}\n\nTake your time to absorb this! Tell me when you're ready to continue.`;
+          ? `رائع جداً! الآن لنفتح كتابنا (${lesson.sourceRef.bookAr}) ونبدأ بالفكرة الأولى: «${currentConcept.titleAr}».\n\n📖 ${sourceLabel}:\n${sourcePresentation}\n\n📌 النقاط الجوهرية:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}${practiceScaffold ? '\n\n' + practiceScaffold : ''}\n\n(خذ نفساً هادئاً، وعندما تكون مستعداً اخبرني لننتقل للخطوة التالية!)`
+          : `Great! Now let’s open our textbook (${sourceBookLabel(lesson, isFr)}) to our first concept: "${conceptTitle(currentConcept, isFr)}".\n\n📖 ${sourceLabel}:\n${sourcePresentation}\n\n📌 Key Points:\n${conceptKeyPoints(currentConcept, isFr).map((p) => `• ${p}`).join('\n')}${practiceScaffold ? '\n\n' + practiceScaffold : ''}\n\nTake your time to absorb this! Tell me when you're ready to continue.`;
         break;
       }
 
