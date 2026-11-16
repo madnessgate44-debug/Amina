@@ -175,6 +175,26 @@ export interface CurriculumTeacherGuide {
   masteryCheckFr: CurriculumTeacherGuideMasteryCheck[];
 }
 
+/**
+ * App-authored English teaching support derived from a cited StudentBook edition.
+ * It is not an official Ministry teacher guide or a verbatim textbook transcript.
+ */
+export interface CurriculumTeacherGuideEnglish {
+  provenance: 'app_authored';
+  sourceEdition: string;
+  sourcePages: string;
+  assessmentPages?: string;
+  explanationEn: string;
+  workedExampleEn: string;
+  guidedPracticeEn: CurriculumTeacherGuidePracticeItem[];
+  independentPracticeEn: CurriculumTeacherGuidePracticeItem[];
+  /** Ordered one-to-one with independentPracticeEn. */
+  answerKeyEn: string[];
+  misconceptionDiagnosisEn: CurriculumTeacherGuideMisconception[];
+  remediationEn: string[];
+  masteryCheckEn: CurriculumTeacherGuideMasteryCheck[];
+}
+
 export interface CurriculumSupplementarySection {
   id: string;
   kind: 'enrichment' | 'review' | 'practice' | 'method';
@@ -219,6 +239,7 @@ export interface OfficialCurriculumLesson {
   /** App-authored French summaries of separate textbook enrichment, review and appendix pages. */
   supplementarySections?: CurriculumSupplementarySection[];
   teacherGuide?: CurriculumTeacherGuide;
+  teacherGuideEn?: CurriculumTeacherGuideEnglish;
 }
 
 export type StructuredVisualType =
