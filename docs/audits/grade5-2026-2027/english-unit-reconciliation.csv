@@ -1,7 +1,7 @@
-unit,scope_sequence_title,student_book_pdf_page_start,student_book_pdf_page_end,performance_assessment_pdf_page_start,performance_assessment_pdf_page_end,app_record_id,registry_status,ocr_heading_candidates_and_review_note
-"1","Food, Nature, and Culture","7","24","5","14","off_en_u1_apple_tree","PARTIAL_UNVERIFIED","OCR headings include Life Along the Nile and Let's Make a Recipe; app title The Generous Apple Tree may relate to story content but exact lesson/page equivalence is not proven."
-"2","My Healthy Body","25","40","15","23","","MISSING","Assessment headings include Sports for Better Health and Life Savers in Action; no Unit 2 app lesson record."
-"3","When Nature Changes","41","60","24","36","","MISSING","Assessment headings include Weather Wonders and Warnings and a story titled Once Upon My Imagination; no Unit 3 app lesson record."
-"4","My Community","61","76","37","46","off_en_u4_elephantine","PARTIAL_UNVERIFIED","Assessment headings include The New Administrative Capital; app record Elephantine Island in Aswan cites p.60, while Unit 4 begins at student-book PDF page 61. Exact match remains unverified."
-"5","Our World, Our Resources","77","91","47","56","","MISSING","Assessment headings include The Gifts of Nature, Metals and Minerals in Our World, Just Watch!, Who Am I? and A Poster; no Unit 5 app lesson record."
-"6","The Talking Earth","92","105","58","72","","MISSING","Assessment headings include The Talking Earth and Egyptian Villages; no Unit 6 app lesson record."
+unit,scope_sequence_title,student_book_pdf_page_start,student_book_pdf_page_end,performance_assessment_pdf_page_start,performance_assessment_pdf_page_end,student_book_lesson_count,current_app_record_count,registry_status,ocr_heading_candidates_and_review_note
+"1","Food, Nature, and Culture","7","24","5","14","1","MISALIGNED","Five StudentBook lessons. The existing apple-tree app record is not the source story: the official lesson is The Giving Tree, StudentBook pp.13–16."
+"2","My Healthy Body","25","40","15","23","0","MISSING","Five StudentBook lessons, including a separate Think and Create poster task; no app lesson records."
+"3","When Nature Changes","41","60","24","36","0","MISSING","Five StudentBook lessons, including a separate collage task; no app lesson records."
+"4","My Community","61","76","37","46","1","UNRELATED_LEGACY_RECORD","Five StudentBook lessons. The existing Elephantine Island record does not match the New Administrative Capital lesson or any other indexed lesson."
+"5","Our World, Our Resources","77","91","47","56","0","MISSING","Five StudentBook lessons; no app lesson records."
+"6","The Talking Earth","92","105","58","72","0","MISSING","One extended story lesson; no app lesson record."
