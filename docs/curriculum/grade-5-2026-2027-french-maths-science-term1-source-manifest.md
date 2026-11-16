@@ -3,7 +3,7 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Language:** French  
-**Status:** [VERIFIED] The 109 book-content pages in the inspected Library copy have been reconciled to all nine chapters, 28 numbered lessons, printed page ranges, enrichment sections and the scientific-method appendix. The PDF container has 110 pages because a third-party promotional page is appended. The copy carries the Ministry 2026–2027 imprint, but byte-for-byte identity with the canonical Ministry endpoint is [UNPROVEN]. Maths remains TOC-only/partial.  
+**Status:** [VERIFIED] The inspected 110-page Library copy (109 student-book pages plus a third-party promotional page) is reconciled to all nine TOC chapters, 28 numbered lessons, printed page ranges, six enrichment sections and the scientific-method appendix. GitHub Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358) downloaded the canonical Ministry-hosted endpoint successfully (HTTP 200, `application/pdf`, 62,976,199 bytes, 109 PDF pages; SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`). [UNPROVEN] Byte identity and visual/layout identity remain unverified. PR #200 records a 109/109 normalized-text fingerprint match, but the canonical per-page CSV has not yet been durably published for independent reproduction; treat that comparison as [UNPROVEN] until the updated audit workflow produces its retained CSV. Maths remains TOC-only/partial.
 **Important:** This is a source manifest, not proof that Girard assigns every book or that the app already covers it.
 
 ## Official source files
@@ -250,3 +250,34 @@ This is a Grade 5 French Science Term 1 reconstruction only. It is not a full-ye
 - **Next action:** retrieve the exact URL from a browser/device or download route capable of handling the 62,976,199-byte PDF, then record file size, PDF page count, SHA-256, imprint/ISBN and a byte-for-byte comparison. Do not alter the source-copy status or remove its [UNPROVEN] note until that comparison succeeds.
 
 The catalogue entry is a discovery route only. It does not authenticate the third-party index as a Ministry source, and no Ministry teacher guide was discovered by this retrieval attempt.
+
+## 15. Canonical endpoint, chapter-heading and teacher-source update — 16 November 2026
+
+### Canonical student-book endpoint
+
+- **[VERIFIED]** GitHub Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358), on main commit `1f98c31ad5d3101f969ed3f8d072d520f52648e0`, completed its “Download and inspect the canonical Ministry PDF” job successfully. The download step reported `http_code=200`, `content_type=application/pdf` and `size_download=62976199`.
+- **[VERIFIED]** The run recorded 109 PDF pages, file size 62,976,199 bytes and SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`.
+- **[VERIFIED]** Its text-marker output recorded ISBN 978-633-8530-17-4, Science text and French text as present. The older workflow tested Arabic and English imprint strings, both false; those results do not establish that a French imprint is absent.
+- **[VERIFIED]** The Library copy is 59,040,102 bytes, SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`, and contains 110 PDF pages. Its PDF page 3 shows the French Ministry/Central Administration 2026–2027 rights statement; PDF page 109 carries the ISBN; the appended PDF page 110 is a third-party promotional insert.
+- **[OBSERVED]** The canonical-hosted PDF's metadata reports Author “PDF Candy Desktop”, Creator “Icecream PDF Candy Desktop 3.13” and Producer “GPL Ghostscript 10.07.0”. This indicates PDF processing; it does not identify who performed it or establish untouched publisher-original bytes.
+- **[UNPROVEN]** The two file hashes differ, so the files are not byte-identical. PR #200 records 109/109 matching normalized per-page text fingerprints and aggregate digest `79afe5b773323da9a6133eb4978a1e989225e8d1855a22a973ab9aa13fab94eb`; however, the successful run above predates the per-page-fingerprint workflow update and its retained artifact does not contain the canonical page CSV. The updated workflow in PR #200 is designed to generate and publish that CSV to `audit/ministry-science-source-results`. The 109/109 claim remains **[UNPROVEN for independent reproduction]** until that workflow run and CSV are inspected.
+- **[UNPROVEN]** Matching extracted text would not prove matching images, diagrams, layout, colour, typography or visual rendering. The current contact-sheet review is thumbnail-scale, not a high-resolution diagram audit.
+
+### TOC headings versus lesson-opening banners
+
+- **[VERIFIED]** The contents page is PDF page 6 (printed page 5). It lists the nine chapter headings and starting pages recorded in the table above. The chapter-level `unitNameFr` must follow this TOC wording.
+- **[VERIFIED]** Some chapter-opening banners use slightly different wording from the TOC: Chapter 3 says “Les conditions de la germination”; Chapter 4 says “Les conditions de la croissance”; Chapter 6 says “La croissance et la reproduction chez l'être humain”; Chapter 7 says “Croissance et reproduction des animaux”; and Chapter 8 says “Changements météorologiques”. The TOC headings remain “Les conditions de germination”, “Les conditions de croissance”, “La croissance et la reproduction humaines”, “La croissance et la reproduction des animaux” and “Les changements météorologiques”, respectively. Preserve TOC headings at chapter level and keep lesson titles as separate lesson-level labels.
+- **[VERIFIED]** This run visually checked the TOC page, the nine chapter-opening pages (printed pp. 6, 20, 28, 44, 52, 64, 72, 80 and 92), the Chapter 1 enrichment pages 18–19, the French Ministry imprint page and the final ISBN page. This is a targeted visual cross-check, not a claim that every diagram has passed high-resolution review.
+
+### Teacher-guide search boundary
+
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. A third-party listing for a 29-page 2026–2027 Grade 5 Science “دفتر تحضير” is not evidence of Ministry authorship, French-language alignment or an official Ministry teacher-guide edition; it is not substituted. Listing: https://www.modrsbook.com/primary-5/term-1/science/dftr-thdyr-science-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- **[VERIFIED]** The 28 teaching plans remain app-authored Miss Noor material derived from the student book. They are not official Ministry teacher-guide content.
+- **[BLOCKED]** The exact 2026–2027 Term 2 French Science student book remains outside this Term 1 reconstruction until it is published and retrievable. The separate assessment-book PDF remains unverified question by question.
+
+### Current PR verification boundary
+
+- **[VERIFIED]** PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) is open against `main`; its inspected head is `8c7f5d760d420a22678798f222342fdf52981548`. It adds explicit page ranges to all 28 Science lesson records, a separate expected-page regression map, the Chapter 1 camel heat-loss detail and the updated source-audit workflow.
+- **[PASS]** PR CI run [43821315922](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315922): the blocking type check, `npm run lint`, `npm test` and `npm run build` steps completed successfully; the curriculum registry suite reported 54 passed, 0 failed; Vite reported a successful build in 749 ms.
+- **[PASS]** Engineering Execution OS compliance run [43821315933](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315933) reported `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- **[UNPROVEN]** PR #200's updated durable-publish workflow step has not yet been exercised end-to-end. The PR remains unmerged; no merge or deployment is claimed.
