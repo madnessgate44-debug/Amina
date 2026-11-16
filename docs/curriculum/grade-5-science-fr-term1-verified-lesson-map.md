@@ -251,3 +251,8 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 ### Updated status
 
 The earlier statement that the canonical PDF could not be retrieved is superseded by the successful 15 November GitHub Actions download. The official-hosted endpoint's 109-page extracted text is now reconciled to the existing Library copy. Remaining release gates include visual/diagram review, full independent pedagogical review, the separate assessment-book audit, teacher-guide authentication, Term 2 sourcing and physical-phone learner testing.
+
+
+## Assessment book candidate — not yet canonical
+
+A Ministry-branded French Science Term 1 assessment-book copy was found in the Library, but only through a third-party listing and download. It is recorded separately in [the assessment candidate audit](./grade-5-science-fr-term1-assessment-candidate.md). The candidate contains a Ministry seal, copyright marker and ISBN, but its PDFsharp metadata and repeated third-party watermark show repackaging; no canonical Ministry assessment-book endpoint has been verified. Sample OCR suggests topic alignment to Chapters 1, 3–4, 6, 7 and 9, but full 69-page assessment mapping and answer-key review remain open. Do not treat it as an official source or mark lessons as assessed until canonical provenance and page-level coverage are verified.
