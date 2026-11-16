@@ -522,6 +522,49 @@ check(
   lessonsMissingSourceCopyNote.length === 0,
 );
 
+const expectedSciencePageRangeById: Record<string, string> = {
+  'off_scifr_2026_u1_l1': '6–7',
+  'off_scifr_2026_u1_l2': '8–11',
+  'off_scifr_2026_u1_l3': '12–13',
+  'off_scifr_2026_u1_l4': '14–17',
+  'off_scifr_2026_u2_l1': '20–21',
+  'off_scifr_2026_u2_l2': '22–25',
+  'off_scifr_2026_u3_l1': '28–29',
+  'off_scifr_2026_u3_l2': '30–33',
+  'off_scifr_2026_u3_l3': '34–35',
+  'off_scifr_2026_u3_l4': '36–39',
+  'off_scifr_2026_u3_l5': '40–42',
+  'off_scifr_2026_u4_l1': '44–45',
+  'off_scifr_2026_u4_l2': '46–49',
+  'off_scifr_2026_u5_l1': '52–54',
+  'off_scifr_2026_u5_l2': '55–59',
+  'off_scifr_2026_u5_l3': '60–62',
+  'off_scifr_2026_u6_l1': '64–65',
+  'off_scifr_2026_u6_l2': '66–67',
+  'off_scifr_2026_u6_l3': '68–71',
+  'off_scifr_2026_u7_l1': '72–73',
+  'off_scifr_2026_u7_l2': '74–75',
+  'off_scifr_2026_u7_l3': '76–79',
+  'off_scifr_2026_u8_l1': '80–81',
+  'off_scifr_2026_u8_l2': '82–85',
+  'off_scifr_2026_u8_l3': '86–89',
+  'off_scifr_2026_u9_l1': '92–93',
+  'off_scifr_2026_u9_l2': '94–97',
+  'off_scifr_2026_u9_l3': '98–101',
+};
+const scienceLessonsMissingPageRange = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
+  (lesson) => expectedSciencePageRangeById[lesson.id] !== lesson.sourceRef.pageRange,
+);
+check(
+  `11.3 all 28 current Science lesson records carry exact printed page ranges (${scienceLessonsMissingPageRange.length} mismatches)`,
+  Object.keys(expectedSciencePageRangeById).length === 28 &&
+    SCIENCE_FR_CURRICULUM_2026_LESSONS.length === 28 &&
+    scienceLessonsMissingPageRange.length === 0,
+);
+if (scienceLessonsMissingPageRange.length > 0) {
+  console.error('   page-range mismatches:', scienceLessonsMissingPageRange.map((lesson) => lesson.id));
+}
+
 // 12. Enrichment, the separate chapter-5 review, and scientific-method appendix
 //     remain distinct source-book sections, with their own printed page ranges.
 const expectedEnrichmentPages = ['18–19', '26–27', '43', '50–51', '90–91', '102–103'];
