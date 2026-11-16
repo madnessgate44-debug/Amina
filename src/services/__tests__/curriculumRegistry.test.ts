@@ -729,7 +729,7 @@ check(
     givingTree.sourceRef.page === 13 &&
     givingTree.sourceRef.notes?.includes('StudentBook') === true &&
     givingTree.readingText?.includes('Tom') === true &&
-    givingTree.readingText?.includes('watered it') === true &&
+    givingTree.readingText?.includes('watering it') === true &&
     !givingTree.readingText?.includes('stump') &&
     givingTree.exercises.length >= 4 &&
     givingTree.exercises.every((exercise) => !!exercise.expectedAnswer),
