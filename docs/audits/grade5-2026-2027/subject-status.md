@@ -1,133 +1,132 @@
 # Grade 5 Term 1 curriculum status — 2026–2027
 
-**Repository baseline:** `main` at `527df4fb7da32d6f3badb5f31d1172ffc0de6eec` (inspected 15 Nov 2026 UTC).  
+**Main baseline:** `527df4fb7da32d6f3badb5f31d1172ffc0de6eec` (read-only; no main-branch writes).  
+**Controlling policy:** `ENGINEERING_EXECUTION_OS.md` v2.2 and `AGENTS.md`; both read at the start of this continuation.  
 **Audit branch:** `audit/grade5-term1-subject-source-audit-2026-11-15`.  
-**Latest source audit:** [43714053006](https://github.com/madnessgate44-debug/Amina/actions/runs/43714053006) — [PASS] 17/21 PDFs retrieved; 448 pages fingerprinted, including OCR fallback for English assessments.  
-**PR CI validation:** [43714399890](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399890) — [PASS] on the latest code/docs revision before this status-ledger update.  
-**Compliance validation:** [43714399881](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399881) — [PASS] on the same revision.  
-**Scope:** Egyptian Primary Grade 5, academic year 2026–2027, Term 1. Mathematics is the French-track book. School-specific pacing and the school's exact French1/French2 assignment remain unverified.
+**Latest source audit:** [43844113846](https://github.com/madnessgate44-debug/Amina/actions/runs/43844113846) — PASS; 21 Ministry-hosted URLs attempted, 17 PDFs retrieved, 448 pages fingerprinted.  
+**Current PR:** [#201](https://github.com/madnessgate44-debug/Amina/pull/201), open and mergeable; no merge.  
+**Science PR:** [#200](https://github.com/madnessgate44-debug/Amina/pull/200), open and mergeable; no merge.  
+**Scope:** Egyptian Primary Grade 5, academic year 2026–2027, Term 1. Mathematics and Science are assessed against the French-track materials. The school's French1/French2 assignment and school pacing remain unverified.
 
-## Executive status
+## Tool declaration
 
-| Subject | Verified source denominator | Current app registry inventory | Result |
+- [V] GitHub repository file, branch, pull-request and Actions inspection/update tools were used.
+- [V] The source-audit GitHub Actions workflow retrieved Ministry-hosted PDFs and generated source metadata, page fingerprints, headings and a one-day review artifact.
+- [V] Python/container inspection was used to inspect the temporary Actions artifact.
+- [B] No school portal login, private school records, physical-phone session or Ministry teacher-guide access was used.
+
+## Compliance header
+
+- [V] Workflow followed: OUTCOME → INSPECT → SPECIFY → PLAN → EXECUTE → VERIFY → REVIEW → CLOSE.
+- [V] No direct push to `main`; all changes are on the audit branch.
+- [V] No merge or production deployment.
+- [V] No textbook PDFs or full extracted/OCR textbook text committed.
+- [V] No private learner information or secrets added.
+- [U] No visual/page-layout verification, teacher-guide authentication, school-specific pacing confirmation or learner-mastery evidence.
+
+## Executive subject status
+
+| Subject | Verified source coverage | Current app registry | Result |
 |---|---|---:|---|
-| French Science | 9 chapters / 28 numbered lessons; prior canonical-host/Library comparison matched 109/109 normalized page-text fingerprints | 28 current-edition lessons and 28 app-authored teacher-guide plans | [IN PROGRESS] Source/teacher-guide data exist; PR #200 source reconciliation is open and #170 is stale/non-mergeable |
-| Mathematics (French track) | 46 StudentBook TOC lessons across 6 units; 74-page performance-assessment book retrieved | 12 national-book lesson records + 4 separate French-extract records = 16 registered records | [GAP] 11 exact TOC matches, 1 title/page discrepancy, 34 missing; 3 of 4 extract records are mismatched or unsupported |
-| French language | 13 weekly assessments retrieved across two named tracks; no separate StudentBook or separate performance-assessment book found at tested endpoints | 4 lesson records | [PARTIAL / TRACK UNVERIFIED] Assessment materials identify French1 “Bien joué 1” and French2 “Alex et Zoé 2”; school track is unknown |
-| English | 6 units in StudentBook scope-and-sequence; 74-page performance-assessment book OCR-indexed | 2 lesson records (Units 1 and 4) | [GAP] Four units have no app lesson record; exact matching of the two existing records is unverified |
+| French Science | 9 chapters / 28 numbered lessons; prior canonical-host/Library comparison matched 109/109 normalized text fingerprints | 28 lessons + 28 app-authored teacher-guide plans on main | [IN PROGRESS] PR #200 contains the current source/provenance reconciliation; owner merge and post-merge publish gate remain |
+| Mathematics — French track | 46 StudentBook lessons across 6 units; 74-page performance-assessment book | 12 national-book lesson records | [GAP] 11 exact matches + 1 verified lesson-banner title variant; 34 lessons missing. Four extra French-extract records are duplicate or mis-mapped |
+| French language | 7 French1 and 6 French2 weekly assessments retrieved and OCR-reviewed; no separate StudentBook or standalone assessment book found | 4 generic legacy records | [BLOCKED ON TRACK] Assessments identify Bien joué 1 and Alex et Zoé 2, but school assignment is unknown |
+| English | 6 units and 26 numbered lessons/creative tasks in Connect 5; 74-page performance-assessment book | 2 legacy records | [GAP] One app story materially differs from the StudentBook; the other app record is unrelated/unverified. 24 additional source lessons/tasks have no app record |
 
-These counts describe source and repository coverage only. They do not measure learner mastery, class pacing, or school-certified completion.
+Counts above measure source/registry coverage, not learner mastery or school pacing.
+
+## Source audit — latest run
+
+- [V] Workflow [43844113846](https://github.com/madnessgate44-debug/Amina/actions/runs/43844113846) completed successfully: 21 URLs attempted, 17 PDFs retrieved, 448 pages fingerprinted.
+- [V] OCR was attempted on 165 pages; 163 produced OCR text:
+  - Math French StudentBook: 8/8 low-text pages.
+  - Math French performance-assessment book: 30 pages attempted, 29 produced text.
+  - English StudentBook: 8/8 low-text pages.
+  - English performance-assessment book: 73 pages attempted, 72 produced text.
+  - French1 weekly assessments: 28/28 pages OCR text.
+  - French2 weekly assessments: 18/18 pages OCR text.
+- [V] French weekly assessment OCR used `fra+ara`; French Mathematics used `fra+eng`; English used `eng+ara`.
+- [V] The 448-page fingerprint CSV is based on normalized extracted/OCR text. It does not establish visual/layout or diagram equivalence.
+- [V] A temporary artifact contains the page text used for this review and expires after one day. It is not stored in the repository. The repository contains only metadata, hashes, concise headings, matrices and summaries.
+- [V] Four candidate URLs returned HTTP 404: uppercase Math assessment filename; French1 standalone assessment-book candidate; French2 standalone assessment-book candidate; French2 week 6.
+- [U] Ministry-hosted retrieval is verified, but PDF metadata indicates third-party PDF processing; untouched publisher-original provenance is not established.
+
+### Principal source files
+
+| Source | Pages | Bytes | SHA-256 |
+|---|---:|---:|---|
+| French Mathematics StudentBook | 141 | 17,195,754 | `baea709a1080bfe383e8e1f040c57d68b8c1b1f6e17b7810fd5401c7187d5ace` |
+| French Mathematics Performance Tasks and Assessments | 74 | 9,487,796 | `9521338362528fc1c7e0717c92b2f596c7177860c37c1311a80ed86fa6c67479` |
+| English StudentBook | 113 | 18,757,051 | `da7e3dd769bbdfc3506a6d4fea96ed6e62ee3a49d95ad15968e4c2bbcf7513f4` |
+| English Performance Tasks and Assessments | 74 | 11,788,956 | `41b01ce8e0530ba2400696a4fad31a063f775980bf2995e9e2687fa23e2d1472` |
+
+The complete per-source retrieval timestamps, PDF metadata and hashes are in `subject-source-audit.json`.
 
 ## 1. Science — French track
 
-- [V] The current main registry imports `SCIENCE_FR_CURRICULUM_2026_LESSONS`; the source file defines the 28 current-edition lessons across nine chapters.
-- [V] The current main teacher-guide registry `SCIENCE_FR_TEACHER_GUIDE_2026` contains 28 keyed lesson plans. The registry test asserts 28 plans and checks their required teaching components. These are app-authored plans, not an authenticated Ministry teacher guide.
-- [V] The earlier canonical-hosted Science PDF audit found 109/109 normalized extracted-text pages matching the inspected Library copy. The Library PDF has one additional promotional page outside the 109-page book.
-- [U] Text-fingerprint equivalence does not prove byte identity, untouched publisher-original provenance, visual/layout identity, or diagram fidelity.
-- [V] PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) is open, 10 commits ahead of main and 0 behind at inspection; GitHub reports it mergeable. Its CI run [43708932387](https://github.com/madnessgate44-debug/Amina/actions/runs/43708932387) and compliance run [43708932399](https://github.com/madnessgate44-debug/Amina/actions/runs/43708932399) passed. It corrects the French imprint/source notes, camel enrichment summary and source-audit publishing.
-- [V] PR [#170](https://github.com/madnessgate44-debug/Amina/pull/170) is stale: it is 38 commits ahead and 27 behind current main, GitHub reports it non-mergeable, and its merge base is `ed9aa246e6156748352a513db76902dc766a252b`. Its added Chapter 1 guide duplicates content already present in main's 28-plan teacher-guide registry. Its explicit `sourceRef.pageRange` and teaching-turn changes are separate unmerged changes; do not merge this PR as-is.
-- [V] PR [#182](https://github.com/madnessgate44-debug/Amina/pull/182) is an Arabic Science draft held by a separate registry/availability blocker. It is not part of the French Science work.
-- [V] PR [#180](https://github.com/madnessgate44-debug/Amina/pull/180) is Arabic Maths, not the requested French Mathematics source.
-- [B] No merge or production deployment was performed. Owner approval remains required.
+- [V] Main contains 28 current-edition French Science lessons and 28 keyed app-authored teaching plans. These are not an authenticated Ministry teacher guide.
+- [V] Prior canonical-host/Library comparison: 109/109 normalized extracted-text page fingerprints match. This proves normalized text equivalence only, not byte identity, visual identity or publisher-original authenticity.
+- [V] PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200), head `969f0f9fcb2bc119f8fdf3899767b582bccd1a93`, is 23 commits ahead of main, 0 behind and mergeable. It corrects French imprint detection, source provenance across the 28 lesson notes, camel heat-loss enrichment and source-audit publishing.
+- [V] PR [#170](https://github.com/madnessgate44-debug/Amina/pull/170) is stale and non-mergeable (38 commits ahead on an old base). Its Chapter 1 guide duplicates the 28-plan registry already on main; do not merge it as-is.
+- [V] PR [#182](https://github.com/madnessgate44-debug/Amina/pull/182) is an Arabic Science draft and is not the French Science work.
+- [B] PR #200 still requires owner merge approval. Its publish-from-main gate cannot be completed without that merge; no merge or deployment was performed.
 
 ## 2. Mathematics — French track
 
-### StudentBook and performance-assessment evidence
+### Source and lesson reconciliation
 
-- [V] StudentBook URL: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Math_FR_prim5_TR1.pdf
-- [V] StudentBook retrieval: 2026-11-15T12:17:09Z; HTTP 200; 17,195,754 bytes; 141 PDF pages; all 141 pages fingerprinted.
-- [V] StudentBook SHA-256: `baea709a1080bfe383e8e1f040c57d68b8c1b1f6e17b7810fd5401c7187d5ace`.
-- [V] Performance-assessment URL: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/Math_fr_prim5_t1_Assmt.pdf
-- [V] Performance-assessment retrieval: 2026-11-15T12:30:34Z; HTTP 200; 9,487,796 bytes; 74 PDF pages; all 74 pages fingerprinted. SHA-256: `9521338362528fc1c7e0717c92b2f596c7177860c37c1311a80ed86fa6c67479`.
-- [V] The uppercase `Math_FR_prim5_t1_Assmt.pdf` candidate returned HTTP 404; the lowercase `Math_fr_prim5_t1_Assmt.pdf` endpoint is the working file.
-- [V] StudentBook PDF metadata: Author `PDF Candy Desktop`; Creator `Icecream PDF Candy Desktop 3.13`; Producer `PDF Xpansion, Version 12.0.3.3`; modified 1 Sep 2026. No ISBN marker was detected.
-- [V] Performance-assessment PDF metadata: Author `PDF Candy Desktop`; Creator `Icecream PDF Candy Desktop 3.13`; Producer `GPL Ghostscript 10.07.0`; created 5 Oct 2026. No ISBN marker was detected.
-- [U] Ministry hosting is verified; untouched publisher-original provenance is not. Both files show third-party PDF processing.
-- [V] StudentBook TOC pages 2–4 identify **46 lessons across six units**. The 46-row reconciliation matrix is `math-fr-lesson-reconciliation.csv`. The performance-assessment page-heading index identifies lesson material across Units 1–6 and weekly/term assessments.
-
-### App reconciliation
-
-- [V] `mathCurriculum.ts` contains 12 top-level lesson records; all 12 are registered as French-instruction/French-assessment Mathematics through `officialCurriculum.ts` and the French assessment overlay.
-- [V] `mathFrCurriculum.ts` contains 4 additional top-level records, also registered to the same `subj_math` / French-bilingual track. Total registered Math records: 16, not 46.
-- [V] Of the 46 TOC lessons: 11 have an exact matching app record; Unit 6 Lesson 1 has a page-121 record but the app title “Order of Operations” differs from the TOC title “Expressions numériques”; 34 have no matching app record.
-- [V] The four extra French-extract records are reviewed in `math-fr-extra-record-review.csv`: one duplicates Unit 1 Lesson 1; one compares decimals at p.9 while the TOC's comparison lesson is Unit 1 Lesson 4 at p.15; one claims equivalent fractions at p.25, absent from the 46-entry TOC; one places powers-of-ten decimal multiplication at Unit 3 p.45, while the TOC places it at Unit 5 Lesson 1 p.92.
-- [B] Do not count those four extra records as additional official coverage. The 34 missing lessons and the Unit 6 title discrepancy require content reconstruction and app correction.
-- [U] The source audit has not reviewed every instructional page, worked example, exercise or answer key. TOC matching and assessment-page headings are not full lesson-content verification.
+- [V] StudentBook: Ministry-hosted `Math_FR_prim5_TR1.pdf`, 141 pages, 17,195,754 bytes; SHA-256 above.
+- [V] Performance-assessment book: working lowercase endpoint `Math_fr_prim5_t1_Assmt.pdf`, 74 pages, 9,487,796 bytes; SHA-256 above. The uppercase filename candidate returned 404.
+- [V] StudentBook TOC pages 2–4 identify 46 lessons across six units.
+- [V] The assessment book OCR maps lesson-specific activities/homework to all 46 lessons. Some assessment pages combine two adjacent lessons (for example Unit 2 lessons 6–7, Unit 3 lessons 1–2 and Unit 3 lessons 4–5).
+- [V] Current `mathCurriculum.ts` has 12 top-level records: 11 exact title/page matches and Unit 6 lesson 1. For Unit 6 lesson 1, the TOC says `Expressions numériques`, while the lesson-opening banner says `L’ordre des opérations mathématiques`; the app's “Order of Operations” title matches the lesson banner and the page/lesson number.
+- [V] The other 34 StudentBook lessons have no current app lesson record.
+- [V] `mathFrCurriculum.ts` adds four extra legacy records: one duplicate of Unit 1 lesson 1 and three unsupported mappings (Unit 1 lesson 2, Unit 2 lesson 1 and Unit 3 lesson 1). They are not additional official coverage.
+- [U] Source titles, objectives and assessment-page links are mapped for all 46 lessons. Full worked-example, exercise, answer-key and teaching-scaffold review is not yet complete. Do not generate missing lessons from titles alone.
 
 ## 3. French language
 
-- [V] The earlier official catalogue inspection found no separate French-language Grade 5 StudentBook among its listed 2026–2027 Term 1 books.
-- [V] Ministry-hosted weekly assessment PDFs were retrieved for:
-  - French1: weeks 1–7 (7/7), 4 PDF pages each. Their headers identify the series **Bien joué 1**.
-  - French2: weeks 1–5 and 7 (6/7), 3 PDF pages each. Their headers identify **Alex et Zoé 2**. Week 6 returned HTTP 404.
-- [V] Candidate standalone French1 and French2 performance-assessment-book endpoints returned HTTP 404.
-- [V] The weekly assessment PDFs' metadata generally identifies `Start Computer` and Microsoft Word as author/creator. The source URL is Ministry-hosted; file metadata alone does not independently authenticate authorship.
-- [U] Weekly assessment materials establish two available tracks, not which one the school assigns, and do not constitute a full student textbook.
-- [V] The app's `frenchCurriculum.ts` has 4 top-level lesson records (greetings, family, classroom objects, timetable) and cites a generic Ministry French book whose title/identity is not verified.
-- [B] Do not label the four app records as official or invent a coursebook. The school's French1/French2 assignment remains unknown; continue by analysing the retrieved assessments separately by track.
+- [V] No separate French-language Grade 5 Term 1 StudentBook appeared in the inspected 2026–2027 Ministry StudentBook catalogue. Candidate French1 and French2 standalone performance-assessment-book URLs returned 404.
+- [V] French1 weekly assessments: weeks 1–7, 4 pages each (28 pages), headers identify `Bien joué 1`.
+- [V] French2 weekly assessments: weeks 1–5 and 7, 3 pages each (18 pages), headers identify `Alex et Zoé 2`. Week 6 returned 404.
+- [V] All 46 retrieved weekly-assessment pages were OCR-processed and produced text. The track-specific content review is in `french-language-weekly-content-review.csv`.
+- [V] French1 assessment progression includes personal identity, family, adjective agreement, present-tense verbs, music/preferences, directions and places, sports, stressed pronouns, imperative commands and school description.
+- [V] French2 assessment progression includes greetings, sentence ordering, age, negation, basic nouns, school objects, breakfast, food/drinks, articles, clothes, colors and simple question/answer matching.
+- [U] These weekly assessments establish that two Ministry assessment tracks exist; they do not establish which one École Girard assigns or supply a complete StudentBook sequence.
+- [B] The four existing generic French app records cite an unidentified “Ministry French Book” and cannot be treated as verified curriculum until their source and assigned track are established.
 
 ## 4. English
 
-- [V] StudentBook URL: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/English_language_prim5_t1.pdf
-- [V] StudentBook retrieval: 2026-11-15T12:17:13Z; HTTP 200; 18,757,051 bytes; 113 PDF pages; all 113 pages fingerprinted.
-- [V] StudentBook SHA-256: `da7e3dd769bbdfc3506a6d4fea96ed6e62ee3a49d95ad15968e4c2bbcf7513f4`.
-- [V] Performance-assessment URL: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/English_prim5_t1_Assmt.pdf
-- [V] Performance-assessment retrieval: HTTP 200; 11,788,956 bytes; 74 PDF pages. SHA-256: `41b01ce8e0530ba2400696a4fad31a063f775980bf2995e9e2687fa23e2d1472`.
-- [V] The English assessment PDF was image-based: 73 pages were sent through Tesseract OCR (eng+ara), and 71 produced text. The audit stores only normalized page hashes and concise heading candidates, not OCR full text.
-- [V] StudentBook PDF metadata: Creator `Icecream PDF Candy Desktop 3.13`; Producer `PDF Xpansion, Version 12.0.3.3`; created 17 Aug 2026, modified 2 Sep 2026. Assessment PDF metadata identifies Author `PDF Candy Desktop`, Creator `Icecream PDF Candy Desktop 3.13`, Producer `GPL Ghostscript 10.07.0`; no ISBN marker detected.
-- [U] Ministry-hosted retrieval is verified; untouched publisher-original provenance is not.
-- [V] StudentBook scope-and-sequence pages 3–5 identify six units: Food, Nature, and Culture; My Healthy Body; When Nature Changes; My Community; Our World, Our Resources; The Talking Earth.
-- [V] OCR heading candidates from the assessment book identify lesson material across all six units, including Life Along the Nile, Sports for Better Health, Weather Wonders and Warnings, The New Administrative Capital, The Gifts of Nature, Metals and Minerals in Our World, The Talking Earth and Egyptian Villages. These headings are OCR candidates, not visually verified titles.
-- [V] The app's `englishCurriculum.ts` contains only 2 top-level records: Unit 1 “The Generous Apple Tree” (p.14) and Unit 4 “Elephantine Island in Aswan” (p.60). Their exact equivalence to book lesson pages has not been verified. Units 2, 3, 5 and 6 have no app record.
-- [B] The current English registry is incomplete. All six units and their lessons require page-by-page reconciliation; two app records are not evidence of full-book coverage.
-
-## 5. Durable evidence and method
-
-- [V] Latest source audit run [43714053006](https://github.com/madnessgate44-debug/Amina/actions/runs/43714053006) completed successfully. It attempted 21 Ministry-hosted URLs and retrieved 17 PDFs: 2 student books, 2 performance-assessment books, 7 French1 weekly assessments, and 6 French2 weekly assessments.
-- [V] The successful PDFs produced 448 page fingerprints: Math StudentBook 141, English StudentBook 113, Math assessment 74, English assessment 74, French1 weekly assessments 28, French2 weekly assessments 18.
-- [V] The four 404 endpoints are Math uppercase assessment filename, French1 assessment-book candidate, French2 assessment-book candidate and French2 week 6.
-- [V] The repository stores source metadata JSON, page-fingerprint CSV and a 448-page heading index. The short TOC review extract was kept only in a one-day Actions artifact; no PDFs or full extracted book text/OCR were committed.
-- [V] Page fingerprints and heading candidates are extraction aids only; they do not prove visual equivalence or instructional accuracy.
-- [V] Intermediate audit attempts were repaired before final success: concurrent runs caused non-fast-forward pushes; early heading-index attempts exposed a CSV schema mismatch. The final publisher succeeded on run 43714053006. No main-branch write occurred.
+- [V] Ministry-hosted Connect 5 StudentBook: 113 pages; six units. The source and assessment-book lesson headings identify 26 lessons/creative tasks: five in each of Units 1–5 and one extended Unit 6 story.
+- [V] The 74-page performance-assessment book OCR identified lesson assessment pages for the 26-unit sequence; Unit 4 pronunciation (StudentBook p.69) has no matching direct pronunciation task in the assessment book. Assessment p.39 is a separate cross-curricular multiplication activity.
+- [V] The app's existing Unit 1 record `off_en_u1_apple_tree` is materially wrong: the StudentBook's Lesson 3 “The Giving Tree” (pp.13–16) describes Tom neglecting and later caring for a tree. The app text describes a different branch-cutting/stump story, labels it “The Generous Apple Tree”, numbers it Lesson 1 and cites p.14.
+- [V] The app's Unit 4 “Elephantine Island in Aswan” record has no matching title/page in the inspected Connect 5 Term 1 StudentBook. It is an unverified app-only record, not a match for “The New Administrative Capital”.
+- [V] The 26-row source-derived content review is in `english-lesson-content-review.csv`; the source/app reconciliation is in `english-lesson-reconciliation.csv`.
+- [B] The English app curriculum still needs a source-grounded 26-lesson registry and app-authored teaching plans. No verbatim textbook story should be copied into the app.
 
 ## Verification ledger
 
-- [V] Source audit [43714053006](https://github.com/madnessgate44-debug/Amina/actions/runs/43714053006): PASS; 21 source URLs attempted, 17 PDFs retrieved, 448 pages fingerprinted, English assessment OCR fallback completed.
-- [V] Engineering Execution OS compliance [43714399881](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399881): PASS on the OCR/source-audit PR revision.
-- [V] PR CI [43714399890](https://github.com/madnessgate44-debug/Amina/actions/runs/43714399890): PASS. `npm ci --legacy-peer-deps` added 185 packages, audited 186 and found 0 vulnerabilities; blocking type check passed; `npm test` passed (representative summaries: integrity 86/0, curriculum registry 52/0, media 17/0, assembly 53/0, adaptive scenarios 27/0, job persistence 19/0); `npm run build` passed with Vite built in 607 ms.
-- [V] The build/test run emitted non-blocking warnings: PDF.js `standardFontDataUrl`, Vite configuration/chunk-size, Node `punycode` deprecation, and GitHub Actions Node 20 deprecation notices.
-- [U] Physical-phone walkthrough, visual diagram review and teacher-guide verification remain unperformed.
+- [V] Source audit [43844113846](https://github.com/madnessgate44-debug/Amina/actions/runs/43844113846): PASS; all retrieval, fingerprinting, publishing and artifact-upload steps succeeded.
+- [V] Engineering OS compliance [43845766404](https://github.com/madnessgate44-debug/Amina/actions/runs/43845766404): PASS on the current audit branch head at the time of the run.
+- [V] Last full app CI PASS [43843277243](https://github.com/madnessgate44-debug/Amina/actions/runs/43843277243) on an earlier audit-branch revision: `npm run lint`, `npm test` and `npm run build` passed. This was before the latest documentation-only matrix updates.
+- [B] Current PR CI on the newer audit branch revision has returned `action_required`; owner approval is required before the latest PR workflow checks can run. Do not represent the earlier PASS as a check on the newest commit.
+- [U] Physical-phone walkthrough, visual diagram review and actual learner-teaching verification remain outstanding.
 
-## Requirements and next gates
+## Open gates
 
-| Requirement | Acceptance criterion | Current result |
-|---|---|---|
-| R1 Science reconciliation | Reconcile #170/#200 overlap; keep Arabic drafts separate; verify source and all 28 plans | [IN PROGRESS] Main has 28 plans; #200 remains open; #170 is stale/non-mergeable |
-| R2 French Mathematics | Reconcile all 46 TOC lessons, assessment coverage, examples/exercises/answers and teaching scaffold | [PARTIAL] 46-row TOC matrix; 11 exact records, 1 title discrepancy, 34 missing; assessment book retrieved; content-page review remains |
-| R3 French language | Review weekly assessments by track; do not invent textbook or school track | [PARTIAL] 13 assessments retrieved; French2 week 6 missing; track assignment unknown |
-| R4 English | Reconcile six units and all lessons/pages, examples/exercises and assessment coverage | [PARTIAL] StudentBook and performance-assessment book retrieved; OCR 71/73 pages; only two app records |
-| R5 Durable evidence | Preserve source JSON, page fingerprints, heading index and matrices on feature branch | [PASS] Source audit and publishing step passed |
-| R6 App/runtime validation | Lint, tests, build, registry tests and phone-sized learner walkthrough | [PASS] npm lint/test/build in PR CI; [NOT RUN] physical-phone walkthrough |
+1. [B] Owner merges PR #200 before the Science audit publishing workflow can be exercised from main.
+2. [B] Implement and test the missing 34 French Mathematics lesson records and their French teaching plans; mark the four extra French-extract records as unavailable compatibility records.
+3. [B] Build the English 26-lesson app curriculum and app-authored teacher guides; correct the Giving Tree record and disable the unsupported Elephantine record.
+4. [B] Keep French1 and French2 content separate and unavailable as the school curriculum until the assigned track is verified; do not invent a French StudentBook.
+5. [B] Run current-revision lint, tests, build and compliance after app code changes; complete a phone-sized learner walkthrough.
+6. [B] No PR merge or production deployment until the owner explicitly approves.
 
-## Explicit limits
+## Repository PR state
 
-- No school-specific weekly pacing or assigned coursebook list was obtained.
-- No student mastery or actual classroom completion is inferred.
-- No Ministry teacher guide was authenticated by this audit.
-- No physical-phone learner walkthrough was performed.
-- No PR was merged and no deployment was performed.
-- Page hashes and TOC/scope-sequence/OCR extraction are not a substitute for reviewing every instructional page, exercise, answer, diagram and teaching interaction.
-
-
-## Continuation checkpoint — 16 November 2026
-
-- [V] Current main baseline remains `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`; root policy remains Engineering Execution OS v2.2.
-- [V] Science PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) now carries an explicit `sourceRef.pageRange` for all 28 current-edition French Science lessons and a 28-entry regression map. Latest head: `0f558c3ba5552bc93891a5438a31e2cf9e5ffe61`; CI [43823607338](https://github.com/madnessgate44-debug/Amina/actions/runs/43823607338) and compliance [43823607336](https://github.com/madnessgate44-debug/Amina/actions/runs/43823607336) both passed. The registry suite reports 54 passed, 0 failed; test workflow reports 39 suites passed, 0 failed; type check, lint and build passed.
-- [V] PR [#170](https://github.com/madnessgate44-debug/Amina/pull/170) remains stale/diverged (38 ahead, 27 behind) and GitHub reports it non-mergeable. Its separate Chapter 1 teacher-guide file duplicates material already represented by the current main 28-plan registry. The exact page-range idea was ported safely to PR #200; no merge or branch rewrite was performed.
-- [V] PR [#182](https://github.com/madnessgate44-debug/Amina/pull/182) remains a separate Arabic Science draft; PR [#180](https://github.com/madnessgate44-debug/Amina/pull/180) remains an Arabic Maths draft. Neither is part of the French-taught Science/Math request.
-- [C] A third-party-hosted Ministry-branded French Science assessment-book candidate was found (69 PDF pages; 68 book pages plus a promotional insert; SHA-256 `1385118877a70afeca75e8ad4f616b6a4db1ea1a4edb80285297d5de0ef29b43`). A 17-page sample OCR index (17/17 non-empty) spans topics from Chapters 1, 2, 3, 5, 6, 7, 8 and 9 plus a cumulative assessment. Its canonical Ministry endpoint, full page-level coverage and answer-key accuracy remain unverified; see the candidate audit and sample page index in PR #200.
-- [V] Math French remains at 46 StudentBook TOC lessons across six units: 11 exact app matches, one title/page discrepancy, 34 missing; four extra extract records remain separately reviewed. Full instructional-page, worked-example, exercise and answer-key review has not been completed.
-- [V] French language: the audit retrieved French1 weekly assessments 7/7 and French2 6/7 (week 6 returned HTTP 404). Headers identify Bien joué 1 and Alex et Zoé 2. This proves two assessment tracks exist, not which the school assigns. No separate 2026–2027 French StudentBook or standalone assessment book was verified. See `french-language-assessment-track-matrix.csv`.
-- [V] English: the 113-page StudentBook and 74-page performance-assessment book were retrieved and fingerprinted. The retained page-heading index supports a provisional 23-segment lesson/story index across six units; two app records remain unverified (one title mismatch, one unmatched app-only record). See `english-lesson-reconciliation.csv`. The index uses PDF page positions, not verified printed pagination.
-- [U] No visual inspection of every Math/English lesson page, no complete exercise/answer-key audit, no French1/French2 school-track confirmation, no school-specific pacing confirmation, and no physical-phone walkthrough have been completed.
-- [B] PR #200 and PR #201 remain open; no merge or production deployment was performed. Owner approval remains required.
+- PR #200: French Science source reconciliation; open, mergeable, owner merge gate.
+- PR #201: source metadata and lesson/assessment reconciliation for all four subjects; open, mergeable, no merge.
+- PR #170: stale French Science Chapter 1 draft; non-mergeable and duplicative.
+- PR #179: Arabic language; separate scope.
+- PR #180: Arabic Maths; not the French Math request.
+- PR #182: Arabic Science; separate scope.
+- PR #181: Social Studies; separate scope.
