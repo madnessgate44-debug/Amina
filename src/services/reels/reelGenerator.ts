@@ -251,12 +251,21 @@ export function buildReelsForConcept(
     // one language, so a reel built from them can otherwise show a sentence the
     // child cannot read at all. A reel in the wrong script is worse than no
     // reel; dropping it is the honest choice (see readableByChild).
-    if (
-      !readableByChild(partial.hook, lang) ||
-      !readableByChild(partial.show, lang) ||
-      !readableByChild(partial.noorLine, lang) ||
-      !readableByChild(base.sourceLabel, lang)
-    ) {
+    // Every visible string travels with the reel, not just the main card
+    // copy. Guard lesson title, subject and source metadata too; otherwise a
+    // French hook can still carry an English lesson title or catalogue label.
+    const visibleText = [
+      base.subjectName,
+      base.lessonTitle,
+      base.sourceLabel,
+      partial.hook,
+      partial.show,
+      partial.noorLine,
+      partial.reactionCorrect,
+      partial.reactionWrong,
+      ...(partial.options || []).map((option) => option.text),
+    ].filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
+    if (visibleText.some((value) => !readableByChild(value, lang))) {
       return;
     }
     reels.push({
