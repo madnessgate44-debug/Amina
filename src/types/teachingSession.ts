@@ -206,7 +206,7 @@ export interface OfficialCurriculumLesson {
   /** Language-specific assessment sets; `exercises` remains the default track for existing consumers. */
   exercisesByLanguage?: Partial<Record<'ar' | 'en' | 'fr', CurriculumExercise[]>>;
   concepts: CurriculumLessonConcept[];
-  originTag: 'official';
+  originTag: 'official' | 'app_authored';
   language?: 'ar' | 'en' | 'fr';
   curriculumSource?: CurriculumSource;
   instructionLanguage?: 'ar' | 'en' | 'fr';
