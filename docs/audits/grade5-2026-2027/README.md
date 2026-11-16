@@ -9,6 +9,7 @@ This directory contains the evidence-first subject audit for Egyptian Primary Gr
 - `subject-page-headings.csv` — first three non-empty extracted/OCR lines per page, as heading candidates for navigation/reconciliation.
 - `math-fr-lesson-reconciliation.csv` — all 46 lessons in the retrieved French Mathematics book TOC, matched to current app lesson records.
 - `math-fr-extra-record-review.csv` — review of the four additional French-extract Math records.
+- `math-fr-assessment-section-index.csv` — weekly, monthly and Term 1 assessment-section heading candidates from the 74-page Math French performance-assessment PDF.
 - `english-unit-reconciliation.csv` — six English Term 1 units with StudentBook and performance-assessment page ranges.
 - `english-lesson-reconciliation.csv` — provisional 23-segment English StudentBook lesson/story index from PDF page headings, with assessment OCR candidates and app-record matching status. Ranges are PDF page positions, not printed pagination.
 - `french-language-assessment-track-matrix.csv` — French1/French2 weekly-assessment availability, source URLs, PDF metadata and hashes; does not infer the school's assigned track.
