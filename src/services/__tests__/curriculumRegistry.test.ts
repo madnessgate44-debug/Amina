@@ -750,5 +750,49 @@ check(
     elephantineLegacy.exercises.length === 1,
 );
 
+// 14. English Connect 5 source completeness and app-authored teaching-plan gates.
+const availableEnglishLessons = OFFICIAL_CURRICULUM_LESSONS.filter(
+  (lesson) => lesson.subjectId === 'subj_english' && lesson.isAvailable,
+);
+check(
+  '14.1 Connect 5 Term 1 has 26 available source-grounded lesson records',
+  availableEnglishLessons.length === 26 &&
+    new Set(availableEnglishLessons.map((lesson) => lesson.id)).size === 26,
+);
+check(
+  '14.2 every English lesson has source pages and an app-authored teaching plan',
+  availableEnglishLessons.every((lesson) =>
+    lesson.originTag === 'app_authored' &&
+    lesson.sourceRef.isAvailable === true &&
+    typeof lesson.sourceRef.page === 'number' &&
+    lesson.sourceRef.notes?.includes('[APP-AUTHORED]') === true &&
+    lesson.teacherGuideEn?.provenance === 'app_authored' &&
+    lesson.teacherGuideEn.sourceEdition.includes('Connect 5') &&
+    !!lesson.teacherGuideEn.sourcePages,
+  ),
+);
+check(
+  '14.3 every English teaching plan includes worked example, practice, answer key, diagnosis, remediation and mastery',
+  availableEnglishLessons.every((lesson) => {
+    const guide = lesson.teacherGuideEn;
+    return !!guide &&
+      !!guide.explanationEn &&
+      !!guide.workedExampleEn &&
+      guide.guidedPracticeEn.length >= 2 &&
+      guide.independentPracticeEn.length >= 2 &&
+      guide.answerKeyEn.length === guide.independentPracticeEn.length &&
+      guide.misconceptionDiagnosisEn.length >= 1 &&
+      guide.remediationEn.length >= 1 &&
+      guide.masteryCheckEn.length >= 1;
+  }),
+);
+const englishLessonNumbers = availableEnglishLessons.map((lesson) => lesson.unitNumber + ':' + lesson.lessonNumber);
+check(
+  '14.4 English source sequence covers five lessons in Units 1–5 and one extended Unit 6 story',
+  [1, 2, 3, 4, 5].every((unit) => availableEnglishLessons.filter((lesson) => lesson.unitNumber === unit).length === 5) &&
+    availableEnglishLessons.filter((lesson) => lesson.unitNumber === 6).length === 1 &&
+    englishLessonNumbers.length === 26,
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
