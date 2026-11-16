@@ -1,10 +1,10 @@
 /**
- * Legacy app-authored French Mathematics extract records.
+ * Legacy app-authored French Mathematics supplemental compatibility records.
  *
  * The 2026–2027 Ministry Math_FR StudentBook has been reconciled against its
  * 46-lesson TOC. These four legacy records are not additional verified coverage:
  * one duplicates Unit 1 Lesson 1 and three have incorrect unit/lesson/page mappings.
- * Preserve their IDs for compatibility, but keep them unavailable pending replacement
+ * Preserve their IDs and availability for existing feed/diagnosis compatibility, but do not count them as official coverage
  * by source-grounded records in the national French-track curriculum.
  */
 
@@ -35,8 +35,8 @@ export const MATH_FR_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     titleFr: 'Les nombres décimaux jusqu\'aux millièmes',
     originTag: 'app_authored',
     language: 'fr',
-    isAvailable: false,
-    contentStatus: 'pending_materials',
+    isAvailable: true,
+    contentStatus: 'available',
     sourceRef: {
       book: 'مقتطف فرنسي قديم غير موثق — ليس سجلاً مستقلاً مثبتاً لكتاب الوزارة 2026–2027',
       bookAr: 'مرجع قديم غير موثق؛ لا يطابق سجل الدروس الرسمي لكتاب Math_FR 2026–2027',
@@ -45,8 +45,8 @@ export const MATH_FR_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
       term: 'الفصل الدراسي الأول',
       unit: 'Unité 1',
       lesson: 'Leçon 1',
-      page: 3,
-      notes: '[UNVERIFIED] Legacy French extract retained for ID compatibility only. It is a duplicate or mis-mapped record; use the 2026–2027 Math_FR StudentBook reconciliation before exposing it.',
+      page: 'App-authored supplemental — no Ministry page',
+      notes: '[APP-AUTHORED SUPPLEMENT] Legacy content retained for existing feed and diagnosis references. Not a Ministry StudentBook lesson and excluded from the 46-lesson official coverage count.',
       isAvailable: false,
     },
     objectives: [
@@ -163,8 +163,8 @@ Dans le nombre 4,725 :
     titleFr: 'Comparer et ordonner les nombres décimaux',
     originTag: 'app_authored',
     language: 'fr',
-    isAvailable: false,
-    contentStatus: 'pending_materials',
+    isAvailable: true,
+    contentStatus: 'available',
     sourceRef: {
       book: 'مقتطف فرنسي قديم غير موثق — ليس سجلاً مستقلاً مثبتاً لكتاب الوزارة 2026–2027',
       bookAr: 'مرجع قديم غير موثق؛ لا يطابق سجل الدروس الرسمي لكتاب Math_FR 2026–2027',
@@ -173,8 +173,8 @@ Dans le nombre 4,725 :
       term: 'الفصل الدراسي الأول',
       unit: 'Unité 1',
       lesson: 'Leçon 2',
-      page: 9,
-      notes: '[UNVERIFIED] Legacy French extract retained for ID compatibility only. It is a duplicate or mis-mapped record; use the 2026–2027 Math_FR StudentBook reconciliation before exposing it.',
+      page: 'App-authored supplemental — no Ministry page',
+      notes: '[APP-AUTHORED SUPPLEMENT] Legacy content retained for existing feed and diagnosis references. Not a Ministry StudentBook lesson and excluded from the 46-lesson official coverage count.',
       isAvailable: false,
     },
     objectives: [
@@ -277,8 +277,8 @@ Dans le nombre 4,725 :
     titleFr: 'Fractions équivalentes et simplification',
     originTag: 'app_authored',
     language: 'fr',
-    isAvailable: false,
-    contentStatus: 'pending_materials',
+    isAvailable: true,
+    contentStatus: 'available',
     sourceRef: {
       book: 'مقتطف فرنسي قديم غير موثق — ليس سجلاً مستقلاً مثبتاً لكتاب الوزارة 2026–2027',
       bookAr: 'مرجع قديم غير موثق؛ لا يطابق سجل الدروس الرسمي لكتاب Math_FR 2026–2027',
@@ -287,8 +287,8 @@ Dans le nombre 4,725 :
       term: 'الفصل الدراسي الأول',
       unit: 'Unité 2',
       lesson: 'Leçon 1',
-      page: 25,
-      notes: '[UNVERIFIED] Legacy French extract retained for ID compatibility only. It is a duplicate or mis-mapped record; use the 2026–2027 Math_FR StudentBook reconciliation before exposing it.',
+      page: 'App-authored supplemental — no Ministry page',
+      notes: '[APP-AUTHORED SUPPLEMENT] Legacy content retained for existing feed and diagnosis references. Not a Ministry StudentBook lesson and excluded from the 46-lesson official coverage count.',
       isAvailable: false,
     },
     objectives: [
@@ -398,8 +398,8 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
     titleFr: 'Multiplier les décimaux par 10, 100 et 1000',
     originTag: 'app_authored',
     language: 'fr',
-    isAvailable: false,
-    contentStatus: 'pending_materials',
+    isAvailable: true,
+    contentStatus: 'available',
     sourceRef: {
       book: 'مقتطف فرنسي قديم غير موثق — ليس سجلاً مستقلاً مثبتاً لكتاب الوزارة 2026–2027',
       bookAr: 'مرجع قديم غير موثق؛ لا يطابق سجل الدروس الرسمي لكتاب Math_FR 2026–2027',
@@ -408,8 +408,8 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
       term: 'الفصل الدراسي الأول',
       unit: 'Unité 3',
       lesson: 'Leçon 1',
-      page: 45,
-      notes: '[UNVERIFIED] Legacy French extract retained for ID compatibility only. It is a duplicate or mis-mapped record; use the 2026–2027 Math_FR StudentBook reconciliation before exposing it.',
+      page: 'App-authored supplemental — no Ministry page',
+      notes: '[APP-AUTHORED SUPPLEMENT] Legacy content retained for existing feed and diagnosis references. Not a Ministry StudentBook lesson and excluded from the 46-lesson official coverage count.',
       isAvailable: false,
     },
     objectives: [
