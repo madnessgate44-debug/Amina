@@ -692,5 +692,61 @@ check(
     attachedPracticePages.length === 7,
 );
 
+// 13. Source provenance gates for the four legacy Math/French records and English.
+const legacyFrenchLanguage = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_fr_'));
+check(
+  '13.1 generic French-language legacy records are app-authored, unavailable and explicitly unverified',
+  legacyFrenchLanguage.length === 4 &&
+    legacyFrenchLanguage.every((lesson) =>
+      lesson.originTag === 'app_authored' &&
+      lesson.isAvailable === false &&
+      lesson.contentStatus === 'pending_materials' &&
+      lesson.sourceRef.isAvailable === false &&
+      lesson.sourceRef.bookEn.includes('Unverified legacy source') &&
+      lesson.sourceRef.notes?.includes('[UNVERIFIED]') === true,
+    ),
+);
+
+const legacyFrenchMath = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_mathfr_'));
+check(
+  '13.2 duplicate and mis-mapped French Math extract IDs remain registered only as unavailable compatibility records',
+  legacyFrenchMath.length === 4 &&
+    legacyFrenchMath.every((lesson) =>
+      lesson.originTag === 'app_authored' &&
+      lesson.isAvailable === false &&
+      lesson.contentStatus === 'pending_materials' &&
+      lesson.sourceRef.isAvailable === false &&
+      lesson.sourceRef.notes?.includes('[UNVERIFIED]') === true,
+    ),
+);
+
+const givingTree = OFFICIAL_CURRICULUM_LESSONS.find((lesson) => lesson.id === 'off_en_u1_apple_tree');
+check(
+  '13.3 English Unit 1 app record now matches The Giving Tree Lesson 3 source title and page',
+  !!givingTree &&
+    givingTree.titleEn === 'The Giving Tree' &&
+    givingTree.lessonNumber === 3 &&
+    givingTree.sourceRef.page === 13 &&
+    givingTree.sourceRef.notes?.includes('StudentBook') === true &&
+    givingTree.readingText?.includes('Tom') === true &&
+    givingTree.readingText?.includes('watered it') === true &&
+    !givingTree.readingText?.includes('stump') &&
+    givingTree.exercises.length >= 4 &&
+    givingTree.exercises.every((exercise) => !!exercise.expectedAnswer),
+);
+
+const elephantineLegacy = OFFICIAL_CURRICULUM_LESSONS.find((lesson) => lesson.id === 'off_en_u4_elephantine');
+check(
+  '13.4 unsupported Elephantine English record is preserved for compatibility but unavailable',
+  !!elephantineLegacy &&
+    elephantineLegacy.originTag === 'app_authored' &&
+    elephantineLegacy.isAvailable === false &&
+    elephantineLegacy.contentStatus === 'pending_materials' &&
+    elephantineLegacy.sourceRef.isAvailable === false &&
+    elephantineLegacy.sourceRef.notes?.includes('[U]') === true &&
+    !!elephantineLegacy.readingText &&
+    elephantineLegacy.exercises.length === 1,
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
