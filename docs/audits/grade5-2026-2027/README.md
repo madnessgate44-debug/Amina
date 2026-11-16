@@ -10,6 +10,8 @@ This directory contains the evidence-first subject audit for Egyptian Primary Gr
 - `math-fr-lesson-reconciliation.csv` — all 46 lessons in the retrieved French Mathematics book TOC, matched to current app lesson records.
 - `math-fr-extra-record-review.csv` — review of the four additional French-extract Math records.
 - `english-unit-reconciliation.csv` — six English Term 1 units with StudentBook and performance-assessment page ranges.
+- `english-lesson-reconciliation.csv` — provisional 23-segment English StudentBook lesson/story index from PDF page headings, with assessment OCR candidates and app-record matching status. Ranges are PDF page positions, not printed pagination.
+- `french-language-assessment-track-matrix.csv` — French1/French2 weekly-assessment availability, source URLs, PDF metadata and hashes; does not infer the school's assigned track.
 - `subject-status.md` — consolidated Science, Mathematics, French-language and English status, source caveats, PR state and remaining gates.
 
 ## Method
@@ -18,7 +20,7 @@ Source retrieval and page fingerprints were generated on GitHub Actions run [437
 
 The Math TOC (StudentBook PDF pages 2–4) and English Term 1 scope-and-sequence (StudentBook PDF pages 3–5) were extracted to a short-lived, one-day Actions artifact for review. The repository retains only metadata, hashes, concise page-heading candidates and reconciliation matrices. It does not contain source PDFs, full extracted textbook text or full OCR text.
 
-Math TOC lesson titles are normalized from extracted text to remove duplicate extraction lines and line-wrap artifacts; visual review of the printed TOC has not been performed. English assessment headings are OCR candidates; 71 of 73 OCR-attempted pages produced text, but OCR accuracy has not been visually checked.
+Math TOC lesson titles are normalized from extracted text to remove duplicate extraction lines and line-wrap artifacts; visual review of the printed TOC has not been performed. English StudentBook lesson/story ranges are provisional PDF-page boundaries derived from the retained page-heading index; printed pagination and all lesson-body boundaries are not verified. English assessment headings are OCR candidates; 71 of 73 OCR-attempted pages produced text, but OCR accuracy has not been visually checked.
 
 ## Interpretation limits
 
