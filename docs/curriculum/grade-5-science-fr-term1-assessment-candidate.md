@@ -11,7 +11,7 @@
 - PDF metadata: Creator/Producer PDFsharp 1.50.4000-netstandard; creation/modification timestamp 2026-10-27 14:57:04 UTC; Keywords field names the third-party download site.
 - PDF pages 1–68 contain the Ministry-branded assessment book; PDF page 68 is the back cover; PDF page 69 is a promotional advertisement for the third-party site. This explains the listing's 68-page count versus 69 PDF pages.
 - The cover reads “Performances et Évaluations — Sciences — Cinquième primaire — Premier semestre” and displays the Ministry seal. The back cover displays a Ministry copyright line, ISBN 978-633-8530-59-4, and 72 printed pages. These are visible imprint markers, not proof that the downloaded file is an untouched Ministry original.
-- PDF text extraction returned no readable embedded text; the document is image-based. OCR was sampled on pages 5, 30–32, 42, 44, 48, 52, 58, 61 and 62. A full 69-page OCR and visual review has not been completed.
+- PDF text extraction returned no readable embedded text; the document is image-based. OCR was sampled on 17 pages: 5, 15, 20, 25, 30–32, 35, 40, 42, 44, 48, 52, 55, 58 and 61–62. All 17 sampled pages produced non-empty OCR; see the [sample page index](./grade-5-science-fr-term1-assessment-candidate-page-index.csv). A full 69-page OCR and visual review has not been completed.
 
 ## Provisional content alignment
 
@@ -25,7 +25,7 @@ The sampled pages contain assessment material that aligns with topics in the 202
 | 48, 52 | Animal growth, birth, egg-laying, parental care, reproduction | Chapter 7 — Croissance et reproduction des animaux | OCR sample |
 | 58, 61–62 | Evaporation, condensation, clouds and the water cycle | Chapter 9 — Le cycle de l’eau | OCR sample |
 
-This establishes only that the sampled pages contain relevant topics. It does not establish full coverage, correct sequencing, exact lesson-to-assessment mapping, answer-key accuracy, or that all nine StudentBook chapters are represented.
+The sample now touches content from Chapters 1–9 (including a cumulative assessment section), but this is not proof that every lesson is assessed. It does not establish full coverage, correct sequencing, exact lesson-to-assessment mapping, answer-key accuracy, or the absence of gaps in any chapter.
 
 ## Official-source verification status
 
