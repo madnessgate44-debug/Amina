@@ -709,14 +709,16 @@ check(
 
 const legacyFrenchMath = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_mathfr_'));
 check(
-  '13.2 duplicate and mis-mapped French Math extract IDs remain registered only as unavailable compatibility records',
+  '13.2 duplicate and mis-mapped French Math IDs remain reachable as app-authored supplements, not Ministry coverage',
   legacyFrenchMath.length === 4 &&
     legacyFrenchMath.every((lesson) =>
       lesson.originTag === 'app_authored' &&
-      lesson.isAvailable === false &&
-      lesson.contentStatus === 'pending_materials' &&
+      lesson.isAvailable === true &&
+      lesson.contentStatus === 'available' &&
       lesson.sourceRef.isAvailable === false &&
-      lesson.sourceRef.notes?.includes('[UNVERIFIED]') === true,
+      lesson.curriculumSource === undefined &&
+      lesson.sourceRef.page === 'App-authored supplemental — no Ministry page' &&
+      lesson.sourceRef.notes?.includes('[APP-AUTHORED SUPPLEMENT]') === true,
     ),
 );
 
