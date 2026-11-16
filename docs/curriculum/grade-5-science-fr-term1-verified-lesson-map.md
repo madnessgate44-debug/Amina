@@ -3,9 +3,9 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Subject:** Sciences taught in French  
-**Source content:** 109 book pages bearing the Ministry imprint; inspected Library PDF copy is 110 pages because a third-party promotional page is appended  
+**Source content:** 109 book-content pages in the inspected Library copy; its PDF page 3 bears the Ministry 2026–2027 imprint. The 110-page PDF includes an appended third-party promotional page  
 **Evidence:** [VERIFIED] PDF pages 1–109 contain the book copy; PDF page 110 is a third-party promotional insert and is excluded. The Ministry/Central Administration copyright and 2026–2027 edition statement appears on PDF page 3 (front matter, not a numbered textbook page); the final imprint is PDF page 109. The copy is third-party assembled; its byte-level identity with the canonical Ministry URL is [UNPROVEN].  
-**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected book copy. App-authored French teaching plans cover all 28 lessons. CI, tests and production build passed on current `main` (`d094933379dddf7db6b37cfd419dae06caf3174d`); a live phone-sized walkthrough remains [UNPROVEN]. This is not a full-year completion declaration.
+**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected book copy. App-authored French teaching plans cover all 28 lessons. PR #200 is open against `main` at base `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`; its 16 November CI run `43824371961` and Engineering Execution OS compliance run `43824372073` passed on head `0d583dea053e03f8013ca3c5b817e4582dcadd2d`. A live phone-sized walkthrough remains [UNPROVEN]. This is not a full-year completion declaration.
 
 ## Source identity and scope
 
