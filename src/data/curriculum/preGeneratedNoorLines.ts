@@ -21,6 +21,7 @@
  */
 
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
+import { ENGLISH_CURRICULUM_LESSONS } from './englishCurriculum';
 
 export interface PreGeneratedNoorLines {
   /** The warm opening for the lesson. */
@@ -341,9 +342,53 @@ const CURRENT_SCIENCE_NOOR_LINES = Object.fromEntries(
   ),
 ) as Record<string, PreGeneratedNoorLines>;
 
+/**
+ * Deterministic multilingual opening, explanation and check lines for English
+ * lessons. English remains the subject language; Arabic/French lines orient the
+ * learner without translating or replacing the source lesson content.
+ */
+const CURRENT_ENGLISH_NOOR_LINES = Object.fromEntries(
+  ENGLISH_CURRICULUM_LESSONS.filter((lesson) => lesson.isAvailable).flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => {
+      const titleAr = concept.titleAr;
+      const titleEn = concept.titleEn;
+      const guide = lesson.teacherGuideEn;
+      const explanationEn = guide?.explanationEn || concept.sourceText;
+      const exampleEn = guide?.workedExampleEn || concept.dailyLifeExampleEn;
+      return [
+        [
+          'ar:' + lesson.id + ':' + index,
+          {
+            intro: 'أهلاً! درسنا النهارده هو ' + titleAr + '. هنقرأ الفكرة ونتدرّب على التعبير عنها باللغة الإنجليزية.',
+            explanation: 'الفكرة الأساسية في هذا الدرس هي ' + titleAr + '. استخدمي المثال والتدريب لفهم المعنى، ثم حاولي شرح الفكرة بكلماتك.',
+            check: 'هل تستطيعين شرح فكرة درس ' + titleAr + ' وإعطاء مثال باللغة الإنجليزية؟',
+          },
+        ],
+        [
+          'en:' + lesson.id + ':' + index,
+          {
+            intro: 'Welcome! Today we are learning ' + titleEn + '. We will understand the idea, practise it and check what you can explain.',
+            explanation: explanationEn + ' Worked example: ' + exampleEn,
+            check: 'Can you explain ' + titleEn + ' in your own words and give one example?',
+          },
+        ],
+        [
+          'fr:' + lesson.id + ':' + index,
+          {
+            intro: 'Bonjour ! Aujourd’hui, nous découvrons « ' + titleEn + ' ». Nous allons comprendre l’idée puis nous entraîner en anglais.',
+            explanation: 'Cette leçon d’anglais porte sur « ' + titleEn + ' ». Observe l’exemple, repère le vocabulaire important et reformule l’idée principale en anglais.',
+            check: 'Peux-tu expliquer le thème « ' + titleEn + ' » et donner un exemple en anglais ?',
+          },
+        ],
+      ];
+    }).flat(),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
 export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...BASE_PRE_GENERATED_NOOR_LINES,
   ...CURRENT_SCIENCE_NOOR_LINES,
+  ...CURRENT_ENGLISH_NOOR_LINES,
 };
 
 
