@@ -19,17 +19,14 @@ import { SCIENCE_CURRICULUM_LESSONS } from './curriculum/scienceCurriculum';
 import { withFrenchAssessments } from './curriculum/frenchAssessment';
 
 /**
- * The Ministry Maths and Science books are far wider than the French-section
- * extracts that were previously the only registered source: 12 maths and 3
- * science lessons were exported but imported nowhere, so most of both books was
- * unreachable in the app.
+ * The 2026–2027 French-track Math_FR StudentBook is the authoritative source
+ * for Mathematics. The national Math registry currently contains 12 of 46
+ * lessons; four legacy French-extract IDs are retained below only for
+ * compatibility and are marked unavailable because one duplicates Unit 1
+ * Lesson 1 and three have incorrect unit/lesson/page mappings.
  *
- * Both sets are registered. The French-section extract is kept because its
- * lesson ids are referenced directly by the teaching and adaptive-loop code
- * (`off_mathfr_u1_l1_decimaux`, `off_scifr_u1_l1_plantes`); removing it would
- * break those contracts. A topic therefore appears once per language track,
- * which is deliberate for a bilingual French-section student and is recorded as
- * a product decision request rather than resolved silently here.
+ * The current French Science edition is separately represented by its 28-lesson
+ * 2026–2027 registry. Older mismatched Science records remain unavailable.
  */
 
 /**
@@ -48,8 +45,8 @@ import { withFrenchAssessments } from './curriculum/frenchAssessment';
  * 10. التربية الدينية الإسلامية (Islamic Religious Education)
  * 11. الخط العربي (Arabic Calligraphy)
  *
- * All lessons are cleanly indexed with page numbers, learning objectives,
- * concepts, and supplementary resources (الأضواء / سلاح التلميذ).
+ * Coverage is partial and source-gated; see docs/audits/grade5-2026-2027/subject-status.md.
+ * Legacy app-authored candidates and mismatched editions remain unavailable.
  */
 export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   ...ARABIC_CURRICULUM_LESSONS,
@@ -88,6 +85,9 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   ...FRENCH_CURRICULUM_LESSONS,
   ...MATH_FR_CURRICULUM_LESSONS.map((lesson) => ({
     ...lesson,
+    isAvailable: false,
+    contentStatus: 'pending_materials' as const,
+    sourceRef: { ...lesson.sourceRef, isAvailable: false },
     subjectId: 'subj_math',
     subjectNameAr: 'الرياضيات',
     subjectNameEn: 'Mathematics',
