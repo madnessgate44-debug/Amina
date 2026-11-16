@@ -81,7 +81,7 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                     else "fra+ara"
                 )
                 for page_index, page_text in enumerate(pages):
-                    if len(" ".join(page_text.split())) < 20:
+                    if source["kind"] == "weekly_assessment" or len(" ".join(page_text.split())) < 20:
                         page_number = page_index + 1
                         prefix = tmpdir / (source["id"] + "-page-" + str(page_number))
                         subprocess.run(
@@ -103,6 +103,10 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                     if ocr_pages_attempted else "pdftotext -layout"
                 )
                 extracted = "\n".join(pages)
+                toc_pages = {"math_fr_student_book": [2, 3, 4], "english_student_book": [3, 4, 5]}.get(source["id"], [])
+                for page_number in toc_pages:
+                    if page_number <= len(pages):
+                        toc_reviews.append("## " + source["id"] + " — PDF page " + str(page_number) + "\n" + pages[page_number-1].strip() + "\n")
                 for number, text in enumerate(pages,1):
                     # Full source text is retained only in the one-day Actions artifact
                     # so reviewers can inspect lesson explanations and exercises. It is
