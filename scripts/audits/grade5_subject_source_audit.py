@@ -75,39 +75,39 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                 if pages and not pages[-1].strip(): pages.pop()
                 ocr_pages_attempted = 0
                 ocr_pages_with_text = 0
-                if source["id"] == "english_performance_assessments":
-                    for page_index, page_text in enumerate(pages):
-                        if len(" ".join(page_text.split())) < 20:
-                            page_number = page_index + 1
-                            prefix = tmpdir / f"english-assessment-page-{page_number}"
-                            subprocess.run(
-                                ["pdftoppm","-f",str(page_number),"-l",str(page_number),"-r","110","-png","-singlefile",str(pdf),str(prefix)],
-                                check=True,capture_output=True
-                            )
-                            png = Path(str(prefix)+".png")
-                            ocr_text = command(["tesseract",str(png),"stdout","-l","eng+ara","--psm","6"])
-                            pages[page_index] = ocr_text
-                            ocr_pages_attempted += 1
-                            if len(" ".join(ocr_text.split())) >= 20:
-                                ocr_pages_with_text += 1
-                            png.unlink(missing_ok=True)
-                    item["ocr_pages_attempted"] = ocr_pages_attempted
-                    item["ocr_pages_with_text"] = ocr_pages_with_text
-                    item["ocr_languages"] = "eng+ara"
-                    item["extraction_method"] = "pdftotext with Tesseract OCR fallback"
-                    extracted = "\\n".join(pages)
-                else:
-                    item["extraction_method"] = "pdftotext -layout"
-                item["fingerprinted_pages"]=len(pages)
-                toc_pages = {"math_fr_student_book": [2, 3, 4], "english_student_book": [3, 4, 5]}.get(source["id"], [])
-                for page_number in toc_pages:
-                    if page_number <= len(pages):
-                        toc_reviews.append(f"## {source['id']} — PDF page {page_number}\\n{pages[page_number-1].strip()}\\n")
+                ocr_languages = (
+                    "fra+eng" if source["subject"] == "Mathematics"
+                    else "eng+ara" if source["subject"] == "English"
+                    else "fra+ara"
+                )
+                for page_index, page_text in enumerate(pages):
+                    if len(" ".join(page_text.split())) < 20:
+                        page_number = page_index + 1
+                        prefix = tmpdir / (source["id"] + "-page-" + str(page_number))
+                        subprocess.run(
+                            ["pdftoppm","-f",str(page_number),"-l",str(page_number),"-r","140","-png","-singlefile",str(pdf),str(prefix)],
+                            check=True,capture_output=True
+                        )
+                        png = Path(str(prefix)+".png")
+                        ocr_text = command(["tesseract",str(png),"stdout","-l",ocr_languages,"--psm","6"])
+                        pages[page_index] = ocr_text
+                        ocr_pages_attempted += 1
+                        if len(" ".join(ocr_text.split())) >= 20:
+                            ocr_pages_with_text += 1
+                        png.unlink(missing_ok=True)
+                item["ocr_pages_attempted"] = ocr_pages_attempted
+                item["ocr_pages_with_text"] = ocr_pages_with_text
+                item["ocr_languages"] = ocr_languages if ocr_pages_attempted else None
+                item["extraction_method"] = (
+                    "pdftotext -layout with Tesseract OCR fallback for low-text pages"
+                    if ocr_pages_attempted else "pdftotext -layout"
+                )
+                extracted = "\n".join(pages)
                 for number, text in enumerate(pages,1):
                     # Full source text is retained only in the one-day Actions artifact
                     # so reviewers can inspect lesson explanations and exercises. It is
                     # never copied to the repository or included in published audit CSVs.
-                    page_text_reviews.append("\\n\\n### " + source["id"] + " — PDF page " + str(number) + "\\n" + text.strip() + "\\n")
+                    page_text_reviews.append("\n\n### " + source["id"] + " — PDF page " + str(number) + "\n" + text.strip() + "\n")
                     normalized=" ".join(text.split())
                     digest=hashlib.sha256(normalized.encode("utf-8")).hexdigest()
                     heading_lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines() if line.strip()]
@@ -149,7 +149,7 @@ report={
         "No full PDF or extracted textbook text is retained in the repository."
     ]
 }
-(OUT/"toc-review.txt").write_text("\\n".join(toc_reviews)+"\\n",encoding="utf-8")
+(OUT/"toc-review.txt").write_text("\n".join(toc_reviews)+"\n",encoding="utf-8")
 (OUT/"instructional-page-text-review.txt").write_text("".join(page_text_reviews), encoding="utf-8")
 (OUT/"grade5-subject-source-audit.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 with (OUT/"grade5-subject-page-fingerprints.csv").open("w",newline="",encoding="utf-8") as f:
