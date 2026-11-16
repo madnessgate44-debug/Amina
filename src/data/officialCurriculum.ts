@@ -21,9 +21,10 @@ import { withFrenchAssessments } from './curriculum/frenchAssessment';
 /**
  * The 2026–2027 French-track Math_FR StudentBook is the authoritative source
  * for Mathematics. The national Math registry currently contains 12 of 46
- * lessons; four legacy French-extract IDs are retained below only for
- * compatibility and are marked unavailable because one duplicates Unit 1
- * Lesson 1 and three have incorrect unit/lesson/page mappings.
+ * lessons; four legacy French-extract IDs are retained below as app-authored supplemental
+ * compatibility modules because existing feed/diagnosis code references them.
+ * One duplicates Unit 1 Lesson 1 and three have mis-mapped source references;
+ * they are not Ministry StudentBook lessons and do not count toward the 46.
  *
  * The current French Science edition is separately represented by its 28-lesson
  * 2026–2027 registry. Older mismatched Science records remain unavailable.
@@ -85,14 +86,14 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   ...FRENCH_CURRICULUM_LESSONS,
   ...MATH_FR_CURRICULUM_LESSONS.map((lesson) => ({
     ...lesson,
-    isAvailable: false,
-    contentStatus: 'pending_materials' as const,
+    isAvailable: true,
+    contentStatus: 'available' as const,
     sourceRef: { ...lesson.sourceRef, isAvailable: false },
     subjectId: 'subj_math',
     subjectNameAr: 'الرياضيات',
     subjectNameEn: 'Mathematics',
     subjectNameFr: 'Mathématiques',
-    curriculumSource: 'egyptian_national' as const,
+    curriculumSource: undefined,
     instructionLanguage: 'fr' as const,
     contentLanguage: 'fr' as const,
     assessmentLanguage: 'fr' as const,
