@@ -440,3 +440,28 @@ This is still Grade 5 French Science Term 1 only; no full-book or full-year comp
 - **[UNPROVEN]** Full independent pedagogical review and the physical-phone learner walkthrough remain open.
 
 This release improves Grade 5 French Science **Term 1 only**. It is not a full-year completion declaration and does not claim byte-authenticated official source files or an official Ministry teacher guide.
+
+## Grade 5 French Science Term 1 continuation — 16 November 2026
+
+### Source evidence and chapter-title reconciliation
+
+- **[VERIFIED]** Current `main` was inspected at `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`. The canonical Ministry-hosted Science French Term 1 endpoint was successfully downloaded by Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358): HTTP 200, `application/pdf`, 62,976,199 bytes, 109 PDF pages, SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`.
+- **[VERIFIED]** The run's retained log records ISBN 978-633-8530-17-4, Science text and French text as present. Its audit kind was download/structural inspection only; it explicitly set `manual_content_review_required=true`. The run did not yet generate a canonical per-page fingerprint CSV and did not test the French Ministry-imprint string.
+- **[VERIFIED]** The Library copy used for lesson reconstruction is a different 110-page, 59,040,102-byte file with SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`. Its PDF page 3 visibly carries the Ministry/Central Administration 2026–2027 rights statement; PDF page 109 carries the same ISBN; PDF page 110 is an appended third-party promotional page.
+- **[UNPROVEN]** The canonical and Library files are not byte-identical. PR #200 records a 109/109 normalized-text fingerprint match, but the successful source-audit run above predates the per-page-fingerprint implementation and its retained artifact does not contain the canonical CSV. Do not treat the 109/109 result as independently reproducible until the updated workflow publishes its canonical fingerprint CSV and that file is compared with the Library CSV.
+- **[VERIFIED]** The TOC is PDF page 6 (printed page 5). Its nine exact chapter headings and start pages match the Grade 5 Science Term 1 denominator already recorded in the source manifest. Targeted visual checks in this run covered the TOC, all nine chapter-opening pages, Chapter 1 enrichment pp. 18–19, the Ministry imprint page and the final ISBN page.
+- **[VERIFIED]** Chapter-opening banners do not always reproduce the TOC wording. The app's `unitNameFr` correctly follows the TOC; retain the page-specific banner/title as a separate lesson-level label rather than normalizing the TOC to the banner.
+
+### Current implementation and verification
+
+- **[VERIFIED]** PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) remains open against `main`. Its inspected head before the documentation continuation was `8c7f5d760d420a22678798f222342fdf52981548`. It adds explicit source-page ranges to all 28 Science lesson records, a regression map for those ranges, the Chapter 1 camel heat-loss explanation, and the updated canonical source-audit workflow.
+- **[PASS]** PR CI run [43821315922](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315922) completed successfully. The blocking type-check, `npm run lint`, `npm test` and `npm run build` steps all succeeded. The curriculum registry suite reported 54 passed, 0 failed; Vite reported `built in 749ms`.
+- **[PASS]** Engineering Execution OS compliance run [43821315933](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315933) completed successfully and reported `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- **[UNPROVEN]** The updated workflow's durable publication of the canonical per-page CSV has not yet been exercised end-to-end. PR #200 is not merged; no mainline merge or deployment is claimed.
+
+### Remaining Science blockers and next action
+
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. A third-party listing for a 29-page 2026–2027 Grade 5 Science `دفتر تحضير` does not establish Ministry authorship or French-track alignment and is not substituted: https://www.modrsbook.com/primary-5/term-1/science/dftr-thdyr-science-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- **[BLOCKED]** The exact 2026–2027 Term 2 French Science student book remains unavailable/unverified; no full-year claim is made.
+- **[UNPROVEN]** The separate assessment-book PDF remains unaudited question by question; the 28 app-authored teaching plans still need an independent pedagogical peer review and a phone-sized learner walkthrough.
+- **Next action:** keep PR #200 open for owner review. After an owner-approved merge, trigger/inspect the updated source-audit workflow on `main`, retain the canonical per-page fingerprint CSV, compare it against the Library CSV, and resolve any mismatches before upgrading the text-equivalence claim. Continue to keep all lesson explanations, practice, answer keys and remediation explicitly app-authored.
