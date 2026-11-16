@@ -40,6 +40,7 @@ def command(args):
 reports=[]
 page_rows=[]
 toc_reviews=[]
+page_text_reviews=[]
 with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
     tmpdir=Path(tmp)
     for source in SOURCES:
@@ -103,6 +104,10 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                     if page_number <= len(pages):
                         toc_reviews.append(f"## {source['id']} — PDF page {page_number}\\n{pages[page_number-1].strip()}\\n")
                 for number, text in enumerate(pages,1):
+                    # Full source text is retained only in the one-day Actions artifact
+                    # so reviewers can inspect lesson explanations and exercises. It is
+                    # never copied to the repository or included in published audit CSVs.
+                    page_text_reviews.append("\\n\\n### " + source["id"] + " — PDF page " + str(number) + "\\n" + text.strip() + "\\n")
                     normalized=" ".join(text.split())
                     digest=hashlib.sha256(normalized.encode("utf-8")).hexdigest()
                     heading_lines = [re.sub(r"\s+", " ", line).strip() for line in text.splitlines() if line.strip()]
@@ -145,6 +150,7 @@ report={
     ]
 }
 (OUT/"toc-review.txt").write_text("\\n".join(toc_reviews)+"\\n",encoding="utf-8")
+(OUT/"instructional-page-text-review.txt").write_text("".join(page_text_reviews), encoding="utf-8")
 (OUT/"grade5-subject-source-audit.json").write_text(json.dumps(report,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 with (OUT/"grade5-subject-page-fingerprints.csv").open("w",newline="",encoding="utf-8") as f:
     fields=["source_id","subject","track","kind","week","pdf_page","page_heading_candidate","normalized_text_characters","normalized_text_sha256"]
