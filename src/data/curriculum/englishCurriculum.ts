@@ -168,7 +168,7 @@ const ENGLISH_SOURCE_SEEDS: EnglishSeed[] = [
   },
   {
     id:'off_en_u1_apple_tree',unit:1,lesson:3,titleEn:'The Giving Tree',titleAr:'الشجرة المعطاءة',page:13,pages:'13–16',assessmentPages:'7',
-    summary:'Tom enjoys the apple tree but rarely gives it food or water. After returning and noticing its weak leaves and branches, he begins watering and protecting it. The story explores responsibility and caring for living things; the pronunciation section practises consonant clusters.',
+    summary:'Tom enjoys the apple tree but rarely gives it food or water. After returning and noticing its weak leaves and branches, he begins watering it and protecting it. The story explores responsibility and caring for living things; the pronunciation section practises consonant clusters.',
     objectives:['Retell how Tom’s behaviour toward the tree changes.','Use crown, shade, trunk, branch, selfish and care for in context.','Infer the story message about responsibility.','Recognize consonant clusters in words such as tree, trunk and branch.'],
     vocabulary:[{word:'crown',definition:'A special decorated hat worn by a king or queen.'},{word:'shade',definition:'A cooler place protected from direct sunlight.'},{word:'trunk',definition:'The thick main stem of a tree.'},{word:'branch',definition:'A part that grows out from the trunk.'},{word:'selfish',definition:'Thinking only about yourself.'},{word:'care for',definition:'To look after someone or something.'}],
     workedExample:'Tom first takes fruit and shade without looking after the tree. Later he waters and protects it; this change shows responsibility.',
