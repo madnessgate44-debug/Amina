@@ -19,7 +19,7 @@
 ## Mathematics — French track
 
 - Ministry StudentBook: 141 PDF pages, SHA-256 baea709a1080bfe383e8e1f040c57d68b8c1b1f6e17b7810fd5401c7187d5ace; performance-assessment book: 74 PDF pages, SHA-256 9521338362528fc1c7e0717c92b2f596c7177860c37c1311a80ed86fa6c67479.
-- The StudentBook TOC contains 46 lessons across six units. The current app registry has 12 national-book records plus four additional French-extract records. The matrix records 11 exact matches, one Unit 6 title/page discrepancy and 34 missing lessons. The four extract records are separately reviewed; three are mismatched/unsupported and one duplicates an exact national-book lesson.
+- The StudentBook TOC contains 46 lessons across six units. The current app registry has 12 national-book records plus four additional French-extract records. The matrix records 11 exact matches, one Unit 6 title/page discrepancy and 34 missing lessons. The four extract records are separately reviewed; three are mismatched/unsupported and one duplicates an exact national-book lesson. The lesson matrix now also records assessment-PDF heading candidates for 28 lesson entries; the separate section index records weekly/monthly/Term 1 assessment headings that are not safely mapped one-to-one to a lesson.
 - Full instructional-page review, exercise/answer-key checking and complete teaching-plan construction for the 34 missing lessons remain open. No unsupported lesson was added in this continuation.
 - PR #180 is an Arabic Maths draft and is not used as the French Math source.
 
