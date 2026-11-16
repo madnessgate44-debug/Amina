@@ -34,8 +34,8 @@ type EnglishSeed = {
   guided: Practice[];
   independent: Practice[];
   misconception: { observedResponse: string; diagnosis: string; correctivePrompt: string };
-  remediation: string[];
-  mastery: { prompt: string; expectedAnswer: string; successCriterion: string };
+  remediation?: string[];
+  mastery?: { prompt: string; expectedAnswer: string; successCriterion: string };
   exercises?: Array<{ type: 'qa' | 'multiple_choice'; question: string; options?: string[]; expectedAnswer: string; page?: number }>;
 };
 
@@ -135,8 +135,12 @@ function makeEnglishLesson(seed: EnglishSeed): OfficialCurriculumLesson {
           correctivePrompt: seed.misconception.correctivePrompt,
         },
       ],
-      remediationEn: seed.remediation,
-      masteryCheckEn: [seed.mastery],
+      remediationEn: seed.remediation ?? [seed.misconception.correctivePrompt, 'Repeat the worked example, then retry the independent practice without looking at the answer key.'],
+      masteryCheckEn: [seed.mastery ?? {
+        prompt: 'Explain the main idea of ' + seed.titleEn + ' in your own words and give one example.',
+        expectedAnswer: seed.summary,
+        successCriterion: 'The learner accurately explains the lesson idea and gives a relevant example without copying the source text.',
+      }],
     },
   };
 }
