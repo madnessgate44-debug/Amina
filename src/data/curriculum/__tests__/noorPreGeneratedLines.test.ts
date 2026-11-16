@@ -35,9 +35,15 @@ function main() {
 
   const lessons = curriculumService.getAllLessons();
   const expectedKeys: string[] = [];
+  const expectedArabicKeys: string[] = [];
   for (const lesson of lessons) {
     for (let i = 0; i < lesson.concepts.length; i++) {
-      expectedKeys.push(`ar:${lesson.id}:${i}`);
+      const arKey = `ar:${lesson.id}:${i}`;
+      expectedKeys.push(arKey);
+      expectedArabicKeys.push(arKey);
+      if (lesson.subjectId === 'subj_english' && lesson.isAvailable) {
+        expectedKeys.push(`en:${lesson.id}:${i}`, `fr:${lesson.id}:${i}`);
+      }
     }
   }
 
@@ -77,15 +83,26 @@ function main() {
     badContent.length ? `${badContent.length} bad, e.g. ${badContent[0]}` : undefined
   );
 
-  // The lines must be Arabic: the app speaks Egyptian Arabic to the child.
-  const nonArabic = expectedKeys.filter((k) => {
+  // Arabic remains the default voice for the curriculum; English lessons also
+  // have English and French orientation lines for their language-specific path.
+  const nonArabic = expectedArabicKeys.filter((k) => {
     const e = PRE_GENERATED_NOOR_LINES[k];
-    return e && !/[\u0600-\u06FF]/.test(e.explanation);
+    return e && !/[\\u0600-\\u06FF]/.test(e.explanation);
   });
   check(
-    '2.2 the lines are Arabic script',
+    '2.2 Arabic curriculum lines use Arabic script',
     nonArabic.length === 0,
     nonArabic.length ? `${nonArabic.length} non-Arabic, e.g. ${nonArabic[0]}` : undefined
+  );
+  const badEnglishOrFrench = expectedKeys.filter((k) => {
+    if (k.startsWith('ar:')) return false;
+    const e = PRE_GENERATED_NOOR_LINES[k];
+    return e && /[\\u0600-\\u06FF]/.test(e.explanation);
+  });
+  check(
+    '2.3 English/French lesson orientation lines do not contain Arabic-script leakage',
+    badEnglishOrFrench.length === 0,
+    badEnglishOrFrench.length ? `${badEnglishOrFrench.length} mixed, e.g. ${badEnglishOrFrench[0]}` : undefined
   );
 
   // The lookup helper is what the teaching service calls at runtime.
@@ -99,9 +116,10 @@ function main() {
     '3.2 getPreGeneratedLine returns null for an unknown lesson',
     getPreGeneratedLine('ar', 'no_such_lesson_xyz', 0, 'intro') === null
   );
+  const nonEnglishLesson = lessons.find((lesson) => lesson.subjectId !== 'subj_english' && lesson.concepts.length > 0);
   check(
     '3.3 getPreGeneratedLine returns null for a language with no lines',
-    getPreGeneratedLine('fr', firstLessonId, Number(firstIndex), 'intro') === null
+    !!nonEnglishLesson && getPreGeneratedLine('fr', nonEnglishLesson.id, 0, 'intro') === null
   );
 
   console.log(`\nPRE-GENERATED NOOR LINES SUMMARY: ${passed} PASSED, ${failed} FAILED\n`);
