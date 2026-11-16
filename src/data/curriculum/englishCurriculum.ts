@@ -124,8 +124,8 @@ export const ENGLISH_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     unitNameAr: 'الوحدة الرابعة: مجتمعي',
     unitNameEn: 'Unit 4: My Community',
     lessonNumber: 1,
-    titleAr: 'جزيرة إلفنتين في أسوان — سجل قديم غير موثق',
-    titleEn: 'Elephantine Island in Aswan (Unverified Legacy Record)',
+    titleAr: 'جزيرة إلفنتين في أسوان',
+    titleEn: 'Elephantine Island in Aswan',
     originTag: 'app_authored',
     language: 'en',
     instructionLanguage: 'en',
@@ -143,15 +143,53 @@ export const ENGLISH_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
       unit: 'Unit 4: My Community',
       lesson: 'Legacy record — no matching StudentBook lesson established',
       page: 60,
-      notes: '[U] No matching title or page was found in the inspected Connect 5 Term 1 StudentBook. The record is retained for ID compatibility only and is unavailable until a valid source is supplied.',
+      notes: '[U] No matching title or page was found in the inspected Connect 5 Term 1 StudentBook. The original app-authored text is preserved below for compatibility/review only and is not exposed to learners.',
       isAvailable: false,
     },
     objectives: [
-      'Legacy content retained for source review only.',
+      'Read a descriptive postcard about Elephantine Island in Aswan.',
+      'Explore ecological tourism, felucca sailing on the Nile, and clean air.',
+      'Practice adjectives: peaceful, historic, colorful, traditional, ancient.',
     ],
-    readingText: null,
-    vocabulary: [],
-    exercises: [],
-    concepts: [],
-  },
+    readingText: `Dear Dalia,
+Greetings from beautiful Aswan! Yesterday, we took a traditional wooden felucca boat along the calm waters of the Nile River to visit Elephantine Island.
+It is the oldest part of Aswan, full of colorful Nubian houses and ancient archaeological ruins. The air here is very clean, and there is no traffic noise at all. We walked through peaceful gardens with date palm trees and watched the sunset reflecting on the river.
+Aswan is truly a magical place where nature and history live in harmony.
+Best wishes,
+Youssef.`,
+    vocabulary: [
+      { word: 'Felucca', definition: 'A traditional wooden sailing boat used on the Nile River in Egypt.' },
+      { word: 'Peaceful', definition: 'Quiet, calm, and free from disturbance or noise.' },
+      { word: 'Nubian houses', definition: 'Distinctive, brightly painted houses with beautiful geometric patterns in southern Egypt.' },
+    ],
+    exercises: [
+      {
+        type: 'multiple_choice',
+        question: 'How did Youssef travel to Elephantine Island on the Nile River?',
+        options: ['In a traditional wooden felucca', 'By airplane', 'By subway', 'By large truck'],
+        expectedAnswer: 'In a traditional wooden felucca',
+        page: 62,
+      },
+    ],
+    concepts: [
+      {
+        id: 'off_en_u4_elephantine_c1',
+        conceptNumber: 1,
+        titleAr: 'السياحة البيئية وتراث النيل في أسوان',
+        titleEn: 'Eco-Tourism & Nile Heritage in Aswan',
+        sourceText: 'Elephantine Island is a haven of clean air, historic culture, and peaceful nature.',
+        keyPoints: [
+          'Eco-friendly travel preserves the environment and heritage.',
+          'Nubian architecture is famous worldwide for its artistic vibrancy.',
+        ],
+        dailyLifeExampleAr: 'الاستمتاع برحلة هادئة بالقارب في النيل مع العائلة مع الحفاظ على نظافة النهر.',
+        dailyLifeExampleEn: 'Riding a Nile boat peacefully while ensuring no trash is left behind.',
+        storyAnalogyAr: 'كأنك تدخل متحفا مفتوحا حيا، حيث يهدأ الوقت وسط مياه النيل والطبيعة.',
+        storyAnalogyEn: 'Like visiting an open-air historical sanctuary surrounded by sparkling blue water.',
+        prerequisiteAr: 'قراءة جمل وصفية باللغة الإنجليزية.',
+        prerequisiteEn: 'Descriptive reading.',
+        visualType: 'map_like',
+      },
+    ],
+  }
 ];
