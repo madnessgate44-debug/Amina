@@ -238,6 +238,7 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 - **[VERIFIED]** All 109 canonical pages match Library PDF pages 1–109 in the same order: 109/109 per-page normalized-text fingerprints match.
 - **[VERIFIED]** The ordered aggregate fingerprint digest is identical for both sets: `79afe5b773323da9a6133eb4978a1e989225e8d1855a22a973ab9aa13fab94eb`.
 - **[VERIFIED]** The Library PDF is 59,040,102 bytes with SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`; it contains the same 109 book-page text records plus a 110th appended page with no extractable text.
+- **[UNPROVEN]** The 109/109 normalized-text comparison is recorded above, but the retained artifact from run 43705922358 does not contain the canonical per-page CSV; independent reproduction remains pending the updated workflow's durable publication.
 - **[LIMIT]** The PDF byte hashes differ. Matching extracted text does not establish identical page images, layout, illustrations, colour, typography, or an untouched official source file. It does establish that the extracted text on all 109 book pages is identical under the stated normalization.
 
 ### Curriculum reconciliation review
