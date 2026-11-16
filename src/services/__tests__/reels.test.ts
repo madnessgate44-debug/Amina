@@ -615,14 +615,14 @@ function run() {
     const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
     const leakyReels = feed.reels
       .filter((reel) => reel.kind !== 'win_closer')
-      .filter((reel) => {
-        const text = `${reel.hook} ${reel.noorLine} ${reel.show || ''} ${(reel.options || []).map((o) => o.text).join(' ')}`;
-        return wrongLatin.test(text);
-      })
-      .map((reel) => `${reel.lessonId}/${reel.kind}`);
+      .map((reel) => ({
+        id: `${reel.lessonId}/${reel.kind}`,
+        text: `${reel.hook} ${reel.noorLine} ${reel.show || ''} ${(reel.options || []).map((o) => o.text).join(' ')}`,
+      }))
+      .filter((reel) => wrongLatin.test(reel.text));
     assert(
       leakyReels.length === 0,
-      `16.1 [${lang}]: no reel leaks the other Latin language (${leakyReels.length}: ${leakyReels.slice(0, 4).join(', ')})`
+      `16.1 [${lang}]: no reel leaks the other Latin language (${leakyReels.length}: ${leakyReels.slice(0, 4).map((reel) => reel.id + ' => ' + reel.text).join(' || ')})`
     );
   }
 
