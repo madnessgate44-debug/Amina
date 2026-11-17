@@ -182,3 +182,21 @@ The contents page (PDF page 6 / printed page 5) is the source of truth for chapt
 - **[PASS]** Engineering Execution OS compliance run [43821315933](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315933) reported `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
 - **[UNPROVEN]** PR #200 remains unmerged. These CI results are not a production deployment or a phone-sized learner walkthrough.
 - **[BLOCKED]** Term 2 Science and the separate assessment-book question-by-question audit remain outside this Term 1 teaching pack.
+
+
+## Canonical page-text reconciliation update — 17 November 2026
+
+- **[VERIFIED]** The canonical Ministry-hosted student-book PDF was downloaded in GitHub Actions run [43706201870](https://github.com/madnessgate44-debug/Amina/actions/runs/43706201870), artifact `14158542215`. Its 109 per-page normalized-text fingerprints were independently compared with the 110-page Library copy's fingerprint CSV: 109/109 book pages match exactly on normalized-text SHA-256 and character count; 0 missing; 0 mismatches. The Library-only PDF page 110 has zero extracted characters.
+- **[VERIFIED]** The two fingerprint CSVs and comparison JSON are durably committed on branch `audit/ministry-science-source-results`, at head `de9280472d7ab3b62cf90464da0cd6407d023a73`: [canonical fingerprints](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/ministry-page-fingerprints.csv), [Library fingerprints](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/library-page-fingerprints.csv), [comparison JSON](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/library-comparison.json).
+- **[LIMIT]** This is normalized extracted-text equivalence, not byte identity, visual/layout identity, diagram equivalence, untouched publisher-original provenance or pedagogical equivalence. The PDFs have different SHA-256 hashes.
+- **[UNPROVEN]** The updated workflow in PR #200 has not yet completed its own end-to-end publication run from `main`. Its workflow checks the canonical French imprint and ISBN before publishing the current JSON/CSV reports to the results branch.
+- **[BLOCKED]** No exact Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. The third-party 29-page preparation-notebook listing remains insufficient evidence of Ministry authorship and French-track alignment; it is not used as official content.
+- **[UNPROVEN]** High-resolution review of every instructional diagram, independent pedagogical peer review and a physical-phone French learner walkthrough remain outstanding. CI success does not close these runtime and pedagogy gates.
+- **[BLOCKED]** The exact 2026–2027 Term 2 French Science student book remains unavailable to this reconstruction. Scope remains Term 1 only.
+
+### Latest PR verification — 17 November 2026
+
+- **[VERIFIED]** PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) head `dd5f1ae37b120b84065570648f6c72c7424cc6c0`, based on `main` `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`, remains open and mergeable.
+- **[PASS]** CI run [44043136740](https://github.com/madnessgate44-debug/Amina/actions/runs/44043136740): blocking type check, `npm run lint`, `npm test` and `npm run build` all succeeded. Test output includes assembly 53 passed, adaptive scenarios 27 passed, job persistence 19 passed; build transformed 1,792 modules and completed in 588 ms. Existing Vite `__dirname` and large-chunk warnings remain non-blocking.
+- **[PASS]** Engineering Execution OS compliance run [44043136707](https://github.com/madnessgate44-debug/Amina/actions/runs/44043136707): `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- **[UNPROVEN]** No production deployment or phone-sized learner walkthrough is claimed from these PR checks.
