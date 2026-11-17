@@ -9,9 +9,9 @@
 
 - **[VERIFIED]** The existing Library page-fingerprint CSV reproduces exactly against the 110-page Library PDF copy: 110 pages compared, zero missing pages and zero mismatches.
 - **[VERIFIED]** The extracted-text fingerprint for PDF page 110 is empty. The inspected Library copy therefore has 109 pages of book content plus an appended page with no extractable text.
-- **[LIMIT]** This verifies the internal consistency of the Library PDF and its CSV. It does **not** independently compare the Library copy with the canonical Ministry-hosted PDF, prove visual identity, or authenticate untouched publisher-original bytes.
+- **[LIMIT]** The Library self-check and canonical cross-check establish normalized extracted-text equivalence only. They do **not** prove visual/layout identity, byte identity, untouched publisher-original provenance, or pedagogical equivalence.
 - **[VERIFIED]** The later canonical Actions artifact from run [43706201870](https://github.com/madnessgate44-debug/Amina/actions/runs/43706201870), artifact `14158542215`, contains 109 per-page fingerprints. Compared with Library pages 1–109, all 109 normalized-text SHA-256 values and character counts match: 109/109, 0 missing, 0 mismatches.
-- **[VERIFIED]** The canonical and Library CSVs and the comparison JSON are now preserved in the [source-results branch](https://github.com/madnessgate44-debug/Amina/tree/audit/ministry-science-source-results).
+- **[VERIFIED]** The canonical and Library CSVs and the comparison JSON are preserved in [source-results branch head `de9280472d7ab3b62cf90464da0cd6407d023a73`](https://github.com/madnessgate44-debug/Amina/tree/audit/ministry-science-source-results).
 - **[LIMIT]** This establishes normalized extracted-text equivalence only; it does not establish visual/layout identity, byte identity, untouched publisher-original provenance or pedagogical equivalence.
 - **[UNPROVEN]** Automatic publication by the updated workflow in PR #200 has not yet been exercised end-to-end.
 
@@ -21,6 +21,8 @@
 |---|---:|---|
 | Library Science PDF | 59,040,102 bytes | `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c` |
 | Library page-fingerprint CSV | 8,143 bytes | `b5f8cd0eba7b4a36875242bd5bc1a194e87633158470302caa93bf62b732117e` |
+| Canonical page-fingerprint CSV (results branch, LF) | 7,961 bytes | `134e2c05a421c07ca2aa2a9f5f2c18519e78cf4ccfbd2a6e3471fa0a8d586aeb` |
+| Normalized Library page-fingerprint CSV (results branch, LF) | 8,032 bytes | `a6d085afd398ce21def9ba15c5834736ff6736c3cb22fa3d4292f0df8a4da8ed` |
 
 The PDF metadata reports 110 pages and identifies PDFsharp 1.50.4000-netstandard as Creator/Producer. The Library copy carries the Ministry 2026–2027 imprint and ISBN 978-633-8530-17-4, but its third-party assembly/processing history remains a provenance limitation.
 
