@@ -87,7 +87,7 @@ function main() {
   // have English and French orientation lines for their language-specific path.
   const nonArabic = expectedArabicKeys.filter((k) => {
     const e = PRE_GENERATED_NOOR_LINES[k];
-    return e && !/[\\u0600-\\u06FF]/.test(e.explanation);
+    return e && !/[\u0600-\u06FF]/.test(e.explanation);
   });
   check(
     '2.2 Arabic curriculum lines use Arabic script',
@@ -97,7 +97,7 @@ function main() {
   const badEnglishOrFrench = expectedKeys.filter((k) => {
     if (k.startsWith('ar:')) return false;
     const e = PRE_GENERATED_NOOR_LINES[k];
-    return e && /[\\u0600-\\u06FF]/.test(e.explanation);
+    return e && /[\u0600-\u06FF]/.test(e.explanation);
   });
   check(
     '2.3 English/French lesson orientation lines do not contain Arabic-script leakage',
