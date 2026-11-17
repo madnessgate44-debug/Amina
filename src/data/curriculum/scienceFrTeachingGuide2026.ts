@@ -787,7 +787,7 @@ export const SCIENCE_FR_TERM1_ENRICHMENT_2026 = [
     chapters: [1],
     sourcePages: '18–19',
     titleFr: 'Biomécanique : le dromadaire',
-    appAuthoredSummaryFr: 'Le manuel relie la forme des pieds du dromadaire à la marche sur le sable : les os des orteils s’écartent et répartissent le poids. Les callosités des genoux amortissent les contacts avec le sol. La bosse stocke de la graisse, et non de l’eau ; cette graisse constitue une réserve d’énergie.',
+    appAuthoredSummaryFr: 'Le manuel relie la forme des pieds du dromadaire à la marche sur le sable : les os des orteils s’écartent et répartissent le poids. Les callosités des genoux amortissent les contacts avec le sol. La bosse stocke de la graisse, et non de l’eau ; cette graisse constitue une réserve d’énergie. Le manuel explique aussi que le regroupement de la graisse dans la bosse, plutôt que sa répartition sur tout le corps, laisse le vent refroidir le reste du corps et facilite la libération de chaleur.',
   },
   {
     chapters: [2],

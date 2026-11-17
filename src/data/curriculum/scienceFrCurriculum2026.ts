@@ -315,7 +315,7 @@ function makeLesson(s:Spec):OfficialCurriculumLesson {
  if (!chapterTitleFr) throw new Error(`Missing French chapter title for Science chapter ${s.u}`);
  const unit='Chapitre '+s.u;
  const lesson='Leçon '+s.u+'-'+s.n;
- const sourceRef={book:'Manuel de Sciences 5e Primaire — Ministère de l’Éducation, 2026–2027, Term 1',bookAr:'كتاب الوزارة للعلوم بالفرنسية — الصف الخامس — الفصل الدراسي الأول',bookEn:'Egypt Ministry Grade 5 Science in French — Term 1 (2026–2027)',grade:'Primary 5 / Grade 5',term:'Term 1 — 2026–2027',unit,lesson,page:s.page,notes:'[UNPROVEN] The inspected source is a third-party-assembled Library PDF bearing the Ministry 2026–2027 imprint; byte-level identity with the canonical Ministry-hosted PDF is not verified.',isAvailable:true};
+ const sourceRef={book:'Manuel de Sciences 5e Primaire — Ministère de l’Éducation, 2026–2027, Term 1',bookAr:'كتاب الوزارة للعلوم بالفرنسية — الصف الخامس — الفصل الدراسي الأول',bookEn:'Egypt Ministry Grade 5 Science in French — Term 1 (2026–2027)',grade:'Primary 5 / Grade 5',term:'Term 1 — 2026–2027',unit,lesson,page:s.page,pageRange:s.pages,notes:'[VERIFIED] Normalized extracted text on all 109 book pages matches the Ministry-hosted endpoint page by page. [UNPROVEN] PDF byte-level identity and visual/layout identity remain unverified; this Library copy is third-party-assembled and bears the Ministry 2026–2027 imprint.',isAvailable:true};
  const concept={
   id:conceptId,conceptNumber:1,titleAr:s.ar,titleEn:s.en,titleFr:s.fr,
   sourceText:s.focus,sourceTextFr:teacherGuide.explanationFr,keyPoints:s.objectives,keyPointsFr:s.objectives,

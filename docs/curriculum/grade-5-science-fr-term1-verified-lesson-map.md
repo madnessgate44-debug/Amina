@@ -3,9 +3,9 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Subject:** Sciences taught in French  
-**Source content:** 109 book pages bearing the Ministry imprint; inspected Library PDF copy is 110 pages because a third-party promotional page is appended  
+**Source content:** 109 book-content pages in the inspected Library copy; its PDF page 3 bears the Ministry 2026–2027 imprint. The 110-page PDF includes an appended third-party promotional page  
 **Evidence:** [VERIFIED] PDF pages 1–109 contain the book copy; PDF page 110 is a third-party promotional insert and is excluded. The Ministry/Central Administration copyright and 2026–2027 edition statement appears on PDF page 3 (front matter, not a numbered textbook page); the final imprint is PDF page 109. The copy is third-party assembled; its byte-level identity with the canonical Ministry URL is [UNPROVEN].  
-**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected book copy. App-authored French teaching plans cover all 28 lessons. CI, tests and production build passed on current `main` (`d094933379dddf7db6b37cfd419dae06caf3174d`); a live phone-sized walkthrough remains [UNPROVEN]. This is not a full-year completion declaration.
+**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected book copy. App-authored French teaching plans cover all 28 lessons. PR #200 is open against `main` at base `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`; its 16 November CI run `43824371961` and Engineering Execution OS compliance run `43824372073` passed on head `0d583dea053e03f8013ca3c5b817e4582dcadd2d`. A live phone-sized walkthrough remains [UNPROVEN]. This is not a full-year completion declaration.
 
 ## Source identity and scope
 
@@ -221,3 +221,39 @@ The third-party listings identify the assessment book as Ministry-produced, Grad
 - **[VERIFIED]** Current main commit `d094933379dddf7db6b37cfd419dae06caf3174d` passed CI run [43535411225](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411225) and compliance run [43535411162](https://github.com/madnessgate44-debug/Amina/actions/runs/43535411162). `npm run lint`, `npm test` (39 suite summaries, 0 failures; curriculum registry 23 passed, 0 failed), and `npm run build` (1,792 modules; 575 ms) passed.
 - **[BLOCKED]** No matching 2026–2027 Egyptian Ministry French Science teacher guide or Term 2 student book is verified. The teaching pack remains app-authored; this is Term 1 only.
 - **[UNPROVEN]** Phone-sized learner walkthrough and custom-domain lesson behavior remain to be checked.
+
+
+## Canonical Ministry endpoint retrieval and page-text reconciliation — 15 November 2026
+
+### Download evidence
+
+- **[VERIFIED]** GitHub Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358) downloaded the exact Ministry-hosted endpoint successfully: HTTP 200, `application/pdf`, 62,976,199 bytes, 109 PDF pages.
+- **[VERIFIED]** Downloaded PDF SHA-256: `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`.
+- **[VERIFIED]** The canonical-hosted file's extracted text contains ISBN 978-633-8530-17-4, French Science text and the French Ministry imprint. The earlier audit checked only Arabic and English ministry-imprint strings; those two markers were false because this is the French-language edition. They must not be interpreted as absence of the French imprint.
+- **[OBSERVED]** PDF metadata identifies PDF Candy Desktop / Icecream PDF Candy Desktop 3.13 and GPL Ghostscript 10.07.0. This indicates a processed PDF, not an untouched publisher-original file. The host is the Ministry e-learning content blob endpoint; PDF metadata alone does not prove who performed the processing.
+
+### Page-by-page extracted-text comparison
+
+- **[VERIFIED]** The canonical-hosted 109-page PDF was compared with the 110-page Library copy by extracting each PDF page separately, normalizing whitespace, and calculating SHA-256 for each page's normalized text.
+- **[VERIFIED]** All 109 canonical pages match Library PDF pages 1–109 in the same order: 109/109 per-page normalized-text fingerprints match.
+- **[VERIFIED]** The ordered aggregate fingerprint digest is identical for both sets: `79afe5b773323da9a6133eb4978a1e989225e8d1855a22a973ab9aa13fab94eb`.
+- **[VERIFIED]** The Library PDF is 59,040,102 bytes with SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`; it contains the same 109 book-page text records plus a 110th appended page with no extractable text.
+- **[UNPROVEN]** The 109/109 normalized-text comparison is recorded above, but the retained artifact from run 43705922358 does not contain the canonical per-page CSV; independent reproduction remains pending the updated workflow's durable publication.
+- **[LIMIT]** The PDF byte hashes differ. Matching extracted text does not establish identical page images, layout, illustrations, colour, typography, or an untouched official source file. It does establish that the extracted text on all 109 book pages is identical under the stated normalization.
+
+### Curriculum reconciliation review
+
+- **[VERIFIED]** The 28 app lesson IDs and printed page ranges in `scienceFrCurriculum2026.ts` / `scienceFrTeachingGuide2026.ts` correspond to the 28 numbered lesson ranges in the source map: 1-1 through 9-3.
+- **[VERIFIED]** Spot review of the source pages confirms the principal teaching facts sampled across Chapters 1–9, including paired muscle action, joint/cartilage function, seed germination conditions and fair tests, plant growth conditions, flower structure/pollination, human growth and inherited traits, animal reproduction, cloud observation/forecasting, evaporation/condensation and the water cycle.
+- **[GAP FOUND]** The app-authored enrichment summary for pp. 18–19 previously omitted the textbook's explanation that concentrating fat in the camel's hump, rather than distributing it across the body, is presented as helping the rest of the body release heat. The summary and a regression check are being updated to retain that source detail.
+- **[VERIFIED]** Raster contact sheets covering PDF pages 1–109 were reviewed. The cover, French Ministry imprint, contents page, all numbered lesson pages, enrichment pages and scientific-method appendix pages are present; no obvious blank or missing instructional page was seen at thumbnail scale.
+- **[LIMIT]** This is not a high-resolution inspection of every diagram/illustration or a pixel-level comparison of the Ministry-hosted PDF against the Library copy. It is not an independent scientific fact-check of every textbook claim or a phone-sized learner walkthrough.
+
+### Updated status
+
+The earlier statement that the canonical PDF could not be retrieved is superseded by the successful 15 November GitHub Actions download. The official-hosted endpoint's 109-page extracted text is now reconciled to the existing Library copy. Remaining release gates include visual/diagram review, full independent pedagogical review, the separate assessment-book audit, teacher-guide authentication, Term 2 sourcing and physical-phone learner testing.
+
+
+## Assessment book candidate — not yet canonical
+
+A Ministry-branded French Science Term 1 assessment-book copy was found in the Library, but only through a third-party listing and download. It is recorded separately in [the assessment candidate audit](./grade-5-science-fr-term1-assessment-candidate.md). The candidate contains a Ministry seal, copyright marker and ISBN, but its PDFsharp metadata and repeated third-party watermark show repackaging; no canonical Ministry assessment-book endpoint has been verified. Sample OCR suggests topic alignment to Chapters 1, 3–4, 6, 7 and 9, but full 69-page assessment mapping and answer-key review remain open. Do not treat it as an official source or mark lessons as assessed until canonical provenance and page-level coverage are verified.

@@ -511,13 +511,59 @@ check(
 );
 if (incompleteTeachingComponents.length > 0) console.error('   incomplete plans:', incompleteTeachingComponents);
 const lessonsMissingSourceCopyNote = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
-  (lesson) => !lesson.sourceRef.notes?.includes('[UNPROVEN]') ||
+  (lesson) => !lesson.sourceRef.notes?.includes('[VERIFIED]') ||
+    !lesson.sourceRef.notes?.includes('109 book pages') ||
+    !lesson.sourceRef.notes?.includes('[UNPROVEN]') ||
+    !lesson.sourceRef.notes?.includes('visual/layout identity') ||
     !lesson.sourceRef.notes?.includes('third-party-assembled'),
 );
 check(
-  `11.2 all 28 lesson source records disclose the unverified direct-file provenance (${lessonsMissingSourceCopyNote.length} missing)`,
+  `11.2 all 28 lesson source records disclose verified page-text equivalence and remaining PDF identity limits (${lessonsMissingSourceCopyNote.length} missing)`,
   lessonsMissingSourceCopyNote.length === 0,
 );
+
+const expectedSciencePageRangeById: Record<string, string> = {
+  'off_scifr_2026_u1_l1': '6–7',
+  'off_scifr_2026_u1_l2': '8–11',
+  'off_scifr_2026_u1_l3': '12–13',
+  'off_scifr_2026_u1_l4': '14–17',
+  'off_scifr_2026_u2_l1': '20–21',
+  'off_scifr_2026_u2_l2': '22–25',
+  'off_scifr_2026_u3_l1': '28–29',
+  'off_scifr_2026_u3_l2': '30–33',
+  'off_scifr_2026_u3_l3': '34–35',
+  'off_scifr_2026_u3_l4': '36–39',
+  'off_scifr_2026_u3_l5': '40–42',
+  'off_scifr_2026_u4_l1': '44–45',
+  'off_scifr_2026_u4_l2': '46–49',
+  'off_scifr_2026_u5_l1': '52–54',
+  'off_scifr_2026_u5_l2': '55–59',
+  'off_scifr_2026_u5_l3': '60–62',
+  'off_scifr_2026_u6_l1': '64–65',
+  'off_scifr_2026_u6_l2': '66–67',
+  'off_scifr_2026_u6_l3': '68–71',
+  'off_scifr_2026_u7_l1': '72–73',
+  'off_scifr_2026_u7_l2': '74–75',
+  'off_scifr_2026_u7_l3': '76–79',
+  'off_scifr_2026_u8_l1': '80–81',
+  'off_scifr_2026_u8_l2': '82–85',
+  'off_scifr_2026_u8_l3': '86–89',
+  'off_scifr_2026_u9_l1': '92–93',
+  'off_scifr_2026_u9_l2': '94–97',
+  'off_scifr_2026_u9_l3': '98–101',
+};
+const scienceLessonsMissingPageRange = SCIENCE_FR_CURRICULUM_2026_LESSONS.filter(
+  (lesson) => expectedSciencePageRangeById[lesson.id] !== lesson.sourceRef.pageRange,
+);
+check(
+  `11.3 all 28 current Science lesson records carry exact printed page ranges (${scienceLessonsMissingPageRange.length} mismatches)`,
+  Object.keys(expectedSciencePageRangeById).length === 28 &&
+    SCIENCE_FR_CURRICULUM_2026_LESSONS.length === 28 &&
+    scienceLessonsMissingPageRange.length === 0,
+);
+if (scienceLessonsMissingPageRange.length > 0) {
+  console.error('   page-range mismatches:', scienceLessonsMissingPageRange.map((lesson) => lesson.id));
+}
 
 // 12. Enrichment, the separate chapter-5 review, and scientific-method appendix
 //     remain distinct source-book sections, with their own printed page ranges.
@@ -554,6 +600,13 @@ check(
   '12.4 page 26–27 enrichment covers fennec heat loss and galabeya airflow/colour',
   !!enrichmentByPage['26–27'] &&
     ['oreilles', 'vaisseaux sanguins', 'poils', 'galabeya', 'air plus frais', 'réfléchit'].every((term) => enrichmentByPage['26–27'].includes(term)),
+);
+check(
+  '12.4a pages 18–19 enrichment covers the camel foot adaptations, fat reserve and heat-loss explanation',
+  !!enrichmentByPage['18–19'] &&
+    ['orteils', 'répartissent le poids', 'callosités', 'graisse', 'libération de chaleur'].every((term) =>
+      enrichmentByPage['18–19'].includes(term),
+    ),
 );
 check(
   '12.5 pages 50–51 enrichment covers seed dormancy and Nile sediment formation',

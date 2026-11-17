@@ -3,7 +3,7 @@
 **Edition:** Egypt Ministry of Education, Primary 5, 2026–2027, Term 1  
 **Source:** Third-party-assembled Library PDF containing 109 book-content pages plus an appended promotional page (110 PDF pages)  
 **Scope:** The nine chapters in the supplied Term 1 table of contents only  
-**Teaching-pack status:** [VERIFIED] All 28 app-authored lesson plans are represented in the app data. Current-main CI, tests, production build and compliance passed on 14 November 2026; phone-sized learner verification remains [UNPROVEN].
+**Teaching-pack status:** [VERIFIED] All 28 app-authored lesson plans are represented in the app data and structurally checked. PR #200 carries the explicit page-range and source-provenance updates; its CI and compliance checks passed before this documentation continuation. The PR remains unmerged, and phone-sized learner verification remains [UNPROVEN].
 
 ## Provenance and evidence boundary
 
@@ -11,7 +11,7 @@
 - The final book imprint is PDF page 109 and records ISBN **978-633-8530-17-4**; its production table shows 112 in the page-count field. The Library PDF has 110 pages: pages 1–109 are the book copy and page 110 is a third-party promotional insert.
 - The canonical Ministry-hosted student-book endpoint is recorded in the source manifest:  
   https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf
-- The 109 book-content pages in the 110-page Library PDF copy were inspected for the nine chapter headings, lesson activities, questions, enrichment sections and scientific-skills appendix. PDF metadata identifies PDFsharp and third-party site keywords. The canonical Ministry endpoint has not been byte-for-byte compared; the inspected copy's direct Ministry origin remains [UNPROVEN].
+- The 109 book-content pages in the 110-page Library PDF copy were inspected for the nine chapter headings, lesson activities, questions, enrichment sections and scientific-skills appendix. PDF metadata identifies a third-party PDF-processing toolchain. Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358) separately downloaded the canonical Ministry-hosted endpoint (109 pages; 62,976,199 bytes; SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`). The canonical run confirmed the ISBN, Science text and French text markers but did not test the French Ministry-imprint string. [UNPROVEN] Byte-level and visual/layout identity with the Library copy; PR #200 records 109/109 normalized-text matches, but the retained canonical per-page CSV is still pending.
 - **[BLOCKED]** No matching Egyptian Ministry 2026–2027 French Science teacher guide was verified. Do not substitute a prior-year guide, an Arabic-only guide, a Moroccan guide, or another country's teacher guide.
 - The lesson plans below are **app-authored Miss Noor teaching material derived from the student book**. They are not Ministry teacher-guide content and are not textbook quotations.
 - The source book's own “Essaye”, “Entraîne-toi”, review and experiment questions remain distinct from the new app-authored practice and answer keys.
@@ -155,3 +155,48 @@ The Library PDF is 110 pages, 59,040,102 bytes. Pages 1–109 contain the book c
 - **[VERIFIED]** Vercel's status check on current main reports `success` / `Deployment has completed`; the status does not replace a live learner walkthrough.
 - **[BLOCKED]** No matching 2026–2027 Egyptian Ministry French Science teacher guide or Term 2 student book is verified. The 28-lesson pack remains app-authored and Term 1 only.
 - **[UNPROVEN]** Phone-sized French learner walkthrough and custom-domain behavior.
+
+## Canonical source and chapter-heading update — 16 November 2026
+
+### Student-book source
+
+- **[VERIFIED]** The canonical URL is Ministry-hosted and was successfully downloaded in Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358): HTTP 200, `application/pdf`, 109 pages, 62,976,199 bytes, SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`.
+- **[VERIFIED]** The run's marker scan found ISBN 978-633-8530-17-4, Science text and French text. It did not test the French Ministry-imprint string, and its audit kind was structural inspection only.
+- **[VERIFIED]** The Library source used to author these plans is a different 110-page file (59,040,102 bytes; SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`). Its PDF page 3 visibly contains the Ministry/Central Administration 2026–2027 rights statement, PDF page 109 contains the ISBN, and PDF page 110 is an appended third-party promotional page.
+- **[UNPROVEN]** The two PDFs are not byte-identical. PR #200 records a 109/109 normalized-text fingerprint match, but the retained source-audit artifact from run #43705922358 predates the per-page fingerprint workflow and does not contain the canonical page CSV. Do not treat the text-match claim as independently reproducible until the updated workflow publishes that CSV and it is compared with the Library fingerprint file.
+- **[UNPROVEN]** Matching extracted text does not establish matching diagrams, images, page layout or visual rendering. The current review includes the TOC, all nine chapter-opening pages, Chapter 1 enrichment pp. 18–19, the Ministry imprint page and the ISBN page; it is not a high-resolution review of every illustration.
+
+### Chapter heading rule
+
+The contents page (PDF page 6 / printed page 5) is the source of truth for chapter-level French headings and start pages. Some chapter-opening banners use variants (for example, “Les conditions de la germination”, “La croissance et la reproduction chez l'être humain”, and “Changements météorologiques”). Keep `unitNameFr` aligned to the exact TOC headings already stored in the 28 lesson records; retain individual lesson titles separately.
+
+### Teacher-guide source status
+
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated.
+- **[UNPROVEN]** A third-party site lists a 29-page 2026–2027 Grade 5 Science `دفتر تحضير`, but the listing does not establish Ministry authorship or French-track alignment. It is not used as official teacher-guide content: https://www.modrsbook.com/primary-5/term-1/science/dftr-thdyr-science-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- **[VERIFIED]** Every lesson explanation, worked example, guided and independent practice item, answer key, misconception diagnosis, remediation step and mastery check in this pack remains app-authored Miss Noor content, not Ministry teacher-guide content.
+
+### Integration verification and remaining limits
+
+- **[PASS]** PR #200 CI run [43821315922](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315922) passed the blocking type check, `npm run lint`, `npm test` and `npm run build`; the curriculum registry suite reported 54 passed, 0 failed, and Vite built successfully in 749 ms.
+- **[PASS]** Engineering Execution OS compliance run [43821315933](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315933) reported `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- **[UNPROVEN]** PR #200 remains unmerged. These CI results are not a production deployment or a phone-sized learner walkthrough.
+- **[BLOCKED]** Term 2 Science and the separate assessment-book question-by-question audit remain outside this Term 1 teaching pack.
+
+
+## Canonical page-text reconciliation update — 17 November 2026
+
+- **[VERIFIED]** The canonical Ministry-hosted student-book PDF was downloaded in GitHub Actions run [43706201870](https://github.com/madnessgate44-debug/Amina/actions/runs/43706201870), artifact `14158542215`. Its 109 per-page normalized-text fingerprints were independently compared with the 110-page Library copy's fingerprint CSV: 109/109 book pages match exactly on normalized-text SHA-256 and character count; 0 missing; 0 mismatches. The Library-only PDF page 110 has zero extracted characters.
+- **[VERIFIED]** The two fingerprint CSVs and comparison JSON are durably committed on branch `audit/ministry-science-source-results`, at head `de9280472d7ab3b62cf90464da0cd6407d023a73`: [canonical fingerprints](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/ministry-page-fingerprints.csv), [Library fingerprints](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/library-page-fingerprints.csv), [comparison JSON](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/library-comparison.json).
+- **[LIMIT]** This is normalized extracted-text equivalence, not byte identity, visual/layout identity, diagram equivalence, untouched publisher-original provenance or pedagogical equivalence. The PDFs have different SHA-256 hashes.
+- **[UNPROVEN]** The updated workflow in PR #200 has not yet completed its own end-to-end publication run from `main`. Its workflow checks the canonical French imprint and ISBN before publishing the current JSON/CSV reports to the results branch.
+- **[BLOCKED]** No exact Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. The third-party 29-page preparation-notebook listing remains insufficient evidence of Ministry authorship and French-track alignment; it is not used as official content.
+- **[UNPROVEN]** High-resolution review of every instructional diagram, independent pedagogical peer review and a physical-phone French learner walkthrough remain outstanding. CI success does not close these runtime and pedagogy gates.
+- **[BLOCKED]** The exact 2026–2027 Term 2 French Science student book remains unavailable to this reconstruction. Scope remains Term 1 only.
+
+### Latest PR verification — 17 November 2026
+
+- **[VERIFIED]** PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) head `dd5f1ae37b120b84065570648f6c72c7424cc6c0`, based on `main` `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`, remains open and mergeable.
+- **[PASS]** CI run [44043136740](https://github.com/madnessgate44-debug/Amina/actions/runs/44043136740): blocking type check, `npm run lint`, `npm test` and `npm run build` all succeeded. Test output includes assembly 53 passed, adaptive scenarios 27 passed, job persistence 19 passed; build transformed 1,792 modules and completed in 588 ms. Existing Vite `__dirname` and large-chunk warnings remain non-blocking.
+- **[PASS]** Engineering Execution OS compliance run [44043136707](https://github.com/madnessgate44-debug/Amina/actions/runs/44043136707): `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- **[UNPROVEN]** No production deployment or phone-sized learner walkthrough is claimed from these PR checks.

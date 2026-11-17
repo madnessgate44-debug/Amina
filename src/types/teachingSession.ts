@@ -34,6 +34,8 @@ export interface SourceRef {
   unit: string;
   lesson: string;
   page: number | string;
+  /** Exact printed page span in the source student book. */
+  pageRange?: string;
   /** Source-copy and provenance notes; optional for legacy records. */
   notes?: string;
   isAvailable: boolean;

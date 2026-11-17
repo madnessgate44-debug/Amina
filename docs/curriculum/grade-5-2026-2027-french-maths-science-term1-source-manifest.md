@@ -3,7 +3,7 @@
 **Edition:** Egypt Ministry of Education, 2026–2027  
 **Grade:** Primary 5 / Grade 5  
 **Language:** French  
-**Status:** [VERIFIED] The 109 book-content pages in the inspected Library copy have been reconciled to all nine chapters, 28 numbered lessons, printed page ranges, enrichment sections and the scientific-method appendix. The PDF container has 110 pages because a third-party promotional page is appended. The copy carries the Ministry 2026–2027 imprint, but byte-for-byte identity with the canonical Ministry endpoint is [UNPROVEN]. Maths remains TOC-only/partial.  
+**Status:** [VERIFIED] The inspected 110-page Library copy (109 student-book pages plus a third-party promotional page) is reconciled to all nine TOC chapters, 28 numbered lessons, printed page ranges, six enrichment sections and the scientific-method appendix. GitHub Actions run [43706201870](https://github.com/madnessgate44-debug/Amina/actions/runs/43706201870), artifact `14158542215`, provides 109 canonical per-page text fingerprints; independently compared with the Library CSV, all 109 common pages match exactly on normalized-text SHA-256 and character count (0 missing, 0 mismatches). [UNPROVEN] PDF byte identity, visual/layout identity and untouched publisher-original provenance remain unverified. PR #200 adds automated publication of refreshed fingerprint outputs; that updated publication path has not yet been exercised. Maths remains TOC-only/partial.
 **Important:** This is a source manifest, not proof that Girard assigns every book or that the app already covers it.
 
 ## Official source files
@@ -250,3 +250,46 @@ This is a Grade 5 French Science Term 1 reconstruction only. It is not a full-ye
 - **Next action:** retrieve the exact URL from a browser/device or download route capable of handling the 62,976,199-byte PDF, then record file size, PDF page count, SHA-256, imprint/ISBN and a byte-for-byte comparison. Do not alter the source-copy status or remove its [UNPROVEN] note until that comparison succeeds.
 
 The catalogue entry is a discovery route only. It does not authenticate the third-party index as a Ministry source, and no Ministry teacher guide was discovered by this retrieval attempt.
+
+## 15. Canonical endpoint, chapter-heading and teacher-source update — 16 November 2026
+
+### Canonical student-book endpoint
+
+- **[VERIFIED]** GitHub Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358), on main commit `1f98c31ad5d3101f969ed3f8d072d520f52648e0`, completed its “Download and inspect the canonical Ministry PDF” job successfully. The download step reported `http_code=200`, `content_type=application/pdf` and `size_download=62976199`.
+- **[VERIFIED]** The run recorded 109 PDF pages, file size 62,976,199 bytes and SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`.
+- **[VERIFIED]** Its text-marker output recorded ISBN 978-633-8530-17-4, Science text and French text as present. The older workflow tested Arabic and English imprint strings, both false; those results do not establish that a French imprint is absent.
+- **[VERIFIED]** The Library copy is 59,040,102 bytes, SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`, and contains 110 PDF pages. Its PDF page 3 shows the French Ministry/Central Administration 2026–2027 rights statement; PDF page 109 carries the ISBN; the appended PDF page 110 is a third-party promotional insert.
+- **[OBSERVED]** The canonical-hosted PDF's metadata reports Author “PDF Candy Desktop”, Creator “Icecream PDF Candy Desktop 3.13” and Producer “GPL Ghostscript 10.07.0”. This indicates PDF processing; it does not identify who performed it or establish untouched publisher-original bytes.
+- **[VERIFIED]** The later canonical source-audit run [43706201870](https://github.com/madnessgate44-debug/Amina/actions/runs/43706201870), artifact `14158542215`, contains 109 page fingerprints in its `source-audit.json`. Those fingerprints were independently compared with the Library CSV on 17 November: 109/109 exact normalized-text SHA-256 and character-count matches, 0 differing pages, 0 missing pages. The Library CSV separately matches the Library PDF across all 110 pages.
+- **[VERIFIED]** Durable canonical and Library CSVs plus the comparison JSON are preserved in [audit/ministry-science-source-results](https://github.com/madnessgate44-debug/Amina/tree/audit/ministry-science-source-results).
+- **[LIMIT]** The PDF hashes differ; normalized extracted-text equivalence does not prove byte identity, visual/layout identity, diagram equivalence, untouched publisher-original provenance or pedagogical equivalence.
+- **[UNPROVEN]** Automatic publication by the updated workflow in PR #200 remains unexercised; it will refresh the JSON/CSV after owner-approved merge and a successful run on `main`.
+- **[UNPROVEN]** Matching extracted text would not prove matching images, diagrams, layout, colour, typography or visual rendering. The current contact-sheet review is thumbnail-scale, not a high-resolution diagram audit.
+
+### TOC headings versus lesson-opening banners
+
+- **[VERIFIED]** The contents page is PDF page 6 (printed page 5). It lists the nine chapter headings and starting pages recorded in the table above. The chapter-level `unitNameFr` must follow this TOC wording.
+- **[VERIFIED]** Some chapter-opening banners use slightly different wording from the TOC: Chapter 3 says “Les conditions de la germination”; Chapter 4 says “Les conditions de la croissance”; Chapter 6 says “La croissance et la reproduction chez l'être humain”; Chapter 7 says “Croissance et reproduction des animaux”; and Chapter 8 says “Changements météorologiques”. The TOC headings remain “Les conditions de germination”, “Les conditions de croissance”, “La croissance et la reproduction humaines”, “La croissance et la reproduction des animaux” and “Les changements météorologiques”, respectively. Preserve TOC headings at chapter level and keep lesson titles as separate lesson-level labels.
+- **[VERIFIED]** This run visually checked the TOC page, the nine chapter-opening pages (printed pp. 6, 20, 28, 44, 52, 64, 72, 80 and 92), the Chapter 1 enrichment pages 18–19, the French Ministry imprint page and the final ISBN page. This is a targeted visual cross-check, not a claim that every diagram has passed high-resolution review.
+
+### Teacher-guide search boundary
+
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. A third-party listing for a 29-page 2026–2027 Grade 5 Science “دفتر تحضير” is not evidence of Ministry authorship, French-language alignment or an official Ministry teacher-guide edition; it is not substituted. Listing: https://www.modrsbook.com/primary-5/term-1/science/dftr-thdyr-science-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- **[VERIFIED]** The 28 teaching plans remain app-authored Miss Noor material derived from the student book. They are not official Ministry teacher-guide content.
+- **[BLOCKED]** The exact 2026–2027 Term 2 French Science student book remains outside this Term 1 reconstruction until it is published and retrievable. The separate assessment-book PDF remains unverified question by question.
+
+### Current PR verification boundary
+
+- **[VERIFIED]** PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) is open against `main`; its inspected head is `8c7f5d760d420a22678798f222342fdf52981548`. It adds explicit page ranges to all 28 Science lesson records, a separate expected-page regression map, the Chapter 1 camel heat-loss detail and the updated source-audit workflow.
+- **[PASS]** PR CI run [43821315922](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315922): the blocking type check, `npm run lint`, `npm test` and `npm run build` steps completed successfully; the curriculum registry suite reported 54 passed, 0 failed; Vite reported a successful build in 749 ms.
+- **[PASS]** Engineering Execution OS compliance run [43821315933](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315933) reported `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
+- **[UNPROVEN]** PR #200's updated durable-publish workflow step has not yet been exercised end-to-end. The PR remains unmerged; no merge or deployment is claimed.
+
+## Library fingerprint reproduction — 17 November 2026
+
+- **[VERIFIED]** The existing Library PDF and `library-science-fr-grade5-page-fingerprints.csv` were independently recomputed with Poppler `pdftotext -layout` and normalized UTF-8 SHA-256. All 110 CSV rows match the corresponding PDF pages: 110 compared, 0 missing, 0 mismatches. The PDF is 110 pages (59,040,102 bytes; SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`); the CSV SHA-256 is `b5f8cd0eba7b4a36875242bd5bc1a194e87633158470302caa93bf62b732117e`.
+- **[LIMIT]** The canonical comparison establishes normalized extracted-text equivalence only. The PDFs have different byte hashes; this does not prove visual/layout identity, diagram equivalence, untouched publisher-original provenance or pedagogical equivalence.
+- **[VERIFIED]** The later source-audit artifact `14158542215` from run `43706201870` contains 109 canonical page fingerprints. Independently compared with the Library CSV, all 109 pages match exactly on normalized text (0 missing, 0 mismatches); the Library-only page 110 has zero extracted characters.
+- **[VERIFIED]** The durable comparison and both per-page CSVs are committed to the results branch. See [library-comparison.json](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/library-comparison.json), [canonical CSV](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/ministry-page-fingerprints.csv) and [Library CSV](https://github.com/madnessgate44-debug/Amina/blob/audit/ministry-science-source-results/docs/audits/science-2026-2027/library-page-fingerprints.csv).
+- **[UNPROVEN]** Automatic publication by the updated workflow in PR #200 remains unexercised. Byte identity, visual/layout identity and untouched publisher-original provenance remain unproven.
+- Detailed command, timestamp, raw result, source-page ranges and remaining gates: [Library fingerprint verification report](../audits/science-2026-2027/library-copy-fingerprint-verification-2026-11-17.md).
