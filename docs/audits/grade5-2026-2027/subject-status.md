@@ -1,5 +1,7 @@
 # Grade 5 Term 1 curriculum status — 2026–2027
 
+> **Historical checkpoint — superseded 17 November 2026.** This file was written against main `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`. Current main is `e9c599c84ef13e791add75f7f1d0e975bc1e8e37`; French Science PR #200 has since merged at `f2119cc5d2875fb9dc0b2f7d2b7958e283d85d3d`. Use [the 17 November all-subject closeout](./closeout-2026-11-17.md) for current PR state, catalog inventory, source gaps and blockers.
+
 **Main baseline:** `527df4fb7da32d6f3badb5f31d1172ffc0de6eec` (read-only; no main-branch writes).  
 **Controlling policy:** `ENGINEERING_EXECUTION_OS.md` v2.2 and `AGENTS.md`; both read at the start of this continuation.  
 **Audit branch:** `audit/grade5-term1-subject-source-audit-2026-11-15`.  
