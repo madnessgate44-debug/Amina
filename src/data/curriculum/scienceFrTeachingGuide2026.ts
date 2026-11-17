@@ -728,6 +728,38 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
       { prompt: 'Cite deux facteurs qui accélèrent l’évaporation.', expectedAnswer: 'Une température élevée, le soleil ou le vent.', successCriterion: 'Au moins deux facteurs sont corrects.' },
     ],
   ),
+  '9-1': makeGuide(
+    '92–93',
+    'L’évaporation est le passage de l’eau liquide à la vapeur d’eau, un gaz invisible qui se mélange à l’air. Elle se produit à la surface de l’eau et peut avoir lieu sans que l’eau bouille. La chaleur fournit de l’énergie et accélère l’évaporation ; le vent renouvelle l’air au-dessus de la surface et peut aussi accélérer le processus. Une flaque peut donc diminuer au soleil ou par temps venteux : l’eau ne disparaît pas, elle passe dans l’air sous forme de vapeur.',
+    'Verse la même petite quantité d’eau dans deux assiettes identiques et peu profondes. Place-les dans des endroits de température différente, sans les chauffer directement. Observe et compare le niveau après un certain temps. Pour une comparaison équitable, garde identiques le récipient, la quantité d’eau et la durée ; ne change que la température. Ne goûte pas l’eau et ne place pas les récipients près d’une flamme ou d’une source très chaude.',
+    [
+      { prompt: 'Que devient l’eau liquide pendant l’évaporation ?', expectedAnswer: 'Elle devient de la vapeur d’eau invisible qui se mélange à l’air.' },
+      { prompt: 'Pourquoi une flaque sèche-t-elle généralement plus vite au soleil ?', expectedAnswer: 'La chaleur accélère l’évaporation de l’eau.' },
+    ],
+    [
+      { prompt: 'Complète : l’évaporation est le passage de l’eau de l’état ______ à l’état ______.', expectedAnswer: 'liquide ; gazeux (vapeur d’eau).' },
+      { prompt: 'Donne deux facteurs qui peuvent accélérer l’évaporation.', expectedAnswer: 'La chaleur et le vent.' },
+      { prompt: 'L’eau d’une flaque disparaît-elle de la nature quand elle sèche ?', expectedAnswer: 'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.' },
+    ],
+    [
+      'liquide ; gazeux (vapeur d’eau).',
+      'La chaleur et le vent.',
+      'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.',
+    ],
+    [
+      { observedResponse: 'L’eau disparaît quand la flaque sèche.', diagnosis: 'L’élève confond un changement d’état avec une disparition de la matière.', correctivePrompt: 'Où peut aller l’eau si elle n’est plus visible dans la flaque ?' },
+      { observedResponse: 'L’évaporation ne se produit que lorsque l’eau bout.', diagnosis: 'L’élève confond l’évaporation à la surface avec l’ébullition.', correctivePrompt: 'Une flaque peut-elle sécher sans atteindre la température d’ébullition ?' },
+    ],
+    [
+      'Dessine une flaque qui diminue et ajoute des flèches vers le haut pour représenter la vapeur d’eau invisible.',
+      'Compare le séchage d’un linge à l’ombre et au soleil, puis explique pourquoi la température peut changer la vitesse du séchage.',
+    ],
+    [
+      { prompt: 'Définis l’évaporation.', expectedAnswer: 'Le passage de l’eau liquide à la vapeur d’eau.', successCriterion: 'La réponse nomme l’eau liquide et la vapeur d’eau.' },
+      { prompt: 'Explique pourquoi le vent peut accélérer l’évaporation.', expectedAnswer: 'Le vent renouvelle l’air au-dessus de l’eau et emporte la vapeur, ce qui favorise une évaporation plus rapide.', successCriterion: 'La réponse relie le mouvement de l’air à une vitesse d’évaporation plus élevée.' },
+      { prompt: 'Pourquoi l’eau d’une flaque n’a-t-elle pas disparu ?', expectedAnswer: 'Elle s’est transformée en vapeur d’eau invisible qui se mélange à l’air.', successCriterion: 'La réponse décrit un changement d’état et non une disparition.' },
+    ],
+  ),
   '9-2': makeGuide(
     '94–97',
     'L’air contient de la vapeur d’eau invisible. Lorsque cette vapeur se refroidit, elle peut se transformer en petites gouttelettes d’eau liquide : c’est la condensation. Les gouttelettes qui apparaissent à l’extérieur d’un verre rempli d’eau glacée viennent de la vapeur d’eau présente dans l’air autour du verre. Elles ne traversent pas le verre depuis l’intérieur. Le refroidissement de l’air au contact de la surface froide permet à la vapeur de se condenser.',
