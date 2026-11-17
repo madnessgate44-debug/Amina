@@ -1,0 +1,589 @@
+{
+  "audit_kind": "download_structural_inspection_and_page_text_fingerprints",
+  "source_url": "https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf",
+  "downloaded_at_utc": "2026-11-17T10:34:49.253775+00:00",
+  "file_size_bytes": 62976199,
+  "sha256": "dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5",
+  "pdf_metadata": {
+    "Title": "",
+    "Subject": "",
+    "Keywords": "",
+    "Author": "PDF Candy Desktop",
+    "Creator": "Icecream PDF Candy Desktop 3.13",
+    "Producer": "GPL Ghostscript 10.07.0",
+    "CreationDate": "Mon Sep  7 18:59:39 2026 UTC",
+    "ModDate": "Mon Sep  7 18:59:39 2026 UTC",
+    "Custom Metadata": "no",
+    "Metadata Stream": "yes",
+    "Tagged": "no",
+    "UserProperties": "no",
+    "Suspects": "no",
+    "Form": "none",
+    "JavaScript": "no",
+    "Pages": "109",
+    "Encrypted": "no",
+    "Page size": "533.346 x 762.402 pts",
+    "Page rot": "0",
+    "File size": "62976199 bytes",
+    "Optimized": "no",
+    "PDF version": "1.7"
+  },
+  "text_markers": {
+    "isbn_9786338530174": true,
+    "french_ministry_imprint": true,
+    "french_rights_notice": true,
+    "arabic_ministry_imprint": false,
+    "english_ministry_imprint": false,
+    "science_text_present": true,
+    "french_text_present": true
+  },
+  "page_text_fingerprints": [
+    {
+      "pdf_page": 1,
+      "normalized_text_characters": 8,
+      "normalized_text_sha256": "c3740e54be38927135f8d41a76540bc7b89ea207971362fe9b6266e60e59a84d"
+    },
+    {
+      "pdf_page": 2,
+      "normalized_text_characters": 596,
+      "normalized_text_sha256": "011a7c5ca02e7b05fed83e1207bbfb6f724e5eb8c45055fe552d6bb00f158114"
+    },
+    {
+      "pdf_page": 3,
+      "normalized_text_characters": 942,
+      "normalized_text_sha256": "2a69ce5d0e8d56687d9b0229721246ba5720abb7948e1552dfe2b1a9830d257e"
+    },
+    {
+      "pdf_page": 4,
+      "normalized_text_characters": 2600,
+      "normalized_text_sha256": "869b31c0d1191fe63f159461ebb1f3e59b8a0c86450f1154b54fe41e6633b17c"
+    },
+    {
+      "pdf_page": 5,
+      "normalized_text_characters": 74,
+      "normalized_text_sha256": "8fe013d9882d19144981d08e1c91eaf7de30268a06feca171f97b325f7155d4a"
+    },
+    {
+      "pdf_page": 6,
+      "normalized_text_characters": 1471,
+      "normalized_text_sha256": "9f5a81d4db2e7392a1ac0b174d15401ec412e98988eade3f434c117344571871"
+    },
+    {
+      "pdf_page": 7,
+      "normalized_text_characters": 220,
+      "normalized_text_sha256": "1f1a6a6b9e0075440ee8086be1bcf9b8dd96f9aede74c8688356650d33a4f167"
+    },
+    {
+      "pdf_page": 8,
+      "normalized_text_characters": 1452,
+      "normalized_text_sha256": "5d256c09429fa0d4d022861fe10ee5d3e40f0ee5c7f01bfa8c3b0f63da6d1f71"
+    },
+    {
+      "pdf_page": 9,
+      "normalized_text_characters": 332,
+      "normalized_text_sha256": "31c99056973f71a44d8127d540d336a09067fbfb392b767eca07662dfdb86234"
+    },
+    {
+      "pdf_page": 10,
+      "normalized_text_characters": 1074,
+      "normalized_text_sha256": "fa119225a94c128f61b8f135d8558c82b7fed0557595a974f13951a099855ccd"
+    },
+    {
+      "pdf_page": 11,
+      "normalized_text_characters": 961,
+      "normalized_text_sha256": "2e7ba24afe700913ebda47ab734fb420ca0e79ec42ffdbaa1ce3b755cecb866e"
+    },
+    {
+      "pdf_page": 12,
+      "normalized_text_characters": 923,
+      "normalized_text_sha256": "66edc0d222cb39b077d9d9a0ec21fcb37f63e89f49a2654e37b3885ccff7eb95"
+    },
+    {
+      "pdf_page": 13,
+      "normalized_text_characters": 240,
+      "normalized_text_sha256": "d8bfdddb95888a4db48ffa5a242db02bb0666f7b22712ed92b9819c3eeb72532"
+    },
+    {
+      "pdf_page": 14,
+      "normalized_text_characters": 1289,
+      "normalized_text_sha256": "485df8b040efe5de19735aa1f3ff5ee2130a375030d8bd7291f10c2c92cfeab6"
+    },
+    {
+      "pdf_page": 15,
+      "normalized_text_characters": 286,
+      "normalized_text_sha256": "1b74a330d81f2ab0a187b8c7a2b4ab19c12299532e0a4146838ccae50b9e4306"
+    },
+    {
+      "pdf_page": 16,
+      "normalized_text_characters": 1690,
+      "normalized_text_sha256": "0f77a538e495c33402433fa2fdc0b32d6e432221333c72238f17f6380975113f"
+    },
+    {
+      "pdf_page": 17,
+      "normalized_text_characters": 784,
+      "normalized_text_sha256": "91d26b769be329de6c2f36a017271d1079e94e25f158daba800eb81ead928fe2"
+    },
+    {
+      "pdf_page": 18,
+      "normalized_text_characters": 1069,
+      "normalized_text_sha256": "0f5dcb6810ca5508bd428f3b8c515aa2339481c64abfa9f98a7657d7caaf9e47"
+    },
+    {
+      "pdf_page": 19,
+      "normalized_text_characters": 1113,
+      "normalized_text_sha256": "2c9303d1a336dd6d0065b89599ad2d1fc4e59682662ea94924e077fe84738c72"
+    },
+    {
+      "pdf_page": 20,
+      "normalized_text_characters": 1332,
+      "normalized_text_sha256": "9283414527b35222734dadb9d6fc10261511ae899c0b88db9d5badf129fef515"
+    },
+    {
+      "pdf_page": 21,
+      "normalized_text_characters": 291,
+      "normalized_text_sha256": "c9bfd03d24b3902470dbd64643e3640f1463c17dd92893095195f502d6b859d6"
+    },
+    {
+      "pdf_page": 22,
+      "normalized_text_characters": 1430,
+      "normalized_text_sha256": "1a52c79c1a2b1323343d3b7f491514f01b9c2569777a3ea0db3a33eb55b06610"
+    },
+    {
+      "pdf_page": 23,
+      "normalized_text_characters": 284,
+      "normalized_text_sha256": "e4554013101bc80155b5ac1ff8ad955a1edff1aeaf2d99df10c7b5ddb5ec37ee"
+    },
+    {
+      "pdf_page": 24,
+      "normalized_text_characters": 1775,
+      "normalized_text_sha256": "eea49f335f93196e7fac4f421900a13cc15c373878f54c1306945760b028fdd2"
+    },
+    {
+      "pdf_page": 25,
+      "normalized_text_characters": 782,
+      "normalized_text_sha256": "533cfbdf3afe723b284be08ef9ced52753088dd8ddc5c5393277f850ed3f6c32"
+    },
+    {
+      "pdf_page": 26,
+      "normalized_text_characters": 1017,
+      "normalized_text_sha256": "6ac6fb3b1e4e10d3c6df3955e5702293b2081b036a73195b0e348252d00dbf77"
+    },
+    {
+      "pdf_page": 27,
+      "normalized_text_characters": 1056,
+      "normalized_text_sha256": "ad4b801724c9ef1ecb8b307aedd2eeb4bafb79f039e10a93549823c260215963"
+    },
+    {
+      "pdf_page": 28,
+      "normalized_text_characters": 1168,
+      "normalized_text_sha256": "e6677e8cef52bd4f08c28a656e3233ad74ab836bcbdf8cc67b7a5b6c57e9f651"
+    },
+    {
+      "pdf_page": 29,
+      "normalized_text_characters": 276,
+      "normalized_text_sha256": "4bf64f4cffa1f33d3f9dcb34c8ed8f22975484c0df5e9ba67f45a8ffb2ddcc14"
+    },
+    {
+      "pdf_page": 30,
+      "normalized_text_characters": 2139,
+      "normalized_text_sha256": "6b511c24054de07ab704341eab9f8eb7ab95e36adc7d4052bd3b05c6b7c764a5"
+    },
+    {
+      "pdf_page": 31,
+      "normalized_text_characters": 270,
+      "normalized_text_sha256": "dd89f2cdf8574c44909b2963983c3233a2f157548cd94adfac41aade6668a42b"
+    },
+    {
+      "pdf_page": 32,
+      "normalized_text_characters": 1508,
+      "normalized_text_sha256": "3958b6dc9121c17e4236cc86a972f4edb190e5b2fa1b74efd23e22e478ef6eb9"
+    },
+    {
+      "pdf_page": 33,
+      "normalized_text_characters": 998,
+      "normalized_text_sha256": "ffac9972cfef3e96d0dafe06532e985e3e1899728ed5ae591029ec03c9837338"
+    },
+    {
+      "pdf_page": 34,
+      "normalized_text_characters": 969,
+      "normalized_text_sha256": "3db954ecf98723aa61f84b9743845ff015275218d9c71f5b243747acd865693f"
+    },
+    {
+      "pdf_page": 35,
+      "normalized_text_characters": 273,
+      "normalized_text_sha256": "f986c4f4117daa40aee2681c9746d34864820d9f77ad6a4109637a520b4d39fd"
+    },
+    {
+      "pdf_page": 36,
+      "normalized_text_characters": 1377,
+      "normalized_text_sha256": "1defa1990dfef890766c4d489e3a799ead8b44380e9e093cb904c4d1ac477072"
+    },
+    {
+      "pdf_page": 37,
+      "normalized_text_characters": 271,
+      "normalized_text_sha256": "b0fc1da3735ce761ec48c1919a4a788d429b8adff0cb19b24b4753a685052f0b"
+    },
+    {
+      "pdf_page": 38,
+      "normalized_text_characters": 1666,
+      "normalized_text_sha256": "2b3a16d8f5081f37506c0355a02a09a1e086f9e02f426fbece834185aeb4b3c1"
+    },
+    {
+      "pdf_page": 39,
+      "normalized_text_characters": 1176,
+      "normalized_text_sha256": "d074295adc57fe256b9c3ed1505be382bd0b450b7bc611c92e72c940d6a9f662"
+    },
+    {
+      "pdf_page": 40,
+      "normalized_text_characters": 1108,
+      "normalized_text_sha256": "1ff1d87ed9f8df53937390a774fb62357a31226dee31f7c2ec8c824db026e6a1"
+    },
+    {
+      "pdf_page": 41,
+      "normalized_text_characters": 286,
+      "normalized_text_sha256": "cb937ba60319fa8aff5ebc6b0e56a355b1fe270e643f5d5df6bbcad47140075d"
+    },
+    {
+      "pdf_page": 42,
+      "normalized_text_characters": 1753,
+      "normalized_text_sha256": "188be0d234e760495126ac6f90528f9b71b501d697eab1989c8809ccf00b0400"
+    },
+    {
+      "pdf_page": 43,
+      "normalized_text_characters": 1084,
+      "normalized_text_sha256": "9474d23f4d6a846dc41944457ea9268419264a09906f7cedccc1f5a57e3ae78c"
+    },
+    {
+      "pdf_page": 44,
+      "normalized_text_characters": 161,
+      "normalized_text_sha256": "e920901b7a4f90be5f7c0726962785dbea2b9e1fe62b8d6d7b302cc8a4c5efdb"
+    },
+    {
+      "pdf_page": 45,
+      "normalized_text_characters": 239,
+      "normalized_text_sha256": "8e2174a725848e319df347520048076c1e11f138656b347e55af61962401503e"
+    },
+    {
+      "pdf_page": 46,
+      "normalized_text_characters": 1580,
+      "normalized_text_sha256": "7abd13b6d69522ebf6c14c70d0eec75bf7e1df29385e30d1712fce79c991d455"
+    },
+    {
+      "pdf_page": 47,
+      "normalized_text_characters": 253,
+      "normalized_text_sha256": "84326d314feb58cd726856ca922d1eb598477a7214e6ab139798acb27c33a665"
+    },
+    {
+      "pdf_page": 48,
+      "normalized_text_characters": 1403,
+      "normalized_text_sha256": "3eae9e75a5504faa36b2b5be5f722e3b804f12fe22a4ab761255d511ad0d3163"
+    },
+    {
+      "pdf_page": 49,
+      "normalized_text_characters": 1010,
+      "normalized_text_sha256": "feb35134040b410bff4fea847c1cfb0b41bcf24a8b6e2c53db6f2c4176a8eda9"
+    },
+    {
+      "pdf_page": 50,
+      "normalized_text_characters": 1056,
+      "normalized_text_sha256": "8654bf9958134f28f61f1d01cd146f326a42d51cdfd5dd65be674fd056825166"
+    },
+    {
+      "pdf_page": 51,
+      "normalized_text_characters": 1142,
+      "normalized_text_sha256": "e74a811f1110f33b5e688ede4169b19c0b4353eea8f82067f1378782bfd953bb"
+    },
+    {
+      "pdf_page": 52,
+      "normalized_text_characters": 1137,
+      "normalized_text_sha256": "406de588f822b0a09f92fd4462e6be7caa1977e578f4049fdf885f880496dcc9"
+    },
+    {
+      "pdf_page": 53,
+      "normalized_text_characters": 255,
+      "normalized_text_sha256": "b6b54edd1320203b287b2418437e4660ce5bbb863125940f358382efc65edb04"
+    },
+    {
+      "pdf_page": 54,
+      "normalized_text_characters": 1222,
+      "normalized_text_sha256": "08fc4a4f560ebffda2a267cfe0d156850e7b9bd1e2f636397d8511fa79284e37"
+    },
+    {
+      "pdf_page": 55,
+      "normalized_text_characters": 781,
+      "normalized_text_sha256": "f8ac6b827399c7408a96b86487ae0d692e67de42230d9521270f750b2162470f"
+    },
+    {
+      "pdf_page": 56,
+      "normalized_text_characters": 229,
+      "normalized_text_sha256": "825ce6a3243d757678ba80c8c0465d88caa00409497c8f07d4aab0c803616ce8"
+    },
+    {
+      "pdf_page": 57,
+      "normalized_text_characters": 838,
+      "normalized_text_sha256": "464d68aadd7cd2a26f92165c821a8fabba4e0ccbb9fa98c155fd191be8892449"
+    },
+    {
+      "pdf_page": 58,
+      "normalized_text_characters": 1613,
+      "normalized_text_sha256": "287df8b179a5341297d71686597f62dc7e7bc2d6d221ac42b1f776f1e40702dd"
+    },
+    {
+      "pdf_page": 59,
+      "normalized_text_characters": 941,
+      "normalized_text_sha256": "303ac3332ebdebf1f32957a9ca28b2466d39ac91d30a9e96a2631327ae5b1c1f"
+    },
+    {
+      "pdf_page": 60,
+      "normalized_text_characters": 1348,
+      "normalized_text_sha256": "944174997cb3b08d8302758b37c11243797388e31d9b453c65c82b6292835c68"
+    },
+    {
+      "pdf_page": 61,
+      "normalized_text_characters": 223,
+      "normalized_text_sha256": "8c388b5bb5897ee41d88cf9ee3949bd09430e17486edd60463b9718637faa0b7"
+    },
+    {
+      "pdf_page": 62,
+      "normalized_text_characters": 1507,
+      "normalized_text_sha256": "0d82cf240d62884a589fa9b36422029a3f456ab4c16140cef135fdb529d6e043"
+    },
+    {
+      "pdf_page": 63,
+      "normalized_text_characters": 1100,
+      "normalized_text_sha256": "256df5df09d54cf8badaa91836ed2a50d20ac7e00691f6c33dafa2fde5278729"
+    },
+    {
+      "pdf_page": 64,
+      "normalized_text_characters": 1003,
+      "normalized_text_sha256": "386de5c6e96c121d0f378bc9622232b8ed365782c642a4cdf015bec32fe19c8b"
+    },
+    {
+      "pdf_page": 65,
+      "normalized_text_characters": 293,
+      "normalized_text_sha256": "b7aa3ef08b101dd88286ed76eb86ccd76caaa0f566ddc14c4503f882b6ead085"
+    },
+    {
+      "pdf_page": 66,
+      "normalized_text_characters": 2020,
+      "normalized_text_sha256": "4feb66f25be9ec7f13492f0097c3c91e8b69ed7ad96b1202ac4e08dc1941e0ef"
+    },
+    {
+      "pdf_page": 67,
+      "normalized_text_characters": 228,
+      "normalized_text_sha256": "5a1874a8447c2395c970db60f7b909277bd83b389d10a6f2ccd07fcb129bd9ac"
+    },
+    {
+      "pdf_page": 68,
+      "normalized_text_characters": 912,
+      "normalized_text_sha256": "7a53a4446614995aa26a22e5a453ad8d0d5138b84207279dcbc745b9600990f8"
+    },
+    {
+      "pdf_page": 69,
+      "normalized_text_characters": 263,
+      "normalized_text_sha256": "802eee32c7953a5ed99996170740f8d5ead633e7503ac6a3f30e4186ede961e9"
+    },
+    {
+      "pdf_page": 70,
+      "normalized_text_characters": 1511,
+      "normalized_text_sha256": "d03af242c3de245b13558f2c49a869f5cedb2ac330c17cb0fbd374b2c9c015a4"
+    },
+    {
+      "pdf_page": 71,
+      "normalized_text_characters": 1528,
+      "normalized_text_sha256": "140b3f90f50c5a5fe03be0c15ee9c6d9cc46e3160c8655ec722e66697d6baa63"
+    },
+    {
+      "pdf_page": 72,
+      "normalized_text_characters": 1633,
+      "normalized_text_sha256": "e15559bc7eac89c5f1d3dcdc29c9a5fd450f88e50b4daa6891fe6654e2e59aa0"
+    },
+    {
+      "pdf_page": 73,
+      "normalized_text_characters": 177,
+      "normalized_text_sha256": "7e211bbad1406762c48293159abf2b03b33d2dbeb319cdcc40e774a1b62b3590"
+    },
+    {
+      "pdf_page": 74,
+      "normalized_text_characters": 1782,
+      "normalized_text_sha256": "c3b4f55b23282f96b2008b10c6e5ba64dad639c87261e1a5662e07b5f30f1bb6"
+    },
+    {
+      "pdf_page": 75,
+      "normalized_text_characters": 310,
+      "normalized_text_sha256": "1ddb13eede3f0924ecf0a3fbb54db1669410497c6ca022083491be59c52a1af9"
+    },
+    {
+      "pdf_page": 76,
+      "normalized_text_characters": 1275,
+      "normalized_text_sha256": "25a1b014d7e6a29515a57e64980984318f252ce67f7cce305c06224195e938fe"
+    },
+    {
+      "pdf_page": 77,
+      "normalized_text_characters": 300,
+      "normalized_text_sha256": "4e09ca99c12f8d1e1663d30b087f4154d3fd52280ab293b12ff887f31e76287a"
+    },
+    {
+      "pdf_page": 78,
+      "normalized_text_characters": 1060,
+      "normalized_text_sha256": "bbfd4f03a51d1f6b11acc9c447bee27ca5657e9ec346ed3966346406fdb74a6e"
+    },
+    {
+      "pdf_page": 79,
+      "normalized_text_characters": 943,
+      "normalized_text_sha256": "512e19e36a49c3908edfd5428cdcfbe6043b418baff3e64f58b95c7b20d38aa2"
+    },
+    {
+      "pdf_page": 80,
+      "normalized_text_characters": 1537,
+      "normalized_text_sha256": "3474134fc041bd7d52087937762a96290a3d91667787dbac68f1fec04481a3dd"
+    },
+    {
+      "pdf_page": 81,
+      "normalized_text_characters": 253,
+      "normalized_text_sha256": "30d56904ad78e1d40cec6e3836786a45ff9b7c38310e8b90ee9e8bcf11aceec5"
+    },
+    {
+      "pdf_page": 82,
+      "normalized_text_characters": 1272,
+      "normalized_text_sha256": "af27fdd8731745b12563cb06a22c631c5e901663bc2e1edf08af84d1c970f8ce"
+    },
+    {
+      "pdf_page": 83,
+      "normalized_text_characters": 230,
+      "normalized_text_sha256": "9b2a00d44203e29850c2d134531196efe19295d4fc4a82d5e9128a8f0e1996e3"
+    },
+    {
+      "pdf_page": 84,
+      "normalized_text_characters": 1228,
+      "normalized_text_sha256": "042057e6e7af45c900d1fa418d7cdbb893c64654e762adab5ec1151494d537c6"
+    },
+    {
+      "pdf_page": 85,
+      "normalized_text_characters": 840,
+      "normalized_text_sha256": "d0417169145a4e9dcb6fc265d6bc3f96f2731dd0218961baeffcc58bcc1a4c1b"
+    },
+    {
+      "pdf_page": 86,
+      "normalized_text_characters": 1246,
+      "normalized_text_sha256": "8aca15c9ac612bb2e2a1442e40bdb77c1154b717aeeecfca206764c5ce11e7f4"
+    },
+    {
+      "pdf_page": 87,
+      "normalized_text_characters": 277,
+      "normalized_text_sha256": "9c33b29381034268d2f87eb3498164a7ffd9a2e1525269889fe61ff83423f929"
+    },
+    {
+      "pdf_page": 88,
+      "normalized_text_characters": 1242,
+      "normalized_text_sha256": "b980517e1318d1c5eb745d75a83147549356646f07640c125874b2e13389707a"
+    },
+    {
+      "pdf_page": 89,
+      "normalized_text_characters": 1044,
+      "normalized_text_sha256": "664228e92e378c43f73ae63207acb797e3cf791116480041709481f50b2fa5e9"
+    },
+    {
+      "pdf_page": 90,
+      "normalized_text_characters": 655,
+      "normalized_text_sha256": "6cbb1c79e562b118f8900509c4ff55af5dae2b5e24402dd17f5693c7d0c4b142"
+    },
+    {
+      "pdf_page": 91,
+      "normalized_text_characters": 829,
+      "normalized_text_sha256": "e9185c018fc4832df01146b03cf4337e28a0e2ec81ce453439dc84b45a208447"
+    },
+    {
+      "pdf_page": 92,
+      "normalized_text_characters": 737,
+      "normalized_text_sha256": "9c6ae97d6d81593ecd455d34f0ee7bb6e672a8fb0636268d3c5e353bf3074a9e"
+    },
+    {
+      "pdf_page": 93,
+      "normalized_text_characters": 242,
+      "normalized_text_sha256": "18935a53b9d03cbf8577982b93c13661a14ee485d654df9e5620fa9f8b530aa5"
+    },
+    {
+      "pdf_page": 94,
+      "normalized_text_characters": 1301,
+      "normalized_text_sha256": "ce524b998e6449fc5a3e34ee6e21e85a8f4db3df4c19bae1477850584e015705"
+    },
+    {
+      "pdf_page": 95,
+      "normalized_text_characters": 297,
+      "normalized_text_sha256": "1bc6f78e6973a71c19545b8f67d699f4b51970c92188d7ff2cc6ddb44e5665ec"
+    },
+    {
+      "pdf_page": 96,
+      "normalized_text_characters": 1163,
+      "normalized_text_sha256": "6254037f3ef3cac741d030a16661c9f55517ae3a0bd0c914912593e77417abe9"
+    },
+    {
+      "pdf_page": 97,
+      "normalized_text_characters": 857,
+      "normalized_text_sha256": "bc67217534e5624b4f6e212001342b2cc90852be2baa7aad3174aef6b85bfc73"
+    },
+    {
+      "pdf_page": 98,
+      "normalized_text_characters": 1157,
+      "normalized_text_sha256": "6c42b45ad7d947354124ce373d55cc755ff24220a25dc7b9a454fff783955a84"
+    },
+    {
+      "pdf_page": 99,
+      "normalized_text_characters": 198,
+      "normalized_text_sha256": "562dd832e96e9ec3f77a474c958ce3b2f041ee744f35629b5e79624f598ed9c4"
+    },
+    {
+      "pdf_page": 100,
+      "normalized_text_characters": 1273,
+      "normalized_text_sha256": "a8c05b5d900f8b2278b9da400ec06d8a990d59b2b5e0c8724e1d866dca9307a9"
+    },
+    {
+      "pdf_page": 101,
+      "normalized_text_characters": 430,
+      "normalized_text_sha256": "49749e7fe54ecc8870be90981410ca34b313a13624594c9e5401db89cd3b842b"
+    },
+    {
+      "pdf_page": 102,
+      "normalized_text_characters": 701,
+      "normalized_text_sha256": "af82912f7f13314966228528a580baa57f94c190df887f374825cbfed319daa1"
+    },
+    {
+      "pdf_page": 103,
+      "normalized_text_characters": 873,
+      "normalized_text_sha256": "61b6d953c900395da3e014b408737a72d33bb8ed8abf2f623f4b287870dd6d05"
+    },
+    {
+      "pdf_page": 104,
+      "normalized_text_characters": 1166,
+      "normalized_text_sha256": "c7379ff7f1573b8ebe43f82f527c3ee4c6a71b22017acb0ea551e1633e50f72f"
+    },
+    {
+      "pdf_page": 105,
+      "normalized_text_characters": 1042,
+      "normalized_text_sha256": "968fb574349c4859c1923fe46154d129bde316ba805b0a733ec12c16785cab0b"
+    },
+    {
+      "pdf_page": 106,
+      "normalized_text_characters": 1056,
+      "normalized_text_sha256": "ef4f55ceeeb3d1b9a1f25e20d514af3569d45444600db08778b00ff664f68334"
+    },
+    {
+      "pdf_page": 107,
+      "normalized_text_characters": 663,
+      "normalized_text_sha256": "f4b0c0d8cdbc3689a7d5e0bc628b6526e7e7052fa4b6b122d18be365bfc3e636"
+    },
+    {
+      "pdf_page": 108,
+      "normalized_text_characters": 1066,
+      "normalized_text_sha256": "d7cf2a82b51f5ff81f4dcdb486b7648e4c06eaeab8942ab33d409c06258c09eb"
+    },
+    {
+      "pdf_page": 109,
+      "normalized_text_characters": 1480,
+      "normalized_text_sha256": "3fb9e497de111d378854c05aa6a034cb4767bfb3dc1436f56f87a30e7837d028"
+    }
+  ],
+  "manual_content_review_required": true,
+  "important_limit": "Page fingerprints compare extracted text only; they do not prove visual identity, source authenticity, or pedagogical equivalence."
+}
