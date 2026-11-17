@@ -48,7 +48,7 @@ The object counts above are literal top-level lesson-object counts in the named 
 ## Catalog subjects not currently registered as independent lesson modules
 
 - **Christian Religious Education:** no Christian curriculum module is imported by `officialCurriculum.ts`. The school’s religious track must be confirmed; do not infer Islamic or Christian assignment.
-- **Libraries and Research Skills:** no independent curriculum module is imported. A previously found Ministry library curriculum PDF is from 2022–2023 and is not a valid 2026–2027 substitute.
+- **Libraries and Research Skills:** no independent curriculum module is imported. A current 2026–2027 Term 1 candidate was retrieved from the Ministry host: `Libraries_prim5_t1.pdf`, 21 PDF pages. Its extracted contents show a 12-lesson TOC with printed starts pp. 5, 8, 11, 14, 17, 20, 23, 26, 29, 32, 35 and 38. The book contains facilitator-facing “دليل أخصائي المكتبة” directions in lesson pages. The web extraction exposes the 21-page PDF, but byte download/hash, full page-by-page fingerprinting, visual review and app mapping are still outstanding. This is a source candidate, not yet a completed audit. Source: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Libraries_prim5_t1.pdf.
 - **Family Management and Entrepreneurship Skills:** no independent curriculum module is imported.
 - **Agriculture and Entrepreneurship Skills:** no independent curriculum module is imported.
 - **Mathematics — English, Mathematics — Arabic, Science — English and Science — Arabic:** listed in the Ministry catalog, but these are separate language tracks, not substitutes for the French-section Math/Science sequence. The current central registry maps the learner’s Math/Science instruction to French; no independent school-assignment evidence authorizes adding the other variants as learner-facing tracks.
@@ -62,16 +62,19 @@ The object counts above are literal top-level lesson-object counts in the named 
 
 ## Next source-audit actions
 
-1. Retrieve the exact 2026–2027 Ministry PDFs for Social Studies, Arabic, ICT, Islamic and Christian Religious Education, Libraries, Family Management and Agriculture from the official host; record URL, HTTP status, bytes, SHA-256, PDF metadata, page count and per-page normalized-text fingerprints.
-2. Inspect the full table of contents and lesson-opening pages for each retrieved book; generate a lesson-by-lesson reconciliation matrix against the current app module.
-3. For every registered lesson, review its actual explanation, examples, exercises, answer key and teaching scaffolding; do not treat registry presence as teaching completeness.
-4. Create original app-authored teaching packs and regression tests only when source evidence supports the lesson mapping.
-5. Keep unassigned tracks hidden or explicitly pending until school assignment is confirmed.
-6. Do not commit textbook PDFs or full extracted text; keep metadata, hashes, concise paraphrases and page references only.
+1. Complete byte-level retrieval, metadata and page fingerprints for the retrieved Libraries book; then map all 12 lessons against a new app module and add app-authored teaching packs.
+2. Retrieve the exact 2026–2027 Ministry PDFs for Social Studies, Arabic, ICT, Islamic and Christian Religious Education, Family Management and Agriculture from the official host; record URL, HTTP status, bytes, SHA-256, PDF metadata, page count and per-page normalized-text fingerprints.
+3. Inspect the full table of contents and lesson-opening pages for each retrieved book; generate a lesson-by-lesson reconciliation matrix against the current app module.
+4. For every registered lesson, review its actual explanation, examples, exercises, answer key and teaching scaffolding; do not treat registry presence as teaching completeness.
+5. Create original app-authored teaching packs and regression tests only when source evidence supports the lesson mapping.
+6. Keep unassigned tracks hidden or explicitly pending until school assignment is confirmed.
+7. Do not commit textbook PDFs or full extracted text; keep metadata, hashes, concise paraphrases and page references only.
 
 ## Evidence limits
 
 - [VERIFIED] The 15-book catalog index and current repository import inventory were inspected.
+- [VERIFIED] The Ministry-hosted Libraries PDF is available as a 21-page source in web extraction; its TOC exposes 12 lesson titles/page starts.
+- [UNPROVEN] The Libraries PDF byte identity, SHA-256, all-page fingerprints, visual fidelity and exact app lesson mapping.
 - [UNPROVEN] The complete source/page mapping and teaching quality of Arabic, Social Studies, ICT, Islamic Religious Education and Arabic Calligraphy.
 - [BLOCKED] Christian track assignment, French1/French2 assignment, and whether Library, Family Management and Agriculture are assigned at the school.
 - [BLOCKED] Source-level and pedagogical completion for the four catalog subjects without current independent app modules.
