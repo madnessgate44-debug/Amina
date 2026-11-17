@@ -17,6 +17,7 @@ This directory contains the evidence-first source and registry reconciliation fo
 - `french-language-weekly-content-review.csv` — OCR-based content summary for the 13 retrieved weekly assessments.
 - `subject-status.md` — consolidated Science, French Mathematics, French language and English status, evidence limits, PR state and remaining gates.
 - `continuation-2026-11-16.md` — dated continuation checkpoint and work log.
+- `additional-subject-registry-inventory.md` — inventory of the remaining Grade 5 catalog subjects, current app registry modules, and unverified school-assignment/source gates.
 
 ## Source retrieval and extraction method
 
