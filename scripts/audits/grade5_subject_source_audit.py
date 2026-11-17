@@ -17,6 +17,10 @@ SOURCES = [
     {"id":"french1_performance_assessments_candidate","subject":"French language","track":"French1","kind":"performance_assessment_candidate","url":f"{BASE}/Book_of_Performance_and_Evaluations/French1_prim5_t1_Assmt.pdf"},
     {"id":"french2_performance_assessments_candidate","subject":"French language","track":"French2","kind":"performance_assessment_candidate","url":f"{BASE}/Book_of_Performance_and_Evaluations/French2_prim5_t1_Assmt.pdf"},
     {"id":"math_fr_student_book","subject":"Mathematics","track":"French","kind":"student_book","url":f"{BASE}/StudentBook/Math_FR_prim5_TR1.pdf"},
+    {"id":"math_en_student_book","subject":"Mathematics","track":"English","kind":"student_book","school_assignment_status":"unconfirmed_alternative_track","url":f"{BASE}/StudentBook/Math_EN_prim5_t1.pdf"},
+    {"id":"math_ar_student_book","subject":"Mathematics","track":"Arabic","kind":"student_book","school_assignment_status":"unconfirmed_alternative_track","url":f"{BASE}/StudentBook/Math_Ar_prim5_t1.pdf"},
+    {"id":"science_en_student_book","subject":"Science","track":"English","kind":"student_book","school_assignment_status":"unconfirmed_alternative_track","url":f"{BASE}/StudentBook/Science_EN_Prim5_TR1.pdf"},
+    {"id":"science_ar_student_book","subject":"Science","track":"Arabic","kind":"student_book","school_assignment_status":"unconfirmed_alternative_track","url":f"{BASE}/StudentBook/Science_Ar_prim5_t1.pdf"},
     {"id":"english_student_book","subject":"English","track":"English","kind":"student_book","url":f"{BASE}/StudentBook/English_language_prim5_t1.pdf"},
     {"id":"arabic_student_book","subject":"Arabic","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Arabic_langugae_prim5_t1.pdf"},
     {"id":"social_studies_student_book","subject":"Social Studies","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Social_studies_prim5_t1.pdf"},
@@ -84,8 +88,8 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                 ocr_pages_attempted = 0
                 ocr_pages_with_text = 0
                 ocr_languages = (
-                    "fra+eng" if source["subject"] == "Mathematics"
-                    else "eng+ara" if source["subject"] == "English"
+                    "fra+eng" if source["track"] == "French"
+                    else "eng+ara" if source["track"] == "English"
                     else "fra+ara" if source["subject"] == "French language"
                     else "ara"
                 )
