@@ -702,35 +702,10 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
       { prompt: 'Quelle information donne le radar météorologique ?', expectedAnswer: 'L’endroit où il pleut ou neige et l’intensité des précipitations.', successCriterion: 'La réponse mentionne le lieu et l’intensité des précipitations.' },
       { prompt: 'Quelles données peuvent être combinées pour prévoir le temps à court terme ?', expectedAnswer: 'Les images satellites, le mouvement des nuages, les informations sur le vent et les données radar.', successCriterion: 'La réponse cite les nuages, le vent et le radar.' },
     ],
-  ),  '9-1': makeGuide(
-    '92–93',
-    'L’évaporation est le passage de l’eau liquide à la vapeur d’eau invisible qui se mélange à l’air. L’eau d’une flaque ou d’un vêtement mouillé ne disparaît pas : elle change d’état et passe dans l’air. L’évaporation est plus rapide lorsque la température est élevée, lorsque le temps est ensoleillé et lorsqu’il y a du vent. Pour l’étudier, on peut comparer deux récipients contenant la même quantité d’eau, dont un seul est couvert, puis observer la quantité d’eau après deux ou trois jours.',
-    'Verse la même quantité d’eau dans deux verres. Couvre l’un avec un film plastique fixé par un élastique et laisse l’autre ouvert. Place-les dans le même endroit. Après deux ou trois jours, compare les quantités d’eau restantes.',
-    [
-      { prompt: 'Comment appelle-t-on le passage de l’eau liquide à la vapeur invisible ?', expectedAnswer: 'L’évaporation.' },
-      { prompt: 'Quelles conditions accélèrent l’évaporation selon le manuel ?', expectedAnswer: 'Une température élevée, le soleil et le vent.' },
-    ],
-    [
-      { prompt: 'Pourquoi une flaque sèche-t-elle après une période ensoleillée ?', expectedAnswer: 'Une partie de l’eau s’évapore et passe dans l’air sous forme de vapeur invisible.' },
-      { prompt: 'Pourquoi faut-il mettre la même quantité d’eau dans les deux verres ?', expectedAnswer: 'Pour comparer les récipients dans des conditions de départ identiques.' },
-    ],
-    ['L’eau s’évapore et passe dans l’air sous forme de vapeur invisible.', 'Pour rendre la comparaison équitable.'],
-    [
-      { observedResponse: 'L’eau disparaît complètement.', diagnosis: 'L’élève ne comprend pas le changement d’état.', correctivePrompt: 'Où va l’eau lorsqu’un vêtement sèche ?' },
-      { observedResponse: 'Le vent transforme l’eau en glace.', diagnosis: 'L’élève confond évaporation et solidification.', correctivePrompt: 'L’eau devient-elle invisible dans l’air ou devient-elle solide ?' },
-    ],
-    [
-      'Fais observer un linge humide dans deux conditions et demande de prédire lequel sèchera le plus vite.',
-      'Utilise un dessin « eau liquide → vapeur invisible dans l’air » pour représenter le changement.',
-    ],
-    [
-      { prompt: 'Définis l’évaporation.', expectedAnswer: 'Le passage de l’eau liquide à la vapeur d’eau invisible qui se mélange à l’air.', successCriterion: 'La réponse mentionne eau liquide et vapeur invisible.' },
-      { prompt: 'Cite deux facteurs qui accélèrent l’évaporation.', expectedAnswer: 'Une température élevée, le soleil ou le vent.', successCriterion: 'Au moins deux facteurs sont corrects.' },
-    ],
   ),
   '9-1': makeGuide(
     '92–93',
-    'L’évaporation est le passage de l’eau liquide à la vapeur d’eau, un gaz invisible qui se mélange à l’air. Elle se produit à la surface de l’eau et peut avoir lieu sans que l’eau bouille. La chaleur fournit de l’énergie et accélère l’évaporation ; le vent renouvelle l’air au-dessus de la surface et peut aussi accélérer le processus. Une flaque peut donc diminuer au soleil ou par temps venteux : l’eau ne disparaît pas, elle passe dans l’air sous forme de vapeur.',
+    'L’évaporation est le passage de l’eau liquide à la vapeur d’eau, un gaz invisible qui se mélange à l’air. Elle se produit à la surface de l’eau et peut avoir lieu sans que l’eau bouille. La chaleur fournit de l’énergie et accélère l’évaporation ; le soleil réchauffe l’eau et le vent renouvelle l’air au-dessus de la surface, ce qui peut aussi accélérer le processus. Une flaque peut donc diminuer au soleil ou par temps venteux : l’eau ne disparaît pas, elle passe dans l’air sous forme de vapeur.',
     'Verse la même petite quantité d’eau dans deux assiettes identiques et peu profondes. Place-les dans des endroits de température différente, sans les chauffer directement. Observe et compare le niveau après un certain temps. Pour une comparaison équitable, garde identiques le récipient, la quantité d’eau et la durée ; ne change que la température. Ne goûte pas l’eau et ne place pas les récipients près d’une flamme ou d’une source très chaude.',
     [
       { prompt: 'Que devient l’eau liquide pendant l’évaporation ?', expectedAnswer: 'Elle devient de la vapeur d’eau invisible qui se mélange à l’air.' },
