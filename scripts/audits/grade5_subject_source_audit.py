@@ -18,6 +18,14 @@ SOURCES = [
     {"id":"french2_performance_assessments_candidate","subject":"French language","track":"French2","kind":"performance_assessment_candidate","url":f"{BASE}/Book_of_Performance_and_Evaluations/French2_prim5_t1_Assmt.pdf"},
     {"id":"math_fr_student_book","subject":"Mathematics","track":"French","kind":"student_book","url":f"{BASE}/StudentBook/Math_FR_prim5_TR1.pdf"},
     {"id":"english_student_book","subject":"English","track":"English","kind":"student_book","url":f"{BASE}/StudentBook/English_language_prim5_t1.pdf"},
+    {"id":"arabic_student_book","subject":"Arabic","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Arabic_langugae_prim5_t1.pdf"},
+    {"id":"social_studies_student_book","subject":"Social Studies","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Social_studies_prim5_t1.pdf"},
+    {"id":"ict_arabic_student_book","subject":"ICT","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/ICT_ARABIC_Prim5_TR1.pdf"},
+    {"id":"islamic_religious_education_student_book","subject":"Islamic Religious Education","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Islamic_prim5_tr1.pdf"},
+    {"id":"christian_religious_education_student_book","subject":"Christian Religious Education","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Cristian_reliogion_prim5_t1.pdf"},
+    {"id":"libraries_student_book","subject":"Libraries and Research Skills","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Libraries_prim5_t1.pdf"},
+    {"id":"family_management_student_book","subject":"Family Management and Entrepreneurship","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Family_management_Prim5_TR1.pdf"},
+    {"id":"agriculture_entrepreneurship_student_book","subject":"Agriculture and Entrepreneurship","track":"Arabic","kind":"student_book","url":f"{BASE}/StudentBook/Farming_skills_prim5_t1.pdf"},
 ]
 for track, filename in [("French1","French1_prim5_tr1"),("French2","French2_prim5_tr1")]:
     for week in range(1, 8):
@@ -78,7 +86,8 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                 ocr_languages = (
                     "fra+eng" if source["subject"] == "Mathematics"
                     else "eng+ara" if source["subject"] == "English"
-                    else "fra+ara"
+                    else "fra+ara" if source["subject"] == "French language"
+                    else "ara"
                 )
                 for page_index, page_text in enumerate(pages):
                     if source["kind"] == "weekly_assessment" or len(" ".join(page_text.split())) < 20:
@@ -103,7 +112,11 @@ with tempfile.TemporaryDirectory(prefix="grade5-source-audit-") as tmp:
                     if ocr_pages_attempted else "pdftotext -layout"
                 )
                 extracted = "\n".join(pages)
-                toc_pages = {"math_fr_student_book": [2, 3, 4], "english_student_book": [3, 4, 5]}.get(source["id"], [])
+                toc_pages = {
+                    "math_fr_student_book": [2, 3, 4],
+                    "english_student_book": [3, 4, 5],
+                    "libraries_student_book": [3],
+                }.get(source["id"], [])
                 for page_number in toc_pages:
                     if page_number <= len(pages):
                         toc_reviews.append("## " + source["id"] + " — PDF page " + str(page_number) + "\n" + pages[page_number-1].strip() + "\n")
@@ -150,6 +163,8 @@ report={
         "PDF retrieval and metadata do not authenticate publisher authorship by themselves.",
         "Page hashes cover normalized extracted text only, not visual layout, diagrams, or pedagogical equivalence.",
         "Weekly assessments are evidence of assessment content, not proof of the school's assigned French1/French2 track.",
+        "Catalog-listed subjects do not prove school assignment; religious education and language-specific Mathematics/Science tracks must be confirmed for the learner.",
+        "The added Arabic subject-book PDFs are source candidates; retrieval and page fingerprints do not prove lesson mapping or teaching-pack completeness.",
         "No full PDF or extracted textbook text is retained in the repository."
     ]
 }
