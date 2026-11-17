@@ -1,8 +1,8 @@
 # Grade 5 French Science — Library fingerprint verification
 
-**Audit date:** 17 November 2026  
-**Repository base:** `main` at `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`  
-**Science continuation:** [PR #200](https://github.com/madnessgate44-debug/Amina/pull/200), head `969f0f9fcb2bc119f8fdf3899767b582bccd1a93`  
+**Audit date:** 17 November 2026
+**Repository base:** `main` at `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`
+**Science continuation:** [PR #200](https://github.com/madnessgate44-debug/Amina/pull/200); implementation head before this audit report was added: `969f0f9fcb2bc119f8fdf3899767b582bccd1a93`
 **Scope:** Grade 5, Egyptian Ministry 2026–2027 French Science, Term 1 only.
 
 ## Outcome
@@ -70,7 +70,7 @@ The scientific-method appendix is separately printed on pages 104–107. The nin
 
 ## PR verification snapshot
 
-The latest inspected PR #200 merge-ref checks are from 16 November 2026:
+Baseline PR #200 merge-ref checks from 16 November 2026:
 
 - **[PASS]** CI run [43824642684](https://github.com/madnessgate44-debug/Amina/actions/runs/43824642684), merge ref `b6143c1d6e4bb4d018e424db875aca2ec21c81b2`: `npm run lint` (script runs `tsc --noEmit`) succeeded; `npm test` reported `TEST SUITE SUMMARY: 39 PASSED, 0 FAILED`; the curriculum registry reported `54 PASSED, 0 FAILED`; `npm run build` transformed 1,792 modules and completed in 587 ms.
 - **[PASS]** Engineering Execution OS compliance run [43824642653](https://github.com/madnessgate44-debug/Amina/actions/runs/43824642653) reported `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
