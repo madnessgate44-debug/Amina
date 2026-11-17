@@ -281,3 +281,10 @@ The catalogue entry is a discovery route only. It does not authenticate the thir
 - **[PASS]** PR CI run [43821315922](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315922): the blocking type check, `npm run lint`, `npm test` and `npm run build` steps completed successfully; the curriculum registry suite reported 54 passed, 0 failed; Vite reported a successful build in 749 ms.
 - **[PASS]** Engineering Execution OS compliance run [43821315933](https://github.com/madnessgate44-debug/Amina/actions/runs/43821315933) reported `ENGINEERING EXECUTION OS COMPLIANCE: PASS`.
 - **[UNPROVEN]** PR #200's updated durable-publish workflow step has not yet been exercised end-to-end. The PR remains unmerged; no merge or deployment is claimed.
+
+## Library fingerprint reproduction — 17 November 2026
+
+- **[VERIFIED]** The existing Library PDF and `library-science-fr-grade5-page-fingerprints.csv` were independently recomputed with Poppler `pdftotext -layout` and normalized UTF-8 SHA-256. All 110 CSV rows match the corresponding PDF pages: 110 compared, 0 missing, 0 mismatches. The PDF is 110 pages (59,040,102 bytes; SHA-256 `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`); the CSV SHA-256 is `b5f8cd0eba7b4a36875242bd5bc1a194e87633158470302caa93bf62b732117e`.
+- **[LIMIT]** This verifies only that the Library CSV describes the Library PDF. It does not compare the Library copy with the canonical Ministry-hosted PDF, prove visual identity or authenticate untouched publisher-original bytes.
+- **[UNPROVEN]** The retained artifact for canonical download run `43705922358` contains no canonical page-fingerprint CSV. The updated workflow in PR #200 must run on `main` and its canonical CSV must be inspected and compared before the 109/109 canonical text-equivalence claim is independently reproducible.
+- Detailed command, timestamp, raw result, source-page ranges and remaining gates: [Library fingerprint verification report](../audits/science-2026-2027/library-copy-fingerprint-verification-2026-11-17.md).
