@@ -706,20 +706,24 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   '9-1': makeGuide(
     '92–93',
     'L’évaporation est le passage de l’eau liquide à la vapeur d’eau, un gaz invisible qui se mélange à l’air. Elle se produit à la surface de l’eau et peut avoir lieu sans que l’eau bouille. La chaleur fournit de l’énergie et accélère l’évaporation ; le soleil réchauffe l’eau et le vent renouvelle l’air au-dessus de la surface, ce qui peut aussi accélérer le processus. Une flaque peut donc diminuer au soleil ou par temps venteux : l’eau ne disparaît pas, elle passe dans l’air sous forme de vapeur.',
-    'Verse la même petite quantité d’eau dans deux assiettes identiques et peu profondes. Place-les dans des endroits de température différente, sans les chauffer directement. Observe et compare le niveau après un certain temps. Pour une comparaison équitable, garde identiques le récipient, la quantité d’eau et la durée ; ne change que la température. Ne goûte pas l’eau et ne place pas les récipients près d’une flamme ou d’une source très chaude.',
+    'Activité du manuel (pp. 92–93) : verse la même quantité d’eau dans deux verres identiques. Recouvre un seul verre avec un film plastique fixé par un élastique. Laisse les deux verres au même endroit pendant 2 à 3 jours, puis compare la quantité d’eau restante. Le film limite les échanges de vapeur avec l’air au-dessus du verre couvert. Cette activité compare un récipient couvert à un récipient ouvert ; elle ne teste pas l’effet de la température. Pour discuter de la vitesse d’évaporation, prédis quel linge mouillé sèche le plus vite au Soleil ou à l’ombre, puis relie ta réponse à la chaleur, au Soleil et au vent décrits dans le texte.',
     [
       { prompt: 'Que devient l’eau liquide pendant l’évaporation ?', expectedAnswer: 'Elle devient de la vapeur d’eau invisible qui se mélange à l’air.' },
       { prompt: 'Pourquoi une flaque sèche-t-elle généralement plus vite au soleil ?', expectedAnswer: 'La chaleur accélère l’évaporation de l’eau.' },
+      { prompt: 'Dans l’activité du manuel, qu’est-ce qui distingue les deux verres ?', expectedAnswer: 'Un verre est couvert avec un film plastique et l’autre reste ouvert.' },
+      { prompt: 'Pourquoi verse-t-on la même quantité d’eau dans les deux verres ?', expectedAnswer: 'Pour commencer la comparaison avec la même quantité d’eau dans chaque verre.' },
     ],
     [
       { prompt: 'Complète : l’évaporation est le passage de l’eau de l’état ______ à l’état ______.', expectedAnswer: 'liquide ; gazeux (vapeur d’eau).' },
       { prompt: 'Donne deux facteurs qui peuvent accélérer l’évaporation.', expectedAnswer: 'La chaleur et le vent.' },
       { prompt: 'L’eau d’une flaque disparaît-elle de la nature quand elle sèche ?', expectedAnswer: 'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.' },
+      { prompt: 'L’activité des deux verres teste-t-elle l’effet de la température ? Explique.', expectedAnswer: 'Non. Elle compare un verre couvert et un verre ouvert placés au même endroit ; elle ne change pas la température.' },
     ],
     [
       'liquide ; gazeux (vapeur d’eau).',
       'La chaleur et le vent.',
       'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.',
+      'Non. Elle compare un verre couvert et un verre ouvert placés au même endroit ; elle ne change pas la température.',
     ],
     [
       { observedResponse: 'L’eau disparaît quand la flaque sèche.', diagnosis: 'L’élève confond un changement d’état avec une disparition de la matière.', correctivePrompt: 'Où peut aller l’eau si elle n’est plus visible dans la flaque ?' },
@@ -727,7 +731,8 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
     ],
     [
       'Dessine une flaque qui diminue et ajoute des flèches vers le haut pour représenter la vapeur d’eau invisible.',
-      'Compare le séchage d’un linge à l’ombre et au soleil, puis explique pourquoi la température peut changer la vitesse du séchage.',
+      'Reprends l’activité des deux verres et explique ce qui change et ce qui reste identique.',
+      'Compare le séchage d’un linge au soleil et à l’ombre, puis cite les facteurs qui peuvent modifier sa vitesse de séchage.',
     ],
     [
       { prompt: 'Définis l’évaporation.', expectedAnswer: 'Le passage de l’eau liquide à la vapeur d’eau.', successCriterion: 'La réponse nomme l’eau liquide et la vapeur d’eau.' },
