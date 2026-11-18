@@ -410,7 +410,7 @@ check(
 );
 
 
- // 10. The exact nine chapter headings and per-lesson objectives/vocabulary
+// 10. The exact nine chapter headings and per-lesson objectives/vocabulary
 //     remain represented in the learner-facing French curriculum records.
 const expectedChapterTitlesFr: Record<number, string> = {
   1: 'Les os et les muscles',
