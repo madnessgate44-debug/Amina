@@ -410,6 +410,33 @@ check(
 );
 
 
+const incompleteScienceTeacherPlans = Object.entries(SCIENCE_FR_TEACHER_GUIDE_2026)
+  .filter(([, plan]) =>
+    !plan.explanationFr.trim() ||
+    !plan.workedExampleFr.trim() ||
+    plan.guidedPracticeFr.length < 2 ||
+    plan.guidedPracticeFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim()) ||
+    plan.independentPracticeFr.length < 2 ||
+    plan.independentPracticeFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim()) ||
+    plan.answerKeyFr.length !== plan.independentPracticeFr.length ||
+    plan.answerKeyFr.some((answer, index) => answer !== plan.independentPracticeFr[index]?.expectedAnswer) ||
+    plan.misconceptionDiagnosisFr.length < 2 ||
+    plan.misconceptionDiagnosisFr.some((item) => !item.observedResponse.trim() || !item.diagnosis.trim() || !item.correctivePrompt.trim()) ||
+    plan.remediationFr.length < 2 ||
+    plan.remediationFr.some((item) => !item.trim()) ||
+    plan.masteryCheckFr.length < 2 ||
+    plan.masteryCheckFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim() || !item.successCriterion.trim()),
+  )
+  .map(([id]) => id);
+check(
+  '9.7 all 28 French Science teacher plans have complete, answer-aligned teaching sequences',
+  Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && incompleteScienceTeacherPlans.length === 0,
+);
+if (incompleteScienceTeacherPlans.length > 0) {
+  console.error('   incomplete Science teacher plans:', incompleteScienceTeacherPlans);
+}
+
+
 // 10. The exact nine chapter headings and per-lesson objectives/vocabulary
 //     remain represented in the learner-facing French curriculum records.
 const expectedChapterTitlesFr: Record<number, string> = {
