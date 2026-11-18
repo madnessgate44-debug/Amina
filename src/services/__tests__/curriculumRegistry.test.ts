@@ -406,7 +406,7 @@ check(
   '9.6 lesson 9-1 preserves the printed covered/uncovered-glasses activity without mislabelling it as a temperature test',
   !!evaporationPlan &&
     evaporationPlan.sourcePages === '92–93' &&
-    ['linge mouillé', 'au soleil', 'à l’ombre', 'deux verres', 'film plastique', 'élastique', 'deux ou trois jours', 'ouvert', 'température', 'isolément', 'contrôle ajouté'].every((term) => evaporationBookActivity.includes(term)) &&
+    ['linge mouillé', 'au soleil', 'à l’ombre', 'deux verres', 'film plastique', 'élastique', 'deux à trois jours', 'ouvert', 'température', 'isolément', 'contrôle ajouté'].every((term) => evaporationBookActivity.includes(term)) &&
     bookActivityGuided &&
     sourcePredictionGuided &&
     bookActivityMastery &&
