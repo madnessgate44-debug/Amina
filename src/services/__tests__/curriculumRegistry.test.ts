@@ -392,8 +392,25 @@ check(
     evaporationPlan.masteryCheckFr.length >= 2,
 );
 
+const evaporationBookActivity = lowerFr(evaporationPlan.workedExampleFr);
+const bookActivityGuided = evaporationPlan.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('deux verres') && lowerFr(item.expectedAnswer).includes('film plastique'),
+);
+const bookActivityMastery = evaporationPlan.masteryCheckFr.some(
+  (item) => lowerFr(item.prompt).includes('facteur') && lowerFr(item.expectedAnswer).includes('film plastique'),
+);
+check(
+  '9.6 lesson 9-1 preserves the printed covered/uncovered-glasses activity without mislabelling it as a temperature test',
+  !!evaporationPlan &&
+    evaporationPlan.sourcePages === '92–93' &&
+    ['deux verres', 'film plastique', 'élastique', 'même endroit', 'deux ou trois jours', 'ouvert', 'température', 'isolément'].every((term) => evaporationBookActivity.includes(term)) &&
+    bookActivityGuided &&
+    bookActivityMastery &&
+    evaporationPlan.independentPracticeFr.length >= 4,
+);
 
-// 10. The exact nine chapter headings and per-lesson objectives/vocabulary
+
+ // 10. The exact nine chapter headings and per-lesson objectives/vocabulary
 //     remain represented in the learner-facing French curriculum records.
 const expectedChapterTitlesFr: Record<number, string> = {
   1: 'Les os et les muscles',
