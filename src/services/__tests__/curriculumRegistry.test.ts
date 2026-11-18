@@ -381,7 +381,7 @@ check(
 );
 
 const evaporationPlan = SCIENCE_FR_TEACHER_GUIDE_2026['9-1'];
-const evaporationTerms = ['évaporation', 'eau liquide', 'vapeur d’eau', 'chaleur', 'vent'];
+const evaporationTerms = ['évaporation', 'eau liquide', 'vapeur d’eau', 'température', 'ensoleillé', 'vent'];
 check(
   '9.5 lesson 9-1 teaches the complete source-grounded evaporation concept and both rate factors',
   !!evaporationPlan &&
@@ -394,7 +394,10 @@ check(
 
 const evaporationBookActivity = lowerFr(evaporationPlan.workedExampleFr);
 const bookActivityGuided = evaporationPlan.guidedPracticeFr.some(
-  (item) => lowerFr(item.prompt).includes('deux verres') && lowerFr(item.expectedAnswer).includes('film plastique'),
+  (item) => lowerFr(item.prompt).includes('deux récipients') && lowerFr(item.expectedAnswer).includes('film plastique'),
+);
+const sourcePredictionGuided = evaporationPlan.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('linge mouillé') && lowerFr(item.expectedAnswer).includes('au soleil'),
 );
 const bookActivityMastery = evaporationPlan.masteryCheckFr.some(
   (item) => lowerFr(item.prompt).includes('facteur') && lowerFr(item.expectedAnswer).includes('film plastique'),
@@ -403,8 +406,9 @@ check(
   '9.6 lesson 9-1 preserves the printed covered/uncovered-glasses activity without mislabelling it as a temperature test',
   !!evaporationPlan &&
     evaporationPlan.sourcePages === '92–93' &&
-    ['deux verres', 'film plastique', 'élastique', 'même endroit', 'deux ou trois jours', 'ouvert', 'température', 'isolément'].every((term) => evaporationBookActivity.includes(term)) &&
+    ['linge mouillé', 'au soleil', 'à l’ombre', 'deux verres', 'film plastique', 'élastique', 'deux ou trois jours', 'ouvert', 'température', 'isolément', 'contrôle ajouté'].every((term) => evaporationBookActivity.includes(term)) &&
     bookActivityGuided &&
+    sourcePredictionGuided &&
     bookActivityMastery &&
     evaporationPlan.independentPracticeFr.length >= 4,
 );
