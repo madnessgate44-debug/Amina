@@ -480,3 +480,31 @@ This release improves Grade 5 French Science **Term 1 only**. It is not a full-y
 - **[PASS]** Subsequent 17 November PR CI run [44041594104](https://github.com/madnessgate44-debug/Amina/actions/runs/44041594104), on merge ref `77b1c0b125bb797ff9398f5c699c3d936fd40aa8` for PR head `ad5929ca51fe04f40d5164a9d50eb5f4d36bd22a`: lint/type-check passed; `npm test` reported 39 passed, 0 failed and the curriculum registry reported 54 passed, 0 failed with all 28 Science page ranges exact; build completed with 1,792 modules in 715 ms. Compliance run [44041594042](https://github.com/madnessgate44-debug/Amina/actions/runs/44041594042) passed.
 - **[UNPROVEN]** Automatic publication by the updated workflow, high-resolution diagram review, independent full pedagogical peer review and phone-sized learner walkthrough remain open. PR #200 is not merged; no deployment is claimed.
 - Full command ledger and source details: [Library fingerprint verification report](../audits/science-2026-2027/library-copy-fingerprint-verification-2026-11-17.md).
+
+## Science continuation — 18 November 2026
+
+This update supersedes earlier status statements in this report that PR #200 remained open, that the source-audit publication workflow had not been exercised, or that the canonical per-page CSV was not yet available.
+
+### Mainline source evidence
+
+- **[VERIFIED]** Current `main` was inspected at `883127facf34e256e7490a48622b9d14c695f6a3`, the merge commit for PR #202.
+- **[VERIFIED]** PR [#200](https://github.com/madnessgate44-debug/Amina/pull/200) is merged. Mainline source-audit run [44066062268](https://github.com/madnessgate44-debug/Amina/actions/runs/44066062268), on commit `f2119cc5d2875fb9dc0b2f7d2b7958e283d85d3d`, completed successfully: HTTP 200 download of the canonical Ministry-hosted PDF, 62,976,199 bytes, SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`, 109 page fingerprints, durable JSON/CSV publication and artifact `14319524642`.
+- **[VERIFIED]** On 18 November, the latest canonical CSV and source-audit JSON were compared with the original Library CSV. Result: 109 common pages; 109 exact normalized-text SHA-256 and character-count matches; 0 missing; 0 differing. Library-only page 110 has zero extracted characters.
+- **[VERIFIED]** The GitHub results-branch copy of the Library CSV had a truncated page-72 hash even though the original Library CSV was intact. Page 72 was independently re-extracted from the Library PDF with Poppler: 1,633 normalized characters and SHA-256 `e15559bc7eac89c5f1d3dcdc29c9a5fd450f88e50b4daa6891fe6654e2e59aa0`. The results-branch CSV was restored from the original; its corrected LF-normalized SHA-256 is `a6d085afd398ce21def9ba15c5834736ff6736c3cb22fa3d4292f0df8a4da8ed`. The comparison JSON now records the latest audit run and this correction.
+- **[LIMIT]** The canonical and Library PDFs have different SHA-256 values. The comparison establishes normalized extracted-text equivalence only; it does not prove byte identity, image/diagram/layout equivalence or untouched publisher-original provenance.
+
+### Current Science implementation
+
+- **[VERIFIED]** PR [#202](https://github.com/madnessgate44-debug/Amina/pull/202) is merged to `main` at `883127facf34e256e7490a48622b9d14c695f6a3`. Its head `f938c50c42e7e6c769bd011ea8165e19ea03bdbd` passed CI run [44067619856](https://github.com/madnessgate44-debug/Amina/actions/runs/44067619856) and compliance run [44067619858](https://github.com/madnessgate44-debug/Amina/actions/runs/44067619858); the curriculum registry suite reported 55 passed, 0 failed, and the production build succeeded. The main commit's Vercel status check reports success.
+- **[IN PROGRESS]** PR [#203](https://github.com/madnessgate44-debug/Amina/pull/203) is open at head `202b124a5935e455e7f3c5bf20f436c6fa26b46c`. It preserves the student-book 9-1 activity on printed pp. 92–93: equal water quantities in two glasses, one covered with plastic film and an elastic band, both left in the same place for 2–3 days, then compared. The lesson explicitly distinguishes this covered/uncovered comparison from a temperature-only test and labels Miss Noor's vapour-exchange explanation as app-authored. It adds guided/independent questions and a regression assertion.
+- **[PASS]** PR #203 CI run [44263756893](https://github.com/madnessgate44-debug/Amina/actions/runs/44263756893): blocking type check and `npm run lint` passed; `npm test` passed (39 top-level suite summaries, 0 failed; curriculum registry 55 passed, 0 failed); `npm run build` passed (1,792 modules; 602 ms). The new 9-1 source-activity regression passed.
+- **[PASS]** PR #203 Engineering Execution OS compliance run [44263756914](https://github.com/madnessgate44-debug/Amina/actions/runs/44263756914): PASS.
+- **[UNPROVEN]** PR #203 is not merged. No deployment or physical-phone walkthrough is claimed.
+
+### Remaining Science blockers
+
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. The third-party 29-page `دفتر تحضير` listing is not proof of Ministry authorship or French-track alignment and is not substituted.
+- **[BLOCKED]** Term 2 French Science source remains outside this Term 1 reconstruction.
+- **[UNPROVEN]** The separate assessment-book PDF remains unaudited question by question; high-resolution diagram review, independent pedagogical peer review and physical-phone learner walkthrough remain open.
+- **[VERIFIED]** This work covers the nine chapters and 28 numbered lessons in the 2026–2027 Grade 5 French Science Term 1 student book only. It is not a full-book or full-year completion declaration.
+
