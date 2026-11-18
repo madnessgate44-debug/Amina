@@ -706,32 +706,36 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   '9-1': makeGuide(
     '92–93',
     'L’évaporation est le passage de l’eau liquide à la vapeur d’eau, un gaz invisible qui se mélange à l’air. Elle se produit à la surface de l’eau et peut avoir lieu sans que l’eau bouille. La chaleur fournit de l’énergie et accélère l’évaporation ; le soleil réchauffe l’eau et le vent renouvelle l’air au-dessus de la surface, ce qui peut aussi accélérer le processus. Une flaque peut donc diminuer au soleil ou par temps venteux : l’eau ne disparaît pas, elle passe dans l’air sous forme de vapeur.',
-    'Verse la même petite quantité d’eau dans deux assiettes identiques et peu profondes. Place-les dans des endroits de température différente, sans les chauffer directement. Observe et compare le niveau après un certain temps. Pour une comparaison équitable, garde identiques le récipient, la quantité d’eau et la durée ; ne change que la température. Ne goûte pas l’eau et ne place pas les récipients près d’une flamme ou d’une source très chaude.',
+    'Le manuel propose une comparaison entre deux verres : verse la même quantité d’eau dans deux verres. Couvre l’un avec un film plastique fixé par un élastique et laisse l’autre ouvert. Place les deux verres au même endroit pendant deux ou trois jours, puis compare la quantité d’eau restante. Cette activité compare un verre couvert à un verre ouvert ; elle ne teste pas isolément l’effet de la température. Ne goûte pas l’eau.',
     [
-      { prompt: 'Que devient l’eau liquide pendant l’évaporation ?', expectedAnswer: 'Elle devient de la vapeur d’eau invisible qui se mélange à l’air.' },
-      { prompt: 'Pourquoi une flaque sèche-t-elle généralement plus vite au soleil ?', expectedAnswer: 'La chaleur accélère l’évaporation de l’eau.' },
+      { prompt: 'Dans l’activité du manuel, qu’est-ce qui distingue les deux verres ?', expectedAnswer: 'La présence du film plastique : un verre est couvert et l’autre reste ouvert.' },
+      { prompt: 'Pourquoi garde-t-on la même quantité d’eau et le même emplacement ?', expectedAnswer: 'Pour comparer les deux verres dans des conditions de départ semblables et isoler l’effet du couvercle.' },
     ],
     [
       { prompt: 'Complète : l’évaporation est le passage de l’eau de l’état ______ à l’état ______.', expectedAnswer: 'liquide ; gazeux (vapeur d’eau).' },
       { prompt: 'Donne deux facteurs qui peuvent accélérer l’évaporation.', expectedAnswer: 'La chaleur et le vent.' },
+      { prompt: 'L’expérience des deux verres teste-t-elle l’effet de la température seule ?', expectedAnswer: 'Non. Elle compare un verre couvert et un verre ouvert ; le facteur qui change est la présence du film plastique.' },
       { prompt: 'L’eau d’une flaque disparaît-elle de la nature quand elle sèche ?', expectedAnswer: 'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.' },
     ],
     [
       'liquide ; gazeux (vapeur d’eau).',
       'La chaleur et le vent.',
+      'Non. Elle compare un verre couvert et un verre ouvert ; le facteur qui change est la présence du film plastique.',
       'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.',
     ],
     [
       { observedResponse: 'L’eau disparaît quand la flaque sèche.', diagnosis: 'L’élève confond un changement d’état avec une disparition de la matière.', correctivePrompt: 'Où peut aller l’eau si elle n’est plus visible dans la flaque ?' },
       { observedResponse: 'L’évaporation ne se produit que lorsque l’eau bout.', diagnosis: 'L’élève confond l’évaporation à la surface avec l’ébullition.', correctivePrompt: 'Une flaque peut-elle sécher sans atteindre la température d’ébullition ?' },
+      { observedResponse: 'L’expérience des deux verres teste uniquement la température.', diagnosis: 'L’élève confond le facteur étudié avec les facteurs qui accélèrent l’évaporation.', correctivePrompt: 'Quel verre est couvert ? Les deux verres sont-ils placés au même endroit ?' },
     ],
     [
-      'Dessine une flaque qui diminue et ajoute des flèches vers le haut pour représenter la vapeur d’eau invisible.',
-      'Compare le séchage d’un linge à l’ombre et au soleil, puis explique pourquoi la température peut changer la vitesse du séchage.',
+      'Dessine les deux verres de l’activité du manuel. Couvre-en un sur ton dessin et entoure le seul facteur qui change : la présence du film plastique.',
+      'Fais un tableau avec deux colonnes : « conditions identiques » (quantité d’eau, emplacement, durée) et « différence » (verre couvert ou ouvert).',
     ],
     [
       { prompt: 'Définis l’évaporation.', expectedAnswer: 'Le passage de l’eau liquide à la vapeur d’eau.', successCriterion: 'La réponse nomme l’eau liquide et la vapeur d’eau.' },
       { prompt: 'Explique pourquoi le vent peut accélérer l’évaporation.', expectedAnswer: 'Le vent renouvelle l’air au-dessus de l’eau et emporte la vapeur, ce qui favorise une évaporation plus rapide.', successCriterion: 'La réponse relie le mouvement de l’air à une vitesse d’évaporation plus élevée.' },
+      { prompt: 'Quel facteur change dans l’activité des deux verres et quelles conditions restent identiques ?', expectedAnswer: 'Le film plastique change ; la quantité d’eau, l’emplacement et la durée restent identiques.', successCriterion: 'L’élève identifie le couvercle comme facteur modifié et cite au moins deux conditions constantes.' },
       { prompt: 'Pourquoi l’eau d’une flaque n’a-t-elle pas disparu ?', expectedAnswer: 'Elle s’est transformée en vapeur d’eau invisible qui se mélange à l’air.', successCriterion: 'La réponse décrit un changement d’état et non une disparition.' },
     ],
   ),
