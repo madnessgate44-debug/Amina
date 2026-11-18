@@ -8,7 +8,7 @@
 **Latest source audit:** [43844113846](https://github.com/madnessgate44-debug/Amina/actions/runs/43844113846) — PASS; 21 Ministry-hosted URLs attempted, 17 PDFs retrieved, 448 pages fingerprinted.  
 **Current PR:** [#201](https://github.com/madnessgate44-debug/Amina/pull/201), open and mergeable; no merge.  
 **Science PR:** [#200](https://github.com/madnessgate44-debug/Amina/pull/200), open and mergeable; no merge.  
-**Scope:** Egyptian Primary Grade 5, academic year 2026–2027, Term 1. Mathematics and Science are assessed against the French-track materials. The school's French1/French2 assignment and school pacing remain unverified.
+**Scope:** Egyptian Primary Grade 5, academic year 2026–2027, Term 1. Mathematics and Science are assessed against the French-track materials. Owner confirms both French1 (first language, primary) and French2 (second language, additional) are required concurrently; school pacing remains unverified.
 
 ## Tool declaration
 
@@ -32,7 +32,7 @@
 |---|---|---:|---|
 | French Science | 9 chapters / 28 numbered lessons; prior canonical-host/Library comparison matched 109/109 normalized text fingerprints | 28 lessons + 28 app-authored teacher-guide plans on main | [IN PROGRESS] PR #200 contains the current source/provenance reconciliation; owner merge and post-merge publish gate remain |
 | Mathematics — French track | 46 StudentBook lessons across 6 units; 74-page performance-assessment book | 12 national-book lesson records | [GAP] 11 exact matches + 1 verified lesson-banner title variant; 34 lessons missing. Four extra French-extract records are duplicate or mis-mapped |
-| French language | 7 French1 and 6 French2 weekly assessments retrieved and OCR-reviewed; no separate StudentBook or standalone assessment book found | 4 generic legacy records | [BLOCKED ON TRACK] Assessments identify Bien joué 1 and Alex et Zoé 2, but school assignment is unknown |
+| French language | 7 French1 and 6 French2 weekly assessments retrieved and OCR-reviewed; no separate StudentBook or standalone assessment book found | 4 generic legacy records | [IN PROGRESS — both tracks required] Assessments identify Bien joué 1 and Alex et Zoé 2; both are required concurrently, with French1 primary |
 | English | 6 units and 26 numbered lessons/creative tasks in Connect 5; 74-page performance-assessment book | 2 legacy records | [GAP] One app story materially differs from the StudentBook; the other app record is unrelated/unverified. 24 additional source lessons/tasks have no app record |
 
 Counts above measure source/registry coverage, not learner mastery or school pacing.
@@ -119,7 +119,7 @@ The complete per-source retrieval timestamps, PDF metadata and hashes are in `su
 1. [B] Owner merges PR #200 before the Science audit publishing workflow can be exercised from main.
 2. [B] Implement and test the missing 34 French Mathematics lesson records and their French teaching plans; mark the four extra French-extract records as unavailable compatibility records.
 3. [B] Build the English 26-lesson app curriculum and app-authored teacher guides; correct the Giving Tree record and disable the unsupported Elephantine record.
-4. [B] Keep French1 and French2 content separate and unavailable as the school curriculum until the assigned track is verified; do not invent a French StudentBook.
+4. [B] Keep French1 and French2 content separate; both tracks are required concurrently. Do not invent a French StudentBook; continue sourcing and building the two course tracks independently.
 5. [B] Run current-revision lint, tests, build and compliance after app code changes; complete a phone-sized learner walkthrough.
 6. [B] No PR merge or production deployment until the owner explicitly approves.
 
