@@ -156,7 +156,9 @@ Page ranges below are the printed page numbers visible in the student book. Each
 | 9-3 | Où va l’eau ? | 98–101 | Water cycle: Sun heats water; evaporation; cooling/condensation and cloud formation; precipitation; water returns via rivers to seas. |
 | Enrichment | Le cycle de l’eau du Nil | 102–103 | Evaporation in Egypt; dew/condensation in cool desert nights; water travels through a wider African system; Aswan High Dam stores water for use. |
 
-**Miss Noor lesson sequence:** predict where puddle water goes; compare covered/uncovered water containers; observe condensation on the outside of an iced glass; order the water-cycle stages; connect water conservation to Egypt and the Nile.
+**[VERIFIED] 9-1 source-activity distinction:** on printed pp. 92–93, the student book asks learners to put the same amount of water in two glasses, cover one with plastic film secured by an elastic band, leave both in the same place for 2–3 days, and compare the remaining water. This compares a covered and an uncovered container; it is not a temperature-only experiment. The book separately states that higher temperature, sunshine and wind increase evaporation and asks learners to predict whether a wet cloth dries faster in the sun or shade.
+
+**Miss Noor lesson sequence:** predict where puddle water goes; reproduce the book's covered/uncovered-glass activity without relabelling it as a temperature test; observe condensation on the outside of an iced glass; order the water-cycle stages; connect water conservation to Egypt and the Nile.
 
 **Key vocabulary:** évaporation, vapeur d’eau, condensation, gouttelette, refroidissement, nuage, précipitation, rivière, mer, cycle de l’eau.
 
