@@ -5,7 +5,7 @@
 **Subject:** Sciences taught in French  
 **Source content:** 109 book-content pages in the inspected Library copy; its PDF page 3 bears the Ministry 2026–2027 imprint. The 110-page PDF includes an appended third-party promotional page  
 **Evidence:** [VERIFIED] PDF pages 1–109 contain the book copy; PDF page 110 is a third-party promotional insert and is excluded. The Ministry/Central Administration copyright and 2026–2027 edition statement appears on PDF page 3 (front matter, not a numbered textbook page); the final imprint is PDF page 109. The copy is third-party assembled; its byte-level identity with the canonical Ministry URL is [UNPROVEN].  
-**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected book copy. App-authored French teaching plans cover all 28 lessons. PR #200 is open against `main` at base `527df4fb7da32d6f3badb5f31d1172ffc0de6eec`; its 16 November CI run `43824371961` and Engineering Execution OS compliance run `43824372073` passed on head `0d583dea053e03f8013ca3c5b817e4582dcadd2d`. A live phone-sized walkthrough remains [UNPROVEN]. This is not a full-year completion declaration.
+**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected 2026–2027 student-book copy. All 28 lessons have app-authored French teaching plans. PR #200 and PR #202 are merged; current `main` is `883127facf34e256e7490a48622b9d14c695f6a3`; main CI run `44233820201` and Engineering Execution OS compliance run `44233819627` passed. A physical-phone walkthrough remains [UNPROVEN]. This is Term 1 only, not a full-year completion declaration.
 
 ## Source identity and scope
 
@@ -257,3 +257,12 @@ The earlier statement that the canonical PDF could not be retrieved is supersede
 ## Assessment book candidate — not yet canonical
 
 A Ministry-branded French Science Term 1 assessment-book copy was found in the Library, but only through a third-party listing and download. It is recorded separately in [the assessment candidate audit](./grade-5-science-fr-term1-assessment-candidate.md). The candidate contains a Ministry seal, copyright marker and ISBN, but its PDFsharp metadata and repeated third-party watermark show repackaging; no canonical Ministry assessment-book endpoint has been verified. Sample OCR suggests topic alignment to Chapters 1, 3–4, 6, 7 and 9, but full 69-page assessment mapping and answer-key review remain open. Do not treat it as an official source or mark lessons as assessed until canonical provenance and page-level coverage are verified.
+
+## Addendum — 18 November 2026: current main and lesson 9-1
+
+- **[VERIFIED]** PR [#202](https://github.com/madnessgate44-debug/Amina/pull/202) merged at `883127facf34e256e7490a48622b9d14c695f6a3`. It improves the existing lesson 9-1 on printed pp. 92–93; no missing lesson is claimed.
+- **[VERIFIED]** The current main Science curriculum contains 28 numbered lesson records, each with a printed page range, French learning objectives and vocabulary. The separate app-authored teaching-guide map contains the same 28 IDs with no missing or orphan plan records. The registry test checks the nine exact chapter headings, all 28 source ranges and app-authored provenance.
+- **[PASS]** Main CI [44233820201](https://github.com/madnessgate44-debug/Amina/actions/runs/44233820201) passed type check, lint, tests and build; the curriculum registry reported 55 passed, 0 failed. Main compliance [44233819627](https://github.com/madnessgate44-debug/Amina/actions/runs/44233819627) passed.
+- **[VERIFIED]** The canonical PDF fingerprint comparison was rechecked on 18 November: 109/109 common pages match on normalized extracted text; zero common-page mismatches. The durable comparison is on `audit/ministry-science-source-results` at `aeb48231570002e930c7b7173a71cb18ee910af0`.
+- **[BLOCKED]** No exact Egyptian Ministry 2026–2027 French Science teacher guide or Term 2 student book is authenticated. The 28 lesson plans remain app-authored.
+- **[UNPROVEN]** High-resolution diagram review, independent pedagogical peer review and a physical-phone French learner walkthrough remain open. Do not infer live learner usability from CI.
