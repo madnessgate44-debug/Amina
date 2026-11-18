@@ -50,6 +50,10 @@ The owner-selected product brief (18 November 2026) is the current product direc
 
 **Baseline evidence is not yet captured by this document.** No screenshots or test results are claimed here.
 
+## 4.1 CSS naming compatibility
+
+Retain the `mn-` namespace introduced by superseded PR #169 for all new Miss Noor-specific CSS classes (for example, `.mn-noor-stage` and `.mn-noor-character`). Preserve the naming convention only; do not reuse the superseded teal/parchment palette or its visual styling. Keep Tailwind utility classes where appropriate and avoid renaming unrelated existing selectors.
+
 ## 5. Implementation phases
 
 ### Phase A — Design system and character asset
