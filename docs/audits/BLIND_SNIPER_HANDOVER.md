@@ -144,14 +144,21 @@ standing rules.
 
 ## 8. Exact GitHub branch, PR URL and commit SHA
 
-Fill these from the audit session's final step (they are appended to the audit PR description and
-to `docs/STATUS.md` when the branch is pushed):
-
 - **Branch:** `audit/miss-noor-independent-assessment-2026-11-18`
 - **Base:** `main` @ `883127facf34e256e7490a48622b9d14c695f6a3`
-- **PR URL:** _set by the pushing session_ — see the repository's open PR list for
-  "Miss Noor independent assessment".
-- **Head SHA:** _set by the pushing session_ — the commit that contains the three deliverables.
+- **PR URL:** https://github.com/madnessgate44-debug/Amina/pull/206 (open, not a draft, 3 files changed)
+- **First head SHA (the three deliverables):** `8764740d8e61fb2b3654f0b7528bed3820e23288`
+- **Deliverables on the branch (verified present on the remote, HTTP 200):**
+
+| File | Remote blob SHA | Size |
+| --- | --- | --- |
+| `docs/audits/MISS_NOOR_INDEPENDENT_AUDIT.md` | `75cd55acb0…` | 29,150 B |
+| `docs/audits/MISS_NOOR_IMPLEMENTATION_BACKLOG.md` | `f29b9d2203…` | 19,418 B |
+| `docs/audits/BLIND_SNIPER_HANDOVER.md` | `a112194083…` | 11,147 B |
+
+(Retrieve the current head SHA at read time — this handover was updated after the PR opened, so the
+PR head may be one commit ahead of `8764740d`.)
+
 - **Deliverables on the branch:**
   - `docs/audits/MISS_NOOR_INDEPENDENT_AUDIT.md`
   - `docs/audits/MISS_NOOR_IMPLEMENTATION_BACKLOG.md`
