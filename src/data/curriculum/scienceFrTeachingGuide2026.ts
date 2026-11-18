@@ -702,30 +702,37 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
       { prompt: 'Quelle information donne le radar météorologique ?', expectedAnswer: 'L’endroit où il pleut ou neige et l’intensité des précipitations.', successCriterion: 'La réponse mentionne le lieu et l’intensité des précipitations.' },
       { prompt: 'Quelles données peuvent être combinées pour prévoir le temps à court terme ?', expectedAnswer: 'Les images satellites, le mouvement des nuages, les informations sur le vent et les données radar.', successCriterion: 'La réponse cite les nuages, le vent et le radar.' },
     ],
-  ),  '9-1': makeGuide(
+  ),
+  '9-1': makeGuide(
     '92–93',
-    'L’évaporation est le passage de l’eau liquide à la vapeur d’eau invisible qui se mélange à l’air. L’eau d’une flaque ou d’un vêtement mouillé ne disparaît pas : elle change d’état et passe dans l’air. L’évaporation est plus rapide lorsque la température est élevée, lorsque le temps est ensoleillé et lorsqu’il y a du vent. Pour l’étudier, on peut comparer deux récipients contenant la même quantité d’eau, dont un seul est couvert, puis observer la quantité d’eau après deux ou trois jours.',
-    'Verse la même quantité d’eau dans deux verres. Couvre l’un avec un film plastique fixé par un élastique et laisse l’autre ouvert. Place-les dans le même endroit. Après deux ou trois jours, compare les quantités d’eau restantes.',
+    'L’évaporation est le passage de l’eau liquide à la vapeur d’eau, un gaz invisible qui se mélange à l’air. Elle se produit à la surface de l’eau et peut avoir lieu sans que l’eau bouille. La chaleur fournit de l’énergie et accélère l’évaporation ; le soleil réchauffe l’eau et le vent renouvelle l’air au-dessus de la surface, ce qui peut aussi accélérer le processus. Une flaque peut donc diminuer au soleil ou par temps venteux : l’eau ne disparaît pas, elle passe dans l’air sous forme de vapeur.',
+    'Verse la même petite quantité d’eau dans deux assiettes identiques et peu profondes. Place-les dans des endroits de température différente, sans les chauffer directement. Observe et compare le niveau après un certain temps. Pour une comparaison équitable, garde identiques le récipient, la quantité d’eau et la durée ; ne change que la température. Ne goûte pas l’eau et ne place pas les récipients près d’une flamme ou d’une source très chaude.',
     [
-      { prompt: 'Comment appelle-t-on le passage de l’eau liquide à la vapeur invisible ?', expectedAnswer: 'L’évaporation.' },
-      { prompt: 'Quelles conditions accélèrent l’évaporation selon le manuel ?', expectedAnswer: 'Une température élevée, le soleil et le vent.' },
+      { prompt: 'Que devient l’eau liquide pendant l’évaporation ?', expectedAnswer: 'Elle devient de la vapeur d’eau invisible qui se mélange à l’air.' },
+      { prompt: 'Pourquoi une flaque sèche-t-elle généralement plus vite au soleil ?', expectedAnswer: 'La chaleur accélère l’évaporation de l’eau.' },
     ],
     [
-      { prompt: 'Pourquoi une flaque sèche-t-elle après une période ensoleillée ?', expectedAnswer: 'Une partie de l’eau s’évapore et passe dans l’air sous forme de vapeur invisible.' },
-      { prompt: 'Pourquoi faut-il mettre la même quantité d’eau dans les deux verres ?', expectedAnswer: 'Pour comparer les récipients dans des conditions de départ identiques.' },
-    ],
-    ['L’eau s’évapore et passe dans l’air sous forme de vapeur invisible.', 'Pour rendre la comparaison équitable.'],
-    [
-      { observedResponse: 'L’eau disparaît complètement.', diagnosis: 'L’élève ne comprend pas le changement d’état.', correctivePrompt: 'Où va l’eau lorsqu’un vêtement sèche ?' },
-      { observedResponse: 'Le vent transforme l’eau en glace.', diagnosis: 'L’élève confond évaporation et solidification.', correctivePrompt: 'L’eau devient-elle invisible dans l’air ou devient-elle solide ?' },
+      { prompt: 'Complète : l’évaporation est le passage de l’eau de l’état ______ à l’état ______.', expectedAnswer: 'liquide ; gazeux (vapeur d’eau).' },
+      { prompt: 'Donne deux facteurs qui peuvent accélérer l’évaporation.', expectedAnswer: 'La chaleur et le vent.' },
+      { prompt: 'L’eau d’une flaque disparaît-elle de la nature quand elle sèche ?', expectedAnswer: 'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.' },
     ],
     [
-      'Fais observer un linge humide dans deux conditions et demande de prédire lequel sèchera le plus vite.',
-      'Utilise un dessin « eau liquide → vapeur invisible dans l’air » pour représenter le changement.',
+      'liquide ; gazeux (vapeur d’eau).',
+      'La chaleur et le vent.',
+      'Non. Elle devient de la vapeur d’eau qui se mélange à l’air.',
     ],
     [
-      { prompt: 'Définis l’évaporation.', expectedAnswer: 'Le passage de l’eau liquide à la vapeur d’eau invisible qui se mélange à l’air.', successCriterion: 'La réponse mentionne eau liquide et vapeur invisible.' },
-      { prompt: 'Cite deux facteurs qui accélèrent l’évaporation.', expectedAnswer: 'Une température élevée, le soleil ou le vent.', successCriterion: 'Au moins deux facteurs sont corrects.' },
+      { observedResponse: 'L’eau disparaît quand la flaque sèche.', diagnosis: 'L’élève confond un changement d’état avec une disparition de la matière.', correctivePrompt: 'Où peut aller l’eau si elle n’est plus visible dans la flaque ?' },
+      { observedResponse: 'L’évaporation ne se produit que lorsque l’eau bout.', diagnosis: 'L’élève confond l’évaporation à la surface avec l’ébullition.', correctivePrompt: 'Une flaque peut-elle sécher sans atteindre la température d’ébullition ?' },
+    ],
+    [
+      'Dessine une flaque qui diminue et ajoute des flèches vers le haut pour représenter la vapeur d’eau invisible.',
+      'Compare le séchage d’un linge à l’ombre et au soleil, puis explique pourquoi la température peut changer la vitesse du séchage.',
+    ],
+    [
+      { prompt: 'Définis l’évaporation.', expectedAnswer: 'Le passage de l’eau liquide à la vapeur d’eau.', successCriterion: 'La réponse nomme l’eau liquide et la vapeur d’eau.' },
+      { prompt: 'Explique pourquoi le vent peut accélérer l’évaporation.', expectedAnswer: 'Le vent renouvelle l’air au-dessus de l’eau et emporte la vapeur, ce qui favorise une évaporation plus rapide.', successCriterion: 'La réponse relie le mouvement de l’air à une vitesse d’évaporation plus élevée.' },
+      { prompt: 'Pourquoi l’eau d’une flaque n’a-t-elle pas disparu ?', expectedAnswer: 'Elle s’est transformée en vapeur d’eau invisible qui se mélange à l’air.', successCriterion: 'La réponse décrit un changement d’état et non une disparition.' },
     ],
   ),
   '9-2': makeGuide(
