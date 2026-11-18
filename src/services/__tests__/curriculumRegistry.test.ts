@@ -388,7 +388,7 @@ check(
   !!evaporationPlan &&
     evaporationPlan.sourcePages === '92–93' &&
     evaporationTerms.every((term) => lowerFr(evaporationPlan.explanationFr).includes(term)) &&
-    ['film plastique', '2 à 3 jours', 'ne teste pas l’effet de la température'].every((term) => evaporationWorkedExample.includes(lowerFr(term))) &&
+    ['film plastique', '2 à 3 jours', 'interprétation app-authored de miss noor', 'ne teste pas l’effet de la température'].every((term) => evaporationWorkedExample.includes(lowerFr(term))) &&
     evaporationPlan.guidedPracticeFr.some((item) => lowerFr(item.prompt).includes('deux verres')) &&
     evaporationPlan.independentPracticeFr.length >= 2 &&
     evaporationPlan.masteryCheckFr.length >= 2,
