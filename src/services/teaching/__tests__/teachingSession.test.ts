@@ -293,4 +293,47 @@ function advance(session: any, input: string) {
   assert(session.currentStep === 'adjust', 'French escalation should reach the prerequisite support step before the final review flag');
 }
 
+// App-authored textbook-derived lesson plans must be labelled and shown as teaching, not quoted as official text.
+{
+  const englishLesson = curriculumService.getLessonById('off_en_u1_apple_tree');
+  if (!englishLesson?.teacherGuideEn) throw new Error('English app-authored teacher guide missing');
+  const initialized = engine.initializeSession({
+    studentId: 'student_test_english_teacher_guide',
+    lessonId: 'off_en_u1_apple_tree',
+    language: 'en',
+  });
+  let session = engine.advanceSession({
+    session: initialized.session,
+    studentInput: 'Ready',
+    language: 'en',
+  }).session;
+  const teaching = engine.advanceSession({ session, studentInput: 'Ready', language: 'en' });
+  const text = teaching.newTutorTurn.text;
+  assert(text.includes("Miss Noor's app-authored explanation based on the StudentBook"), 'English teaching must identify Miss Noor-authored paraphrase provenance');
+  assert(text.includes(englishLesson.teacherGuideEn.workedExampleEn), 'English teaching must include the worked example');
+  assert(text.includes('Guided practice') && text.includes('Independent practice') && text.includes('Mastery check'), 'English teaching must include guided, independent and mastery scaffolding');
+  assert(!text.includes('From the textbook:'), 'App-authored English paraphrase must not be presented as verbatim textbook text');
+}
+
+{
+  const scienceLesson = curriculumService.getLessonById('off_scifr_2026_u7_l1');
+  if (!scienceLesson?.teacherGuide) throw new Error('French Science app-authored teacher guide missing');
+  const initialized = engine.initializeSession({
+    studentId: 'student_test_science_teacher_guide',
+    lessonId: 'off_scifr_2026_u7_l1',
+    language: 'fr',
+  });
+  let session = engine.advanceSession({
+    session: initialized.session,
+    studentInput: 'Oui',
+    language: 'fr',
+  }).session;
+  const teaching = engine.advanceSession({ session, studentInput: 'Oui', language: 'fr' });
+  const text = teaching.newTutorTurn.text;
+  assert(text.includes('Explication de Miss Noor'), 'French Science teaching must identify app-authored content');
+  assert(text.includes(scienceLesson.teacherGuide.workedExampleFr), 'French Science teaching must include the worked example');
+  assert(text.includes('Pratique guidée') && text.includes('Pratique autonome') && text.includes('Vérification'), 'French Science teaching must include practice and mastery scaffolding');
+  assert(!text.includes('Texte du manuel :'), 'App-authored French Science paraphrase must not be presented as verbatim textbook text');
+}
+
 console.log('TeachingSession explain-back evidence tests passed.');

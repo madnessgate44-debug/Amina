@@ -1,0 +1,7 @@
+unit,scope_sequence_title,student_book_pdf_page_start,student_book_pdf_page_end,performance_assessment_pdf_page_start,performance_assessment_pdf_page_end,student_book_lesson_count,current_app_record_count,registry_status,ocr_heading_candidates_and_review_note
+"1","Food, Nature, and Culture","7","24","5","14","1","MISALIGNED","Five StudentBook lessons. The existing apple-tree app record is not the source story: the official lesson is The Giving Tree, StudentBook pp.13–16."
+"2","My Healthy Body","25","40","15","23","0","MISSING","Five StudentBook lessons, including a separate Think and Create poster task; no app lesson records."
+"3","When Nature Changes","41","60","24","36","0","MISSING","Five StudentBook lessons, including a separate collage task; no app lesson records."
+"4","My Community","61","76","37","46","1","UNRELATED_LEGACY_RECORD","Five StudentBook lessons. The existing Elephantine Island record does not match the New Administrative Capital lesson or any other indexed lesson."
+"5","Our World, Our Resources","77","91","47","56","0","MISSING","Five StudentBook lessons; no app lesson records."
+"6","The Talking Earth","92","105","58","72","0","MISSING","One extended story lesson; no app lesson record."

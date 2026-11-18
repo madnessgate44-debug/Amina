@@ -757,5 +757,107 @@ check(
     attachedPracticePages.length === 7,
 );
 
+// 13. Source provenance gates for the four legacy Math/French records and English.
+const legacyFrenchLanguage = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_fr_'));
+check(
+  '13.1 generic French-language legacy records are app-authored, unavailable and explicitly unverified',
+  legacyFrenchLanguage.length === 4 &&
+    legacyFrenchLanguage.every((lesson) =>
+      lesson.originTag === 'app_authored' &&
+      lesson.isAvailable === false &&
+      lesson.contentStatus === 'pending_materials' &&
+      lesson.sourceRef.isAvailable === false &&
+      lesson.sourceRef.bookEn.includes('Unverified legacy source') &&
+      lesson.sourceRef.notes?.includes('[UNVERIFIED]') === true,
+    ),
+);
+
+const legacyFrenchMath = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => lesson.id.startsWith('off_mathfr_'));
+check(
+  '13.2 duplicate and mis-mapped French Math IDs remain reachable as app-authored supplements, not Ministry coverage',
+  legacyFrenchMath.length === 4 &&
+    legacyFrenchMath.every((lesson) =>
+      lesson.originTag === 'app_authored' &&
+      lesson.isAvailable === true &&
+      lesson.contentStatus === 'available' &&
+      lesson.sourceRef.isAvailable === false &&
+      lesson.curriculumSource === undefined &&
+      lesson.sourceRef.page === 'App-authored supplemental — no Ministry page' &&
+      lesson.sourceRef.notes?.includes('[APP-AUTHORED SUPPLEMENT]') === true,
+    ),
+);
+
+const givingTree = OFFICIAL_CURRICULUM_LESSONS.find((lesson) => lesson.id === 'off_en_u1_apple_tree');
+check(
+  '13.3 English Unit 1 app record now matches The Giving Tree Lesson 3 source title and page',
+  !!givingTree &&
+    givingTree.titleEn === 'The Giving Tree' &&
+    givingTree.lessonNumber === 3 &&
+    givingTree.sourceRef.page === 13 &&
+    givingTree.sourceRef.notes?.includes('StudentBook') === true &&
+    givingTree.readingText?.includes('Tom') === true &&
+    givingTree.readingText?.includes('watering it') === true &&
+    !givingTree.readingText?.includes('stump') &&
+    givingTree.exercises.length >= 4 &&
+    givingTree.exercises.every((exercise) => !!exercise.expectedAnswer),
+);
+
+const elephantineLegacy = OFFICIAL_CURRICULUM_LESSONS.find((lesson) => lesson.id === 'off_en_u4_elephantine');
+check(
+  '13.4 unsupported Elephantine English record is preserved for compatibility but unavailable',
+  !!elephantineLegacy &&
+    elephantineLegacy.originTag === 'app_authored' &&
+    elephantineLegacy.isAvailable === false &&
+    elephantineLegacy.contentStatus === 'pending_materials' &&
+    elephantineLegacy.sourceRef.isAvailable === false &&
+    elephantineLegacy.sourceRef.notes?.includes('[U]') === true &&
+    !!elephantineLegacy.readingText &&
+    elephantineLegacy.exercises.length === 1,
+);
+
+// 14. English Connect 5 source completeness and app-authored teaching-plan gates.
+const availableEnglishLessons = OFFICIAL_CURRICULUM_LESSONS.filter(
+  (lesson) => lesson.subjectId === 'subj_english' && lesson.isAvailable,
+);
+check(
+  '14.1 Connect 5 Term 1 has 26 available source-grounded lesson records',
+  availableEnglishLessons.length === 26 &&
+    new Set(availableEnglishLessons.map((lesson) => lesson.id)).size === 26,
+);
+check(
+  '14.2 every English lesson has source pages and an app-authored teaching plan',
+  availableEnglishLessons.every((lesson) =>
+    lesson.originTag === 'app_authored' &&
+    lesson.sourceRef.isAvailable === true &&
+    typeof lesson.sourceRef.page === 'number' &&
+    lesson.sourceRef.notes?.includes('[APP-AUTHORED]') === true &&
+    lesson.teacherGuideEn?.provenance === 'app_authored' &&
+    lesson.teacherGuideEn.sourceEdition.includes('Connect 5') &&
+    !!lesson.teacherGuideEn.sourcePages,
+  ),
+);
+check(
+  '14.3 every English teaching plan includes worked example, practice, answer key, diagnosis, remediation and mastery',
+  availableEnglishLessons.every((lesson) => {
+    const guide = lesson.teacherGuideEn;
+    return !!guide &&
+      !!guide.explanationEn &&
+      !!guide.workedExampleEn &&
+      guide.guidedPracticeEn.length >= 2 &&
+      guide.independentPracticeEn.length >= 2 &&
+      guide.answerKeyEn.length === guide.independentPracticeEn.length &&
+      guide.misconceptionDiagnosisEn.length >= 1 &&
+      guide.remediationEn.length >= 1 &&
+      guide.masteryCheckEn.length >= 1;
+  }),
+);
+const englishLessonNumbers = availableEnglishLessons.map((lesson) => lesson.unitNumber + ':' + lesson.lessonNumber);
+check(
+  '14.4 English source sequence covers five lessons in Units 1–5 and one extended Unit 6 story',
+  [1, 2, 3, 4, 5].every((unit) => availableEnglishLessons.filter((lesson) => lesson.unitNumber === unit).length === 5) &&
+    availableEnglishLessons.filter((lesson) => lesson.unitNumber === 6).length === 1 &&
+    englishLessonNumbers.length === 26,
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);

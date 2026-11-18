@@ -1,0 +1,55 @@
+name: Grade 5 Term 1 subject source audit
+run-name: Grade 5 subject source audit — ${{ github.run_id }}
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - audit/grade5-term1-subject-source-audit-2026-11-15
+    paths:
+      - .github/workflows/grade5-subject-source-audit.yml
+      - scripts/audits/grade5_subject_source_audit.py
+
+permissions:
+  contents: write
+
+jobs:
+  retrieve-and-fingerprint:
+    name: Retrieve official subject PDFs and fingerprint pages
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - name: Check out audit branch
+        uses: actions/checkout@v4
+      - name: Install PDF inspection utilities
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends poppler-utils tesseract-ocr tesseract-ocr-eng tesseract-ocr-ara tesseract-ocr-fra
+      - name: Retrieve sources and build page fingerprints
+        run: python3 scripts/audits/grade5_subject_source_audit.py
+      - name: Publish metadata and fingerprints to the audit branch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          DEST="docs/audits/grade5-2026-2027"
+          mkdir -p "$DEST"
+          cp audit-output/grade5-subject-source-audit.json "$DEST/subject-source-audit.json"
+          cp audit-output/grade5-subject-page-fingerprints.csv "$DEST/subject-page-fingerprints.csv"
+          cp audit-output/grade5-subject-page-headings.csv "$DEST/subject-page-headings.csv"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$DEST/subject-source-audit.json" "$DEST/subject-page-fingerprints.csv" "$DEST/subject-page-headings.csv"
+          if git diff --cached --quiet; then
+            echo "No audit data changes to publish."
+          else
+            git commit -m "Publish Grade 5 subject source audit results"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+      - name: Upload source metadata, page indexes and limited TOC review extract
+        uses: actions/upload-artifact@v4
+        with:
+          name: grade5-term1-subject-source-audit
+          path: audit-output/
+          if-no-files-found: error
+          retention-days: 1

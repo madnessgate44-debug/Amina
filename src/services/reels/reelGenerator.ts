@@ -78,11 +78,29 @@ function conceptTitle(concept: CurriculumLessonConcept, lang: Language): string 
 }
 
 /** "Science Ministry Book pp. 10-18" or "Science book p. 10". */
-export function sourceLabelFor(lesson: OfficialCurriculumLesson): string {
+export function sourceLabelFor(lesson: OfficialCurriculumLesson, lang: Language = 'en'): string {
   const ref = lesson.sourceRef;
-  const book = nonEmpty(ref?.bookEn, ref?.book);
+
+  // A lesson can be app-authored and available as supplemental practice while
+  // having no verified StudentBook source. Never display its legacy page string
+  // as if it were a Ministry page.
+  if (lesson.originTag === 'app_authored' && ref?.isAvailable === false) {
+    if (lang === 'ar') return 'محتوى تدريبي أنشأته نور — مصدر غير موثق';
+    if (lang === 'fr') return 'Contenu complémentaire créé par Miss Noor — source non vérifiée';
+    return 'App-authored supplemental content — source unverified';
+  }
+
+  // The sourceRef stores the canonical English/Arabic title in many records.
+  // A French child should see a French label, not an English catalogue title.
+  const book = lang === 'ar'
+    ? nonEmpty(ref?.bookAr, ref?.book)
+    : lang === 'fr'
+    ? (lesson.subjectId === 'subj_english'
+      ? 'Manuel d’anglais — Connect 5'
+      : (lesson.subjectNameFr || 'Manuel scolaire') + ' — manuel de l’élève')
+    : nonEmpty(ref?.bookEn, ref?.book);
   const page = ref?.page;
-  if (page !== undefined && page !== null && String(page).trim()) {
+  if (page !== undefined && page !== null && typeof page === 'number') {
     return `${book} p. ${page}`;
   }
   return book;
@@ -173,7 +191,7 @@ export function buildReelsForConcept(
     subjectId: lesson.subjectId,
     subjectName: subjectName(lesson, lang),
     lessonTitle: lessonTitle(lesson, lang),
-    sourceLabel: sourceLabelFor(lesson),
+    sourceLabel: sourceLabelFor(lesson, lang),
     originTag: lesson.originTag,
     language: lang,
     reason: opts.reason,
@@ -233,11 +251,21 @@ export function buildReelsForConcept(
     // one language, so a reel built from them can otherwise show a sentence the
     // child cannot read at all. A reel in the wrong script is worse than no
     // reel; dropping it is the honest choice (see readableByChild).
-    if (
-      !readableByChild(partial.hook, lang) ||
-      !readableByChild(partial.show, lang) ||
-      !readableByChild(partial.noorLine, lang)
-    ) {
+    // Every visible string travels with the reel, not just the main card
+    // copy. Guard lesson title, subject and source metadata too; otherwise a
+    // French hook can still carry an English lesson title or catalogue label.
+    const visibleText = [
+      base.subjectName,
+      base.lessonTitle,
+      base.sourceLabel,
+      partial.hook,
+      partial.show,
+      partial.noorLine,
+      partial.reactionCorrect,
+      partial.reactionWrong,
+      ...(partial.options || []).map((option) => option.text),
+    ].filter((value): value is string => typeof value === 'string' && value.trim().length > 0);
+    if (visibleText.some((value) => !readableByChild(value, lang))) {
       return;
     }
     reels.push({

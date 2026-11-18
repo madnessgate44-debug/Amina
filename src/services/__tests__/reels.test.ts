@@ -444,7 +444,7 @@ function run() {
   );
   // "on" is a French word as well as an English one, so it is excluded here;
   // these are unambiguous English function words.
-  const englishWords = /\b(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|notebook|pounds)\b/i;
+  const englishWords = /(?<![\p{L}\p{N}])(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|notebook|pounds)(?![\p{L}\p{N}])/iu;
   const frFeed = buildFeedQueue({
     studentId: 'stu_fr_leak',
     language: 'fr',
@@ -601,8 +601,8 @@ function run() {
   // Latin. A French child was therefore shown whole English sentences. This
   // scans EVERY reel of the fr and en feeds, across every pool, and fails when
   // a reel carries decisive markers of the other Latin language.
-  const EN_WORDS = /\b(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|is|was|were|will|has|have|can|how|what|which|its|their|they|them|we|our|us|but|if|when|where|who|all|some|more|most|other|into|over|after|before|because|through|between|during|about|than|then|there|these|those|she|he|his|her|not|be|by|at|it|an|so|up|out|down|off)\b/i;
-  const FR_WORDS = /\b(le|la|les|de|des|une|un|est|pour|dans|avec|que|qui|sur|pas|comme|ton|ta|tes|ce|cette|ces|nous|vous|au|aux|du|se|son|sa|ses|et|sont|par|mais|tout|tous|toute|bien|ont|il|elle|ils|elles|quand|dont|entre|vers|chez|sans|sous|aussi|encore|très|peu|beaucoup|toujours|jamais|leur|leurs|notre|nos|votre|vos|mon|ma|mes|moi|toi|lui|été|avait|avoir|faire|fait|moins|donc|car|ni|était|étaient|sera|serait|celui|celle|alors|ainsi|autre|autres|même)\b/i;
+  const EN_WORDS = /(?<![\p{L}\p{N}])(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|is|was|were|will|has|have|can|how|what|which|its|their|they|them|we|our|us|but|if|when|where|who|all|some|more|most|other|into|over|after|before|because|through|between|during|about|than|then|there|these|those|she|he|his|her|not|be|by|at|it|an|so|up|out|down|off)(?![\p{L}\p{N}])/iu;
+  const FR_WORDS = /(?<![\p{L}\p{N}])(le|la|les|de|des|une|un|est|pour|dans|avec|que|qui|sur|pas|comme|ton|ta|tes|ce|cette|ces|nous|vous|au|aux|du|se|son|sa|ses|et|sont|par|mais|tout|tous|toute|bien|ont|il|elle|ils|elles|quand|dont|entre|vers|chez|sans|sous|aussi|encore|très|peu|beaucoup|toujours|jamais|leur|leurs|notre|nos|votre|vos|mon|ma|mes|moi|toi|lui|été|avait|avoir|faire|fait|moins|donc|car|ni|était|étaient|sera|serait|celui|celle|alors|ainsi|autre|autres|même)(?![\p{L}\p{N}])/iu;
   for (const lang of ['fr', 'en'] as const) {
     const feed = buildFeedQueue({
       studentId: `stu_lang_${lang}_all`,
@@ -613,16 +613,17 @@ function run() {
       sessionMinutes: 30,
     });
     const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
+    if (lang === 'fr') assert(!wrongLatin.test('début'), '16.0: Unicode-aware boundaries do not mistake an accented French word for English');
     const leakyReels = feed.reels
       .filter((reel) => reel.kind !== 'win_closer')
-      .filter((reel) => {
-        const text = `${reel.hook} ${reel.noorLine} ${reel.show || ''} ${(reel.options || []).map((o) => o.text).join(' ')}`;
-        return wrongLatin.test(text);
-      })
-      .map((reel) => `${reel.lessonId}/${reel.kind}`);
+      .map((reel) => ({
+        id: `${reel.lessonId}/${reel.kind}`,
+        text: `${reel.hook} ${reel.noorLine} ${reel.show || ''} ${(reel.options || []).map((o) => o.text).join(' ')}`,
+      }))
+      .filter((reel) => wrongLatin.test(reel.text));
     assert(
       leakyReels.length === 0,
-      `16.1 [${lang}]: no reel leaks the other Latin language (${leakyReels.length}: ${leakyReels.slice(0, 4).join(', ')})`
+      `16.1 [${lang}]: no reel leaks the other Latin language (${leakyReels.length}: ${leakyReels.slice(0, 4).map((reel) => reel.id + ' => ' + reel.text).join(' || ')})`
     );
   }
 
