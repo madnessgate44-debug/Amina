@@ -382,12 +382,14 @@ check(
 
 const evaporationPlan = SCIENCE_FR_TEACHER_GUIDE_2026['9-1'];
 const evaporationTerms = ['évaporation', 'eau liquide', 'vapeur d’eau', 'chaleur', 'vent'];
+const evaporationWorkedExample = lowerFr(evaporationPlan?.workedExampleFr ?? '');
 check(
-  '9.5 lesson 9-1 teaches the complete source-grounded evaporation concept and both rate factors',
+  '9.5 lesson 9-1 preserves the student-book experiment and distinguishes it from a temperature test',
   !!evaporationPlan &&
     evaporationPlan.sourcePages === '92–93' &&
     evaporationTerms.every((term) => lowerFr(evaporationPlan.explanationFr).includes(term)) &&
-    evaporationPlan.guidedPracticeFr.length >= 2 &&
+    ['film plastique', '2 à 3 jours', 'ne teste pas l’effet de la température'].every((term) => evaporationWorkedExample.includes(lowerFr(term))) &&
+    evaporationPlan.guidedPracticeFr.some((item) => lowerFr(item.prompt).includes('deux verres')) &&
     evaporationPlan.independentPracticeFr.length >= 2 &&
     evaporationPlan.masteryCheckFr.length >= 2,
 );
