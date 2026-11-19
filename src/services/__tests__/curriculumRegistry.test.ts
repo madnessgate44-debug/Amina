@@ -805,5 +805,40 @@ check(
     attachedPracticePages.length === 7,
 );
 
+// 12.17 Printed pp. 57–58 teach the field-of-view and brightness trade-off.
+const microscopeLesson = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 5 && lesson.lessonNumber === 2,
+);
+const microscopePlan = SCIENCE_FR_TEACHER_GUIDE_2026['5-2'];
+const microscopeExplanation = lowerFr(microscopePlan?.explanationFr ?? '');
+const microscopeGuided = microscopePlan?.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('faible grossissement') &&
+    lowerFr(item.expectedAnswer).includes('champ de vision') &&
+    lowerFr(item.expectedAnswer).includes('plus lumineuse'),
+) ?? false;
+const microscopeIndependent = microscopePlan?.independentPracticeFr.some(
+  (item) => lowerFr(item.expectedAnswer).includes('plus étroit') &&
+    lowerFr(item.expectedAnswer).includes('plus sombre'),
+) ?? false;
+const microscopeMastery = microscopePlan?.masteryCheckFr.some(
+  (item) => lowerFr(item.expectedAnswer).includes('plus large') &&
+    lowerFr(item.expectedAnswer).includes('plus lumineuse'),
+) ?? false;
+check(
+  '12.17 lesson 5-2 teaches the printed low/high magnification field-of-view and brightness trade-off',
+  !!microscopeLesson &&
+    microscopeLesson.sourceRef.page === 55 &&
+    microscopeLesson.objectives.some((item) => lowerFr(item).includes('champ de vision')) &&
+    microscopeLesson.vocabulary.some((item) => lowerFr(item.word).includes('champ de vision')) &&
+    !!microscopePlan &&
+    microscopePlan.sourcePages === '55–59' &&
+    ['champ de vision est plus large', 'image plus lumineuse', 'champ de vision devient plus étroit', 'image plus sombre']
+      .every((term) => microscopeExplanation.includes(term)) &&
+    microscopeGuided &&
+    microscopeIndependent &&
+    microscopeMastery &&
+    microscopePlan.answerKeyFr.length === microscopePlan.independentPracticeFr.length,
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
