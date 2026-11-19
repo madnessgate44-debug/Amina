@@ -381,7 +381,7 @@ check(
 );
 
 const evaporationPlan = SCIENCE_FR_TEACHER_GUIDE_2026['9-1'];
-const evaporationTerms = ['évaporation', 'eau liquide', 'vapeur d’eau', 'chaleur', 'vent'];
+const evaporationTerms = ['évaporation', 'eau liquide', 'vapeur d’eau', 'température', 'ensoleillé', 'vent'];
 check(
   '9.5 lesson 9-1 teaches the complete source-grounded evaporation concept and both rate factors',
   !!evaporationPlan &&
@@ -391,6 +391,54 @@ check(
     evaporationPlan.independentPracticeFr.length >= 2 &&
     evaporationPlan.masteryCheckFr.length >= 2,
 );
+
+const evaporationBookActivity = lowerFr(evaporationPlan.workedExampleFr);
+const bookActivityGuided = evaporationPlan.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('deux récipients') && lowerFr(item.expectedAnswer).includes('film plastique'),
+);
+const sourcePredictionGuided = evaporationPlan.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('linge mouillé') && lowerFr(item.expectedAnswer).includes('au soleil'),
+);
+const bookActivityMastery = evaporationPlan.masteryCheckFr.some(
+  (item) => lowerFr(item.prompt).includes('facteur') && lowerFr(item.expectedAnswer).includes('film plastique'),
+);
+check(
+  '9.6 lesson 9-1 preserves the printed covered/uncovered-glasses activity without mislabelling it as a temperature test',
+  !!evaporationPlan &&
+    evaporationPlan.sourcePages === '92–93' &&
+    ['linge mouillé', 'au soleil', 'à l’ombre', 'deux verres', 'film plastique', 'élastique', 'deux à trois jours', 'ouvert', 'température', 'isolément', 'contrôle ajouté'].every((term) => evaporationBookActivity.includes(term)) &&
+    bookActivityGuided &&
+    sourcePredictionGuided &&
+    bookActivityMastery &&
+    evaporationPlan.independentPracticeFr.length >= 4,
+);
+
+
+const incompleteScienceTeacherPlans = Object.entries(SCIENCE_FR_TEACHER_GUIDE_2026)
+  .filter(([, plan]) =>
+    !plan.explanationFr.trim() ||
+    !plan.workedExampleFr.trim() ||
+    plan.guidedPracticeFr.length < 2 ||
+    plan.guidedPracticeFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim()) ||
+    plan.independentPracticeFr.length < 2 ||
+    plan.independentPracticeFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim()) ||
+    plan.answerKeyFr.length !== plan.independentPracticeFr.length ||
+    plan.answerKeyFr.some((answer, index) => answer !== plan.independentPracticeFr[index]?.expectedAnswer) ||
+    plan.misconceptionDiagnosisFr.length < 2 ||
+    plan.misconceptionDiagnosisFr.some((item) => !item.observedResponse.trim() || !item.diagnosis.trim() || !item.correctivePrompt.trim()) ||
+    plan.remediationFr.length < 2 ||
+    plan.remediationFr.some((item) => !item.trim()) ||
+    plan.masteryCheckFr.length < 2 ||
+    plan.masteryCheckFr.some((item) => !item.prompt.trim() || !item.expectedAnswer.trim() || !item.successCriterion.trim()),
+  )
+  .map(([id]) => id);
+check(
+  '9.7 all 28 French Science teacher plans have complete, answer-aligned teaching sequences',
+  Object.keys(SCIENCE_FR_TEACHER_GUIDE_2026).length === 28 && incompleteScienceTeacherPlans.length === 0,
+);
+if (incompleteScienceTeacherPlans.length > 0) {
+  console.error('   incomplete Science teacher plans:', incompleteScienceTeacherPlans);
+}
 
 
 // 10. The exact nine chapter headings and per-lesson objectives/vocabulary
@@ -755,6 +803,61 @@ check(
   }) &&
     ['16–17', '24–25', '42', '48–49', '62', '88', '100–101'].every((page) => attachedPracticePages.includes(page)) &&
     attachedPracticePages.length === 7,
+);
+
+// 12.17 Printed pp. 57–58 teach the field-of-view and brightness trade-off.
+const microscopeLesson = SCIENCE_FR_CURRICULUM_2026_LESSONS.find(
+  (lesson) => lesson.unitNumber === 5 && lesson.lessonNumber === 2,
+);
+const microscopePlan = SCIENCE_FR_TEACHER_GUIDE_2026['5-2'];
+const microscopeExplanation = lowerFr(microscopePlan?.explanationFr ?? '');
+const microscopeGuided = microscopePlan?.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('faible grossissement') &&
+    lowerFr(item.expectedAnswer).includes('champ de vision') &&
+    lowerFr(item.expectedAnswer).includes('plus lumineuse'),
+) ?? false;
+const microscopeIndependent = microscopePlan?.independentPracticeFr.some(
+  (item) => lowerFr(item.expectedAnswer).includes('plus étroit') &&
+    lowerFr(item.expectedAnswer).includes('plus sombre'),
+) ?? false;
+const microscopeMastery = microscopePlan?.masteryCheckFr.some(
+  (item) => lowerFr(item.expectedAnswer).includes('plus large') &&
+    lowerFr(item.expectedAnswer).includes('plus lumineuse'),
+) ?? false;
+check(
+  '12.17 lesson 5-2 teaches the printed low/high magnification field-of-view and brightness trade-off',
+  !!microscopeLesson &&
+    microscopeLesson.sourceRef.page === 55 &&
+    microscopeLesson.objectives.some((item) => lowerFr(item).includes('champ de vision')) &&
+    microscopeLesson.vocabulary.some((item) => lowerFr(item.word).includes('champ de vision')) &&
+    !!microscopePlan &&
+    microscopePlan.sourcePages === '55–59' &&
+    ['champ de vision est plus large', 'image plus lumineuse', 'champ de vision devient plus étroit', 'image plus sombre']
+      .every((term) => microscopeExplanation.includes(term)) &&
+    microscopeGuided &&
+    microscopeIndependent &&
+    microscopeMastery &&
+    microscopePlan.answerKeyFr.length === microscopePlan.independentPracticeFr.length,
+);
+
+// 12.18 Printed p. 56 slide preparation must remain in the lesson plan.
+const microscopeSlidePreparation = lowerFr(microscopePlan?.explanationFr ?? '');
+const microscopeSlideGuided = microscopePlan?.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('lamelle') &&
+    lowerFr(item.expectedAnswer).includes('depuis un côté'),
+) ?? false;
+const microscopeSlideMastery = microscopePlan?.masteryCheckFr.some(
+  (item) => lowerFr(item.prompt).includes('prépare-t-on une lame') &&
+    lowerFr(item.expectedAnswer).includes('papier filtre'),
+) ?? false;
+check(
+  '12.18 lesson 5-2 preserves the printed slide-preparation sequence and bubble-control technique',
+  !!microscopePlan &&
+    ['une ou deux gouttes d’eau', 'abaisse lentement la lamelle depuis un côté', 'bulles d’air', 'papier filtre']
+      .every((term) => microscopeSlidePreparation.includes(term)) &&
+    microscopeSlideGuided &&
+    microscopeSlideMastery &&
+    microscopePlan.answerKeyFr.length === microscopePlan.independentPracticeFr.length,
 );
 
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
