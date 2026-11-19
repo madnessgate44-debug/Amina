@@ -840,5 +840,25 @@ check(
     microscopePlan.answerKeyFr.length === microscopePlan.independentPracticeFr.length,
 );
 
+// 12.18 Printed p. 56 slide preparation must remain in the lesson plan.
+const microscopeSlidePreparation = lowerFr(microscopePlan?.explanationFr ?? '');
+const microscopeSlideGuided = microscopePlan?.guidedPracticeFr.some(
+  (item) => lowerFr(item.prompt).includes('lamelle') &&
+    lowerFr(item.expectedAnswer).includes('depuis un côté'),
+) ?? false;
+const microscopeSlideMastery = microscopePlan?.masteryCheckFr.some(
+  (item) => lowerFr(item.prompt).includes('prépare-t-on une lame') &&
+    lowerFr(item.expectedAnswer).includes('papier filtre'),
+) ?? false;
+check(
+  '12.18 lesson 5-2 preserves the printed slide-preparation sequence and bubble-control technique',
+  !!microscopePlan &&
+    ['une ou deux gouttes d’eau', 'abaisse lentement la lamelle depuis un côté', 'bulles d’air', 'papier filtre']
+      .every((term) => microscopeSlidePreparation.includes(term)) &&
+    microscopeSlideGuided &&
+    microscopeSlideMastery &&
+    microscopePlan.answerKeyFr.length === microscopePlan.independentPracticeFr.length,
+);
+
 console.log(`\nCURRICULUM REGISTRY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);
