@@ -20,6 +20,7 @@ import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from './curriculum/familyMa
 import { ENGLISH_CURRICULUM_LESSONS } from './curriculum/englishCurriculum';
 import { ICT_CURRICULUM_LESSONS } from './curriculum/ictCurriculum';
 import { ISLAMIC_CURRICULUM_LESSONS } from './curriculum/islamicCurriculum';
+import { ISLAMIC_CURRICULUM_2026_LESSONS } from './curriculum/islamicCurriculum2026';
 import { CALLIGRAPHY_CURRICULUM_LESSONS } from './curriculum/calligraphyCurriculum';
 import { MATH_CURRICULUM_LESSONS } from './curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from './curriculum/scienceCurriculum';
@@ -188,6 +189,9 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   ...FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS,
   ...ENGLISH_CURRICULUM_LESSONS,
   ...ICT_CURRICULUM_LESSONS,
+  // 2026/2027 Ministry Islamic Education book, Term 1: three units of seven,
+  // seven and six lessons, matching the printed lesson opener pages.
+  ...ISLAMIC_CURRICULUM_2026_LESSONS,
   ...ISLAMIC_CURRICULUM_LESSONS,
   ...CALLIGRAPHY_CURRICULUM_LESSONS,
 ];

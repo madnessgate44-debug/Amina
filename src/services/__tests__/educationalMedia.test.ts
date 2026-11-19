@@ -28,6 +28,7 @@ import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from '../../data/curriculum/so
 import { LIBRARIES_CURRICULUM_2026_LESSONS } from '../../data/curriculum/librariesCurriculum2026';
 import { FARMING_CURRICULUM_2026_LESSONS } from '../../data/curriculum/farmingCurriculum2026';
 import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from '../../data/curriculum/familyManagementCurriculum2026';
+import { ISLAMIC_CURRICULUM_2026_LESSONS } from '../../data/curriculum/islamicCurriculum2026';
 import { MATH_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/mathFrCurriculum2026';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { curriculumService } from '../curriculum/curriculumService';
@@ -68,7 +69,8 @@ function main() {
       !lessonId.startsWith('off_soc_2026_') &&
       !lessonId.startsWith('off_lib_2026_') &&
       !lessonId.startsWith('off_farm_2026_') &&
-      !lessonId.startsWith('off_fam_2026_'),
+      !lessonId.startsWith('off_fam_2026_') &&
+      !lessonId.startsWith('off_isl_2026_'),
   );
   const uncoveredConcepts = existingConcepts.filter(({ lessonId, conceptId }) =>
     mediaForConcept(lessonId, conceptId).length === 0
@@ -89,6 +91,7 @@ function main() {
     ...LIBRARIES_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
     ...FARMING_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
     ...FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...ISLAMIC_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
   ];
   const languageWithoutFallback = languageConcepts.filter(
     (concept) => concept.visualType !== 'diagram' || !concept.visualPrompt?.trim(),

@@ -13,6 +13,7 @@
  * Libraries: one unit of twelve lessons.
  * Farming Skills: two units of two and three lessons.
  * Family Management: two units of three lessons each.
+ * Islamic Education: three units of seven, seven and six lessons.
  *
  * This suite fails if a unit or lesson disappears from the registry, if a
  * lesson loses its exercise or answer key, or if a lesson is not instructed
@@ -25,6 +26,7 @@ import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from '../socialStudiesCurricul
 import { LIBRARIES_CURRICULUM_2026_LESSONS } from '../librariesCurriculum2026';
 import { FARMING_CURRICULUM_2026_LESSONS } from '../farmingCurriculum2026';
 import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from '../familyManagementCurriculum2026';
+import { ISLAMIC_CURRICULUM_2026_LESSONS } from '../islamicCurriculum2026';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../officialCurriculum';
 import { getPreGeneratedLine } from '../preGeneratedNoorLines';
 
@@ -101,6 +103,13 @@ const BOOKS: BookCase[] = [
     language: 'ar',
     expected: { 1: [1, 2, 3], 2: [1, 2, 3] },
     bookPages: 47,
+  },
+  {
+    label: 'Islamic Religious Education',
+    lessons: ISLAMIC_CURRICULUM_2026_LESSONS,
+    language: 'ar',
+    expected: { 1: [1, 2, 3, 4, 5, 6, 7], 2: [1, 2, 3, 4, 5, 6, 7], 3: [1, 2, 3, 4, 5, 6] },
+    bookPages: 95,
   },
 ];
 
