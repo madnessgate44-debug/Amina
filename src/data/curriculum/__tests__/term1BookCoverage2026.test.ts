@@ -9,6 +9,7 @@
  *
  * Arabic: the printed index lists three units of four lessons.
  * English: the book prints five units and twenty lesson headings.
+ * Social Studies: three units of four, four and three lessons.
  *
  * This suite fails if a unit or lesson disappears from the registry, if a
  * lesson loses its exercise or answer key, or if a lesson is not instructed
@@ -17,6 +18,7 @@
 
 import { ARABIC_CURRICULUM_2026_LESSONS } from '../arabicCurriculum2026';
 import { ENGLISH_CURRICULUM_2026_LESSONS } from '../englishCurriculum2026';
+import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from '../socialStudiesCurriculum2026';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../officialCurriculum';
 import { getPreGeneratedLine } from '../preGeneratedNoorLines';
 
@@ -61,6 +63,17 @@ const BOOKS: BookCase[] = [
       5: [1, 2, 3, 4],
     },
     bookPages: 113,
+  },
+  {
+    label: 'Social Studies',
+    lessons: SOCIAL_STUDIES_CURRICULUM_2026_LESSONS,
+    language: 'ar',
+    expected: {
+      1: [1, 2, 3, 4],
+      2: [1, 2, 3, 4],
+      3: [1, 2, 3],
+    },
+    bookPages: 98,
   },
 ];
 
@@ -202,5 +215,5 @@ for (const book of BOOKS) {
   check(`[${label}] no two lessons share a title`, titles.size === lessons.length);
 }
 
-console.log(`\nTERM 1 LANGUAGE BOOKS SUMMARY: ${passed} PASSED, ${failed} FAILED\n`);
+console.log(`\nTERM 1 BOOK COVERAGE SUMMARY: ${passed} PASSED, ${failed} FAILED\n`);
 process.exit(failed === 0 ? 0 : 1);

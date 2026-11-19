@@ -23,6 +23,7 @@
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
 import { ARABIC_CURRICULUM_2026_LESSONS } from './arabicCurriculum2026';
 import { ENGLISH_CURRICULUM_2026_LESSONS } from './englishCurriculum2026';
+import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from './socialStudiesCurriculum2026';
 import { MATH_FR_CURRICULUM_2026_LESSONS } from './mathFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
@@ -425,12 +426,35 @@ const CURRENT_ENGLISH_NOOR_LINES = Object.fromEntries(
   ),
 ) as Record<string, PreGeneratedNoorLines>;
 
+// Social Studies is taught in Arabic, so its fixed lines are Arabic, built
+// from the lesson's own objectives and its first sub-heading.
+const CURRENT_SOCIAL_NOOR_LINES = Object.fromEntries(
+  SOCIAL_STUDIES_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => [
+      'ar:' + lesson.id + ':' + index,
+      {
+        intro:
+          'أهلاً بك! درسنا اليوم في الدراسات الاجتماعية: «' +
+          concept.titleAr +
+          '». سنقرأ الفكرة ثم نطبقها على خريطة مصر. هل نبدأ؟',
+        explanation:
+          concept.sourceText +
+          '\n\nالمطلوب منك: ' +
+          concept.keyPoints.join(' '),
+        check:
+          'اشرح بأسلوبك: ' + concept.keyPoints[0] + ' ولماذا؟',
+      },
+    ]),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
 export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...BASE_PRE_GENERATED_NOOR_LINES,
   ...CURRENT_SCIENCE_NOOR_LINES,
   ...CURRENT_MATH_NOOR_LINES,
   ...CURRENT_ARABIC_NOOR_LINES,
   ...CURRENT_ENGLISH_NOOR_LINES,
+  ...CURRENT_SOCIAL_NOOR_LINES,
 };
 
 
