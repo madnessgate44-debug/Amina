@@ -22,6 +22,7 @@
 
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
 import { ARABIC_CURRICULUM_2026_LESSONS } from './arabicCurriculum2026';
+import { ENGLISH_CURRICULUM_2026_LESSONS } from './englishCurriculum2026';
 import { MATH_FR_CURRICULUM_2026_LESSONS } from './mathFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
@@ -397,11 +398,39 @@ const CURRENT_ARABIC_NOOR_LINES = Object.fromEntries(
   ),
 ) as Record<string, PreGeneratedNoorLines>;
 
+// English lessons are taught in English, so the fixed lines are English. The
+// app still speaks Arabic to the child around the lesson, so the English text
+// is introduced in Arabic to keep the switch explicit rather than abrupt.
+const CURRENT_ENGLISH_NOOR_LINES = Object.fromEntries(
+  ENGLISH_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => [
+      // Keyed by the child's UI language, not the lesson's teaching language:
+      // Miss Noor speaks Arabic and switches into English inside the lesson.
+      'ar:' + lesson.id + ':' + index,
+      {
+        intro:
+          'أهلاً بك! درس اليوم بالإنجليزية: ' +
+          concept.titleEn +
+          '. سأشرح لك بالعربية ثم نتدرب بالإنجليزية. هل نبدأ؟',
+        explanation:
+          'بالعربية: ' +
+          concept.sourceText +
+          '\n\nIn English: ' +
+          concept.dailyLifeExampleEn,
+        check:
+          'اشرح بالعربية ما فهمته من الدرس، ثم أجب بالإنجليزية: ' +
+          concept.keyPoints[0],
+      },
+    ]),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
 export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...BASE_PRE_GENERATED_NOOR_LINES,
   ...CURRENT_SCIENCE_NOOR_LINES,
   ...CURRENT_MATH_NOOR_LINES,
   ...CURRENT_ARABIC_NOOR_LINES,
+  ...CURRENT_ENGLISH_NOOR_LINES,
 };
 
 
