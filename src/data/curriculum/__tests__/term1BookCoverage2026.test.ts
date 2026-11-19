@@ -10,6 +10,9 @@
  * Arabic: the printed index lists three units of four lessons.
  * English: the book prints five units and twenty lesson headings.
  * Social Studies: three units of four, four and three lessons.
+ * Libraries: one unit of twelve lessons.
+ * Farming Skills: two units of two and three lessons.
+ * Family Management: two units of three lessons each.
  *
  * This suite fails if a unit or lesson disappears from the registry, if a
  * lesson loses its exercise or answer key, or if a lesson is not instructed
@@ -19,6 +22,9 @@
 import { ARABIC_CURRICULUM_2026_LESSONS } from '../arabicCurriculum2026';
 import { ENGLISH_CURRICULUM_2026_LESSONS } from '../englishCurriculum2026';
 import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from '../socialStudiesCurriculum2026';
+import { LIBRARIES_CURRICULUM_2026_LESSONS } from '../librariesCurriculum2026';
+import { FARMING_CURRICULUM_2026_LESSONS } from '../farmingCurriculum2026';
+import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from '../familyManagementCurriculum2026';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../officialCurriculum';
 import { getPreGeneratedLine } from '../preGeneratedNoorLines';
 
@@ -74,6 +80,27 @@ const BOOKS: BookCase[] = [
       3: [1, 2, 3],
     },
     bookPages: 98,
+  },
+  {
+    label: 'Libraries',
+    lessons: LIBRARIES_CURRICULUM_2026_LESSONS,
+    language: 'ar',
+    expected: { 1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12] },
+    bookPages: 41,
+  },
+  {
+    label: 'Farming Skills',
+    lessons: FARMING_CURRICULUM_2026_LESSONS,
+    language: 'ar',
+    expected: { 1: [1, 2], 2: [1, 2], 3: [1] },
+    bookPages: 35,
+  },
+  {
+    label: 'Family Management',
+    lessons: FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS,
+    language: 'ar',
+    expected: { 1: [1, 2, 3], 2: [1, 2, 3] },
+    bookPages: 47,
   },
 ];
 

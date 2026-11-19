@@ -14,6 +14,9 @@ import { SCIENCE_FR_CURRICULUM_LESSONS as LEGACY_SCIENCE_FR_CURRICULUM_LESSONS }
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './curriculum/scienceFrCurriculum2026';
 import { SOCIAL_STUDIES_CURRICULUM_LESSONS } from './curriculum/socialStudiesCurriculum';
 import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from './curriculum/socialStudiesCurriculum2026';
+import { LIBRARIES_CURRICULUM_2026_LESSONS } from './curriculum/librariesCurriculum2026';
+import { FARMING_CURRICULUM_2026_LESSONS } from './curriculum/farmingCurriculum2026';
+import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from './curriculum/familyManagementCurriculum2026';
 import { ENGLISH_CURRICULUM_LESSONS } from './curriculum/englishCurriculum';
 import { ICT_CURRICULUM_LESSONS } from './curriculum/ictCurriculum';
 import { ISLAMIC_CURRICULUM_LESSONS } from './curriculum/islamicCurriculum';
@@ -178,6 +181,11 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   // 2026/2027 Ministry Social Studies book, Term 1: three units of four,
   // four and three lessons, matching the printed lesson opener pages.
   ...SOCIAL_STUDIES_CURRICULUM_2026_LESSONS,
+  // 2026/2027 activity subjects: Libraries (12 lessons, one unit), Farming
+  // Skills (5 lessons, two units) and Family Management (6 lessons, two units).
+  ...LIBRARIES_CURRICULUM_2026_LESSONS,
+  ...FARMING_CURRICULUM_2026_LESSONS,
+  ...FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS,
   ...ENGLISH_CURRICULUM_LESSONS,
   ...ICT_CURRICULUM_LESSONS,
   ...ISLAMIC_CURRICULUM_LESSONS,

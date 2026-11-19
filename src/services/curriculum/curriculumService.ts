@@ -49,6 +49,9 @@ export const FRENCH_SUBJECT_NAMES: Record<string, string> = {
   subj_ict: 'Informatique',
   subj_islamic: 'Éducation islamique',
   subj_calligraphy: 'Calligraphie arabe',
+  subj_libraries: 'Bibliothèque',
+  subj_farming: 'Compétences agricoles',
+  subj_family_management: 'Gestion familiale',
 };
 
 const FRENCH_BOOK_LABELS: Record<string, string> = {
@@ -64,6 +67,9 @@ const FRENCH_BOOK_LABELS: Record<string, string> = {
   subj_ict: 'Manuel d’informatique',
   subj_islamic: 'Manuel d’éducation islamique',
   subj_calligraphy: 'Manuel de calligraphie arabe',
+  subj_libraries: 'Manuel de bibliothèque',
+  subj_farming: 'Manuel de compétences agricoles',
+  subj_family_management: 'Manuel de gestion familiale',
 };
 
 export interface UnitCurriculumSummary {
@@ -169,6 +175,30 @@ export const SUBJECT_METADATA_MAP: Record<string, {
     termLabel: 'الفصل الدراسي الأول',
     badgeAr: 'خط عربي',
     badgeEn: 'Calligraphy',
+  },
+  subj_libraries: {
+    icon: '📚',
+    color: 'rose',
+    bgGradient: 'from-rose-600 to-pink-900',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'مكتبات',
+    badgeEn: 'Libraries',
+  },
+  subj_farming: {
+    icon: '🌱',
+    color: 'lime',
+    bgGradient: 'from-lime-600 to-green-900',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'مهارات الزراعة',
+    badgeEn: 'Farming Skills',
+  },
+  subj_family_management: {
+    icon: '🏠',
+    color: 'orange',
+    bgGradient: 'from-orange-500 to-amber-800',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'إدارة الأسرة',
+    badgeEn: 'Family Management',
   },
 };
 
