@@ -64,13 +64,28 @@ The plan content is intentionally concise enough for a teacher to use during a l
 | 2 | Describe seasonal change in a plant; sequence germination, growth, flowering and fruiting; distinguish hibernation from migration. | saison, température, germer, fleurir, fruit, graine, se faner, hibernation, migration |
 | 3 | Identify embryo and cotyledons; explain the iodine test for starch; test water, air and suitable temperature using fair comparisons; distinguish germination from later growth. | graine, embryon, cotylédon, amidon, germination, solution d’iode, variable, condition constante, dormance |
 | 4 | Explain the role of sunlight and fertilizer in plant growth; plan fair comparisons; record plant growth. | croissance, lumière du Soleil, engrais, nutriments, plantule, tige, feuilles, mesurer, comparer |
-| 5 | Distinguish male and female luffa flowers; identify microscope parts and safe use; explain pollination and fruit development. | fleur mâle, fleur femelle, étamine, pollen, carpelle, sépale, pétale, pollinisation, microscope, oculaire, objectif, platine, grossissement |
+| 5 | Distinguish male and female luffa flowers; prepare a microscope slide safely; identify microscope parts; compare low/high magnification field of view and brightness; explain pollination and fruit development. | fleur mâle, fleur femelle, étamine, pollen, carpelle, sépale, pétale, pollinisation, microscope, oculaire, objectif, platine, grossissement, champ de vision, lame préparée, lamelle |
 | 6 | Sequence human life stages; explain inherited similarities and differences; describe healthy food, sufficient sleep and suitable physical activity. | croissance, naissance, petite enfance, enfance, adolescence, jeunesse, vieillesse, hériter, caractère, alimentation saine, sommeil, activité physique |
 | 7 | Compare animals that give birth with animals that lay eggs; define hatching; explain how reproduction and protected habitats support species continuity. | reproduction, espèce, donner naissance, pondre, œuf, éclosion, petit, réserve naturelle, conservation |
 | 8 | Estimate cloud cover using the book's eight-part model; observe cloud movement from a fixed reference; interpret satellite images and justify a forecast. | météo, couverture nuageuse, nuageux, ensoleillé, vent, direction, boussole, satellite, radar, prévision, khamsin |
 | 9 | Explain evaporation and condensation; sequence the water cycle; connect the cycle to rivers, seas and the Nile. | évaporation, vapeur d’eau, condensation, gouttelette, refroidissement, nuage, précipitation, rivière, mer, cycle de l’eau |
 
 Chapter 5 also has a separate printed-page-63 “Révision et exercices” review. Lesson 5-3 ends on p. 62; the review is indexed separately in SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026.
+
+
+### Lesson 5-2 source-aligned teaching note — printed pp. 55–59
+
+The student book's microscope sequence is more specific than simply “start with low magnification”:
+
+1. Prepare the slide: place the sample on the glass slide, add one or two drops of water if needed, lower the cover slip slowly from one side to reduce air bubbles, and remove excess water at the edges with filter paper (p. 56).
+2. Identify the labelled parts: eyepiece, tube, revolving nosepiece, objective, stage, clips, mirror, arm and adjustment knob (p. 56).
+3. Place the microscope on a flat, illuminated surface away from direct sunlight; begin with the shortest/lowest-power objective and adjust the mirror for a clear, bright view (p. 57).
+4. While looking from the side, bring the objective close to the slide without contact; then look through the eyepiece and move the objective away to focus safely (p. 57).
+5. Explain the optical trade-off: low power gives a wider field of view and brighter image; high power gives a narrower field and darker image. The viewed image is inverted vertically and horizontally. Total magnification is eyepiece × objective (p. 57).
+6. Apply the method to pollen from a male luffa flower (p. 58).
+
+**[VERIFIED]** The source details above were checked against the page text and page images. **[IN PROGRESS]** The corresponding expanded Miss Noor-authored lesson plan and regression assertions are on PR [#205](https://github.com/madnessgate44-debug/Amina), head `878542c686cd94d00f9552b34eb331bb77f899f7`; CI [44481197673](https://github.com/madnessgate44-debug/Amina/actions/runs/44481197673) and compliance [44481197869](https://github.com/madnessgate44-debug/Amina/actions/runs/44481197869) passed. The code PR remains open and unmerged.
+
 
 ## Enrichment pages retained
 
