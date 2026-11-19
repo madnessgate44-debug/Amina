@@ -43,14 +43,18 @@ export function normalizeSubjectId(subName?: string): string {
     return 'subj_french';
   }
 
-  if (s.includes('عرب') || s.includes('لغة عربية') || s.includes('arabic')) return 'subj_arabic';
+  // Specific subjects first: "تكنولوجيا المعلومات" contains "علوم" and
+  // "الخط العربي" contains "عرب", so a generic match would hijack them.
+  if (s.includes('تكنولوج') || s.includes('ict')) return 'subj_ict';
+  if (s.includes('خط') || s.includes('calligraphy')) return 'subj_calligraphy';
+  if (s.includes('دين') || s.includes('إسلام') || s.includes('اسلام') ||
+      s.includes('islamic') || s.includes('religion')) return 'subj_islamic';
+
   if (s.includes('رياض') || s.includes('حساب') || s.includes('math') || s.includes('كسور')) return 'subj_math';
   if (s.includes('علوم') || s.includes('science') || s.includes('كائنات') || s.includes('بيئة')) return 'subj_science';
-  if (s.includes('دراس') || s.includes('social')) return 'subj_social';
+  if (s.includes('دراس') || s.includes('social')) return 'subj_social_studies';
   if (s.includes('إنجليز') || s.includes('انجليز') || s.includes('english')) return 'subj_english';
-  if (s.includes('تكنولوج') || s.includes('ict')) return 'subj_ict';
-  if (s.includes('دين') || s.includes('islamic') || s.includes('religion')) return 'subj_islamic';
-  if (s.includes('خط') || s.includes('calligraphy')) return 'subj_calligraphy';
+  if (s.includes('عرب') || s.includes('لغة عربية') || s.includes('arabic')) return 'subj_arabic';
 
   return '';
 }

@@ -13,6 +13,7 @@ import { processMissionCompletion } from '../missions/missionCompletion';
 import { storageService } from '../storage';
 import { Student, DayRecord, Timetable, Mission, MissionOutcome, MasteryRecord } from '../../types';
 import { ensureDefaultCollections, saveItem } from '../collections/collectionService';
+import { findConceptForHomework } from '../homework/homeworkGenerator';
 
 let passed = 0;
 let failed = 0;
@@ -622,6 +623,31 @@ async function runIntegrityTests() {
     // as Mademoiselle Noor.
     assert(/Mademoiselle Noor/.test(translations.fr.onboarding.step1Title),
       `G.7: French onboarding title is localized (got "${translations.fr.onboarding.step1Title}")`);
+  }
+
+  // =========================================================================
+  // TEST H: every subject the app teaches must be reachable by its Arabic and
+  // English name. A subject whose display name resolves to an id that no lesson
+  // carries silently loses homework linking, missions and mastery.
+  // =========================================================================
+  console.log('\nTest H: subject name routing reaches real curriculum concepts');
+  const subjectNames: Array<[string, string]> = [
+    ['الدراسات الاجتماعية', 'subj_social_studies'],
+    ['Social Studies', 'subj_social_studies'],
+    ['اللغة العربية', 'subj_arabic'],
+    ['الرياضيات', 'subj_math'],
+    ['العلوم', 'subj_science'],
+    ['اللغة الإنجليزية', 'subj_english'],
+    ['تكنولوجيا المعلومات', 'subj_ict'],
+    ['التربية الإسلامية', 'subj_islamic'],
+    ['الخط العربي', 'subj_calligraphy'],
+  ];
+  for (const [name, expectedId] of subjectNames) {
+    const concept = findConceptForHomework(name, '');
+    assert(
+      concept !== null && concept.subjectId === expectedId,
+      `H: "${name}" resolves to a real ${expectedId} concept (got ${concept ? concept.subjectId : 'null'})`
+    );
   }
 
   console.log('\n=================================================================');
