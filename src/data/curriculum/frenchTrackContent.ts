@@ -14,6 +14,7 @@
  */
 
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from './mathFrCurriculum2026';
 
 export interface ConceptFrenchContent {
   titleFr: string;
@@ -299,7 +300,23 @@ const CURRENT_SCIENCE_FRENCH_OVERLAYS = Object.fromEntries(
   ),
 ) as Record<string, ConceptFrenchContent>;
 
+const CURRENT_MATH_FRENCH_OVERLAYS = Object.fromEntries(
+  MATH_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept) => [
+      concept.id,
+      {
+        titleFr: concept.titleFr || concept.titleEn,
+        sourceTextFr: concept.sourceTextFr || concept.sourceText,
+        keyPointsFr: concept.keyPointsFr || concept.keyPoints,
+        dailyLifeExampleFr: concept.dailyLifeExampleFr || '',
+        storyAnalogyFr: concept.storyAnalogyFr || '',
+      },
+    ]),
+  ),
+) as Record<string, ConceptFrenchContent>;
+
 export const FRENCH_TRACK_CONTENT: Record<string, ConceptFrenchContent> = {
   ...BASE_FRENCH_TRACK_CONTENT,
   ...CURRENT_SCIENCE_FRENCH_OVERLAYS,
+  ...CURRENT_MATH_FRENCH_OVERLAYS,
 };

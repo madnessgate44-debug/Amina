@@ -21,6 +21,7 @@
  */
 
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from './mathFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
   /** The warm opening for the lesson. */
@@ -341,9 +342,39 @@ const CURRENT_SCIENCE_NOOR_LINES = Object.fromEntries(
   ),
 ) as Record<string, PreGeneratedNoorLines>;
 
+const CURRENT_MATH_NOOR_LINES = Object.fromEntries(
+  MATH_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => {
+      const keyPoint = concept.titleAr;
+      return [
+        'ar:' + lesson.id + ':' + index,
+        {
+          intro:
+            'أهلاً يا بطلة! النهارده هنتعلم مع بعض درس ' +
+            concept.titleAr +
+            '. هنفهم الفكرة خطوة خطوة ونربطها بمثال من حياتنا اليومية. جاهزة نبدأ؟',
+          explanation:
+            'الفكرة الأساسية هي ' +
+            concept.titleAr +
+            '. ' +
+            concept.dailyLifeExampleAr +
+            ' ' +
+            keyPoint +
+            ' خلينا نفهم السبب ونشرح المعلومة بكلماتنا، مش نحفظها بس.',
+          check:
+            'تقدري تشرحي بطريقتك ' +
+            keyPoint +
+            '؟ اذكري مثالاً من حياتك يساعدك توضحي الفكرة.',
+        },
+      ];
+    }),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
 export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...BASE_PRE_GENERATED_NOOR_LINES,
   ...CURRENT_SCIENCE_NOOR_LINES,
+  ...CURRENT_MATH_NOOR_LINES,
 };
 
 

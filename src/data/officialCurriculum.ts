@@ -7,6 +7,7 @@ import { OfficialCurriculumLesson } from '../types/teachingSession';
 import { ARABIC_CURRICULUM_LESSONS } from './curriculum/arabicCurriculum';
 import { FRENCH_CURRICULUM_LESSONS } from './curriculum/frenchCurriculum';
 import { MATH_FR_CURRICULUM_LESSONS } from './curriculum/mathFrCurriculum';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from './curriculum/mathFrCurriculum2026';
 import { SCIENCE_FR_CURRICULUM_LESSONS as LEGACY_SCIENCE_FR_CURRICULUM_LESSONS } from './curriculum/scienceFrCurriculum';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './curriculum/scienceFrCurriculum2026';
 import { SOCIAL_STUDIES_CURRICULUM_LESSONS } from './curriculum/socialStudiesCurriculum';
@@ -87,6 +88,21 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   })),
   ...FRENCH_CURRICULUM_LESSONS,
   ...MATH_FR_CURRICULUM_LESSONS.map((lesson) => ({
+    ...lesson,
+    subjectId: 'subj_math',
+    subjectNameAr: 'الرياضيات',
+    subjectNameEn: 'Mathematics',
+    subjectNameFr: 'Mathématiques',
+    curriculumSource: 'egyptian_national' as const,
+    instructionLanguage: 'fr' as const,
+    contentLanguage: 'fr' as const,
+    assessmentLanguage: 'fr' as const,
+    track: 'french_bilingual' as const,
+  })),
+  // Lessons of the same 2026/2027 Ministry French Maths book that the legacy
+  // extracts above do not cover, so the Term 1 book reaches its full 46-lesson
+  // table of contents instead of stopping at the 16 extracted records.
+  ...MATH_FR_CURRICULUM_2026_LESSONS.map((lesson) => ({
     ...lesson,
     subjectId: 'subj_math',
     subjectNameAr: 'الرياضيات',

@@ -22,6 +22,7 @@
 import { readFileSync, existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { MEDIA_CATALOG, mediaForConcept } from '../../data/media/mediaCatalog';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/mathFrCurriculum2026';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept } from '../reels/reelGenerator';
@@ -49,13 +50,19 @@ function main() {
   const allConcepts = curriculumService.getAllLessons().flatMap((lesson) =>
     lesson.concepts.map((concept) => ({ lessonId: lesson.id, conceptId: concept.id }))
   );
-  const existingConcepts = allConcepts.filter(({ lessonId }) => !lessonId.startsWith('off_scifr_2026_'));
+  // The 2026/2027 Term 1 Science and Maths books ship structured diagram
+  // fallbacks (visualType + visualPrompt) instead of catalog media, so they are
+  // excluded here and covered by their own assertions below.
+  const existingConcepts = allConcepts.filter(
+    ({ lessonId }) =>
+      !lessonId.startsWith('off_scifr_2026_') && !lessonId.startsWith('off_mathfr_2026_'),
+  );
   const uncoveredConcepts = existingConcepts.filter(({ lessonId, conceptId }) =>
     mediaForConcept(lessonId, conceptId).length === 0
   );
   check(
-    'all 54 existing curriculum concepts retain authored media',
-    existingConcepts.length === 54 && uncoveredConcepts.length === 0,
+    `all ${existingConcepts.length} legacy curriculum concepts retain authored media`,
+    existingConcepts.length > 0 && uncoveredConcepts.length === 0,
     uncoveredConcepts.map((x) => `${x.lessonId}/${x.conceptId}`).join(', ')
   );
 
@@ -67,6 +74,21 @@ function main() {
     'all 28 new Science concepts have a structured diagram fallback',
     currentScienceConcepts.length === 28 && scienceWithoutDiagramFallback.length === 0,
     scienceWithoutDiagramFallback.map((concept) => concept.id).join(', ')
+  );
+
+  // Every 2026/2027 Term 1 French Maths lesson must ship a diagram, because
+  // those lessons were added after the catalog was written and a missing asset
+  // silently downgrades the teach card to a generic placeholder.
+  const mathFrConcepts = MATH_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept) => ({ lessonId: lesson.id, conceptId: concept.id })),
+  );
+  const mathFrWithoutMedia = mathFrConcepts.filter(
+    ({ lessonId, conceptId }) => mediaForConcept(lessonId, conceptId).length === 0,
+  );
+  check(
+    `all ${mathFrConcepts.length} new Maths concepts have an authored diagram`,
+    mathFrConcepts.length > 0 && mathFrWithoutMedia.length === 0,
+    mathFrWithoutMedia.map((c) => c.conceptId).join(', '),
   );
 
   check('the catalog has media to check', MEDIA_CATALOG.length >= 3, `found ${MEDIA_CATALOG.length}`);
@@ -151,7 +173,11 @@ function main() {
   for (const m of MEDIA_CATALOG) {
     const found = curriculumService.getConceptById(m.conceptId);
     if (!found) continue;
-    const reels = buildReelsForConcept(found.lesson, found.concept, 'ar');
+    // A French-track lesson drops every reel whose text the child cannot read,
+    // so probing it as an Arabic child reports false gaps. Probe in the language
+    // the lesson is actually instructed in.
+    const probeLanguage = found.lesson.instructionLanguage ?? 'ar';
+    const reels = buildReelsForConcept(found.lesson, found.concept, probeLanguage);
     const hasKind = reels.some((r) => r.kind === m.reelKind);
     if (!hasKind) unreachable.push(`${m.id}:${m.reelKind}`);
   }

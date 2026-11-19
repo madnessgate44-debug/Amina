@@ -72,7 +72,23 @@ check(
     new Set(ministryScienceRegistered.map((lesson) => lesson.id)).size === SCIENCE_CURRICULUM_LESSONS.length,
 );
 
-const mathCoverageGap = EXPECTED_MATH_TOC_LESSONS - MATH_CURRICULUM_LESSONS.length;
+// Coverage is the union of every registered French-track Maths record, because
+// the 2026/2027 book is taught from two sources: the audited legacy extract and
+// the records written for the lessons that extract never reached. Counting one
+// array alone understates or double-counts the book.
+const mathTocPositions = new Set(
+  mathRegistered.map((lesson) => `${lesson.unitNumber}:${lesson.lessonNumber}`),
+);
+const mathTocExpectedPositions: string[] = [];
+const mathLessonsPerUnit: Record<number, number> = { 1: 11, 2: 8, 3: 5, 4: 5, 5: 13, 6: 4 };
+for (const unit of Object.keys(mathLessonsPerUnit)) {
+  for (let n = 1; n <= mathLessonsPerUnit[Number(unit)]; n += 1) {
+    mathTocExpectedPositions.push(`${unit}:${n}`);
+  }
+}
+const mathTocMissing = mathTocExpectedPositions.filter((key) => !mathTocPositions.has(key));
+const mathTocUnavailable = mathRegistered.filter((lesson) => !lesson.isAvailable);
+const mathCoverageGap = mathTocMissing.length;
 const science2026Ids = new Set(SCIENCE_FR_CURRICULUM_2026_LESSONS.map((lesson) => lesson.id));
 const science2026Registered = OFFICIAL_CURRICULUM_LESSONS.filter((lesson) => science2026Ids.has(lesson.id));
 const expectedLessonsPerChapter: Record<number, number> = { 1: 4, 2: 2, 3: 5, 4: 2, 5: 3, 6: 3, 7: 3, 8: 3, 9: 3 };
@@ -101,8 +117,18 @@ check(
   legacyNationalScience.length === SCIENCE_CURRICULUM_LESSONS.length && legacyNationalScience.every((lesson) => !lesson.isAvailable && lesson.contentStatus === 'pending_materials'),
 );
 
+check(
+  `2.7 every one of the ${EXPECTED_MATH_TOC_LESSONS} Term 1 Maths TOC lessons has a reachable record (${mathTocMissing.length} missing)`,
+  mathTocMissing.length === 0 && mathTocExpectedPositions.length === EXPECTED_MATH_TOC_LESSONS,
+);
+if (mathTocMissing.length > 0) console.error('   missing Maths TOC positions:', mathTocMissing);
+check(
+  `2.8 every reachable Term 1 Maths record carries an exercise with an answer (${mathRegistered.filter((lesson) => lesson.isAvailable && !(lesson.exercises?.length ?? 0)).length} without)`,
+  mathRegistered.filter((lesson) => lesson.isAvailable).every((lesson) => (lesson.exercises?.length ?? 0) > 0),
+);
+
 console.log(
-  `[CURRICULUM COVERAGE] Maths: ${MATH_CURRICULUM_LESSONS.length}/${EXPECTED_MATH_TOC_LESSONS} Term 1 TOC lessons; Science: ${SCIENCE_FR_CURRICULUM_2026_LESSONS.length}/${EXPECTED_SCIENCE_TOC_LESSONS} Term 1 lessons across nine chapters. Maths remains incomplete.`,
+  `[CURRICULUM COVERAGE] Maths: ${EXPECTED_MATH_TOC_LESSONS - mathCoverageGap}/${EXPECTED_MATH_TOC_LESSONS} Term 1 TOC lessons reachable (${mathRegistered.length} records, ${mathTocUnavailable.length} compatibility-only); Science: ${SCIENCE_FR_CURRICULUM_2026_LESSONS.length}/${EXPECTED_SCIENCE_TOC_LESSONS} Term 1 lessons across nine chapters.`,
 );
 
 // 3. A topic may appear once per language track but no more, so the fuller

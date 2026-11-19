@@ -151,7 +151,7 @@ Dans le nombre 4,725 :
     unitNameAr: 'الوحدة الأولى: القيمة المكانية للأعداد العشرية والحساب',
     unitNameEn: 'Unit 1: Decimals Place Value & Calculation',
     unitNameFr: 'Unité 1: La valeur de position des nombres décimaux',
-    lessonNumber: 2,
+    lessonNumber: 4,
     titleAr: 'مقارنة وترتيب الأعداد العشرية',
     titleEn: 'Comparing & Ordering Decimals',
     titleFr: 'Comparer et ordonner les nombres décimaux',
@@ -161,13 +161,14 @@ Dans le nombre 4,725 :
     contentStatus: 'available',
     sourceRef: {
       book: 'كتاب الماث بالفرنسية — الصف الخامس الابتدائي — الفصل الدراسي الأول',
-      bookAr: 'كتاب الوزارة Mathématiques ص. 9-14',
-      bookEn: 'Ministry Mathématiques Techbook pp. 9-14',
+      bookAr: 'كتاب الوزارة Mathématiques ص. 15-16',
+      bookEn: 'Ministry Mathématiques Techbook pp. 15-16',
       grade: 'الصف الخامس',
       term: 'الفصل الدراسي الأول',
       unit: 'Unité 1',
-      lesson: 'Leçon 2',
-      page: 9,
+      lesson: 'Leçon 4',
+      page: 15,
+      pageRange: '15–16',
       isAvailable: true,
     },
     objectives: [
@@ -249,6 +250,7 @@ Dans le nombre 4,725 :
         isAvailable: true,
       },
     ],
+    // Re-mapped from an earlier extract that filed this lesson at Unité 1 Leçon 2 page 9. The 2026–2027 book's table of contents places "Comparer des nombres décimaux" at Unité 1 Leçon 4, page 15, and Leçon 2 (page 7) is "Changement de la valeur de position".
   },
 
   // =========================================================================
@@ -281,6 +283,7 @@ Dans le nombre 4,725 :
       unit: 'Unité 2',
       lesson: 'Leçon 1',
       page: 25,
+      pageRange: '25–32',
       isAvailable: true,
     },
     objectives: [
@@ -369,6 +372,12 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
         isAvailable: true,
       },
     ],
+    // KNOWN GAP: this record teaches equivalent fractions, a topic the 2026–2027
+    // Term 1 table of contents does not list at Unité 2 Leçon 1 (that position is
+    // "Expressions, équations et variables", taught by off_mathfr_2026_u2_l1).
+    // Kept reachable because it is genuine Grade 5 French maths practice, but its
+    // position must not be read as a Term 1 TOC mapping. See
+    // docs/curriculum/GRADE_5_GAP_ANALYSIS.md.
   },
 
   // =========================================================================
@@ -380,7 +389,7 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
     subjectNameAr: 'الرياضيات (بالفرنسية)',
     subjectNameEn: 'French Mathematics',
     subjectNameFr: 'Mathématiques',
-    unitNumber: 3,
+    unitNumber: 5,
     unitNameAr: 'الوحدة الثالثة: قسمة وضرب الكسور العشرية',
     unitNameEn: 'Unit 3: Multiplication & Division of Decimals',
     unitNameFr: 'Unité 3: Multiplication et division des décimaux',
@@ -394,13 +403,14 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
     contentStatus: 'available',
     sourceRef: {
       book: 'كتاب الماث بالفرنسية — الصف الخامس الابتدائي — الفصل الدراسي الأول',
-      bookAr: 'كتاب الوزارة Mathématiques ص. 45-50',
-      bookEn: 'Ministry Mathématiques Techbook pp. 45-50',
+      bookAr: 'كتاب الوزارة Mathématiques ص. 92-94',
+      bookEn: 'Ministry Mathématiques Techbook pp. 92-94',
       grade: 'الصف الخامس',
       term: 'الفصل الدراسي الأول',
-      unit: 'Unité 3',
+      unit: 'Unité 5',
       lesson: 'Leçon 1',
-      page: 45,
+      page: 92,
+      pageRange: '92–94',
       isAvailable: true,
     },
     objectives: [
@@ -534,12 +544,13 @@ Rappel : multiplier par 10 rend le nombre 10 fois plus grand, par 100 cent fois 
         sourceType: 'selah_el_telmeez',
         sourceNameAr: 'سلاح التلميذ — ضرب الكسور العشرية في 10 و100 و1000',
         sourceNameEn: 'Selah El-Telmeez Decimals × Powers of 10',
-        unit: 'Unité 3',
+        unit: 'Unité 5',
         lesson: 'Multiplier par 10, 100 et 1000',
         page: 52,
         notes: 'تدريبات على تحريك الفاصلة العشرية وإضافة الأصفار مع مسائل من الحياة اليومية.',
         isAvailable: true,
       },
     ],
+    // Re-mapped from an earlier extract that filed powers-of-ten multiplication at Unité 3 Leçon 1 page 45. The 2026–2027 table of contents places "Multiplication par des puissances de dix" at Unité 5 Leçon 1, page 92.
   },
 ];
