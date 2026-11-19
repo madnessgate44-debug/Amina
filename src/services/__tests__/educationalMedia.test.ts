@@ -22,6 +22,7 @@
 import { readFileSync, existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { MEDIA_CATALOG, mediaForConcept } from '../../data/media/mediaCatalog';
+import { ARABIC_CURRICULUM_2026_LESSONS } from '../../data/curriculum/arabicCurriculum2026';
 import { MATH_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/mathFrCurriculum2026';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { curriculumService } from '../curriculum/curriculumService';
@@ -55,7 +56,9 @@ function main() {
   // excluded here and covered by their own assertions below.
   const existingConcepts = allConcepts.filter(
     ({ lessonId }) =>
-      !lessonId.startsWith('off_scifr_2026_') && !lessonId.startsWith('off_mathfr_2026_'),
+      !lessonId.startsWith('off_scifr_2026_') &&
+      !lessonId.startsWith('off_mathfr_2026_') &&
+      !lessonId.startsWith('off_ar_2026_'),
   );
   const uncoveredConcepts = existingConcepts.filter(({ lessonId, conceptId }) =>
     mediaForConcept(lessonId, conceptId).length === 0
@@ -64,6 +67,19 @@ function main() {
     `all ${existingConcepts.length} legacy curriculum concepts retain authored media`,
     existingConcepts.length > 0 && uncoveredConcepts.length === 0,
     uncoveredConcepts.map((x) => `${x.lessonId}/${x.conceptId}`).join(', ')
+  );
+
+  // Arabic is taught as reading, grammar and composition, so its teaching aid is
+  // a described diagram rather than an authored image. Assert the fallback is
+  // present so a lesson never renders an empty visual.
+  const arabicConcepts = ARABIC_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts);
+  const arabicWithoutFallback = arabicConcepts.filter(
+    (concept) => concept.visualType !== 'diagram' || !concept.visualPrompt?.trim(),
+  );
+  check(
+    `all ${arabicConcepts.length} Arabic concepts have a structured diagram fallback`,
+    arabicConcepts.length > 0 && arabicWithoutFallback.length === 0,
+    arabicWithoutFallback.map((c) => c.id).join(', '),
   );
 
   const currentScienceConcepts = SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts);

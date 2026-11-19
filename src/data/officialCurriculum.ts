@@ -7,6 +7,7 @@ import { OfficialCurriculumLesson } from '../types/teachingSession';
 import { ARABIC_CURRICULUM_LESSONS } from './curriculum/arabicCurriculum';
 import { FRENCH_CURRICULUM_LESSONS } from './curriculum/frenchCurriculum';
 import { MATH_FR_CURRICULUM_LESSONS } from './curriculum/mathFrCurriculum';
+import { ARABIC_CURRICULUM_2026_LESSONS } from './curriculum/arabicCurriculum2026';
 import { MATH_FR_CURRICULUM_2026_LESSONS } from './curriculum/mathFrCurriculum2026';
 import { SCIENCE_FR_CURRICULUM_LESSONS as LEGACY_SCIENCE_FR_CURRICULUM_LESSONS } from './curriculum/scienceFrCurriculum';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './curriculum/scienceFrCurriculum2026';
@@ -97,6 +98,20 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     instructionLanguage: 'fr' as const,
     contentLanguage: 'fr' as const,
     assessmentLanguage: 'fr' as const,
+    track: 'french_bilingual' as const,
+  })),
+  // 2026/2027 Ministry Arabic Language book, Term 1: three units of four
+  // lessons, matching the printed index of the inspected student book.
+  ...ARABIC_CURRICULUM_2026_LESSONS.map((lesson) => ({
+    ...lesson,
+    subjectId: 'subj_arabic',
+    subjectNameAr: 'اللغة العربية',
+    subjectNameEn: 'Arabic Language',
+    subjectNameFr: 'Langue arabe',
+    curriculumSource: 'egyptian_national' as const,
+    instructionLanguage: 'ar' as const,
+    contentLanguage: 'ar' as const,
+    assessmentLanguage: 'ar' as const,
     track: 'french_bilingual' as const,
   })),
   // Lessons of the same 2026/2027 Ministry French Maths book that the legacy

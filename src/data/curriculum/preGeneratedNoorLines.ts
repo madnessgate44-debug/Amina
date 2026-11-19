@@ -21,6 +21,7 @@
  */
 
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
+import { ARABIC_CURRICULUM_2026_LESSONS } from './arabicCurriculum2026';
 import { MATH_FR_CURRICULUM_2026_LESSONS } from './mathFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
@@ -371,10 +372,36 @@ const CURRENT_MATH_NOOR_LINES = Object.fromEntries(
   ),
 ) as Record<string, PreGeneratedNoorLines>;
 
+// The Arabic book is taught in Arabic, so its fixed lines are written in
+// Arabic from the lesson's own objectives and daily-life example. Phrasing
+// avoids gendered address because the class is mixed.
+const CURRENT_ARABIC_NOOR_LINES = Object.fromEntries(
+  ARABIC_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => [
+      'ar:' + lesson.id + ':' + index,
+      {
+        intro:
+          'أهلاً بك! درسنا اليوم «' +
+          concept.titleAr +
+          '». سنفهم الفكرة خطوة خطوة، ثم نتدرب عليها معاً. هل نبدأ؟',
+        explanation:
+          concept.sourceText +
+          '\n\nمثال من حياتنا: ' +
+          concept.dailyLifeExampleAr +
+          '\n\nالمطلوب منك: ' +
+          concept.keyPoints.join(' '),
+        check:
+          'اشرح بأسلوبك: ' + concept.keyPoints[0] + ' واذكر مثالاً من حياتك.',
+      },
+    ]),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
 export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...BASE_PRE_GENERATED_NOOR_LINES,
   ...CURRENT_SCIENCE_NOOR_LINES,
   ...CURRENT_MATH_NOOR_LINES,
+  ...CURRENT_ARABIC_NOOR_LINES,
 };
 
 
