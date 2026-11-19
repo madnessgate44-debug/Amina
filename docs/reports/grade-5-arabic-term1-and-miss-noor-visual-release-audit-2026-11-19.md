@@ -112,3 +112,32 @@ Do not label the app learner-ready until:
 - [BLOCKED] Page-level reconciliation against the exact 2026–2027 Arabic Ministry student book because PDF retrieval failed.
 - [UNPROVEN] Completion of Miss Noor's approved visual redesign.
 - [BLOCKED] Release-ready declaration pending Arabic functionality, visual acceptance and final deployment verification.
+
+
+## 8. Additional static code-path findings (not a live reproduction)
+
+Further inspection of the current main source identifies a concrete failure mode in the lesson-launch experience:
+
+- `CurriculumBrowser.tsx` opens a lesson by setting `activeTeachingLessonId`, which mounts `TeachingSessionModal`.
+- `TeachingSessionModal.tsx` initializes the session asynchronously. If the lesson cannot be resolved or the student ID is absent, initialization returns without setting a session.
+- While either `lesson` or `session` is null, the modal returns `null`. There is no visible loading state, retry action or initialization error message in that branch.
+- The initialization effect has no surrounding `try/catch` that converts an initialization/storage failure into a visible recoverable state.
+
+This means a failed or incomplete initialization can look exactly like a dead lesson button: the modal is mounted but renders nothing. This is a **verified static-code defect/failure mode**, not a claim that it was reproduced on the user's device. It should be fixed with explicit loading, empty/error states, safe retry, and tests for missing lesson, missing student, storage rejection and successful launch.
+
+A separate language-routing defect is also present: `TeachingSessionModal.tsx` maps `language` to `'ar'` only when `isAr`, otherwise to `'en'`. Thus a French UI session is sent through the English teaching-session path. This is not the cause of the Arabic five-lesson count, but it is a cross-track lesson-functionality defect.
+
+## 9. Current Miss Noor implementation inspected
+
+- `src/components/stage/NourCharacter.tsx` is a custom inline SVG teacher illustration. The Arabic outfit palette is teal/gold, and the face/hair/coat are fixed vector shapes; subject outfits change colors/badges.
+- `src/components/home/HomeScreen.tsx` already places `NourCharacter` in the Home hero, but the surrounding theme is indigo/teal and includes a conventional daily-plan/dashboard structure.
+- `src/components/layout/AppShell.tsx` uses a small sparkles icon in the global header rather than a consistent character-led brand lockup.
+- This is evidence that a character component exists, **not** evidence that the requested approved appearance redesign has been implemented. The recovered design direction is deep purple, warm cream and gold, a distinctive teacher speech bubble, character-led conversation and phone-first layouts. Exact face/hijab/clothing/reference artwork remains unspecified; no identity-defining changes should be guessed.
+
+## 10. Immediate implementation order
+
+1. Fix lesson-launch lifecycle feedback first: loading, error, retry, and storage-safe session initialization. Add component tests that exercise the visible behavior, not only service unit tests.
+2. Verify the existing five Arabic lessons manually through the actual browser and phone, recording the failing interaction and console/network evidence.
+3. Obtain the exact student-book PDF and build the full Term 1 inventory before authoring or importing more lessons. Do not treat the three PR #179 entries as source-verified or sufficient.
+4. Create a new Arabic content PR that clearly separates official titles/source references from app-authored explanations, with a complete unit/topic matrix and media/test coverage.
+5. Implement the visual direction across the named learner screens only after the approved character reference is available; produce running-app screenshots and a separate Vercel preview.
