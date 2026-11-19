@@ -409,28 +409,31 @@ export const SCIENCE_FR_TEACHER_GUIDE_2026: Record<string, CurriculumTeacherGuid
   ),
   '5-2': makeGuide(
     '55–59',
-    'Le microscope permet d’observer des objets trop petits pour être vus clairement à l’œil nu. La préparation à observer est placée sur une lame de verre, parfois avec une ou deux gouttes d’eau, puis recouverte délicatement d’une lamelle. Le microscope possède notamment un oculaire, un objectif, une platine, une vis de réglage, un miroir et des valets. Commence toujours avec le plus faible grossissement. Mets la lame sur la platine, règle l’éclairage, rapproche l’objectif en regardant de côté, puis regarde dans l’oculaire et éloigne doucement l’objectif pour faire la mise au point. L’image apparaît inversée. Le grossissement total est égal au grossissement de l’oculaire multiplié par celui de l’objectif.',
-    'Si l’oculaire grossit 10 fois et l’objectif 40 fois, le grossissement total est 10 × 40 = 400 fois. Pour observer le pollen, commence avec l’objectif le plus faible, repère l’échantillon, puis augmente le grossissement si nécessaire. Ne dirige jamais le microscope vers le Soleil.',
+    'Le microscope permet d’observer des objets trop petits pour être vus clairement à l’œil nu. On place l’échantillon sur une lame de verre et, si nécessaire, on ajoute une ou deux gouttes d’eau avant de poser délicatement la lamelle. Les principales parties à reconnaître sont l’oculaire, le tube, la tourelle porte-objectifs, l’objectif, la platine, les valets, le miroir, la potence et la vis de réglage. Place le microscope sur une surface plane et éclairée, à l’abri des rayons directs du Soleil. Commence avec le plus faible grossissement : le champ de vision est plus large et l’image plus lumineuse, ce qui facilite la recherche de l’objet. Lorsque l’objet est repéré, tu peux augmenter le grossissement ; le champ de vision devient plus étroit et l’image plus sombre. Pour faire la mise au point, regarde de côté et rapproche l’objectif sans toucher la lame, puis regarde dans l’oculaire et éloigne doucement l’objectif. L’image observée est renversée de haut en bas et inversée de droite à gauche. Le grossissement total est le produit du grossissement de l’oculaire par celui de l’objectif.',
+    'Avec un oculaire ×10 et un objectif ×40, le grossissement total est 10 × 40 = 400. Commence par le faible grossissement : tu vois une zone plus large et plus lumineuse, ce qui aide à repérer les grains de pollen. Après les avoir trouvés, tu peux augmenter le grossissement ; la zone visible devient plus petite et l’image plus sombre. Ne dirige jamais le microscope vers le Soleil.',
     [
-      { prompt: 'Par quel grossissement commence-t-on ?', expectedAnswer: 'Par le plus faible grossissement.' },
-      { prompt: 'Pourquoi éloigne-t-on l’objectif de la lame pendant la mise au point ?', expectedAnswer: 'Pour éviter que l’objectif heurte et casse la lame.' },
+      { prompt: 'Pourquoi commence-t-on par le plus faible grossissement ?', expectedAnswer: 'Le champ de vision est plus large et l’image plus lumineuse ; il est donc plus facile de trouver l’objet.' },
+      { prompt: 'Que devient le champ de vision quand on passe à un grossissement plus fort ?', expectedAnswer: 'Il devient plus étroit et l’image devient plus sombre.' },
+      { prompt: 'Pourquoi regarde-t-on de côté avant de rapprocher l’objectif de la lame ?', expectedAnswer: 'Pour éviter que l’objectif heurte la lame et la casse.' },
     ],
     [
       { prompt: 'Calcule le grossissement total avec un oculaire ×10 et un objectif ×40.', expectedAnswer: '×400.' },
-      { prompt: 'Comment apparaît l’image observée au microscope ?', expectedAnswer: 'Elle apparaît inversée de haut en bas et de droite à gauche.' },
+      { prompt: 'Comment apparaît l’image observée au microscope ?', expectedAnswer: 'Elle apparaît renversée de haut en bas et inversée de droite à gauche.' },
+      { prompt: 'Compare le champ de vision et la luminosité au faible et au fort grossissement.', expectedAnswer: 'Au faible grossissement, le champ est plus large et l’image plus lumineuse ; au fort grossissement, le champ est plus étroit et l’image plus sombre.' },
     ],
-    ['10 × 40 = 400.', 'L’image est inversée verticalement et horizontalement.'],
+    ['10 × 40 = 400.', 'L’image est inversée verticalement et horizontalement.', 'Le faible grossissement donne un champ plus large et une image plus lumineuse ; le fort grossissement donne un champ plus étroit et une image plus sombre.'],
     [
-      { observedResponse: 'Il faut commencer par le plus fort grossissement.', diagnosis: 'L’élève ne tient pas compte du champ de vision plus large au faible grossissement.', correctivePrompt: 'Avec quel grossissement est-il plus facile de trouver d’abord l’objet ?' },
+      { observedResponse: 'Il faut commencer par le plus fort grossissement parce que l’image est plus grande.', diagnosis: 'L’élève confond une image agrandie avec une zone visible plus large.', correctivePrompt: 'Quel grossissement permet de voir la plus grande zone et donne l’image la plus lumineuse ?' },
       { observedResponse: 'On rapproche l’objectif de la lame en regardant dans l’oculaire.', diagnosis: 'L’élève risque de heurter la lame avec l’objectif.', correctivePrompt: 'Pourquoi faut-il regarder de côté avant de rapprocher l’objectif ?' },
     ],
     [
-      'Fais placer des étiquettes sur un schéma du microscope avant toute manipulation.',
-      'Fais répéter l’ordre des gestes à vide, sans toucher aux vis, puis supervise une observation au faible grossissement.',
+      'Dessine deux champs de vision : un grand cercle lumineux pour le faible grossissement et un cercle plus petit et plus sombre pour le fort grossissement.',
+      'Fais répéter l’ordre des gestes à vide : regarder de côté pour rapprocher l’objectif, puis regarder dans l’oculaire pour l’éloigner doucement et faire la mise au point.',
     ],
     [
       { prompt: 'Comment calcule-t-on le grossissement total ?', expectedAnswer: 'On multiplie le grossissement de l’oculaire par celui de l’objectif.', successCriterion: 'La multiplication et les deux facteurs sont corrects.' },
-      { prompt: 'Quelle règle de sécurité protège la lame ?', expectedAnswer: 'On rapproche l’objectif en regardant de côté, puis on fait la mise au point en éloignant l’objectif.', successCriterion: 'L’élève décrit l’ordre sûr de mise au point.' },
+      { prompt: 'Pourquoi commence-t-on par le faible grossissement ?', expectedAnswer: 'Parce que le champ de vision est plus large et l’image plus lumineuse.', successCriterion: 'La réponse mentionne le champ plus large et l’image plus lumineuse.' },
+      { prompt: 'Que se passe-t-il lorsque l’on augmente le grossissement ?', expectedAnswer: 'Le champ de vision devient plus étroit et l’image plus sombre.', successCriterion: 'Les deux changements sont correctement comparés.' },
     ],
   ),
   '5-3': makeGuide(
