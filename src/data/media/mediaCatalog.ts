@@ -18,6 +18,1189 @@
 import { EducationalMediaItem } from '../../types/media';
 
 export const MEDIA_CATALOG: EducationalMediaItem[] = [
+  {
+    "id": "mathfr2026_decimal_place_thousandths",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u1_l1",
+    "conceptId": "conc_mathfr_2026_u1_l1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 1 Leçon 1",
+    "src": "media/math/decimal_place_thousandths.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "الكسور العشرية حتى الجزء من ألف",
+      "en": "Decimals to the thousandths",
+      "fr": "Les nombres décimaux jusqu’aux millièmes"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٤٫٣٧٥ = ٤ + ٠٫٣ + ٠٫٠٧ + ٠٫٠٠٥",
+      "en": "Diagram: 4.375 = 4 + 0.3 + 0.07 + 0.005",
+      "fr": "Schéma : 4,375 = 4 + 0,3 + 0,07 + 0,005"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "اقرأ الجزء الصحيح",
+          "en": "Read the whole part",
+          "fr": "Lire la partie entière"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "اقرأ الأعشار ثم الأجزاء من مئة",
+          "en": "Read tenths, then hundredths",
+          "fr": "Lire les dixièmes puis les centièmes"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "اقرأ الأجزاء من ألف",
+          "en": "Read the thousandths",
+          "fr": "Lire les millièmes"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 1 Leçon 1."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_place_value_shift",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u1_l2",
+    "conceptId": "conc_mathfr_2026_u1_l2",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 1 Leçon 2",
+    "src": "media/math/place_value_shift.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "تغير القيمة المكانية",
+      "en": "How place value changes",
+      "fr": "Changement de la valeur de position"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٣٫٢٥ × ١٠ = ٣٢٫٥",
+      "en": "Diagram: 3.25 × 10 = 32.5",
+      "fr": "Schéma : 3,25 × 10 = 32,5"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "اضرب في ١٠ فتنقل الأرقام مرتبة",
+          "en": "Multiplying by 10 shifts each digit",
+          "fr": "Multiplier par 10 décale les chiffres"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "القيمة تصبح عشرة أمثال",
+          "en": "Each value becomes ten times larger",
+          "fr": "Chaque valeur devient dix fois plus grande"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "تحقق من موضع الفاصلة",
+          "en": "Check the decimal point",
+          "fr": "Vérifier la position de la virgule"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 1 Leçon 2."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_compose_decompose_decimals",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u1_l3",
+    "conceptId": "conc_mathfr_2026_u1_l3",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 1 Leçon 3",
+    "src": "media/math/compose_decompose_decimals.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "تكوين وتحليل الأعداد العشرية",
+      "en": "Composing and decomposing decimals",
+      "fr": "Composer et décomposer des nombres décimaux"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٧٫٤٠٨ = ٧ + ٠٫٤ + ٠٫٠٠٨",
+      "en": "Diagram: 7.408 = 7 + 0.4 + 0.008",
+      "fr": "Schéma : 7,408 = 7 + 0,4 + 0,008"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "اكتب الجزء الصحيح",
+          "en": "Write the whole part",
+          "fr": "Écrire la partie entière"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "اكتب كل مرتبة على حدة",
+          "en": "Write each place separately",
+          "fr": "Écrire chaque rang séparément"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "اجمع الأجزاء للتحقق",
+          "en": "Add the parts back to check",
+          "fr": "Additionner les parties pour vérifier"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 1 Leçon 3."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_compare_decimals",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u1_l4",
+    "conceptId": "conc_mathfr_2026_u1_l4",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 1 Leçon 4",
+    "src": "media/math/compare_decimals.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "مقارنة الأعداد العشرية",
+      "en": "Comparing decimals",
+      "fr": "Comparer des nombres décimaux"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٠٫٩ > ٠٫٨٥",
+      "en": "Diagram: 0.9 > 0.85",
+      "fr": "Schéma : 0,9 > 0,85"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "قارن الجزء الصحيح أولاً",
+          "en": "Compare the whole parts first",
+          "fr": "Comparer d’abord les parties entières"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "قارن الأعشار ثم الأجزاء من مئة",
+          "en": "Compare tenths then hundredths",
+          "fr": "Comparer les dixièmes puis les centièmes"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "الأطول ليس بالضرورة الأكبر",
+          "en": "More digits does not mean larger",
+          "fr": "Plus de chiffres ne veut pas dire plus grand"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 1 Leçon 4."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_round_decimals",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u1_l5",
+    "conceptId": "conc_mathfr_2026_u1_l5",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 1 Leçon 5",
+    "src": "media/math/round_decimals.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "تقريب الأعداد العشرية",
+      "en": "Rounding decimals",
+      "fr": "Arrondir les décimaux"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٦٫٤٧ ≈ ٦",
+      "en": "Diagram: 6.47 ≈ 6",
+      "fr": "Schéma : 6,47 ≈ 6"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "انظر إلى رقم الأعشار",
+          "en": "Look at the tenths digit",
+          "fr": "Regarder le chiffre des dixièmes"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "إن كان ٥ أو أكثر قرّب لأعلى",
+          "en": "Five or more rounds up",
+          "fr": "Cinq ou plus arrondit vers le haut"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "إن كان أقل من ٥ أبقِ الجزء الصحيح",
+          "en": "Less than five keeps the whole part",
+          "fr": "Moins de cinq garde la partie entière"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 1 Leçon 5."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_expressions_equations_variables",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u2_l1",
+    "conceptId": "conc_mathfr_2026_u2_l1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 2 Leçon 1",
+    "src": "media/math/expressions_equations_variables.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "المعادلات والمتغيرات",
+      "en": "Expressions, equations and variables",
+      "fr": "Expressions, équations et variables"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: س + ٥ = ١٢ ⟹ س = ٧",
+      "en": "Diagram: x + 5 = 12 ⟹ x = 7",
+      "fr": "Schéma : x + 5 = 12 ⟹ x = 7"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "المتغير حرف يمثل عدداً مجهولاً",
+          "en": "A variable is a letter for an unknown",
+          "fr": "Une variable est une lettre pour un inconnu"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "المعادلة تقول إن الطرفين متساويان",
+          "en": "An equation says both sides are equal",
+          "fr": "Une équation dit que les deux membres sont égaux"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "أوجد القيمة التي تحقق التساوي",
+          "en": "Find the value that makes it true",
+          "fr": "Trouver la valeur qui rend l’égalité vraie"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 2 Leçon 1."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_prime_factor_tree",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u2_l4",
+    "conceptId": "conc_mathfr_2026_u2_l4",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 2 Leçon 4",
+    "src": "media/math/prime_factor_tree.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "التحليل إلى العوامل الأولية",
+      "en": "Prime factorisation",
+      "fr": "Décomposer en facteurs premiers"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٣٦ = ٢ × ٢ × ٣ × ٣",
+      "en": "Diagram: 36 = 2 × 2 × 3 × 3",
+      "fr": "Schéma : 36 = 2 × 2 × 3 × 3"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "اقسم العدد إلى عاملين",
+          "en": "Split the number into two factors",
+          "fr": "Couper le nombre en deux facteurs"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "استمر حتى تصبح كل العوامل أولية",
+          "en": "Continue until every factor is prime",
+          "fr": "Continuer jusqu’à des facteurs premiers"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "اكتب الناتج بالأسس",
+          "en": "Write the result with exponents",
+          "fr": "Écrire le résultat avec des exposants"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 2 Leçon 4."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_greatest_common_factor",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u2_l5",
+    "conceptId": "conc_mathfr_2026_u2_l5",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 2 Leçon 5",
+    "src": "media/math/greatest_common_factor.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "العامل المشترك الأكبر",
+      "en": "The greatest common factor",
+      "fr": "Le grand facteur commun (P.G.C.D.)"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ع.م.أ (١٢، ١٨) = ٦",
+      "en": "Diagram: G.C.F.(12, 18) = 6",
+      "fr": "Schéma : P.G.C.D.(12, 18) = 6"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "اكتب قواسم كل عدد",
+          "en": "List the factors of each number",
+          "fr": "Lister les diviseurs de chaque nombre"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "اختر القواسم المشتركة",
+          "en": "Keep the common factors",
+          "fr": "Garder les diviseurs communs"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "خذ أكبرها",
+          "en": "Take the greatest",
+          "fr": "Prendre le plus grand"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 2 Leçon 5."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_least_common_multiple",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u2_l7",
+    "conceptId": "conc_mathfr_2026_u2_l7",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 2 Leçon 7",
+    "src": "media/math/least_common_multiple.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "المضاعف المشترك الأصغر",
+      "en": "The least common multiple",
+      "fr": "Le plus petit commun multiple (P.P.C.M.)"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: م.م.أ (٤، ٦) = ١٢",
+      "en": "Diagram: L.C.M.(4, 6) = 12",
+      "fr": "Schéma : P.P.C.M.(4, 6) = 12"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "اكتب مضاعفات كل عدد",
+          "en": "List multiples of each number",
+          "fr": "Lister les multiples de chaque nombre"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "اختر المضاعفات المشتركة",
+          "en": "Keep the common multiples",
+          "fr": "Garder les multiples communs"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "خذ أصغرها",
+          "en": "Take the smallest",
+          "fr": "Prendre le plus petit"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 2 Leçon 7."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_area_model_multiplication_two_digit",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u3_l1",
+    "conceptId": "conc_mathfr_2026_u3_l1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 3 Leçon 1",
+    "src": "media/math/area_model_multiplication_two_digit.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "نموذج المساحة للضرب",
+      "en": "The rectangle area model to multiply",
+      "fr": "Le modèle de l’aire du rectangle"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٢٣ × ١٤ = ٢٠٠ + ٨٠ + ٣٠ + ١٢",
+      "en": "Diagram: 23 × 14 = 200 + 80 + 30 + 12",
+      "fr": "Schéma : 23 × 14 = 200 + 80 + 30 + 12"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "قسّم العددين إلى عشرات وآحاد",
+          "en": "Split both numbers into tens and units",
+          "fr": "Découper les deux nombres en dizaines et unités"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "احسب المساحات الأربع",
+          "en": "Compute the four areas",
+          "fr": "Calculer les quatre aires"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "اجمع المساحات",
+          "en": "Add the areas",
+          "fr": "Additionner les aires"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 3 Leçon 1."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_two_digit_multiplication_algorithm",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u3_l3",
+    "conceptId": "conc_mathfr_2026_u3_l3",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 3 Leçon 3",
+    "src": "media/math/two_digit_multiplication_algorithm.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "خوارزمية الضرب المعيارية",
+      "en": "The standard multiplication algorithm",
+      "fr": "L’algorithme standard de multiplication"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٣٤ × ٢٦ = ٢٠٤ + ٦٨٠ = ٨٨٤",
+      "en": "Diagram: 34 × 26 = 204 + 680 = 884",
+      "fr": "Schéma : 34 × 26 = 204 + 680 = 884"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "اضرب في الآحاد",
+          "en": "Multiply by the units",
+          "fr": "Multiplier par les unités"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "اضرب في العشرات وأزح مرتبة",
+          "en": "Multiply by the tens, shifted one place",
+          "fr": "Multiplier par les dizaines, décalé d’un rang"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "اجمع النواتج الجزئية",
+          "en": "Add the partial products",
+          "fr": "Additionner les produits partiels"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 3 Leçon 3."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_multiply_powers_of_ten",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u5_l1",
+    "conceptId": "conc_mathfr_2026_u5_l1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 5 Leçon 1",
+    "src": "media/math/multiply_powers_of_ten.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "الضرب في قوى العدد ١٠",
+      "en": "Multiplying by powers of ten",
+      "fr": "Multiplication par des puissances de dix"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٤٫٢٥ × ١٠٠ = ٤٢٥",
+      "en": "Diagram: 4.25 × 100 = 425",
+      "fr": "Schéma : 4,25 × 100 = 425"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "عدّ الأصفار في قوة العشرة",
+          "en": "Count the zeros in the power of ten",
+          "fr": "Compter les zéros de la puissance de dix"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "حرّك الفاصلة بعدد الأصفار يميناً",
+          "en": "Move the point that many places right",
+          "fr": "Déplacer la virgule d’autant de rangs à droite"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "أضف أصفاراً عند الحاجة",
+          "en": "Add zeros when needed",
+          "fr": "Ajouter des zéros si nécessaire"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 5 Leçon 1."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
+  {
+    "id": "mathfr2026_numerical_expressions_order",
+    "type": "image",
+    "kind": "diagram",
+    "lessonId": "off_mathfr_2026_u6_l1",
+    "conceptId": "conc_mathfr_2026_u6_l1",
+    "subjectId": "subj_math",
+    "reelKind": "teach_card",
+    "curriculumRef": "Maths FR Term 1 — Unité 6 Leçon 1",
+    "src": "media/math/numerical_expressions_order.svg",
+    "mimeType": "image/svg+xml",
+    "width": 960,
+    "height": 600,
+    "title": {
+      "ar": "التعابير العددية",
+      "en": "Numerical expressions",
+      "fr": "Expressions numériques"
+    },
+    "purpose": {
+      "ar": "يوضح خطوات الحل بالترتيب مع المثال المحلول.",
+      "en": "Shows the worked method step by step with the worked example.",
+      "fr": "Montre la méthode pas à pas avec l’exemple résolu."
+    },
+    "alt": {
+      "ar": "مخطط: ٣ + ٤ × ٢ = ٣ + ٨ = ١١",
+      "en": "Diagram: 3 + 4 × 2 = 3 + 8 = 11",
+      "fr": "Schéma : 3 + 4 × 2 = 3 + 8 = 11"
+    },
+    "legend": [
+      {
+        "n": 1,
+        "text": {
+          "ar": "الأقواس أولاً",
+          "en": "Brackets first",
+          "fr": "Les parenthèses d’abord"
+        }
+      },
+      {
+        "n": 2,
+        "text": {
+          "ar": "ثم الضرب والقسمة",
+          "en": "Then multiplication and division",
+          "fr": "Puis multiplication et division"
+        }
+      },
+      {
+        "n": 3,
+        "text": {
+          "ar": "ثم الجمع والطرح",
+          "en": "Then addition and subtraction",
+          "fr": "Puis addition et soustraction"
+        }
+      }
+    ],
+    "hotspots": [
+      {
+        "n": 1,
+        "x": 0.2354,
+        "y": 0.5417
+      },
+      {
+        "n": 2,
+        "x": 0.499,
+        "y": 0.5417
+      },
+      {
+        "n": 3,
+        "x": 0.7625,
+        "y": 0.5417
+      }
+    ],
+    "displayDurationMs": 10000,
+    "branding": {
+      "palette": "math",
+      "watermark": {
+        "ar": "مس نور",
+        "en": "Miss Noor"
+      }
+    },
+    "source": {
+      "origin": "authored_svg",
+      "author": "Miss Noor media pipeline",
+      "license": "Project-owned (Apache-2.0)",
+      "attribution": "Drawn from the Egyptian Ministry Grade 5 French Maths book, Unité 6 Leçon 1."
+    },
+    "review": {
+      "status": "reviewed",
+      "reviewedBy": "agent-implementation",
+      "notes": "Numbered steps match the lesson objectives; the worked example is the one taught in the lesson."
+    }
+  },
   // ── Science: photosynthesis (off_sci_u1_l1_plant_needs / c1) ─────────────
   {
     id: 'sci_photosynthesis_diagram',

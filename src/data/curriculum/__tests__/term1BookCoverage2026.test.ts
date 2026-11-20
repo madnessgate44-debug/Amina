@@ -28,6 +28,8 @@ import { FARMING_CURRICULUM_2026_LESSONS } from '../farmingCurriculum2026';
 import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from '../familyManagementCurriculum2026';
 import { ISLAMIC_CURRICULUM_2026_LESSONS } from '../islamicCurriculum2026';
 import { CHRISTIAN_CURRICULUM_2026_LESSONS } from '../christianCurriculum2026';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from '../mathFrCurriculum2026';
+import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../scienceFrCurriculum2026';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../officialCurriculum';
 import { getPreGeneratedLine } from '../preGeneratedNoorLines';
 
@@ -119,6 +121,37 @@ const BOOKS: BookCase[] = [
     language: 'ar',
     expected: { 1: [1, 2, 3, 4, 5, 6], 2: [1, 2, 3, 4, 5, 6], 3: [1, 2, 3, 4, 5, 6] },
     bookPages: 98,
+  },
+  {
+    label: 'Maths (French track)',
+    lessons: MATH_FR_CURRICULUM_2026_LESSONS,
+    language: 'fr',
+    expected: {
+      1: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+      2: [1, 2, 3, 4, 5, 6, 7, 8],
+      3: [1, 2, 3, 4, 5],
+      4: [1, 2, 3, 4, 5],
+      5: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+      6: [1, 2, 3, 4],
+    },
+    bookPages: 141,
+  },
+  {
+    label: 'Sciences (French track)',
+    lessons: SCIENCE_FR_CURRICULUM_2026_LESSONS,
+    language: 'fr',
+    expected: {
+      1: [1, 2, 3, 4],
+      2: [1, 2],
+      3: [1, 2, 3, 4, 5],
+      4: [1, 2],
+      5: [1, 2, 3],
+      6: [1, 2, 3],
+      7: [1, 2, 3],
+      8: [1, 2, 3],
+      9: [1, 2, 3],
+    },
+    bookPages: 120,
   },
 ];
 
