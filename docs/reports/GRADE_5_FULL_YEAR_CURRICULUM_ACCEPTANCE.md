@@ -141,3 +141,37 @@ answerable question in the child's own script.
 `[BLOCKED]` The programme as a whole is **not** complete. Term 2, French 1, French 2 and
 calligraphy cannot be built from any published 2026–2027 source, and the deployment is
 not yet verified. No full-year completion claim is made.
+
+---
+
+## 7. Student-flow QA performed on the built app
+
+`[VERIFIED]` The production build (`dist/`) was served locally and driven in a real
+browser at 390x844 with `locale: ar-EG`, on 2026-11-19. This exercises the actual
+student flow, not only the unit tests.
+
+| Step | Observed |
+|---|---|
+| Root element | `dir="rtl"`, `lang="ar"` |
+| Home / Miss Noor screen | renders in Arabic, **0 page errors**, **0 console errors** |
+| Library | 13 books listed, all subjects present |
+| Open a book | units and lessons render with page references |
+| Open a lesson's exercises | question 1 of 2, four Arabic options |
+| Answer correctly | "إجابة صحيحة وموفقة!" plus the answer and its page |
+| Answer wrongly | "قريبة جداً!" with a simplified hint — no harsh wording |
+| Progress persistence | `mastery_records` identical before and after a full reload (`PERSISTED: true`) |
+| ICT U1L3 (the no-question bug) | now yields **2** answerable questions (was 0) |
+
+`[VERIFIED]` Answer feedback previously showed the answer wrapped twice
+(`««أنا أستطيع»»`) because three stored answer keys already carry guillemets and the
+renderer added a second pair. A `quoted()` helper now avoids the doubling, and the
+screen shows `«أنا أستطيع»`.
+
+### 7.1 Known cosmetic issue — not fixed
+
+`[VERIFIED]` Forty-seven narration sites wrap a lesson title in `«»`, and five lesson
+titles already contain guillemets of their own (`قصة الاستماع: «أنا أستطيع»`). The child
+therefore reads `درس «قصة الاستماع: «أنا أستطيع»»`. The text stays readable and correct;
+only the quotation marks are doubled. This is pre-existing and cosmetic. It is recorded
+here rather than half-repaired: a complete fix needs one shared quoting helper applied at
+all 47 sites, which is a separate change from curriculum completion.
