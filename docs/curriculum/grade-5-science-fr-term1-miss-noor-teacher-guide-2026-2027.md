@@ -3,7 +3,7 @@
 **Edition:** Egypt Ministry of Education, Primary 5, 2026–2027, Term 1  
 **Source:** Third-party-assembled Library PDF containing 109 book-content pages plus an appended promotional page (110 PDF pages)  
 **Scope:** The nine chapters in the supplied Term 1 table of contents only  
-**Teaching-pack status:** [VERIFIED] All 28 app-authored lesson plans are represented in the app data and structurally checked. PR #200 carries the explicit page-range and source-provenance updates; its CI and compliance checks passed before this documentation continuation. The PR remains unmerged, and phone-sized learner verification remains [UNPROVEN].
+**Teaching-pack status:** [VERIFIED] All 28 app-authored French lesson plans are represented in app data and structurally checked. PR #200, #202 and #205 are merged; current `main` is `b9a538eb0824b637931c12a4c2931d7c07b3297e`. Main CI [44519308863](https://github.com/madnessgate44-debug/Amina/actions/runs/44519308863) and Engineering Execution OS compliance [44519308870](https://github.com/madnessgate44-debug/Amina/actions/runs/44519308870) passed. These plans are derived from the student book, not an official Ministry teacher guide. Physical-phone learner verification remains [UNPROVEN].
 
 ## Provenance and evidence boundary
 
@@ -11,7 +11,7 @@
 - The final book imprint is PDF page 109 and records ISBN **978-633-8530-17-4**; its production table shows 112 in the page-count field. The Library PDF has 110 pages: pages 1–109 are the book copy and page 110 is a third-party promotional insert.
 - The canonical Ministry-hosted student-book endpoint is recorded in the source manifest:  
   https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf
-- The 109 book-content pages in the 110-page Library PDF copy were inspected for the nine chapter headings, lesson activities, questions, enrichment sections and scientific-skills appendix. PDF metadata identifies a third-party PDF-processing toolchain. Actions run [43705922358](https://github.com/madnessgate44-debug/Amina/actions/runs/43705922358) separately downloaded the canonical Ministry-hosted endpoint (109 pages; 62,976,199 bytes; SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`). The canonical run confirmed the ISBN, Science text and French text markers but did not test the French Ministry-imprint string. [UNPROVEN] Byte-level and visual/layout identity with the Library copy; PR #200 records 109/109 normalized-text matches, but the retained canonical per-page CSV is still pending.
+- The 109 book-content pages in the 110-page Library PDF copy were inspected for the nine chapter headings, lesson activities, questions, enrichment sections and scientific-skills appendix. The canonical Ministry-hosted endpoint was independently downloaded in Actions run [44066062268](https://github.com/madnessgate44-debug/Amina/actions/runs/44066062268): 109 pages, 62,976,199 bytes, SHA-256 `dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5`; the ISBN, French Ministry imprint and French rights notice were present. The canonical 109-page fingerprint set matches the Library copy's first 109 pages on normalized extracted-text SHA-256 and character count (109/109; 0 mismatches), as recorded in the 18 November recheck on `audit/ministry-science-source-results`. [LIMIT] The PDFs have different byte hashes; this does not establish identical diagrams, page images, layout, typography or untouched publisher-original provenance. The canonical PDF metadata identifies PDF Candy / Icecream PDF Candy / Ghostscript.
 - **[BLOCKED]** No matching Egyptian Ministry 2026–2027 French Science teacher guide was verified. Do not substitute a prior-year guide, an Arabic-only guide, a Moroccan guide, or another country's teacher guide.
 - The lesson plans below are **app-authored Miss Noor teaching material derived from the student book**. They are not Ministry teacher-guide content and are not textbook quotations.
 - The source book's own “Essaye”, “Entraîne-toi”, review and experiment questions remain distinct from the new app-authored practice and answer keys.
@@ -64,13 +64,28 @@ The plan content is intentionally concise enough for a teacher to use during a l
 | 2 | Describe seasonal change in a plant; sequence germination, growth, flowering and fruiting; distinguish hibernation from migration. | saison, température, germer, fleurir, fruit, graine, se faner, hibernation, migration |
 | 3 | Identify embryo and cotyledons; explain the iodine test for starch; test water, air and suitable temperature using fair comparisons; distinguish germination from later growth. | graine, embryon, cotylédon, amidon, germination, solution d’iode, variable, condition constante, dormance |
 | 4 | Explain the role of sunlight and fertilizer in plant growth; plan fair comparisons; record plant growth. | croissance, lumière du Soleil, engrais, nutriments, plantule, tige, feuilles, mesurer, comparer |
-| 5 | Distinguish male and female luffa flowers; identify microscope parts and safe use; explain pollination and fruit development. | fleur mâle, fleur femelle, étamine, pollen, carpelle, sépale, pétale, pollinisation, microscope, oculaire, objectif, platine, grossissement |
+| 5 | Distinguish male and female luffa flowers; prepare a microscope slide safely; identify microscope parts; compare low/high magnification field of view and brightness; explain pollination and fruit development. | fleur mâle, fleur femelle, étamine, pollen, carpelle, sépale, pétale, pollinisation, microscope, oculaire, objectif, platine, grossissement, champ de vision, lame préparée, lamelle |
 | 6 | Sequence human life stages; explain inherited similarities and differences; describe healthy food, sufficient sleep and suitable physical activity. | croissance, naissance, petite enfance, enfance, adolescence, jeunesse, vieillesse, hériter, caractère, alimentation saine, sommeil, activité physique |
 | 7 | Compare animals that give birth with animals that lay eggs; define hatching; explain how reproduction and protected habitats support species continuity. | reproduction, espèce, donner naissance, pondre, œuf, éclosion, petit, réserve naturelle, conservation |
 | 8 | Estimate cloud cover using the book's eight-part model; observe cloud movement from a fixed reference; interpret satellite images and justify a forecast. | météo, couverture nuageuse, nuageux, ensoleillé, vent, direction, boussole, satellite, radar, prévision, khamsin |
 | 9 | Explain evaporation and condensation; sequence the water cycle; connect the cycle to rivers, seas and the Nile. | évaporation, vapeur d’eau, condensation, gouttelette, refroidissement, nuage, précipitation, rivière, mer, cycle de l’eau |
 
 Chapter 5 also has a separate printed-page-63 “Révision et exercices” review. Lesson 5-3 ends on p. 62; the review is indexed separately in SCIENCE_FR_TERM1_CHAPTER_REVIEWS_2026.
+
+
+### Lesson 5-2 source-aligned teaching note — printed pp. 55–59
+
+The student book's microscope sequence is more specific than simply “start with low magnification”:
+
+1. Prepare the slide: place the sample on the glass slide, add one or two drops of water if needed, lower the cover slip slowly from one side to reduce air bubbles, and remove excess water at the edges with filter paper (p. 56).
+2. Identify the labelled parts: eyepiece, tube, revolving nosepiece, objective, stage, clips, mirror, arm and adjustment knob (p. 56).
+3. Place the microscope on a flat, illuminated surface away from direct sunlight; begin with the shortest/lowest-power objective and adjust the mirror for a clear, bright view (p. 57).
+4. While looking from the side, bring the objective close to the slide without contact; then look through the eyepiece and move the objective away to focus safely (p. 57).
+5. Explain the optical trade-off: low power gives a wider field of view and brighter image; high power gives a narrower field and darker image. The viewed image is inverted vertically and horizontally. Total magnification is eyepiece × objective (p. 57).
+6. Apply the method to pollen from a male luffa flower (p. 58).
+
+**[VERIFIED]** The source details above were checked against the page text and page images. **[IN PROGRESS]** The corresponding expanded Miss Noor-authored lesson plan and regression assertions are on PR [#205](https://github.com/madnessgate44-debug/Amina), head `878542c686cd94d00f9552b34eb331bb77f899f7`; CI [44481197673](https://github.com/madnessgate44-debug/Amina/actions/runs/44481197673) and compliance [44481197869](https://github.com/madnessgate44-debug/Amina/actions/runs/44481197869) passed. The code PR remains open and unmerged.
+
 
 ## Enrichment pages retained
 
@@ -212,3 +227,22 @@ The contents page (PDF page 6 / printed page 5) is the source of truth for chapt
 - **[VERIFIED]** Vercel production deployment `dpl_5twNYqEuUdq1y1yCodW73eqV3Mdx` is `READY`, targets production, and is linked to the exact main commit above. Production aliases: [amina-nine-sepia.vercel.app](https://amina-nine-sepia.vercel.app) and [amina-forge-fe22.vercel.app](https://amina-forge-fe22.vercel.app).
 - **[UNPROVEN]** Production deployment readiness does not establish a physical-phone learner walkthrough or lesson-by-lesson pedagogical acceptance.
 - **[BLOCKED]** The exact Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide remains unauthenticated. No third-party notebook is substituted for it.
+
+## Verification addendum — 18 November 2026
+
+- **[VERIFIED]** PR [#202](https://github.com/madnessgate44-debug/Amina/pull/202) merged at `883127facf34e256e7490a48622b9d14c695f6a3`. It strengthens the existing `9-1` evaporation plan on printed pp. 92–93; the record already existed. The revised explanation distinguishes evaporation at the liquid surface from boiling and the demonstration changes temperature only while holding container, water quantity and duration constant.
+- **[PASS]** PR CI [44067619856](https://github.com/madnessgate44-debug/Amina/actions/runs/44067619856) passed type check, lint, tests and build; the curriculum registry suite reported 55 passed, 0 failed. Compliance [44067619858](https://github.com/madnessgate44-debug/Amina/actions/runs/44067619858) passed.
+- **[PASS]** Current-main CI [44233820201](https://github.com/madnessgate44-debug/Amina/actions/runs/44233820201) passed blocking type check, `npm run lint`, `npm test` and `npm run build`; the log reports 39 suite summaries with 0 failures, curriculum registry 55 passed / 0 failed, and Vite build completed in 596 ms. Engineering Execution OS compliance [44233819627](https://github.com/madnessgate44-debug/Amina/actions/runs/44233819627) passed.
+- **[IN PROGRESS]** PR [#205](https://github.com/madnessgate44-debug/Amina/pull/205) restores the full student-book activity on pp. 92–93: predictions about a puddle, wet laundry in sun/shade and a covered container, followed by the two-container covered/uncovered experiment. Its app-authored fair-test refinement explicitly adds a same-place control; it does not attribute that instruction to the textbook. Final-head CI [44268035479](https://github.com/madnessgate44-debug/Amina/actions/runs/44268035479) and compliance [44268035634](https://github.com/madnessgate44-debug/Amina/actions/runs/44268035634) passed, including assertions for all 28 teaching plans. PR #205 remains open and unmerged, so the code change is not yet in `main`.
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide has been authenticated. This document and the app data remain Miss Noor-authored teaching material derived from the student book.
+- **[BLOCKED]** Term 2 Science remains unsourced; do not extend this Term 1 pack to the full year. The separate assessment-book candidate is not yet verified question by question.
+- **[UNPROVEN]** High-resolution diagram review, independent pedagogical peer review and a physical-phone French learner walkthrough remain outstanding.
+
+
+## Current-main correction — 20 November 2026
+
+- **[VERIFIED]** PR [#205](https://github.com/madnessgate44-debug/Amina/pull/205) merged at `b9a538eb0824b637931c12a4c2931d7c07b3297e`; current-main CI [44519308863](https://github.com/madnessgate44-debug/Amina/actions/runs/44519308863) and Engineering Execution OS compliance [44519308870](https://github.com/madnessgate44-debug/Amina/actions/runs/44519308870) passed on that exact commit.
+- **[PASS]** The main CI log confirms `npm run lint` (TypeScript `tsc --noEmit`), `npm test` (39 top-level suite summaries, 0 failures; curriculum registry 59 passed / 0 failed), and `npm run build` (Vite build completed in 609 ms).
+- **[VERIFIED]** The merged code retains the full 28-lesson Term 1 French Science inventory and the page-specific corrections to lesson 5-2 (microscope slide preparation and optics) and lesson 9-1 (source-faithful evaporation activity). This remains Term 1 only.
+- **[BLOCKED]** No authenticated Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide or exact Term 2 student book has been found. The current catalogue index still lists 15 Term 1 books only; its last displayed link review is 26 October 2026: https://miskeg.app/books/general-primary-5/. A third-party Term 2 revision for academic year 2026 is not a substitute for the 2026–2027 Ministry student book.
+- **[UNPROVEN]** High-resolution diagram equivalence, independent full pedagogical peer review, and a physical-phone learner walkthrough remain outstanding. No full-year completion claim is made.
