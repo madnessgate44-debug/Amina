@@ -37,9 +37,10 @@ type Spec = {
 const UNIT_TITLES: Record<number, { en: string; ar: string }> = {
   1: { en: 'Unit 1: Food, Nature, and Culture', ar: 'الوحدة الأولى: الطعام والطبيعة والثقافة' },
   2: { en: 'Unit 2: My Healthy Body', ar: 'الوحدة الثانية: جسمي الصحي' },
-  3: { en: 'Unit 3: Weather and Warnings', ar: 'الوحدة الثالثة: الطقس والتحذيرات' },
-  4: { en: 'Unit 4: Places in Our Community', ar: 'الوحدة الرابعة: أماكن في مجتمعنا' },
-  5: { en: 'Unit 5: The Gifts of Nature', ar: 'الوحدة الخامسة: عطايا الطبيعة' },
+  3: { en: 'Unit 3: When Nature Changes', ar: 'الوحدة الثالثة: حين تتغير الطبيعة' },
+  4: { en: 'Unit 4: My Community', ar: 'الوحدة الرابعة: مجتمعي' },
+  5: { en: 'Unit 5: Our World, Our Resources', ar: 'الوحدة الخامسة: عالمنا ومواردنا' },
+  6: { en: 'Unit 6: The Talking Earth', ar: 'الوحدة السادسة: الأرض المتكلمة' },
 };
 
 const S: Spec[] = [
@@ -701,6 +702,147 @@ const S: Spec[] = [
     options: ['I', 'he', 'they', 'it is not used'],
     answer: 'I',
     why: 'The object speaks about itself, so it uses the first person.',
+  },
+  // ─────────────────────────────────────────────────────────── Unit 6
+  {
+    u: 6, n: 1, page: 92, pages: '92-94',
+    en: 'The Talking Earth: Meet the Story', ar: 'الأرض المتكلمة: التعرف على القصة',
+    focus:
+      'Unit 6 is a single extended story, "The Talking Earth" by Jean Craighead George, about Billie Wind, a young Native American girl living in Florida. She loves science and wants to be a scientist, but her family and the elders of her tribe believe the Earth can talk and share wisdom through the wind, the water and the animals. The unit opens with the story vocabulary: canoe, Earth, Everglades, swamp, alligator, owl, shell, scientist, splash, and then native, tribe, elders, shelter, survive, attack, struggle, wisdom.',
+    objectives: [
+      'Ask and answer questions about the story.',
+      'Identify the setting and the characters of the story.',
+      'Use the new story vocabulary in context.',
+    ],
+    vocab: [
+      ['canoe', 'a light narrow boat moved with a paddle'],
+      ['Everglades', 'a large swamp area in Florida, in the United States'],
+      ['swamp', 'soft wet ground covered with water'],
+      ['alligator', 'a large reptile that lives in rivers and swamps'],
+      ['tribe', 'a group of people who live together and share the same language, culture and history'],
+      ['elders', 'older people who are wise and respected'],
+      ['shelter', 'a safe place that protects someone from bad weather or danger'],
+      ['survive', 'to stay alive, especially in dangerous situations'],
+    ],
+    languageInUse: {
+      title: 'Present versus past',
+      rule: 'Use the present simple for what is always true, and the past simple for events that finished.',
+      example: 'Billie believes the Earth cannot talk. She went into the Everglades alone.',
+    },
+    skills: {
+      reading: 'Analyse the elements of the story: setting, characters and events.',
+      speaking: 'Ask and answer questions about the story.',
+      writing: "Rewrite part of the story from the heroine's perspective.",
+    },
+    q: 'Who is the main character of "The Talking Earth"?',
+    options: ['Billie Wind', 'Jean Craighead George', 'The elders', 'A scientist in Florida'],
+    answer: 'Billie Wind',
+    why: 'The story follows Billie Wind, a young Native American girl who loves science.',
+  },
+  {
+    u: 6, n: 2, page: 95, pages: '95-99',
+    en: 'The Talking Earth: Billie in the Everglades', ar: 'الأرض المتكلمة: بيلي في الإيفرجليدز',
+    focus:
+      'Billie Wind tells the elders she does not believe the Earth can talk. Disappointed, they send her alone into the Everglades National Park to listen. At first she struggles: no shelter, no food, strange sounds at night, alligators splashing and owls hooting. Slowly she pays attention: the alligators wait patiently for food, the turtles hide in their shells, the birds warn each other. She learns to catch fish, make a fire and find shelter, and she learns that the Earth does talk, not with words but through wind, animals and land.',
+    objectives: [
+      'Answer comprehension questions about the story.',
+      'Put the events of the story in the correct order.',
+      'Explain what Billie learns in the Everglades.',
+    ],
+    vocab: [
+      ['struggle', 'to have a hard time doing something'],
+      ['attack', 'to try to hurt someone'],
+      ['wisdom', 'the quality of having good judgement from knowledge and experience'],
+      ['native', 'the first person who lived in a place'],
+    ],
+    languageInUse: {
+      title: 'Past simple for narrative',
+      rule: 'A narrative tells finished events with the past simple.',
+      example: 'She packed her canoe and went into the Everglades. She learned how to survive.',
+    },
+    skills: {
+      reading: 'Identify the sequence of events and the moral of the story.',
+      writing: 'Complete a summary of the story with the words in the box.',
+    },
+    q: 'Why did the elders send Billie Wind into the Everglades?',
+    options: [
+      'So that she would listen to the Earth and understand',
+      'So that she would become a scientist',
+      'So that she would learn to swim',
+      'So that she would meet the animals',
+    ],
+    answer: 'So that she would listen to the Earth and understand',
+    why: 'The elders told Billie that if she did not believe them, she should go into the park alone and listen to the Earth.',
+  },
+  {
+    u: 6, n: 3, page: 100, pages: '100-104',
+    en: 'The Talking Earth: Characters, Vocabulary and Events', ar: 'الأرض المتكلمة: الشخصيات والمفردات والأحداث',
+    focus:
+      'The book works through the story in three steps. Characters: match Billie Wind, her family and the elders to their descriptions. Vocabulary: write the word for each picture from the story word list. Events: put the events in order, from Billie going to the Everglades to her learning to survive, then complete a summary with the words in the box.',
+    objectives: [
+      'Match each character to the correct description.',
+      'Write the story vocabulary word for each picture.',
+      'Put the events of the story in order and complete a summary.',
+    ],
+    vocab: [
+      ['shell', 'the hard outer covering of a turtle or a snail'],
+      ['splash', 'the sound and movement of water hitting something'],
+      ['owl', 'a bird that hunts at night and hoots'],
+      ['scientist', 'a person who studies science'],
+    ],
+    languageInUse: {
+      title: 'Sequencing words',
+      rule: 'Use first, then, after that and finally to order the events of a story.',
+      example: 'First Billie went to the Everglades. Then she learned to catch fish.',
+    },
+    skills: {
+      reading: 'Answer critical thinking questions about the story.',
+      writing: 'Complete a summary of the story using the words in the box.',
+    },
+    q: 'Which event happened first in the story?',
+    options: [
+      'Billie told the elders she did not believe the Earth could talk',
+      'Billie learned how to make a fire',
+      'Billie was no longer afraid',
+      'Billie watched the alligators waiting for food',
+    ],
+    answer: 'Billie told the elders she did not believe the Earth could talk',
+    why: 'The story begins with Billie telling the elders she does not believe them, and they send her to the Everglades.',
+  },
+  {
+    u: 6, n: 4, page: 105, pages: '105-108',
+    en: 'Unit 6 Quick Review and Review 2', ar: 'مراجعة الوحدة السادسة والمراجعة الثانية',
+    focus:
+      'The unit closes with a Quick Review: find and circle the story words, complete the sequence of events, and answer questions about Billie. Review 2 then covers the whole term: choose the correct answer on resources and community places, read a text about mineral resources and answer questions, and complete a mind map of story elements (moral, setting, characters).',
+    objectives: [
+      'Recall the story vocabulary and the sequence of events.',
+      'Answer questions about resources and community places.',
+      'Complete a mind map of story elements.',
+    ],
+    vocab: [
+      ['resource', 'something useful that people take from the earth'],
+      ['mineral', 'a natural solid substance found under the earth'],
+      ['moral', 'the lesson or message in a story'],
+      ['setting', 'the time and place where a story happens'],
+    ],
+    languageInUse: {
+      title: 'Story elements',
+      rule: 'Every story has characters, a setting, a plot and a moral.',
+      example: 'Setting: the Everglades. Characters: Billie Wind and the elders. Moral: listen to nature.',
+    },
+    skills: {
+      reading: 'Read a text about mineral resources and answer the questions.',
+      writing: 'Complete a mind map of the story elements.',
+    },
+    q: 'What is the moral of "The Talking Earth"?',
+    options: [
+      'Everything in nature is connected and must be cared for',
+      'Science is more important than tradition',
+      'Children should never listen to older people',
+      'The Everglades is a dangerous place to visit',
+    ],
+    answer: 'Everything in nature is connected and must be cared for',
+    why: 'Billie learns that the Earth talks through wind, animals and land, and that the balance breaks if people do not care for it.',
   },
 ];
 
