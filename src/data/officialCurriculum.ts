@@ -21,6 +21,7 @@ import { ENGLISH_CURRICULUM_LESSONS } from './curriculum/englishCurriculum';
 import { ICT_CURRICULUM_LESSONS } from './curriculum/ictCurriculum';
 import { ISLAMIC_CURRICULUM_LESSONS } from './curriculum/islamicCurriculum';
 import { ISLAMIC_CURRICULUM_2026_LESSONS } from './curriculum/islamicCurriculum2026';
+import { CHRISTIAN_CURRICULUM_2026_LESSONS } from './curriculum/christianCurriculum2026';
 import { CALLIGRAPHY_CURRICULUM_LESSONS } from './curriculum/calligraphyCurriculum';
 import { MATH_CURRICULUM_LESSONS } from './curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from './curriculum/scienceCurriculum';
@@ -193,5 +194,8 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
   // seven and six lessons, matching the printed lesson opener pages.
   ...ISLAMIC_CURRICULUM_2026_LESSONS,
   ...ISLAMIC_CURRICULUM_LESSONS,
+  // The parallel Christian Education book for the same weekly slot. A student
+  // studies one of the two religions, never both (see Student.subjects).
+  ...CHRISTIAN_CURRICULUM_2026_LESSONS,
   ...CALLIGRAPHY_CURRICULUM_LESSONS,
 ];

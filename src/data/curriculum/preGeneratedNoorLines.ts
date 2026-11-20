@@ -29,6 +29,7 @@ import { LIBRARIES_CURRICULUM_2026_LESSONS } from './librariesCurriculum2026';
 import { FARMING_CURRICULUM_2026_LESSONS } from './farmingCurriculum2026';
 import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from './familyManagementCurriculum2026';
 import { ISLAMIC_CURRICULUM_2026_LESSONS } from './islamicCurriculum2026';
+import { CHRISTIAN_CURRICULUM_2026_LESSONS } from './christianCurriculum2026';
 import { MATH_FR_CURRICULUM_2026_LESSONS } from './mathFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
@@ -482,6 +483,10 @@ const CURRENT_LIBRARIES_NOOR_LINES = arabicActivityLines(
 );
 const CURRENT_FARMING_NOOR_LINES = arabicActivityLines(FARMING_CURRICULUM_2026_LESSONS, 'مهارات الزراعة');
 const CURRENT_ISLAMIC_NOOR_LINES = arabicActivityLines(ISLAMIC_CURRICULUM_2026_LESSONS, 'التربية الدينية الإسلامية');
+const CURRENT_CHRISTIAN_NOOR_LINES = arabicActivityLines(
+  CHRISTIAN_CURRICULUM_2026_LESSONS,
+  'التربية الدينية المسيحية'
+);
 const CURRENT_FAMILY_NOOR_LINES = arabicActivityLines(
   FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS,
   'مهارات إدارة الأسرة'
@@ -498,6 +503,7 @@ export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...CURRENT_FARMING_NOOR_LINES,
   ...CURRENT_FAMILY_NOOR_LINES,
   ...CURRENT_ISLAMIC_NOOR_LINES,
+  ...CURRENT_CHRISTIAN_NOOR_LINES,
 };
 
 

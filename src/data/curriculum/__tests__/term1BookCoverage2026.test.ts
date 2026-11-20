@@ -27,6 +27,7 @@ import { LIBRARIES_CURRICULUM_2026_LESSONS } from '../librariesCurriculum2026';
 import { FARMING_CURRICULUM_2026_LESSONS } from '../farmingCurriculum2026';
 import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from '../familyManagementCurriculum2026';
 import { ISLAMIC_CURRICULUM_2026_LESSONS } from '../islamicCurriculum2026';
+import { CHRISTIAN_CURRICULUM_2026_LESSONS } from '../christianCurriculum2026';
 import { OFFICIAL_CURRICULUM_LESSONS } from '../../officialCurriculum';
 import { getPreGeneratedLine } from '../preGeneratedNoorLines';
 
@@ -110,6 +111,13 @@ const BOOKS: BookCase[] = [
     language: 'ar',
     expected: { 1: [1, 2, 3, 4, 5, 6, 7], 2: [1, 2, 3, 4, 5, 6, 7], 3: [1, 2, 3, 4, 5, 6] },
     bookPages: 95,
+  },
+  {
+    label: 'Christian Religious Education',
+    lessons: CHRISTIAN_CURRICULUM_2026_LESSONS,
+    language: 'ar',
+    expected: { 1: [1, 2, 3, 4, 5, 6], 2: [1, 2, 3, 4, 5, 6], 3: [1, 2, 3, 4, 5, 6] },
+    bookPages: 98,
   },
 ];
 
