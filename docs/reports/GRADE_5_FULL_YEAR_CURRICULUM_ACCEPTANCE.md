@@ -79,14 +79,14 @@ re-based on 4 and 9 with answer 36 so no trigger is hit.
 | A2 | Lessons openable | **Met** | 195/195 available, all carry concepts |
 | A3 | ≥2 exercises | **Met** | integrity `1.16` passes; 195/195 |
 | A4 | Answer keys valid | **Met** | `bad exercises: 0`; integrity suite |
-| A5 | Answerable feed question | **Met** | 198/199 browsable; the 1 exception is hidden `pending_materials` |
+| A5 | Answerable feed question | **Met** | 227/227 available lessons; 7 hidden `pending_materials` are never shown |
 | A6 | Correct script in choices | **Met** | reels suite checks 14.1–14.3, 16.1 pass for ar/en/fr |
 | A7 | Progress persists | **Met** | `jobPersistence` 19/19 in `npm test` |
 | A8 | Correct answer not misdiagnosed | **Met** | teaching-skills checks 9.4 and 10.4 pass |
 | A9 | Title matches content | **Met** | integrity `1.17` passes; proven to catch the bug |
 | A10 | Both terms | **Blocked** | Term 2 not published — see §4.1 |
 | A11 | All tracks incl. French 1/2 | **Blocked** | no French coursebook published — see §4.2 |
-| A12 | Verified production deployment | **Unproven** | not deployed or compared in this run — see §4.4 |
+| A12 | Verified production deployment | **Met** | deployment `dpl_Ba9NGKDimRPjyfDY9L6rQksfD2HN` READY; live bundle SHA-256 equals local build — see §4.4 |
 
 ---
 
@@ -109,12 +109,28 @@ separate and unfilled; they are not merged and not populated from unverified rec
 `[VERIFIED]` No Grade 5 calligraphy book is published. The single existing lesson stays
 `[SOURCE_UNVERIFIED]` and is not counted as coverage.
 
-### 4.4 Production deployment — `[UNPROVEN]`
+### 4.4 Production deployment — `[VERIFIED]`
 
-`[UNPROVEN]` This branch was built locally (`npm run build`, exit 0) but was not
-deployed, and the live site's asset hash was not compared against the local build. No
-claim is made that this work is live. Deployment and the hash comparison remain to be
-done before A12 can be marked Met.
+`[VERIFIED]` PR #209 was merged to `main` as `ffe366d`. There is no GitHub webhook on
+this repository, so the merge does not deploy by itself; the Vercel production
+deployment was triggered explicitly.
+
+| Evidence | Value |
+|---|---|
+| Deployment id | `dpl_Ba9NGKDimRPjyfDY9L6rQksfD2HN` |
+| Deployment state | `READY` |
+| Live URL | `https://amina-nine-sepia.vercel.app` |
+| Live entry asset | `assets/index-DzndtOkp.js` (same name as the local build) |
+| Live bundle SHA-256 | `1bc802a87729fc2224197ab8c47ee2d628b2f90b1b654fd8b915d7666faffd41` |
+| Local bundle SHA-256 | `1bc802a87729fc2224197ab8c47ee2d628b2f90b1b654fd8b915d7666faffd41` |
+
+`[VERIFIED]` The two hashes are identical, so the live site serves byte-for-byte the
+build produced from `main` at `ffe366d`, not a cached or stale bundle.
+
+`[VERIFIED]` The live site was then driven in a browser at 390x844, `ar-EG`: root is
+`dir="rtl" lang="ar"`, a lesson exercise was answered correctly, the feedback read
+`الإجابة الصحيحة: «أنا أستطيع» ص. 9`, the doubled-quotation bug was absent
+(`/««/` → false), and there were zero page errors.
 
 ---
 
@@ -129,6 +145,10 @@ done before A12 can be marked Met.
 | Build | `npm run build` | exit 0 |
 | Lint | `npm run lint` | exit 0 |
 | Whitespace | `git diff --check` | clean |
+| CI on PR #209 | GitHub Actions `CI` | completed success on `750a53a` |
+| CI on merge | GitHub Actions `CI` | completed success |
+| Production deploy | Vercel `dpl_Ba9NGKDimRPjyfDY9L6rQksfD2HN` | `READY` |
+| Live bundle matches build | SHA-256 comparison | identical |
 
 ---
 
@@ -138,9 +158,16 @@ done before A12 can be marked Met.
 openable, each with at least two exercises, each with a valid answer key, each posing an
 answerable question in the child's own script.
 
+`[VERIFIED]` That work is merged to `main` and live in production, proven by an identical
+bundle hash on the live site and the local build.
+
 `[BLOCKED]` The programme as a whole is **not** complete. Term 2, French 1, French 2 and
-calligraphy cannot be built from any published 2026–2027 source, and the deployment is
-not yet verified. No full-year completion claim is made.
+calligraphy cannot be built from any published 2026–2027 source. **No full-year
+completion claim is made.**
+
+`[VERIFIED]` Nine of the twelve acceptance criteria are Met (A1–A9, A12). A10 and A11 are
+Blocked on material the Ministry has not published. Reusing an older Term 2 book, or
+inferring Term 2 from Term 1, would fabricate curriculum, so neither was done.
 
 ---
 

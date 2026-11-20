@@ -127,9 +127,11 @@ Two causes were found:
   first and reverted: it loosened the script guarantee enough that three other checks
   caught genuinely Latin-dominant data, so the data was fixed rather than the guard.
 
-`[VERIFIED]` After the repair, 198 of 199 browsable lessons produce an answerable
-question. The single exception is `off_fr_u3_l1_horaire`, which is `pending_materials`
-and hidden from the child (§4.2).
+`[VERIFIED]` After the repair, **every** available lesson produces an answerable
+question: 227 of 227. The register holds 234 lesson records; 7 are hidden as
+`pending_materials` (6 legacy Science duplicates plus `off_fr_u3_l1_horaire`), and a
+hidden lesson is never shown, so it cannot leave the child without a question. The
+Term 1 book-mapped subset of 195 is included in the 227.
 
 ---
 
