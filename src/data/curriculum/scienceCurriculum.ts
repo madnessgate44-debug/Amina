@@ -21,6 +21,7 @@ export const SCIENCE_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     lessonNumber: 1,
     titleAr: 'احتياجات النبات وعملية البناء الضوئي',
     titleEn: 'Plant Needs & Photosynthesis Process',
+    titleFr: "L'usine alimentaire de la plante verte",
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -149,6 +150,7 @@ export const SCIENCE_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     lessonNumber: 2,
     titleAr: 'انتقال الطاقة في النظام البيئي والشبكات الغذائية',
     titleEn: 'Energy Flow in Ecosystems & Food Webs',
+    titleFr: "Le flux d'énergie dans un écosystème",
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -273,6 +275,7 @@ export const SCIENCE_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     lessonNumber: 3,
     titleAr: 'تأثير التغيرات البيئية وابيضاض الشعاب المرجانية',
     titleEn: 'Environmental Changes & Coral Bleaching',
+    titleFr: 'La biodiversité marine et sa protection en Égypte',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {

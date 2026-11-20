@@ -25,6 +25,7 @@ export const MATH_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     lessonNumber: 1,
     titleAr: 'الكسور العشرية حتى الجزء من ألف',
     titleEn: 'Decimals up to Thousandths (Les nombres décimaux jusqu’aux millièmes)',
+    titleFr: "Les nombres décimaux jusqu’aux millièmes",
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -131,6 +132,7 @@ Dans le tableau de valeur de position, la première case après la virgule repr�
     lessonNumber: 2,
     titleAr: 'تغير القيمة المكانية عند الضرب والقسمة',
     titleEn: 'Changing Place Value (Changement de la valeur de position)',
+    titleFr: 'Changement de la valeur de position',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -229,6 +231,7 @@ Exemple avec décimaux : 6,5 × 10 = 65. Le 6 passe des unités aux dizaines, et
     lessonNumber: 3,
     titleAr: 'تكوين وتحليل الأعداد العشرية (الصيغة الممتدة)',
     titleEn: 'Composing & Decomposing Decimals (Composer et décomposer)',
+    titleFr: 'Composer et décomposer les nombres décimaux',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -337,6 +340,7 @@ On peut également regrouper les entiers et les décimaux : 12,42 = 12 + 0,42.`,
     lessonNumber: 4,
     titleAr: 'مقارنة الأعداد العشرية',
     titleEn: 'Comparing Decimals (Comparer des nombres décimaux)',
+    titleFr: 'Comparer les nombres décimaux',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -429,6 +433,7 @@ Exemples du livre :
     lessonNumber: 5,
     titleAr: 'تقريب الأعداد العشرية',
     titleEn: 'Rounding Decimals (Arrondir les décimaux)',
+    titleFr: 'Arrondir les nombres décimaux',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -538,6 +543,7 @@ Exemples du livre (p. 17-19) :
     lessonNumber: 1,
     titleAr: 'المعادلات والمتغيرات والتعبيرات الرياضية',
     titleEn: 'Expressions, Equations & Variables',
+    titleFr: 'Expressions, équations et variables',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -665,6 +671,7 @@ Exemple du Sinaï : Mariam écrit 180 + x = 275 pour trouver la différence de l
     lessonNumber: 4,
     titleAr: 'التحليل إلى العوامل الأولية وشجرة العوامل',
     titleEn: 'Prime Factorization & Factor Trees (Facteurs premiers)',
+    titleFr: 'Décomposition en facteurs premiers',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -795,6 +802,7 @@ Produit de facteurs premiers : 24 = 2 × 2 × 2 × 3.`,
     lessonNumber: 5,
     titleAr: 'العامل المشترك الأكبر (ع.م.أ / P.G.C.D)',
     titleEn: 'Greatest Common Factor (P.G.C.D / GCF)',
+    titleFr: 'Le plus grand commun diviseur (P.G.C.D.)',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -898,6 +906,7 @@ Exemple concret (p. 55) : Un groupe dépense 16 LE et un autre 12 LE en billets 
     lessonNumber: 7,
     titleAr: 'المضاعف المشترك الأصغر (م.م.أ / P.P.C.M)',
     titleEn: 'Least Common Multiple (P.P.C.M / LCM)',
+    titleFr: 'Le plus petit commun multiple (P.P.C.M.)',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -1004,6 +1013,7 @@ Exemple des mangroves (p. 61) : Nada plante dans un jardin tous les 4 jours et d
     lessonNumber: 1,
     titleAr: 'استخدام نموذج مساحة المستطيل في الضرب',
     titleEn: 'Area Model for Multiplication (Modèle de l’aire du rectangle)',
+    titleFr: "Modèle d'aire pour la multiplication",
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -1111,6 +1121,7 @@ Somme des produits partiels : 4 000 + 600 + 80 + 1 400 + 210 + 28 = 6 318.`,
     lessonNumber: 3,
     titleAr: 'خوارزمية الضرب المعيارية (الضرب الرأسي)',
     titleEn: 'Standard Multiplication Algorithm (L’algorithme standard)',
+    titleFr: 'Algorithme standard de la multiplication',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {
@@ -1211,6 +1222,7 @@ Pour calculer 45 × 37 :
     lessonNumber: 1,
     titleAr: 'ترتيب العمليات الحسابية',
     titleEn: 'Order of Operations (L’ordre des opérations mathématiques)',
+    titleFr: 'Ordre des opérations',
     originTag: 'official',
     isAvailable: true,
     sourceRef: {

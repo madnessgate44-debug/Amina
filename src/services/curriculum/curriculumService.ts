@@ -375,7 +375,18 @@ export class CurriculumService {
           lessons: [],
         });
       }
-      unitMap.get(lesson.unitNumber)!.lessons.push(lesson);
+      const unit = unitMap.get(lesson.unitNumber)!;
+      // Several book lessons exist twice: a legacy extract and the record built
+      // from the inspected book TOC. Both stay registered so old lesson ids still
+      // resolve, but a unit list must show the position once, and must show the
+      // usable record: a legacy extract that is unavailable, or that lacks the
+      // title in the lesson's own language, is a dead end or a language leak.
+      const index = unit.lessons.findIndex((existing) => existing.lessonNumber === lesson.lessonNumber);
+      if (index < 0) {
+        unit.lessons.push(lesson);
+      } else if (lessonCompleteness(lesson) > lessonCompleteness(unit.lessons[index])) {
+        unit.lessons[index] = lesson;
+      }
     }
 
     return Array.from(unitMap.values()).sort((a, b) => a.unitNumber - b.unitNumber);
@@ -446,3 +457,19 @@ export class CurriculumService {
 
 export const curriculumService = new CurriculumService();
 export const getNoorFlatConcepts = () => curriculumService.getFlatConcepts();
+
+
+/**
+ * Rank duplicate records of the same book lesson. An openable lesson always
+ * beats an unavailable one, and a lesson titled in its own teaching language
+ * beats one that would fall back to another language in the UI.
+ */
+const lessonCompleteness = (lesson: OfficialCurriculumLesson): number => {
+  const nativeTitle =
+    lesson.contentLanguage === 'fr'
+      ? lesson.titleFr
+      : lesson.contentLanguage === 'en'
+        ? lesson.titleEn
+        : lesson.titleAr;
+  return (lesson.isAvailable ? 2 : 0) + ((nativeTitle ?? '').trim() ? 1 : 0);
+};
