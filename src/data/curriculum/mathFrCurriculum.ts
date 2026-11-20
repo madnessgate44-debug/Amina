@@ -195,6 +195,12 @@ Dans le nombre 4,725 :
         expectedAnswer: '>',
         page: 11,
       },
+      {
+        type: 'multiple_choice',
+        question: 'Lequel est correct : 5,32 _____ 4,99 ?',
+        options: ['>', '<', '=', '≠'],
+        expectedAnswer: '>',
+      },
     ],
     concepts: [
       {
@@ -316,6 +322,12 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
         expectedAnswer: '4/6',
         page: 28,
       },
+      {
+        type: 'multiple_choice',
+        question: 'Quelle fraction est équivalente à 1/2 ?',
+        options: ['3/6', '2/3', '1/3', '2/5'],
+        expectedAnswer: '3/6',
+      },
     ],
     concepts: [
       {
@@ -390,9 +402,9 @@ Pour simplifier 6/8, on divise le haut et le bas par 2 :
     subjectNameEn: 'French Mathematics',
     subjectNameFr: 'Mathématiques',
     unitNumber: 5,
-    unitNameAr: 'الوحدة الثالثة: قسمة وضرب الكسور العشرية',
-    unitNameEn: 'Unit 3: Multiplication & Division of Decimals',
-    unitNameFr: 'Unité 3: Multiplication et division des décimaux',
+    unitNameAr: 'الوحدة الخامسة: عمليتا الضرب والقسمة مع الكسور العشرية',
+    unitNameEn: 'Unit 5: Multiplication & Division with Decimals',
+    unitNameFr: 'Unité 5 : Multiplication et division des décimaux',
     lessonNumber: 1,
     titleAr: 'ضرب الأعداد العشرية في قوى العدد 10',
     titleEn: 'Multiplying Decimals by Powers of 10',

@@ -139,6 +139,13 @@ Youssef.`,
         expectedAnswer: 'In a traditional wooden felucca',
         page: 62,
       },
+      {
+        type: 'multiple_choice',
+        question: 'According to the postcard, what is Elephantine Island described as?',
+        options: ['The oldest part of Aswan', 'A modern shopping district', 'A large industrial port', 'The newest part of Cairo'],
+        expectedAnswer: 'The oldest part of Aswan',
+        page: 62,
+      },
     ],
     concepts: [
       {

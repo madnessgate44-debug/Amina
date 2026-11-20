@@ -153,5 +153,83 @@ check(
 const ids = lessons.map((l) => l.id);
 check('1.13 lesson ids are unique', new Set(ids).size === ids.length, `${ids.length} ids`);
 
+// A unit number that appears under two different titles makes the child see two
+// "Unit 3" sections, and a unit titled with the wrong number hides the real one.
+const mislabelledUnits: string[] = [];
+for (const subjectId of subjects) {
+  for (const unit of curriculumService.getUnitsForSubject(subjectId)) {
+    const declared = `${unit.unitNameEn ?? ''} ${unit.unitNameFr ?? ''}`.match(/\b(?:Unit|Unité|Chapter)\s*(\d+)/i);
+    if (declared && Number(declared[1]) !== unit.unitNumber) {
+      mislabelledUnits.push(`${subjectId} u${unit.unitNumber} titled "${unit.unitNameEn}"`);
+    }
+  }
+}
+check(
+  '1.14 no unit is titled with a different unit number',
+  mislabelledUnits.length === 0,
+  mislabelledUnits.join('; '),
+);
+
+const duplicateUnitNames: string[] = [];
+for (const subjectId of subjects) {
+  const titles = curriculumService
+    .getUnitsForSubject(subjectId)
+    .map((u) => (u.unitNameEn ?? '').trim().toLowerCase());
+  if (new Set(titles).size !== titles.length) duplicateUnitNames.push(subjectId);
+}
+check(
+  '1.15 no subject shows two units with the same title',
+  duplicateUnitNames.length === 0,
+  duplicateUnitNames.join(', '),
+);
+
+// A session asks each exercise once, so a lesson with a single exercise can only
+// ever pose one question. A child who misses it has nothing left to try, and the
+// lesson cannot show whether the idea was understood. Only lessons whose own
+// worked example yields no verifiable second equation may stay at one.
+const THIN_ALLOWED = new Set<string>([
+  // Maths lessons whose worked example states no arithmetic equation that can be
+  // checked; a second exercise there would have to be invented.
+]);
+const thinLessons = lessons
+  .filter((l) => l.isAvailable && l.exercises.length < 2)
+  .map((l) => l.id)
+  .filter((id) => !THIN_ALLOWED.has(id));
+check(
+  '1.16 every available lesson offers at least two exercises',
+  thinLessons.length === 0,
+  thinLessons.slice(0, 25).join(', ') + (thinLessons.length > 25 ? ` … +${thinLessons.length - 25}` : ''),
+);
+
+// Swapping two lesson titles without swapping their bodies leaves each lesson
+// teaching the other one's topic: the child opened "أحكام التجويد" and read about
+// مخارج الحروف. A lesson's title normally appears in its own teaching text. When
+// it does not, but another lesson in the same subject carries that exact title in
+// its text, the two records have been crossed. A reading passage whose body
+// paraphrases its title is not flagged, because no other lesson mentions it.
+const bodyOf = (l: (typeof lessons)[number]): string =>
+  [l.readingText ?? '', ...l.concepts.map((c) => c.sourceText ?? '')].join(' ');
+const normalizedTitle = (l: (typeof lessons)[number]): string =>
+  (l.titleAr ?? '').replace(/[«»:،.]/g, ' ').replace(/\s+/g, ' ').trim();
+const crossedLessons: string[] = [];
+for (const lesson of lessons) {
+  if (!lesson.isAvailable || lesson.contentLanguage !== 'ar') continue;
+  const title = normalizedTitle(lesson);
+  if (title.length < 6) continue;
+  if (bodyOf(lesson).includes(title)) continue;
+  const elsewhere = lessons.some(
+    (other) =>
+      other.id !== lesson.id &&
+      other.subjectId === lesson.subjectId &&
+      bodyOf(other).includes(title)
+  );
+  if (elsewhere) crossedLessons.push(lesson.id);
+}
+check(
+  '1.17 no lesson title has been swapped onto another lesson\'s content',
+  crossedLessons.length === 0,
+  crossedLessons.join(', '),
+);
+
 console.log(`\nCURRICULUM INTEGRITY SUITE SUMMARY: ${passed} PASSED, ${failed} FAILED`);
 if (failed > 0) process.exit(1);

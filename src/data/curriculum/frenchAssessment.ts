@@ -25,6 +25,7 @@ export const FRENCH_ASSESSMENTS: Record<string, CurriculumExercise[]> = {
   ],
   off_math_u1_l3: [
     { type: 'multiple_choice', question: 'Quelle est la décomposition du nombre décimal 34,527 ?', options: ['30 + 4 + 0,5 + 0,02 + 0,007', '3 + 4 + 5 + 2 + 7', '300 + 40 + 5 + 0,27', '34 + 527'], expectedAnswer: '30 + 4 + 0,5 + 0,02 + 0,007', page: 12 },
+    { type: 'multiple_choice', question: 'Quelle est la forme développée du nombre 12,42 ?', options: ['10 + 2 + 0,4 + 0,02', '1 + 2 + 4 + 2', '12 + 42', '10 + 2 + 0,42'], expectedAnswer: '10 + 2 + 0,4 + 0,02', page: 12 },
   ],
   off_math_u1_l4: [
     { type: 'multiple_choice', question: 'Quelle comparaison est correcte entre 10,1 et 10,011 ?', options: ['10,1 > 10,011', '10,1 < 10,011', '10,1 = 10,011', 'On ne peut pas les comparer'], expectedAnswer: '10,1 > 10,011', page: 15 },
@@ -44,15 +45,19 @@ export const FRENCH_ASSESSMENTS: Record<string, CurriculumExercise[]> = {
   ],
   off_math_u2_l5: [
     { type: 'multiple_choice', question: 'Quel est le plus grand commun diviseur (PGCD) de 12 et 16 ?', options: ['4', '2', '6', '12'], expectedAnswer: '4', page: 55 },
+    { type: 'multiple_choice', question: 'Quel est le plus grand commun diviseur (PGCD) de 16 et 24 ?', options: ['8', '4', '2', '48'], expectedAnswer: '8', page: 55 },
   ],
   off_math_u2_l7: [
     { type: 'multiple_choice', question: 'Quel est le plus petit commun multiple (PPCM) de 6 et 9 ?', options: ['18', '54', '3', '12'], expectedAnswer: '18', page: 60 },
+    { type: 'multiple_choice', question: 'Quel est le plus petit commun multiple (PPCM) de 4 et 9 ?', options: ['36', '13', '18', '72'], expectedAnswer: '36', page: 60 },
   ],
   off_math_u3_l1: [
     { type: 'multiple_choice', question: 'Avec le modèle de l’aire du rectangle pour calculer 201 × 32, quel est le produit de 200 × 30 ?', options: ['6 000', '600', '60 000', '60'], expectedAnswer: '6 000', page: 66 },
+    { type: 'multiple_choice', question: 'Avec le modèle de l’aire pour 234 × 27, quel est le produit de 200 × 20 ?', options: ['4 000', '400', '6 000', '40 000'], expectedAnswer: '4 000', page: 66 },
   ],
   off_math_u3_l3: [
     { type: 'multiple_choice', question: 'Dans l’algorithme usuel de la multiplication, quelle étape faut-il effectuer lorsqu’on multiplie par le chiffre des dizaines ?', options: ['Écrire un zéro de décalage dans la colonne des unités', 'Supprimer la virgule', 'Soustraire les deux nombres', 'Multiplier par 100'], expectedAnswer: 'Écrire un zéro de décalage dans la colonne des unités', page: 73 },
+    { type: 'multiple_choice', question: 'Dans 45 × 37, quel est le produit partiel des unités (45 × 7) ?', options: ['315', '135', '1 665', '28'], expectedAnswer: '315', page: 73 },
   ],
   off_math_u6_l1: [
     { type: 'multiple_choice', question: 'Dans l’expression « 12 + 24 ÷ 4 », quelle opération faut-il effectuer en premier ?', options: ['La division (24 ÷ 4)', 'L’addition (12 + 24)', 'Les deux en même temps', 'La multiplication par 2'], expectedAnswer: 'La division (24 ÷ 4)', page: 123 },

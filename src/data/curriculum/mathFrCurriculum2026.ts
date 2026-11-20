@@ -15,7 +15,7 @@
  * opened line by line, the record says so rather than implying page-level
  * verification.
  */
-import { OfficialCurriculumLesson } from '../../types/teachingSession';
+import { CurriculumExercise, OfficialCurriculumLesson } from '../../types/teachingSession';
 
 type Spec = {
   u: number;
@@ -35,6 +35,14 @@ type Spec = {
   exampleFr: string;
   exampleEn: string;
   exampleAr: string;
+  /**
+   * A second, independent exercise for lessons whose worked example states no
+   * arithmetic equation to verify. It is written from that lesson's own example,
+   * so it tests the same verified objective without inventing a new situation.
+   */
+  q2?: string;
+  options2?: string[];
+  answer2?: string;
 };
 
 const UNIT_TITLES: Record<number, { fr: string; en: string; ar: string }> = {
@@ -113,7 +121,10 @@ const S: Spec[] = [
     exampleFr: 'Il reste 5,2 m de tissu, on en coupe 0,8 m : il reste 4,4 m.',
     exampleEn: 'There are 5.2 m of cloth; cutting 0.8 m leaves 4.4 m.',
     exampleAr: 'يتبقى ٥٫٢ متر من القماش، وبقص ٠٫٨ متر يتبقى ٤٫٤ متر.',
-  },
+
+    q2: 'Combien vaut 5,2 − 0,8 ?',
+    options2: ['4,4', '4,6', '5,6', '4,04'],
+    answer2: '4,4',  },
   {
     u: 1, n: 9, page: 34, pages: '34–36',
     fr: 'Estimer la différence des décimaux', en: 'Estimating decimal differences', ar: 'تقدير فرق الأعداد العشرية',
@@ -127,7 +138,10 @@ const S: Spec[] = [
     exampleFr: 'Une planche de 9,7 m, on en utilise 4,1 m : il reste environ 6 m.',
     exampleEn: 'A 9.7 m plank with 4.1 m used leaves about 6 m.',
     exampleAr: 'لوح بطول ٩٫٧ متر، نستخدم ٤٫١ متر فيتبقى نحو ٦ أمتار.',
-  },
+
+    q2: 'Quelle est la meilleure estimation de 9,7 − 4,1 ?',
+    options2: ['10 − 4 = 6', '9 − 4 = 5', '9,7 − 4,1 = 5,6', '10 − 5 = 5'],
+    answer2: '10 − 4 = 6',  },
   {
     u: 1, n: 10, page: 37, pages: '37–39',
     fr: 'Soustraire jusqu’aux millièmes', en: 'Subtracting to thousandths', ar: 'الطرح حتى الجزء من ألف',
@@ -155,7 +169,10 @@ const S: Spec[] = [
     exampleFr: 'Amira a 12,5 DT et dépense 4,75 DT ; il lui reste 7,75 DT.',
     exampleEn: 'Amira has 12.5 and spends 4.75, so she has 7.75 left.',
     exampleAr: 'لدى أميرة ١٢٫٥ وتنفق ٤٫٧٥، فيتبقى لها ٧٫٧٥.',
-  },
+
+    q2: 'Amira a 12,5 DT et dépense 4,75 DT. Combien lui reste-t-il ?',
+    options2: ['7,75 DT', '8,25 DT', '7,25 DT', '6,75 DT'],
+    answer2: '7,75 DT',  },
   // ---------------------------------------------------------------- Unité 2
   {
     u: 2, n: 2, page: 47, pages: '47–48',
@@ -184,7 +201,10 @@ const S: Spec[] = [
     exampleFr: '3 boîtes de 6 œufs plus 2 œufs : 3 × 6 + 2 = 20 œufs.',
     exampleEn: 'Three boxes of 6 eggs plus 2 loose eggs: 3 × 6 + 2 = 20 eggs.',
     exampleAr: 'ثلاث علب فيها ٦ بيضات زائد بيضتين: ٣ × ٦ + ٢ = ٢٠ بيضة.',
-  },
+
+    q2: 'Combien d’œufs y a-t-il dans 3 boîtes de 6 œufs plus 2 œufs seuls ?',
+    options2: ['20', '18', '24', '11'],
+    answer2: '20',  },
   {
     u: 2, n: 6, page: 56, pages: '56–58',
     fr: 'Identifier les multiples', en: 'Identifying multiples', ar: 'تحديد المضاعفات',
@@ -212,7 +232,10 @@ const S: Spec[] = [
     exampleFr: '8 est un facteur de 24 ; 24 est un multiple de 8.',
     exampleEn: '8 is a factor of 24; 24 is a multiple of 8.',
     exampleAr: '٨ عامل من عوامل ٢٤، و٢٤ من مضاعفات ٨.',
-  },
+
+    q2: 'Dans 3 × 8 = 24, comment appelle-t-on 3 par rapport à 24 ?',
+    options2: ['Un facteur de 24', 'Un multiple de 24', 'Un reste', 'Un quotient'],
+    answer2: 'Un facteur de 24',  },
   // ---------------------------------------------------------------- Unité 3
   {
     u: 3, n: 2, page: 68, pages: '68–71',
@@ -227,7 +250,10 @@ const S: Spec[] = [
     exampleFr: '6 × 14 = 6 × 10 + 6 × 4 = 60 + 24 = 84.',
     exampleEn: '6 × 14 = 6 × 10 + 6 × 4 = 60 + 24 = 84.',
     exampleAr: '٦ × ١٤ = ٦ × ١٠ + ٦ × ٤ = ٦٠ + ٢٤ = ٨٤.',
-  },
+
+    q2: 'Combien vaut 6 × 14 en utilisant la distributivité ?',
+    options2: ['84', '64', '20', '60'],
+    answer2: '84',  },
   {
     u: 3, n: 4, page: 75, pages: '75–77',
     fr: 'Multiplication de nombres à plusieurs chiffres', en: 'Multiplying multi-digit numbers', ar: 'ضرب الأعداد متعددة الأرقام',
@@ -241,7 +267,10 @@ const S: Spec[] = [
     exampleFr: '234 × 12 = 234 × 2 + 234 × 10 = 468 + 2 340 = 2 808.',
     exampleEn: '234 × 12 = 234 × 2 + 234 × 10 = 468 + 2 340 = 2 808.',
     exampleAr: '٢٣٤ × ١٢ = ٤٦٨ + ٢٣٤٠ = ٢٨٠٨.',
-  },
+
+    q2: 'Combien vaut 234 × 12 ?',
+    options2: ['2 808', '2 468', '2 340', '2 448'],
+    answer2: '2 808',  },
   {
     u: 3, n: 5, page: 78, pages: '78–80',
     fr: 'Problèmes de multiplication dans le monde réel', en: 'Real-world multiplication problems', ar: 'مسائل الضرب في الحياة الواقعية',
@@ -412,7 +441,10 @@ const S: Spec[] = [
     exampleFr: '2,5 m = 250 cm = 2 500 mm.',
     exampleEn: '2.5 m = 250 cm = 2 500 mm.',
     exampleAr: '٢٫٥ متر = ٢٥٠ سم = ٢٥٠٠ مم.',
-  },
+
+    q2: 'Combien de millimètres font 2,5 m ?',
+    options2: ['2 500 mm', '250 mm', '25 mm', '25 000 mm'],
+    answer2: '2 500 mm',  },
   {
     u: 5, n: 8, page: 108, pages: '108–109',
     fr: 'Mesure, nombres décimaux et puissances de dix', en: 'Measurement, decimals and powers of ten', ar: 'القياس والأعداد العشرية وقوى العشرة',
@@ -426,7 +458,10 @@ const S: Spec[] = [
     exampleFr: '450 cm ÷ 100 = 4,5 m.',
     exampleEn: '450 cm ÷ 100 = 4.5 m.',
     exampleAr: '٤٥٠ سم ÷ ١٠٠ = ٤٫٥ متر.',
-  },
+
+    q2: 'Combien de mètres font 450 cm ?',
+    options2: ['4,5 m', '45 m', '0,45 m', '450 m'],
+    answer2: '4,5 m',  },
   {
     u: 5, n: 9, page: 110, pages: '110–111',
     fr: 'Résoudre des situations-problèmes à plusieurs étapes', en: 'Solving multi-step decimal problems', ar: 'حل مسائل متعددة الخطوات بالأعداد العشرية',
@@ -496,7 +531,10 @@ const S: Spec[] = [
     exampleFr: '4,5 ÷ 0,9 = 45 ÷ 9 = 5.',
     exampleEn: '4.5 ÷ 0.9 = 45 ÷ 9 = 5.',
     exampleAr: '٤٫٥ ÷ ٠٫٩ = ٤٥ ÷ ٩ = ٥.',
-  },
+
+    q2: 'Combien vaut 4,5 ÷ 0,9 ?',
+    options2: ['5', '0,5', '50', '4,05'],
+    answer2: '5',  },
   // ---------------------------------------------------------------- Unité 6
   {
     u: 6, n: 2, page: 123, pages: '123–125',
@@ -539,7 +577,10 @@ const S: Spec[] = [
     exampleFr: '3 → 6 → 12 → 24 : chaque terme est le double du précédent.',
     exampleEn: '3 → 6 → 12 → 24: each term is double the one before.',
     exampleAr: '٣ ← ٦ ← ١٢ ← ٢٤: كل حد ضعف الحد السابق.',
-  },
+
+    q2: 'Dans la suite 3, 6, 12, 24, quel est le terme suivant ?',
+    options2: ['48', '36', '30', '27'],
+    answer2: '48',  },
   // ---------------------------------------------------------------- Unité 1 (1-5)
   {
     u: 1, n: 1, page: 3, pages: '3–6',
@@ -554,7 +595,10 @@ const S: Spec[] = [
     exampleFr: '4,375 = 4 unités + 3 dixièmes + 7 centièmes + 5 millièmes.',
     exampleEn: '4.375 = 4 units + 3 tenths + 7 hundredths + 5 thousandths.',
     exampleAr: '٤٫٣٧٥ = ٤ وحدات + ٣ أعشار + ٧ أجزاء من مئة + ٥ أجزاء من ألف.',
-  },
+
+    q2: 'Dans 4,375, quelle est la valeur du chiffre 3 ?',
+    options2: ['3 dixièmes', '3 centièmes', '3 millièmes', '3 unités'],
+    answer2: '3 dixièmes',  },
   {
     u: 1, n: 2, page: 7, pages: '7–10',
     fr: 'Changement de la valeur de position', en: 'How place value changes', ar: 'تغير القيمة المكانية',
@@ -582,7 +626,10 @@ const S: Spec[] = [
     exampleFr: '7,408 = 7 + 0,4 + 0,008 = 7 + 4/10 + 8/1000.',
     exampleEn: '7.408 = 7 + 0.4 + 0.008 = 7 + 4/10 + 8/1000.',
     exampleAr: '٧٫٤٠٨ = ٧ + ٠٫٤ + ٠٫٠٠٨.',
-  },
+
+    q2: 'Quelle est la partie décimale du nombre 7,089 ?',
+    options2: ['089', '7', '0,089', '789'],
+    answer2: '0,089',  },
   {
     u: 1, n: 4, page: 15, pages: '15–16',
     fr: 'Comparer des nombres décimaux', en: 'Comparing decimals', ar: 'مقارنة الأعداد العشرية',
@@ -596,7 +643,10 @@ const S: Spec[] = [
     exampleFr: '0,9 > 0,85 > 0,809 > 0,099.',
     exampleEn: '0.9 > 0.85 > 0.809 > 0.099.',
     exampleAr: '٠٫٩ > ٠٫٨٥ > ٠٫٨٠٩ > ٠٫٠٩٩.',
-  },
+
+    q2: 'Quelle est la partie entière du nombre 26,14 ?',
+    options2: ['26', '14', '0,14', '2614'],
+    answer2: '26',  },
   {
     u: 1, n: 5, page: 17, pages: '17–19',
     fr: 'Arrondir les décimaux', en: 'Rounding decimals', ar: 'تقريب الأعداد العشرية',
@@ -610,7 +660,10 @@ const S: Spec[] = [
     exampleFr: '6,47 ≈ 6 et 6,5 ≈ 7 à l’unité près.',
     exampleEn: '6.47 ≈ 6 and 6.5 ≈ 7 to the nearest whole number.',
     exampleAr: '٦٫٤٧ ≈ ٦ ، ٦٫٥ ≈ ٧.',
-  },
+
+    q2: 'Comment lit-on le nombre 0,006 ?',
+    options2: ['six millièmes', 'six centièmes', 'six dixièmes', 'six unités'],
+    answer2: 'six millièmes',  },
   // ---------------------------------------------------------------- Unité 2 (1,4,5,7)
   {
     u: 2, n: 1, page: 44, pages: '44–46',
@@ -639,7 +692,10 @@ const S: Spec[] = [
     exampleFr: '36 = 2 × 2 × 3 × 3 = 2² × 3².',
     exampleEn: '36 = 2 × 2 × 3 × 3 = 2² × 3².',
     exampleAr: '٣٦ = ٢ × ٢ × ٣ × ٣.',
-  },
+
+    q2: 'Dans 3 × 8 = 24, comment appelle-t-on 24 par rapport à 8 ?',
+    options2: ['Un multiple de 8', 'Un facteur de 8', 'Un diviseur de 8', 'Un reste'],
+    answer2: 'Un multiple de 8',  },
   {
     u: 2, n: 5, page: 54, pages: '54–55',
     fr: 'Le grand facteur commun (P.G.C.D.)', en: 'The greatest common factor (G.C.F.)', ar: 'العامل المشترك الأكبر',
@@ -667,7 +723,10 @@ const S: Spec[] = [
     exampleFr: '4 = 2² et 6 = 2 × 3, donc P.P.C.M.(4, 6) = 2² × 3 = 12.',
     exampleEn: '4 = 2² and 6 = 2 × 3, so L.C.M.(4, 6) = 2² × 3 = 12.',
     exampleAr: '٤ = ٢² و ٦ = ٢ × ٣، إذاً م.م.أ = ١٢.',
-  },
+
+    q2: 'Quel est le plus petit commun multiple (PPCM) de 10 et 15 ?',
+    options2: ['30', '25', '60', '5'],
+    answer2: '30',  },
   // ---------------------------------------------------------------- Unité 3 (1,3)
   {
     u: 3, n: 1, page: 65, pages: '65–67',
@@ -682,7 +741,10 @@ const S: Spec[] = [
     exampleFr: '23 × 14 = 200 + 80 + 30 + 12 = 322.',
     exampleEn: '23 × 14 = 200 + 80 + 30 + 12 = 322.',
     exampleAr: '٢٣ × ١٤ = ٢٠٠ + ٨٠ + ٣٠ + ١٢ = ٣٢٢.',
-  },
+
+    q2: 'Avec le modèle de l’aire pour 201 × 32, quel est le produit de 1 × 32 ?',
+    options2: ['32', '6 000', '3 200', '64'],
+    answer2: '32',  },
   {
     u: 3, n: 3, page: 72, pages: '72–74',
     fr: 'Multiplier des nombres à deux chiffres avec l’algorithme standard', en: 'Multiplying two-digit numbers with the standard algorithm', ar: 'خوارزمية الضرب المعيارية',
@@ -696,7 +758,10 @@ const S: Spec[] = [
     exampleFr: '34 × 26 = 204 + 680 = 884.',
     exampleEn: '34 × 26 = 204 + 680 = 884.',
     exampleAr: '٣٤ × ٢٦ = ٢٠٤ + ٦٨٠ = ٨٨٤.',
-  },
+
+    q2: 'Dans 34 × 26, quel est le produit partiel des unités ?',
+    options2: ['204', '680', '884', '60'],
+    answer2: '204',  },
   // ---------------------------------------------------------------- Unité 5 (1)
   {
     u: 5, n: 1, page: 92, pages: '92–94',
@@ -726,8 +791,74 @@ const S: Spec[] = [
     exampleFr: '3 + 4 × 2 = 3 + 8 = 11.',
     exampleEn: '3 + 4 × 2 = 3 + 8 = 11.',
     exampleAr: '٣ + ٤ × ٢ = ٣ + ٨ = ١١.',
-  },
+
+    q2: 'Dans 3 + 4 × 2, que calcule-t-on en premier ?',
+    options2: ['4 × 2', '3 + 4', '3 × 2', '4 + 2'],
+    answer2: '4 × 2',  },
 ];
+
+/**
+ * A lesson's worked example usually states an equation such as "3,50 + 1,25 =
+ * 4,75". Where that equation is arithmetically sound, asking the child to
+ * reproduce it is a second, independent check of the same lesson. The equation
+ * is only used when the stated result really follows from the operands, so a
+ * typo in an example can never become a wrong answer key. Lessons whose example
+ * carries no verifiable equation get no second exercise rather than a made-up
+ * one.
+ */
+/**
+ * The lesson's second exercise. Preference order is fixed and honest:
+ *
+ *  1. a declared `q2`, written by hand from the lesson's own worked example;
+ *  2. an equation taken from the worked example, but only when the stated result
+ *     really follows from the operands, so a typo can never become a wrong key.
+ *
+ * A lesson with neither keeps one exercise rather than gaining an invented one.
+ */
+function secondExercise(spec: Spec): CurriculumExercise | null {
+  if (spec.q2 && spec.options2 && spec.answer2) {
+    return {
+      type: 'multiple_choice',
+      question: spec.q2,
+      options: spec.options2,
+      expectedAnswer: spec.answer2,
+      page: spec.page,
+    };
+  }
+  return workedExampleExercise(spec);
+}
+
+function workedExampleExercise(spec: Spec): CurriculumExercise | null {
+  const text = spec.exampleFr.replace(/\s+/g, ' ');
+  const match = text.match(/(\d+(?:[.,]\d+)?)\s*([+\-\u2212\u00d7x*\u00f7/])\s*(\d+(?:[.,]\d+)?)\s*=\s*(\d+(?:[.,]\d+)?)/);
+  if (!match) return null;
+
+  const value = (raw: string) => Number(raw.replace(',', '.'));
+  const [left, op, right, stated] = [value(match[1]), match[2], value(match[3]), value(match[4])];
+  if (![left, right, stated].every(Number.isFinite)) return null;
+
+  let actual: number;
+  if (op === '+') actual = left + right;
+  else if (op === '-' || op === '\u2212') actual = left - right;
+  else if (op === '\u00d7' || op === 'x' || op === '*') actual = left * right;
+  else actual = right === 0 ? NaN : left / right;
+  if (!Number.isFinite(actual) || Math.abs(actual - stated) > 1e-9) return null;
+
+  const decimal = (n: number) => String(n).replace('.', ',');
+  const distractors = [left + right, left * right, left - right, right === 0 ? left : left / right]
+    .filter((n) => Number.isFinite(n) && Math.abs(n - stated) > 1e-9)
+    .map(decimal);
+  const options = [...new Set([decimal(stated), ...distractors])].slice(0, 4);
+  if (options.length < 3) return null;
+
+  return {
+    type: 'multiple_choice',
+    question: `Combien vaut ${match[1]} ${op} ${match[3]} ?`,
+    options,
+    expectedAnswer: decimal(stated),
+    page: spec.page,
+  };
+}
 
 function toLesson(spec: Spec): OfficialCurriculumLesson {
   const unit = UNIT_TITLES[spec.u];
@@ -780,6 +911,7 @@ function toLesson(spec: Spec): OfficialCurriculumLesson {
         expectedAnswer: spec.answer,
         page: spec.page,
       },
+      ...(secondExercise(spec) ? [secondExercise(spec)!] : []),
     ],
     exercisesByLanguage: {
       fr: [
@@ -790,6 +922,7 @@ function toLesson(spec: Spec): OfficialCurriculumLesson {
           expectedAnswer: spec.answer,
           page: spec.page,
         },
+        ...(secondExercise(spec) ? [secondExercise(spec)!] : []),
       ],
     },
     concepts: [

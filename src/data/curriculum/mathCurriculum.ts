@@ -274,6 +274,12 @@ On peut également regrouper les entiers et les décimaux : 12,42 = 12 + 0,42.`,
         expectedAnswer: '30 + 4 + 0,5 + 0,02 + 0,007',
         page: 12,
       },
+      {
+        type: 'multiple_choice',
+        question: 'Quelle est la forme développée du nombre 12,42 ?',
+        options: ['10 + 2 + 0,4 + 0,02', '1 + 2 + 4 + 2', '12 + 42', '10 + 2 + 0,42'],
+        expectedAnswer: '10 + 2 + 0,4 + 0,02',
+      },
     ],
     concepts: [
       {
@@ -840,6 +846,12 @@ Exemple concret (p. 55) : Un groupe dépense 16 LE et un autre 12 LE en billets 
         expectedAnswer: '4',
         page: 55,
       },
+      {
+        type: 'multiple_choice',
+        question: 'Quel est le plus grand commun diviseur (PGCD) de 16 et 24 ?',
+        options: ['8', '4', '2', '48'],
+        expectedAnswer: '8',
+      },
     ],
     concepts: [
       {
@@ -942,6 +954,12 @@ Exemple des mangroves (p. 61) : Nada plante dans un jardin tous les 4 jours et d
         options: ['18', '54', '3', '12'],
         expectedAnswer: '18',
         page: 60,
+      },
+      {
+        type: 'multiple_choice',
+        question: 'Quel est le plus petit commun multiple (PPCM) de 4 et 6 ?',
+        options: ['12', '24', '10', '2'],
+        expectedAnswer: '12',
       },
     ],
     concepts: [
@@ -1055,6 +1073,12 @@ Somme des produits partiels : 4 000 + 600 + 80 + 1 400 + 210 + 28 = 6 318.`,
         expectedAnswer: '6 000',
         page: 66,
       },
+      {
+        type: 'multiple_choice',
+        question: 'Avec le modèle de l’aire pour 234 × 27, quel est le produit de 200 × 20 ?',
+        options: ['4 000', '400', '6 000', '40 000'],
+        expectedAnswer: '4 000',
+      },
     ],
     concepts: [
       {
@@ -1162,6 +1186,12 @@ Pour calculer 45 × 37 :
         options: ['وضع صفر حفظ الخانة في خانة الآحاد', 'حذف الفاصلة', 'طرح العددين', 'الضرب في 100'],
         expectedAnswer: 'وضع صفر حفظ الخانة في خانة الآحاد',
         page: 73,
+      },
+      {
+        type: 'multiple_choice',
+        question: 'Dans 45 × 37, quel est le produit partiel des unités (45 × 7) ?',
+        options: ['315', '135', '1 665', '28'],
+        expectedAnswer: '315',
       },
     ],
     concepts: [
