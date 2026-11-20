@@ -202,6 +202,13 @@ Nous habitons tous ensemble au Caire près du Nil. J'aime beaucoup ma famille !`
         expectedAnswer: 'Ma mère',
         page: 13,
       },
+      {
+        type: 'multiple_choice',
+        question: 'Pour parler de ses frères et sœurs (plusieurs personnes), on dit :',
+        options: ['Mes frères', 'Mon frères', 'Ma frères', 'Le frères'],
+        expectedAnswer: 'Mes frères',
+        page: 10,
+      },
     ],
     concepts: [
       {
@@ -293,6 +300,13 @@ Mon cartable est bien rangé et je suis prête pour les cours !`,
         options: ['un', 'une', 'des', 'le'],
         expectedAnswer: 'une',
         page: 19,
+      },
+      {
+        type: 'multiple_choice',
+        question: "Complète avec l'article correct : Ce sont _____ crayons.",
+        options: ['des', 'un', 'une', 'le'],
+        expectedAnswer: 'des',
+        page: 20,
       },
     ],
     concepts: [

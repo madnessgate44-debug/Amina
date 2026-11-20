@@ -143,6 +143,18 @@ interface RealQuestion {
   book: string;
 }
 
+/**
+ * Wraps an answer in quotation marks for display, without doubling the marks a
+ * few stored answers already carry: `«أنا أستطيع»` was rendered as
+ * `««أنا أستطيع»»` because the template added a second pair.
+ */
+function quoted(answer: string, lang: 'ar' | 'en' = 'ar'): string {
+  const [open, close] = lang === 'ar' ? ['«', '»'] : ['"', '"'];
+  const trimmed = answer.trim();
+  if (trimmed.startsWith(open) && trimmed.endsWith(close)) return trimmed;
+  return `${open}${trimmed}${close}`;
+}
+
 function lessonBook(lesson: OfficialCurriculumLesson): string {
   return lesson.sourceRef?.bookAr || lesson.sourceRef?.book || '';
 }
@@ -252,8 +264,8 @@ function buildQuickCheck(conceptId: string): LearningReelContent['quickCheck'] {
     optionsAr: q.options,
     optionsEn: q.options,
     correctIndex: q.correctIndex,
-    explanationAr: `الإجابة الصحيحة: «${answer}»${q.page ? ` (${q.book} ص. ${q.page})` : ''}.`,
-    explanationEn: `The correct answer: "${answer}"${q.page ? ` (${q.book} p. ${q.page})` : ''}.`,
+    explanationAr: `الإجابة الصحيحة: ${quoted(answer)}${q.page ? ` (${q.book} ص. ${q.page})` : ''}.`,
+    explanationEn: `The correct answer: ${quoted(answer, 'en')}${q.page ? ` (${q.book} p. ${q.page})` : ''}.`,
   };
 }
 
@@ -290,8 +302,8 @@ export function getQuizQuestionsForConcept(
       correctAnswer: q.correctIndex,
       hintAr: `راجع ${q.book}${pageRef}.`,
       hintEn: `Check ${q.book}${q.page ? ` p. ${q.page}` : ''}.`,
-      explanationAr: `الإجابة الصحيحة: «${answer}»${pageRef}.`,
-      explanationEn: `The correct answer: "${answer}"${q.page ? ` (p. ${q.page})` : ''}.`,
+      explanationAr: `الإجابة الصحيحة: ${quoted(answer)}${pageRef}.`,
+      explanationEn: `The correct answer: ${quoted(answer, 'en')}${q.page ? ` (p. ${q.page})` : ''}.`,
     };
   });
 }

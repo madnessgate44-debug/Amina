@@ -20,7 +20,17 @@
  * Key format: `${language}:${lessonId}:${conceptIndex}`.
  */
 
+import type { OfficialCurriculumLesson } from '../../types/teachingSession';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './scienceFrCurriculum2026';
+import { ARABIC_CURRICULUM_2026_LESSONS } from './arabicCurriculum2026';
+import { ENGLISH_CURRICULUM_2026_LESSONS } from './englishCurriculum2026';
+import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from './socialStudiesCurriculum2026';
+import { LIBRARIES_CURRICULUM_2026_LESSONS } from './librariesCurriculum2026';
+import { FARMING_CURRICULUM_2026_LESSONS } from './farmingCurriculum2026';
+import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from './familyManagementCurriculum2026';
+import { ISLAMIC_CURRICULUM_2026_LESSONS } from './islamicCurriculum2026';
+import { CHRISTIAN_CURRICULUM_2026_LESSONS } from './christianCurriculum2026';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from './mathFrCurriculum2026';
 
 export interface PreGeneratedNoorLines {
   /** The warm opening for the lesson. */
@@ -341,9 +351,159 @@ const CURRENT_SCIENCE_NOOR_LINES = Object.fromEntries(
   ),
 ) as Record<string, PreGeneratedNoorLines>;
 
+const CURRENT_MATH_NOOR_LINES = Object.fromEntries(
+  MATH_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => {
+      const keyPoint = concept.titleAr;
+      return [
+        'ar:' + lesson.id + ':' + index,
+        {
+          intro:
+            'أهلاً يا بطلة! النهارده هنتعلم مع بعض درس ' +
+            concept.titleAr +
+            '. هنفهم الفكرة خطوة خطوة ونربطها بمثال من حياتنا اليومية. جاهزة نبدأ؟',
+          explanation:
+            'الفكرة الأساسية هي ' +
+            concept.titleAr +
+            '. ' +
+            concept.dailyLifeExampleAr +
+            ' ' +
+            keyPoint +
+            ' خلينا نفهم السبب ونشرح المعلومة بكلماتنا، مش نحفظها بس.',
+          check:
+            'تقدري تشرحي بطريقتك ' +
+            keyPoint +
+            '؟ اذكري مثالاً من حياتك يساعدك توضحي الفكرة.',
+        },
+      ];
+    }),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
+// The Arabic book is taught in Arabic, so its fixed lines are written in
+// Arabic from the lesson's own objectives and daily-life example. Phrasing
+// avoids gendered address because the class is mixed.
+const CURRENT_ARABIC_NOOR_LINES = Object.fromEntries(
+  ARABIC_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => [
+      'ar:' + lesson.id + ':' + index,
+      {
+        intro:
+          'أهلاً بك! درسنا اليوم «' +
+          concept.titleAr +
+          '». سنفهم الفكرة خطوة خطوة، ثم نتدرب عليها معاً. هل نبدأ؟',
+        explanation:
+          concept.sourceText +
+          '\n\nمثال من حياتنا: ' +
+          concept.dailyLifeExampleAr +
+          '\n\nالمطلوب منك: ' +
+          concept.keyPoints.join(' '),
+        check:
+          'اشرح بأسلوبك: ' + concept.keyPoints[0] + ' واذكر مثالاً من حياتك.',
+      },
+    ]),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
+// English lessons are taught in English, so the fixed lines are English. The
+// app still speaks Arabic to the child around the lesson, so the English text
+// is introduced in Arabic to keep the switch explicit rather than abrupt.
+const CURRENT_ENGLISH_NOOR_LINES = Object.fromEntries(
+  ENGLISH_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => [
+      // Keyed by the child's UI language, not the lesson's teaching language:
+      // Miss Noor speaks Arabic and switches into English inside the lesson.
+      'ar:' + lesson.id + ':' + index,
+      {
+        intro:
+          'أهلاً بك! درس اليوم بالإنجليزية: ' +
+          concept.titleEn +
+          '. سأشرح لك بالعربية ثم نتدرب بالإنجليزية. هل نبدأ؟',
+        explanation:
+          'بالعربية: ' +
+          concept.sourceText +
+          '\n\nIn English: ' +
+          concept.dailyLifeExampleEn,
+        check:
+          'اشرح بالعربية ما فهمته من الدرس، ثم أجب بالإنجليزية: ' +
+          concept.keyPoints[0],
+      },
+    ]),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
+// Social Studies is taught in Arabic, so its fixed lines are Arabic, built
+// from the lesson's own objectives and its first sub-heading.
+const CURRENT_SOCIAL_NOOR_LINES = Object.fromEntries(
+  SOCIAL_STUDIES_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept, index) => [
+      'ar:' + lesson.id + ':' + index,
+      {
+        intro:
+          'أهلاً بك! درسنا اليوم في الدراسات الاجتماعية: «' +
+          concept.titleAr +
+          '». سنقرأ الفكرة ثم نطبقها على خريطة مصر. هل نبدأ؟',
+        explanation:
+          concept.sourceText +
+          '\n\nالمطلوب منك: ' +
+          concept.keyPoints.join(' '),
+        check:
+          'اشرح بأسلوبك: ' + concept.keyPoints[0] + ' ولماذا؟',
+      },
+    ]),
+  ),
+) as Record<string, PreGeneratedNoorLines>;
+
+// The Term 1 activity subjects (Libraries, Farming Skills, Family Management)
+// are taught in Arabic, so their fixed lines are Arabic, built from each
+// lesson's own objectives and first sub-heading.
+function arabicActivityLines(lessons: OfficialCurriculumLesson[], subjectLabel: string) {
+  return Object.fromEntries(
+    lessons.flatMap((lesson) =>
+      lesson.concepts.map((concept, index) => [
+        'ar:' + lesson.id + ':' + index,
+        {
+          intro:
+            'أهلاً بك! درسنا اليوم في ' +
+            subjectLabel +
+            ': «' +
+            concept.titleAr +
+            '». سنقرأ الفكرة ثم نتدرب عليها معاً. هل نبدأ؟',
+          explanation: concept.sourceText + '\n\nالمطلوب منك: ' + concept.keyPoints.join(' '),
+          check: 'اشرح بأسلوبك: ' + concept.keyPoints[0] + ' ولماذا؟',
+        },
+      ])
+    )
+  ) as Record<string, PreGeneratedNoorLines>;
+}
+
+const CURRENT_LIBRARIES_NOOR_LINES = arabicActivityLines(
+  LIBRARIES_CURRICULUM_2026_LESSONS,
+  'المكتبات ومهارات المعلومات'
+);
+const CURRENT_FARMING_NOOR_LINES = arabicActivityLines(FARMING_CURRICULUM_2026_LESSONS, 'مهارات الزراعة');
+const CURRENT_ISLAMIC_NOOR_LINES = arabicActivityLines(ISLAMIC_CURRICULUM_2026_LESSONS, 'التربية الدينية الإسلامية');
+const CURRENT_CHRISTIAN_NOOR_LINES = arabicActivityLines(
+  CHRISTIAN_CURRICULUM_2026_LESSONS,
+  'التربية الدينية المسيحية'
+);
+const CURRENT_FAMILY_NOOR_LINES = arabicActivityLines(
+  FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS,
+  'مهارات إدارة الأسرة'
+);
+
 export const PRE_GENERATED_NOOR_LINES: Record<string, PreGeneratedNoorLines> = {
   ...BASE_PRE_GENERATED_NOOR_LINES,
   ...CURRENT_SCIENCE_NOOR_LINES,
+  ...CURRENT_MATH_NOOR_LINES,
+  ...CURRENT_ARABIC_NOOR_LINES,
+  ...CURRENT_ENGLISH_NOOR_LINES,
+  ...CURRENT_SOCIAL_NOOR_LINES,
+  ...CURRENT_LIBRARIES_NOOR_LINES,
+  ...CURRENT_FARMING_NOOR_LINES,
+  ...CURRENT_FAMILY_NOOR_LINES,
+  ...CURRENT_ISLAMIC_NOOR_LINES,
+  ...CURRENT_CHRISTIAN_NOOR_LINES,
 };
 
 

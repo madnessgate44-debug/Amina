@@ -245,8 +245,15 @@ function run() {
   // only the first lesson forever and never reached them. Rotation by day must
   // surface every one of them across a fortnight of sessions.
   const misLessons = ['off_mathfr_u1_l1_decimaux', 'off_mathfr_u1_l2_comparer', 'off_mathfr_u2_l1_fractions', 'off_mathfr_u3_l1_division'];
+  // Rotation advances one lesson per day through the whole subject pool, so the
+  // window must cover the pool. A fixed 16 days only held while the Term 1 Maths
+  // book stopped at 16 records; the book now carries its full 46-lesson table of
+  // contents, so the window is derived from the pool instead of hardcoded.
+  const mathsPool = curriculumService
+    .getAvailableLessons()
+    .filter((l) => l.subjectId === 'subj_math').length;
   const reached = new Set<string>();
-  for (let d = 0; d < 16; d++) {
+  for (let d = 0; d < mathsPool + 4; d++) {
     const dayNow = new Date(Date.UTC(2026, 9, 20 + d, 12, 0, 0));
     const q = buildFeedQueue({
       studentId: 'stu_test',
@@ -279,7 +286,12 @@ function run() {
   const unreachable: string[] = [];
   for (const lesson of multiConceptLessons) {
     const seen = new Set<string>();
-    for (let d = 0; d < lesson.concepts.length * 4; d++) {
+    // The lesson itself only comes round once per pool cycle, so the window has
+    // to be at least the pool size for the concept rotation inside it to run.
+    const subjectPool = curriculumService
+      .getAvailableLessons()
+      .filter((l) => l.subjectId === lesson.subjectId).length;
+    for (let d = 0; d < Math.max(lesson.concepts.length * 4, subjectPool + 4); d++) {
       const dayNow = new Date(Date.UTC(2026, 9, 20 + d, 12, 0, 0));
       const q = buildFeedQueue({
         studentId: 'stu_multi',
@@ -601,7 +613,9 @@ function run() {
   // Latin. A French child was therefore shown whole English sentences. This
   // scans EVERY reel of the fr and en feeds, across every pool, and fails when
   // a reel carries decisive markers of the other Latin language.
-  const EN_WORDS = /\b(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|is|was|were|will|has|have|can|how|what|which|its|their|they|them|we|our|us|but|if|when|where|who|all|some|more|most|other|into|over|after|before|because|through|between|during|about|than|then|there|these|those|she|he|his|her|not|be|by|at|it|an|so|up|out|down|off)\b/i;
+  const EN_WORDS = /\b(the|and|with|for|from|your|you|are|of|to|in|this|that|like|each|is|was|were|will|has|have|can|how|what|which|its|their|they|them|we|our|us|if|when|where|who|all|some|more|most|other|into|over|after|before|because|through|between|during|about|than|then|there|these|those|she|he|his|her|not|be|by|at|it|an|so|up|out|down|off)\b/i;
+  // 'but' is deliberately absent from EN_WORDS above: it is also a French noun
+  // ("le but"), so it cannot discriminate the two languages.
   const FR_WORDS = /\b(le|la|les|de|des|une|un|est|pour|dans|avec|que|qui|sur|pas|comme|ton|ta|tes|ce|cette|ces|nous|vous|au|aux|du|se|son|sa|ses|et|sont|par|mais|tout|tous|toute|bien|ont|il|elle|ils|elles|quand|dont|entre|vers|chez|sans|sous|aussi|encore|très|peu|beaucoup|toujours|jamais|leur|leurs|notre|nos|votre|vos|mon|ma|mes|moi|toi|lui|été|avait|avoir|faire|fait|moins|donc|car|ni|était|étaient|sera|serait|celui|celle|alors|ainsi|autre|autres|même)\b/i;
   for (const lang of ['fr', 'en'] as const) {
     const feed = buildFeedQueue({

@@ -49,6 +49,9 @@ export const FRENCH_SUBJECT_NAMES: Record<string, string> = {
   subj_ict: 'Informatique',
   subj_islamic: 'Éducation islamique',
   subj_calligraphy: 'Calligraphie arabe',
+  subj_libraries: 'Bibliothèque',
+  subj_farming: 'Compétences agricoles',
+  subj_family_management: 'Gestion familiale',
 };
 
 const FRENCH_BOOK_LABELS: Record<string, string> = {
@@ -64,6 +67,9 @@ const FRENCH_BOOK_LABELS: Record<string, string> = {
   subj_ict: 'Manuel d’informatique',
   subj_islamic: 'Manuel d’éducation islamique',
   subj_calligraphy: 'Manuel de calligraphie arabe',
+  subj_libraries: 'Manuel de bibliothèque',
+  subj_farming: 'Manuel de compétences agricoles',
+  subj_family_management: 'Manuel de gestion familiale',
 };
 
 export interface UnitCurriculumSummary {
@@ -169,6 +175,30 @@ export const SUBJECT_METADATA_MAP: Record<string, {
     termLabel: 'الفصل الدراسي الأول',
     badgeAr: 'خط عربي',
     badgeEn: 'Calligraphy',
+  },
+  subj_libraries: {
+    icon: '📚',
+    color: 'rose',
+    bgGradient: 'from-rose-600 to-pink-900',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'مكتبات',
+    badgeEn: 'Libraries',
+  },
+  subj_farming: {
+    icon: '🌱',
+    color: 'lime',
+    bgGradient: 'from-lime-600 to-green-900',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'مهارات الزراعة',
+    badgeEn: 'Farming Skills',
+  },
+  subj_family_management: {
+    icon: '🏠',
+    color: 'orange',
+    bgGradient: 'from-orange-500 to-amber-800',
+    termLabel: 'الفصل الدراسي الأول',
+    badgeAr: 'إدارة الأسرة',
+    badgeEn: 'Family Management',
   },
 };
 
@@ -345,7 +375,18 @@ export class CurriculumService {
           lessons: [],
         });
       }
-      unitMap.get(lesson.unitNumber)!.lessons.push(lesson);
+      const unit = unitMap.get(lesson.unitNumber)!;
+      // Several book lessons exist twice: a legacy extract and the record built
+      // from the inspected book TOC. Both stay registered so old lesson ids still
+      // resolve, but a unit list must show the position once, and must show the
+      // usable record: a legacy extract that is unavailable, or that lacks the
+      // title in the lesson's own language, is a dead end or a language leak.
+      const index = unit.lessons.findIndex((existing) => existing.lessonNumber === lesson.lessonNumber);
+      if (index < 0) {
+        unit.lessons.push(lesson);
+      } else if (lessonCompleteness(lesson) > lessonCompleteness(unit.lessons[index])) {
+        unit.lessons[index] = lesson;
+      }
     }
 
     return Array.from(unitMap.values()).sort((a, b) => a.unitNumber - b.unitNumber);
@@ -416,3 +457,19 @@ export class CurriculumService {
 
 export const curriculumService = new CurriculumService();
 export const getNoorFlatConcepts = () => curriculumService.getFlatConcepts();
+
+
+/**
+ * Rank duplicate records of the same book lesson. An openable lesson always
+ * beats an unavailable one, and a lesson titled in its own teaching language
+ * beats one that would fall back to another language in the UI.
+ */
+const lessonCompleteness = (lesson: OfficialCurriculumLesson): number => {
+  const nativeTitle =
+    lesson.contentLanguage === 'fr'
+      ? lesson.titleFr
+      : lesson.contentLanguage === 'en'
+        ? lesson.titleEn
+        : lesson.titleAr;
+  return (lesson.isAvailable ? 2 : 0) + ((nativeTitle ?? '').trim() ? 1 : 0);
+};

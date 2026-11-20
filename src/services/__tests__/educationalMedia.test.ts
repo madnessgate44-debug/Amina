@@ -22,6 +22,15 @@
 import { readFileSync, existsSync, statSync } from 'fs';
 import { join } from 'path';
 import { MEDIA_CATALOG, mediaForConcept } from '../../data/media/mediaCatalog';
+import { ARABIC_CURRICULUM_2026_LESSONS } from '../../data/curriculum/arabicCurriculum2026';
+import { ENGLISH_CURRICULUM_2026_LESSONS } from '../../data/curriculum/englishCurriculum2026';
+import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from '../../data/curriculum/socialStudiesCurriculum2026';
+import { LIBRARIES_CURRICULUM_2026_LESSONS } from '../../data/curriculum/librariesCurriculum2026';
+import { FARMING_CURRICULUM_2026_LESSONS } from '../../data/curriculum/farmingCurriculum2026';
+import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from '../../data/curriculum/familyManagementCurriculum2026';
+import { ISLAMIC_CURRICULUM_2026_LESSONS } from '../../data/curriculum/islamicCurriculum2026';
+import { CHRISTIAN_CURRICULUM_2026_LESSONS } from '../../data/curriculum/christianCurriculum2026';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/mathFrCurriculum2026';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from '../../data/curriculum/scienceFrCurriculum2026';
 import { curriculumService } from '../curriculum/curriculumService';
 import { buildReelsForConcept } from '../reels/reelGenerator';
@@ -49,14 +58,51 @@ function main() {
   const allConcepts = curriculumService.getAllLessons().flatMap((lesson) =>
     lesson.concepts.map((concept) => ({ lessonId: lesson.id, conceptId: concept.id }))
   );
-  const existingConcepts = allConcepts.filter(({ lessonId }) => !lessonId.startsWith('off_scifr_2026_'));
+  // The 2026/2027 Term 1 Science and Maths books ship structured diagram
+  // fallbacks (visualType + visualPrompt) instead of catalog media, so they are
+  // excluded here and covered by their own assertions below.
+  const existingConcepts = allConcepts.filter(
+    ({ lessonId }) =>
+      !lessonId.startsWith('off_scifr_2026_') &&
+      !lessonId.startsWith('off_mathfr_2026_') &&
+      !lessonId.startsWith('off_ar_2026_') &&
+      !lessonId.startsWith('off_en_2026_') &&
+      !lessonId.startsWith('off_soc_2026_') &&
+      !lessonId.startsWith('off_lib_2026_') &&
+      !lessonId.startsWith('off_farm_2026_') &&
+      !lessonId.startsWith('off_fam_2026_') &&
+      !lessonId.startsWith('off_isl_2026_') &&
+      !lessonId.startsWith('off_chr_2026_'),
+  );
   const uncoveredConcepts = existingConcepts.filter(({ lessonId, conceptId }) =>
     mediaForConcept(lessonId, conceptId).length === 0
   );
   check(
-    'all 54 existing curriculum concepts retain authored media',
-    existingConcepts.length === 54 && uncoveredConcepts.length === 0,
+    `all ${existingConcepts.length} legacy curriculum concepts retain authored media`,
+    existingConcepts.length > 0 && uncoveredConcepts.length === 0,
     uncoveredConcepts.map((x) => `${x.lessonId}/${x.conceptId}`).join(', ')
+  );
+
+  // Arabic is taught as reading, grammar and composition, so its teaching aid is
+  // a described diagram rather than an authored image. Assert the fallback is
+  // present so a lesson never renders an empty visual.
+  const languageConcepts = [
+    ...ARABIC_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...ENGLISH_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...SOCIAL_STUDIES_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...LIBRARIES_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...FARMING_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...ISLAMIC_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+    ...CHRISTIAN_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts),
+  ];
+  const languageWithoutFallback = languageConcepts.filter(
+    (concept) => concept.visualType !== 'diagram' || !concept.visualPrompt?.trim(),
+  );
+  check(
+    `all ${languageConcepts.length} Arabic, English, Social Studies and activity-subject concepts have a structured diagram fallback`,
+    languageConcepts.length > 0 && languageWithoutFallback.length === 0,
+    languageWithoutFallback.map((c) => c.id).join(', '),
   );
 
   const currentScienceConcepts = SCIENCE_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) => lesson.concepts);
@@ -67,6 +113,21 @@ function main() {
     'all 28 new Science concepts have a structured diagram fallback',
     currentScienceConcepts.length === 28 && scienceWithoutDiagramFallback.length === 0,
     scienceWithoutDiagramFallback.map((concept) => concept.id).join(', ')
+  );
+
+  // Every 2026/2027 Term 1 French Maths lesson must ship a diagram, because
+  // those lessons were added after the catalog was written and a missing asset
+  // silently downgrades the teach card to a generic placeholder.
+  const mathFrConcepts = MATH_FR_CURRICULUM_2026_LESSONS.flatMap((lesson) =>
+    lesson.concepts.map((concept) => ({ lessonId: lesson.id, conceptId: concept.id })),
+  );
+  const mathFrWithoutMedia = mathFrConcepts.filter(
+    ({ lessonId, conceptId }) => mediaForConcept(lessonId, conceptId).length === 0,
+  );
+  check(
+    `all ${mathFrConcepts.length} new Maths concepts have an authored diagram`,
+    mathFrConcepts.length > 0 && mathFrWithoutMedia.length === 0,
+    mathFrWithoutMedia.map((c) => c.conceptId).join(', '),
   );
 
   check('the catalog has media to check', MEDIA_CATALOG.length >= 3, `found ${MEDIA_CATALOG.length}`);
@@ -151,7 +212,11 @@ function main() {
   for (const m of MEDIA_CATALOG) {
     const found = curriculumService.getConceptById(m.conceptId);
     if (!found) continue;
-    const reels = buildReelsForConcept(found.lesson, found.concept, 'ar');
+    // A French-track lesson drops every reel whose text the child cannot read,
+    // so probing it as an Arabic child reports false gaps. Probe in the language
+    // the lesson is actually instructed in.
+    const probeLanguage = found.lesson.instructionLanguage ?? 'ar';
+    const reels = buildReelsForConcept(found.lesson, found.concept, probeLanguage);
     const hasKind = reels.some((r) => r.kind === m.reelKind);
     if (!hasKind) unreachable.push(`${m.id}:${m.reelKind}`);
   }

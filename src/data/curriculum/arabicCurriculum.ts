@@ -427,6 +427,13 @@ export const ARABIC_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
         expectedAnswer: 'جمال الأخلاق والروح والعقل الداخلي',
         page: 38,
       },
+      {
+        type: 'multiple_choice',
+        question: 'ما الذي يجعل صاحب الأخلاق الحسنة محبوباً بين الناس كما ورد في الدرس؟',
+        options: ['لطفه وعطاؤه وابتسامته في وجه الآخرين', 'كثرة ماله', 'ارتداؤه الملابس الفاخرة', 'قوة صوته'],
+        expectedAnswer: 'لطفه وعطاؤه وابتسامته في وجه الآخرين',
+        page: 38,
+      },
     ],
     concepts: [
       {
@@ -519,6 +526,13 @@ export const ARABIC_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
         options: ['مركز الهدوء والجمال وتاريخ مصر العريق', 'بها مطار فقط', 'قريبة من البحر المتوسط', 'فيها مستشفيات كثيرة'],
         expectedAnswer: 'مركز الهدوء والجمال وتاريخ مصر العريق',
         page: 56,
+      },
+      {
+        type: 'multiple_choice',
+        question: 'ما الذي يدل عليه إصرار د. مجدي يعقوب على العودة إلى مصر وخدمة أطفالها؟',
+        options: ['حب الوطن والرغبة في نفع أهله', 'الرغبة في الشهرة فقط', 'البحث عن مال أكثر', 'عدم الرضا عن عمله في الخارج'],
+        expectedAnswer: 'حب الوطن والرغبة في نفع أهله',
+        page: 62,
       },
     ],
     concepts: [

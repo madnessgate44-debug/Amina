@@ -58,6 +58,13 @@ export const ISLAMIC_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
         expectedAnswer: 'المنزه والمطهر عن كل عيب ونقص',
         page: 12,
       },
+      {
+        type: 'multiple_choice',
+        question: 'معنى اسم الله تعالى «السلام» كما ورد في أواخر سورة الحشر هو:',
+        options: ['السالم من كل عيب والناشر للسلام بين خلقه', 'القوي الشديد', 'الرازق لعباده', 'الخالق للكون'],
+        expectedAnswer: 'السالم من كل عيب والناشر للسلام بين خلقه',
+        page: 16,
+      },
     ],
     concepts: [
       {
@@ -155,6 +162,13 @@ export const ISLAMIC_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
         options: ['ليلة الإسراء والمعراج', 'يوم فتح مكة', 'غزوة بدر', 'يوم عرفة'],
         expectedAnswer: 'ليلة الإسراء والمعراج',
         page: 24,
+      },
+      {
+        type: 'multiple_choice',
+        question: 'ما مكانة الصلاة في الإسلام كما ورد في الدرس؟',
+        options: ['هي عماد الدين وثاني أركان الإسلام', 'هي الركن الأول فقط', 'سنة غير واجبة', 'عبادة خاصة بالكبار فقط'],
+        expectedAnswer: 'هي عماد الدين وثاني أركان الإسلام',
+        page: 20,
       },
     ],
     concepts: [

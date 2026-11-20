@@ -7,12 +7,21 @@ import { OfficialCurriculumLesson } from '../types/teachingSession';
 import { ARABIC_CURRICULUM_LESSONS } from './curriculum/arabicCurriculum';
 import { FRENCH_CURRICULUM_LESSONS } from './curriculum/frenchCurriculum';
 import { MATH_FR_CURRICULUM_LESSONS } from './curriculum/mathFrCurriculum';
+import { ARABIC_CURRICULUM_2026_LESSONS } from './curriculum/arabicCurriculum2026';
+import { ENGLISH_CURRICULUM_2026_LESSONS } from './curriculum/englishCurriculum2026';
+import { MATH_FR_CURRICULUM_2026_LESSONS } from './curriculum/mathFrCurriculum2026';
 import { SCIENCE_FR_CURRICULUM_LESSONS as LEGACY_SCIENCE_FR_CURRICULUM_LESSONS } from './curriculum/scienceFrCurriculum';
 import { SCIENCE_FR_CURRICULUM_2026_LESSONS } from './curriculum/scienceFrCurriculum2026';
 import { SOCIAL_STUDIES_CURRICULUM_LESSONS } from './curriculum/socialStudiesCurriculum';
+import { SOCIAL_STUDIES_CURRICULUM_2026_LESSONS } from './curriculum/socialStudiesCurriculum2026';
+import { LIBRARIES_CURRICULUM_2026_LESSONS } from './curriculum/librariesCurriculum2026';
+import { FARMING_CURRICULUM_2026_LESSONS } from './curriculum/farmingCurriculum2026';
+import { FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS } from './curriculum/familyManagementCurriculum2026';
 import { ENGLISH_CURRICULUM_LESSONS } from './curriculum/englishCurriculum';
 import { ICT_CURRICULUM_LESSONS } from './curriculum/ictCurriculum';
 import { ISLAMIC_CURRICULUM_LESSONS } from './curriculum/islamicCurriculum';
+import { ISLAMIC_CURRICULUM_2026_LESSONS } from './curriculum/islamicCurriculum2026';
+import { CHRISTIAN_CURRICULUM_2026_LESSONS } from './curriculum/christianCurriculum2026';
 import { CALLIGRAPHY_CURRICULUM_LESSONS } from './curriculum/calligraphyCurriculum';
 import { MATH_CURRICULUM_LESSONS } from './curriculum/mathCurriculum';
 import { SCIENCE_CURRICULUM_LESSONS } from './curriculum/scienceCurriculum';
@@ -98,6 +107,49 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     assessmentLanguage: 'fr' as const,
     track: 'french_bilingual' as const,
   })),
+  // 2026/2027 Ministry English (Connect 5) book, Term 1: five units and 20
+  // lessons, matching the printed unit and lesson headings of the student book.
+  ...ENGLISH_CURRICULUM_2026_LESSONS.map((lesson) => ({
+    ...lesson,
+    subjectId: 'subj_english',
+    subjectNameAr: 'اللغة الإنجليزية',
+    subjectNameEn: 'English Language',
+    subjectNameFr: 'Anglais',
+    curriculumSource: 'egyptian_national' as const,
+    instructionLanguage: 'en' as const,
+    contentLanguage: 'en' as const,
+    assessmentLanguage: 'en' as const,
+    track: 'french_bilingual' as const,
+  })),
+  // 2026/2027 Ministry Arabic Language book, Term 1: three units of four
+  // lessons, matching the printed index of the inspected student book.
+  ...ARABIC_CURRICULUM_2026_LESSONS.map((lesson) => ({
+    ...lesson,
+    subjectId: 'subj_arabic',
+    subjectNameAr: 'اللغة العربية',
+    subjectNameEn: 'Arabic Language',
+    subjectNameFr: 'Langue arabe',
+    curriculumSource: 'egyptian_national' as const,
+    instructionLanguage: 'ar' as const,
+    contentLanguage: 'ar' as const,
+    assessmentLanguage: 'ar' as const,
+    track: 'french_bilingual' as const,
+  })),
+  // Lessons of the same 2026/2027 Ministry French Maths book that the legacy
+  // extracts above do not cover, so the Term 1 book reaches its full 46-lesson
+  // table of contents instead of stopping at the 16 extracted records.
+  ...MATH_FR_CURRICULUM_2026_LESSONS.map((lesson) => ({
+    ...lesson,
+    subjectId: 'subj_math',
+    subjectNameAr: 'الرياضيات',
+    subjectNameEn: 'Mathematics',
+    subjectNameFr: 'Mathématiques',
+    curriculumSource: 'egyptian_national' as const,
+    instructionLanguage: 'fr' as const,
+    contentLanguage: 'fr' as const,
+    assessmentLanguage: 'fr' as const,
+    track: 'french_bilingual' as const,
+  })),
   // Current 2026/2027 Ministry French Science book: nine chapters and 28
   // numbered lessons. Old mismatched Science records stay registered only as
   // unavailable compatibility IDs; learners must not be sent to those topics.
@@ -128,8 +180,22 @@ export const OFFICIAL_CURRICULUM_LESSONS: OfficialCurriculumLesson[] = [
     track: 'french_bilingual' as const,
   })),
   ...SOCIAL_STUDIES_CURRICULUM_LESSONS,
+  // 2026/2027 Ministry Social Studies book, Term 1: three units of four,
+  // four and three lessons, matching the printed lesson opener pages.
+  ...SOCIAL_STUDIES_CURRICULUM_2026_LESSONS,
+  // 2026/2027 activity subjects: Libraries (12 lessons, one unit), Farming
+  // Skills (5 lessons, two units) and Family Management (6 lessons, two units).
+  ...LIBRARIES_CURRICULUM_2026_LESSONS,
+  ...FARMING_CURRICULUM_2026_LESSONS,
+  ...FAMILY_MANAGEMENT_CURRICULUM_2026_LESSONS,
   ...ENGLISH_CURRICULUM_LESSONS,
   ...ICT_CURRICULUM_LESSONS,
+  // 2026/2027 Ministry Islamic Education book, Term 1: three units of seven,
+  // seven and six lessons, matching the printed lesson opener pages.
+  ...ISLAMIC_CURRICULUM_2026_LESSONS,
   ...ISLAMIC_CURRICULUM_LESSONS,
+  // The parallel Christian Education book for the same weekly slot. A student
+  // studies one of the two religions, never both (see Student.subjects).
+  ...CHRISTIAN_CURRICULUM_2026_LESSONS,
   ...CALLIGRAPHY_CURRICULUM_LESSONS,
 ];
