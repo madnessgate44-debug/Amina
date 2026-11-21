@@ -284,3 +284,13 @@ A Ministry-branded French Science Term 1 assessment-book copy was found in the L
 - **[VERIFIED]** The merged code retains the full 28-lesson Term 1 French Science inventory and the page-specific corrections to lesson 5-2 (microscope slide preparation and optics) and lesson 9-1 (source-faithful evaporation activity). This remains Term 1 only.
 - **[BLOCKED]** No authenticated Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide or exact Term 2 student book has been found. The current catalogue index still lists 15 Term 1 books only; its last displayed link review is 26 October 2026: https://miskeg.app/books/general-primary-5/. A third-party Term 2 revision for academic year 2026 is not a substitute for the 2026–2027 Ministry student book.
 - **[UNPROVEN]** High-resolution diagram equivalence, independent full pedagogical peer review, and a physical-phone learner walkthrough remain outstanding. No full-year completion claim is made.
+
+
+## Mainline verification — 21 November 2026
+
+- **[VERIFIED]** Current `main` is `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`. The 28 current-edition lesson records and 28 Miss Noor-authored teaching plans remain aligned one-to-one across the nine exact TOC chapters.
+- **[PASS]** Main CI [44732743560](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743560): curriculum registry 61/0, curriculum integrity 17/0, Term 1 book coverage 130/0; type check, `npm test`, and build passed. Vite built 1,801 modules in 641 ms. Compliance [44732743518](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743518) passed.
+- **[CORRECTION IN PR]** The shared Term 1 test's Science PDF-page ceiling is corrected from 120 to the verified 109-page canonical PDF. Exact printed lesson ranges remain guarded separately by the Science registry assertions.
+- **[BLOCKED]** Matching Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook, and authenticated assessment-book source remain unavailable/unverified. Do not substitute the third-party 29-page generic preparation notebook or the 68/69-page assessment candidate.
+- **[UNPROVEN]** A French-language, phone-sized Science lesson walkthrough and high-resolution diagram review remain outstanding. The Arabic learner-flow QA recorded in PR #210 does not close this Science-specific gate.
+- **Scope:** Term 1 only; no full-year completion claim.
