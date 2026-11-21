@@ -6,6 +6,10 @@
 **Scope:** Grade 5 only; first-term content currently represented in the repository.  
 **Status:** Initial evidence-based audit. This is not a school-certified completeness declaration.
 
+
+> **Status note — 21 November 2026:** The 12 November executive inventory below is a historical baseline. The superseding Science-only mainline reconciliation is appended at the end. No other subject was re-audited in this update.
+
+
 ## Executive finding
 
 **[VERIFIED] The repository does not currently demonstrate complete Grade 5 curriculum coverage.** The registry contains 51 lesson records across 11 curriculum source files and 54 concepts are referenced by the feed/teaching work. The code itself says it is not a claim that every physical textbook page has been digitized.
@@ -504,3 +508,19 @@ This release improves Grade 5 French Science **Term 1 only**. It is not a full-y
 - **[BLOCKED]** No exact 2026–2027 Grade 5 French Science Term 2 student book has been located. The catalogue index reviewed on 20 November still lists 15 first-term books only (last displayed link review: 26 October 2026): https://miskeg.app/books/general-primary-5/. Third-party Term 2 revision material for academic year 2026 is not accepted as a substitute for the target 2026–2027 Ministry student book.
 - **[UNPROVEN]** The separate assessment-book candidate has not been authenticated and mapped question by question. High-resolution review of every diagram, independent full pedagogical peer review and a physical-phone French learner walkthrough also remain outstanding.
 - **Scope guard:** This verifies Grade 5 French Science Term 1 only. It is not full-year Science completion and makes no claim about other subjects.
+
+
+## Science reconciliation correction — 21 November 2026
+
+This section supersedes the historical Science counts in the 12 November baseline and the 20 November checkpoint above. It does not revise the other subjects.
+
+- **[VERIFIED]** Current `main` is `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`. The old three Ministry-source Science records and three French-extract records remain quarantined compatibility entries; they are not the current-edition Science denominator.
+- **[VERIFIED]** The current 2026–2027 French Science Term 1 registry contains 28/28 numbered lessons across the nine Ministry TOC chapters, with exact printed page ranges and French objectives/vocabulary. The app-authored teaching-plan map contains all 28 lesson keys with no missing or orphan plan.
+- **[VERIFIED]** Registry assertions on main verify complete teaching sequences for all 28 lessons: French explanation, worked example/demonstration, guided and independent practice, answer-aligned key, misconception diagnoses, remediation and mastery checks. All 28 plans are explicitly `app_authored`; none is represented as a Ministry teacher guide.
+- **[PASS]** Main CI [44732743560](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743560) on the exact main SHA passed type check/`npm run lint`, `npm test`, and `npm run build`. Science-relevant results: curriculum registry 61/0; curriculum integrity 17/0; Term 1 book coverage 130/0. Vite built 1,801 modules in 641 ms. Engineering Execution OS compliance [44732743518](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743518) passed.
+- **[CORRECTION IN PR]** The Science PDF-page ceiling in the shared Term 1 coverage test was 120, although the verified canonical StudentBook PDF has 109 pages. This branch corrects the bound to 109; the exact printed lesson ranges are independently checked by the Science registry test.
+- **[BLOCKED]** No matching Egyptian Ministry 2026–2027 French Science teacher guide has been authenticated. The third-party 29-page `دفتر تحضير Science` listing does not establish Ministry authorship or French-track alignment and is not used as official content: https://www.modrsbook.com/primary-5/term-1/science/dftr-thdyr-science-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- **[BLOCKED]** No exact 2026–2027 Term 2 French Science StudentBook has been verified. The currently visible catalogue index lists 15 Term 1 books only and says Term 2 books are added when published; its displayed link-review date is 26 October 2026. The index is third-party, and the Ministry e-library endpoint was not retrievable in this check: https://miskeg.app/books/general-primary-5/
+- **[BLOCKED]** The French Science assessment-book candidate remains unauthenticated and unmapped question by question. Third-party listings report 68 and 69 pages respectively; neither establishes canonical provenance or answer-key accuracy.
+- **[UNPROVEN]** High-resolution review of every diagram, independent pedagogical peer review, and a phone-sized French Science learner walkthrough remain outstanding. PR #210's recorded 390×844 `ar-EG` browser QA is not a French Science walkthrough.
+- **Scope:** Grade 5 French Science Term 1 only. No full-year Science completion claim is made.
