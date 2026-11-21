@@ -151,7 +151,8 @@ const BOOKS: BookCase[] = [
       8: [1, 2, 3],
       9: [1, 2, 3],
     },
-    bookPages: 120,
+    // Canonical Ministry PDF: 109 pages. sourceRef.page stores printed pagination.
+    bookPages: 109,
   },
 ];
 
