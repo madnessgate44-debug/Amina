@@ -320,3 +320,14 @@ The catalogue entry is a discovery route only. It does not authenticate the thir
 - **[BLOCKED]** The separate French Science assessment-book candidate remains unauthenticated and has not been reviewed question by question. Current third-party listings still disagree on its length (68 versus 69 pages): https://mozkratgahza.com/pdf/7054 and https://www.modrsbook.com/primary-5/term-1/science/thmyl-ktab-altkyymat-science-balfrnsaoy-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
 - **[UNPROVEN]** High-resolution review of every instructional diagram, independent full pedagogical peer review, and a physical-phone **French Science lesson** walkthrough remain open. PR #210 records a 390×844 Arabic (`ar-EG`) learner-flow check; that is not evidence of the French Science lesson flow.
 - **Scope:** This remains the nine-chapter **Term 1** reconstruction only. No Term 2 or full-year completion claim is made.
+
+
+## PR #211 verification — 22 November 2026
+
+- **[VERIFIED]** PR [#211](https://github.com/madnessgate44-debug/Amina/pull/211) is based on current main `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`. At code/test head `446b5966933bc1bfa6966cb45a3f6b25d4b3d9ea`, the Science PDF page ceiling is corrected from 120 to the canonical StudentBook's verified 109 pages. Printed lesson page ranges remain separately asserted.
+- **[PASS]** PR-head CI [45000815151](https://github.com/madnessgate44-debug/Amina/actions/runs/45000815151) passed the blocking type check, `npm run lint`, `npm test`, and `npm run build`. Science-relevant results: curriculum registry **61/0**, curriculum integrity **17/0**, reels **187/0**, Term 1 book coverage **130/0**. Vite transformed 1,801 modules and built in 521 ms.
+- **[PASS]** Engineering Execution OS compliance [45000815169](https://github.com/madnessgate44-debug/Amina/actions/runs/45000815169) passed.
+- **[VERIFIED]** The only non-documentation change outside the page-bound test is a deterministic, test-only correction to distinguish UI narration language from each lesson's declared instruction language. No Science runtime code or lesson content changed.
+- **[VERIFIED]** PR #211 remains open and unmerged. No deployment is performed or claimed.
+- **[BLOCKED]** The matching Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook and authenticated assessment-book source remain unavailable/unverified. High-resolution diagram review, independent pedagogical peer review and a physical-phone French Science walkthrough remain outstanding.
+- **Scope:** Grade 5 French Science Term 1 only; no full-book or full-year completion claim.
