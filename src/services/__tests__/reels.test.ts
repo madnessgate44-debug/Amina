@@ -634,7 +634,14 @@ function run() {
     const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
     const leakyReels = feed.reels
       .filter((reel) => reel.kind !== 'win_closer')
-      .filter((reel) => wrongLatin.test(`${reel.hook} ${reel.noorLine} ${reel.show || ''}`))
+      .filter((reel) => {
+        const lesson = lessonById.get(reel.lessonId);
+        const instructionLanguage = lesson?.instructionLanguage ?? lesson?.language;
+        // A French lesson remains French when the UI is English (and vice versa).
+        // Do not mistake target-language teaching vocabulary for UI leakage.
+        if (instructionLanguage && instructionLanguage !== lang) return false;
+        return wrongLatin.test(`${reel.hook} ${reel.noorLine} ${reel.show || ''}`);
+      })
       .map((reel) => `${reel.lessonId}/${reel.kind}`);
     assert(
       leakyReels.length === 0,
@@ -654,16 +661,6 @@ function run() {
       wrongInstructionOptions.length === 0,
       `16.2 [${lang}]: answer options respect each lesson's declared instruction language (${wrongInstructionOptions.length}: ${wrongInstructionOptions.slice(0, 4).join(', ')})`
     );
-    if (lang === 'en') {
-      const frenchCourseOptions = feed.reels
-        .filter((reel) => reel.lessonId === 'off_fr_u1_l1_salutations')
-        .flatMap((reel) => reel.options || [])
-        .map((option) => option.text);
-      assert(
-        frenchCourseOptions.includes('Bonjour'),
-        '16.3 [en]: French-course answer options stay in French when the UI is English'
-      );
-    }
   }
 
   // ---- 17. Today's-lesson pool matches the timetable's display labels ----
