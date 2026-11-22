@@ -628,7 +628,7 @@ function run() {
       mastery,
       dueReviews: [],
       todaySubjects: ['Mathematics', 'Science', 'French', 'Social Studies', 'English', 'Information Technology', 'Arabic'],
-      now: new Date('2026-11-20T12:00:00.000Z'),
+      now: new Date('2026-11-21T12:00:00.000Z'),
       sessionMinutes: 30,
     });
     const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
@@ -654,6 +654,16 @@ function run() {
       wrongInstructionOptions.length === 0,
       `16.2 [${lang}]: answer options respect each lesson's declared instruction language (${wrongInstructionOptions.length}: ${wrongInstructionOptions.slice(0, 4).join(', ')})`
     );
+    if (lang === 'en') {
+      const frenchCourseOptions = feed.reels
+        .filter((reel) => reel.lessonId === 'off_fr_u1_l1_salutations')
+        .flatMap((reel) => reel.options || [])
+        .map((option) => option.text);
+      assert(
+        frenchCourseOptions.includes('Bonjour'),
+        '16.3 [en]: French-course answer options stay in French when the UI is English'
+      );
+    }
   }
 
   // ---- 17. Today's-lesson pool matches the timetable's display labels ----
