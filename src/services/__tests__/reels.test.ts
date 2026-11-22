@@ -617,6 +617,10 @@ function run() {
   // 'but' is deliberately absent from EN_WORDS above: it is also a French noun
   // ("le but"), so it cannot discriminate the two languages.
   const FR_WORDS = /\b(le|la|les|de|des|une|un|est|pour|dans|avec|que|qui|sur|pas|comme|ton|ta|tes|ce|cette|ces|nous|vous|au|aux|du|se|son|sa|ses|et|sont|par|mais|tout|tous|toute|bien|ont|il|elle|ils|elles|quand|dont|entre|vers|chez|sans|sous|aussi|encore|très|peu|beaucoup|toujours|jamais|leur|leurs|notre|nos|votre|vos|mon|ma|mes|moi|toi|lui|été|avait|avoir|faire|fait|moins|donc|car|ni|était|étaient|sera|serait|celui|celle|alors|ainsi|autre|autres|même)\b/i;
+  // Feed narration follows the selected UI language. Answer options follow
+  // the lesson's declared instruction language: French options are correct in
+  // French class even when the surrounding UI is English, and vice versa.
+  const lessonById = new Map(lessons.map((lesson) => [lesson.id, lesson]));
   for (const lang of ['fr', 'en'] as const) {
     const feed = buildFeedQueue({
       studentId: `stu_lang_${lang}_all`,
@@ -624,19 +628,31 @@ function run() {
       mastery,
       dueReviews: [],
       todaySubjects: ['Mathematics', 'Science', 'French', 'Social Studies', 'English', 'Information Technology', 'Arabic'],
+      now: new Date('2026-11-20T12:00:00.000Z'),
       sessionMinutes: 30,
     });
     const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
     const leakyReels = feed.reels
       .filter((reel) => reel.kind !== 'win_closer')
-      .filter((reel) => {
-        const text = `${reel.hook} ${reel.noorLine} ${reel.show || ''} ${(reel.options || []).map((o) => o.text).join(' ')}`;
-        return wrongLatin.test(text);
-      })
+      .filter((reel) => wrongLatin.test(`${reel.hook} ${reel.noorLine} ${reel.show || ''}`))
       .map((reel) => `${reel.lessonId}/${reel.kind}`);
     assert(
       leakyReels.length === 0,
-      `16.1 [${lang}]: no reel leaks the other Latin language (${leakyReels.length}: ${leakyReels.slice(0, 4).join(', ')})`
+      `16.1 [${lang}]: UI narration does not leak the other Latin language (${leakyReels.length}: ${leakyReels.slice(0, 4).join(', ')})`
+    );
+
+    const wrongInstructionOptions = feed.reels
+      .filter((reel) => {
+        const lesson = lessonById.get(reel.lessonId);
+        const instructionLanguage = lesson?.instructionLanguage ?? lesson?.language;
+        if (instructionLanguage !== 'en' && instructionLanguage !== 'fr') return false;
+        const otherLatin = instructionLanguage === 'en' ? FR_WORDS : EN_WORDS;
+        return otherLatin.test((reel.options || []).map((option) => option.text).join(' '));
+      })
+      .map((reel) => `${reel.lessonId}/${reel.kind}`);
+    assert(
+      wrongInstructionOptions.length === 0,
+      `16.2 [${lang}]: answer options respect each lesson's declared instruction language (${wrongInstructionOptions.length}: ${wrongInstructionOptions.slice(0, 4).join(', ')})`
     );
   }
 
