@@ -710,3 +710,47 @@ Source pages:
 - Career Skills guide metadata and Ministry direct target: https://mozkratgahza.com/pdf/4789
 
 These add complete historical teacher-guide candidates for English, ICT and Career Skills. They are not 2026/27 editions. Keep their exact year/version labels attached. Do not confuse the English teacher guide with the English student textbook or weekly assessment file.
+
+
+## 22. More complete Term 2 student books — 2024/25 public Google Drive mirrors
+
+**[VERIFIED METADATA; third-party listings attribute these to the Ministry; Google Drive previews require sign-in]**
+
+| Subject | Edition / page count | Public Google Drive link | Status |
+|---|---|---|---|
+| Arabic | Grade 5, T2 2024/25, 144 pages, 36 MB | https://drive.google.com/file/d/1jjYOvWIuWi479NHwmPldggsp685lq0Mi/view?usp=drive_link | Complete Ministry student-book listing; preview sign-in wall |
+| Mathematics — Arabic-medium | Grade 5, T2 2024/25, 138 pages, 38 MB | https://drive.google.com/file/d/1ZzY6yYylrc0N7A2FszOVEI1sE0Oil93G/view?usp=drive_link | Complete Ministry student-book listing; preview sign-in wall |
+| Science — Arabic-medium | Grade 5, T2 2024/25, 104 pages, 25 MB | https://drive.google.com/file/d/13eZxhLWO3AdkrBYOgeTRSzvt2ExwaDdQ/view?usp=drive_link | Complete Ministry student-book listing; preview sign-in wall |
+| Values & Respect for Others | Grade 5, T2 2024/25, 160 pages, 52 MB | https://drive.google.com/file/d/1-FT1Z1DZQ2zv462g5NtOSpNX59Zho9tg/view?usp=drive_link | Complete Ministry student-book listing; preview redirect did not expose PDF |
+
+Source metadata:
+- Arabic: https://mozkratgahza.com/pdf/2743
+- Mathematics: https://mozkratgahza.com/pdf/2905
+- Science: https://mozkratgahza.com/pdf/3153
+- Values & Respect: https://mozkratgahza.com/pdf/2747
+
+These are whole student-book candidates, not revision papers. The archive labels them Ministry books and gives page counts/sizes, but the underlying PDFs have not been inspected; treat as metadata-verified until covers and contents are checked. They are 2024/25, not 2026/27. Keep separate from the French-medium Math/Science books.
+
+### 22.1 Additional teacher-guide collection folder
+
+- Public teacher-community post dated 15 February 2025 points to a Google Drive collection labelled **"all primary-stage teacher preparation guides, Term 2"**: https://drive.google.com/file/d/1ifVeLJp4HcD1SKL4Qg8Is1sXvm39dKzQ/view?usp=sharing
+- The post says to open the folder and choose the required grade. The folder itself could not be enumerated by the web reader (Google Drive access wall), so its Grade 5 contents are **UNVERIFIED**. This is a high-priority manual phone/browser lead because it may contain additional guides beyond the individually indexed files.
+- Source post: https://egyteachers.com/directory/posts/126
+
+### 22.2 Additional Term 2 teacher-guide candidates
+
+| Subject | Edition / page count | Link | Status |
+|---|---|---|---|
+| Arabic | Grade 5, T2 2024/25, 153 pages, 33 MB | https://drive.google.com/file/d/18qfSJxA3QHyzLBTLPLbhfSdbmqKlXZvq/view?usp=drive_link | Ministry-labelled guide; Drive sign-in wall |
+| Mathematics | Grade 5, T2 2022/23 | https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/2023/primary/primary_5/term_2/Teacher%20guide/math_5prim_t2_TG.pdf | Official Ministry-hosted path; automated reader returned 404, but matching Drive mirror already indexed in §18 |
+| Islamic Religious Education | Grade 5, T2 2022/23, 208 pages | https://drive.google.com/file/d/15LTJwt1FZhwFOPzRN6cBnthgRSePYAVv/view?usp=sharing | Ministry-labelled guide; Drive sign-in wall |
+| Values & Respect for Others | Grade 5, T1 2024/25, 352 pages, 28 MB | https://mozkratgahza.com/pdf/4189 | Ministry-labelled teacher guide; direct file link not exposed in reader |
+| Values & Respect for Others | Grade 5, T2 2022/23 | https://drive.google.com/file/d/1Lz90GZ2W-CwtIKb5u9_NMZE0jWyC3ZV9/view?usp=sharing | Historical teacher-guide lead; Drive sign-in wall |
+
+Sources:
+- Arabic guide: https://mozkratgahza.com/pdf/2742
+- Mathematics guide: https://mozkratgahza.com/pdf/2990
+- Islamic guide: https://mozkratgahza.com/pdf/2901
+- Values guide T1: https://mozkratgahza.com/pdf/4189
+- Values guide T2: https://www.ktateeb.com/2023/02/تحميل-كتب-المدرسية-وادلة-المعلم-خامسة.html
+
