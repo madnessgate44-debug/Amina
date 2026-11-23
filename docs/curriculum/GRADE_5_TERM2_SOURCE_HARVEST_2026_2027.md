@@ -427,3 +427,61 @@ A search snippet or third-party title is not sufficient to mark a book as offici
 7. Topic sequence and page references only after the PDF itself is inspected.
 
 No Term 2 2026/2027 curriculum map is authorized by the current Term 1 documents or prior-year 2025/2026 revision sheets.
+
+
+## 16. Corrected primary objective: complete student textbooks and teacher guides
+
+**[SCOPE CORRECTION — controlling priority]** The primary research deliverable is not revision sheets, assessment books, answer keys, or teacher-made practice. It is the complete student textbook AND the corresponding complete teacher guide for each assigned Grade 5 subject. Supplementary resources remain secondary.
+
+### 16.1 Current-year official catalogue status
+
+- The 2026/2027 Grade 5 catalogue currently indexed by Misk lists 15 official Ministry student books, explicitly labelled Term 1. Subjects include Arabic, English, Social Studies, ICT, Library & Research Skills, Family Management & Entrepreneurship, Agriculture Skills & Entrepreneurship, Islamic/Christian Religious Education, plus Maths and Science in Arabic, English and French media.
+- The catalogue states that Term 2 books are added when the Ministry publishes them. This is a snapshot of the catalogue last reviewed 2026-10-26, not proof that no Term 2 files exist elsewhere.
+- Catalogue: https://miskeg.app/books/general-primary-5/
+- Official Ministry e-library entry point: https://ellibrary.moe.gov.eg/books/ (automated web reader returned HTTP 403; manual browser access may still work).
+- Do not mark any 2026/2027 Term 2 book as found until the full PDF is obtained and its cover/imprint confirms grade, year, term, subject, and language.
+
+### 16.2 Complete older student-book leads (whole-book candidates; not current-year confirmation)
+
+The Education 2.0 Grade 5 archive links complete Ministry-labelled student books from 2022/2023 and 2023/2024. These are historical reference copies only:
+
+| Subject / edition | Full-book link | Status |
+|---|---|---|
+| Social Studies, Term 2, 2022/2023 | https://drive.google.com/file/d/1Cc3Vfhbje379DdPoF6GCs-csKG9pvpd5/view?usp=sharing | Filename confirms Grade 5 T2; Drive preview requires sign-in/loading; content not inspected |
+| Arabic, Term 2, 2022/2023 | https://drive.google.com/file/d/1-FbQfFAzbSVWNnW1zHNM_5ULyBL0yXtA/view?usp=sharing | Filename confirms G5 student book T2; content not inspected |
+| English Connect, Term 2, 2022/2023 | https://drive.google.com/file/d/1Jlph3cViEG15bgx6SCisotk-CMAmOjRj/view?usp=sharing | Filename confirms G5 student book T2; content not inspected |
+| ICT, Term 2, 2023/2024, English | https://drive.google.com/file/d/1oicS23AbZaWCsy8YK5rUH2NV4gSXdq/view?usp=sharing | Archive labels as Ministry Grade 5 T2; exact file title/cover still needs validation |
+| Christian Religious Education, Term 2 (official Ministry-hosted 2025/2026 path) | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/StudentBook/CH_Prim5_T2.pdf | Search extraction exposes full table of contents; confirm cover/year and obtain PDF before treating as inspected |
+
+The Education 2.0 index itself lists additional complete student books for Grade 5 Term 2 (Arabic, English, Social Studies, ICT, Islamic and Christian Religious Education, Science) and Term 1 materials. Index: https://edu2-egypt.com/grade-5. It also lists teacher guides separately. Its listed editions are historical, not 2026/2027.
+
+### 16.3 Complete older teacher-guide leads (whole guides; historical only)
+
+| Subject / guide | Full-guide link | Status |
+|---|---|---|
+| Mathematics, Term 2, 2022/2023 | https://drive.google.com/file/d/1XG-lx2wMy6-G44QcIBgqx7sXFB18aaX9/view?usp=sharing | Filename: math_5prim_t2_TG.pdf; Drive preview not parsed |
+| Islamic Religious Education, Term 2, 2022/2023 | https://drive.google.com/file/d/15LTJwt1FZhwFOPzRN6cBnthgRSePYAVv/view?usp=sharing | Filename: Islamic G5-TG-T2.pdf; Drive preview not parsed |
+| Values & Respect for Others, Term 2, 2022/2023 | https://drive.google.com/file/d/1OSQDMM__fKbQ6Wix5jw677MQBPIoPXH9/view?usp=sharing | Filename: G5-Morals-T2-TG.png; image file, not yet inspected |
+| Career Skills, Term 2, 2022/2023 | Linked from https://edu2-egypt.com/grade-5 | Exact file target not yet retrieved |
+| Christianity, Term 2, 2022/2023 | Linked from https://edu2-egypt.com/grade-5 | Exact file target not yet retrieved |
+| Arabic, Science and other teacher guides | Listed in the same archive, but some only Term 1 entries; do not infer Term 2 availability |
+
+### 16.4 Official complete student-book lead from the previous academic year
+
+- English Grade 5 Term 2 2025/2026 Ministry student book (full PDF): https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/StudentBook/English_Prim5_Tr2.pdf
+- This is a complete student textbook, not a revision booklet. Its imprint states Ministry of Education and Technical Education and © 2025. It is historical and must not be substituted for the 2026/2027 edition without school confirmation.
+
+### 16.5 Retrieval and acceptance protocol — mandatory
+
+For each subject, maintain two independent records: **Student Book** and **Teacher Guide**. A subject is not complete when only one exists.
+
+Acceptance evidence required:
+1. Direct full-PDF or complete interactive-book URL, not a search-result snippet or a revision archive listing.
+2. Successful retrieval of the actual file/pages; record byte size, page count, and SHA-256 where downloadable.
+3. Cover/imprint proof of grade, academic year, term, subject, language/medium, issuing authority and edition.
+4. Table of contents and full unit/lesson sequence captured as metadata with page references.
+5. Teacher guide matched to the same curriculum edition and language; document lesson plans, outcomes, methods, activity instructions, differentiation, assessment and answer/rubric sections.
+6. If an exact-year guide is not publicly released, mark it **NOT FOUND / REQUEST FROM SCHOOL OR MINISTRY**. Do not silently replace it with a teacher-made worksheet or an older guide.
+7. Keep copyrighted textbook/guide PDFs and their full text out of the public repository. Store only lawful links, bibliographic metadata, hashes, page references, and original Miss Noor-authored lesson assets.
+
+**Research priority order:** (1) official 2026/2027 Term 2 student books; (2) matching 2026/2027 teacher guides; (3) Girard School's exact French 1/French 2 coursebooks and French-medium Maths/Science editions; (4) complete prior-year official books/guides as clearly labelled fallback references; (5) supplementary assessments/revision material.
