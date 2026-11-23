@@ -238,3 +238,16 @@ Search both student-book and assessment/teacher-guide directories. Record curren
 **OpenHands is coding/implementation only.** It must not be assigned curriculum research, source auditing, pedagogical decisions, or independent QA strategy. It implements the complete, evidence-backed specifications supplied by ChatGPT; it may report implementation blockers and provide build/test evidence for review.
 
 This section supersedes earlier instructions in this document and earlier PR discussion comments that asked OpenHands to research or independently audit curriculum sources. No curriculum claim becomes verified merely because it has been implemented.
+
+
+## 12. Direct current-year French-medium Term 1 textbook links
+
+The Grade 5 catalogue page links to the following official Ministry-hosted files (2026–2027, Term 1). The catalogue identifies the language medium explicitly; the URLs below were obtained by following its subject links on 2026-11-23.
+
+- **Mathematics — French medium — Grade 5 — Term 1:** https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Math_FR_prim5_TR1.pdf
+- **Science — French medium — Grade 5 — Term 1:** https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf
+- Discovery index with subject labels and direct Ministry links: https://miskeg.app/books/general-primary-5/
+
+**Retrieval status:** the web reader rejected both PDF fetches because of file size (Maths approximately 17.2 MB; Science approximately 63.0 MB). The catalogue links resolve to the Ministry official host, but full page-by-page content extraction has not yet been completed in this research pass. Do not claim that their chapters or Term 2 scope have been reconstructed from these PDFs.
+
+**Use in Miss Noor:** these are current-year Term 1 language-medium exemplars and a route to the official source. They can inform French-medium terminology and course structure only after the books are actually inspected. They are not Term 2 source substitutes. Obtain the Term 2 equivalents when published and confirm Girard's actual pacing/assignments before locking lessons.
