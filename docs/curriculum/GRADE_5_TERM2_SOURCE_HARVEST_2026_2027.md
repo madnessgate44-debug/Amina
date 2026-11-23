@@ -770,3 +770,16 @@ Source metadata:
 - Social Studies: https://mozkratgahza.com/pdf/3142
 
 The Social Studies listing includes a full contents index: three units (maps and locations; Egypt's land and resources; Egyptian civilization) with lessons on continents, latitude/longitude, Egyptian governorates, food/resources, Sinai, historical eras, science/literature, architecture/arts and historical figures. This is metadata from the listing, not a verified extraction of the PDF itself.
+
+
+### 22.4 French-medium full student-book leads — older complete editions
+
+| Subject / title | Edition | Full-book link | Status |
+|---|---|---|---|
+| Science — *Toi et les sciences* | Grade 5, Term 2, 2019/20 | https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester2/Grade5/pdf/science_5prim_t2_F.pdf | **[VERIFIED official full student-book PDF]** Cover extraction identifies *Cinquième Primaire — Deuxième Partie — Livre de l'étudiant*, Ministry Book Sector, school year 2019–2020. Historical; not current-year. |
+| Mathematics — *Mathématiques — 5ème Primaire — 2 Semestre — Livre Élève* | Grade 5, T2, 2018 archive | https://gulfup.co/n3yihcdmto5n | **[BROKEN/UNRETRIEVED]** Historical archive index lists a full student book; Gulfup link timed out. Do not count as obtained. |
+
+The 2018 archive page also indexes the French Science T2 student book, English T2 student book, Arabic T2 student book, Math T2 student book, Social Studies student book, and teacher guides for ICT and Home Economics. Its linked Gulfup file hosts are unstable; only the Ministry-hosted *Toi et les sciences* PDF above is currently a usable complete French-medium full-book source from that archive.
+Archive index: https://encysco.blogspot.com/2018/12/blog-post_28.html
+
+**No corresponding French-medium Science or Maths teacher guide was identified from this archive.**
