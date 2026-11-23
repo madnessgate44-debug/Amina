@@ -985,3 +985,16 @@ These are full-book file-name/index leads, not page-inspected PDFs. The archive 
 - Directory source: https://egyteachers.com/directory/posts/106
 - The directory labels the link specifically "الصف الخامس الابتدائي" under a collection of teacher-guide folders for primary grades. This is a more direct Grade 5 teacher-guide collection lead than the broader Term 2 file link in §22.1.
 - Google Drive folder contents are not enumerable by the current reader (Drive access wall); its individual file list, subjects, terms and editions remain **UNVERIFIED**. The folder is a high-priority public Drive lead for remaining teacher guides, but do not claim its contents have been inspected.
+
+
+### 18.7 Additional Ktateeb Grade 5 teacher-guide mirrors (2022/23)
+
+- Arabic Teacher Guide, T1 2022/23: https://drive.google.com/file/d/1I-sgOE87VCJOkZZAbzubS5VsNXdxp7P9/view?usp=drivesdk
+  - Source page identifies it as the Grade 5 Arabic teacher guide for T1 2022/23: https://www.ktateeb.com/2022/09/تحميل-دليل-المعلم-لغة-عربية-خامسة-ابتدائي.html
+- Islamic Religious Education Teacher Guide, T1 2022/23: https://drive.google.com/file/d/1pwyW1d8pAsqRoxc1K86GFZEJFsVWi6AT/view?usp=drivesdk
+  - Source page identifies it as the Grade 5 Islamic teacher guide for T1 2022/23: https://www.ktateeb.com/2022/09/تحميل-دليل-المعلم-تربية-اسلامية-خامسة.html
+- English Teacher Guide, Primary 5: https://www.mediafire.com/file/w7aubq5db9r1q7o/english_5prim_dlil.pdf
+  - Ktateeb lists this as "Teacher's Guide Primary 5"; the MediaFire host currently returns 404, so this is a broken historical lead, not an obtained guide.
+  - Source index: https://www.ktateeb.com/2021/10/تحميل-دليل-المعلم-في-اللغة-الانجليزية.html
+
+These are historical alternatives to the 2022/23 guide links in §18.4; the underlying Drive files remain sign-in gated and have not been page-inspected.
