@@ -731,11 +731,26 @@ Source metadata:
 
 These are whole student-book candidates, not revision papers. The archive labels them Ministry books and gives page counts/sizes, but the underlying PDFs have not been inspected; treat as metadata-verified until covers and contents are checked. They are 2024/25, not 2026/27. Keep separate from the French-medium Math/Science books.
 
-### 22.1 Additional teacher-guide collection folder
+### 22.1 Additional Term 2 teacher-guide index PDF (10 pages)
 
-- Public teacher-community post dated 15 February 2025 points to a Google Drive collection labelled **"all primary-stage teacher preparation guides, Term 2"**: https://drive.google.com/file/d/1ifVeLJp4HcD1SKL4Qg8Is1sXvm39dKzQ/view?usp=sharing
-- The post says to open the folder and choose the required grade. The folder itself could not be enumerated by the web reader (Google Drive access wall), so its Grade 5 contents are **UNVERIFIED**. This is a high-priority manual phone/browser lead because it may contain additional guides beyond the individually indexed files.
+- Public teacher-community post dated 15 February 2025 links a 10-page Google Drive PDF titled **دليل معلم تيرم ثاني.pdf**: https://drive.google.com/file/d/1ifVeLJp4HcD1SKL4Qg8Is1sXvm39dKzQ/view?usp=sharing
+- The PDF is an index of teacher-guide links by subject and grade, not a folder. Page 2 is headed Arabic teacher guides; pages 3–10 contain additional grade/subject guide link panels, but OCR does not expose all subject headings or links reliably.
+- The Grade 5 link recovered from the index (13hUAc...) opens a 329-page Grade 5 Term 2 Mathematics Teacher Guide; the actual PDF title page and table of contents were inspected and are recorded in §22.5.
 - Source post: https://egyteachers.com/directory/posts/126
+- Because some link panels are misaligned or OCR-incomplete, do not assign every link to a subject from page position alone. Inspect each target PDF's cover before using it.
+
+
+
+### 22.5 Complete Grade 5 Term 2 Mathematics Teacher Guide — Google Drive PDF inspected
+
+**[VERIFIED — actual PDF title page and contents inspected]**
+- Google Drive PDF: https://drive.google.com/file/d/13hUAc-1uHV4Y_9h-mVEoz3OxsussuclY/view?usp=drive_link
+- File title shown by Drive: `5.pdf`; actual cover identifies **Mathematics — Term 2 — Primary 5 — Teacher's Guide**.
+- PDF length: **329 pages**.
+- Contents include the teacher's introduction to the TMTechbook Math program, curriculum overview, teaching model, teaching materials, assessment, mathematical thinking, and lesson-by-lesson sequence for Units 7 and 8 (including fractions and mixed numbers).
+- This is a complete teacher guide, not a student book or revision sheet. The exact academic year is not visible in the inspected cover/contents; keep the edition year **UNCONFIRMED**.
+- The file's position in the 10-page Term 2 guide index is not reliable for subject classification; the actual PDF itself establishes that it is Mathematics.
+- An alternate Education 2.0 link labelled `math_5prim_t2_TG.pdf` is also listed in §18.4; it remains a separate uninspected candidate until its cover is checked.
 
 ### 22.2 Additional Term 2 teacher-guide candidates
 
