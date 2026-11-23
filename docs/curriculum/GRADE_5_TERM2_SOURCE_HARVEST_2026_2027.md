@@ -1050,3 +1050,38 @@ These are full-book file-name/index leads, not page-inspected PDFs. The archive 
 - This resolves exact identity and confirms it is a 1999 print guide. It does **not** provide the guide's full text or a legal free PDF. Hachette FLE's public resources are limited to extracts/introductory samples; no complete free guide has been found.
 - Current status remains: complete student book and exercise book links found; complete guide only bibliographically verified; full digital/public file **NOT FOUND**.
 
+
+
+## 28. Additional complete Ministry teacher-guide files — verified Drive targets
+
+These are older official Ministry guide editions, not 2026/27 editions. They are whole guide files or complete unit volumes, not student workbooks. Drive previews currently show Google sign-in/loading screens; the linked file titles and source-page labels are visible, but their internal page contents have not yet been inspected.
+
+### 28.1 Science — Arabic-medium teacher guide
+- **Term 2, 2022/23:** https://drive.google.com/file/d/18k2QwOYt8DwBzDPFPUG5xdKEYKPfjdqZ/view
+- **Alternate mirror:** https://drive.google.com/file/d/1BF24ckWf-B0JpVA6LoI6zN5AqTaX8kNC/view
+- Ktateeb page explicitly labels both as the Grade 5 Term 2 Science Teacher Guide / print edition: https://www.ktateeb.com/2023/01/تحميل-كتاب-دليل-المعلم-في-العلوم-الصف-الخامس-الابتدائي-الترم-الثاني-2023.html
+- **2023/24 unit guide volumes:** Unit 1 https://drive.google.com/file/d/1KBvRLzRVrQY0KlzV2loqgVi_Ijf7plCq/view?usp=drivesdk ; Unit 2 https://drive.google.com/file/d/1K8q-pVtjuBKLmcOT_OsTRUqUxXaEjJso/view?usp=drivesdk
+- Source page: https://www.ktateeb.com/2023/08/تحميل-ادلة-المعلم-في-العلوم-للصفين-الرابع-والخامس-الابتدائي-2024.html
+- The 2023/24 files are explicitly described as two unit guides; do not combine them into one file or label either one a complete annual book.
+
+### 28.2 Career Skills — Term 2 teacher guide
+- Google Drive: https://drive.google.com/file/d/1z9q_aI0Q0fDva9jrc-qmYlOp1FR9jE3E/view?usp=sharing
+- Drive filename: `Egypt-York-NGL-CS-Ar-TB-Gr.5-Term 2 Low Secured.pdf`
+- Education 2.0 index labels this Grade 5 Term 2 Career Skills Teacher's Guide, Ministry of Education and Technical Education, 2022/23: https://edu2-egypt.com/grade-5
+- Important correction: this is the Career Skills teacher book, not the student textbook.
+
+### 28.3 Values & Respect — Term 2 teacher guide
+- Google Drive: https://drive.google.com/file/d/1OSQDMM__fKbQ6Wix5jw677MQBPIoPXH9/view?usp=sharing
+- Drive filename: `G5-Morals-T2-TG.png`
+- Education 2.0 index labels it Grade 5 Term 2 Values and Respect Teacher's Guide, Ministry, 2022/23. Filename suffix TG = teacher guide, but the Drive title extension says PNG, so it may be a scan/image or a cover-only asset; **full-book status not confirmed**.
+
+### 28.4 Arts Education — Term 2 teacher guide
+- Google Drive: https://drive.google.com/file/d/13P_wg5zKxdxqT8cKCn_6K-DRxEBWMG8d/view?usp=sharing
+- Drive filename: `Alrasm_5prim_term2_TG.pdf.pdf`
+- Education 2.0 index labels it Grade 5 Term 2 Arts Education Teacher's Guide, Ministry, 2022/23. The filename indicates a PDF; full pagination not yet confirmed.
+
+### 28.5 Existing English/Arabic/Islamic teacher-guide links independently re-opened
+- Arabic T1: https://drive.google.com/file/d/1ghl67feFve3aVgtSLojNUbF_J48O6lvz/view?usp=sharing — filename `Arabic G5 - TG - T1.pdf`.
+- Islamic RE T1: https://drive.google.com/file/d/1EEWFofXK3HxkLA5SAvriEmmsjcJFt3h9/view?usp=sharing — filename `Islamy G5 - TG - T1.pdf`.
+- Both are listed by the Education 2.0 Grade 5 guide index. Drive content remains sign-in gated.
+
