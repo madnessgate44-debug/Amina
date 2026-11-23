@@ -462,9 +462,9 @@ The Education 2.0 index itself lists additional complete student books for Grade
 | Mathematics, Term 2, 2022/2023 | https://drive.google.com/file/d/1XG-lx2wMy6-G44QcIBgqx7sXFB18aaX9/view?usp=sharing | Filename: math_5prim_t2_TG.pdf; Drive preview not parsed |
 | Islamic Religious Education, Term 2, 2022/2023 | https://drive.google.com/file/d/15LTJwt1FZhwFOPzRN6cBnthgRSePYAVv/view?usp=sharing | Filename: Islamic G5-TG-T2.pdf; Drive preview not parsed |
 | Values & Respect for Others, Term 2, 2022/2023 | https://drive.google.com/file/d/1OSQDMM__fKbQ6Wix5jw677MQBPIoPXH9/view?usp=sharing | Filename: G5-Morals-T2-TG.png; image file, not yet inspected |
-| Career Skills, Term 2, 2022/2023 | Linked from https://edu2-egypt.com/grade-5 | Exact file target not yet retrieved |
-| Christianity, Term 2, 2022/2023 | Linked from https://edu2-egypt.com/grade-5 | Exact file target not yet retrieved |
-| Arabic, Term 2, 2022/2023 | https://drive.google.com/file/d/1WRevnQBODEGB_7BnOSwcnrYsd66M9nTS/view?usp=sharing | Filename: arabic_5prim_t2_TG.pdf; Drive preview not parsed |\n| Christianity, Term 2, 2022/2023 | https://drive.google.com/file/d/10Z4Y31RW8VGlZNCaPCFr2EQAp9D0dw3e/view?usp=sharing | Filename: cristian-TG-T2.pdf; Drive preview not parsed |\n| Arabic, Science and other teacher guides | Listed in the same archive, but some only Term 1 entries; do not infer Term 2 availability |
+| Career Skills, Term 2, 2022/2023 | https://drive.google.com/file/d/1z9q_aI0Q0fDva9jrc-qmYlOp1FR9jE3E/view?usp=sharing | Archive labels as Career Skills Teacher Guide; filename is TB, cover/content not inspected |
+| Christianity, Term 2, 2022/2023 | https://drive.google.com/file/d/10Z4Y31RW8VGlZNCaPCFr2EQAp9D0dw3e/view?usp=sharing | Filename: cristian-TG-T2.pdf; Drive preview not parsed |
+| Arabic, Science and other teacher guides | Listed in the same archive, but some only Term 1 entries; do not infer Term 2 availability |
 
 ### 16.4 Official complete student-book lead from the previous academic year
 
