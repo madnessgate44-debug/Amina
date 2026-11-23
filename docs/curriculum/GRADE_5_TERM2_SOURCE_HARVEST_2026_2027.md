@@ -973,3 +973,6 @@ Source index: https://edu2-egypt.com/grade-5
 | English — Connect | T2 2022/23 | https://drive.google.com/file/d/1Jlph3cViEG15bgx6SCisotk-CMAmOjRj/view?usp=sharing | Egy-Connect-Prim-En-G5-SB-T2-Low-secured.pdf |
 
 These are full-book file-name/index leads, not page-inspected PDFs. The archive has no direct student-book targets exposed for Grade 5 Science or Mathematics in its text; use the current official Ministry links in §19 for those subjects.
+
+
+**Hachette FLE-specific qualification:** the Hachette FLE catalogue for BIEN JOUÉ ! lists the public download resources as unit extracts, contents tables, a contact test and **an introduction to the Level 1 teacher guide**—not the complete guide. Its download route is https://www.hachettefle.fr/. The separate Hachette Education FAQ describes certified-teacher access for many Hachette Education guides, but this policy has not been verified specifically for this older Hachette FLE title. Therefore, the complete BIEN JOUÉ ! 1 guide remains **NOT FOUND as a public full PDF**; only the bibliographic record and a public introduction sample are confirmed.
