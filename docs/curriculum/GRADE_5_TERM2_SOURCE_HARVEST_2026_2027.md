@@ -561,3 +561,52 @@ A second official Ministry-hosted path was located and opened:
 - Grade 5 French 1 assessment specification and timing overview (secondary index of Ministry documents): https://www.nezakr.net/edu/p/2691/
 - **Teacher guide access path:** Hachette says some teacher guides are downloadable as PDF only for teachers with a certified account: https://www.enseignants.hachette-education.com/ressources/ . This is a legitimate route to pursue for the BIEN JOUÉ ! 1 guide, rather than assuming a public Drive copy exists. The exact guide ISBN remains 9782011551085.
 
+
+
+## 18. Cross-subject complete-book and teacher-guide archive — historical whole-book leads
+
+**[VERIFIED INDEX; historical 2022/23 and 2023/24 only; Google Drive file contents not yet inspected]**
+
+Education 2.0 separates a Grade 5 **Student Books** catalogue from a **Teacher's Guides** catalogue. This is a valuable whole-book index, but the listed editions are not 2026/27 and the Google Drive previews return sign-in/loading shells in the available reader. Treat every row below as a full-book link/filename lead, not as a content-inspected document.
+
+Index: https://edu2-egypt.com/grade-5
+
+### 18.1 Student books — complete-book candidates
+
+| Subject | Edition | Google Drive full-book link | Index label / notes |
+|---|---|---|---|
+| Social Studies | T2 2022/23 | https://drive.google.com/file/d/1Cc3Vfhbje379DdPoF6GCs-csKG9pvpd5/view?usp=sharing | drasat_5prim_T2.pdf |
+| Arabic | T2 2022/23 | https://drive.google.com/file/d/1-FbQfFAzbSVWNnW1zHNM_5ULyBL0yXtA/view?usp=sharing | Arabic G5 - SB - T2.pdf |
+| English Connect | T2 2022/23 | https://drive.google.com/file/d/1Jlph3cViEG15bgx6SCisotk-CMAmOjRj/view?usp=sharing | Connect student book |
+| ICT — English | T2 2023/24 | https://drive.google.com/file/d/1Y4u3biA8SU19k-2nS22LXMyiJrbBsZwU/view?usp=sharing | Egypt-York-NGL-ICT-EN-SB-Gr.5-T2.pdf |
+| ICT — Arabic | T2 2023/24 | https://drive.google.com/file/d/103wrH3LM70gcdh3xZVcNJ5kz9gFWk0Jm/view?usp=sharing | Egypt-York-NGL-ICT-AR-SB-Gr.5-T2.pdf |
+| Islamic Religious Education | T2 2022/23 | https://drive.google.com/file/d/1YaVr0ae5kV9Yr7df-6ZJxAq6KYbO7qLs/view?usp=sharing | Islamic G5-T2-SB.pdf |
+| Christian Religious Education | T2 2022/23 | https://drive.google.com/file/d/1RRtyuF7l5gFUKXsm2afEjWmWA69X-hVV/view?usp=drive_link | cristian G5-sb-T2.pdf |
+| Career Skills | T1 2022/23 | https://drive.google.com/file/d/1HkuedUODPo2kW21K7TtO3EXmTw2S8Rjb/view?usp=sharing | professional skills_5prime_t1.pdf; no T2 student book link indexed |
+| Mathematics | T1 2022/23 | Index lists a student book but no working clickable T2 student-book link in this archive | Do not infer a T2 edition from the teacher guide |
+| Science | T1/T2 2022/23 | Index lists Arabic and other-medium entries but provides no usable linked target in the page text | Exact file target not retrieved |
+| Values & Respect for Others | T2 2022/23 | Archive lists an entry, but no working student-book target was exposed | Do not substitute the teacher guide image |
+
+### 18.2 Teacher guides — complete-guide candidates
+
+| Subject | Edition | Google Drive guide link | Index label / notes |
+|---|---|---|---|
+| Career Skills | T2 2022/23 | https://drive.google.com/file/d/1z9q_aI0Q0fDva9jrc-qmYlOp1FR9jE3E/view?usp=sharing | Egypt-York-NGL-CS-Ar-TB-Gr.5-Term 2 Low Secured.pdf |
+| Values & Respect for Others | T2 2022/23 | https://drive.google.com/file/d/1OSQDMM__fKbQ6Wix5jw677MQBPIoPXH9/view?usp=sharing | G5-Morals-T2-TG.png; image-format teacher guide |
+| Arts Education | T2 2022/23 | https://drive.google.com/file/d/13P_wg5zKxdxqT8cKCn_6K-DRxEBWMG8d/view?usp=sharing | Alrasm_5prim_term2_TG.pdf.pdf |
+| Arabic | T2 2022/23 | https://drive.google.com/file/d/1WRevnQBODEGB_7BnOSwcnrYsd66M9nTS/view?usp=sharing | arabic_5prim_t2_TG.pdf |
+| Islamic Religious Education | T2 2022/23 | https://drive.google.com/file/d/15LTJwt1FZhwFOPzRN6cBnthgRSePYAVv/view?usp=sharing | Islamic G5-TG-T2.pdf |
+| Christian Religious Education | T2 2022/23 | https://drive.google.com/file/d/10Z4Y31RW8VGlZNCaPCFr2EQAp9D0dw3e/view?usp=sharing | cristian-TG-T2.pdf |
+| Mathematics | T2 2022/23 | https://drive.google.com/file/d/1XG-lx2wMy6-G44QcIBgqx7sXFB18aaX9/view?usp=sharing | math_5prim_t2_TG.pdf |
+| Music Education | T2 2022/23 | https://drive.google.com/file/d/1nrLSc2Dz9090Owopbh-6N6dQ7xMkxS9O/view?usp=sharing | music_5prim_TG_T2.pdf |
+| Arabic | T1 2022/23 | https://drive.google.com/file/d/1ghl67feFve3aVgtSLojNUbF_J48O6lvz/view?usp=sharing | Arabic G5 - TG - T1.pdf |
+| Mathematics | T1 2022/23 | Index lists Arabic and other-medium guide files; one T1 Arabic guide link is exposed as https://drive.google.com/file/d/1ghl67feFve3aVgtSLojNUbF_J48O6lvz/view?usp=sharing only for Arabic, not Maths | Separate Math guide IDs must be taken from the index link targets, not guessed |
+
+### 18.3 Retrieval status and limitations
+
+- The archive page itself was inspected and exposes the labels, subjects, years/terms and direct Google Drive targets.
+- Each opened Drive preview currently returns a sign-in/loading shell; actual page count, cover, edition, contents, and completeness remain unverified.
+- The index has incomplete/incorrect labels in places (for example the Christian guide heading text is mislabelled as music in the Arabic heading). Use the direct linked filename and inspect the PDF cover before accepting subject identity.
+- This archive yields additional historical teacher-guide leads across Career Skills, Values, Arts, Arabic, Islamic/Christian RE, Maths and Music. It does not expose matching T2 guides for English, ICT, Science, Social Studies or French.
+- **Priority:** attempt legitimate direct retrieval of each public Drive file; if Drive requires account authentication, record as inaccessible through this reader and seek an alternate public mirror or official Ministry source. Do not claim the file was downloaded or inspected.
+- None of these 2022/23 or 2023/24 books/guides can be treated as the 2026/27 Girard edition without a cover/imprint and school assignment match.
