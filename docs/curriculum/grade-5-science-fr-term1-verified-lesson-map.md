@@ -313,3 +313,16 @@ A Ministry-branded French Science Term 1 assessment-book copy was found in the L
 - **[VERIFIED]** The visual audit confirms the lesson-opening image subjects are relevant to their mapped lesson topics; it does not replace the printed-page text/source mapping or the registry tests.
 - **[UNPROVEN]** This was a targeted visual cross-check of the Library copy, not a high-resolution audit of every internal diagram/caption or a visual comparison against the canonical Ministry-hosted PDF. See [the image-backed source audit](../audits/grade5-science-fr-term1-visual-source-audit-2026-11-23.md).
 - **[UNPROVEN]** Independent teacher review and a physical-phone French Science walkthrough remain open. All app-authored plans remain distinct from an authenticated Ministry teacher guide.
+
+
+
+## PR #211 verification — 23 November 2026
+
+- **[VERIFIED]** The Science source/page-bound correction, image-backed audit report and test refinement are in PR [#211](https://github.com/madnessgate44-debug/Amina/pull/211). The code/test head `c8a9de58f25aec2a49453204b7131ac08c13a7e1` is based on main `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`.
+- **[PASS]** CI [45131898126](https://github.com/madnessgate44-debug/Amina/actions/runs/45131898126): blocking type check, `npm run lint`, `npm test` and `npm run build` all passed. The test run reported 39 suite summaries with no failures; Science-relevant checks: registry **61/0**, integrity **17/0**, reels **189/0**, Term 1 book coverage **130/0**. Vite transformed 1,801 modules and built in 579 ms.
+- **[PASS]** Engineering Execution OS compliance [45131898072](https://github.com/madnessgate44-debug/Amina/actions/runs/45131898072) passed.
+- **[VERIFIED]** The reels regression test checks UI narration across all lessons, including lessons taught in another language; answer options are checked against the lesson's declared instruction language. Calibration assertions distinguish isolated target-language vocabulary from a foreign-language narration sentence. No runtime code or Science lesson content changed.
+- **[VERIFIED]** The image-backed source audit inspected 28/28 lesson-opening pages plus the TOC/imprint, selected exercises, all six enrichment sections, the Chapter 5 review and printed pp. 104–107 scientific-method appendix. See `docs/audits/grade5-science-fr-term1-visual-source-audit-2026-11-23.md`.
+- **[VERIFIED]** PR #211 remains open and unmerged. No deployment was performed or claimed.
+- **[BLOCKED]** No authenticated Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook or authenticated assessment-book source is available. High-resolution review of every internal diagram, independent pedagogical review and a physical-phone French Science walkthrough remain outstanding.
+- **Scope:** Grade 5 French Science Term 1 only. No full-book or full-year completion claim.
