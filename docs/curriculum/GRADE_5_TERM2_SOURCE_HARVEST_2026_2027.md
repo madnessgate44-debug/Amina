@@ -210,3 +210,31 @@ The next search pass must target the official assessment portal and content serv
 - Agriculture Skills & Entrepreneurship.
 
 Search both student-book and assessment/teacher-guide directories. Record current-year Term 1 sources as baseline only, and older-year Term 2 sources as historical comparison only. The new `2026_2027` path pattern is a useful discovery lead, not permission to guess filenames or claim Term 2 exists.
+
+
+## 10. Ministry assessment portal — current-year access route (checked 2026-11-23)
+
+**[VERIFIED — official portal URL; automated retrieval blocked]**
+- Ministry Performance Assessments portal: https://studentbooks.moe.gov.eg/Performance_Assessments/
+- The portal is the current-year route for weekly/monthly assessments and classroom/home performance tasks. Recent 2026-11 reporting describes selecting stage, grade, term, subject, and assessment type before opening PDFs.
+- Direct automated page retrieval returned HTTP 403 Forbidden on 2026-11-23. This is an access limitation for this research process, not evidence that the portal or its files are absent.
+- Operational consequence: treat this portal as a high-priority source to inspect manually in a normal mobile browser if automated retrieval remains blocked. Capture the exact file title, grade, subject, medium/language, term, week, publication year, and official PDF URL for every file used.
+
+**[VERIFIED — current-year official Ministry-hosted Term 1 assessment reference; NOT Term 2]**
+- Grade 5 Mathematics, Arabic-medium, 2026–2027 Term 1 assessment PDF:
+  https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/Math_ar_prim5_t1_Assmt.pdf
+- This is useful as evidence of the Ministry's current-year assessment format and assessment framing only. It is **not** French-medium Mathematics, not a Term 2 source, and must not be used as the Grade 5 Term 2 curriculum specification for Girard.
+
+**[VERIFIED — catalogue snapshot; secondary index pointing to Ministry-hosted files]**
+- Grade 5 2026–2027 catalogue snapshot: https://miskeg.app/books/general-primary-5/
+- The page lists 15 Term 1 titles, including Mathematics (French), Science (French), Library & Research Skills, ICT (Arabic), Family Management & Entrepreneurship, and Agriculture Skills & Entrepreneurship. It says Term 2 books are added when the Ministry publishes them; last reviewed 2026-10-26.
+- This is a discovery index, not the Ministry itself. Validate each selected PDF's own cover/metadata and official Ministry-hosted URL before classifying it as authoritative.
+- The catalogue does not establish Girard's actual subject allocation, the learner's Religious Education track, or the French 1/French 2 coursebooks.
+
+## 11. Ownership correction — supersedes prior OpenHands research requests
+
+**ChatGPT owns all non-coding work:** curriculum/source research, source provenance, school alignment, curriculum mapping, lesson sequencing, pedagogy, educational media/lesson specifications, product requirements, QA strategy, test design, and independent verification.
+
+**OpenHands is coding/implementation only.** It must not be assigned curriculum research, source auditing, pedagogical decisions, or independent QA strategy. It implements the complete, evidence-backed specifications supplied by ChatGPT; it may report implementation blockers and provide build/test evidence for review.
+
+This section supersedes earlier instructions in this document and earlier PR discussion comments that asked OpenHands to research or independently audit curriculum sources. No curriculum claim becomes verified merely because it has been implemented.
