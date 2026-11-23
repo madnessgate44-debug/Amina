@@ -450,7 +450,7 @@ The Education 2.0 Grade 5 archive links complete Ministry-labelled student books
 | Social Studies, Term 2, 2022/2023 | https://drive.google.com/file/d/1Cc3Vfhbje379DdPoF6GCs-csKG9pvpd5/view?usp=sharing | Filename confirms Grade 5 T2; Drive preview requires sign-in/loading; content not inspected |
 | Arabic, Term 2, 2022/2023 | https://drive.google.com/file/d/1-FbQfFAzbSVWNnW1zHNM_5ULyBL0yXtA/view?usp=sharing | Filename confirms G5 student book T2; content not inspected |
 | English Connect, Term 2, 2022/2023 | https://drive.google.com/file/d/1Jlph3cViEG15bgx6SCisotk-CMAmOjRj/view?usp=sharing | Filename confirms G5 student book T2; content not inspected |
-| ICT, Term 2, 2023/2024, English | https://drive.google.com/file/d/1oicS23AbZaWCsy8YK5rUH2NV4gSXdq/view?usp=sharing | Archive labels as Ministry Grade 5 T2; exact file title/cover still needs validation |
+| ICT, Term 2, 2023/2024, English | https://drive.google.com/file/d/103wrH3LM70gcdh3xZVcNJ5kz9gFWk0Jm/view?usp=sharing | Archive labels as Ministry Grade 5 T2; exact file title/cover still needs validation |
 | Christian Religious Education, Term 2 (official Ministry-hosted 2025/2026 path) | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/StudentBook/CH_Prim5_T2.pdf | Search extraction exposes full table of contents; confirm cover/year and obtain PDF before treating as inspected |
 
 The Education 2.0 index itself lists additional complete student books for Grade 5 Term 2 (Arabic, English, Social Studies, ICT, Islamic and Christian Religious Education, Science) and Term 1 materials. Index: https://edu2-egypt.com/grade-5. It also lists teacher guides separately. Its listed editions are historical, not 2026/2027.
@@ -464,7 +464,7 @@ The Education 2.0 index itself lists additional complete student books for Grade
 | Values & Respect for Others, Term 2, 2022/2023 | https://drive.google.com/file/d/1OSQDMM__fKbQ6Wix5jw677MQBPIoPXH9/view?usp=sharing | Filename: G5-Morals-T2-TG.png; image file, not yet inspected |
 | Career Skills, Term 2, 2022/2023 | Linked from https://edu2-egypt.com/grade-5 | Exact file target not yet retrieved |
 | Christianity, Term 2, 2022/2023 | Linked from https://edu2-egypt.com/grade-5 | Exact file target not yet retrieved |
-| Arabic, Science and other teacher guides | Listed in the same archive, but some only Term 1 entries; do not infer Term 2 availability |
+| Arabic, Term 2, 2022/2023 | https://drive.google.com/file/d/1WRevnQBODEGB_7BnOSwcnrYsd66M9nTS/view?usp=sharing | Filename: arabic_5prim_t2_TG.pdf; Drive preview not parsed |\n| Christianity, Term 2, 2022/2023 | https://drive.google.com/file/d/10Z4Y31RW8VGlZNCaPCFr2EQAp9D0dw3e/view?usp=sharing | Filename: cristian-TG-T2.pdf; Drive preview not parsed |\n| Arabic, Science and other teacher guides | Listed in the same archive, but some only Term 1 entries; do not infer Term 2 availability |
 
 ### 16.4 Official complete student-book lead from the previous academic year
 
