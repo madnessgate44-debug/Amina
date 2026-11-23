@@ -331,3 +331,11 @@ The catalogue entry is a discovery route only. It does not authenticate the thir
 - **[VERIFIED]** PR #211 remains open and unmerged. No deployment is performed or claimed.
 - **[BLOCKED]** The matching Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook and authenticated assessment-book source remain unavailable/unverified. High-resolution diagram review, independent pedagogical peer review and a physical-phone French Science walkthrough remain outstanding.
 - **Scope:** Grade 5 French Science Term 1 only; no full-book or full-year completion claim.
+
+
+## Image-backed Science source cross-check — 23 November 2026
+
+- **[VERIFIED]** A targeted image-backed audit inspected all 28 current-edition lesson-opening pages in the Library student-book copy, plus the contents/imprint pages, selected chapter exercises, the separate Chapter 5 review, all six enrichment sections, and printed pp. 104–107 scientific-method appendix. The opening images were relevant to their corresponding lesson titles/topics.
+- **[VERIFIED]** The Chapter 6 and Chapter 8 chapter-level labels remain TOC-faithful despite wording variants on individual lesson banners. The visual audit records the exact pages and the additional checked materials in [the image-backed source audit](../audits/grade5-science-fr-term1-visual-source-audit-2026-11-23.md).
+- **[UNPROVEN]** The audit uses the third-party-assembled Library copy. It does not establish image/layout identity with the canonical Ministry-hosted PDF, does not inspect every internal diagram at high resolution, and is not an independent pedagogical/scientific review.
+- **[UNPROVEN]** A physical-phone French Science lesson walkthrough remains outstanding. The matching Ministry teacher guide, exact Term 2 book and authenticated assessment-book source remain blocked/unverified.
