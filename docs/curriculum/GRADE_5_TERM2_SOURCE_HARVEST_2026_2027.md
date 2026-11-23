@@ -610,3 +610,36 @@ Index: https://edu2-egypt.com/grade-5
 - This archive yields additional historical teacher-guide leads across Career Skills, Values, Arts, Arabic, Islamic/Christian RE, Maths and Music. It does not expose matching T2 guides for English, ICT, Science, Social Studies or French.
 - **Priority:** attempt legitimate direct retrieval of each public Drive file; if Drive requires account authentication, record as inaccessible through this reader and seek an alternate public mirror or official Ministry source. Do not claim the file was downloaded or inspected.
 - None of these 2022/23 or 2023/24 books/guides can be treated as the 2026/27 Girard edition without a cover/imprint and school assignment match.
+
+
+## 19. Current-year official Grade 5 student-book catalogue — direct Ministry PDFs
+
+**[VERIFIED INDEX AND DIRECT OFFICIAL PDF TARGETS — 2026/2027 Term 1]**
+
+The current-year Grade 5 catalogue lists 15 student books and links each to the Ministry's own Azure Blob PDF host. Catalogue last reviewed 2026-10-26: https://miskeg.app/books/general-primary-5/
+
+| Subject / medium | Complete student-book PDF — Ministry host | Retrieval note |
+|---|---|---|
+| Islamic Religious Education | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Islamic_prim5_tr1.pdf | Direct official PDF target; web reader refused 26.6 MB file due size limit |
+| Christian Religious Education | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Cristian_reliogion_prim5_t1.pdf | Direct official PDF target; 49.0 MB exceeds web reader limit |
+| Social Studies | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Social_studies_prim5_t1.pdf | Direct official PDF target; 23.8 MB exceeds web reader limit |
+| Mathematics — English medium | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Math_EN_prim5_t1.pdf | Direct official PDF target; 37.2 MB exceeds web reader limit |
+| Mathematics — Arabic medium | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Math_Ar_prim5_t1.pdf | Direct official PDF target; 51.0 MB exceeds web reader limit |
+| Mathematics — French medium | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Math_FR_prim5_TR1.pdf | Direct official PDF target; 17.2 MB exceeds web reader limit |
+| Science — English medium | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_EN_Prim5_TR1.pdf | Direct official PDF target; 65.8 MB exceeds web reader limit |
+| Science — Arabic medium | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_Ar_prim5_t1.pdf | Direct official PDF target; 32.2 MB exceeds web reader limit |
+| Science — French medium | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf | Direct official PDF target; 63.0 MB exceeds web reader limit |
+| English — first foreign language | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/English_language_prim5_t1.pdf | Direct official PDF target; 18.8 MB exceeds web reader limit |
+| Arabic | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Arabic_langugae_prim5_t1.pdf | Direct official PDF target; 37.3 MB exceeds web reader limit |
+| Libraries & Research Skills | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Libraries_prim5_t1.pdf | **Retrieved and inspected:** 21 pages; includes 12 lessons and librarian implementation guidance inside lessons |
+| ICT — Arabic medium | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/ICT_ARABIC_Prim5_TR1.pdf | Direct official PDF target; 14.4 MB exceeds web reader limit |
+| Family Management & Entrepreneurship | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Family_management_Prim5_TR1.pdf | Direct official PDF target; 18.8 MB exceeds web reader limit |
+| Agriculture Skills & Entrepreneurship | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Farming_skills_prim5_t1.pdf | Direct official PDF target; 11.4 MB exceeds web reader limit |
+
+### 19.1 What this establishes — and what it does not
+
+- These are current-year full student-book targets for Term 1, not revision sheets. The catalogue confirms they are official Ministry-hosted PDFs.
+- French-medium Maths and Science have their own distinct full student-book URLs; Arabic/English versions are not substitutes.
+- The web reader successfully parsed the 21-page Libraries & Research Skills book and its embedded librarian-facing lesson instructions. The other large PDFs were rejected by the web reader's file-size ceiling, not shown to be missing. Their direct official links remain usable candidates for phone/browser retrieval.
+- The catalogue explicitly says it currently contains the published Term 1 books and that Term 2 books are added when the Ministry publishes them. Do not infer the current Term 2 edition is absent from every other public source.
+- **Teacher guides:** the catalogue lists student books only. No matching 2026/27 teacher-guide collection was exposed there. Search separately for teacher editions; do not relabel student books as teacher guides.
