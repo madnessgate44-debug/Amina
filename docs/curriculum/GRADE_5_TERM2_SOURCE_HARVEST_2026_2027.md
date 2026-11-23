@@ -783,3 +783,15 @@ The 2018 archive page also indexes the French Science T2 student book, English T
 Archive index: https://encysco.blogspot.com/2018/12/blog-post_28.html
 
 **No corresponding French-medium Science or Maths teacher guide was identified from this archive.**
+
+
+### 17.9 Public Google Drive mirrors for the BIEN JOUÉ ! 1 student package
+
+Two Google Drive targets were recovered from the public Grade 5 French Term 2 book listing:
+- **Student book mirror:** https://drive.google.com/file/d/10ZXj_xO32lAswNIdd-RpW9QlkHXDfVSF/view?usp=share_link
+  - The public listing's page preview shows Unit 1, *Pauline et Nicolas*, matching the BIEN JOUÉ ! 1 student method's table of contents and the Ministry-hosted full student book. This supports the file identity, but the Google Drive PDF itself remains behind the sign-in wall and its full pagination/contents have not been verified.
+- **Exercise book mirror:** https://drive.google.com/file/d/1Lwz6ZexQdQuLHOpm09W8wM_wZDZ321R0/view?usp=share_link
+  - The public listing's cover image clearly reads **BIEN JOUÉ ! 1 — MÉTHODE DE FRANÇAIS — 5ème PRIMAIRE — CAHIER D'EXERCICES**, Hachette / Dar El Nashr Horizons. This is the matching student workbook, not the teacher guide.
+- Source listings: https://mozkratgahza.com/pdf/3093 and https://mozkratgahza.com/pdf/3094
+- The first listing's image preview is a BIEN JOUÉ ! 1 student-book interior page; the second listing's image preview is the workbook cover. The Google Drive preview itself returns HTTP 401 to this reader. The direct Ministry-hosted student book remains the strongest complete content reference; these Drive links are valuable phone-accessible mirrors to test.
+- **Do not confuse the exercise book with the teacher guide.** The matching teacher guide remains ISBN 9782011551085 and is still not located as a public full PDF.
