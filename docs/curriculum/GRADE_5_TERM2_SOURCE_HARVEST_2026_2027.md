@@ -251,3 +251,67 @@ The Grade 5 catalogue page links to the following official Ministry-hosted files
 **Retrieval status:** the web reader rejected both PDF fetches because of file size (Maths approximately 17.2 MB; Science approximately 63.0 MB). The catalogue links resolve to the Ministry official host, but full page-by-page content extraction has not yet been completed in this research pass. Do not claim that their chapters or Term 2 scope have been reconstructed from these PDFs.
 
 **Use in Miss Noor:** these are current-year Term 1 language-medium exemplars and a route to the official source. They can inform French-medium terminology and course structure only after the books are actually inspected. They are not Term 2 source substitutes. Obtain the Term 2 equivalents when published and confirm Girard's actual pacing/assignments before locking lessons.
+
+
+## 13. Publicly shared Google Drive and teacher-resource harvest (checked 2026-11-23)
+
+This section records public third-party discovery leads. These are **supplementary resources**, not proof of the official 2026–2027 Girard syllabus. Do not upload copyrighted books, scans, publisher pages, or answer keys into this public repository. Keep source URLs and bibliographic metadata only; create original Miss Noor explanations and exercises.
+
+### 13.1 Public Google Drive links posted for 2027 Grade 5 assessments
+
+**[UNPROVEN AS TO TERM / TRACK — third-party forum index, public Drive targets]**
+A teacher forum post dated 2026-10-22 lists the following Grade 5 assessment-book Google Drive files under a 2027 heading. The post does not identify the term or language track for each link; each file must be opened and its cover inspected before use.
+
+- Arabic assessment book: https://drive.google.com/file/d/17-UYOKttow0-1FQ6gmE2AjSiKxuagW7M/view
+- English assessment book: https://drive.google.com/file/d/1IUIIqNWG5WdUFloZ_hYbT4p1Y8o71foS/view
+- English answer key: https://drive.google.com/file/d/1fC6HYU_dVQipogdkHW4LOqDcceGU44AW/view
+- Mathematics assessment book (labelled رياضيات): https://drive.google.com/file/d/1GCz78-8bB44AI9jQCVsIUJ4KNpQvnWcB/view
+- Mathematics answer key: https://drive.google.com/file/d/15iOpzjc3TghWYjkZefUsIFepXxFjOqdv/view
+- Additional Mathematics file: https://drive.google.com/file/d/1Iegc4O0m_IK2e-iRYIUAhYaTeiWRTeZu/view
+- Maths assessment book (labelled Maths): https://drive.google.com/file/d/1vg3nOpqeaQFbIe7soMy-toeFqWtW_1gV/view
+- Maths answer key: https://drive.google.com/file/d/1XuZvAR26w1xOg2Cvy0b78Gj2UlEHKfOe/view
+- Science assessment book: https://drive.google.com/file/d/1tmZmYIBSJUxR8ED5MgapBBBY5ELrfaSe/view
+- Additional Science file: https://drive.google.com/file/d/1Yd_knsziOASM-VsUbg9k2tlBfLVaq_8F/view
+- Science answer key: https://drive.google.com/file/d/1m_2JmUxlJdopGEplJsFPvKD01a5Oreb1/view
+- Social Studies assessment book: https://drive.google.com/file/d/1H1hlbkkPbSbimlet5f-HBzxhoBnBa8hD/view
+- Social Studies answer key: https://drive.google.com/file/d/1g2it9P9w5jE9DZWuxIn_5wO35Dh2twej/view
+- Additional Social Studies file: https://drive.google.com/file/d/1tF6FZHcyS2VuRNRltsPbeYwLlmwbF0pc/view
+- Science (English spelling in forum post, potentially Science track) assessment book: https://drive.google.com/file/d/1sN3YkjIxYqaRIB9H76y01iBk1ixZxgIC/view
+- Science answer key: https://drive.google.com/file/d/1HycAVsONYBz9SLCaEueGBa1-PHYYxobq/view
+
+Discovery index: https://www.kodwa1.com/t115298-%D9%83%D8%AA%D8%A8-%D8%A7%D9%84%D8%AA%D9%82%D9%8A%D9%85%D8%A7%D8%AA-%D9%81%D9%8A-%D9%83%D9%84-%D9%85%D9%88%D8%A7%D8%AF-%D8%A7%D9%84%D8%B5%D9%81-%D8%A7%D9%84%D8%AE%D8%A7%D9%85%D8%B3-%D8%A7%D9%84%D8%A5%D8%A8%D8%AA%D8%AF%D8%A7%D8%A6%D9%8A-%D9%85%D8%AD%D9%84%D9%88%D9%84%D8%A9-%D9%88-%D8%BA%D9%8A%D8%B1-%D9%85%D8%AD%D9%84%D9%88%D9%84%D8%A9-%D9%83%D9%84-%D8%A7%D9%84%D9%85%D9%88%D8%A7%D8%AF2027
+
+The forum post is a link directory, not the publisher. Google Drive preview pages opened for the two French supplementary resources below, but the preview reader did not expose their full PDF text in this pass.
+
+### 13.2 French-medium Term 2 supplementary resources — 2025/2026
+
+**[VERIFIED METADATA — teacher-created, not official curriculum]**
+- French Science review with answers, Grade 5 Term 2, academic year 2025/2026, prepared by Ahmed Fathy El-Markaby, 4 pages, PDF, page updated 2026-11-17. Public Google Drive preview: https://drive.google.com/file/d/1l6QC9AyyMtL3UDRqUGQQliPSd2xN21S0/preview
+- French Maths review with answers, Grade 5 Term 2, academic year 2025/2026, same preparer, 3 pages, PDF, page updated 2026-11-17. Public Google Drive preview: https://drive.google.com/file/d/1Q7WsQ6mTDIy6iJnQK9C9jtlLnv0mghyM/preview
+- Archive category: https://www.modrsbook.com/primary-5/term-2
+
+These are valuable prior-year French-medium revision examples and may help identify terminology, question formats, and likely topic vocabulary. They must not be treated as 2026/2027 lesson scope until compared with official current-year source books and school pacing.
+
+### 13.3 Third-party archive — breadth of supplementary coverage
+
+**[VERIFIED INDEX METADATA — individual files still require inspection]**
+- Modrsbook's Grade 5 Term 2 archive reports 542 files and lists Arabic, English, Mathematics, Science, Social Studies, Religious Education, ICT, Professional Skills, High Level English, and language options. It includes French-medium Maths and Science review leads, Arabic/Islamic RE, ICT, and teacher-prepared materials.
+- The archive's indexed examples include French Science and French Maths Term 2 reviews explicitly tagged 2025/2026; a Ministry-labelled Science assessment PDF and answer PDF; Islamic Education revision; and an ICT Term 2 teacher-prepared memo.
+- Archive: https://www.modrsbook.com/primary-5/term-2
+- Example Ministry-labelled Science Term 2 assessment PDF mirrored by the archive (6 pages): https://www.modrsbook.com/storage/pdfs/d/33349.pdf?n=thmyl-ktab-altkyymat-science-llsf-alkhams-alabtdayy-altrm-althany-2026-pdf
+- The PDF's extracted text indicates scanned content/branding; its official authorship and provenance must be checked against the Ministry-hosted original before it is treated as official.
+
+### 13.4 Additional free curriculum-aligned learning platform
+
+**[UNVERIFIED CONTENT IN THIS PASS — platform claims]**
+- Darslab Egypt Primary 5: https://darslab.com/eg/en/eg5/
+- Its search-indexed page claims 30/30 weeks of lessons for several subjects and says its explanations, exercises and quizzes are original, follow Ministry textbook order, and are not Ministry-endorsed.
+- Browser access was blocked by an anti-bot verification page in this pass. Treat it as a discovery lead; do not import its content until accessible and independently mapped against the official books.
+
+### 13.5 Required next actions for ChatGPT research
+
+1. Resolve the Google Drive files in §13.1 one by one: open the preview, read cover/title/academic year/term/subject/medium, record page count, then inspect topic sequence and assessment structure. Reject files whose cover or provenance does not match the metadata.
+2. Inspect the 2025/2026 French Maths and Science sample PDFs as prior-year comparison material, not as current-year syllabus.
+3. Retrieve current-year Term 1 teacher-preparation notes, monthly assessments, and French-medium resources from the third-party archive; compare only after confirming 2026/2027 on the document itself.
+4. Continue monitoring for official 2026/2027 Term 2 books and assessment files. A third-party file labelled 2027 is not automatically an official Ministry publication or a Term 2 file.
+5. Build an evidence matrix by subject with separate columns for official syllabus, official student book, official assessment, teacher guide, third-party practice, school assignment, and lesson-level coverage.
