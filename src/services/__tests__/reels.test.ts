@@ -621,6 +621,27 @@ function run() {
   // the lesson's declared instruction language: French options are correct in
   // French class even when the surrounding UI is English, and vice versa.
   const lessonById = new Map(lessons.map((lesson) => [lesson.id, lesson]));
+  const markerCount = (text: string, pattern: RegExp): number =>
+    (text.match(new RegExp(pattern.source, 'gi')) || []).length;
+  const isOtherLatinNarration = (text: string, lang: 'fr' | 'en'): boolean => {
+    const otherMarkers = markerCount(text, lang === 'fr' ? EN_WORDS : FR_WORDS);
+    const expectedMarkers = markerCount(text, lang === 'fr' ? FR_WORDS : EN_WORDS);
+    // One isolated target-language word (e.g. "Bonjour" / "Au revoir") is
+    // legitimate inside otherwise English UI narration. A sentence is a leak
+    // only when the other language has at least two markers and dominates.
+    return otherMarkers >= 2 && otherMarkers > expectedMarkers;
+  };
+  assert(
+    !isOtherLatinNarration(
+      'When Sara meets friends in the morning she says Bonjour, and when leaving she says Au revoir.',
+      'en',
+    ),
+    '16.0 [en]: target-language vocabulary inside English narration is not a UI-language leak',
+  );
+  assert(
+    isOtherLatinNarration('Le manuel explique que les plantes poussent dans les saisons.', 'en'),
+    '16.0 [en]: a complete French narration sentence is detected as a UI-language leak',
+  );
   for (const lang of ['fr', 'en'] as const) {
     const feed = buildFeedQueue({
       studentId: `stu_lang_${lang}_all`,
@@ -631,13 +652,12 @@ function run() {
       now: new Date('2026-11-21T12:00:00.000Z'),
       sessionMinutes: 30,
     });
-    const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
     const leakyReels = feed.reels
       .filter((reel) => reel.kind !== 'win_closer')
       // Hook, prompt and Noor narration are localized to the selected UI/feed
       // language for every lesson, including lessons taught in another language.
       // Only answer options follow the lesson's instruction language (checked below).
-      .filter((reel) => wrongLatin.test(`${reel.hook} ${reel.noorLine} ${reel.show || ''}`))
+      .filter((reel) => isOtherLatinNarration(`${reel.hook} ${reel.noorLine} ${reel.show || ''}`, lang))
       .map((reel) => `${reel.lessonId}/${reel.kind}`);
     assert(
       leakyReels.length === 0,
