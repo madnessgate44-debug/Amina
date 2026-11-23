@@ -976,3 +976,12 @@ These are full-book file-name/index leads, not page-inspected PDFs. The archive 
 
 
 **Hachette FLE-specific qualification:** the Hachette FLE catalogue for BIEN JOUÉ ! lists the public download resources as unit extracts, contents tables, a contact test and **an introduction to the Level 1 teacher guide**—not the complete guide. Its download route is https://www.hachettefle.fr/. The separate Hachette Education FAQ describes certified-teacher access for many Hachette Education guides, but this policy has not been verified specifically for this older Hachette FLE title. Therefore, the complete BIEN JOUÉ ! 1 guide remains **NOT FOUND as a public full PDF**; only the bibliographic record and a public introduction sample are confirmed.
+
+
+### 18.6 Grade 5 teacher-guide Google Drive folder — all-subject collection lead
+
+- Teacher-community directory lists a dedicated **Grade 5 primary teacher-guides Google Drive folder**:
+  https://drive.google.com/drive/folders/1qZzQ4QegoYnqcdlF2yoft2VaHlQTrJXfMEJDrbsvQU8odM525wxKjZggIyw4249tAjtHCwCd
+- Directory source: https://egyteachers.com/directory/posts/106
+- The directory labels the link specifically "الصف الخامس الابتدائي" under a collection of teacher-guide folders for primary grades. This is a more direct Grade 5 teacher-guide collection lead than the broader Term 2 file link in §22.1.
+- Google Drive folder contents are not enumerable by the current reader (Drive access wall); its individual file list, subjects, terms and editions remain **UNVERIFIED**. The folder is a high-priority public Drive lead for remaining teacher guides, but do not claim its contents have been inspected.
