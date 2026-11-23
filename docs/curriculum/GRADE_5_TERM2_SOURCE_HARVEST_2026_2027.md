@@ -1085,3 +1085,24 @@ These are older official Ministry guide editions, not 2026/27 editions. They are
 - Islamic RE T1: https://drive.google.com/file/d/1EEWFofXK3HxkLA5SAvriEmmsjcJFt3h9/view?usp=sharing — filename `Islamy G5 - TG - T1.pdf`.
 - Both are listed by the Education 2.0 Grade 5 guide index. Drive content remains sign-in gated.
 
+
+
+## 29. Additional English and cross-subject teacher-guide collection leads
+
+### 29.1 English Connect — Grade 5 teacher-guide term links (2023/24)
+
+A Ktateeb teacher resource index explicitly states that it is sharing English teacher guides for both terms across primary grades and lists:
+- Grade 5 Connect T1 teacher-guide short link: https://bit.ly/3W3Ddoi
+- Grade 5 Connect T2 teacher-guide short link: http://bit.ly/3IoOrPq
+- Source page: https://www.ktateeb.com/2024/01/تحميل-أدلة-معلم-اللغة-الإنجليزية-لكل-الصفوف-للعام-الدراسي-2023-2024.html
+
+**[UNRESOLVED REDIRECT]** The bit.ly redirect could not be resolved by the web reader, so the final Drive file IDs, filenames, page counts and exact edition contents remain unverified. These are high-priority teacher-guide leads, not confirmed working files.
+
+### 29.2 All-subject primary T2 teacher-guide collection
+
+- Ktateeb's 14 February 2024 post describes a compiled collection of teacher guides for all primary subjects, Term 2.
+- Google Drive collection file: https://drive.google.com/file/d/1ifVeLJp4HcD1SKL4Qg8Is1sXvm39dKzQ/view
+- Source page: https://www.ktateeb.com/2024/02/تجميع-أدلة-المعلم-لمواد-صفوف-المرحلة-الابتدائية-الفصل-الدراسي-الثاني.html
+- The source says "all teacher guides in all subjects" for primary grades, Term 2. It does not itemize grade-specific contents in the web-visible page. Drive preview did not expose its file contents, so whether it includes Grade 5 and which subjects/editions are inside remains **UNVERIFIED**.
+- Do not treat this collection file as an obtained Grade 5 guide until the internal contents list or PDFs are inspected.
+
