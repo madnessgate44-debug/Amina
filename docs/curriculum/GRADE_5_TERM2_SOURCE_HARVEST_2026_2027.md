@@ -114,3 +114,45 @@ Do not commit Ministry textbook PDFs, scanned pages, textbook text, publisher il
 - [BLOCKED] No current-year Grade 5 2026–2027 Term 2 student-book set established in this research pass.
 - [BLOCKED] Girard's authoritative Term 2 subject/booklist and French 1/French 2 assigned coursebooks not yet obtained.
 - [REQUESTED] OpenHands independent audit; not yet received.
+
+
+## 9. Second-pass web verification — 2026-11-23
+
+This section records pages opened and inspected after the initial harvest. It corrects the distinction between a source *lead* and an opened document.
+
+### 9.1 Current-year catalogue status
+
+The Grade 5 2026–2027 catalogue page was opened and read. It states that it currently lists **15 official Term 1 books**, last reviewed 2026-10-26, and explicitly says Term 2 books will be added when the Ministry publishes them. This is direct evidence that this catalogue does not yet expose the 2026–2027 Term 2 book set as of its review date. It is still a third-party index to Ministry-hosted PDFs, not the Ministry portal itself.
+
+URL: https://miskeg.app/books/general-primary-5/
+
+[VERIFIED] The 15 Term 1 titles are: Islamic RE, Christian RE, Social Studies, Maths EN, Maths AR, Maths FR, Science EN, Science AR, Science FR, English first foreign language, Arabic, Library & Research Skills, ICT Arabic, Family Management & Entrepreneurship, and Agriculture Skills & Entrepreneurship.
+
+[BLOCKED] This page provides no 2026–2027 Term 2 student-book link for any of those subjects.
+
+The Ministry e-library page https://ellibrary.moe.gov.eg/books/ returned HTTP 403 to the web reader during this pass. That is an access limitation of this retrieval route, not evidence that the Ministry portal contains no books.
+
+### 9.2 Opened previous-year Term 2 source documents
+
+These documents are now more than search-result leads: their PDF content was opened and inspected. They remain previous-year references and must not be used as the 2026–2027 Girard syllabus.
+
+| Subject | Opened source | What the document itself proves | Status for 2026–2027 T2 |
+|---|---|---|---|
+| English | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/StudentBook/English_Prim5_Tr2.pdf | Cover states Primary 5, **2025/2026**, Term 2. Scope & Sequence begins with Unit 1 “Hobbies Make Us Shine!”, Unit 2 “At the Doctor’s”, Unit 3 “Suitcase Stories”, then units on animal jobs, solar system and offline life. | [VERIFIED historical reference] [NOT CURRENT-YEAR] |
+| French 2 | https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/ClassrHomeAssessmentsTest/French2_prim5_tr2_w1.pdf | Ministry French office assessment, Primary 5, second foreign language, book series “Ale et Zoé”; semester 2 **2026**; week 1. Visible tasks cover clock/time vocabulary, guitar, bear, ball, car, sentence ordering, breakfast vocabulary, weekday activity and adjective agreement. | [VERIFIED historical assessment reference] [NOT CURRENT-YEAR] [NOT A COURSEBOOK] |
+
+The English PDF copyright/imprint states ©2025 and the cover identifies academic year 2025/2026. It is therefore not a 2026/2027 source.
+
+The French 2 assessment is useful for identifying the existence of a distinct Grade 5 second-foreign-language track and an “Ale et Zoé” assessment stream in 2025/2026. It does not establish the coursebook assigned by Girard, nor the 2026/2027 Term 2 sequence.
+
+### 9.3 Updated subject-level conclusion
+
+- [VERIFIED] Current 2026–2027 Term 1 books are available for the 15 catalogue entries above.
+- [VERIFIED] A prior-year Grade 5 English Term 2 student book is available and its edition is explicitly 2025/2026.
+- [VERIFIED] A prior-year Grade 5 French 2 Term 2 weekly assessment is available and explicitly identifies second foreign language, week 1, semester 2 2026.
+- [UNPROVEN] A current-year Grade 5 2026/2027 Term 2 student-book PDF or term sequence for any of the required subjects was not found in this pass.
+- [BLOCKED] The exact Girard 2026/2027 Term 2 assignment and sequence remain unverified.
+
+### 9.4 Immediate follow-through
+
+OpenHands' independent audit must now include the opened English and French 2 PDFs above, verify the imprint/term directly, and search separately for the other subject assessment streams. The current-year 2026/2027 Term 1 books remain the only current-year book set established by the catalogue at this snapshot. Do not infer that all subject content for Term 2 is unavailable merely because the student books are not yet listed: weekly assessments, school term plans, teacher guides, and Girard-issued sequences are separate retrieval targets.
