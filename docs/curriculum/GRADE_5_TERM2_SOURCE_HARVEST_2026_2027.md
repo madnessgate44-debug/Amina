@@ -371,3 +371,59 @@ These are valuable prior-year French-medium revision examples and may help ident
 3. Find equivalent 2026/2027 French-medium Mathematics student book, assessment book, teacher-preparation notebook, and monthly tests. Do not infer that the Arabic/English Math version matches the French-medium edition.
 4. Harvest current-year subject-specific October/November resources for Arabic, English, Social Studies, ICT, professional/career skills and Religious Education; confirm the religious track before selecting one.
 5. Continue searching for current-year Term 2 sources. As of this check, the identified 2026/2027 French Science student book and assessment book are Term 1 only; 2025/2026 Term 2 files remain historical.
+
+
+## 15. Additional current-year leads — subject coverage and official document identifiers
+
+### 15.1 Ministry-hosted Grade 5 Arabic Mathematics assessment, Term 1
+
+**[VERIFIED — primary Ministry-hosted PDF; Arabic-medium; current year]**
+- Direct PDF: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/Math_ar_prim5_t1_Assmt.pdf
+- Document cover/extracted text identifies Grade 5, Term 1, 2026–2027, Ministry of Education and Technical Education, 68 pages, book part 5, printing/deposit identifiers, and named preparation/review/supervision team.
+- This is a strong example of a primary-source verification standard: document cover, academic year, grade, term, publisher, pagination and identifier all visible. It is Arabic-medium and must not be substituted for French-medium Maths.
+- Search/index record: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/Math_ar_prim5_t1_Assmt.pdf
+
+### 15.2 Current-year French Science book and assessment — exact public Drive targets
+
+**[VERIFIED METADATA — third-party listing attributes these to the Ministry; primary PDF cover still needs inspection]**
+- Science assessment book in French, Grade 5, Term 1, 2026/2027, 69 pages, 33 MB, listing updated 2026-10-28. Google Drive preview: https://drive.google.com/file/d/1x5sXWZ5gIv_YNMymiF_jrSATqvMmekI4/preview
+- Science student book in French, Grade 5, Term 1, 2026/2027, 57 MB, listing updated 2026-10-28. Google Drive preview: https://drive.google.com/file/d/11zZ1tQQ4mj2k4CsGLpY7_fSW9Tx4lXgm/preview
+- Listing pages: https://www.modrsbook.com/primary-5/term-1/science/thmyl-ktab-altkyymat-science-balfrnsaoy-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027 and https://www.modrsbook.com/primary-5/term-1/science/thmyl-ktab-science-balfrnsaoy-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- The Google Drive viewer returns a loading/sign-in shell to this reader; no full document text has been extracted. Keep status at metadata-verified only.
+
+### 15.3 Current-year French-medium Science practice
+
+**[VERIFIED METADATA — third-party teacher-prepared practice]**
+- October review: Grade 5 French Science, Term 1, 2026/2027, 19 pages, answers included, prepared by Mr Sobhy Barda, updated 2026-10-21.
+- Google Drive preview: https://drive.google.com/file/d/1fmm7ZwFr3z9H3NPD-GyZwLrtQHQu3JLa/preview
+- Listing: https://www.modrsbook.com/primary-5/term-1/science/mragaa-science-balfrnsaoy-shhr-aktobr-balagabat-llsf-alkhams-alabtdayy-pdf-2027
+- It is supplementary teacher-prepared practice, not an official syllabus. Its pages need inspection before extracting topic claims.
+
+### 15.4 Current-year Grade 5 French language materials
+
+**[UNPROVEN AS GIRARD COURSEBOOK — third-party archive lead]**
+- The Grade 5 archive indexes 2026/2027 French reviews associated with the Farandole series, and also references Alex et Zoé materials in other grades. This indicates possible school-track/coursebook diversity; it does not establish the learner's French 1 or French 2 book.
+- Discovery archive: https://www.modrsbook.com/primary-5?page=3
+- Teacher archive: https://www.modrsbook.com/teacher/la-vie-book
+- Keep French 1 (first foreign language) and French 2 (second foreign language) as separate curriculum tracks. Do not merge them or infer the Girard textbook from the archive labels.
+
+### 15.5 Current-year cross-subject Grade 5 teacher resource archive
+
+**[VERIFIED INDEX METADATA — secondary archive; current-year practice leads]**
+- Grade 5 archive reports 1,007 files and lists monthly assessments for October, November, February, March and April. Subjects include Arabic, English, Maths, Science, Social Studies, Religious Education, ICT, professional skills, High Level English, German/French and Values & Respect for Others.
+- Index page 3: https://www.modrsbook.com/primary-5?page=3
+- Index page 4: https://www.modrsbook.com/primary-5?page=4
+- The archive includes current-year November/October practice leads for Arabic, English, High Level English, Social Studies, ICT, professional skills, Science, Maths and Islamic Religious Education. This is useful for assessment-style triangulation; it is not evidence that every item is official or assigned at Girard.
+
+### 15.6 Source-quality rule reinforced
+
+A search snippet or third-party title is not sufficient to mark a book as official. For every resource, inspect the actual document cover/imprint and capture:
+1. Grade and academic year;
+2. Term/week/month;
+3. Subject and language/medium;
+4. Publisher/issuing authority and copyright statement;
+5. Page count and publication/deposit identifier, if present;
+6. Whether it is a student book, assessment book, teacher guide, school workbook, or teacher-made practice;
+7. Topic sequence and page references only after the PDF itself is inspected.
+
+No Term 2 2026/2027 curriculum map is authorized by the current Term 1 documents or prior-year 2025/2026 revision sheets.
