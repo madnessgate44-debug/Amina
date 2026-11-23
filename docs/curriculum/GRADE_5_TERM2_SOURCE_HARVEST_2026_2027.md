@@ -917,3 +917,13 @@ The following are teacher-facing lesson-preparation documents, not all formal Mi
 - The listing page identifies Grade 5, Term 1, ICT, Ministry of Education and last update 2026-10-21. The Drive preview is sign-in gated; page count, cover and contents not inspected. Keep separate from the official Misk catalogue's Arabic-medium ICT book until the actual cover confirms edition and language.
 - No matching French-medium ICT teacher guide has been found.
 
+
+
+### 17.11 Official Hachette teacher-guide access route — BIEN JOUÉ ! 1
+
+- Hachette's official catalogue describes the BIEN JOUÉ ! 1 teacher guide as including methodological guidance for using the method, supplementary cultural information, assessment reviews and tests with answer keys. It confirms ISBN **9782011551085**.
+- Hachette Education's current teacher-resource FAQ states that most pedagogical guides are free PDF downloads, but access is reserved for teachers with a certified account and an academic email address. The teacher signs in, opens the student-book product page, then downloads the "Livres du professeur" / "Guides pédagogiques" resource.
+- Official access instructions: https://www.enseignants.hachette-education.com/faq/comment-obtenir-le-guide-pedagogique-associe-mon-manuel/
+- Resource portal: https://www.enseignants.hachette-education.com/ressources/
+- This confirms the guide is not necessarily unavailable digitally; it is access-controlled for verified teachers. No public Google Drive full PDF has been found despite exact title, ISBN and Drive-index searches. Do not bypass the publisher's access restriction.
+
