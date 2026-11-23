@@ -156,3 +156,57 @@ The French 2 assessment is useful for identifying the existence of a distinct Gr
 ### 9.4 Immediate follow-through
 
 OpenHands' independent audit must now include the opened English and French 2 PDFs above, verify the imprint/term directly, and search separately for the other subject assessment streams. The current-year 2026/2027 Term 1 books remain the only current-year book set established by the catalogue at this snapshot. Do not infer that all subject content for Term 2 is unavailable merely because the student books are not yet listed: weekly assessments, school term plans, teacher guides, and Girard-issued sequences are separate retrieval targets.
+
+
+## 10. Further subject-source discovery — 2026-11-23
+
+### 10.1 Official assessment portal for the current academic year
+
+A current news report dated 2026-11-15 points to the Ministry's official 2026–2027 performance-assessment portal:
+
+https://studentbooks.moe.gov.eg/Performance_Assessments/
+
+It describes weekly assessments, monthly assessments, classroom performance and homework performance for all grades. This is a **primary official portal URL**, but the portal's Grade 5 Term 2 listing was not retrievable/verified in this pass. Do not infer that Term 2 files are already published.
+
+### 10.2 Current-year Grade 5 Term 1 assessment source (verified)
+
+The Ministry content server exposes a Grade 5 Arabic Mathematics performance-and-assessment PDF under the explicit 2026–2027 path:
+
+https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/Book_of_Performance_and_Evaluations/Math_ar_prim5_t1_Assmt.pdf
+
+The opened/indexed cover identifies:
+- Subject: Mathematics (Arabic-medium edition)
+- Grade: Primary 5
+- Material: Performance and Evaluations
+- Term: First semester
+- Academic year: 2026–2027
+- 68 pages (cover metadata)
+
+[VERIFIED] This confirms the Ministry is publishing 2026–2027 assessment books in a separate `2026_2027` content-server path. It does not establish the Term 2 files or the French-medium Maths version. It is a Term 1 assessment reference only.
+
+### 10.3 Previous-year Term 2 ICT and RE source leads
+
+1. **ICT Arabic, Grade 5, Term 2, week 1 assessment**  
+   https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/ClassrHomeAssessmentsTest/ICT_ARABIC_Prim5_TR2_W1.pdf  
+   Search-indexed content identifies the Ministry's Educational Computing Department and Grade 5 weekly/homework assessment. The visible questions cover digital citizenship, social responsibility, cyberbullying, privacy/consent and safe online behaviour.  
+   [VERIFIED HISTORICAL SOURCE LEAD] The file path is the older `/2026/` Term 2 directory; inspect cover/year before treating it as a historical source. Not current-year T2.
+
+2. **Christian Religious Education, Grade 5, Term 2 student book**  
+   https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/StudentBook/CH_Prim5_T2.pdf  
+   Search-indexed content includes end-of-lesson activities and a page marked Grade 5, Term 2. This is the Christian track only; it does not establish the learner's RE track.  
+   [VERIFIED HISTORICAL SOURCE LEAD] Older-year T2 path; not current-year T2.
+
+### 10.4 Updated retrieval priority
+
+The next search pass must target the official assessment portal and content server separately for:
+- Arabic, English, French 1, French 2;
+- Maths Arabic/English/French editions, with the learner's assigned French-medium edition specifically identified;
+- Science Arabic/English/French editions, with the French-medium edition specifically identified;
+- Social Studies;
+- Islamic and Christian RE separately until the learner's track is confirmed;
+- ICT;
+- Library & Research Skills;
+- Family Management & Entrepreneurship;
+- Agriculture Skills & Entrepreneurship.
+
+Search both student-book and assessment/teacher-guide directories. Record current-year Term 1 sources as baseline only, and older-year Term 2 sources as historical comparison only. The new `2026_2027` path pattern is a useful discovery lead, not permission to guess filenames or claim Term 2 exists.
