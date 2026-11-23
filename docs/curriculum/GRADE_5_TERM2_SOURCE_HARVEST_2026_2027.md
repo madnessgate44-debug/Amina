@@ -754,3 +754,19 @@ Sources:
 - Values guide T1: https://mozkratgahza.com/pdf/4189
 - Values guide T2: https://www.ktateeb.com/2023/02/تحميل-كتب-المدرسية-وادلة-المعلم-خامسة.html
 
+
+
+### 22.3 Additional complete Term 2 student books — 2024/25 and 2025/26
+
+| Subject | Edition / page count | Public Google Drive link | Status |
+|---|---|---|---|
+| ICT / Technology | Grade 5, T2 2024/25, 14 MB | https://drive.google.com/file/d/1vxgVkDOUPAe1D0sRb2uFwXt2ZbftuJ3t/view?usp=drive_link | Ministry-labelled student book; page count not listed; Drive sign-in wall |
+| Professional Skills / Career Skills | Grade 5, T2 2024/25, 96 pages, 22 MB | https://drive.google.com/file/d/11khoNNx9NsJeXnHjorYjwXcqmHH35hQ1/view?usp=sharing | Ministry-labelled student book; link listed in public teacher-community post; Drive sign-in wall |
+| Social Studies | Grade 5, T2 2025/26, 104 pages, 37 MB | https://drive.google.com/file/d/19k3Z1B2J2GuaUulhi375DUAO5B-Ucyvg/view?usp=sharing | Ministry-labelled full student book; Drive sign-in wall; contents index captured by listing |
+
+Source metadata:
+- ICT: https://mozkratgahza.com/pdf/3091
+- Professional Skills: https://mozkratgahza.com/pdf/3152 and public post https://egyteachers.com/directory/posts/126
+- Social Studies: https://mozkratgahza.com/pdf/3142
+
+The Social Studies listing includes a full contents index: three units (maps and locations; Egypt's land and resources; Egyptian civilization) with lessons on continents, latitude/longitude, Egyptian governorates, food/resources, Sinai, historical eras, science/literature, architecture/arts and historical figures. This is metadata from the listing, not a verified extraction of the PDF itself.
