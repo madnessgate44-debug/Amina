@@ -485,3 +485,58 @@ Acceptance evidence required:
 7. Keep copyrighted textbook/guide PDFs and their full text out of the public repository. Store only lawful links, bibliographic metadata, hashes, page references, and original Miss Noor-authored lesson assets.
 
 **Research priority order:** (1) official 2026/2027 Term 2 student books; (2) matching 2026/2027 teacher guides; (3) Girard School's exact French 1/French 2 coursebooks and French-medium Maths/Science editions; (4) complete prior-year official books/guides as clearly labelled fallback references; (5) supplementary assessments/revision material.
+
+
+## 17. French textbook research — full-book evidence
+
+### 17.1 French 1 candidate: BIEN JOUÉ ! 1 (complete Ministry-hosted student book)
+
+**[VERIFIED — complete PDF inspected; historical edition; Girard assignment unverified]**
+- Full student book: https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester1/Grade5/pdf/france_5prime_sb.pdf
+- Cover: BIEN JOUÉ ! 1 — MÉTHODE DE FRANÇAIS — 5ème PRIMAIRE; Arab Republic of Egypt, Ministry of Education, Book Sector; Hachette Livre / Dar El Nashr Horizons.
+- ISBN 9782011551078; printed ref 15/5107/6; copyright Hachette 2007 / Petrini 1998. The actual PDF was opened and text-extracted; its printed pagination reaches page 103 and it contains 8 units, culture/documentation, grammar reference and lexicon.
+- Contents include listening comprehension, communicative functions, vocabulary, phonetics/orthography, grammar, oral/written production and cultural content. The TOC includes Pauline et Nicolas; Fous de foot; Le magasin de souvenirs; Qu'est-ce qu'on mange ?; Promenade dans Paris; Sur les quais.
+- This is a complete student method, not a revision paper. It is historical, not evidence of Girard's 2026/27 assigned edition.
+
+### 17.2 BIEN JOUÉ ! 1 matching teacher guide and workbook
+
+- Teacher guide: **BIEN JOUÉ ! 1 — Guide pédagogique**, ISBN **9782011551085**, Hachette.
+- Student exercise book: **BIEN JOUÉ ! 1 — Cahier d'exercices**, ISBN **9782011551092**.
+- The student book itself says Level 1 comprises student book, exercise book, teacher guide and two classroom audio cassettes.
+- Commercial/bibliographic record with ISBNs: https://www.lpn.ma/wp-content/uploads/2015/05/DP7.pdf
+- Catalogue record for teacher guide and workbook: https://mediatek-ifi.com/index.php?id=1487&lvl=author_see
+- **[NOT FOUND]** complete downloadable guide and workbook PDFs.
+
+### 17.3 Farandole 1 — another Grade 5 Egyptian French series
+
+- Google Books records **Farandole 1: méthode de français, 5ème primaire, Volume 2**, Dar El Nashr Hatier, 2003, in the Egyptian Ministry Book Sector collection: https://books.google.com/books/about/Farandole_1.html?id=DoFPAQAACAAJ
+- French National Library record identifies the Farandole 1 set as student book, teacher book, activity book, evaluation booklet and audio cassettes; student-book ISBN 9782278041961, activity-book ISBN 9782278041978: https://catalogue.bnf.fr/ark:/12148/cb384843625
+- Teacher guide bibliographic record: **Farandole 1 : guide pédagogique**, Catherine Le Hellaye and Dominique Barzotti, Didier/Hatier, 1992: https://catalogue.univ-orleans.fr/
+- Egypt-focused La Vie resource archive lists Grade 5 Farandole material: https://mozkratgahza.com/pdf/5656
+- **[NOT FOUND]** full PDFs for the Egyptian Grade 5 student book, activity book and teacher guide. The 1992 French original and 2003 Egyptian record must not be assumed to be identical editions.
+
+### 17.4 French 2 — Alex et Zoé + 2 / Alex et Zoé 2
+
+- Ministry Grade 5 French-second-language weekly assessments explicitly identify **Alex et Zoé 2** in 2026/27 Term 1 and Alex et Zoé in Term 2 2026. Examples: https://gate.natega4dk.net/files/moe/French2_prim5_tr1_w1.pdf and https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/ClassrHomeAssessmentsTest/French2_prim5_tr2_w1.pdf
+- Publisher's **Alex et Zoé + 2** resource portal has six unit sections, audio/evaluation tracks and interactive activities: https://alex-et-zoe.cle-international.com/9782090384284
+- Matching publisher teacher guide: **Alex et Zoé + 2 — Niveau A1.2 — Guide pédagogique**, Colette Samson, ISBN **9782090351187**: https://www.cle-international.com/enfants/alex-et-zoe-2-niveau-a12-guide-pedagogique-9782090351187.html
+- Matching activity book: **Alex et Zoé + 2 — Cahier d'activités**, ISBN **9782090384291**, 96 pages: https://www.cle-international.com/enfants/alex-et-zoe-2-niveau-a12-cahier-d-activites-9782090384291.html
+- **[NOT FOUND]** authorized free full PDF of the publisher student book and teacher guide. Publisher exposes digital/interactive student resources and sells the guide.
+- A 65-page school-uploaded Grade 5 compilation identifies Lycée Al-Horreya d'Alexandrie and Alex et Zoé 2, but it is teacher-made revision material, not the publisher book: https://fr.scribd.com/document/1048846935/j5-French
+
+### 17.5 Girard assignment must be verified, not guessed
+
+- Girard's public website identifies it as a language school and states it holds LabelFranceEducation, but no readable public Grade 5 textbook list was retrieved: https://ecole-girard.com/
+- Public evidence identifies multiple different Grade 5 series in Egypt: BIEN JOUÉ ! 1 (complete historic Ministry-hosted student book), Farandole 1 (Egyptian Ministry collection record and Egyptian teacher-resource references), and Alex et Zoé 2 (Ministry French-second-language assessments). La Vie is explicitly marketed as French **second foreign language** for Egyptian schools; its 2026/27 catalogue lists La Vie French 5B.
+- These are not interchangeable. "All French schools use the same book" remains unverified. Need Girard's 2026/27 official Grade 5 booklist or a school supply-list cover/photo to identify exact French 1 and French 2 editions.
+
+### 17.6 French book asset matrix
+
+| Track / series | Student book | Workbook | Teacher guide | Girard 2026/27 assignment |
+|---|---|---|---|---|
+| French 1 candidate — BIEN JOUÉ ! 1 | **[FOUND]** complete historic Ministry-hosted PDF | [IDENTIFIED] ISBN 9782011551092; PDF not found | [IDENTIFIED] ISBN 9782011551085; PDF not found | [UNVERIFIED] |
+| French 1 candidate — Farandole 1 | [BIBLIOGRAPHIC RECORD] full PDF not found | [IDENTIFIED] | [IDENTIFIED] guide; PDF not found | [UNVERIFIED] |
+| French 2 — Alex et Zoé + 2 | [PUBLISHER DIGITAL PORTAL] full authorized PDF not found | [IDENTIFIED] ISBN 9782090384291 | [IDENTIFIED] ISBN 9782090351187 | [PARTIAL] Ministry assessments identify series, Girard assignment unverified |
+| French 2 candidate — La Vie 5B | [CATALOGUED 2026/27 PRINT EDITION] | [UNVERIFIED] | [UNVERIFIED] | [UNVERIFIED] |
+
+A French track is not complete until the assigned complete student book and matching teacher guide are retrieved and edition-matched.
