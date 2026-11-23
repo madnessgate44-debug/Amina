@@ -692,3 +692,21 @@ The Drive links are third-party indexed public file links; Google Drive previews
 - The publisher resource inventory PDF is 3 pages and enumerates **15 units**, 18 evaluation audio tracks across Units 1–7, and interactive exercise links for Units 1–15: https://alex-et-zoe.cle-international.com/9782090384284/assets/list
 - This is an official digital resource map for the publisher's complete method, not a download of the student textbook or teacher guide. The actual student book/guide remain publisher products; the free portal supplies audio, evaluation and interactive practice.
 - Interactive unit 1 direct link: https://applets.directplateforme.com/Cle/bbe/9782090384284/unite_1/index.html (other units follow the same publisher pattern; use the official resource inventory rather than inventing links).
+
+
+## 21. Additional complete teacher guides — 2024/25 Term 2 public Drive / Ministry leads
+
+**[VERIFIED METADATA; historical edition; actual PDFs not yet inspected]**
+
+| Subject | Edition / page count | Complete teacher-guide link | Evidence / limitation |
+|---|---|---|---|
+| English | Grade 5, T2 2024/25, 172 pages, 61 MB | https://drive.google.com/file/d/1mCRffmWh5T5BKvAnuRrdYh_YOSfWoHdL/view?usp=drive_link | Third-party archive labels it Ministry teacher guide; Google Drive preview requires sign-in |
+| ICT / Technology | Grade 5, T2 2024/25, 37 pages, 7 MB | https://drive.google.com/file/d/1oePU8yiGmWT_yYvbWdCrvn-3vAwsidjo/view?usp=drive_link | Third-party archive labels it Ministry teacher guide, "المحور الثالث"; Drive preview requires sign-in |
+| Career / Professional Skills | Grade 5, T2 2024/25, 160 pages, approx. 11 MB | https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/2023/primary/primary_5/term_2/Teacher%20guide/Egypt-York-NGL-CS-Ar-TB-Gr.5-Term%202%20Low%20Secured.pdf | Third-party archive labels Ministry teacher guide; direct Ministry host fetch failed in reader, so file not inspected |
+
+Source pages:
+- English guide metadata and Drive target: https://mozkratgahza.com/pdf/3156
+- ICT guide metadata and Drive target: https://mozkratgahza.com/pdf/1626
+- Career Skills guide metadata and Ministry direct target: https://mozkratgahza.com/pdf/4789
+
+These add complete historical teacher-guide candidates for English, ICT and Career Skills. They are not 2026/27 editions. Keep their exact year/version labels attached. Do not confuse the English teacher guide with the English student textbook or weekly assessment file.
