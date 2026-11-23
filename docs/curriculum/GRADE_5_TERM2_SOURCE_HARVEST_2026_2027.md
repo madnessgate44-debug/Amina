@@ -867,3 +867,42 @@ This matrix separates the **current 2026/27 Term 1 student book** from the **mat
 - Cover reads **Performances et Évaluations — Sciences — Cinquième primaire — Premier semestre**.
 - Its introduction addresses teachers and describes classroom performance tasks, homework, short weekly tests and stage assessments. Despite this teacher-facing introduction, the document is an assessment/workbook, **not** the complete teacher guide/manual.
 - This confirms the private Library currently contains the full French Science student book and its assessment book, but not a separate complete Science teacher guide.
+
+
+### 17.10 BIEN JOUÉ ! 1 student book and exercise book — additional 2026 catalogue mirrors
+
+The Grade 5 French archive also lists a Ministry French student book (105 pages) and its separate French activity book (84 pages):
+- **Student book — Google Drive mirror:** https://drive.google.com/file/d/1KU_rJk_oZuE2JD3D2Uu_aZxOYOqMC7GM/preview
+- **Activity book — Google Drive mirror:** https://drive.google.com/file/d/13EqSRiRiGvsvrAVlJB_NzvF2W_q1aozC/preview
+- Student-book listing (105 pages; labelled Ministry Grade 5 French, T1 2026): https://www.modrsbook.com/primary-5/term-1/almany-ofrnsaoy/thmyl-ktab-alozar-lgh-frnsy-llsf-alkhams-alabtdayy-altrm-alaol-pdf
+- Activity-book listing (84 pages): https://www.modrsbook.com/primary-5/term-1/almany-ofrnsaoy/thmyl-ktab-ansht-allgh-alfrnsy-llsf-alkhams-alabtdayy-altrm-alaol-pdf
+- The activity-book cover image explicitly identifies **BIEN JOUÉ ! 1 — 5ème PRIMAIRE — CAHIER D'EXERCICES**, Hachette / Dar El Nashr Horizons, edition printed 2022–2023. Student-book Drive preview remains sign-in gated, so its cover/edition year is not independently confirmed from the Drive file.
+- These are full student-method and workbook candidates, not revision notes. Keep the cover-confirmed 2022/23 workbook edition separate from the current 2026/27 weekly assessment evidence that continues to name BIEN JOUÉ ! 1.
+
+
+
+## 25. Current teacher-preparation resources and guide leads — separate from official student books
+
+The following are teacher-facing lesson-preparation documents, not all formal Ministry teacher guides. They can support lesson planning, but must not be mislabeled as complete official teacher editions.
+
+| Subject | Resource | Year / pages | Link / status |
+|---|---|---|---|
+| Science | Teacher preparation notebook, 29 pages | T1 2026/27 | Google Drive: https://drive.google.com/file/d/1N5QaW12oypKFR4P8L1IWh8JVLz8JPVMH/preview. Sample pages 10–11 inspected; English-language lesson plans reference student-book pages 43–51. Not a French-language official guide. |
+| English | Lesson preparation pack by Mr Sobhy Borda | T1 2026/27, 77 pages | Google Drive: https://drive.google.com/file/d/18SaR4YrbeurILCLNcprEFzt0LFgV3g7w/preview. Listing metadata verified; Drive sign-in wall. |
+| English | Teacher preparation notebook by Mr Sobhy Borda | T1 2026/27, 80 pages | PDF preview: https://www.modrsbook.com/pdf/25124/preview. Text extraction inspected; contains lesson objectives, vocabulary, structures, warm-ups, presentation, practice, assessment, evaluation and differentiation. It also includes a section explicitly labelled academic year 2024–2025, so treat as a mixed-year compilation, not a clean 2026/27 guide. |
+| Mathematics | Teacher preparation notebook by Mr Samir El-Gharib | T1 2026/27, 31 pages | PDF preview: https://www.modrsbook.com/pdf/25662/preview. Listing metadata verified; preview has 31 pages, but text extraction returned empty. |
+| Mathematics | Teacher preparation notebook | T1, 61 pages | Listing: https://www.modrsbook.com/primary-5/term-1/alryadyat/dftr-thdyr-ryadyat-llsf-alkhams-alabtdayy-altrm-alaol-pdf. Last updated 19 May 2026; exact school-year cover not inspected. |
+| Arabic | Teacher preparation notebook by Ms Rania Mostafa | T1 2026/27, 55 pages | PDF preview: https://www.modrsbook.com/pdf/25210/preview. Listing describes objectives, learning outcomes, activities, strategies and lesson timing; 17 MB preview exceeds reader limit. |
+| Values & Respect | Teacher preparation notebook by Ms Rania Mostafa | T1 2026/27, Drive file | https://drive.google.com/file/d/1ePLSSTWZx64d5T30nAUT8pem3r787vxf/preview. Drive sign-in wall. |
+| Professional Skills | Teacher preparation notebook by Mr Medhat Mohamed | T1 2026/27, 46 pages | PDF preview: https://www.modrsbook.com/pdf/25173/preview. Text extracted; 46 pages. |
+| ICT | Teacher preparation notebook | T2 2025/26, 22 pages | Listing: https://www.modrsbook.com/primary-5/term-2/technology/thmyl-dftr-thdyr-tknologya-llsf-alkhams-alabtdayy-altrm-althany-2026-pdf. Not a complete guide. |
+
+### 25.1 Formal teacher-guide candidates — edition and identity checks
+
+- **Professional Skills:** 164-page Ministry-labelled Grade 5 T1 teacher guide. Cover explicitly identifies school year **2022–2023**, so historical only. Listing: https://www.modrsbook.com/primary-5/term-1/almharat-almhny/thmyl-dlyl-maalm-almharat-almhny-llsf-alkhams-alabtdayy-altrm-alaol-pdf. Cover image inspected; it is an actual teacher guide, not a lesson-prep notebook. Drive preview link is on that listing.
+- **Values & Respect:** 352-page Ministry-labelled Grade 5 T1 2024/25 teacher guide; Drive mirror: https://drive.google.com/file/d/1Y-C7P5hYIyH1QC7tc52hDgySu6J7VAmW/preview. Listing: https://mozkratgahza.com/pdf/4189. Google Drive preview sign-in wall.
+- **Arabic:** a listing titled "T1 2026/27 teacher guide" has a cover image explicitly reading **Term 2**, while the page says Term 1 and the download is unavailable. Do not accept as a current T1 guide. Cover: https://www.modrsbook.com/storage/covers/2026/04/1710-Qs9e3jLy.webp. Listing: https://www.modrsbook.com/primary-5/term-1/arabic/thmyl-dlyl-maalm-allgh-alaarby-llsf-alkhams-alabtdayy-altrm-alaol-pdf.
+- **Mathematics:** a 2026-updated page labels a Drive file as a complete teacher guide, but the exposed cover image resembles the student book's back cover and the Drive preview is 401 Unauthorized. Keep it **UNVERIFIED** until the PDF title page is inspected. Drive lead: https://drive.google.com/file/d/1n35K0-nhaq8IcMnJWPGGsnNH6KjSSIGt/preview.
+- **ICT:** the Grade 5 T2 teacher guide Drive link is https://drive.google.com/file/d/1oePU8yiGmWT_yYvbWdCrvn-3vAwsidjo/preview. Another source labels this same file 2024/25 and 37 pages; retain that historical label pending cover inspection.
+- No formal French 1 BIEN JOUÉ ! 1 guide PDF, French 2 Alex et Zoé guide PDF, French-medium Math guide, French-medium Science guide, or Social Studies guide has been retrieved. Their bibliographic identities or other teacher resources are recorded in §§17, 20–22.
+
