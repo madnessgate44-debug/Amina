@@ -978,23 +978,36 @@ These are full-book file-name/index leads, not page-inspected PDFs. The archive 
 **Hachette FLE-specific qualification:** the Hachette FLE catalogue for BIEN JOUÉ ! lists the public download resources as unit extracts, contents tables, a contact test and **an introduction to the Level 1 teacher guide**—not the complete guide. Its download route is https://www.hachettefle.fr/. The separate Hachette Education FAQ describes certified-teacher access for many Hachette Education guides, but this policy has not been verified specifically for this older Hachette FLE title. Therefore, the complete BIEN JOUÉ ! 1 guide remains **NOT FOUND as a public full PDF**; only the bibliographic record and a public introduction sample are confirmed.
 
 
-### 18.6 Grade 5 teacher-guide Google Drive folder — all-subject collection lead
+### 18.6 Grade 5 public Google Drive resource folder — supplementary student books
 
-- Teacher-community directory lists a dedicated **Grade 5 primary teacher-guides Google Drive folder**:
-  https://drive.google.com/drive/folders/1qZzQ4QegoYnqcdlF2yoft2VaHlQTrJXfMEJDrbsvQU8odM525wxKjZggIyw4249tAjtHCwCd
+**[VERIFIED FOLDER CONTENTS — 20 files; uploaded/modified mainly February–July 2024]**
+
+- Public folder: https://drive.google.com/drive/folders/1qZzQ4QegoYnqcdlF2yoft2VaHlQTrJXfMEJDrbsvQU8odM525wxKjZggIyw4249tAjtHCwCd
 - Directory source: https://egyteachers.com/directory/posts/106
-- The directory labels the link specifically "الصف الخامس الابتدائي" under a collection of teacher-guide folders for primary grades. This is a more direct Grade 5 teacher-guide collection lead than the broader Term 2 file link in §22.1.
-- Google Drive folder contents are not enumerable by the current reader (Drive access wall); its individual file list, subjects, terms and editions remain **UNVERIFIED**. The folder is a high-priority public Drive lead for remaining teacher guides, but do not claim its contents have been inspected.
+- The folder is a general Grade 5 book/resource archive, **not** a teacher-guide folder. Its visible contents are supplementary student books and practice resources from commercial publishers; no teacher guides were visible in the folder listing.
+- Enumerated file names and sizes from the public Drive folder:
 
+| File name | Size |
+|---|---:|
+| 4_5818941719776860336.pdf | 2 MB |
+| 5 الأضواء علوم.pdf | 49.6 MB |
+| 5 الأضواء. دراسات(1).pdf | 56.1 MB |
+| 5 الأضواءكونكت.pdf | 58.5 MB |
+| 5 الاضواء. رياضيات(1).pdf | 58.5 MB |
+| 5 سلاح التلميذ علوم.pdf | 43.5 MB |
+| 5 سلاح التلميذ. تكنولوجيا.pdf | 36.8 MB |
+| 5ب سلاح التلميذ 2025.pdf | 34.7 MB |
+| 5سلاح التلميذ مهارات مهنية.pdf | 22.8 MB |
+| G5 الفائز ict.pdf | 46.3 MB |
+| G5 سلاح التلميذ دين.pdf | 39.8 MB |
+| Global German Fifth Primary First Term 2023 Main Book.pdf | 22.1 MB |
+| Treetops 5.pdf | 32.1 MB |
+| المتخصص الصف الخامس 2025 نسخة النشر مستر محمد بدوي.pdf | 11.5 MB |
+| رياضيات سلاح التلميذ خامسة ابتدائي ترم اول 2025.pdf | 34.7 MB |
+| علوم الاضواء صف ٥ ترم ١ ٢٠٢٤.pdf | 8.6 MB |
+| ملحق المعاصر 5 ب_ ديجا رافت.pdf | 22.3 MB |
+| ملحق المعاصر انجليزي 5 ابتدائي السيد.pdf | 22.3 MB |
 
-### 18.7 Additional Ktateeb Grade 5 teacher-guide mirrors (2022/23)
+- These are supplementary commercial books, not official Ministry student-book/teacher-guide pairs. The folder is useful for additional practice/reference content, but it does not close the missing teacher-guide inventory.
+- Parallel public fetch successfully enumerated the folder's visible names and sizes; individual file links were not exposed in the extracted folder table. Do not invent per-file Drive URLs.
 
-- Arabic Teacher Guide, T1 2022/23: https://drive.google.com/file/d/1I-sgOE87VCJOkZZAbzubS5VsNXdxp7P9/view?usp=drivesdk
-  - Source page identifies it as the Grade 5 Arabic teacher guide for T1 2022/23: https://www.ktateeb.com/2022/09/تحميل-دليل-المعلم-لغة-عربية-خامسة-ابتدائي.html
-- Islamic Religious Education Teacher Guide, T1 2022/23: https://drive.google.com/file/d/1pwyW1d8pAsqRoxc1K86GFZEJFsVWi6AT/view?usp=drivesdk
-  - Source page identifies it as the Grade 5 Islamic teacher guide for T1 2022/23: https://www.ktateeb.com/2022/09/تحميل-دليل-المعلم-تربية-اسلامية-خامسة.html
-- English Teacher Guide, Primary 5: https://www.mediafire.com/file/w7aubq5db9r1q7o/english_5prim_dlil.pdf
-  - Ktateeb lists this as "Teacher's Guide Primary 5"; the MediaFire host currently returns 404, so this is a broken historical lead, not an obtained guide.
-  - Source index: https://www.ktateeb.com/2021/10/تحميل-دليل-المعلم-في-اللغة-الانجليزية.html
-
-These are historical alternatives to the 2022/23 guide links in §18.4; the underlying Drive files remain sign-in gated and have not been page-inspected.
