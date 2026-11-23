@@ -634,14 +634,10 @@ function run() {
     const wrongLatin = lang === 'fr' ? EN_WORDS : FR_WORDS;
     const leakyReels = feed.reels
       .filter((reel) => reel.kind !== 'win_closer')
-      .filter((reel) => {
-        const lesson = lessonById.get(reel.lessonId);
-        const instructionLanguage = lesson?.instructionLanguage ?? lesson?.language;
-        // A French lesson remains French when the UI is English (and vice versa).
-        // Do not mistake target-language teaching vocabulary for UI leakage.
-        if (instructionLanguage && instructionLanguage !== lang) return false;
-        return wrongLatin.test(`${reel.hook} ${reel.noorLine} ${reel.show || ''}`);
-      })
+      // Hook, prompt and Noor narration are localized to the selected UI/feed
+      // language for every lesson, including lessons taught in another language.
+      // Only answer options follow the lesson's instruction language (checked below).
+      .filter((reel) => wrongLatin.test(`${reel.hook} ${reel.noorLine} ${reel.show || ''}`))
       .map((reel) => `${reel.lessonId}/${reel.kind}`);
     assert(
       leakyReels.length === 0,
