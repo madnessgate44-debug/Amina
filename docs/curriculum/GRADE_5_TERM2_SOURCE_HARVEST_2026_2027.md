@@ -764,6 +764,9 @@ Sources:
 | Professional Skills / Career Skills | Grade 5, T2 2024/25, 96 pages, 22 MB | https://drive.google.com/file/d/11khoNNx9NsJeXnHjorYjwXcqmHH35hQ1/view?usp=sharing | Ministry-labelled student book; link listed in public teacher-community post; Drive sign-in wall |
 | Social Studies | Grade 5, T2 2025/26, 104 pages, 37 MB | https://drive.google.com/file/d/19k3Z1B2J2GuaUulhi375DUAO5B-Ucyvg/view?usp=sharing | Ministry-labelled full student book; Drive sign-in wall; contents index captured by listing |
 
+| Islamic Religious Education | Grade 5, T2 2024/25, 80 pages, 31.2 MB | https://www.modrsbook.com/primary-5/term-2/religion/ktab-almdrs-fy-altrby-aldyny-lkhams-abtdayy-trm-thany-2025-5198 | Third-party index labels it "كتاب المدرسة" and attributes it to Ministry; cover and sample pages 9 and 12 inspected; full PDF preview exceeds reader size limit. |
+
+
 Source metadata:
 - ICT: https://mozkratgahza.com/pdf/3091
 - Professional Skills: https://mozkratgahza.com/pdf/3152 and public post https://egyteachers.com/directory/posts/126
