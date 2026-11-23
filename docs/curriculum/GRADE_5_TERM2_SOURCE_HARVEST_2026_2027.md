@@ -820,6 +820,7 @@ This matrix separates the **current 2026/27 Term 1 student book** from the **mat
 | Islamic Religious Education | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] Historical T2 guide §18 / §22.2 | 2024/25 T2 student-book lead on modrsbook (not yet direct Drive link) |
 | Christian Religious Education | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] Historical T2 guide §18 | Official 2025/26 T2 student-book path in §16.2 |
 | ICT — Arabic medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] Historical T2 guide §21 | Complete T2 student-book leads 2023/24 and 2024/25 in §§18, 22.3 |
+| ICT — French medium | [FOUND — Ministry-labelled Drive candidate] §19.1 | [NOT FOUND] | Current T1 2026/27 listing; no guide found |
 | Libraries & Research Skills | **[FOUND — official Ministry PDF, 21 pages inspected]** §19 | [PARTIAL] Librarian implementation instructions are embedded in the student book; no separate guide located | Current student book includes 12 lessons |
 | Family Management & Entrepreneurship | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] | No matching current-year guide located |
 | Agriculture Skills & Entrepreneurship | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] | No matching current-year guide located |
@@ -905,4 +906,14 @@ The following are teacher-facing lesson-preparation documents, not all formal Mi
 - **Mathematics:** a 2026-updated page labels a Drive file as a complete teacher guide, but the exposed cover image resembles the student book's back cover and the Drive preview is 401 Unauthorized. Keep it **UNVERIFIED** until the PDF title page is inspected. Drive lead: https://drive.google.com/file/d/1n35K0-nhaq8IcMnJWPGGsnNH6KjSSIGt/preview.
 - **ICT:** the Grade 5 T2 teacher guide Drive link is https://drive.google.com/file/d/1oePU8yiGmWT_yYvbWdCrvn-3vAwsidjo/preview. Another source labels this same file 2024/25 and 37 pages; retain that historical label pending cover inspection.
 - No formal French 1 BIEN JOUÉ ! 1 guide PDF, French 2 Alex et Zoé guide PDF, French-medium Math guide, French-medium Science guide, or Social Studies guide has been retrieved. Their bibliographic identities or other teacher resources are recorded in §§17, 20–22.
+
+
+
+### 19.1 Additional French-medium ICT student book lead (not in the 15-book catalogue list)
+
+- Third-party Grade 5 current-year archive lists a separate Ministry-labelled **ICT en français** student book, Term 1 2026/27.
+- Google Drive preview: https://drive.google.com/file/d/132ivzZM1qnEGgj32Nbq5gLbFKFbech6k/preview
+- Listing: https://www.modrsbook.com/primary-5/term-1/ict/ktab-alozar-ict-balfrnsy-llsf-alkhams-alabtdayy-trm-aol-2025-pdf
+- The listing page identifies Grade 5, Term 1, ICT, Ministry of Education and last update 2026-10-21. The Drive preview is sign-in gated; page count, cover and contents not inspected. Keep separate from the official Misk catalogue's Arabic-medium ICT book until the actual cover confirms edition and language.
+- No matching French-medium ICT teacher guide has been found.
 
