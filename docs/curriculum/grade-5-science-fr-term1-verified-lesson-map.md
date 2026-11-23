@@ -305,3 +305,11 @@ A Ministry-branded French Science Term 1 assessment-book copy was found in the L
 - **[VERIFIED]** PR #211 remains open and unmerged. No deployment is performed or claimed.
 - **[BLOCKED]** The matching Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook and authenticated assessment-book source remain unavailable/unverified. High-resolution diagram review, independent pedagogical peer review and a physical-phone French Science walkthrough remain outstanding.
 - **Scope:** Grade 5 French Science Term 1 only; no full-book or full-year completion claim.
+
+
+## Image-backed source cross-check — 23 November 2026
+
+- **[VERIFIED]** The 28 lesson-opening images were inspected against the lesson titles and chapter sequence. Selected exercise pages, all six enrichment sections, the Chapter 5 review on printed p. 63 and the four appendix skills on pp. 104–107 were also inspected.
+- **[VERIFIED]** The visual audit confirms the lesson-opening image subjects are relevant to their mapped lesson topics; it does not replace the printed-page text/source mapping or the registry tests.
+- **[UNPROVEN]** This was a targeted visual cross-check of the Library copy, not a high-resolution audit of every internal diagram/caption or a visual comparison against the canonical Ministry-hosted PDF. See [the image-backed source audit](../audits/grade5-science-fr-term1-visual-source-audit-2026-11-23.md).
+- **[UNPROVEN]** Independent teacher review and a physical-phone French Science walkthrough remain open. All app-authored plans remain distinct from an authenticated Ministry teacher guide.
