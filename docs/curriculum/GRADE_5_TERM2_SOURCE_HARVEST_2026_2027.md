@@ -747,8 +747,9 @@ These are whole student-book candidates, not revision papers. The archive labels
 - Google Drive PDF: https://drive.google.com/file/d/13hUAc-1uHV4Y_9h-mVEoz3OxsussuclY/view?usp=drive_link
 - File title shown by Drive: `5.pdf`; actual cover identifies **Mathematics — Term 2 — Primary 5 — Teacher's Guide**.
 - PDF length: **329 pages**.
+- Copyright page identifies **Discovery Education, Inc.**, copyright **2023**, ISBN **978-1-61708-840-7**. The academic year is not printed on the inspected cover; record the edition as 2023 / T2, exact school year unconfirmed.
 - Contents include the teacher's introduction to the TMTechbook Math program, curriculum overview, teaching model, teaching materials, assessment, mathematical thinking, and lesson-by-lesson sequence for Units 7 and 8 (including fractions and mixed numbers).
-- This is a complete teacher guide, not a student book or revision sheet. The exact academic year is not visible in the inspected cover/contents; keep the edition year **UNCONFIRMED**.
+- This is a complete teacher guide, not a student book or revision sheet.
 - The file's position in the 10-page Term 2 guide index is not reliable for subject classification; the actual PDF itself establishes that it is Mathematics.
 - An alternate Education 2.0 link labelled `math_5prim_t2_TG.pdf` is also listed in §18.4; it remains a separate uninspected candidate until its cover is checked.
 
