@@ -549,3 +549,15 @@ A second official Ministry-hosted path was located and opened:
 - The PDF cover identifies the same **BIEN JOUÉ ! 1 — MÉTHODE DE FRANÇAIS — 5ème PRIMAIRE** student book, Hachette / Dar El Nashr Horizons, Ministry Book Sector. The extraction contains 4,951 lines and includes the complete book structure and all eight units.
 - This confirms that the full Grade 5 French student book is accessible on the Ministry's Term 2 path, not merely a first-term revision document. The imprint remains a 2007 edition; this is not a 2026/27 newly revised textbook.
 - **Matching guide remains the unresolved half:** ISBN 9782011551085 is bibliographically verified, but no complete freely accessible guide PDF has yet been retrieved.
+
+
+### 17.8 Current-year Grade 5 French 1 assignment evidence — BIEN JOUÉ ! 1
+
+**[VERIFIED — Ministry 2026/27 assessment explicitly names the Grade 5 French 1 method]**
+- Ministry weekly assessment, Grade 5 French as first foreign language, Term 1 week 3: https://gate.natega4dk.net/files/moe/French1_prim5_tr1_w3.pdf
+- Ministry weekly assessment, Grade 5 French as first foreign language, Term 1 week 6: https://gate.natega4dk.net/files/moe/French1_prim5_tr1_w6.pdf
+- Both identify **Bien joué 1** and the 2026/2027 school year. Week 6 is labelled *Les adolescents et le voyage* and uses grammar/communication work such as tonic pronouns and imperatives.
+- This materially strengthens the match between the official Grade 5 French 1 track and the complete Ministry-hosted BIEN JOUÉ ! 1 student book. It still does not prove that Girard's own Grade 5 booklist uses the same edition; Girard-specific assignment remains to be confirmed.
+- Grade 5 French 1 assessment specification and timing overview (secondary index of Ministry documents): https://www.nezakr.net/edu/p/2691/
+- **Teacher guide access path:** Hachette says some teacher guides are downloadable as PDF only for teachers with a certified account: https://www.enseignants.hachette-education.com/ressources/ . This is a legitimate route to pursue for the BIEN JOUÉ ! 1 guide, rather than assuming a public Drive copy exists. The exact guide ISBN remains 9782011551085.
+
