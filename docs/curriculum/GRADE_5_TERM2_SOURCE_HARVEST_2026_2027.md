@@ -927,3 +927,24 @@ The following are teacher-facing lesson-preparation documents, not all formal Mi
 - Resource portal: https://www.enseignants.hachette-education.com/ressources/
 - This confirms the guide is not necessarily unavailable digitally; it is access-controlled for verified teachers. No public Google Drive full PDF has been found despite exact title, ISBN and Drive-index searches. Do not bypass the publisher's access restriction.
 
+
+
+### 18.4 Additional exact Grade 5 teacher-guide Drive targets from the Education 2.0 index
+
+The Education 2.0 Grade 5 index was re-inspected in its teacher-guide section. The following exact file IDs were recovered; all are historical **2022/23** teacher-guide leads and Google Drive previews require sign-in.
+
+| Subject | Term | Direct Google Drive link | Filename / index label |
+|---|---|---|---|
+| Values & Respect for Others | T1 | https://drive.google.com/file/d/1m_dqG-GcjRz4bvD5nvNn8f7zekNKagrb/view?usp=sharing | moral_5prim_t2__TG.pdf (filename says T2 despite index placing it under T1; edition conflict, inspect cover) |
+| Arts Education | T1 | https://drive.google.com/file/d/1VeocBaHFxd0OjAZ4RGYWcId6nnCyHmiI/view?usp=sharing | alrasm_5prim_TG.pdf |
+| Arabic | T1 | https://drive.google.com/file/d/1ghl67feFve3aVgtSLojNUbF_J48O6lvz/view?usp=sharing | Arabic G5 - TG - T1.pdf |
+| Islamic Religious Education | T1 | https://drive.google.com/file/d/1EEWFofXK3HxkLA5SAvriEmmsjcJFt3h9/view?usp=sharing | Islamy G5 - TG - T1.pdf |
+| Mathematics — Arabic | T1 | https://drive.google.com/file/d/1PsDkTGkxbONvJWpBo3GKyH7GDqW4iS3u/view?usp=sharing | P5T1_MTB_TE_AR_9.11.22.pdf |
+| Mathematics | T2 | https://drive.google.com/file/d/1XG-lx2wMy6-G44QcIBgqx7sXFB18aaX9/view?usp=sharing | math_5prim_t2_TG.pdf |
+| Music Education | T1 | https://drive.google.com/file/d/1ge4Yx9lstOThZrgpJVPLiC2alrKtzudj/view?usp=sharing | music_5prim_TG.pdf |
+| Music Education | T2 | https://drive.google.com/file/d/1nrLSc2Dz9090Owopbh-6N6dQ7xMkxS9O/view?usp=sharing | music_5prim_TG_T2.pdf |
+| Tokkatsu | General guide | https://drive.google.com/file/d/1kXHK1L4tpjjEjE2y7K4wN4VtvoWCsl46/view?usp=sharing | __20230831 أساسيات توكاتسو صفوف عليا_.pdf |
+
+The same index lists (but does not expose clickable file targets for) Grade 5 Science Teacher Guides in Term 1 (Arabic and non-Arabic entries). No Grade 5 Social Studies Teacher Guide, English Teacher Guide, French 1/2 guide, or French-medium Maths/Science guide is listed in this index.
+
+Source index: https://edu2-egypt.com/grade-5
