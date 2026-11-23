@@ -492,9 +492,9 @@ Acceptance evidence required:
 ### 17.1 French 1 candidate: BIEN JOUÉ ! 1 (complete Ministry-hosted student book)
 
 **[VERIFIED — complete PDF inspected; historical edition; Girard assignment unverified]**
-- Full student book: https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester1/Grade5/pdf/france_5prime_sb.pdf
+- **Term 1 full student book:** https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester1/Grade5/pdf/france_5prime_sb.pdf\n- **Term 2 full student book:** https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester2/Grade5/pdf/france_5prime_sb.pdf (opened and text-extracted in this research pass; full document returned 4,951 extracted lines).
 - Cover: BIEN JOUÉ ! 1 — MÉTHODE DE FRANÇAIS — 5ème PRIMAIRE; Arab Republic of Egypt, Ministry of Education, Book Sector; Hachette Livre / Dar El Nashr Horizons.
-- ISBN 9782011551078; printed ref 15/5107/6; copyright Hachette 2007 / Petrini 1998. The actual PDF was opened and text-extracted; its printed pagination reaches page 103 and it contains 8 units, culture/documentation, grammar reference and lexicon.
+- ISBN 9782011551078; printed ref 15/5107/6; copyright Hachette 2007 / Petrini 1998. Both official Ministry-hosted semester paths resolve to the same complete BIEN JOUÉ ! 1 student method. The Term 2 PDF was separately opened and text-extracted; its contents confirm all 8 units, documentation, grammar reference and lexicon.
 - Contents include listening comprehension, communicative functions, vocabulary, phonetics/orthography, grammar, oral/written production and cultural content. The TOC includes Pauline et Nicolas; Fous de foot; Le magasin de souvenirs; Qu'est-ce qu'on mange ?; Promenade dans Paris; Sur les quais.
 - This is a complete student method, not a revision paper. It is historical, not evidence of Girard's 2026/27 assigned edition.
 
@@ -540,3 +540,12 @@ Acceptance evidence required:
 | French 2 candidate — La Vie 5B | [CATALOGUED 2026/27 PRINT EDITION] | [UNVERIFIED] | [UNVERIFIED] | [UNVERIFIED] |
 
 A French track is not complete until the assigned complete student book and matching teacher guide are retrieved and edition-matched.
+
+
+### 17.7 Verified Term 2 path for BIEN JOUÉ ! 1
+
+A second official Ministry-hosted path was located and opened:
+- **Term 2 full student book:** https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester2/Grade5/pdf/france_5prime_sb.pdf
+- The PDF cover identifies the same **BIEN JOUÉ ! 1 — MÉTHODE DE FRANÇAIS — 5ème PRIMAIRE** student book, Hachette / Dar El Nashr Horizons, Ministry Book Sector. The extraction contains 4,951 lines and includes the complete book structure and all eight units.
+- This confirms that the full Grade 5 French student book is accessible on the Ministry's Term 2 path, not merely a first-term revision document. The imprint remains a 2007 edition; this is not a 2026/27 newly revised textbook.
+- **Matching guide remains the unresolved half:** ISBN 9782011551085 is bibliographically verified, but no complete freely accessible guide PDF has yet been retrieved.
