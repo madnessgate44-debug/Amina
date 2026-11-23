@@ -948,3 +948,28 @@ The Education 2.0 Grade 5 index was re-inspected in its teacher-guide section. T
 The same index lists (but does not expose clickable file targets for) Grade 5 Science Teacher Guides in Term 1 (Arabic and non-Arabic entries). No Grade 5 Social Studies Teacher Guide, English Teacher Guide, French 1/2 guide, or French-medium Maths/Science guide is listed in this index.
 
 Source index: https://edu2-egypt.com/grade-5
+
+
+### 18.5 Additional historical complete student-book Drive targets from the Education 2.0 index
+
+**[VERIFIED INDEX AND FILE NAMES; 2022/23 or 2023/24; Drive previews require sign-in]**
+
+| Subject | Edition | Direct Google Drive link | File name / note |
+|---|---|---|---|
+| Social Studies | T1 2022/23 | https://drive.google.com/file/d/1celfMw1J-tINxFemQGJHqOWNDyNmORmL/view?usp=sharing | drasat_5prim_T1.pdf |
+| ICT — English | T1 2022/23 | https://drive.google.com/file/d/1L39Al2LNIIccUnJRmzxqp9q1aBvXdX6T/view?usp=sharing | computer_prim5_t1_E.pdf |
+| ICT — English | T2 2023/24 | https://drive.google.com/file/d/1Y4u3biA8SU19k-2nS22LXMyiJrbBsZwU/view?usp=sharing | Egypt-York-NGL-ICT-EN-SB-Gr.5-T2.pdf |
+| ICT — Arabic | T1 2022/23 | https://drive.google.com/file/d/1FiZXNswPFatRq-k4JR7xMSuyPIf5PFp2/view?usp=sharing | Egypt-York-NGL-ICT-AR-SB-Gr.5-Term 1.pdf |
+| ICT — Arabic | T2 2023/24 | https://drive.google.com/file/d/103wrH3LM70gcdh3xZVcNJ5kz9gFWk0Jm/view?usp=sharing | Egypt-York-NGL-ICT-AR-SB-Gr.5-T2.pdf |
+| Islamic Religious Education | T1 2022/23 | https://drive.google.com/file/d/1F-J7iurD_vlQmFhwhtZOQZ9p9CMQrsWt/view?usp=sharing | Islamy G5 - SB - T1.pdf |
+| Islamic Religious Education | T2 2022/23 | https://drive.google.com/file/d/1YaVr0ae5kV9Yr7df-6ZJxAq6KYbO7qLs/view?usp=sharing | Islamic G5-T2-SB.pdf |
+| Christian Religious Education | T1 2022/23 | https://drive.google.com/file/d/1I-11Ofke0IxwCY3fkNEY9UUvw-jnrvD2/view?usp=drive_link | Christian G5 - SB - T1.pdf |
+| Christian Religious Education | T2 2022/23 | https://drive.google.com/file/d/1RRtyuF7l5gFUKXsm2afEjWmWA69X-hVV/view?usp=drive_link | cristian G5-sb-T2.pdf |
+| Values & Respect for Others | T1 2022/23 | https://drive.google.com/file/d/1gXr-hbNnKcUbE1eFb4GXoWFxCMx7LO55/view?usp=sharing | moral_5prim_t1__SB.pdf |
+| Arabic | T1 2022/23 | https://drive.google.com/file/d/1uZKVY-MfOrZsOpm54Ka2yVjJs0QC_mgz/view?usp=sharing | Arabic G5 - SB - T1.pdf |
+| Arabic | T2 2022/23 | https://drive.google.com/file/d/1-FbQfFAzbSVWNnW1zHNM_5ULyBL0yXtA/view?usp=sharing | Arabic G5 - SB - T2.pdf |
+| Arabic Calligraphy | 2022/23 | https://drive.google.com/file/d/1ALs6LZLgPvWf8acjLfxU3YtOVmn8iu6O/view?usp=sharing | Arabic Calligraphy G5 FINAL.pdf |
+| English — Connect | T1 2022/23 | https://drive.google.com/file/d/1vXEYZsOygcvvLep2CAF7w8t5tXDXBcvq/view?usp=sharing | Connect_5Prim.pdf |
+| English — Connect | T2 2022/23 | https://drive.google.com/file/d/1Jlph3cViEG15bgx6SCisotk-CMAmOjRj/view?usp=sharing | Egy-Connect-Prim-En-G5-SB-T2-Low-secured.pdf |
+
+These are full-book file-name/index leads, not page-inspected PDFs. The archive has no direct student-book targets exposed for Grade 5 Science or Mathematics in its text; use the current official Ministry links in §19 for those subjects.
