@@ -1027,3 +1027,26 @@ These are full-book file-name/index leads, not page-inspected PDFs. The archive 
 - These are supplementary commercial books, not official Ministry student-book/teacher-guide pairs. The folder is useful for additional practice/reference content, but it does not close the missing teacher-guide inventory.
 - Parallel public fetch successfully enumerated the folder's visible names and sizes; individual file links were not exposed in the extracted folder table. Do not invent per-file Drive URLs.
 
+
+
+## 26. French 2 teacher guide — publisher-confirmed full digital teacher edition
+
+**[VERIFIED EXISTENCE; PAID DIGITAL TEACHER EDITION; NOT A FREE PDF]**
+
+- Exact title: *Alex et Zoé + 2 — Niveau A1.2 — Guide pédagogique*.
+- Author: Colette Samson; CLE International; 203-page print guide; ISBN **9782090351187**.
+- Official publisher product page: https://www.cle-international.com/enfants/alex-et-zoe-2-niveau-a12-guide-pedagogique-9782090351187.html
+- Publisher confirms it is the teacher guide for FLE children, level 2 (A1.2), and describes teacher-facing teaching support.
+- CLE's digital catalogue separately lists **Alex et Zoé + 2 — Version numérique enseignant**, four-year teacher licence, at https://www.cle-international.com/recherche/support/guide-pedagogique-763/support/a-telecharger-a-consulter-en-ligne?solrsort=sort_collection+asc&text=Conjugaison+progressive+du+fran%C3%A7ais
+- This establishes a legitimate digital teacher edition exists, but it is paid and access-controlled. It is not a freely downloadable public PDF. No lawful public Google Drive full-PDF copy was located.
+- The 2023 CLE/Anaya catalogue cross-checks the series' student book, activity book and teacher guide ISBNs: https://storage.googleapis.com/anaya-edu-pro/uploads/media/07/catalogue-cle-anaya-2023-bat.pdf
+- Keep the title/ISBN separate from any school track until Girard confirms French 2 uses Alex et Zoé + 2.
+
+## 27. French 1 teacher guide — bibliography independently cross-checked
+
+- *BIEN JOUÉ ! 1 — Guide pédagogique*, ISBN **9782011551085**, reference 15.5108.4; listed alongside the student book and exercise book in Hachette's series bibliography.
+- The bibliographic table is reproduced in the Hachette catalogue scan: https://www.lpn.ma/wp-content/uploads/2015/05/DP7.pdf (page 21).
+- A French institutional library catalogue independently records *Bien joué ! 1 ; Guide pédagogique*, Hachette Livre, 1999: https://mediatek-ifi.com/index.php?id=296&lvl=publisher_see
+- This resolves exact identity and confirms it is a 1999 print guide. It does **not** provide the guide's full text or a legal free PDF. Hachette FLE's public resources are limited to extracts/introductory samples; no complete free guide has been found.
+- Current status remains: complete student book and exercise book links found; complete guide only bibliographically verified; full digital/public file **NOT FOUND**.
+
