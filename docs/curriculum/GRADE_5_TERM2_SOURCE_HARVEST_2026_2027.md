@@ -1106,3 +1106,36 @@ A Ktateeb teacher resource index explicitly states that it is sharing English te
 - The source says "all teacher guides in all subjects" for primary grades, Term 2. It does not itemize grade-specific contents in the web-visible page. Drive preview did not expose its file contents, so whether it includes Grade 5 and which subjects/editions are inside remains **UNVERIFIED**.
 - Do not treat this collection file as an obtained Grade 5 guide until the internal contents list or PDFs are inspected.
 
+
+
+## 30. Retry verification — French 2 course identity and Science teacher-guide leads (24 Nov 2026)
+
+### 30.1 French 2 course identity is now directly confirmed for 2026/27
+
+- Ministry-hosted/Ministry-branded Grade 5 French 2 Term 2 weekly assessment (week 1) identifies the subject as French second language, Grade 5, and names the coursebook **Alex et Zoé**: https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/ClassrHomeAssessmentsTest/French2_prim5_tr2_w1.pdf
+- Independent current-year Grade 5 French 2 Term 1 Ministry assessment copies explicitly name **Alex et Zoé 2** for 2026/27:
+  - https://gate.natega4dk.net/files/moe/French2_prim5_tr1_w1.pdf
+  - https://gate.natega4dk.net/files/moe/French2_prim5_tr1_w4.pdf
+  - https://gate.natega4dk.net/files/moe/French2_prim5_tr1_w5.pdf
+- Therefore the strongest current-year course identity is **Alex et Zoé 2** (French 2 / second foreign language), not the French 1 course. Do not conflate it with BIEN JOUÉ ! 1.
+- Matching publisher guide:
+  - **Alex et Zoé + — Niveau 2 — Guide pédagogique**, Colette Samson, CLE International, published 15 April 2019, ISBN/EAN **9782090351187**, 203–204 pages depending on catalogue record.
+  - Bibliographic/catalogue confirmation: https://www.cufay.fr/alex-et-zoe--niveau-2-guide-pedagogique-nc-9782090351187.html ; https://www.decitre.fr/livres/alex-et-zoe-et-compagnie-2-9782090351187.html
+  - Publisher catalogue crosswalk confirms the Level 2 teacher-guide ISBN: https://storage.googleapis.com/anaya-edu-pro/uploads/media/07/catalogue-cle-anaya-2023-bat.pdf
+  - Commercial printed copies are listed; no lawful free complete public PDF located. This is a verified match by course title/level, not a recovered downloadable guide.
+
+### 30.2 Grade 5 Science teacher-guide direct Drive leads (historical 2022/23; not French-medium/current-year)
+
+- Ktateeb's Grade 5 Term 2 post labels this direct Drive item as **Science Teacher Guide Grade 5 Term 2 2023**: https://drive.google.com/file/d/18k2QwOYt8DwBzDPFPUG5xdKEYKPfjdqZ/view
+  - Source page: https://www.ktateeb.com/2023/01/تحميل-كتاب-دليل-المعلم-في-العلوم-الصف-الخامس-الابتدائي-الترم-الثاني-2023.html
+- Ktateeb's combined Grade 4/5 guide post labels the following as Grade 5 Science teacher guide, split into two unit files:
+  - Unit 1: https://drive.google.com/file/d/1KBvRLzRVrQY0KlzV2loqgVi_Ijf7plCq/view
+  - Unit 2: https://drive.google.com/file/d/1K8q-pVtjuBKLmcOT_OsTRUqUxXaEjJso/view
+  - Source page: https://www.ktateeb.com/2023/08/تحميل-ادلة-المعلم-في-العلوم-للصفين-الرابع-والخامس-الابتدائي-2024.html
+- These are **historical Egyptian curriculum Science guides**, not proof of the 2026/27 French-medium Science teacher guide. The web extraction service returned HTTP 404 when trying to fetch the Google Drive URLs directly; that is a reader/access failure and does not establish that the Drive files are deleted or publicly downloadable. Keep as unverified-access leads until actual file contents/page counts are obtained.
+
+### 30.3 Verification boundary
+
+- Search result/source-page evidence verifies the named book identities and the guide links as published by Ktateeb.
+- It does not verify the Drive binary contents, page counts, edition year printed inside each PDF, or successful anonymous download.
+- No complete current-year French-medium Science or French-medium Maths teacher guide has been recovered in this retry.
