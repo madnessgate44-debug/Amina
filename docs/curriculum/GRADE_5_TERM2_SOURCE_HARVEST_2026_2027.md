@@ -643,3 +643,43 @@ The current-year Grade 5 catalogue lists 15 student books and links each to the 
 - The web reader successfully parsed the 21-page Libraries & Research Skills book and its embedded librarian-facing lesson instructions. The other large PDFs were rejected by the web reader's file-size ceiling, not shown to be missing. Their direct official links remain usable candidates for phone/browser retrieval.
 - The catalogue explicitly says it currently contains the published Term 1 books and that Term 2 books are added when the Ministry publishes them. Do not infer the current Term 2 edition is absent from every other public source.
 - **Teacher guides:** the catalogue lists student books only. No matching 2026/27 teacher-guide collection was exposed there. Search separately for teacher editions; do not relabel student books as teacher guides.
+
+
+## 20. Teacher-guide search — current-year and near-current leads
+
+### 20.1 Current-year / 2026-labelled teacher-guide candidates
+
+| Subject | Source and link | What is verified | Remaining issue |
+|---|---|---|---|
+| Arabic — Term 1 2026/27 | https://www.modrsbook.com/primary-5/term-1/arabic/thmyl-dlyl-maalm-allgh-alaarby-llsf-alkhams-alabtdayy-altrm-alaol-pdf | Third-party index labels it Grade 5 Ministry teacher guide, T1 2026/27; page last updated 2026-11-16 | Page currently says file not available; no PDF inspected |
+| Mathematics — Term 1, 2026-labelled | https://drive.google.com/file/d/1n35K0-nhaq8IcMnJWPGGsnNH6KjSSIGt/preview | Third-party listing labels complete Grade 5 Ministry Maths teacher guide; Drive preview requires sign-in | Exact academic year/edition and PDF content not inspected; do not equate automatically with 2026/27 |
+| Science — Term 1, 2026-labelled | https://drive.google.com/file/d/1XH49Fk1R0RfN6s7hnx_Z60nwj_rYVZVH/preview | Third-party listing labels Grade 5 Ministry Science teacher guide; index states 80 pages and year 2026 | Drive preview requires sign-in; exact academic year and content not inspected |
+| Science — additional 259-page guide listing | https://www.modrsbook.com/primary-5/term-1/alaalom | Grade 5 science category lists a 259-page "دليل معلم العلوم" among teacher files | No exact link/edition confirmed; separate from the 80-page guide above until inspected |
+
+### 20.2 Verified older Ministry teacher guides with direct full-file targets
+
+- Arabic, T2 2022/23: https://drive.google.com/file/d/1KEFLSA-g48OKBmzEgXpuzlIkMEA4dvmB/view
+- Mathematics, T2 2022/23: https://drive.google.com/file/d/13hUAc-1uHV4Y_9h-mVEoz3OxsussuclY/view
+- Values & Respect, T2 2022/23: https://drive.google.com/file/d/1Lz90GZ2W-CwtIKb5u9_NMZE0jWyC3ZV9/view
+- Science, T2 2022/23: https://drive.google.com/file/d/18k2QwOYt8DwBzDPFPUG5xdKEYKPfjdqZ/view
+- Arts Education, T2 2022/23, Ministry-hosted: https://moe.gov.eg/media/twnnx0d5/dalil-5-prim_t2.pdf
+- Arts Education, T1 2022/23, Ministry-hosted: https://moe.gov.eg/media/usdjgfht/educational-guide_5prim.pdf
+
+The Drive links are third-party indexed public file links; Google Drive previews did not expose their contents to the reader. The Ministry-hosted Arts PDF's cover confirms Grade 5, Term 2, 2022/23, teacher guide. Do not treat these historical guides as 2026/27 editions.
+
+### 20.3 French 2 — La Vie 5B 2026/27 (current commercial full-book candidate)
+
+- Publisher/retailer catalogue identifies La Vie as a French **second foreign language** series for Egyptian schools and lists a 2026/27 Grade 5 book, **La Vie French 5B 2027**, price 185 EGP: https://www.maktabtystore.com/publishers/la-vie/
+- Product link currently redirects to the retailer's maintenance notice, so full student-book contents, edition ISBN and teacher guide could not be inspected.
+- An Egyptian school-supplies retailer lists **La Vie Farandole French, Grade 5, Term 1, 2025, Egyptian track**: https://alshamel.cc/لافي-فراندوال-اللغة-الفرنسية-الصف-الخامس-الابتدائي-الفصل-الأول-2025/p502871619
+- A 2025 answer-key document labels the method Farandole for Grade 5, Term 1, La Vie; it is an answer key, not the student textbook: https://fr.scribd.com/document/817330332/Grade-5-french-frandole-model-answers
+- A separate current-year Ministry French 2 assessment track identifies Alex et Zoé 2. These sources show that more than one French-second-language resource family circulates in Egypt. Do not decide which one Girard uses without its booklist.
+
+### 20.4 French teacher-guide access
+
+- Hachette's teacher resource portal explains that some teacher guides are available as free PDF downloads to teachers with a certified account: https://www.enseignants.hachette-education.com/ressources/
+- BIEN JOUÉ ! 1 guide ISBN 9782011551085; full public PDF not located.
+- Farandole 1 guide ISBN/EAN 9782278041992; catalogues describe a 150-page print guide; full public PDF not located.
+- Alex et Zoé + 2 guide ISBN 9782090351187; publisher offers it as a commercial guide; full public PDF not located.
+
+**Current-year teacher-guide status:** no complete 2026/27 Grade 5 teacher-guide set has been verified. Current-year student PDFs exist for Term 1; teacher guides must be located separately, and older teacher guides must stay clearly versioned.
