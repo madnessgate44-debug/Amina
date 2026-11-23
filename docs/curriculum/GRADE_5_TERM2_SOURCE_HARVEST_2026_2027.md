@@ -833,3 +833,37 @@ This matrix separates the **current 2026/27 Term 1 student book** from the **mat
 - Current 2026/27 teacher guides: no complete matched set found. Some teacher-guide listings are third-party metadata only or older editions.
 - Google Drive public previews frequently return HTTP 401/sign-in shells to this reader. Those links are preserved as user-openable leads; no file is described as downloaded or page-inspected unless the actual document or its cover was accessible.
 - For Girard, the exact subject/medium selection remains a school assignment question. The Ministry's French 1 track is BIEN JOUÉ ! 1; French 2 is a separate track and may use Alex et Zoé + 2 or a La Vie series. Do not merge the two.
+
+
+## 24. User-library inspection — complete 2026/27 French-medium Science student book
+
+**[VERIFIED — user-provided complete student book inspected directly; not a revision booklet]**
+
+- User-library filename: `تحميل كتاب Science بالفرنساوي للصف الخامس الابتدائي الترم الاول PDF 2027.pdf`
+- File size: 59,040,102 bytes; PDF metadata: 110 pages.
+- Cover: **SCIENCES — primaire 5 — Semestre 1**.
+- Imprint page dedicates the book to students, teachers and families of the Arab Republic of Egypt; identifies the Ministry of Education and Technical Education and Central Administration for Curriculum Development.
+- Copyright/imprint page explicitly states © Ministry of Education and Technical Education, Arab Republic of Egypt, **2026/2027**. Authors and reviewers are listed; final page contains Ministry/central curriculum development imprint and book code.
+- SHA-256: `6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c`
+- This is the current-year complete French-medium Grade 5 Science student book. The exact official Ministry catalogue target for the same current-year French Science student book is in §19:
+  https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026_2027/Primary/Primary5/Term1/StudentBook/Science_FR_prim5_TR1.pdf
+- Contents page lists 9 chapters:
+  1. Les os et les muscles — p. 6
+  2. Les changements des saisons — p. 20
+  3. Les conditions de germination — p. 28
+  4. Les conditions de croissance — p. 44
+  5. De la fleur au fruit — p. 52
+  6. La croissance et la reproduction humaines — p. 64
+  7. La croissance et la reproduction des animaux — p. 72
+  8. Les changements météorologiques — p. 80
+  9. Le cycle de l’eau — p. 92
+- Final pages include scientific investigation method, fair experiments, microscope use and recording observations. The file reaches its final Ministry imprint page, confirming the retrieved copy is a complete book.
+- The file remains in the user's private Library. It was not copied into this public repository because the Ministry imprint explicitly prohibits copying/distribution without written authorization. Only metadata, page references and a SHA-256 fingerprint are recorded here.
+
+### 24.1 User-provided evaluation book is not a teacher guide
+
+- User-library filename: `تحميل كتاب التقييمات Science بالفرنساوي للصف الخامس الابتدائي الترم الاول PDF 2027 (2).pdf`
+- File size: 33,873,471 bytes; PDF reader reports 68 pages.
+- Cover reads **Performances et Évaluations — Sciences — Cinquième primaire — Premier semestre**.
+- Its introduction addresses teachers and describes classroom performance tasks, homework, short weekly tests and stage assessments. Despite this teacher-facing introduction, the document is an assessment/workbook, **not** the complete teacher guide/manual.
+- This confirms the private Library currently contains the full French Science student book and its assessment book, but not a separate complete Science teacher guide.
