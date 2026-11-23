@@ -535,3 +535,11 @@ This section supersedes the historical Science counts in the 12 November baselin
 - **[VERIFIED]** PR #211 remains open and unmerged. No deployment is performed or claimed.
 - **[BLOCKED]** The matching Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook and authenticated assessment-book source remain unavailable/unverified. High-resolution diagram review, independent pedagogical peer review and a physical-phone French Science walkthrough remain outstanding.
 - **Scope:** Grade 5 French Science Term 1 only; no full-book or full-year completion claim.
+
+
+## Science visual-source evidence — 23 November 2026
+
+- **[VERIFIED]** The image-backed check inspected 28/28 current-edition lesson-opening pages, the contents/imprint pages, selected exercise pages, all six enrichment sections, the Chapter 5 review and printed pp. 104–107 scientific-method appendix. The lesson-opening image subjects correspond to the mapped lesson topics.
+- **[LIMIT]** This evidence is from the third-party-assembled Library copy. It is not proof of canonical Ministry PDF image/layout identity and is not a full high-resolution audit of every internal diagram or caption.
+- **[UNPROVEN]** Independent Science-teacher review, high-resolution internal-diagram review and a physical-phone French Science walkthrough remain outstanding. The Ministry teacher guide, Term 2 StudentBook and assessment-book provenance remain blocked/unverified.
+- Detailed page references and the exact scope boundary are recorded in [the 23 November image-backed source audit](../audits/grade5-science-fr-term1-visual-source-audit-2026-11-23.md).
