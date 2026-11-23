@@ -600,7 +600,7 @@ Index: https://edu2-egypt.com/grade-5
 | Mathematics | T2 2022/23 | https://drive.google.com/file/d/1XG-lx2wMy6-G44QcIBgqx7sXFB18aaX9/view?usp=sharing | math_5prim_t2_TG.pdf |
 | Music Education | T2 2022/23 | https://drive.google.com/file/d/1nrLSc2Dz9090Owopbh-6N6dQ7xMkxS9O/view?usp=sharing | music_5prim_TG_T2.pdf |
 | Arabic | T1 2022/23 | https://drive.google.com/file/d/1ghl67feFve3aVgtSLojNUbF_J48O6lvz/view?usp=sharing | Arabic G5 - TG - T1.pdf |
-| Mathematics | T1 2022/23 | Index lists Arabic and other-medium guide files; one T1 Arabic guide link is exposed as https://drive.google.com/file/d/1ghl67feFve3aVgtSLojNUbF_J48O6lvz/view?usp=sharing only for Arabic, not Maths | Separate Math guide IDs must be taken from the index link targets, not guessed |
+| Mathematics — Arabic | T1 2022/23 | https://drive.google.com/file/d/1PsDkTGkxbONvJWpBo3GKyH7GDqW4iS3u/view?usp=sharing | P5T1_MTB_TE_AR_9.11.22.pdf |\n| Islamic Religious Education | T1 2022/23 | https://drive.google.com/file/d/1EEWFofXK3HxkLA5SAvriEmmsjcJFt3h9/view?usp=sharing | Islamy G5 - TG - T1.pdf |\n| Music Education | T1 2022/23 | https://drive.google.com/file/d/1ge4Yx9lstOThZrgpJVPLiC2alrKtzudj/view?usp=sharing | music_5prim_TG.pdf |
 
 ### 18.3 Retrieval status and limitations
 
