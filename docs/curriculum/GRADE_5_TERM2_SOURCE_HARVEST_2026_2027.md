@@ -683,3 +683,12 @@ The Drive links are third-party indexed public file links; Google Drive previews
 - Alex et Zoé + 2 guide ISBN 9782090351187; publisher offers it as a commercial guide; full public PDF not located.
 
 **Current-year teacher-guide status:** no complete 2026/27 Grade 5 teacher-guide set has been verified. Current-year student PDFs exist for Term 1; teacher guides must be located separately, and older teacher guides must stay clearly versioned.
+
+
+### 20.5 Alex et Zoé + 2 — full official publisher resource map inspected
+
+- Official CLE International product/resource page: https://alex-et-zoe.cle-international.com/9782090384284
+- The publisher page explicitly describes the complete method package: student book plus civilization book and CD-MP3; activity book; cultural-discovery workbook; enriched/updated teacher guide with 14 new assessments; classroom audio set; and a graded reader.
+- The publisher resource inventory PDF is 3 pages and enumerates **15 units**, 18 evaluation audio tracks across Units 1–7, and interactive exercise links for Units 1–15: https://alex-et-zoe.cle-international.com/9782090384284/assets/list
+- This is an official digital resource map for the publisher's complete method, not a download of the student textbook or teacher guide. The actual student book/guide remain publisher products; the free portal supplies audio, evaluation and interactive practice.
+- Interactive unit 1 direct link: https://applets.directplateforme.com/Cle/bbe/9782090384284/unite_1/index.html (other units follow the same publisher pattern; use the official resource inventory rather than inventing links).
