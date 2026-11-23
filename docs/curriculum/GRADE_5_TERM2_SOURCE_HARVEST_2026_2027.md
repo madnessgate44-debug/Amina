@@ -315,3 +315,59 @@ These are valuable prior-year French-medium revision examples and may help ident
 3. Retrieve current-year Term 1 teacher-preparation notes, monthly assessments, and French-medium resources from the third-party archive; compare only after confirming 2026/2027 on the document itself.
 4. Continue monitoring for official 2026/2027 Term 2 books and assessment files. A third-party file labelled 2027 is not automatically an official Ministry publication or a Term 2 file.
 5. Build an evidence matrix by subject with separate columns for official syllabus, official student book, official assessment, teacher guide, third-party practice, school assignment, and lesson-level coverage.
+
+
+## 14. Further inspection — French-medium Science and school/teacher resources (2026-11-23)
+
+### 14.1 Current-year French Science Term 1 assessment book
+
+**[VERIFIED METADATA — current academic year; third-party listing of a Ministry-attributed PDF; PDF content not yet extracted]**
+- Grade 5 Science in French, Term 1, 2026/2027, assessment book, 69 pages, listed as Ministry of Education, updated 2026-10-28.
+- Listing: https://www.modrsbook.com/primary-5/term-1/science/thmyl-ktab-altkyymat-science-balfrnsaoy-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- Public Google Drive preview: https://drive.google.com/file/d/1x5sXWZ5gIv_YNMymiF_jrSATqvMmekI4/preview
+- Google Drive preview resolves but the browser extraction only returns the loading/sign-in shell. Listing metadata says Ministry; inspect the PDF cover and imprint before upgrading provenance to official-verified.
+
+### 14.2 Current-year French Science student book, Term 1
+
+**[VERIFIED METADATA — current academic year; third-party listing of a Ministry-attributed book; PDF content not yet extracted]**
+- Grade 5 Science in French, Term 1, 2026/2027, student book, listed as Ministry of Education, updated 2026-10-28; listing reports 57 MB.
+- Listing: https://www.modrsbook.com/primary-5/term-1/science/thmyl-ktab-science-balfrnsaoy-llsf-alkhams-alabtdayy-altrm-alaol-pdf-2027
+- Public Google Drive preview: https://drive.google.com/file/d/11zZ1tQQ4mj2k4CsGLpY7_fSW9Tx4lXgm/preview
+- The listing's link is a Google Drive preview, but the browser extraction returns only a loading/sign-in shell. The official Ministry-hosted equivalent remains separately linked in §12. The content still needs extraction.
+
+### 14.3 Current-year French Science monthly practice
+
+**[VERIFIED METADATA — third-party teacher-prepared practice; current year; Term 1]**
+- Grade 5 Science in French, October 2026/2027 review, 19 pages, answers included, prepared by Mr Sobhy Barda, updated 2026-10-21.
+- Listing: https://www.modrsbook.com/primary-5/term-1/science/mragaa-science-balfrnsaoy-shhr-aktobr-balagabat-llsf-alkhams-alabtdayy-pdf-2027
+- Public Google Drive preview: https://drive.google.com/file/d/1fmm7ZwFr3z9H3NPD-GyZwLrtQHQu3JLa/preview
+- This is supplementary practice, not official syllabus or student book. It may help identify current-year terminology and question formats after its pages are inspected.
+
+### 14.4 Prior-year Term 2 French-medium Science and Maths practice — stronger metadata
+
+**[VERIFIED METADATA — teacher-prepared; 2025/2026 Term 2]**
+- French Science review with answers: 4 pages, Grade 5, Term 2, 2025/2026, Ahmed Fathy El-Markaby, 5 MB, updated 2026-11-17. Listing: https://www.modrsbook.com/primary-5/term-2/science/mragaa-science-balfrnsy-llsf-alkhams-alabtdayy-altrm-althany-balagabat-2026-pdf
+- French Maths review with answers: 3 pages, Grade 5, Term 2, 2025/2026, same preparer, 6 MB, updated 2026-11-17. Listing: https://www.modrsbook.com/primary-5/term-2/math/mragaa-math-balfrnsy-llsf-alkhams-alabtdayy-altrm-althany-balagabat-2026-pdf
+- Both pages provide Google Drive preview links, but the preview reader requires Google sign-in and did not expose the PDF text in this pass.
+- Use strictly as prior-year supplementary comparison material, not 2026/2027 scope.
+
+### 14.5 Current-year cross-subject archive evidence
+
+**[VERIFIED INDEX METADATA — third-party index; individual PDFs require inspection]**
+- The Grade 5 Term 2 archive contains 542 files across Arabic, English, Maths, Science, Social Studies, Religious Education, ICT, professional/career skills, High Level English, German/French and Values & Respect for Others: https://www.modrsbook.com/primary-5/term-2
+- The archive also links current-year Term 1 October/November assessments and practice across ICT, Arabic, English, High Level English, Social Studies, Science and Maths. One example is Grade 5 October 2026 ICT assessment practice, six pages, answer key, Term 1: https://www.modrsbook.com/primary-5/term-1/technology/akhtbarat-shhr-aktobr-tknologya-llsf-alkhams-alabtdayy-balagabat-2026-pdf
+- The archive's subject categories are useful discovery paths, but do not prove every item is Ministry-issued or applicable to Girard.
+
+### 14.6 Official-source / secondary-index separation
+
+- The current-year French Science Term 1 assessment and student-book links discovered through the archive are **not yet inspected at document level**. Their page metadata attributes them to the Ministry; this is not enough by itself to mark them as official-verified.
+- The third-party archive's 2025/2026 Term 2 Science assessment mirror is six pages and visibly extracts the text “CamScanner / Science Lovers”; that scanned mirror is not a clean official provenance chain. Do not classify the mirror as an authoritative Ministry PDF without matching it against the original Ministry-hosted document.
+- The French school workbook from St Fatima (§ previous section references) is a useful school-specific example of oral/written practice, but not a Girard assignment.
+
+### 14.7 Next research sequence
+
+1. Obtain actual PDF bytes for the 2026/2027 French Science student book and assessment book through a working browser download route; extract the contents and build the Term 1 chapter/topic map.
+2. Inspect the 19-page French Science October review to triangulate terminology and current-year assessment style against the student book.
+3. Find equivalent 2026/2027 French-medium Mathematics student book, assessment book, teacher-preparation notebook, and monthly tests. Do not infer that the Arabic/English Math version matches the French-medium edition.
+4. Harvest current-year subject-specific October/November resources for Arabic, English, Social Studies, ICT, professional/career skills and Religious Education; confirm the religious track before selecting one.
+5. Continue searching for current-year Term 2 sources. As of this check, the identified 2026/2027 French Science student book and assessment book are Term 1 only; 2025/2026 Term 2 files remain historical.
