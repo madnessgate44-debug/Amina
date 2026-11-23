@@ -795,3 +795,38 @@ Two Google Drive targets were recovered from the public Grade 5 French Term 2 bo
 - Source listings: https://mozkratgahza.com/pdf/3093 and https://mozkratgahza.com/pdf/3094
 - The first listing's image preview is a BIEN JOUÉ ! 1 student-book interior page; the second listing's image preview is the workbook cover. The Google Drive preview itself returns HTTP 401 to this reader. The direct Ministry-hosted student book remains the strongest complete content reference; these Drive links are valuable phone-accessible mirrors to test.
 - **Do not confuse the exercise book with the teacher guide.** The matching teacher guide remains ISBN 9782011551085 and is still not located as a public full PDF.
+
+
+## 23. Consolidated asset-coverage matrix for Miss Noor
+
+This matrix separates the **current 2026/27 Term 1 student book** from the **matching teacher guide**. A complete student book does not imply a teacher guide has been found.
+
+| Subject / track | Current 2026/27 student book | Matching 2026/27 teacher guide | Older whole-book / guide evidence |
+|---|---|---|---|
+| Arabic | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] Third-party listing for 2026/27 Arabic teacher guide says download unavailable (§20.1); older T2 guides in §§18, 22 | 2024/25 T2 student book and teacher guide links in §§22, 22.2 |
+| English (first foreign language) | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] | 2024/25 T2 complete teacher guide (172 pp) in §21; 2025/26 T2 student book in §16.4 |
+| French 1 | **[SERIES CONFIRMED]** BIEN JOUÉ ! 1 named in 2026/27 Ministry assessments; complete T2 student book + Drive mirror and exercise book mirror in §§17.1, 17.8, 17.9 | [NOT FOUND AS PUBLIC PDF] Guide ISBN 9782011551085; Hachette certified-teacher portal in §17.2 | Complete historical Ministry student book; complete exercise book Drive mirror |
+| French 2 | No current-year full student book PDF confirmed; La Vie French 5B 2026/27 catalogue and Alex et Zoé + 2 publisher portal in §§17.4, 20.3, 20.5 | [NOT FOUND AS PUBLIC PDF] Alex et Zoé + 2 guide ISBN 9782090351187; La Vie guide not identified | Ministry assessment track identifies Alex et Zoé 2; historical Farandole collection in §17.3 |
+| Mathematics — English medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] | Historical T2 guide in §§18, 20.2, 22.2 |
+| Mathematics — Arabic medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] Older T2 guide in §§18, 20.2, 22.2; 2026-labelled guide candidate §20.1 | 2024/25 T2 full student book in §22 |
+| Mathematics — French medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] No French-medium teacher guide identified | Historical T2 student-book archive lead (broken Gulfup link) in §22.4 |
+| Science — English medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] 2026-labelled guide candidate, exact year unverified, §20.1 | Older T2 Science teacher guide §20.2 |
+| Science — Arabic medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] 2026-labelled guide candidate, exact year unverified, §20.1 | 2024/25 T2 full student book in §22 |
+| Science — French medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] No French-medium teacher guide identified | Complete 2019/20 T2 *Toi et les sciences* Ministry student book in §22.4 |
+| Social Studies | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] | Complete T2 student books 2022/23 and 2025/26 in §§18, 22.3 |
+| Islamic Religious Education | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] Historical T2 guide §18 / §22.2 | 2024/25 T2 student-book lead on modrsbook (not yet direct Drive link) |
+| Christian Religious Education | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] Historical T2 guide §18 | Official 2025/26 T2 student-book path in §16.2 |
+| ICT — Arabic medium | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND AS CURRENT] Historical T2 guide §21 | Complete T2 student-book leads 2023/24 and 2024/25 in §§18, 22.3 |
+| Libraries & Research Skills | **[FOUND — official Ministry PDF, 21 pages inspected]** §19 | [PARTIAL] Librarian implementation instructions are embedded in the student book; no separate guide located | Current student book includes 12 lessons |
+| Family Management & Entrepreneurship | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] | No matching current-year guide located |
+| Agriculture Skills & Entrepreneurship | **[FOUND — official Ministry PDF]** §19 | [NOT FOUND] | No matching current-year guide located |
+| Values & Respect for Others | Not in the current 15-book 2026/27 catalogue | [NOT FOUND CURRENT] Historical guides in §§18, 22.2 | 2024/25 T2 student book in §22 |
+| Arts / Music | Not in current 15-book catalogue | [NOT FOUND CURRENT] Historical guides in §§18, 20.2 | T2 guides in §18 |
+
+### 23.1 Release and verification gates
+
+- Current 2026/27 Term 1 student books: official links identified for all 15 catalogue entries.
+- Current 2026/27 Term 2 student books: not yet verified in the official catalogue snapshot; search has not established their publication.
+- Current 2026/27 teacher guides: no complete matched set found. Some teacher-guide listings are third-party metadata only or older editions.
+- Google Drive public previews frequently return HTTP 401/sign-in shells to this reader. Those links are preserved as user-openable leads; no file is described as downloaded or page-inspected unless the actual document or its cover was accessible.
+- For Girard, the exact subject/medium selection remains a school assignment question. The Ministry's French 1 track is BIEN JOUÉ ! 1; French 2 is a separate track and may use Alex et Zoé + 2 or a La Vie series. Do not merge the two.
