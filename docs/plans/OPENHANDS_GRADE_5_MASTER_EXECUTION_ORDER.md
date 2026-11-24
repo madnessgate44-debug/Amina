@@ -1,393 +1,350 @@
-# OpenHands Master Execution Order
-## Miss Noor — Grade 5 Full-Year Curriculum Completion Programme
+# Miss Noor Grade 5 Term 2 — OpenHands Implementation Order
 
-**Status:** Authoritative execution brief  
-**Version:** 1.0  
-**Repository:** `madnessgate44-debug/Amina`  
-**Academic year:** 2026–2027  
-**Target:** Complete, source-verified, functional Grade 5 learning experience for the entire applicable academic year.
+**Version:** 2.0 — ownership and scope correction  
+**Scope:** Grade 5, École Girard, Alexandria, 2026–2027, Term 2  
+**Coordination:** PR #208  
+**Curriculum research record:** PR #212  
+**Observed main baseline:** cdd6dd0281241a0b5ddb0f013bc4f037da009d7d (24 November 2026)  
+**Release authority:** repository owner only
 
-> This document consolidates the project brief, execution plan, acceptance criteria and OpenHands prompt into one source of truth. It supersedes informal or fragmented instructions about this programme. Read it before making changes. Do not interpret this document as evidence that any subject is already complete.
+> This is an implementation specification for OpenHands. It supersedes older instructions in this document that assigned curriculum research, source auditing, curriculum mapping, pedagogy, product requirements, or independent QA to OpenHands. It does not certify any subject or lesson as complete.
 
----
+## 1. Fixed operating ownership
 
-# 1. Mission and authority
+### ChatGPT — all non-coding ownership
 
-You are the primary implementation agent for Miss Noor's Grade 5 full-year curriculum completion.
+ChatGPT owns and performs:
 
-Your assignment is to inspect the actual repository, establish the complete applicable curriculum, compare it with the application, implement missing curriculum and product functionality, test the result, and leave reviewable evidence in GitHub.
+1. Curriculum and source research for every required subject.
+2. Retrieval and inspection of student books, teacher guides, assessments, term distributions, school-issued booklists and publisher sources.
+3. Source title, grade, year, term, language, edition, page, URL, hash, authority and applicability verification.
+4. Separation of Ministry baseline, Girard-confirmed assignment, publisher material, historical reference and app-authored content.
+5. Subject-by-subject source register and unit → lesson → concept → objective → exercise mapping.
+6. School-confirmation gaps and track/subject applicability decisions.
+7. Pedagogical design and complete Miss Noor teaching specifications.
+8. Product requirements, media requirements, QA strategy and test design.
+9. Preparation of implementation-ready tickets, acceptance criteria and materials.
+10. Independent review of OpenHands code, diffs, tests, mobile UX, lesson reachability, media playback/captions, assessment behavior and progress tracking.
+11. All non-coding clarifications OpenHands needs.
 
-This is an implementation assignment, not an audit-only assignment and not a request to generate lesson records in bulk.
+ChatGPT posts research, specifications, test cases, clarifications and review findings to GitHub. The user is not a messenger.
 
-**The objective is the whole academic year, not only Term 1, not only Science, and not only the subjects that already have substantial data.**
+### OpenHands — coding and implementation only
 
-Work autonomously through ordinary implementation decisions. Do not repeatedly ask the user to restate requirements or approve routine work. If a genuine external decision, inaccessible source, credential, or infrastructure dependency blocks an item, record the exact blocker and continue with all independent work.
+OpenHands must:
 
-## Authority boundaries
+- Inspect the actual Amina codebase and governing repository instructions.
+- Implement the specifications and source-backed content packages supplied by ChatGPT.
+- Modify application code, schemas, UI, media runtime, storage, tests and build configuration as required by those specifications.
+- Run implementation tests and report exact commands, outputs, failures and skipped checks.
+- Submit focused implementation PRs and report code/infrastructure blockers in PR #208.
 
-- Work only in this repository: `madnessgate44-debug/Amina`.
-- Follow repository instructions, security rules, existing architecture and the scope below.
-- Make small, reviewable changes on dedicated branches and submit pull requests.
-- Do not merge or deploy. Independent acceptance and release approval remain separate from implementation.
-- Do not add paid services, paid infrastructure, or new external dependencies requiring payment without explicit approval.
-- Do not commit secrets, credentials, private student information, private transcripts, or identifying information about a child.
-- Do not claim that a task was completed unless the required evidence exists.
-- Preserve passing behavior and avoid unrelated rewrites.
+OpenHands must not perform or be assigned curriculum research, source collection, source inspection, school alignment, curriculum mapping, pedagogical design, product requirements, QA strategy, research audits or independent source verification. If a source or requirement is missing, OpenHands reports the precise dependency in PR #208; ChatGPT resolves it and supplies the missing material. OpenHands must not ask the user to relay messages.
 
-# 2. Academic scope: discover the actual full-year requirements
+## 2. Fixed curriculum scope and publication rules
 
-Cover the complete 2026–2027 Grade 5 academic year: both terms, all required units, lessons, learning objectives, assessments and applicable language tracks.
+The target is Grade 5, École Girard, Alexandria, academic year 2026–2027, Term 2.
 
-The following is the initial discovery checklist, not a closed list. Verify it against the actual applicable school booklist, official curriculum and school language-track requirements:
+The working subject inventory is:
 
 - Arabic.
 - English.
-- French 1 (first-language French).
-- French 2 (second-language French).
-- Mathematics.
-- Science.
+- French 1 — first-language course, separate registry and progress.
+- French 2 — second-language course, separate registry and progress.
+- Mathematics taught and assessed in French.
+- Science taught and assessed in French.
 - Social Studies.
-- ICT / Computer Studies.
-- Religious Education (the applicable Islamic or Christian programme).
-- Any other subject shown to be required by the official school programme or booklist.
-
-**French 1 and French 2 are separate requirements.** Do not merge them, substitute one for the other, or infer that one track covers the other.
-
-For Mathematics, Science, ICT and every other subject, establish the actual teaching language for each applicable track. Never silently route French instruction through English or Arabic.
-
-Record subjects that are not applicable only when supported by the actual school programme, with the reason and evidence.
-
-# 3. Source authority and provenance
-
-Establish and maintain a source register before reconstructing curriculum content.
-
-Use this source hierarchy:
-
-1. Official Egyptian Ministry of Education 2026–2027 student textbooks.
-2. Official Ministry teacher guides, curriculum specifications and assessment documents for the same year.
-3. Official school-provided booklists and written requirements identifying the applicable programme and language tracks.
-4. Other verified school materials that clarify a specific requirement.
-5. Secondary sources only as discovery aids or corroboration; never present them as official primary-source evidence.
-
-For every source, record:
-- Exact title and subject.
-- Issuing authority / publisher.
-- Academic year and term.
-- Language and applicable track.
-- Original URL or repository/file location.
-- Relevant page numbers, only after inspecting those pages.
-- Access date.
-- Inspection status: inspected, partially inspected, inaccessible, or unverified.
-- Any limitations or conflicting editions.
-
-A search-result snippet, book index, third-party summary, filename, or link alone does not prove that the underlying textbook was inspected.
-
-Never invent:
-- Official content or Ministry requirements.
-- Unit, lesson, or textbook page numbers.
-- Teacher-guide statements.
-- Source quotations or provenance.
-- A claim that a document was read when it was not.
-
-If an official source is inaccessible, try reasonable official access routes and record the exact URL, retrieval failure, attempts, and missing evidence. Keep the affected curriculum item `[BLOCKED]` or `[UNPROVEN]`; do not silently substitute an unverified source and mark it complete.
-
-Respect copyright. Do not reproduce entire textbooks or large protected passages. Build original, age-appropriate teaching explanations and exercises grounded in verified source objectives, with accurate attribution and limited quotations where necessary.
-
-# 4. Required curriculum inventory and coverage audit
-
-For every subject, term, unit, lesson and learning objective, create a traceable inventory entry.
-
-Each entry must include, as applicable:
-
-- Stable curriculum item ID.
-- Subject and academic year.
-- Term, unit, lesson and objective.
-- Applicable language and track.
-- Official source ID and exact page reference, if verified.
-- Existing application lesson ID(s).
-- Existing content status.
-- Required implementation work.
-- Teaching-content completeness.
-- Exercise and answer-key status.
-- Runtime/functionality status.
-- Test evidence.
-- Blockers and notes.
-- Evidence status.
-
-Use these classifications consistently:
-
-- `COMPLETE`: all defined content and functional acceptance checks pass with evidence.
-- `PARTIAL`: some required content or behavior exists, but one or more requirements remain.
-- `MISSING`: no adequate implementation exists.
-- `WRONG_LANGUAGE`: instruction does not match the required track.
-- `INCORRECT`: existing content conflicts with verified source requirements.
-- `NONFUNCTIONAL`: learner cannot complete the expected application flow.
-- `SOURCE_UNVERIFIED`: source mapping or content provenance is not established.
-- `NOT_APPLICABLE`: excluded only with documented school-programme evidence.
-- `BLOCKED`: a specific external dependency prevents verification or implementation.
-
-Do not use lesson counts, registry population, media counts, or the existence of TypeScript objects as proxies for curriculum completeness.
-
-Compare the actual textbook inventory against the actual application lesson-by-lesson. Identify missing, partial, duplicated, incorrectly mapped, wrong-language and nonfunctional items.
-
-# 5. Teaching-content acceptance standard
-
-Every required lesson must be a genuine Grade 5 teaching experience, not a title, narration-only record, placeholder, or generic paragraph.
-
-For each lesson, implement the elements appropriate to its subject and learning objective:
-
-1. Clear learning objectives.
-2. Prerequisite knowledge or a short readiness check where useful.
-3. Accurate, age-appropriate explanation.
-4. Worked examples or demonstrations.
-5. Diagrams, illustrations, audio or practical activities where they materially help learning.
-6. Guided practice.
-7. Independent exercises.
-8. Correct answers and meaningful explanations.
-9. Common misconceptions and correction/remediation.
-10. Revision or mastery check.
-
-Subject-specific requirements:
-- Mathematics: worked methods, varied problems, answer evaluation and explanations of errors.
-- Science: accurate concepts, observations, activities and safety guidance where relevant; preserve the source's intended activity and conditions.
-- Languages: reading/listening/speaking/writing and grammar or vocabulary practice as required by the verified curriculum.
-- Social Studies: accurate concepts, map/diagram interpretation and source-grounded questions where appropriate.
-- ICT: practical, age-appropriate tasks that can actually be completed or safely simulated in the application.
-- Religious Education: follow only the applicable programme and source materials; do not assume the student's religion.
-
-Clearly distinguish:
-- Verified official learning objective/source requirement.
-- Original Miss Noor explanation.
-- Original app-authored exercise or assessment.
-- Teacher-guide-derived guidance, if actually inspected.
-
-An original exercise may teach a verified objective, but it must not be labelled an official textbook exercise unless it is one and the source confirms it.
-
-# 6. Product and teaching-engine requirements
-
-Miss Noor is the student's teacher, not merely a curriculum catalogue or dashboard.
-
-Inspect the current architecture before changing it. Reuse and improve existing components where appropriate.
-
-The student must be able to:
-- Find a subject, term, unit and lesson.
-- Open every published lesson reliably.
-- See a clear loading state during session initialization.
-- Receive a useful error state if a lesson cannot load.
-- Retry after recoverable errors.
-- Learn the lesson content in the correct language.
-- Complete guided and independent exercises.
-- Receive correct, meaningful feedback.
-- Retry incorrect answers and access remediation.
-- Complete a lesson or assessment.
-- Retain progress across navigation and reloads, subject to the application's supported storage/authentication model.
-- Return to the correct place without a dead end.
-
-Test and repair:
-- Curriculum registry and lesson resolution.
-- Lesson launch and session initialization.
-- Missing lesson and missing student handling.
-- Loading, error, retry and recovery states.
-- Storage/network failures and persistence.
-- Exercise rendering and answer evaluation.
-- Scoring, completion and mastery logic.
-- Progress restoration.
-- Navigation and back behavior.
-- Language routing and localized content.
-- Arabic RTL layout and text direction.
-- French and English rendering.
-- Mobile viewport and touch interactions.
-
-A lesson data record is not proof of a working lesson. A button that appears clickable but opens a blank screen, silently returns, or shows the wrong language is a failed learner flow.
-
-Do not treat schema existence, static source inspection, or passing unit tests alone as proof of end-to-end student functionality. Combine appropriate automated tests with actual runtime or browser verification where available. If runtime verification is unavailable, state that limitation.
-
-# 7. Miss Noor visual and student experience
-
-Maintain the established product direction:
-- Deep purple, warm cream and gold.
-- Arabic-first interaction and correct RTL.
-- Mobile-first layout, with 390 × 844 as a useful reference viewport.
-- A recognizable, consistent, warm teacher-like Miss Noor character.
-- A distinctive conversational speech-bubble treatment.
-- Clear subject identity and purposeful illustrations.
-- Accessible touch targets, readable typography and clear navigation.
-
-Review at minimum:
-- Home.
-- Feed.
-- Classroom.
-- Library.
-- Homework.
-- Lesson/session.
-- Assessment/results.
-
-The experience should feel like a real teacher guiding a child through learning, not a generic admin dashboard.
-
-Do not invent that a particular face, age, hair, hijab, clothing, or portrait has been approved if no approved reference exists. Preserve the existing character identity unless a clearly approved reference or direction is present. Implement the visual system and interaction improvements that can be supported by the repository and agreed direction; flag identity-specific design decisions that genuinely require user input.
-
-# 8. Execution phases and deliverables
-
-## Phase 0 — Repository and system baseline
-- Read `AGENTS.md` and all applicable repository instructions.
-- Inspect current `main`, record exact HEAD SHA and working baseline.
-- Inspect curriculum data, source files, lesson/session engine, language routing, UI, tests, workflows, deployment configuration and active PRs/issues.
-- Distinguish merged code from unmerged proposals.
-- Record current defects and reusable components.
-
-**Exit:** Actual repository baseline documented; no assumptions treated as facts.
-
-## Phase 1 — Full-year source inventory
-- Discover every required subject and language track.
-- Inspect official 2026–2027 sources for both terms.
-- Inventory all books, units, lessons and objectives.
-- Record page references only when verified.
-
-**Exit:** Every required item has a verified source mapping or an explicit blocker.
-
-## Phase 2 — Application coverage and gap analysis
-- Map each inventory item to actual app lesson IDs and implementation.
-- Inspect content and runtime paths.
-- Classify each item using the statuses in Section 4.
-- Identify dependencies and priorities.
-
-**Exit:** Every curriculum item has a traceable status and concrete next action.
-
-## Phase 3 — Curriculum completion
-- Implement missing and incomplete teaching content.
-- Correct inaccurate, duplicated, or incorrectly mapped content.
-- Keep source-derived requirements separate from original teaching material.
-- Work through every subject and both terms; do not stop after the first subject or first term.
-
-**Exit:** All required items have complete teaching content or documented external blockers.
-
-## Phase 4 — Teaching engine and application reliability
-- Repair lesson launch, session lifecycle, language routing, exercises, feedback, persistence and recovery.
-- Add regression and integration tests.
-- Verify actual student flows.
-
-**Exit:** Required learner flows pass, or any remaining limitation is explicitly documented and prevents acceptance.
-
-## Phase 5 — Visual and student experience
-- Complete the agreed visual system and character-led experience.
-- Verify all required screens on mobile.
-- Check accessibility, RTL and language variants.
-
-**Exit:** The complete student experience is coherent, usable and verified.
-
-## Phase 6 — Testing and evidence
-Run the repository's actual applicable:
-- Lint and formatting checks.
-- Unit tests.
-- Integration tests.
-- Curriculum data integrity tests.
-- Lesson completeness and source traceability tests.
-- Language/track tests.
-- RTL tests.
-- Lesson-launch tests.
-- Exercise and answer-evaluation tests.
-- Progress persistence tests.
-- Mobile/student-flow tests.
-- Production build.
-- CI and compliance workflows.
-
-Inspect the actual workflow run results and logs. Report exact commands, run IDs/links where available, pass/fail/skip status, and relevant limitations. Do not say a check passed merely because it was started or because a different check passed.
-
-**Exit:** Required checks pass with evidence; skipped or unavailable checks remain explicitly unverified.
-
-## Phase 7 — Pull requests and release handover
-- Submit reviewable PRs with scope, evidence, tests, risks and rollback considerations.
-- Keep PRs focused; avoid one enormous unreviewable change.
-- Do not merge or deploy.
-- Prepare a release report with exact accepted commits, test evidence, outstanding blockers and deployment steps.
-- Independent reviewer decides whether to merge and release.
-
-**Exit:** Implementation is ready for independent acceptance. Full project completion is not declared until the independent acceptance and production verification have actually occurred.
-
-# 9. Required evidence labels
-
-Use these labels in every progress report and acceptance document:
-
-- `[VERIFIED]`: directly supported by inspected source, code, test output, workflow, or runtime evidence.
-- `[HYPOTHESIS]`: plausible explanation not yet confirmed.
-- `[UNPROVEN]`: claim or requirement for which evidence is not yet available.
-- `[BLOCKED]`: specific external dependency prevents progress or verification.
-- `[FAILED]`: a check or acceptance requirement was attempted and did not pass.
-
-Do not upgrade a status without new evidence. A CI-green documentation-only PR does not prove curriculum or learner functionality.
-
-# 10. Required repository records
-
-Create and maintain these records. If a file already exists, inspect and update it rather than creating a conflicting duplicate.
-
-1. `docs/reports/GRADE_5_FULL_YEAR_CURRICULUM_ACCEPTANCE.md` — authoritative subject/term/unit/lesson acceptance matrix.
-2. `docs/curriculum/GRADE_5_SOURCE_REGISTER.md` — official source register and access evidence.
-3. `docs/curriculum/GRADE_5_FULL_YEAR_INVENTORY.md` — full-year subject, term, unit, lesson and objective inventory.
-4. `docs/curriculum/GRADE_5_GAP_ANALYSIS.md` — application-to-source gap analysis.
-5. `docs/plans/GRADE_5_COMPLETION_PROJECT_PLAN.md` — phased execution plan, dependencies and progress.
-6. `docs/reports/GRADE_5_VERIFICATION_EVIDENCE.md` — test, CI, runtime and source-verification evidence.
-7. `docs/reports/GRADE_5_RELEASE_REPORT.md` — release readiness, accepted commits and production verification.
-
-This master execution order is the entry point. Link the above records from it and keep their statuses consistent. Do not fabricate a completed inventory to satisfy a filename requirement.
-
-# 11. Checkpoint reporting and handover
-
-At every meaningful checkpoint, update repository records and report:
-
-1. Current branch and exact HEAD SHA.
-2. Latest main SHA observed.
-3. Subjects, terms and tracks inventoried.
-4. Subjects, terms and tracks completed.
-5. Missing, partial, wrong-language, incorrect and nonfunctional items remaining.
-6. Source documents inspected and inaccessible sources.
-7. Actual files changed.
-8. PR links and review/merge status.
-9. Exact tests/commands run and results.
-10. Workflow run links and failed/skipped checks.
-11. Runtime/browser evidence and limitations.
-12. Blockers requiring external action.
-13. Next concrete implementation actions.
-
-Leave enough detail in GitHub for another agent to continue without the user relaying messages. Keep the work log current and include links to commits, PRs, workflow runs and evidence.
-
-Do not stop after the audit. Do not stop after one subject. Continue through all independent work until the entire scope is implemented or each remaining item has a specific, evidence-backed blocker.
-
-# 12. Definition of done — no exceptions
-
-The programme may be declared complete only when all of the following are true:
-
-- Every subject required by the actual school programme is accounted for.
-- Both academic terms are accounted for.
-- Every applicable language track is separately accounted for, including French 1 and French 2.
-- Every required textbook unit, lesson and learning objective is mapped to evidence.
-- All required lessons contain complete, accurate, age-appropriate teaching experiences.
-- Official-source requirements and original app-authored content are distinguished.
-- No required lesson silently teaches in the wrong language.
-- Lesson launch, exercises, evaluation, feedback, retry, remediation and progress persistence work.
-- Arabic RTL and all applicable language experiences work.
-- Required mobile student journeys pass verification.
-- Required automated checks and production build pass, with skips and limitations disclosed.
-- Changes have passed independent review and been merged under the release process.
-- Production deployment is verified against the accepted commit.
-- The acceptance matrix contains evidence for every item.
-
-**A partial subject, Term 1-only coverage, populated registry, lesson count, green documentation check, passing build, or successful deployment does not equal full-year curriculum completion.**
-
-If any required item remains `PARTIAL`, `MISSING`, `WRONG_LANGUAGE`, `INCORRECT`, `NONFUNCTIONAL`, `SOURCE_UNVERIFIED`, `UNPROVEN`, `BLOCKED`, or `FAILED`, the overall programme must not be marked complete.
-
----
-
-# 13. Immediate instruction — start now
-
-1. Read this document and the repository's engineering instructions.
-2. Inspect actual `main` and record its current SHA; do not rely on the baseline SHA written in a prior conversation.
-3. Inspect existing project documents and open PRs, including whether previous work is merged, draft, stale or superseded.
-4. Establish the full-year inventory and source register before claiming coverage.
-5. Update the acceptance matrix with the true current state, including subjects previously believed complete but not proven.
-6. Begin implementation with the highest-impact verified gaps while continuing the full-year inventory.
-7. Create focused PRs and add tests/evidence.
-8. Continue autonomously through all phases. Do not ask the user to repeat this order.
-
-The user has separately arranged a recurring independent progress audit. Keep repository progress evidence current so that the audit can inspect actual work. Do not claim that the auditor or user has approved your changes.
-
-**Final instruction: build the complete, source-faithful, functioning Grade 5 year. Never optimize for the appearance of progress. Optimize for a child being able to learn the entire required curriculum correctly in Miss Noor.**
+- The learner's actual Religious Education track only.
+- ICT.
+- Library / Research Skills.
+- Family Management / Entrepreneurship.
+- Agriculture / Entrepreneurship.
+- Any additional subject confirmed by Girard.
+
+The complete source and assignment status is maintained by ChatGPT in PR #212. The current Term 2 map is not yet verified. Until ChatGPT supplies a verified lesson package:
+
+- Do not invent units, lessons, objectives, page references, exercises or answer keys.
+- Do not use Term 1 or an older-year Term 2 source as a substitute for 2026–2027 Term 2.
+- Do not treat a Ministry baseline book as proof that Girard assigned it.
+- Do not merge French 1 and French 2.
+- Do not select Islamic or Christian Religious Education from assumption or public profile data.
+- Do not treat every Ministry activity area as a separate school subject without Girard confirmation.
+- Keep unverified content unpublished and visibly blocked; continue independent implementation work.
+
+A public Girard listing reproduces a school announcement that the French international Pré-BAC pathway includes CM2 (Grade 5). This is a distinct pathway and does not prove the learner is enrolled in it. The requested target remains the user-specified French-bilingual Egyptian programme unless school-issued evidence changes it. Do not substitute the French international curriculum or its coursebooks.
+
+## 3. Repository baseline and verified implementation findings
+
+The following are code-inspection findings from main at cdd6dd0281241a0b5ddb0f013bc4f037da009d7d. They are implementation facts, not curriculum-completion claims.
+
+### 3.1 Source provenance model is incomplete
+
+The current SourceRef in src/types/teachingSession.ts stores book labels, grade, term, unit, lesson, page, optional pageRange/notes and isAvailable. It does not carry a stable source ID, URL, SHA-256, academic-year field, edition, language, issuing authority, access date, inspection status, licence or school-applicability status.
+
+CurriculumSource in src/types/curriculum.ts currently distinguishes Egyptian national, Girard French track and school-specific sources. This is not enough to prove the exact document edition or whether Girard assigned it.
+
+### 3.2 French 1 / French 2 are not independently represented
+
+The current French language curriculum file uses one subject ID, subj_french. The current term-one book coverage test does not establish separate French 1 and French 2 coverage and omits ICT. The current subject model must not represent two different French courses as one course.
+
+### 3.3 French assembly path has verified gaps
+
+The current French reel generator and languageGuard contain useful French-aware behavior; preserve and reuse them.
+
+The separate assembly path is not consistently French-aware:
+
+- assetResolver.ts reads the generic sourceText and uses Arabic/English example, analogy, key-point and prerequisite fields rather than the French-specific fields.
+- Its exercise fallback can read the default lesson exercises rather than requiring the French exercise set or proving that every prompt and option is readable in French.
+- GenerationRequest briefs are represented as localized text, but the current RoleGenerator callback accepts only Arabic and English.
+- TeachingNeed.matched carries titleAr and titleEn but no titleFr.
+- contentAssembler.ts selects titleEn for French mode and its phase-purpose strings contain only Arabic and English.
+
+For French instruction, missing French content must remain missing and trigger a declared gap. It must not silently fall back to English or Arabic.
+
+### 3.4 Existing teaching and media infrastructure should be extended, not replaced
+
+Amina already has:
+
+- EducationalMediaItem in src/types/media.ts with image, video, audio and interactive media types.
+- Localized media title, purpose and alt text, plus provenance, licence and review status.
+- A media catalog in src/data/media/mediaCatalog.ts.
+- A reuse-first assembly engine in src/services/assembly/assemblyEngine.ts and assetResolver.ts.
+- A staged LessonProductionJob in src/services/assembly/productionJobs.ts.
+- Persistent-job tests in src/services/assembly/__tests__/jobPersistence.test.ts.
+- French-aware reel generation and language checking in src/services/reels/.
+
+Preserve these working foundations. Add missing timeline, caption, source and language contracts without creating a competing lesson engine.
+
+The current persistence test exercises IndexedDB when available and an in-memory fallback otherwise. It does not prove cross-device or server-backed persistence. Do not describe it as such.
+
+### 3.5 Public-repository privacy defect
+
+The public repository's noorCurriculumConfig.ts currently contains a populated student-name field together with school, location and grade context. Treat that tuple as sensitive child-linked information. Do not copy the value into PR comments, logs or new artifacts.
+
+Remove student-specific identity and school/location linkage from public source code. Use a generic public curriculum configuration. Any learner-specific profile must be supplied through an appropriately private runtime/profile store, not committed to this public repository. Add a regression check so it cannot silently return.
+
+## 4. Papermorph technical decision
+
+Repository inspected: https://github.com/DozenTwelve/Papermorph
+
+### Verified capabilities and constraints
+
+- The repository is MIT-licensed at its root. Individual example books and media can have separate rights; do not assume every asset in the repository is reusable.
+- The repository is large: GitHub metadata reports 839,964 KB.
+- The Papermorph skill is written for Claude Code / OpenCode workflows. Do not assume that installing the skill directly makes it an OpenHands capability.
+- Its output is a static HTML / JavaScript / CSS lesson book with audio and media; it does not provide Amina's authenticated backend or server-side progress service.
+- The player supports timed narration, visual beats, captions, pause/seek/speed controls and per-book localStorage progress.
+- Its documented export path can render MP4 and subtitles. SCORM 1.2 / 2004 packaging is available but is not required for Amina's learner flow.
+- The documented free narration route uses Edge TTS online. The skill also describes local Kokoro, whose documented word-timing support is English-oriented.
+- The book-generation script includes a French Edge voice mapping, but a successful French narration run has not been verified in this audit.
+- The built-in player language list includes English, Russian, Chinese, Japanese and Arabic; French player-interface translations are not supplied. A French UI would need to be added if the original player were reused.
+- The engine helper can download the whole repository archive when it cannot find a local engine. Do not trigger that path or clone/vendor the entire large repository for this project.
+
+### Decision
+
+Use Papermorph as a verified reference architecture and selective MIT-code reuse candidate. Build a small Papermorph-compatible lesson-media format and renderer inside Amina's existing React application. Reuse existing Amina media, lesson-job and progress services. Do not deploy a separate standalone Papermorph site and do not install its Claude Code/OpenCode skill as an assumed OpenHands integration.
+
+Only copy isolated engine code after checking its exact file licence and dependencies, retaining required MIT/third-party notices. Do not copy Papermorph sample books, example images, audio, copyrighted pages or unrelated site assets.
+
+No paid model, voice, image API, hosting or dependency may be introduced. Edge TTS is an online free route described by Papermorph, not a guaranteed service-level commitment; the implementation must report provider failure and keep voice generation configurable. No ElevenLabs or other paid voice path.
+
+All source PDFs, extracted textbook pages and private school materials stay outside the public repository. Publish only original Miss Noor explanations, original diagrams/media, assessment data authored for the app, and non-sensitive source references.
+
+## 5. Implementation tickets — execute in this order
+
+### P0-1 — Remove child-linked data from public code
+
+**Files inspected:** src/data/noorCurriculumConfig.ts; src/types/curriculum.ts.
+
+Acceptance:
+
+1. No student name or child-specific school/location/grade tuple remains in public source code.
+2. Public curriculum defaults are generic and do not identify a learner.
+3. Learner-specific context is loaded only from a private runtime/profile boundary.
+4. No secret, transcript, private school file or child data is added to Git.
+5. Add a test or repository scan that fails if the removed identity fields are reintroduced into public config.
+
+### P0-2 — Implement a traceable curriculum source contract
+
+Implement a source registry separate from lesson content.
+
+Each source record must support:
+
+- Stable source ID and exact title.
+- Subject, grade and academic year.
+- Term and language.
+- Edition / version and publisher or issuing authority.
+- Authority class: Ministry, Girard-issued, primary publisher, secondary lead or app-authored.
+- Exact source URL or private-file reference.
+- SHA-256 when the source bytes are retrievable.
+- Retrieval/access date.
+- Inspection status: inspected, partially inspected, inaccessible or unverified.
+- Applicability: Girard-confirmed, Ministry baseline only, publisher bibliographic evidence, historical, app-authored or unconfirmed.
+- Printed page reference and PDF page reference as separate fields where they differ.
+- Licence/copyright note and non-sensitive provenance notes.
+
+A lesson must reference a source ID and exact page range. Do not use a bare book-title string as proof of source identity.
+
+A source may not be labelled verified unless its underlying document has been inspected and its required metadata is present. A Ministry baseline must never be displayed as Girard-confirmed assignment unless the source register contains school evidence.
+
+### P0-3 — Separate subject and learner-track identity
+
+Acceptance:
+
+1. French 1 and French 2 have distinct subject IDs, book/source references, lesson IDs, language-specific exercises, assessment records and progress keys.
+2. Mathematics-French and Science-French remain separate from Arabic/English versions.
+3. Religious Education is selected only through private, confirmed learner configuration. If unknown, do not silently default to either track.
+4. ICT and activity-domain subjects can be represented with an applicability status without falsely declaring them separate courses.
+5. Curriculum navigation, search, feed, lesson launch and progress use the same stable subject/track IDs.
+
+ChatGPT will supply the verified coursebook and lesson map. OpenHands implements the model and routing; it does not choose coursebooks.
+
+### P0-4 — Enforce strict French end-to-end
+
+Acceptance:
+
+1. French explanation uses sourceTextFr.
+2. French examples, analogies, prerequisites and key points use their French fields.
+3. French misconception diagnosis uses explanationFr/remediationFr.
+4. French practice uses exercisesByLanguage.fr. A default exercise may be used only if every prompt, option, hint and answer is proven readable in French.
+5. Missing French content is a declared gap; no silent English/Arabic fallback.
+6. TeachingNeed and generation contracts carry titleFr and a French brief.
+7. contentAssembler produces French lesson titles and French phase-purpose strings.
+8. Feedback, narration, captions, hints, remediation and mastery checks preserve the requested language.
+9. Add tests that fail when a French lesson renders Arabic or English instructional prose as its fallback.
+
+Reuse the existing languageGuard and French-aware reel generator rather than introducing a second language classifier.
+
+### P0-5 — Generalize the lesson teaching-pack contract
+
+The current CurriculumTeacherGuide is French-specific. Implement a reusable, localized LessonTeachingPack that supports:
+
+- Learning objectives.
+- Prerequisite/readiness check.
+- Vocabulary and definitions.
+- Core explanation.
+- Worked examples or demonstrations.
+- Guided practice.
+- Independent practice.
+- Ordered answer key with explanations.
+- Common misconceptions and diagnosis.
+- Targeted remediation.
+- Mastery checks and success criteria.
+- Source IDs and page references.
+- Content provenance: official source fact, teacher-guide-derived note, or original app-authored teaching content.
+- Review/publish status.
+
+All learner-visible fields must support the lesson's required language. A missing section must be represented as missing, not filled with generic prose.
+
+ChatGPT supplies the actual pedagogical content and lesson packages. OpenHands implements the schema, renderer and validation only.
+
+### P0-6 — Build the Papermorph-compatible media renderer in Amina
+
+Extend the existing EducationalMediaItem contract with a versioned timed-lesson manifest. At minimum the manifest must carry:
+
+- Schema version and stable lesson ID.
+- Source IDs and curriculum page references.
+- Required language and transcript.
+- Total duration and poster image.
+- Caption source and format (VTT or SRT), with language.
+- Ordered beats with stable ID, start/end time, narration text/audio, visual asset, accessibility description and optional interaction.
+- Optional question/check with answer and explanatory feedback.
+- Asset licence, attribution and review status.
+
+The Amina player must provide:
+
+1. Play / pause, seek and playback speed.
+2. Captions on/off and a readable transcript.
+3. Synchronized narration and visual beats.
+4. Touch-friendly controls and responsive phone layout.
+5. Reduced-motion behavior and no unexpected audible autoplay.
+6. Accessible labels and keyboard operation.
+7. Recovery when media or captions fail to load.
+8. Progress events written through Amina's existing progress/storage service, not Papermorph localStorage alone.
+9. A stable link back to the correct subject, unit and lesson.
+10. No published player state for unreviewed or source-unverified lessons.
+
+MP4/SRT export may be a batch output after the in-app lesson works. SCORM is out of scope for this 48-hour Amina rebuild unless a concrete school integration requirement is supplied.
+
+### P0-7 — Enforce lesson publication and completion gates
+
+A lesson cannot be marked published/complete merely because a job reached its final stage.
+
+Required publication evidence:
+
+- Verified applicable source mapping supplied by ChatGPT.
+- Correct grade, year, term, subject, track and language.
+- Complete teaching pack.
+- Valid practice questions and answer keys.
+- Misconception and remediation path.
+- Mastery check with an explicit success criterion.
+- Every media asset and caption file resolves and plays.
+- Mobile learner route is reachable.
+- Progress and assessment events persist through Amina's supported storage model.
+- No unresolved wrong-language or source-integrity failure.
+- Review status explicitly approved by the independent QA owner before release.
+
+Keep draft, blocked, needs-review and approved states distinct. OpenHands reports implementation test results; ChatGPT owns independent acceptance.
+
+### P0-8 — Tests and implementation evidence
+
+Add or update tests for:
+
+- Source registry required fields and status transitions.
+- Printed page versus PDF page references.
+- Ministry baseline versus Girard-confirmed applicability.
+- French 1 / French 2 isolation.
+- Religious-track gating.
+- Strict French text and exercise routing.
+- Teaching-pack completeness and answer-key alignment.
+- Media timeline ordering and duration validity.
+- Caption file reachability and language.
+- Audio/video playback errors and retry.
+- Player controls and phone viewport behavior.
+- Progress persistence and resume.
+- Public-repository privacy regression.
+
+Run the actual repository scripts, including lint, build, curriculum registry/integrity, Term 1 baseline, French teaching, media, assembly, job persistence and phone UI tests where applicable. Report exact command, exit status and raw result. A skipped or unavailable check is NOT RUN, not PASS.
+
+## 6. ChatGPT handoff and review protocol
+
+- PR #208 is the coordination thread.
+- PR #212 is the curriculum source-harvest artifact.
+- ChatGPT posts each complete research result, requirement, teaching package, test case and clarification in GitHub.
+- OpenHands posts implementation commits and focused PRs, then reports code blockers in PR #208.
+- ChatGPT reviews actual changed files and test evidence and posts actionable corrections.
+- Do not ask the user to forward comments or materials.
+- Do not treat a PR comment as proof that OpenHands has started a worker. Actual commits, PR updates and run evidence are required.
+
+## 7. Deadline and release boundary
+
+The 48-hour target is for the actual Term 2 rebuild, not automation setup. Continue all implementation that does not depend on missing curriculum sources. ChatGPT continues source retrieval and supplies lesson packages as they are verified.
+
+If a required school booklist, Term 2 book, teacher guide or assessment remains inaccessible at the deadline, report the exact source gap and leave that curriculum item blocked. Do not invent coverage or declare the curriculum complete.
+
+No merge, production deployment, paid service, paid API or new paid dependency without explicit release authorization.
+
+## 8. Required OpenHands first implementation response
+
+In PR #208, post:
+
+1. Acknowledgement of this ownership boundary.
+2. Exact branch and HEAD SHA.
+3. The first coding ticket being implemented.
+4. Files expected to change.
+5. Tests to run.
+6. Any code-only blocker requiring ChatGPT clarification.
+
+Do not return a curriculum research plan or ask the user to supply materials. ChatGPT owns that work and will post verified materials when available.
+
+## 9. Status vocabulary
+
+Use only evidence-backed statuses:
+
+- [VERIFIED] — directly supported by inspected repository, source document, test output or runtime evidence.
+- [IN PROGRESS] — actual work has started and evidence of the work exists.
+- [FAILED] — a named check was run and failed.
+- [BLOCKED] — a specific dependency prevents the next action.
+- [UNPROVEN] — a claim or requirement lacks sufficient evidence.
+
+A green build does not prove source coverage, school assignment, teaching quality, learner reachability or production deployment.
