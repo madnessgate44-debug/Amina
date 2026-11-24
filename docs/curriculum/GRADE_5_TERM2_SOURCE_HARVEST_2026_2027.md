@@ -1197,3 +1197,62 @@ The private Library search surfaced two Grade 5 French Science **Term 1** PDFs. 
 - **ChatGPT owns all non-coding work:** source research and verification, school/publisher source collection, curriculum mapping, pedagogy, product requirements, QA strategy, research audits, independent source verification and complete implementation-ready tickets/materials.
 - **OpenHands is coding/implementation only.** Do not assign it curriculum research, source retrieval, verification, mapping, pedagogical design or QA strategy. It implements the materials ChatGPT supplies and may report code blockers or request implementation details.
 - This section supersedes any earlier wording in this artifact or related execution documents that assigns research, curriculum mapping, pedagogy or independent source verification to OpenHands.
+
+
+---
+
+## 32. Research update — 24 November 2026
+
+### 32.1 Current-year Ministry book catalogue
+
+[VERIFIED] The accessible Grade 5 2026–2027 catalogue at https://miskeg.app/books/general-primary-5/ lists 15 official Term 1 books, last reviewed 2026-10-26, and links each item directly to the Ministry content server. The list includes Arabic, English, Social Studies, Mathematics in Arabic/English/French, Science in Arabic/English/French, Islamic and Christian Religious Education, Libraries/Research Skills, ICT, Family Management/Entrepreneurship and Agriculture/Entrepreneurship.
+
+[VERIFIED] The same page explicitly says its currently listed books are Term 1 and that Term 2 books are added when the Ministry publishes them. When reopened on 2026-11-24, the page still showed the 15 Term 1 items only.
+
+[UNPROVEN] This is a third-party index, not the Ministry's own publication register. It is evidence of what that index currently links to, not proof that the Ministry has not published another file elsewhere. Its links point to official Ministry-hosted PDFs.
+
+[BLOCKED] No current 2026–2027 Grade 5 Term 2 student-book set, teacher-guide set, assessment set or term distribution has been retrieved and inspected in this pass. The old 2025/2026 Term 2 English PDF remains historical only; its cover explicitly identifies 2025/2026.
+
+### 32.2 Girard pathway distinction
+
+[VERIFIED] The public school listing at https://www.schoolandcollegelistings.com/EG/Alexandria/105413658302016/Ecole-Girard---Section-Fran%C3%A7aise-Internationale-BAC reproduces a Girard announcement dated 2026-04-22. It states that the French international BAC / Pré-BAC pathway opened CM1 for the first time and lists CM2 as an available Pré-BAC class for the 2026–2027 intake.
+
+[UNPROVEN] This third-party mirror does not establish that the learner is enrolled in that French international pathway. It does not provide the learner's school-issued Grade 5 booklist, Term 2 sequence, teacher guides or assessment schedule.
+
+[BLOCKED] Keep the user-specified French-bilingual Egyptian programme distinct from the French international Pré-BAC programme. Do not substitute French-system coursebooks or CM2 sequencing for French 1, French 2 and French-medium Egyptian Mathematics/Science without school-issued confirmation.
+
+[UNPROVEN] The public Girard website https://ecole-girard.com/ was searched for Grade 5 booklists and Term 2 distributions; no such public document was located in the pages returned by this search. This is a search limitation, not proof that the school has no such documents.
+
+### 32.3 Ministry core subjects versus school-allocated activity domains
+
+[VERIFIED — secondary reporting] Youm7's 2026-08-24 report at https://www.youm7.com/story/2026/8/24/تفاصيل-المناهج-الدراسية-لطلاب-رابعة-وخامسة-وسادسة-ابتدائي-2027/7524211 lists Arabic, English, Mathematics, Science, Social Studies and Religious Education as core Grade 4–6 subjects for 2026–2027. It separately lists activity areas including arts, ICT, agriculture skills, industry skills, family-management skills, educational media, theatre, libraries, music and physical/health education. It also reports Connect Plus for language-school programmes.
+
+[VERIFIED — secondary reporting] Al-Masry Al-Youm's 2026-08-24 report at https://www.almasryalyoum.com/news/details/4344414 says the plan has 18 weekly periods plus two Connect Plus periods for language schools, and that allocation of several activity areas depends on each school's circumstances and resources.
+
+[UNPROVEN] The primary ministerial decree itself was not retrieved in this pass. These are secondary reports, not the legal instrument and not a Girard timetable.
+
+[BLOCKED] Keep Library/Research Skills, Family Management/Entrepreneurship and Agriculture/Entrepreneurship in the user-requested discovery scope, but do not assume they are separate weekly courses at Girard until a school-issued timetable or booklist confirms their treatment. ICT also requires confirmation of the assigned language and school sequence.
+
+### 32.4 Current-year Term 1 distribution is not Term 2
+
+[VERIFIED — secondary reporting] Akhbar Elyom's 2026-08-20 page at https://m.akhbarelyom.com/news/newdetails/4867276/1/ننشر-خريطة-توزيع-منهج-الدراسات-الاجتماعية-للصفوف-الابتدائية includes a Grade 5 Social Studies distribution for Term 1, with units on Egypt's location and varied environment, ancient Egyptian civilization and Egypt's resources, running from September 2026 to the January 2027 revision period.
+
+[UNPROVEN] The page is secondary reporting and the visible Grade 5 sequence is Term 1 only. It cannot be used to infer Term 2 lessons or school pacing.
+
+### 32.5 Secondary resource — not an authoritative curriculum source
+
+[VERIFIED] Darslab's Grade 5 page at https://darslab.com/eg/en/eg5/index.html lists 30/30 weeks for multiple subjects and says it is not affiliated with or endorsed by the Ministry. It explicitly states that lessons follow Ministry textbook order while all explanations, exercises and quizzes are Darslab's own. The page advertises English and Arabic, not French.
+
+[UNPROVEN] Darslab does not establish Girard assignment, current-year Term 2 editions or French 1/French 2 coursebooks. Use only as a secondary topic-order cross-check after the official source is independently verified. Do not copy its lesson text or mark it as Ministry content.
+
+### 32.6 Resulting source and mapping status
+
+- [VERIFIED] The accessible current-year public catalogue provides a 15-book Term 1 Ministry baseline with the subjects and language variants listed above.
+- [VERIFIED] A current-year Term 1 Grade 5 Social Studies distribution is publicly visible through secondary reporting.
+- [UNPROVEN] The learner's exact Girard French pathway is not established by the public school listing.
+- [BLOCKED] Current 2026–2027 Term 2 student books, teacher guides, assessments, distributions and Girard-issued subject/book sequence remain unverified.
+- [BLOCKED] French 1 and French 2 exact Girard coursebook titles, editions and Term 2 lesson sequences remain unverified.
+- [BLOCKED] The actual Religious Education track and the school's treatment of activity-domain subjects remain unconfirmed.
+- No Term 2 unit/lesson/concept coverage percentage is calculated. No Term 2 lesson map is invented.
+
+Continue source retrieval subject by subject. Preserve each source's exact year, term, language, authority and school applicability. Do not stop the remaining work because one subject's source is unavailable.
