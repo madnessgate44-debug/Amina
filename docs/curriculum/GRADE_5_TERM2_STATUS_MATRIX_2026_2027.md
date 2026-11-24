@@ -147,3 +147,5 @@ When a source is obtained, each row must include:
 6. The assigned instruction and assessment language for ICT and all activity-domain subjects.
 
 These are research blockers owned by ChatGPT. OpenHands must not contact the school or infer answers; it should continue the independent coding tickets in the implementation order.
+
+| Public / private Drive | Public indexed Drive searches returned no matching Girard Grade 5 / CM2 2026 booklist; private Drive contents were not available to inspect in this run | [BLOCKED] | Do not claim Drive was searched. Continue public source retrieval and inspect any school-issued file if it becomes available through an authorized source |
