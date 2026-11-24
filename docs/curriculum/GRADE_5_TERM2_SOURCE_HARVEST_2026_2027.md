@@ -1139,3 +1139,61 @@ A Ktateeb teacher resource index explicitly states that it is sharing English te
 - Search result/source-page evidence verifies the named book identities and the guide links as published by Ktateeb.
 - It does not verify the Drive binary contents, page counts, edition year printed inside each PDF, or successful anonymous download.
 - No complete current-year French-medium Science or French-medium Maths teacher guide has been recovered in this retry.
+
+
+## 31. Fresh source and repository recheck — 24 November 2026
+
+### 31.1 Current-year Ministry catalogue recheck
+
+- **[VERIFIED]** The Grade 5 2026–2027 catalogue was opened again on 24 November 2026: https://miskeg.app/books/general-primary-5/
+- It lists **15 official Term 1 student books** and states that each book link opens the Ministry content server. Its displayed link-review date remains **26 October 2026**.
+- The page explicitly says that Term 2 books are added when the Ministry publishes them. It still lists no Term 2 book on this recheck.
+- **Authority boundary:** Misk is a third-party catalogue/index, not the issuing authority. The linked PDFs resolve to the Ministry server. The catalogue is evidence of the currently indexed set, not a Ministry announcement.
+- **[BLOCKED]** No current-year 2026–2027 Grade 5 Term 2 student-book set, current Term 2 assessment set, official Term 2 teacher-guide set, or current Term 2 distribution was located. Do not create a Term 2 unit/lesson map from Term 1 or older-year material.
+
+### 31.2 Current-year French 1 and French 2 evidence — separate tracks
+
+The 2026–2027 Ministry Grade 5 Term 1 student-book catalogue still contains no French-language subject textbook. However, current-year Ministry-branded weekly assessment PDFs provide new Term 1 track evidence:
+
+- **French 1 / first language:** the Grade 5 Term 1 week 3 and week 6 assessment PDFs identify **Bien joué 1**, first-language French, and 2026–2027. They name the Ministry, Central Administration of General Education and French Language Consultant Office. The files are hosted by a third-party mirror, not the Ministry content server:
+  - https://gate.natega4dk.net/files/moe/French1_prim5_tr1_w3.pdf
+  - https://gate.natega4dk.net/files/moe/French1_prim5_tr1_w6.pdf
+- **French 2 / second language:** the Grade 5 Term 1 week 1 assessment identifies **Alex et Zoé 2**, second-language French, and 2026–2027. It is also a Ministry-branded file on a third-party mirror:
+  - https://gate.natega4dk.net/files/moe/French2_prim5_tr1_w1.pdf
+- **[VERIFIED publisher metadata, not school assignment]** CLE International's primary product pages confirm the current *Alex et Zoé + 2* A1.2 components:
+  - Student book + CD, ISBN 9782090384284: https://www.cle-international.com/enfants/alex-et-zoe-2-niveau-a12-livre-de-l-eleve-cd-9782090384284.html
+  - Activity book, ISBN 9782090384291, 96 pages: https://www.cle-international.com/enfants/alex-et-zoe-2-niveau-a12-cahier-d-activites-9782090384291.html
+  - Teacher guide, ISBN 9782090351187: https://www.cle-international.com/enfants/alex-et-zoe-2-niveau-a12-guide-pedagogique-9782090351187.html
+- These current-year Term 1 assessments identify the two tracks and their coursebook series. They do **not** prove that the school assigns these exact editions for Term 2.
+- The French 2 Term 2 weekly assessment at https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/ClassrHomeAssessmentsTest/French2_prim5_tr2_w1.pdf is under the older /2026/ path and is a **2025–2026 Term 2** document. It is historical only, not evidence for 2026–2027 Term 2.
+- The Ministry-hosted French 1 Term 2 student-book PDF at https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester2/Grade5/pdf/france_5prime_sb.pdf carries a Hachette 2007 imprint and no 2026–2027 edition marker. It is not proof of the current school Term 2 edition.
+- Secondary catalogue records identify the older *Bien joué 1* exercise book (ISBN 9782011551092) and guide (ISBN 9782011551085). No current-year Hachette primary-publisher page or school assignment record was established. Treat those bibliographic records as leads only.
+- **[BLOCKED]** Current 2026–2027 Term 2 student books, teacher-guide editions, lesson sequence and school assignment remain unconfirmed for both French tracks. Keep French 1 and French 2 separate.
+
+### 31.3 Science FR files found in the user's ChatGPT Library
+
+The private Library search surfaced two Grade 5 French Science **Term 1** PDFs. These are not copied into this repository.
+
+- **Student-book Library copy:** 110 PDF pages, 59,040,102 bytes, SHA-256 6fe1d9fdcf2108c76e73c6a148277629b2d71a9a95acec427f533190b163779c.
+- **Canonical Ministry-hosted StudentBook:** 109 PDF pages, 62,976,199 bytes, SHA-256 dc4b2d55b2e34fd21fd3f5e54c5614e727718b27dd8079d087d9cd0fa3cbbae5. PR #211 records 109/109 normalized book-page text-fingerprint matches between the canonical file and the Library copy. The Library copy has one additional promotional page; different PDF hashes do not prove visual/layout identity.
+- **Assessment/performance Library copy:** 69 PDF pages, 33,873,471 bytes, SHA-256 1385117b8a17fda8a5e6d8a1d0b77ed40c9d34a3a3b98f0b3f4c5f5a6f9c6d1b. The cover identifies Grade 5, French Science, first semester 2026–2027 and ISBN 978-633-8530-59-4. The file is a third-party mirror and includes a promotional insert; its Ministry-branded cover is not sufficient to authenticate it as a primary Ministry-hosted assessment source.
+- **[LIMIT]** These files are Term 1 only. The assessment copy has not been authenticated against a Ministry-hosted original or reviewed question by question. Do not call it a verified official assessment booklet.
+- **PR #211 status:** open and unmerged. Current head at this recheck: 48e50b16f2d41e3892962518d4c940f717ac5abe. CI run https://github.com/madnessgate44-debug/Amina/actions/runs/45351733234 passed type check, npm test and npm run build; compliance run https://github.com/madnessgate44-debug/Amina/actions/runs/45351733243 passed. The current CI run did not expose an npm run lint step. None of this changes the Term 2 source status.
+
+### 31.4 School-issued source and Drive access
+
+- **[BLOCKED]** No public Grade 5 2026–2027 Term 2 school booklist, term distribution, teacher guide or school-issued lesson sequence was located in the accessible public school pages.
+- **[BLOCKED]** The Google Drive connector was unavailable to this run. A targeted ChatGPT Library search surfaced the two Science Term 1 PDFs above, but no French 1/2 coursebook or current Term 2 school document. This is an access limitation; it is **not** evidence that such files do not exist in Drive.
+- Do not ask the user to relay research instructions. Continue using accessible Ministry and publisher sources; keep Drive-only items explicitly blocked until a supported Drive read path is available.
+
+### 31.5 Term 2 mapping status
+
+- **[BLOCKED]** No Term 2 unit → lesson → concept → objective → exercise map has been created for any subject. The required current-year Term 2 student books and school sequence are unavailable.
+- Existing Term 1 maps and historical Term 2 documents are not valid substitutes. No Term 2 coverage percentage or completion denominator may be published.
+- The exact missing inputs are recorded in GRADE_5_TERM2_STATUS_MATRIX_2026_2027.md.
+
+### 31.6 Operating ownership correction
+
+- **ChatGPT owns all non-coding work:** source research and verification, school/publisher source collection, curriculum mapping, pedagogy, product requirements, QA strategy, research audits, independent source verification and complete implementation-ready tickets/materials.
+- **OpenHands is coding/implementation only.** Do not assign it curriculum research, source retrieval, verification, mapping, pedagogical design or QA strategy. It implements the materials ChatGPT supplies and may report code blockers or request implementation details.
+- This section supersedes any earlier wording in this artifact or related execution documents that assigns research, curriculum mapping, pedagogy or independent source verification to OpenHands.
