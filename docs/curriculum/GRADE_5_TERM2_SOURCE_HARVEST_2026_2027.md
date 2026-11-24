@@ -1298,3 +1298,15 @@ Continue searching accessible public school/publisher/Ministry sources. If a pri
 [UNPROVEN] Neither assessment stream proves that Girard assigns those exact editions to this learner. A different school pathway or a separate commercial coursebook may be used. The French international Pré-BAC pathway remains distinct.
 
 [BLOCKED] The exact Girard-issued 2026–2027 Term 2 sequence, teacher-guide editions and any school-specific substitution remain unverified. Keep the two French courses separate and do not turn the Term 1 assessment evidence into a Term 2 lesson map.
+
+
+### 32.9 Public Google Drive mirrors — French 1 student package
+
+[VERIFIED as public mirror targets; full files not inspected] Two public Drive links were recovered from a Grade 5 French book listing:
+
+- BIEN JOUÉ ! 1 student-book mirror: https://drive.google.com/file/d/10ZXj_xO32lAswNIdd-RpW9QlkHXDfVSF/view?usp=share_link
+- BIEN JOUÉ ! 1 exercise-book mirror: https://drive.google.com/file/d/1Lwz6ZexQdQuLHOpm09W8wM_wZDZ321R0/view?usp=share_link
+
+The listing previews support the student-book identity and show the exercise-book cover. The reader receives HTTP 401 from the Drive preview, so the full file bytes, page count, edition and complete contents have not been verified. The exercise book is not the teacher guide.
+
+[BLOCKED] No complete public Drive copy of the BIEN JOUÉ ! 1 teacher guide or Alex et Zoé + 2 student/teacher book was verified. These generic public mirrors do not establish Girard assignment or a school-issued 2026–2027 Term 2 booklist.
