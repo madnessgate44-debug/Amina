@@ -1256,3 +1256,12 @@ The private Library search surfaced two Grade 5 French Science **Term 1** PDFs. 
 - No Term 2 unit/lesson/concept coverage percentage is calculated. No Term 2 lesson map is invented.
 
 Continue source retrieval subject by subject. Preserve each source's exact year, term, language, authority and school applicability. Do not stop the remaining work because one subject's source is unavailable.
+
+
+### 32.7 Public Drive and accessible Library search
+
+[BLOCKED] Public indexed searches for Girard / CM2 / Grade 5 2026 booklists and shared Google Drive files returned no matching public Drive file or folder. The accessible conversation Library search did not surface a current Girard Grade 5 Term 2 booklist or additional current-year student-book / teacher-guide set in this pass.
+
+[UNPROVEN] Private Google Drive contents were not available to inspect in this run. This is an access limitation, not evidence that the files do not exist. Do not claim that the private Drive was searched or that the school has no booklist.
+
+Continue searching accessible public school/publisher/Ministry sources. If a private school file becomes available through an authorized connected source, inspect the document itself and record its exact title, year, term, language, edition, page count and hash where retrievable.
