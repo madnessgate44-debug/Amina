@@ -119,3 +119,31 @@ When a source is obtained, each row must include:
 - **OpenHands:** code and implementation only, using the implementation-ready tickets in MISS_NOOR_TERM2_IMPLEMENTATION_SPEC_2026_2027.md. It must not be asked to research sources, verify curriculum, map lessons or design pedagogy.
 - **Current implementation boundary:** OpenHands may implement the data model, gating, language fixes, privacy fixes, media/caption support and QA harness. It must not author Term 2 lesson content until ChatGPT supplies verified Term 2 source maps.
 - No merge or deployment is authorized by this document.
+
+
+---
+
+## 9. Research update — 24 November 2026
+
+| Area | Current evidence | Status | Implementation consequence |
+|---|---|---|---|
+| Ministry Grade 5 2026–2027 books | Accessible public index lists 15 official Term 1 books and states Term 2 links are added when published; index last reviewed 2026-10-26 | [VERIFIED] for the index; [BLOCKED] for current Term 2 source retrieval | Keep the 15-book set as Term 1 baseline only. Do not create Term 2 lesson records from it |
+| Girard French pathway | Public third-party mirror reproduces a 2026-04-22 school announcement listing CM2 in the French international Pré-BAC pathway | [VERIFIED] that the pathway is publicly advertised; [UNPROVEN] learner enrollment | Do not confuse Pré-BAC with the user-specified French-bilingual Egyptian programme |
+| French 1 / French 2 | Current app has one subj_french course; current Term 2 Girard coursebook identities are not established | [BLOCKED] | Implement separate course IDs and registries; wait for ChatGPT's verified source map before adding lessons |
+| French-medium Mathematics / Science | Current Ministry Term 1 catalogue has French variants; no current Girard Term 2 books or sequence inspected | [VERIFIED] for Term 1 baseline; [BLOCKED] for Term 2 | Keep French instruction/assessment routing strict; do not reuse Term 1 sequence as Term 2 |
+| Social Studies | Current-year Term 1 distribution is visible in secondary reporting; no current Term 2 distribution inspected | [VERIFIED] for the reported Term 1 sequence; [BLOCKED] for Term 2 | Term 1 sequence is not a Term 2 map |
+| Religious Education | Ministry baseline index lists both Islamic and Christian books; actual learner track is unknown | [VERIFIED] for both Ministry baseline options; [BLOCKED] for learner assignment | Do not default to either track |
+| ICT, Libraries, Family Management, Agriculture | Current Ministry Term 1 baseline index lists books; secondary reports classify several related areas as school-allocated activities | [VERIFIED] for Term 1 baseline links and secondary reporting; [UNPROVEN] Girard's standalone-course treatment | Retain in discovery scope; require Girard timetable/booklist before declaring separate courses |
+| Teacher guides and assessments | No current 2026–2027 Grade 5 Term 2 set retrieved and inspected | [BLOCKED] | No Term 2 completeness claim |
+| Secondary content resource | Darslab advertises 30/30 weeks, disclaims Ministry affiliation, and says explanations/exercises/quizzes are its own | [VERIFIED] for its own disclosure; [UNPROVEN] as a curriculum mapping source | Cross-check only; never substitute for official or Girard source evidence |
+
+### 9.1 Required school-specific confirmations
+
+1. Which Girard Grade 5 French pathway applies to the learner: the user-specified French-bilingual Egyptian programme or the French international Pré-BAC programme?
+2. Exact Girard Term 2 booklist and subject/weekly sequence.
+3. Separate French 1 and French 2 book titles, editions and assessment expectations.
+4. Whether Library/Research Skills, Family Management and Agriculture are standalone courses, rotating activity domains or another school arrangement.
+5. The learner's actual Religious Education track.
+6. The assigned instruction and assessment language for ICT and all activity-domain subjects.
+
+These are research blockers owned by ChatGPT. OpenHands must not contact the school or infer answers; it should continue the independent coding tickets in the implementation order.
