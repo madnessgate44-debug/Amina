@@ -1265,3 +1265,36 @@ Continue source retrieval subject by subject. Preserve each source's exact year,
 [UNPROVEN] Private Google Drive contents were not available to inspect in this run. This is an access limitation, not evidence that the files do not exist. Do not claim that the private Drive was searched or that the school has no booklist.
 
 Continue searching accessible public school/publisher/Ministry sources. If a private school file becomes available through an authorized connected source, inspect the document itself and record its exact title, year, term, language, edition, page count and hash where retrievable.
+
+
+### 32.8 French 1 and French 2 — opened Ministry-branded assessment PDFs and publisher resources
+
+#### French 1 — BIEN JOUÉ ! 1
+
+[VERIFIED — document inspected] The Ministry-hosted Grade 5 French 1 Term 2 archive path https://elearnningcontent.blob.core.windows.net/elearnningcontent/content/prim/semester2/Grade5/pdf/france_5prime_sb.pdf opens a complete BIEN JOUÉ ! 1 — Méthode de français — 5ème Primaire student method. The cover identifies the Egyptian Ministry of Education / Book Sector and Hachette Livre / Dar El Nashr Horizons. The book credits Carla Gislon, Maria Grazia Selle, Marie-Christine Jamet and Anne Gruneberg. The imprint states Hachette Livre 2007 / Petrini Editore 1998 and ISBN 977-264-831-8. The contents page lists eight units.
+
+[VERIFIED — current-year Ministry-branded assessment mirror] The Grade 5 French 1 Term 1 week 6 PDF at https://gate.natega4dk.net/files/moe/French1_prim5_tr1_w6.pdf has four pages. Its cover identifies French first language, Grade 5, BIEN JOUÉ 1 and the 2026/2027 first term. The week 3 mirror at https://gate.natega4dk.net/files/moe/French1_prim5_tr1_w3.pdf also identifies Grade 5 French first language, but its OCR renders the year incorrectly; use week 6 as the clean current-year confirmation.
+
+[VERIFIED] These sources establish BIEN JOUÉ ! 1 as the Ministry Grade 5 French 1 method named by the 2026–2027 Term 1 assessment stream. The full student method is retrievable from the Ministry content server.
+
+[UNPROVEN] The 2007 book imprint and semester2 archive path do not establish a newly issued 2026–2027 edition or a Girard-issued Term 2 assignment. The assessment evidence is hosted by a third-party mirror, although the PDF itself carries Ministry/French Consultant Office branding. Girard's exact booklist remains unverified.
+
+[VERIFIED — bibliographic lead only] The matching BIEN JOUÉ ! 1 teacher guide is identified as Guide pédagogique, ISBN 9782011551085; the exercise book is ISBN 9782011551092. The full guide PDF was not retrieved. The Hachette FLE public resource route exposes an introduction sample, not the complete guide. Do not label the complete teacher guide as obtained.
+
+#### French 2 — Alex et Zoé + 2
+
+[VERIFIED — current-year Ministry-branded assessment mirror] The Grade 5 French 2 Term 1 week 1 PDF at https://gate.natega4dk.net/files/moe/French2_prim5_tr1_w1.pdf has three pages. Its cover identifies French second language, Grade 5, Alex et Zoé 2 and the 2026/2027 first term. This is distinct from the French 1 / BIEN JOUÉ ! 1 track.
+
+[VERIFIED — publisher companion site inspected] CLE International's companion site https://alex-et-zoe.cle-international.com/9782090384284 identifies Alex et Zoé + 2 and exposes 15 unit sections, 17 audio evaluation tracks and French interactive exercises for the units. This is a primary publisher resource, not a Girard assignment record and not a full downloadable student-book PDF.
+
+[VERIFIED from publisher search metadata; product pages blocked on open] CLE International's indexed product metadata identifies the student book as Alex et Zoé + 2 — Niveau A1.2, ISBN 9782090384284, for children aged 7–10; the activity book is ISBN 9782090384291; the pedagogical guide is ISBN 9782090351187. Direct opens of the three CLE product pages returned HTTP 403 on 2026-11-24, so the detailed product-page metadata remains a bibliographic lead until a directly inspectable catalogue record is available.
+
+[BLOCKED] No complete authorized Alex et Zoé + 2 student-book PDF or complete teacher-guide PDF was retrieved. The older Grade 5 French 2 Term 2 weekly assessment under the Ministry's /2026/ path is a 2025–2026 document and remains historical only.
+
+#### French 1 / French 2 result
+
+[VERIFIED] The 2026–2027 Ministry-branded Grade 5 Term 1 assessment stream distinguishes the two courses and names BIEN JOUÉ ! 1 for French 1 and Alex et Zoé 2 for French 2.
+
+[UNPROVEN] Neither assessment stream proves that Girard assigns those exact editions to this learner. A different school pathway or a separate commercial coursebook may be used. The French international Pré-BAC pathway remains distinct.
+
+[BLOCKED] The exact Girard-issued 2026–2027 Term 2 sequence, teacher-guide editions and any school-specific substitution remain unverified. Keep the two French courses separate and do not turn the Term 1 assessment evidence into a Term 2 lesson map.
