@@ -1310,3 +1310,36 @@ Continue searching accessible public school/publisher/Ministry sources. If a pri
 The listing previews support the student-book identity and show the exercise-book cover. The reader receives HTTP 401 from the Drive preview, so the full file bytes, page count, edition and complete contents have not been verified. The exercise book is not the teacher guide.
 
 [BLOCKED] No complete public Drive copy of the BIEN JOUÉ ! 1 teacher guide or Alex et Zoé + 2 student/teacher book was verified. These generic public mirrors do not establish Girard assignment or a school-issued 2026–2027 Term 2 booklist.
+
+
+---
+
+## 33. ChatGPT-owned fresh retrieval pass — 25 November 2026
+
+### 33.1 Ministry content-server path validation
+
+[VERIFIED] A fresh public-index search on 2026-11-25 returned the Ministry content-server English Grade 5 Term 2 student-book URL:
+
+https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/StudentBook/English_Prim5_Tr2.pdf
+
+The indexed page identifies the Ministry and Primary 5 English framework. The URL uses the legacy `/2026/` directory, not the current-year `/2026_2027/` directory. The result was published/indexed roughly 10 months before this retrieval. It is therefore a historical Grade 5 Term 2 source candidate, not evidence of the 2026–2027 Term 2 edition. Full PDF cover, imprint, pagination and contents were not inspected in this pass. Do not promote it to current-year source status.
+
+[VERIFIED] A second Ministry content-server result is an ICT Grade 5 Term 2 weekly assessment:
+
+https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/ClassrHomeAssessmentsTest/ICT_english_Prim5_TR2_W3.pdf
+
+Its indexed cover/title identifies Information and Communication Technology, Grade 5 and Ministry assessment authorship. Its `/2026/` path and index age indicate a historical lead. Exact academic-year cover wording and PDF pagination must be checked before even classifying its historical year definitively. It is not current 2026–2027 evidence and does not establish Girard's ICT language or course status.
+
+[BLOCKED] Targeted exact-path searches for Grade 5 `/2026_2027/Primary/Primary5/Term2` student books and assessments did not return a matching indexed result in this pass. Search failure is not proof that the files do not exist or have not been published.
+
+### 33.2 Official portal access
+
+[VERIFIED] The Ministry e-library URL https://ellibrary.moe.gov.eg/books/ and performance-assessment portal https://studentbooks.moe.gov.eg/Performance_Assessments/ were opened on 2026-11-25; both returned HTTP 403 to the web reader. This is a retrieval/access limitation only, not evidence of publication status or source absence.
+
+### 33.3 Retrieval decisions
+
+- Keep the two `/2026/` Term 2 files in the historical-lead category until their covers and academic-year markings are inspected.
+- Do not construct or guess a `/2026_2027/` Term 2 URL from the Term 1 directory pattern.
+- Continue subject-by-subject retrieval using direct Ministry content-server links, publisher catalogues, and school-issued records. Search-result snippets remain discovery leads, not inspected source documents.
+- No unit→lesson→concept→objective→exercise rows are added from these leads.
+- No copyrighted textbook or assessment files are committed to the public repository.
