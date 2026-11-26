@@ -7,7 +7,7 @@ export type CurriculumOrigin = 'demo' | 'official' | 'ai_generated';
 
 export type CurriculumSource =
   | 'egyptian_national'
-  | 'french_girard_track'
+  | 'french_track'
   | 'school_specific';
 
 export type CurriculumTrack =
