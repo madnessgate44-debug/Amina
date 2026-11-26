@@ -1343,3 +1343,39 @@ Its indexed cover/title identifies Information and Communication Technology, Gra
 - Continue subject-by-subject retrieval using direct Ministry content-server links, publisher catalogues, and school-issued records. Search-result snippets remain discovery leads, not inspected source documents.
 - No unit→lesson→concept→objective→exercise rows are added from these leads.
 - No copyrighted textbook or assessment files are committed to the public repository.
+
+
+---
+
+## 34. ChatGPT-owned fresh public-source check — 26 November 2026
+
+### 34.1 Current-year Ministry Grade 5 catalogue recheck
+
+[VERIFIED — third-party index, Ministry-hosted linked PDFs] The Grade 5 2026–2027 catalogue was rechecked through a fresh search crawl on 2026-11-26. It still lists **15 Term 1 books only**, with the page's last link-review date shown as 2026-10-26. It does not expose current-year Grade 5 Term 2 book links in the indexed page:
+https://miskeg.app/books/general-primary-5/
+
+This is evidence of what the public index currently lists, not proof that the Ministry has not published a file elsewhere. The Ministry's own e-library and assessment portals remain the preferred primary retrieval route; earlier 403 responses are still access limitations, not publication evidence.
+
+### 34.2 Alexandria Directorate monthly assessment timetable — limited applicability
+
+[VERIFIED — secondary report reproducing a Directorate timetable] A report crawled on 2026-11-26 reproduces the Alexandria Grade 5 November 2026 monthly assessment sequence for the 2026–2027 year. It lists Arabic and Religious Education, Mathematics, English, Science and ICT, and Social Studies across the assessment period. The report attributes the timetable to Alexandria Directorate:
+https://shbabbek.com/show/284983
+
+[VERIFIED] This is evidence that those subjects appear in the reported Alexandria public-school monthly assessment framework for November 2026.
+
+[UNPROVEN] It does not establish École Girard's private-school timetable, French 1/French 2, French-medium Maths/Science coursebooks, the learner's RE track, or any Term 2 book/lesson sequence. It must not be used as a Girard assignment or Term 2 map.
+
+### 34.3 Term 2 discovery result
+
+[VERIFIED] Search results for the Ministry Grade 5 English Term 2 PDF continue to resolve to the legacy `/2026/` path and explicitly identify academic year 2025/2026. It remains historical:
+https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/Primary5/Term2/StudentBook/English_Prim5_Tr2.pdf
+
+[BLOCKED] No inspectable current-year 2026–2027 Grade 5 Term 2 student-book, assessment, teacher-guide or term-distribution document was retrieved in this check. No Girard-issued Grade 5 Term 2 booklist or weekly sequence was found in the public results.
+
+### 34.4 Research disposition
+
+- Keep all 2025/2026 Term 2 PDFs as historical references only.
+- Keep the November Alexandria assessment timetable as a local public-school assessment lead only, not Girard evidence.
+- Do not create unit→lesson→concept→objective→exercise rows without inspected applicable source pages.
+- Continue source-by-source work independently; unavailable sources for one subject do not stop research on other subjects.
+- ChatGPT owns this research and all subsequent mapping/pedagogy/QA. OpenHands is implementation-only.
