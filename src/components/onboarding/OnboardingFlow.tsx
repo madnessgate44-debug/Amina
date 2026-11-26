@@ -129,10 +129,8 @@ export const OnboardingFlow: React.FC = () => {
         age: age ?? 10,
         grade: 'الصف الخامس الابتدائي (Grade 5)',
         country: 'مصر (Egypt)',
-        curriculum: 'Girard French Track — Egyptian National + French Curriculum',
+        curriculum: 'French Track — Egyptian National + French Curriculum',
         academicYear: '2026 – 2027',
-        school: 'École Girard',
-        location: 'Alexandria, Egypt',
         curriculumTrack: 'french_bilingual',
         preferredLanguage: language,
         // Display-only subject list; the child does not choose the curriculum.
