@@ -5,7 +5,7 @@
 **Subject:** Sciences taught in French  
 **Source content:** 109 book-content pages in the inspected Library copy; its PDF page 3 bears the Ministry 2026–2027 imprint. The 110-page PDF includes an appended third-party promotional page  
 **Evidence:** [VERIFIED] PDF pages 1–109 contain the book copy; PDF page 110 is a third-party promotional insert and is excluded. The Ministry/Central Administration copyright and 2026–2027 edition statement appears on PDF page 3 (front matter, not a numbered textbook page); the final imprint is PDF page 109. The copy is third-party assembled; its byte-level identity with the canonical Ministry URL is [UNPROVEN].  
-**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected 2026–2027 student-book copy. All 28 lessons have app-authored French teaching plans. PR #200, #202 and #205 are merged; current `main` is `b9a538eb0824b637931c12a4c2931d7c07b3297e`; main CI [44519308863](https://github.com/madnessgate44-debug/Amina/actions/runs/44519308863) and compliance [44519308870](https://github.com/madnessgate44-debug/Amina/actions/runs/44519308870) passed. A physical-phone walkthrough remains [UNPROVEN]. This is Term 1 only, not a full-year completion declaration.
+**Status:** [VERIFIED] The nine-chapter source inventory and all 28 numbered lesson page ranges are reconciled against the inspected 2026–2027 student-book copy. All 28 lessons have app-authored French teaching plans. Current `main` is `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`; main CI [44732743560](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743560) and Engineering Execution OS compliance [44732743518](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743518) passed. PR [#211](https://github.com/madnessgate44-debug/Amina/pull/211) is open and unmerged; its page-bound correction, image-backed audit and test refinement The current PR head is `a14e9a2c58dcce73e64d1034b454bfa2a3d46831`; its latest CI [45459623624](https://github.com/madnessgate44-debug/Amina/actions/runs/45459623624) and Engineering Execution OS compliance [45459623695](https://github.com/madnessgate44-debug/Amina/actions/runs/45459623695) both succeeded. CI completed type check, npm test (39 suite summaries; 0 failed, including 130 Term 1 book-coverage assertions) and build (1,801 modules). The changes remain unmerged and are not in `main`. The implementation head `48e50b16f2d41e3892962518d4c940f717ac5abe` also passed earlier CI [45351733234](https://github.com/madnessgate44-debug/Amina/actions/runs/45351733234) and compliance [45351733243](https://github.com/madnessgate44-debug/Amina/actions/runs/45351733243). The plans are not an official Ministry teacher guide. The matching Ministry guide and exact Term 2 book remain [BLOCKED]; a physical-phone French Science walkthrough remains [UNPROVEN]. This is Term 1 only, not a full-year completion declaration.
 
 ## Source identity and scope
 
@@ -284,3 +284,45 @@ A Ministry-branded French Science Term 1 assessment-book copy was found in the L
 - **[VERIFIED]** The merged code retains the full 28-lesson Term 1 French Science inventory and the page-specific corrections to lesson 5-2 (microscope slide preparation and optics) and lesson 9-1 (source-faithful evaporation activity). This remains Term 1 only.
 - **[BLOCKED]** No authenticated Egyptian Ministry 2026–2027 Grade 5 French Science teacher guide or exact Term 2 student book has been found. The current catalogue index still lists 15 Term 1 books only; its last displayed link review is 26 October 2026: https://miskeg.app/books/general-primary-5/. A third-party Term 2 revision for academic year 2026 is not a substitute for the 2026–2027 Ministry student book.
 - **[UNPROVEN]** High-resolution diagram equivalence, independent full pedagogical peer review, and a physical-phone learner walkthrough remain outstanding. No full-year completion claim is made.
+
+
+## Mainline verification — 21 November 2026
+
+- **[VERIFIED]** Current `main` is `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`. The 28 current-edition lesson records and 28 Miss Noor-authored teaching plans remain aligned one-to-one across the nine exact TOC chapters.
+- **[PASS]** Main CI [44732743560](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743560): curriculum registry 61/0, curriculum integrity 17/0, Term 1 book coverage 130/0; type check, `npm test`, and build passed. Vite built 1,801 modules in 641 ms. Compliance [44732743518](https://github.com/madnessgate44-debug/Amina/actions/runs/44732743518) passed.
+- **[CORRECTION IN PR]** The shared Term 1 test's Science PDF-page ceiling is corrected from 120 to the verified 109-page canonical PDF. Exact printed lesson ranges remain guarded separately by the Science registry assertions.
+- **[BLOCKED]** Matching Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook, and authenticated assessment-book source remain unavailable/unverified. Do not substitute the third-party 29-page generic preparation notebook or the 68/69-page assessment candidate.
+- **[UNPROVEN]** A French-language, phone-sized Science lesson walkthrough and high-resolution diagram review remain outstanding. The Arabic learner-flow QA recorded in PR #210 does not close this Science-specific gate.
+- **Scope:** Term 1 only; no full-year completion claim.
+
+
+## PR #211 verification — 22 November 2026
+
+- **[VERIFIED]** PR [#211](https://github.com/madnessgate44-debug/Amina/pull/211) is based on current main `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`. At code/test head `446b5966933bc1bfa6966cb45a3f6b25d4b3d9ea`, the Science PDF page ceiling is corrected from 120 to the canonical StudentBook's verified 109 pages. Printed lesson page ranges remain separately asserted.
+- **[PASS]** PR-head CI [45000815151](https://github.com/madnessgate44-debug/Amina/actions/runs/45000815151) passed the blocking type check, `npm run lint`, `npm test`, and `npm run build`. Science-relevant results: curriculum registry **61/0**, curriculum integrity **17/0**, reels **187/0**, Term 1 book coverage **130/0**. Vite transformed 1,801 modules and built in 521 ms.
+- **[PASS]** Engineering Execution OS compliance [45000815169](https://github.com/madnessgate44-debug/Amina/actions/runs/45000815169) passed.
+- **[VERIFIED]** The only non-documentation change outside the page-bound test is a deterministic, test-only correction to distinguish UI narration language from each lesson's declared instruction language. No Science runtime code or lesson content changed.
+- **[VERIFIED]** PR #211 remains open and unmerged. No deployment is performed or claimed.
+- **[BLOCKED]** The matching Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook and authenticated assessment-book source remain unavailable/unverified. High-resolution diagram review, independent pedagogical peer review and a physical-phone French Science walkthrough remain outstanding.
+- **Scope:** Grade 5 French Science Term 1 only; no full-book or full-year completion claim.
+
+
+## Image-backed source cross-check — 23 November 2026
+
+- **[VERIFIED]** The 28 lesson-opening images were inspected against the lesson titles and chapter sequence. Selected exercise pages, all six enrichment sections, the Chapter 5 review on printed p. 63 and the four appendix skills on pp. 104–107 were also inspected.
+- **[VERIFIED]** The visual audit confirms the lesson-opening image subjects are relevant to their mapped lesson topics; it does not replace the printed-page text/source mapping or the registry tests.
+- **[UNPROVEN]** This was a targeted visual cross-check of the Library copy, not a high-resolution audit of every internal diagram/caption or a visual comparison against the canonical Ministry-hosted PDF. See [the image-backed source audit](../audits/grade5-science-fr-term1-visual-source-audit-2026-11-23.md).
+- **[UNPROVEN]** Independent teacher review and a physical-phone French Science walkthrough remain open. All app-authored plans remain distinct from an authenticated Ministry teacher guide.
+
+
+
+## PR #211 verification — 23 November 2026
+
+- **[VERIFIED]** The Science source/page-bound correction, image-backed audit report and test refinement are in PR [#211](https://github.com/madnessgate44-debug/Amina/pull/211). The code/test head `c8a9de58f25aec2a49453204b7131ac08c13a7e1` is based on main `cdd6dd0281241a0b5ddb0f013bc4f037da009d7d`.
+- **[PASS]** CI [45131898126](https://github.com/madnessgate44-debug/Amina/actions/runs/45131898126): blocking type check, `npm run lint`, `npm test` and `npm run build` all passed. The test run reported 39 suite summaries with no failures; Science-relevant checks: registry **61/0**, integrity **17/0**, reels **189/0**, Term 1 book coverage **130/0**. Vite transformed 1,801 modules and built in 579 ms.
+- **[PASS]** Engineering Execution OS compliance [45131898072](https://github.com/madnessgate44-debug/Amina/actions/runs/45131898072) passed.
+- **[VERIFIED]** The reels regression test checks UI narration across all lessons, including lessons taught in another language; answer options are checked against the lesson's declared instruction language. Calibration assertions distinguish isolated target-language vocabulary from a foreign-language narration sentence. No runtime code or Science lesson content changed.
+- **[VERIFIED]** The image-backed source audit inspected 28/28 lesson-opening pages plus the TOC/imprint, selected exercises, all six enrichment sections, the Chapter 5 review and printed pp. 104–107 scientific-method appendix. See `docs/audits/grade5-science-fr-term1-visual-source-audit-2026-11-23.md`.
+- **[VERIFIED]** PR #211 remains open and unmerged. No deployment was performed or claimed.
+- **[BLOCKED]** No authenticated Ministry French teacher guide, exact 2026–2027 Term 2 StudentBook or authenticated assessment-book source is available. High-resolution review of every internal diagram, independent pedagogical review and a physical-phone French Science walkthrough remain outstanding.
+- **Scope:** Grade 5 French Science Term 1 only. No full-book or full-year completion claim.
