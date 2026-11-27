@@ -109,7 +109,7 @@ export const HomeScreen: React.FC = () => {
   return (
     <div className="flex-1 flex flex-col p-4 sm:p-5 max-w-lg mx-auto w-full pb-24 space-y-4" dir={isArabic ? 'rtl' : 'ltr'}>
       {/* Miss Noor is the centre of Home: a teacher, not a status dashboard. */}
-      <section className="relative overflow-hidden rounded-[2rem] bg-linear-to-br from-[#172554] via-[#312e81] to-[#581c87] text-white shadow-xl shadow-indigo-950/20">
+      <section className="relative overflow-hidden rounded-[2rem] noor-hero text-white shadow-xl shadow-[#8F351D]/15">
         <div className="absolute -right-12 -top-12 h-44 w-44 rounded-full bg-fuchsia-300/10 blur-2xl pointer-events-none" />
         <div className="absolute -bottom-16 -left-12 h-48 w-48 rounded-full bg-cyan-300/10 blur-2xl pointer-events-none" />
         <div className="relative z-10 p-4 sm:p-5 space-y-3">
@@ -118,21 +118,21 @@ export const HomeScreen: React.FC = () => {
             <span className="rounded-full bg-white/10 px-2.5 py-1 text-xs font-bold">{gradeLabel}</span>
           </div>
           <div className="flex items-center gap-2 sm:gap-3">
-            <div className="shrink-0 -ml-2">
+            <div className="shrink-0 -ml-2 noor-teacher-presence">
               <NourCharacter state="encouraging" outfit="arabic" size="lg" />
             </div>
             <div className="min-w-0 space-y-2">
               <h1 className="text-xl sm:text-2xl font-black leading-tight">
                 {isArabic ? 'أهلاً ' : isFrench ? 'Bonjour ' : 'Hello '}{studentName}{isArabic ? '، أنا مس نور.' : isFrench ? ' ! Je suis Mademoiselle Noor.' : ", I'm Miss Noor."}
               </h1>
-              <p className="text-sm leading-relaxed text-indigo-100">
+              <p className="text-sm leading-relaxed text-[#FFF1DE]">
                 {isArabic ? 'احكي لي ماذا تعلمتِ اليوم، أو أخبريني أين تحتاجين إلى المساعدة. سنتعلم معاً خطوة بخطوة.' : isFrench ? "Raconte-moi ta journée ou dis-moi ce qui te semble difficile. Nous allons apprendre ensemble." : "Tell me what you learned today, or show me what feels difficult. We'll work it out together, one step at a time."}
               </p>
             </div>
           </div>
           {todaySchedule?.periods?.filter((period) => !period.isBreak).length ? (
             <div className="rounded-2xl border border-white/10 bg-white/10 p-3 space-y-2">
-              <div className="text-xs font-extrabold uppercase tracking-wide text-indigo-100">
+              <div className="text-xs font-extrabold uppercase tracking-wide text-[#FFF1DE]">
                 {isArabic ? 'جدول المدرسة اليوم' : isFrench ? "Aujourd'hui à l'école" : "Today's school timetable"}
               </div>
               <div className="flex gap-2 overflow-x-auto pb-1">
