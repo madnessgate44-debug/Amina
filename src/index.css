@@ -14,6 +14,32 @@
   --color-noor-muted: #66574D;
   --color-noor-focus: #245C9C;
 
+  /* Replace the legacy indigo/purple brand ramps across existing screens.
+     Status colours (green/red) remain independent semantic signals. */
+  --color-indigo-50: #FFF7ED;
+  --color-indigo-100: #FFEDD5;
+  --color-indigo-200: #FED7AA;
+  --color-indigo-300: #FDBA74;
+  --color-indigo-400: #FB923C;
+  --color-indigo-500: #E97832;
+  --color-indigo-600: #B8471C;
+  --color-indigo-700: #963B1E;
+  --color-indigo-800: #78321E;
+  --color-indigo-900: #5B271C;
+  --color-indigo-950: #34160F;
+
+  --color-purple-50: #FFFBEB;
+  --color-purple-100: #FEF3C7;
+  --color-purple-200: #FDE68A;
+  --color-purple-300: #FCD34D;
+  --color-purple-400: #FBBF24;
+  --color-purple-500: #F2C45A;
+  --color-purple-600: #D49A2E;
+  --color-purple-700: #A96F1D;
+  --color-purple-800: #80521B;
+  --color-purple-900: #5C3B17;
+  --color-purple-950: #38220E;
+
   --color-midnight: #30251F;
   --color-indigo-brand: #B8471C;
   --color-teal-clear: #D46A2E;
