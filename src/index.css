@@ -1,17 +1,30 @@
 @import "tailwindcss";
 
-/* Miss Noor brand tokens (docs/BRAND_AND_PRODUCT_VISUAL_DIRECTION.md).
-   Names are additive: the palette below is exposed as Tailwind utilities
-   (bg-midnight, text-indigo-brand, ...) so existing slate/indigo classes keep working. */
+/*
+ * Miss Noor warm identity — selected orange + sun-yellow direction.
+ * Semantic tokens are canonical. Legacy utility aliases remain temporarily
+ * so existing components keep compiling while their class names are migrated.
+ */
 @theme {
-  --color-midnight: #17233b;
-  --color-indigo-brand: #615bff;
-  --color-teal-clear: #26b8a8;
-  --color-apricot-spark: #ffb86b;
-  --color-cloud: #f6f7fb;
-  --color-paper: #ffffff;
-  --color-mist: #e4e8f1;
-  --color-slate-text: #586277;
+  --color-noor-canvas: #FFF8EE;
+  --color-noor-surface: #FFFFFF;
+  --color-noor-ink: #30251F;
+  --color-noor-primary: #B8471C;
+  --color-noor-orange: #E97832;
+  --color-noor-sun: #F2C45A;
+  --color-noor-border: #E8DCCB;
+  --color-noor-muted: #66574D;
+  --color-noor-focus: #245C9C;
+
+  /* Backwards-compatible aliases for existing Tailwind utility names. */
+  --color-midnight: var(--color-noor-ink);
+  --color-indigo-brand: var(--color-noor-primary);
+  --color-teal-clear: var(--color-noor-orange);
+  --color-apricot-spark: var(--color-noor-sun);
+  --color-cloud: var(--color-noor-canvas);
+  --color-paper: var(--color-noor-surface);
+  --color-mist: var(--color-noor-border);
+  --color-slate-text: var(--color-noor-muted);
 
   --font-sans: 'Tajawal', 'Cairo', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Cairo', 'Tajawal', system-ui, sans-serif;
@@ -27,12 +40,13 @@
 
   body {
     overscroll-behavior-y: none;
-    background-color: var(--color-cloud);
+    background-color: var(--color-noor-canvas);
+    color: var(--color-noor-ink);
   }
 
   /* Visible focus for keyboard users without changing pointer behaviour. */
   :focus-visible {
-    outline: 2px solid var(--color-indigo-brand);
+    outline: 2px solid var(--color-noor-focus);
     outline-offset: 2px;
   }
 
