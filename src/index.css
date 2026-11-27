@@ -1,13 +1,11 @@
 @import "tailwindcss";
 
-/*
- * Miss Noor warm identity — selected orange + sun-yellow direction.
- * Semantic tokens are canonical. Legacy utility aliases remain temporarily
- * so existing components keep compiling while their class names are migrated.
- */
+/* Miss Noor — warm learning-studio foundations.
+   Semantic tokens are the source of truth; legacy aliases remain during migration. */
 @theme {
   --color-noor-canvas: #FFF8EE;
   --color-noor-surface: #FFFFFF;
+  --color-noor-surface-raised: #FFF1DE;
   --color-noor-ink: #30251F;
   --color-noor-primary: #B8471C;
   --color-noor-orange: #E97832;
@@ -16,45 +14,57 @@
   --color-noor-muted: #66574D;
   --color-noor-focus: #245C9C;
 
-  /* Backwards-compatible aliases for existing Tailwind utility names. */
-  --color-midnight: var(--color-noor-ink);
-  --color-indigo-brand: var(--color-noor-primary);
-  --color-teal-clear: var(--color-noor-orange);
-  --color-apricot-spark: var(--color-noor-sun);
-  --color-cloud: var(--color-noor-canvas);
-  --color-paper: var(--color-noor-surface);
-  --color-mist: var(--color-noor-border);
-  --color-slate-text: var(--color-noor-muted);
+  /* Replace the legacy indigo/purple brand ramps across existing screens.
+     Status colours (green/red) remain independent semantic signals. */
+  --color-indigo-50: #FFF7ED;
+  --color-indigo-100: #FFEDD5;
+  --color-indigo-200: #FED7AA;
+  --color-indigo-300: #FDBA74;
+  --color-indigo-400: #FB923C;
+  --color-indigo-500: #E97832;
+  --color-indigo-600: #B8471C;
+  --color-indigo-700: #963B1E;
+  --color-indigo-800: #78321E;
+  --color-indigo-900: #5B271C;
+  --color-indigo-950: #34160F;
+
+  --color-purple-50: #FFFBEB;
+  --color-purple-100: #FEF3C7;
+  --color-purple-200: #FDE68A;
+  --color-purple-300: #FCD34D;
+  --color-purple-400: #FBBF24;
+  --color-purple-500: #F2C45A;
+  --color-purple-600: #D49A2E;
+  --color-purple-700: #A96F1D;
+  --color-purple-800: #80521B;
+  --color-purple-900: #5C3B17;
+  --color-purple-950: #38220E;
+
+  --color-midnight: #30251F;
+  --color-indigo-brand: #B8471C;
+  --color-teal-clear: #D46A2E;
+  --color-apricot-spark: #F2C45A;
+  --color-cloud: #FFF8EE;
+  --color-paper: #FFFFFF;
+  --color-mist: #E8DCCB;
+  --color-slate-text: #66574D;
 
   --font-sans: 'Tajawal', 'Cairo', 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-display: 'Cairo', 'Tajawal', system-ui, sans-serif;
-
   --radius-brand: 1.25rem;
 }
 
 @layer base {
-  html {
-    font-family: var(--font-sans);
-    -webkit-tap-highlight-color: transparent;
-  }
-
+  html { font-family: var(--font-sans); -webkit-tap-highlight-color: transparent; }
   body {
     overscroll-behavior-y: none;
     background-color: var(--color-noor-canvas);
     color: var(--color-noor-ink);
   }
-
-  /* Visible focus for keyboard users without changing pointer behaviour. */
-  :focus-visible {
-    outline: 2px solid var(--color-noor-focus);
-    outline-offset: 2px;
-  }
-
-  /* Respect the learner's reduced-motion preference (quality bar item 8). */
+  :focus-visible { outline: 3px solid var(--color-noor-focus); outline-offset: 3px; }
+  button, [role="button"], a { -webkit-tap-highlight-color: transparent; }
   @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
+    *, *::before, *::after {
       animation-duration: 0.01ms !important;
       animation-iteration-count: 1 !important;
       transition-duration: 0.01ms !important;
@@ -63,15 +73,25 @@
   }
 }
 
-/* Hide scrollbars for neat mobile viewports */
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+/* Shared surface language: warm paper, clear edges, restrained depth. */
+.noor-surface {
+  background: var(--color-noor-surface);
+  border: 1px solid var(--color-noor-border);
+  border-radius: 1.25rem;
+  box-shadow: 0 8px 24px rgb(88 55 27 / 6%);
 }
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+.noor-hero {
+  background: radial-gradient(circle at 88% 12%, rgb(242 196 90 / 38%), transparent 34%),
+    linear-gradient(135deg, #8F351D 0%, #B8471C 52%, #E97832 100%);
 }
-
-.safe-bottom {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+.noor-teacher-presence { animation: noor-gentle-presence 4.8s ease-in-out infinite; }
+@keyframes noor-gentle-presence {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.safe-bottom { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
+@media (prefers-reduced-motion: reduce) {
+  .noor-teacher-presence { animation: none; }
 }

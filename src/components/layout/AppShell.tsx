@@ -38,7 +38,7 @@ export const AppShell: React.FC = () => {
   if (isLoading) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center p-4 text-center">
-        <div className="w-16 h-16 rounded-3xl bg-linear-to-br from-[#615bff] to-[#26b8a8] flex items-center justify-center text-white shadow-lg animate-pulse mb-4">
+        <div className="w-16 h-16 rounded-3xl bg-linear-to-br from-[#B8471C] to-[#F2C45A] flex items-center justify-center text-white shadow-lg animate-pulse mb-4">
           <Bot className="w-8 h-8" />
         </div>
         <p className="text-sm font-extrabold text-slate-700 dark:text-slate-200 mb-1">
@@ -63,12 +63,12 @@ export const AppShell: React.FC = () => {
   const isImmersive = !showOnboarding && activeTab === 'feed';
 
   return (
-    <div className={`min-h-screen bg-slate-100 dark:bg-slate-950 flex flex-col items-center text-slate-900 dark:text-slate-100${isImmersive ? ' h-screen overflow-hidden' : ''}`}>
-      <div className={`w-full max-w-md md:max-w-lg min-h-screen bg-slate-50 dark:bg-slate-900 border-x border-slate-200/80 dark:border-slate-800 shadow-2xl flex flex-col relative${isImmersive ? ' h-screen' : ''}`}>
+    <div className={`min-h-screen bg-[#FFF8EE] dark:bg-[#241C18] flex flex-col items-center text-[#30251F] dark:text-[#FFF8EE]${isImmersive ? ' h-screen overflow-hidden' : ''}`}>
+      <div className={`w-full max-w-md md:max-w-lg min-h-screen bg-[#FFF8EE] dark:bg-[#30251F] border-x border-[#E8DCCB] dark:border-[#57463B] shadow-2xl flex flex-col relative${isImmersive ? ' h-screen' : ''}`}>
         {!showOnboarding && !isImmersive && (
-          <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-slate-200/80 dark:border-slate-800 px-3.5 py-2.5 flex items-center justify-between">
+          <header className="sticky top-0 z-40 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border-b border-[#E8DCCB] dark:border-[#57463B] px-3.5 py-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-2xl bg-linear-to-br from-[#615bff] to-[#26b8a8] text-white flex items-center justify-center shadow-md">
+              <div className="w-9 h-9 rounded-2xl bg-linear-to-br from-[#B8471C] to-[#F2C45A] text-white flex items-center justify-center shadow-md">
                 <Sparkles className="w-4 h-4" />
               </div>
               <div>
