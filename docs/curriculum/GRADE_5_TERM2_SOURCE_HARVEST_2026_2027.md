@@ -1379,3 +1379,38 @@ https://elearnningcontent.blob.core.windows.net/elearnningcontent/2026/Primary/P
 - Do not create unit→lesson→concept→objective→exercise rows without inspected applicable source pages.
 - Continue source-by-source work independently; unavailable sources for one subject do not stop research on other subjects.
 - ChatGPT owns this research and all subsequent mapping/pedagogy/QA. OpenHands is implementation-only.
+
+
+---
+
+## 35. ChatGPT-owned public source recheck — 27 November 2026
+
+### 35.1 Sunbula Grade 5 Term 2 links — explicitly 2025–2026
+
+[VERIFIED — secondary curriculum index, year explicitly stated] Sunbula's Egypt national-curriculum page identifies its collection as the official Ministry books for **2025–2026**, not 2026–2027:
+https://sunbulalearning.com/curricula/egypt
+
+The opened page labels the collection “official 2025–2026 books published by Ministry of Education and Technical Education” (page lines 18–23). Its Grade 5 section (lines 694–826) lists Term 2 student-book entries for Arabic, English, ICT, Mathematics (Arabic and English editions), Islamic Religious Education, Science (Arabic and English editions), and Social Studies.
+
+[VERIFIED] This is a useful historical index of Grade 5 Term 2 Ministry-linked book families and direct-link targets.
+
+[NOT CURRENT-YEAR] The page itself dates the collection 2025–2026. It cannot fill any 2026–2027 Term 2 source gap. Its Grade 5 listing does not show French-medium Maths or Science, French 1/French 2, Family Management, Agriculture, or a Girard-issued sequence. The Islamic RE listing is not evidence of the learner's track.
+
+The web reader exposed link labels and page structure, but did not retrieve or inspect the individual Grade 5 PDF bytes in this pass. Do not claim their exact cover, edition, page count, hash or lesson contents from this index alone.
+
+### 35.2 Darslab Grade 5 — secondary/app-authored curriculum-alignment lead
+
+[VERIFIED — platform's own disclosure] Darslab's Grade 5 page currently advertises 30/30 weeks for several subject streams, including Mathematics, Arabic, English (Connect), Values and Respect for Others, Science, Social Studies, ICT, and Professional Skills:
+https://darslab.com/eg/en/eg5/
+
+Its page explicitly discloses that it is not affiliated with or endorsed by MOETE and that its explanations, exercises and quizzes are Darslab-authored. The page could not be opened beyond an anti-bot interstitial during this check; its indexed content was available.
+
+[USE AS DISCOVERY LEAD ONLY] This may help identify subject naming, weekly sequencing and a later cross-check target. It is not a Ministry source, not a Girard school-issued plan, and the indexed page does not establish the exact 2026–2027 Term 2 edition or French-medium tracks. Do not copy its authored lessons or infer a Girard map from the “30/30 weeks” label.
+
+### 35.3 Updated disposition
+
+- [VERIFIED] A Grade 5 Term 2 Ministry-linked book index exists for the **2025–2026** year; it is historical.
+- [VERIFIED] A third-party educational platform advertises a full-year Grade 5 weekly sequence for several subjects and declares its lesson content app-authored.
+- [BLOCKED] Neither discovery provides an inspectable current-year 2026–2027 Term 2 source set or Girard-issued Term 2 assignment.
+- [UNPROVEN] The exact current-year publication status of each subject's Term 2 Ministry PDF remains unresolved; the absence of a matching search result is not proof of non-publication.
+- No lesson map has been generated from these sources. No copyrighted PDF, page, lesson text or platform-authored content was copied into this repository.
